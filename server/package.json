@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
-    "lint": "./node_modules/.bin/eslint index.js && ./node_modules/.bin/eslint src/*.js",
+    "lint": "./node_modules/.bin/eslint index.js",
     "lint:fix": "./node_modules/.bin/eslint index.js --fix && ./node_modules/.bin/eslint src/*.js --fix"
   },
   "keywords": [],
