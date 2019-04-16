@@ -103,6 +103,7 @@
     <template v-for="page in pages">
       <a
         v-if="page.breakView"
+        :key="page"
         :class="[
           pageLinkClass,
           breakViewLinkClass,
@@ -114,6 +115,7 @@
       </a>
       <a
         v-else-if="page.disabled"
+        :key="page"
         :class="[
           pageLinkClass,
           page.selected ? activeClass : '',
@@ -124,6 +126,7 @@
       >
       <a
         v-else
+        :key="page"
         @click="handlePageSelected(page.index + 1)"
         @keyup.enter="handlePageSelected(page.index + 1)"
         :class="[pageLinkClass, page.selected ? activeClass : '']"
