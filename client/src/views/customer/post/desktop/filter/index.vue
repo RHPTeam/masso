@@ -1,0 +1,35 @@
+<template>
+  <div class="post--filter d_flex justify_content_start align_items_center">
+    <button class="active mr_3">Tất cả bài viết</button>
+    <button>Danh mục</button>
+  </div>
+</template>
+
+<script>
+export default {};
+</script>
+
+<style lang="scss" scoped>
+.post--filter {
+  margin: 2rem 0;
+  height: 42px;
+  font-size: 0.875rem;
+  > button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 10px;
+    color: #666666;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    height: 100%;
+    outline: none;
+    padding: 0 1.5rem;
+    transition: all 0.4s ease;
+    &:hover,
+    &.active {
+      background-color: #ffffff;
+    }
+  }
+}
+</style>
