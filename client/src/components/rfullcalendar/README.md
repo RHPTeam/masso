@@ -27,12 +27,10 @@ This components is registered as a global component.
 
 | Name            | Type              | Default     | Description                        |
 | ---             | ---               | ---         | ---                                |
-| view            | String            | `month`     | Selected view. Value can be: 'month', 'week', 'day' and 'list' |
+| view            | String            | `month`     | Selected calendar view. Value must be: `month`, `week`, `day` or `list` |
 
 ### Events
 
 | Name   | Description              |
 | ---    | ---                      |
-| change | Triggered whenever state of the component changes. <br>Contains: <br>`value` - state of the object <br>`srcEvent` - source click event |
-| input  | Input event for v-model |
 
