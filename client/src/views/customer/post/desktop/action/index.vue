@@ -1,20 +1,23 @@
 <template>
-    <div class="post--action d_flex justify_content_between align_items_center">
-          <div class="post--search justify_content_between d_flex align_items_center">
-            <span class="ml_3 mt_1">
-              <icon-base icon-name="input-search" width="20" height="20" viewBox="0 0 20 20">
-                <icon-input-search/>
-              </icon-base>
-            </span>
-            <input type="text" placeholder="Tìm kiếm">
-          </div>
-        </div>
+  <div class="post--action d_flex justify_content_between align_items_center">
+    <div class="post--search justify_content_between d_flex align_items_center">
+      <span class="ml_3 mt_1">
+        <icon-base
+          icon-name="input-search"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+        >
+          <icon-input-search />
+        </icon-base>
+      </span>
+      <input type="text" placeholder="Tìm kiếm" />
+    </div>
+  </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+export default {};
 </script>
 
 <style lang="scss" scoped>

@@ -9,16 +9,16 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Filter -->
-       <app-filter/>
+        <app-filter />
         <!-- End: Filter -->
         <!-- Start: Action -->
-        <app-action/>
+        <app-action />
         <!-- End: Action -->
         <!-- Start: Data List -->
-        <app-list/>
+        <app-list />
         <!-- End: Data List -->
         <!-- Start: Info -->
-        <app-info/>
+        <app-info />
         <!-- Start: Info -->
       </div>
       <!-- End: Content -->
@@ -28,10 +28,10 @@
 </template>
 
 <script>
-import AppFilter from "./desktop/filter/index"
-import AppAction from "./desktop/action/index"
-import AppList from "./desktop/data-list/index"
-import AppInfo from "./desktop/info/index"
+import AppFilter from "./desktop/filter/index";
+import AppAction from "./desktop/action/index";
+import AppList from "./desktop/data-list/index";
+import AppInfo from "./desktop/info/index";
 export default {
   components: {
     AppFilter,
@@ -40,8 +40,6 @@ export default {
     AppInfo
   }
 };
-</script>      
+</script>
 
-<style lang="scss" scoped>
-</style>
-
+<style lang="scss" scoped></style>

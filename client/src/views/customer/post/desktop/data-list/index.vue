@@ -3,7 +3,7 @@
     <div class="item--header d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox">
+          <input type="checkbox" />
         </label>
       </div>
       <div class="col--name px_2">Tên bài viết</div>
@@ -15,17 +15,20 @@
     <div class="item--body d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox" checked>
+          <input type="checkbox" checked />
         </label>
       </div>
       <div class="col--name px_2">
-        <div class="col--name-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div class="col--name-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        </div>
       </div>
       <div class="col--category px_2">Mỹ phẩm</div>
       <div class="col--content px_2">
-        <div
-          class="col--content-text"
-        >Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div class="col--content-text">
+          Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
+          sit amet, consectetur adipiscing elit
+        </div>
       </div>
       <div class="col--image px_2">
         <div class="d_flex align_items_center justify_content_start">
@@ -33,34 +36,43 @@
             <img
               src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative mr_2">
             <img
               src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative mr_2">
             <img
               src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative">
-            <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+            <div
+              class="image--wrap-more d_flex align_items_center justify_content_center"
+            >
+              +2
+            </div>
           </div>
         </div>
       </div>
       <div class="col--action px_4 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
+            <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
-          <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-            <icon-remove/>
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
           </icon-base>
         </span>
       </div>
@@ -68,17 +80,20 @@
     <div class="item--body d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox">
+          <input type="checkbox" />
         </label>
       </div>
       <div class="col--name px_2">
-        <div class="col--name-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div class="col--name-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        </div>
       </div>
       <div class="col--category px_2">Mỹ phẩm</div>
       <div class="col--content px_2">
-        <div
-          class="col--content-text"
-        >Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor sit amet, consectetur adipiscing elit</div>
+        <div class="col--content-text">
+          Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
+          sit amet, consectetur adipiscing elit
+        </div>
       </div>
       <div class="col--image px_2">
         <div class="d_flex align_items_center justify_content_start">
@@ -86,34 +101,43 @@
             <img
               src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative mr_2">
             <img
               src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative mr_2">
             <img
               src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
               alt
-            >
+            />
           </div>
           <div class="image--wrap position_relative">
-            <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+            <div
+              class="image--wrap-more d_flex align_items_center justify_content_center"
+            >
+              +2
+            </div>
           </div>
         </div>
       </div>
       <div class="col--action px_2 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
+            <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
-          <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-            <icon-remove/>
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
           </icon-base>
         </span>
       </div>
@@ -282,5 +306,4 @@ export default {};
     }
   }
 }
-
 </style>

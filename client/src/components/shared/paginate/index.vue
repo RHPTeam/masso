@@ -1,6 +1,9 @@
 <template>
   <ul :class="containerClass" v-if="!noLiSurround">
-    <li v-if="firstLastButton" :class="[pageClass, firstPageSelected() ? disabledClass : '']">
+    <li
+      v-if="firstLastButton"
+      :class="[pageClass, firstPageSelected() ? disabledClass : '']"
+    >
       <a
         @click="selectFirstPage()"
         @keyup.enter="selectFirstPage()"
@@ -25,6 +28,7 @@
 
     <li
       v-for="page in pages"
+      :key="page"
       :class="[
         pageClass,
         page.selected ? activeClass : '',
@@ -32,21 +36,24 @@
         page.breakView ? breakViewClass : ''
       ]"
     >
-      <a v-if="page.breakView" :class="[pageLinkClass, breakViewLinkClass]" tabindex="0">
+      <a
+        v-if="page.breakView"
+        :class="[pageLinkClass, breakViewLinkClass]"
+        tabindex="0"
+      >
         <slot name="breakViewContent">{{ breakViewText }}</slot>
       </a>
-      <a v-else-if="page.disabled" :class="pageLinkClass" tabindex="0">
-        {{
+      <a v-else-if="page.disabled" :class="pageLinkClass" tabindex="0">{{
         page.content
-        }}
-      </a>
+      }}</a>
       <a
         v-else
         @click="handlePageSelected(page.index + 1)"
         @keyup.enter="handlePageSelected(page.index + 1)"
         :class="pageLinkClass"
         tabindex="0"
-      >{{ page.content }}</a>
+        >{{ page.content }}</a
+      >
     </li>
 
     <li
@@ -62,7 +69,10 @@
       ></a>
     </li>
 
-    <li v-if="firstLastButton" :class="[pageClass, lastPageSelected() ? disabledClass : '']">
+    <li
+      v-if="firstLastButton"
+      :class="[pageClass, lastPageSelected() ? disabledClass : '']"
+    >
       <a
         @click="selectLastPage()"
         @keyup.enter="selectLastPage()"
@@ -110,14 +120,16 @@
           disabledClass
         ]"
         tabindex="0"
-      >{{ page.content }}</a>
+        >{{ page.content }}</a
+      >
       <a
         v-else
         @click="handlePageSelected(page.index + 1)"
         @keyup.enter="handlePageSelected(page.index + 1)"
         :class="[pageLinkClass, page.selected ? activeClass : '']"
         tabindex="0"
-      >{{ page.content }}</a>
+        >{{ page.content }}</a
+      >
     </template>
     <a
       v-if="!(lastPageSelected() && hidePrevNext)"

@@ -16,19 +16,7 @@ new Vue({
 
 /********************* CUSTOM LIBRARY DIRECTIVE ************************/
 Vue.directive("click-outside", {
-  bind: function(el, binding, vNode) {
-    // Provided expression must evaluate to a function.
-    if (typeof binding.value !== "function") {
-      const compName = vNode.context.name;
-      let warn = `[Vue-click-outside:] provided expression '${
-        binding.expression
-      }' is not a function, but has to be`;
-      if (compName) {
-        warn += `Found in component '${compName}'`;
-      }
-
-      console.warn(warn);
-    }
+  bind: function(el, binding) {
     const bubble = binding.modifiers.bubble;
     const handler = e => {
       if (bubble || (!el.contains(e.target) && el !== e.target)) {
