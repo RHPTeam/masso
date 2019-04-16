@@ -12,6 +12,7 @@ Vue.component("IconBase", () => import("@/components/icons/IconBase"));
 Vue.component("IconBroadcast", () =>
   import("@/components/icons/IconBroadcast")
 );
+Vue.component("IconCalendar", () => import("@/components/icons/IconCalendar"));
 Vue.component("IconChat", () => import("@/components/icons/IconChat"));
 Vue.component("IconEdit", () => import("@/components/icons/IconEdit"));
 Vue.component("IconFriend", () => import("@/components/icons/IconFriend"));

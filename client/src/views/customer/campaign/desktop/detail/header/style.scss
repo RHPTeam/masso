@@ -1,0 +1,118 @@
+.main--header {
+  color: #444;
+  .main--header-top {
+    .top--left {
+      .title {
+        font-weight: 600;
+      }
+    }
+    .top--right {
+      font-size: 0.875rem;
+      text-align: right;
+      .time--duration {
+        .ic--calendar {
+          color: #999;
+          vertical-align: text-top;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    font-size: 0.875rem;
+    .action--left {
+      .new--event {
+        .btn--add {
+          background-color: #ffb94a;
+          border-radius: 0.5rem;
+          color: #fff;
+          font-size: 0.875rem;
+          font-weight: 600;
+          &:hover {
+            background-color: #FF9E4A;
+          }
+          &:active,
+          &:focus,
+          &:visited {
+            outline: 0 !important;
+            box-shadow: none;
+          }
+        }
+      }
+    }
+    .acion--right {
+      text-align: right;
+      .btn--custom {
+        border: 1px solid #e4e4e4;
+        border-radius: 0;
+        color: #cccccc;
+        font-size: 0.875rem;
+        margin-left: -1px;
+        transition: all 0.4 ease;
+        &:first-child {
+          border-top-left-radius: 0.5rem;
+          border-bottom-left-radius: 0.5rem;
+          margin-left: 0;
+        }
+        &:hover {
+          background-color: #fff;
+          color: #444;
+        }
+        &:last-child {
+          border-top-right-radius: 0.625rem;
+          border-bottom-right-radius: 0.625rem;
+        }
+        &:active,
+        &:focus,
+        &:visited {
+          outline: 0 !important;
+          box-shadow: none;
+        }
+      }
+      .view--active {
+        background-color: #fff;
+        color: #444;
+      }
+    }
+  }
+}
+
+// Change Color
+// .main--header[data-theme="light"] {
+//   .main--header-top {
+//     .top--left {
+//       .title {
+//       }
+//     }
+//     .top--right {
+//     }
+//   }
+//   .main--header-action {
+//     .action--left {
+
+//     }
+//     .acion--right {
+//       .btn--custom {
+//       }
+//     }
+//   }
+// }
+
+// .main--header[data-theme="dark"] {
+//   .main--header-top {
+//     .top--left {
+//       .title {
+//       }
+//     }
+//     .top--right {
+//     }
+//   }
+//   .main--header-action {
+//     .action--left {
+
+//     }
+//     .acion--right {
+//       .btn--custom {
+//       }
+//     }
+//   }
+// }

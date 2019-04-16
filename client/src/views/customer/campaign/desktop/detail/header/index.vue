@@ -7,7 +7,16 @@
       </div>
       <div class="c_md_6 top--right">
         <div class="time--duration">
-          23/03/2019 - 23/03/2019
+          <icon-base
+            class="ic--calendar mr_1"
+            icon-name="menu"
+            width="20"
+            height="20"
+            viewBox="0 0 26 26"
+          >
+            <icon-calendar />
+          </icon-base>
+          <span>23/03/2019 - 23/03/2019</span>
         </div>
       </div>
     </div>
@@ -24,7 +33,7 @@
           </div>
           <toggle-switch
             @change="toggled = $event.value"
-            :value="false"
+            :value="true"
             :sync="true"
           />
         </div>
@@ -78,106 +87,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.main--header {
-  color: #444;
-  .main--header-top {
-    .top--left {
-      .title {
-        font-weight: 600;
-      }
-    }
-    .top--right {
-      font-size: 0.875rem;
-      text-align: right;
-    }
-  }
-  .main--header-action {
-    font-size: 0.875rem;
-    .action--left {
-      .new--event {
-        .btn--add {
-          background-color: #ffb94a;
-          border-radius: 0.5rem;
-          color: #fff;
-          font-size: 0.875rem;
-          font-weight: 600;
-        }
-      }
-    }
-    .acion--right {
-      text-align: right;
-      .btn--custom {
-        border: 1px solid #e4e4e4;
-        border-radius: 0;
-        color: #cccccc;
-        font-size: 0.875rem;
-        margin-left: -1px;
-        transition: all 0.4 ease;
-        &:first-child {
-          border-top-left-radius: 0.5rem;
-          border-bottom-left-radius: 0.5rem;
-          margin-left: 0;
-        }
-        &:hover {
-          background-color: #fff;
-          color: #444;
-        }
-        &:last-child {
-          border-top-right-radius: 0.625rem;
-          border-bottom-right-radius: 0.625rem;
-        }
-        &:active,
-        &:focus,
-        &:visited {
-          outline: 0 !important;
-        }
-      }
-      .view--active {
-        background-color: #fff;
-        color: #444;
-      }
-    }
-  }
-}
-
-// Change Color
-// .main--header[data-theme="light"] {
-//   .main--header-top {
-//     .top--left {
-//       .title {
-//       }
-//     }
-//     .top--right {
-//     }
-//   }
-//   .main--header-action {
-//     .action--left {
-
-//     }
-//     .acion--right {
-//       .btn--custom {
-//       }
-//     }
-//   }
-// }
-
-// .main--header[data-theme="dark"] {
-//   .main--header-top {
-//     .top--left {
-//       .title {
-//       }
-//     }
-//     .top--right {
-//     }
-//   }
-//   .main--header-action {
-//     .action--left {
-
-//     }
-//     .acion--right {
-//       .btn--custom {
-//       }
-//     }
-//   }
-// }
+@import "./style";
 </style>
