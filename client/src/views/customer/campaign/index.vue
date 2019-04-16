@@ -1,9 +1,9 @@
 <template>
-    <div>
-      <!-- Start: Campaign Detail -->
-      <campaign-detail/>
-      <!-- End: Campaign Detail -->
-    </div>
+  <div>
+    <!-- Start: Campaign Detail -->
+    <campaign-detail />
+    <!-- End: Campaign Detail -->
+  </div>
 </template>
 
 <script>
@@ -13,10 +13,7 @@ export default {
   components: {
     CampaignDetail
   }
-}
+};
 </script>
 
-<style lang="scss" scoped>
-
-</style>
-
+<style lang="scss" scoped></style>

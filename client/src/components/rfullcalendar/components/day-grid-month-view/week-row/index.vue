@@ -1,15 +1,24 @@
 <template>
-  <div class="rc--row rc--week rc--widget-content rc--rigid" style="height: 124px;">
+  <div
+    class="rc--row rc--week rc--widget-content rc--rigid"
+    style="height: 124px;"
+  >
     <div class="rc--bg">
       <table>
         <tbody>
           <tr>
-            <td class="rc--day rc--widget-content rc--sun"
-              v-for="(v, i) in 7" :key="i"
-              :class="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].status"
-              :date="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time"
-            >
-            </td>
+            <td
+              class="rc--day rc--widget-content rc--sun"
+              v-for="(v, i) in 7"
+              :key="i"
+              :class="
+                monthDays[rowIndex * 7 + i] &&
+                  monthDays[rowIndex * 7 + i].status
+              "
+              :date="
+                monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
+              "
+            ></td>
           </tr>
         </tbody>
       </table>
@@ -18,20 +27,31 @@
       <table>
         <thead>
           <tr>
-            <td class="rc--day-top rc--sun"
-                v-for="(v, i) in 7" :key="i"
-                :class="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].status"
-                :date="monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time"
+            <td
+              class="rc--day-top rc--sun"
+              v-for="(v, i) in 7"
+              :key="i"
+              :class="
+                monthDays[rowIndex * 7 + i] &&
+                  monthDays[rowIndex * 7 + i].status
+              "
+              :date="
+                monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
+              "
             >
-              <a class="rc--day-number">{{ monthDays[rowIndex * 7 + i].text }}</a>
+              <a class="rc--day-number">{{
+                monthDays[rowIndex * 7 + i].text
+              }}</a>
             </td>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-orange">
-                <div class="rc--content"> 
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-orange"
+              >
+                <div class="rc--content">
                   <span class="rc--title">09:00 Long Event</span>
                 </div>
                 <div class="rc--resizer rc--end-resizer"></div>
@@ -39,15 +59,19 @@
             </td>
             <td rowspan="1"></td>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-violet">
-                <div class="rc--content"> 
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-violet"
+              >
+                <div class="rc--content">
                   <span class="rc--title">08:00 Conference</span>
                 </div>
                 <div class="rc--resizer rc--end-resizer"></div>
               </div>
             </td>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue">
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
+              >
                 <div class="rc--content">
                   <span class="rc--title">18:00 Birthday Party</span>
                 </div>
@@ -62,7 +86,9 @@
             <td rowspan="1"></td>
             <td rowspan="1"></td>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green">
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green"
+              >
                 <div class="rc--content">
                   <span class="rc--title">12:00 Repeating Event</span>
                 </div>
@@ -70,7 +96,9 @@
             </td>
             <td rowspan="1"></td>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-red">
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-red"
+              >
                 <div class="rc--content">
                   <span class="rc--title">09:00 Meeting</span>
                 </div>
@@ -83,7 +111,9 @@
             <td rowspan="1"></td>
             <td rowspan="1"></td>
             <td class="rc--event-container">
-              <div class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue">
+              <div
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
+              >
                 <div class="rc--content">
                   <span class="rc--title">12:00 Lunch</span>
                 </div>
@@ -114,17 +144,14 @@
 
 <script>
 export default {
-  props: [
-    "monthDays",
-    "rowIndex",
-  ],
+  props: ["monthDays", "rowIndex"],
   methods: {
     showMorePopover(colIndex) {
       // set top and left popover style
-      let topVal = 32 + this.rowIndex*124 + 1;
-      if(this.rowIndex != 0 ) topVal = topVal + 1;
-      let leftVal = 181*colIndex;
-      if(colIndex != 0 ) leftVal = leftVal + 1;
+      let topVal = 32 + this.rowIndex * 124 + 1;
+      if (this.rowIndex != 0) topVal = topVal + 1;
+      let leftVal = 181 * colIndex;
+      if (colIndex != 0) leftVal = leftVal + 1;
 
       // emit data
       this.$emit("showMorePopover", true);
@@ -132,11 +159,9 @@ export default {
       this.$emit("setLeftVal", leftVal);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import "../../../style"
+@import "../../../style";
 </style>
-
-

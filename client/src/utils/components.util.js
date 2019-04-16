@@ -36,12 +36,8 @@ Vue.component("Breadcrumb", () =>
   import("@/components/shared/layouts/breadcrumb")
 );
 
-Vue.component("Fullcalendar", () =>
-  import("@/components/rfullcalendar")
-);
+Vue.component("Fullcalendar", () => import("@/components/rfullcalendar"));
 
-Vue.component("ToggleSwitch", () =>
-  import("@/components/switch")
-);
+Vue.component("ToggleSwitch", () => import("@/components/switch"));
 
 Vue.component("Paginate", () => import("@/components/shared/paginate"));

@@ -1,25 +1,25 @@
 <template>
-	<div class="main--header">
-		<!-- Start: Header Top -->
+  <div class="main--header">
+    <!-- Start: Header Top -->
     <div class="r main--header-top">
-			<div class="c_md_6 top--left">
+      <div class="c_md_6 top--left">
         <div class="title">Chiến dịch bán hàng tháng 4</div>
       </div>
-			<div class="c_md_6 top--right">
+      <div class="c_md_6 top--right">
         <div class="time--duration">
           23/03/2019 - 23/03/2019
         </div>
       </div>
-		</div>
+    </div>
     <!-- End: Header Top -->
-		<!-- Start: Header Action -->
+    <!-- Start: Header Action -->
     <div class="r main--header-action my_3">
-			<div class="c_md_6 action--left d_flex align_items_center">
-				<div class="new--event mr_3">
-					<button class="btn btn--add">Thêm sự kiện</button>
-				</div>
-				<div class="campaing--status d_flex align_items_center">
-					<div class="status--name mr_2">
+      <div class="c_md_6 action--left d_flex align_items_center">
+        <div class="new--event mr_3">
+          <button class="btn btn--add">Thêm sự kiện</button>
+        </div>
+        <div class="campaing--status d_flex align_items_center">
+          <div class="status--name mr_2">
             Đang hoạt động
           </div>
           <toggle-switch
@@ -27,46 +27,54 @@
             :value="false"
             :sync="true"
           />
-				</div>
-			</div>
-			<div class="c_md_6 acion--right">
-				<div class="btn--group">
-          <button 
+        </div>
+      </div>
+      <div class="c_md_6 acion--right">
+        <div class="btn--group">
+          <button
             class="btn btn--custom"
-            :class="[view === 'month' ? 'view--active' : '']" 
+            :class="[view === 'month' ? 'view--active' : '']"
             @click="updateCalendarView('month')"
-          >Tháng</button>
-          <button 
+          >
+            Tháng
+          </button>
+          <button
             class="btn btn--custom"
-            :class="[view === 'week' ? 'view--active' : '']" 
+            :class="[view === 'week' ? 'view--active' : '']"
             @click="updateCalendarView('week')"
-          >Tuần</button>
-          <button 
+          >
+            Tuần
+          </button>
+          <button
             class="btn btn--custom"
             :class="[view === 'day' ? 'view--active' : '']"
             @click="updateCalendarView('day')"
-          >Ngày</button>
-          <button 
+          >
+            Ngày
+          </button>
+          <button
             class="btn btn--custom"
-            :class="[view === 'list' ? 'view--active' : '']" 
+            :class="[view === 'list' ? 'view--active' : '']"
             @click="updateCalendarView('list')"
-          >Danh sách</button>
+          >
+            Danh sách
+          </button>
         </div>
-			</div>
+      </div>
       <!-- End: Header Action -->
-		</div>
-	</div>
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
   props: ["view"],
-	methods: {
-		updateCalendarView(val) {
-			this.$emit("updateCalendarView", val);
-		}
-	}
-}
+  methods: {
+    updateCalendarView(val) {
+      this.$emit("updateCalendarView", val);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -79,19 +87,19 @@ export default {
       }
     }
     .top--right {
-      font-size: .875rem;
+      font-size: 0.875rem;
       text-align: right;
     }
   }
   .main--header-action {
-    font-size: .875rem;
+    font-size: 0.875rem;
     .action--left {
       .new--event {
         .btn--add {
-          background-color: #FFB94A;
-          border-radius: .5rem;
+          background-color: #ffb94a;
+          border-radius: 0.5rem;
           color: #fff;
-          font-size: .875rem;
+          font-size: 0.875rem;
           font-weight: 600;
         }
       }
@@ -102,12 +110,12 @@ export default {
         border: 1px solid #e4e4e4;
         border-radius: 0;
         color: #cccccc;
-        font-size: .875rem;
+        font-size: 0.875rem;
         margin-left: -1px;
-        transition: all .4 ease;
+        transition: all 0.4 ease;
         &:first-child {
-          border-top-left-radius: .5rem;
-          border-bottom-left-radius: .5rem;
+          border-top-left-radius: 0.5rem;
+          border-bottom-left-radius: 0.5rem;
           margin-left: 0;
         }
         &:hover {
@@ -115,10 +123,12 @@ export default {
           color: #444;
         }
         &:last-child {
-          border-top-right-radius: .625rem;
-          border-bottom-right-radius: .625rem;
+          border-top-right-radius: 0.625rem;
+          border-bottom-right-radius: 0.625rem;
         }
-        &:active, &:focus, &:visited {
+        &:active,
+        &:focus,
+        &:visited {
           outline: 0 !important;
         }
       }

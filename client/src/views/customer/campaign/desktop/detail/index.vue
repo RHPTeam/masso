@@ -7,17 +7,15 @@
         subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
       />
       <!-- Start: Header -->
-        <app-header
-          :view = "calendarView"
-          @updateCalendarView="calendarView = $event"
-        />
-        <!-- End: Header -->
+      <app-header
+        :view="calendarView"
+        @updateCalendarView="calendarView = $event"
+      />
+      <!-- End: Header -->
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: FullCalendar -->
-        <fullcalendar
-          :view = "calendarView"
-        />
+        <fullcalendar :view="calendarView" />
         <!-- End: FullCalendar -->
       </div>
       <!-- End: Content -->
@@ -27,22 +25,21 @@
 </template>
 
 <script>
-import AppHeader from "./header"
+import AppHeader from "./header";
 export default {
   data() {
     return {
-      calendarView: 'month',
-    }
+      calendarView: "month"
+    };
   },
   components: {
-    AppHeader 
+    AppHeader
   }
 };
 </script>
 
 <style>
-  .custom {
-    background-color: #f7f7f7;
-  }
+.custom {
+  background-color: #f7f7f7;
+}
 </style>
-

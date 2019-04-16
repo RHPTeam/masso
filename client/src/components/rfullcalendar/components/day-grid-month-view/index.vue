@@ -1,21 +1,35 @@
 <template>
-	<div class="rc--view rc--dayGridMonth-view rc--dayGrid-view">
-		<table class="">
+  <div class="rc--view rc--dayGridMonth-view rc--dayGrid-view">
+    <table class="">
       <!-- Start: Month View Head -->
-			<thead class="rc--head">
+      <thead class="rc--head">
         <tr>
           <td class="rc--head-container rc--widget-header">
             <div class="rc--row rc--widget-header">
               <table>
                 <thead>
                   <tr>
-                    <th class="rc--day-header rc--widget-header rc--sun"><span>CN</span></th>
-                    <th class="rc--day-header rc--widget-header rc--mon"><span>T2</span></th>
-                    <th class="rc--day-header rc--widget-header rc--tue"><span>T3</span></th>
-                    <th class="rc--day-header rc--widget-header rc--wed"><span>T4</span></th>
-                    <th class="rc--day-header rc--widget-header rc--thu"><span>T5</span></th>
-                    <th class="rc--day-header rc--widget-header rc--fri"><span>T6</span></th>
-                    <th class="rc--day-header rc--widget-header rc--sat"><span>T7</span></th>
+                    <th class="rc--day-header rc--widget-header rc--sun">
+                      <span>CN</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--mon">
+                      <span>T2</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--tue">
+                      <span>T3</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--wed">
+                      <span>T4</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--thu">
+                      <span>T5</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--fri">
+                      <span>T6</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--sat">
+                      <span>T7</span>
+                    </th>
                   </tr>
                 </thead>
               </table>
@@ -29,11 +43,15 @@
       <tbody class="rc--body">
         <tr>
           <td class="rc--widget-content">
-            <div class="rc--scroller rc--day-grid-container" style="overflow: hidden; height: auto;">
+            <div
+              class="rc--scroller rc--day-grid-container"
+              style="overflow: hidden; height: auto;"
+            >
               <div class="rc--day-grid">
                 <!-- Start: A week row -->
-                <rc-week-row 
-                  v-for="(v, i) in 6" :key="i"
+                <rc-week-row
+                  v-for="(v, i) in 6"
+                  :key="i"
                   :monthDays="monthDays"
                   :rowIndex="i"
                   @setTopVal="topVal = $event"
@@ -47,7 +65,7 @@
         </tr>
       </tbody>
       <!-- End: Month View Body -->
-		</table>
+    </table>
     <!-- Popover -->
     <rc-more-popover
       v-if="showMorePopover"
@@ -55,31 +73,28 @@
       :topVal="topVal"
       :leftVal="leftVal"
     />
-	</div>
+  </div>
 </template>
 
 <script>
-import RcWeekRow from "./week-row/index"
-import RcMorePopover from "../more-popover/index"
+import RcWeekRow from "./week-row/index";
+import RcMorePopover from "../more-popover/index";
 export default {
-  props: [
-    "monthDays"
-  ],
+  props: ["monthDays"],
   data() {
     return {
       showMorePopover: false,
       topVal: 0,
       leftVal: 0
-    }
+    };
   },
   components: {
     RcWeekRow,
     RcMorePopover
   }
-}
+};
 </script>
 
 <style lang="scss">
-@import "../../style"
+@import "../../style";
 </style>
-
