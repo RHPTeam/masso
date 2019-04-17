@@ -47,7 +47,7 @@
         </thead>
         <tbody>
           <tr>
-            <td class="rc--event-container">
+            <td class="rc--event-container" id="eventColumWidth">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
                 @click="eventClick('Long Event', '09:00')"
@@ -151,6 +151,23 @@
 <script>
 export default {
   props: ["monthDays", "rowIndex"],
+  data() {
+    return {
+      eventContainer: {},
+      eventContainerWidth: 0
+    };
+  },
+  mounted() {
+    this.$nextTick(function() {
+      const container = document.querySelector("#eventColumWidth");
+      this.eventContainer = container;
+      window.addEventListener("resize", this.getEventContainerWidth);
+
+      //Init
+      this.getEventContainerWidth();
+    });
+  },
+  computed: {},
   methods: {
     eventClick(name, time) {
       const dataEmmit = {
@@ -159,11 +176,14 @@ export default {
       };
       this.$emit("eventClick", dataEmmit);
     },
+    getEventContainerWidth() {
+      this.eventContainerWidth = this.eventContainer.offsetWidth;
+    },
     showMorePopover(colIndex) {
       // set top and left popover style
       let topVal = 32 + this.rowIndex * 124 + 1;
       if (this.rowIndex != 0) topVal = topVal + 1;
-      let leftVal = 181 * colIndex;
+      let leftVal = this.eventContainerWidth * colIndex;
       if (colIndex != 0) leftVal = leftVal + 1;
 
       // emit data
@@ -171,6 +191,9 @@ export default {
       this.$emit("setTopVal", topVal);
       this.$emit("setLeftVal", leftVal);
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.getEventContainerWidth);
   }
 };
 </script>
