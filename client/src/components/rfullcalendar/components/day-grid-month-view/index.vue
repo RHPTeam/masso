@@ -54,6 +54,7 @@
                   :key="i"
                   :monthDays="monthDays"
                   :rowIndex="i"
+                  @eventClick="eventClick($event)"
                   @setTopVal="topVal = $event"
                   @setLeftVal="leftVal = $event"
                   @showMorePopover="showMorePopover = $event"
@@ -87,6 +88,11 @@ export default {
       topVal: 0,
       leftVal: 0
     };
+  },
+  methods: {
+    eventClick(data) {
+      this.$emit("eventClick", data);
+    }
   },
   components: {
     RcWeekRow,

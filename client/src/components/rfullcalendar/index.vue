@@ -62,7 +62,11 @@
       <!-- End: Week View Toolbar -->
     </div>
     <div class="rc--view-container">
-      <rc-day-grid-month-view v-if="view === 'month'" :monthDays="monthDays" />
+      <rc-day-grid-month-view
+        v-if="view === 'month'"
+        :monthDays="monthDays"
+        @eventClick="eventClick($event)"
+      />
       <rc-time-grid-view
         v-if="view === 'week' || view === 'day'"
         :activeDay="activeDay"

@@ -1,10 +1,10 @@
 <template>
   <div>
     <!-- Start: Campaign Detail -->
-    <campaign-list v-if="true" />
+    <campaign-list v-if="false" />
     <!-- End: Campaign Detail -->
     <!-- Start: Campaign Detail -->
-    <campaign-detail v-show="false" />
+    <campaign-detail v-show="true" />
     <!-- End: Campaign Detail -->
   </div>
 </template>

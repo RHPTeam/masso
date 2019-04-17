@@ -201,6 +201,9 @@ export default {
     }
   },
   methods: {
+    eventClick(data) {
+      this.$emit("eventClick", data);
+    },
     isToday(day) {
       const now = new Date(); // now date time
       let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // now date at 00:00:00

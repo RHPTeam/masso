@@ -15,25 +15,45 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: FullCalendar -->
-        <fullcalendar :view="calendarView" />
+        <fullcalendar
+          @eventClick="openEventPopup($event)"
+          :view="calendarView"
+        />
         <!-- End: FullCalendar -->
       </div>
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+    <!-- Start: Event Popup -->
+    <event-popup
+      v-if="isOpenEventPopup"
+      :eventData="eventSelected"
+      @closePopup="isOpenEventPopup = $event"
+    />
+    <!-- End: Event Popup -->
   </div>
 </template>
 
 <script>
 import AppHeader from "./header";
+import EventPopup from "./popup/event";
 export default {
   data() {
     return {
-      calendarView: "month"
+      calendarView: "month",
+      eventSelected: {},
+      isOpenEventPopup: false
     };
   },
+  methods: {
+    openEventPopup(data) {
+      this.eventSelected = data;
+      this.isOpenEventPopup = true;
+    }
+  },
   components: {
-    AppHeader
+    AppHeader,
+    EventPopup
   }
 };
 </script>

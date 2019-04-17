@@ -113,6 +113,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
+                @click="eventClick"
               >
                 <div class="rc--content">
                   <span class="rc--title">12:00 Lunch</span>
@@ -146,6 +147,13 @@
 export default {
   props: ["monthDays", "rowIndex"],
   methods: {
+    eventClick() {
+      const dataEmmit = {
+        name: "Khuyến mại khủng tháng 1",
+        time: "23/03/2019"
+      };
+      this.$emit("eventClick", dataEmmit);
+    },
     showMorePopover(colIndex) {
       // set top and left popover style
       let topVal = 32 + this.rowIndex * 124 + 1;
