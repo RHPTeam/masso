@@ -181,9 +181,9 @@ export default {};
   .col--content {
     width: calc(46% - 140px - 3.5rem);
     &-text {
-      // overflow: hidden;
-      // text-overflow: ellipsis;
-      // white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
   .col--image {
