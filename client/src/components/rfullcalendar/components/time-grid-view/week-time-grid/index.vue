@@ -99,7 +99,9 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
                       style="top: 464px; bottom: -493px;"
-                      @click="eventClick('Khởi động chiến dịch đầu tiên', '08:00')"
+                      @click="
+                        eventClick('Khởi động chiến dịch đầu tiên', '08:00')
+                      "
                     >
                       <div class="rc--content">
                         <div class="rc--title">
@@ -122,7 +124,12 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-red"
                       style="top: 522px; bottom: -551px;"
-                      @click="eventClick('Khuyến mại khủng nhân dịp sinh nhật', '09:00')"
+                      @click="
+                        eventClick(
+                          'Khuyến mại khủng nhân dịp sinh nhật',
+                          '09:00'
+                        )
+                      "
                     >
                       <div class="rc--content">
                         <div class="rc--title">
