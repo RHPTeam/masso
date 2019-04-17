@@ -14,7 +14,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-green"></span>
@@ -35,7 +35,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-green"></span>
@@ -44,7 +44,7 @@
               <a>Khởi động chiến dịch</a>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">09:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-blue"></span>
@@ -53,7 +53,7 @@
               <a>Khởi động chiến dịch</a>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khuyến mại khủng nhân dịp sinh nhật', '20:00')">
             <td class="rc--list-item-time rc--widget-content">20:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-orange"></span>
@@ -74,7 +74,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-red"></span>
@@ -95,7 +95,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-green"></span>
@@ -116,7 +116,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-violet"></span>
@@ -137,7 +137,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-blue"></span>
@@ -158,7 +158,7 @@
               </div>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-orange"></span>
@@ -167,7 +167,7 @@
               <a>Khởi động chiến dịch</a>
             </td>
           </tr>
-          <tr class="rc--list-item">
+          <tr class="rc--list-item" @click="eventClick('Khởi động chiến dịch', '08:00')">
             <td class="rc--list-item-time rc--widget-content">08:00</td>
             <td class="rc--list-item-marker rc--widget-content">
               <span class="rc--event-dot rc--bg-green"></span>
@@ -186,6 +186,13 @@
 export default {
   props: ["dayFullName", "monthName", "weekDays"],
   methods: {
+    eventClick(name, time) {
+      const dataEmmit = {
+        name: name,
+        time: time
+      };
+      this.$emit("eventClick", dataEmmit);
+    },
     formatDate(d) {
       const time = new Date(d);
       return (

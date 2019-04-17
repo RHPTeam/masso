@@ -99,6 +99,7 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
                       style="top: 464px; bottom: -493px;"
+                      @click="eventClick('Khởi động chiến dịch đầu tiên', '08:00')"
                     >
                       <div class="rc--content">
                         <div class="rc--title">
@@ -121,6 +122,7 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-red"
                       style="top: 522px; bottom: -551px;"
+                      @click="eventClick('Khuyến mại khủng nhân dịp sinh nhật', '09:00')"
                     >
                       <div class="rc--content">
                         <div class="rc--title">
@@ -153,6 +155,7 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
                       style="top: 464px; bottom: -493px;"
+                      @click="eventClick('Khởi động chiến dịch', '08:00')"
                     >
                       <div class="rc--content">
                         <div class="rc--title">08:00 Khởi động chiến dịch</div>
@@ -162,6 +165,7 @@
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
                       style="top: 696px; bottom: -725px;"
+                      @click="eventClick('Dinner', '20:00')"
                     >
                       <div class="rc--content">
                         <div class="rc--title">20:00 Dinner</div>
@@ -206,6 +210,13 @@
 export default {
   props: ["timePoint", "weekDays"],
   methods: {
+    eventClick(name, time) {
+      const dataEmmit = {
+        name: name,
+        time: time
+      };
+      this.$emit("eventClick", dataEmmit);
+    },
     showMorePopover(colIndex, timePoint) {
       // set top and left popover style
       let topVal = 32 + timePoint * 2 * 29 + 1;

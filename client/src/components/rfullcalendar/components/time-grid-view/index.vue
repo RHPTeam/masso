@@ -46,6 +46,7 @@
               v-if="view === 'week'"
               :timePoint="timePoint"
               :weekDays="weekDays"
+              @eventClick="eventClick($event)"
               @setTopVal="topVal = $event"
               @setLeftVal="leftVal = $event"
               @showMorePopover="showMorePopover = $event"
@@ -54,6 +55,7 @@
               v-if="view === 'day'"
               :timePoint="timePoint"
               :activeDay="activeDay"
+              @eventClick="eventClick($event)"
             />
           </td>
         </tr>
@@ -81,6 +83,11 @@ export default {
       topVal: 0,
       leftVal: 0
     };
+  },
+  methods: {
+    eventClick(data) {
+      this.$emit("eventClick", data);
+    }
   },
   components: {
     RcDayTimeGrid,

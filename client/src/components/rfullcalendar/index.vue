@@ -74,12 +74,14 @@
         :timePoint="timePoint"
         :view="view"
         :weekDays="weekDays"
+        @eventClick="eventClick($event)"
       />
       <rc-list-week-view
         v-if="view === 'list'"
         :dayFullName="dayFullName"
         :monthName="monthName"
         :weekDays="weekDays"
+        @eventClick="eventClick($event)"
       />
     </div>
   </div>

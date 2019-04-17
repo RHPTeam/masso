@@ -65,32 +65,46 @@
                       <div class="rc--content">
                         <div class="rc--content-flex">
                           <div class="rc--content-bg rc--bg-green">
-                            <div class="rc--title">
+                            <div class="rc--title"
+                              @click="eventClick('Khởi động chiến dịch', '08:00')"
+                            >
                               08:00 Khởi động chiến dịch
                             </div>
                           </div>
                           <div class="rc--content-bg rc--bg-green">
-                            <div class="rc--title">
+                            <div class="rc--title"
+                              @click="eventClick('Khuyến mại khủng nhân dịp sinh nhật', '08:00')"
+                            >
                               08:00 Khuyến mại khủng nhân dịp sinh nhật
                             </div>
                           </div>
-                          <div class="rc--content-bg rc--bg-blue">
+                          <div class="rc--content-bg rc--bg-blue"
+                            @click="eventClick('Khởi động', '08:00')"
+                          >
                             <div class="rc--title">08:00 Khởi động</div>
                           </div>
-                          <div class="rc--content-bg rc--bg-violet">
+                          <div class="rc--content-bg rc--bg-violet"
+                            @click="eventClick('Ngày đầu tiên', '08:00')"
+                          >
                             <div class="rc--title">08:00 Ngày đầu tiên</div>
                           </div>
-                          <div class="rc--content-bg rc--bg-green">
+                          <div class="rc--content-bg rc--bg-green"
+                            @click="eventClick('Giới thiệu sản phẩm', '08:00')"
+                          >
                             <div class="rc--title">
                               08:00 Giới thiệu sản phẩm mới
                             </div>
                           </div>
-                          <div class="rc--content-bg rc--bg-red">
+                          <div class="rc--content-bg rc--bg-red"
+                            @click="eventClick('Chương trình chăm sóc khách hàng đặc biệt', '08:00')"
+                          >
                             <div class="rc--title">
                               08:00 Chương trình chăm sóc khách hàng đặc biệt
                             </div>
                           </div>
-                          <div class="rc--content-bg rc--bg-red">
+                          <div class="rc--content-bg rc--bg-red"
+                            @click="eventClick('Khởi động chiến dịch', '08:00')"
+                          >
                             <div class="rc--title">
                               08:00 Khởi động chiến dịch
                             </div>
@@ -105,11 +119,15 @@
                     >
                       <div class="rc--content">
                         <div class="rc--content-flex">
-                          <div class="rc--content-bg rc--bg-red">
+                          <div class="rc--content-bg rc--bg-red"
+                            @click="eventClick('Happy Hour', '08:30')"
+                          >
                             <div class="rc--title">08:30 Happy Hour</div>
                           </div>
-                          <div class="rc--content-bg rc--bg-green">
-                            <div class="rc--title">08:30 Happy Hour</div>
+                          <div class="rc--content-bg rc--bg-green"
+                            @click="eventClick('Meeting', '08:30')"
+                          >
+                            <div class="rc--title">08:30 Meeting</div>
                           </div>
                         </div>
                       </div>
@@ -133,6 +151,13 @@
 export default {
   props: ["timePoint", "activeDay"],
   methods: {
+    eventClick(name, time) {
+      const dataEmmit = {
+        name: name,
+        time: time
+      };
+      this.$emit("eventClick", dataEmmit);
+    },
     isToday(day) {
       const now = new Date(); // now date time
       let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // now date at 00:00:00

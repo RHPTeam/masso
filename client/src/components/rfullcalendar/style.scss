@@ -535,6 +535,9 @@ tr:first-child>td>.rc--day-grid-event {
   border-width: 1px;
   border-style: solid;
 }
+.rc--list-item {
+  cursor: pointer;
+}
 .rc--unthemed .rc--list-item:hover td {
   background-color: #f5f5f5;
 }

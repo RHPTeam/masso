@@ -50,6 +50,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
+                @click="eventClick('Long Event', '09:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">09:00 Long Event</span>
@@ -61,6 +62,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-violet"
+                @click="eventClick('Conference', '08:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">08:00 Conference</span>
@@ -71,6 +73,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
+                @click="eventClick('Birthday Party', '18:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">18:00 Birthday Party</span>
@@ -88,6 +91,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green"
+                @click="eventClick('Repeating Event', '12:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">12:00 Repeating Event</span>
@@ -98,6 +102,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-red"
+                @click="eventClick('Meeting', '09:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">09:00 Meeting</span>
@@ -113,7 +118,7 @@
             <td class="rc--event-container">
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
-                @click="eventClick"
+                @click="eventClick('Lunch', '12:00')"
               >
                 <div class="rc--content">
                   <span class="rc--title">12:00 Lunch</span>
@@ -147,10 +152,10 @@
 export default {
   props: ["monthDays", "rowIndex"],
   methods: {
-    eventClick() {
+    eventClick(name, time) {
       const dataEmmit = {
-        name: "Khuyến mại khủng tháng 1",
-        time: "23/03/2019"
+        name: name,
+        time: time
       };
       this.$emit("eventClick", dataEmmit);
     },
