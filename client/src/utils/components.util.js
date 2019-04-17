@@ -25,6 +25,7 @@ Vue.component("IconLogout", () => import("@/components/icons/IconLogout"));
 Vue.component("IconMenu", () => import("@/components/icons/IconMenu"));
 Vue.component("IconRemove", () => import("@/components/icons/IconRemove"));
 Vue.component("IconScript", () => import("@/components/icons/IconScript"));
+Vue.component("IconSortDown", () => import("@/components/icons/IconSortDown"));
 
 // Icon Logo
 Vue.component("IconLogoShort", () =>
