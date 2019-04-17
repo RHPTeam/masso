@@ -1,5 +1,5 @@
 <template>
-  <div class="main--header">
+  <div class="main--header mb_3">
     <!-- Start: Header Top -->
     <div class="r main--header-top">
       <div class="c_md_6 top--left">
@@ -22,7 +22,7 @@
     </div>
     <!-- End: Header Top -->
     <!-- Start: Header Action -->
-    <div class="r main--header-action my_3">
+    <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
         <div class="new--event mr_3">
           <button class="btn btn--add">Thêm sự kiện</button>

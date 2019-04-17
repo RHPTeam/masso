@@ -98,7 +98,7 @@
                   <div class="rc--event-container">
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
-                      style="top: 464px; bottom: -493px;"
+                      style="top: 464px; bottom: -493px; z-index: 1; left: 0%; right: 0%;"
                       @click="
                         eventClick('Khởi động chiến dịch đầu tiên', '08:00')
                       "
@@ -123,7 +123,7 @@
                     </div>
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-red"
-                      style="top: 522px; bottom: -551px;"
+                      style="top: 522px; bottom: -551px; z-index: 1; left: 0%; right: 0%;"
                       @click="
                         eventClick(
                           'Khuyến mại khủng nhân dịp sinh nhật',
@@ -161,7 +161,7 @@
                   <div class="rc--event-container">
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
-                      style="top: 464px; bottom: -493px;"
+                      style="top: 464px; bottom: -493px; z-index: 1; left: 0%; right: 0%;"
                       @click="eventClick('Khởi động chiến dịch', '08:00')"
                     >
                       <div class="rc--content">
@@ -171,7 +171,7 @@
                     </div>
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
-                      style="top: 696px; bottom: -725px;"
+                      style="top: 696px; bottom: -725px; z-index: 1; left: 0%; right: 0%;"
                       @click="eventClick('Dinner', '20:00')"
                     >
                       <div class="rc--content">

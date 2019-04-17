@@ -402,7 +402,6 @@ tr:first-child>td>.rc--day-grid-event {
 }
 .rc--icon {
   font-family: rcicons!important;
-  speak: none;
   font-style: normal;
   font-variant: normal;
   text-transform: none;
@@ -547,7 +546,7 @@ tr:first-child>td>.rc--day-grid-event {
   align-items: center;
 }
 .rc--toolbar.rc--header-toolbar {
-  // margin-bottom: 1.5em;
+  margin-bottom: 1.25em;
 }
 .rc--toolbar.rc--footer-toolbar {
   margin-top: 1.5em;
@@ -561,9 +560,8 @@ tr:first-child>td>.rc--day-grid-event {
 }
 .rc--toolbar-action {
   align-items: center;
-  border-top-left-radius: .75rem;
-  border-top-right-radius: .75rem;
-  background-color: #fff;
+  border-radius: .625rem;
+  background-color: #fdfdfd;
   display: flex;
   height: 48px;
   justify-content: space-between;
@@ -856,10 +854,8 @@ Docs & License: https://rfullcalendar.io/
 }
 .rc--time-grid-event {
   margin-bottom: 1px;
-  // width: 170px;
   .rc--content {
     .rc--title {
-      width: 163px;
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
@@ -870,7 +866,6 @@ Docs & License: https://rfullcalendar.io/
         border-radius: 3px;
         margin-right: 2px;
         .rc--title {
-          width: auto;
           overflow: hidden;
           white-space: nowrap;
           text-overflow: ellipsis;
