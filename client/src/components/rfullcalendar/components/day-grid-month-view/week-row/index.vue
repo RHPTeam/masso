@@ -49,7 +49,7 @@
           <tr>
             <td class="rc--event-container">
               <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-orange"
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
               >
                 <div class="rc--content">
                   <span class="rc--title">09:00 Long Event</span>
