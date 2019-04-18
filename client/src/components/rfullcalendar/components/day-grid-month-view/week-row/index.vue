@@ -197,9 +197,16 @@ export default {
       }
 
       // emit data
+      if (colIndex != 6) {
+        this.$emit("setTopVal", topVal);
+        this.$emit("setLeftVal", leftVal);
+        this.$emit("setRightVal", null);
+      } else {
+        this.$emit("setTopVal", topVal);
+        this.$emit("setLeftVal", null);
+        this.$emit("setRightVal", 0);
+      }
       this.$emit("showMorePopover", true);
-      this.$emit("setTopVal", topVal);
-      this.$emit("setLeftVal", leftVal);
     }
   },
   beforeDestroy() {

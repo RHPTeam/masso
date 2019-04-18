@@ -1,7 +1,7 @@
 <template>
   <div
-    class="rc--scroller rc--time-grid-container"
-    style="overflow: hidden scroll; height: 607px;"
+    class="rc--time-grid-container"
+    style="overflow: hidden;"
   >
     <div class="rc--time-grid">
       <div class="rc--bg">
@@ -342,13 +342,12 @@ export default {
         this.topVal = topVal;
         this.leftVal = leftVal;
         this.rightVal = null;
-        this.isShowMorePopover = true;
       } else {
         this.topVal = topVal;
         this.leftVal = null;
         this.rightVal = 0;
-        this.isShowMorePopover = true;
       }
+      this.isShowMorePopover = true;
     }
   },
   beforeDestroy() {
