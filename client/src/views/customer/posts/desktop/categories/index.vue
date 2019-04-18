@@ -4,18 +4,18 @@
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5">
           <!-- Start: Add New -->
-          <app-new/>
+          <app-new />
           <!-- End: Add New -->
         </div>
         <div class="c_12 c_lg_12 c_xl_8">
           <!-- Start: Action -->
-          <app-action/>
+          <app-action />
           <!-- End: Action -->
           <!-- Start: Data List -->
-          <app-list/>
+          <app-list />
           <!-- End: Data List -->
           <!-- Start: Info -->
-          <app-info/>
+          <app-info />
           <!-- Start: Info -->
         </div>
       </div>
@@ -34,10 +34,9 @@ export default {
     AppNew,
     AppAction,
     AppInfo,
-    AppList,
+    AppList
   }
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

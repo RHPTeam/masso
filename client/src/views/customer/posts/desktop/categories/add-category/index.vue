@@ -4,7 +4,7 @@
     <div class="category--form py_4 px_3">
       <div class="item mb_4">
         <span>Tên danh mục</span>
-        <input type="text" placeholder="Nhập tên danh mục">
+        <input type="text" placeholder="Nhập tên danh mục" />
       </div>
       <div class="item mb_4">
         <span>Mô tả</span>

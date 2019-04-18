@@ -6,13 +6,15 @@
       :to="{ name: 'posts' }"
       active-class="active"
       exact
-    >Tất cả bài viết</router-link>
+      >Tất cả bài viết</router-link
+    >
     <router-link
       class="mr_3"
       tag="button"
       :to="{ name: 'categories' }"
       active-class="active"
-    >Danh mục</router-link>
+      >Danh mục</router-link
+    >
   </div>
 </template>
 

@@ -3,7 +3,7 @@
     <div class="item--header d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox">
+          <input type="checkbox" />
         </label>
       </div>
       <div class="col--category px_2">Tên danh mục</div>
@@ -14,23 +14,30 @@
     <div class="item--body d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox">
+          <input type="checkbox" />
         </label>
       </div>
       <div class="col--category px_2">Mỹ phẩm</div>
       <div class="col--posts px_2">12</div>
       <div class="col--description px_2">
-        <div class="col--description-text">Lorem ipsum dolor sit amet, consectetur tempor incid ...</div>
+        <div class="col--description-text">
+          Lorem ipsum dolor sit amet, consectetur tempor incid ...
+        </div>
       </div>
       <div class="col--action px_4 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
+            <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
-          <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-            <icon-remove/>
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
           </icon-base>
         </span>
       </div>
@@ -38,23 +45,30 @@
     <div class="item--body d_flex align_items_center px_3 py_2">
       <div class="col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox" checked>
+          <input type="checkbox" checked />
         </label>
       </div>
       <div class="col--category px_2">Mỹ phẩm</div>
       <div class="col--posts px_2">12</div>
       <div class="col--description px_2">
-        <div class="col--description-text">Lorem ipsum dolor sit amet, consectetur tempor incid ...</div>
+        <div class="col--description-text">
+          Lorem ipsum dolor sit amet, consectetur tempor incid ...
+        </div>
       </div>
       <div class="col--action px_4 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
+            <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
-          <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-            <icon-remove/>
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
           </icon-base>
         </span>
       </div>

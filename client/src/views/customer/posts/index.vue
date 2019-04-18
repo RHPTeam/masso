@@ -9,11 +9,11 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Filter -->
-        <app-filter/>
+        <app-filter />
 
         <!-- End: Filter -->
         <transition name="slide-fade">
-          <router-view/>
+          <router-view />
         </transition>
       </div>
       <!-- End: Content -->
@@ -52,5 +52,4 @@ export default {
     transform: translateX(0);
   }
 }
-
 </style>
