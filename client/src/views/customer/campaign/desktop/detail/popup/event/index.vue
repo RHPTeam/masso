@@ -7,11 +7,11 @@
           <div class="r header--row mx_0">
             <div class="header--row-left mr_3">
               <input
-                class="event--name" 
+                class="event--name"
                 type="text"
                 placeholder="Nhập tên sự kiện"
                 value="Khởi động chiến dịch"
-              >
+              />
             </div>
             <div class="header--row-right d_flex align_items_center">
               <div class="btn--header btn--copy mr_2">
@@ -22,7 +22,7 @@
                   height="24"
                   viewBox="0 0 500 500"
                 >
-                  <icon-copy/>
+                  <icon-copy />
                 </icon-base>
               </div>
               <div class="btn--header btn--delete mr_2">
@@ -33,7 +33,7 @@
                   height="24"
                   viewBox="0 0 16 16"
                 >
-                  <icon-remove/>
+                  <icon-remove />
                 </icon-base>
               </div>
               <div class="btn--header btn--save">
@@ -50,10 +50,11 @@
                     @change="toggled = $event.value"
                     :value="true"
                     :sync="true"
-                    :color="{checked: '#FFFFFF', unchecked: 'green'}"
-                    :switch-color="{checked: '#FFB94A', unchecked: 'green'}"
+                    :color="{ checked: '#FFFFFF', unchecked: 'green' }"
+                    :switch-color="{ checked: '#FFB94A', unchecked: 'green' }"
                   />
-                  Đăng ngẫu nhiên bài viết trên trang cá nhân vào các khung giờ vàng.
+                  Đăng ngẫu nhiên bài viết trên trang cá nhân vào các khung giờ
+                  vàng.
                 </span>
               </div>
             </div>
@@ -69,56 +70,76 @@
         <!-- Start: Modal Body -->
         <VuePerfectScrollbar class="modal--event-scroll">
           <div class="modal--body modal--event-body p_3">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita error enim consequuntur eaque, 
-            quia excepturi beatae tempora deserunt delectus, quibusdam hic maxime labore. In aut quaerat 
-            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-            Quaerat, impedit eos. Voluptatibus tempore voluptatum repellat eos quasi doloribus consequatur 
-            amet possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
+            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Expedita
+            error enim consequuntur eaque, quia excepturi beatae tempora
+            deserunt delectus, quibusdam hic maxime labore. In aut quaerat
+            exercitationem dolore error voluptates? Lorem ipsum dolor sit amet
+            consectetur adipisicing elit. Quaerat, impedit eos. Voluptatibus
+            tempore voluptatum repellat eos quasi doloribus consequatur amet
+            possimus eaque rem. Explicabo, et quod vero dolor dolore voluptates.
           </div>
         </VuePerfectScrollbar>
         <!-- End: Modal Body -->
@@ -148,27 +169,28 @@ export default {
   width: 1000px !important;
   margin-top: 2rem;
   margin-bottom: 2rem;
-  font-size: .875rem;
+  font-size: 0.875rem;
   .modal--event-header {
-    background-color: #FFB94A;
-    border-top-left-radius: .625rem;
-    border-top-right-radius: .625rem;
+    background-color: #ffb94a;
+    border-top-left-radius: 0.625rem;
+    border-top-right-radius: 0.625rem;
     .header--row {
       color: #fff;
       .header--row-left {
-        font-size: .875rem;
+        font-size: 0.875rem;
         width: calc(100% - 124px - 2rem);
         .event--name {
           border: 0;
-          border-radius: .625rem;
+          border-radius: 0.625rem;
           background-color: #fff;
           color: #444;
           height: 40px;
           line-height: 40px;
-          padding-left: .75rem;
-          padding-right: .75rem;
+          padding-left: 0.75rem;
+          padding-right: 0.75rem;
           width: 100%;
-          &:active, &:focus {
+          &:active,
+          &:focus {
             outline: 0;
             box-shadow: none;
           }
@@ -184,7 +206,7 @@ export default {
         }
         .btn--save {
           border: 1px solid #fff;
-          border-radius: .625rem;
+          border-radius: 0.625rem;
           height: 40px;
           line-height: 40px;
           text-align: center;
@@ -193,7 +215,7 @@ export default {
         .event--change-color {
           .label--change {
             cursor: pointer;
-            font-size: .75rem;
+            font-size: 0.75rem;
             font-style: italic;
             text-decoration: underline;
           }
