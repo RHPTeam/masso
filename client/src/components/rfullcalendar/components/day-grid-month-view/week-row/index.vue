@@ -180,11 +180,21 @@ export default {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
     },
     showMorePopover(colIndex) {
+      const dayGridMonthWidth = 779;
+
+      // calculate height of more popover element
+      const eventCount = 6; // number of events
+      const popoverHeight = 50 + eventCount * 26;
+
       // set top and left popover style
       let topVal = 32 + this.rowIndex * 124 + 1;
       if (this.rowIndex != 0) topVal = topVal + 1;
       let leftVal = this.eventContainerWidth * colIndex;
       if (colIndex != 0) leftVal = leftVal + 1;
+
+      if (topVal + popoverHeight >= dayGridMonthWidth) {
+        topVal = topVal - popoverHeight + 124;
+      }
 
       // emit data
       this.$emit("showMorePopover", true);
