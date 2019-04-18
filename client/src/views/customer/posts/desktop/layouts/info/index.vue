@@ -50,6 +50,7 @@ export default {};
       font-size: 0.875rem;
       line-height: 30px;
       text-align: center;
+      transition: all 0.4s ease;
       width: 30px;
 
       &.disabled {
@@ -58,7 +59,9 @@ export default {};
       &:hover,
       &.active {
         background-color: #ffb94a;
-        color: #fff;
+        a {
+          color: #fff;
+        }
       }
     }
     &:first-child {

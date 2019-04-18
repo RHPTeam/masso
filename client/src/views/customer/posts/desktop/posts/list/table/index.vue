@@ -1,36 +1,36 @@
 <template>
   <div class="post--data my_3">
     <div class="item--header d_flex align_items_center px_3 py_2">
-      <div class="col--checkbox px_2">
+      <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
           <input type="checkbox" />
         </label>
       </div>
-      <div class="col--name px_2">Tên bài viết</div>
-      <div class="col--category px_2">Danh mục</div>
-      <div class="col--content px_2">Nội dung</div>
-      <div class="col--image px_4">Hình ảnh</div>
-      <div class="col--action px_4">Hành động</div>
+      <div class="col col--name px_2">Tên bài viết</div>
+      <div class="col col--category px_2">Danh mục</div>
+      <div class="col col--content px_2">Nội dung</div>
+      <div class="col col--image px_4">Hình ảnh</div>
+      <div class="col col--action px_4">Hành động</div>
     </div>
     <div class="item--body d_flex align_items_center px_3 py_2">
-      <div class="col--checkbox px_2">
+      <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
           <input type="checkbox" checked />
         </label>
       </div>
-      <div class="col--name px_2">
-        <div class="col--name-text">
+      <div class="col col--name px_2">
+        <div class="col col--name-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit
         </div>
       </div>
-      <div class="col--category px_2">Mỹ phẩm</div>
-      <div class="col--content px_2">
+      <div class="col col--category px_2">Mỹ phẩm</div>
+      <div class="col col--content px_2">
         <div class="col--content-text">
           Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
           sit amet, consectetur adipiscing elit
         </div>
       </div>
-      <div class="col--image px_2">
+      <div class="col col--image px_2">
         <div class="d_flex align_items_center justify_content_start">
           <div class="image--wrap position_relative mr_2">
             <img
@@ -59,7 +59,7 @@
           </div>
         </div>
       </div>
-      <div class="col--action px_4 text_center">
+      <div class="col col--action px_4 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
             <icon-edit />
@@ -78,24 +78,24 @@
       </div>
     </div>
     <div class="item--body d_flex align_items_center px_3 py_2">
-      <div class="col--checkbox px_2">
+      <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
           <input type="checkbox" />
         </label>
       </div>
-      <div class="col--name px_2">
+      <div class="col col--name px_2">
         <div class="col--name-text">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit
         </div>
       </div>
-      <div class="col--category px_2">Mỹ phẩm</div>
-      <div class="col--content px_2">
+      <div class="col col--category px_2">Mỹ phẩm</div>
+      <div class="col col--content px_2">
         <div class="col--content-text">
           Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
           sit amet, consectetur adipiscing elit
         </div>
       </div>
-      <div class="col--image px_2">
+      <div class="col col--image px_2">
         <div class="d_flex align_items_center justify_content_start">
           <div class="image--wrap position_relative mr_2">
             <img
@@ -124,7 +124,7 @@
           </div>
         </div>
       </div>
-      <div class="col--action px_2 text_center">
+      <div class="col col--action px_2 text_center">
         <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
             <icon-edit />
