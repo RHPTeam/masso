@@ -25,11 +25,13 @@
     </div>
     <!-- End: Desktop Component-->
     <!-- Start: Event Popup -->
-    <event-popup
-      v-if="isOpenEventPopup"
-      :eventData="eventSelected"
-      @closePopup="isOpenEventPopup = $event"
-    />
+    <transition name="popup">
+      <event-popup
+        v-if="isOpenEventPopup"
+        :eventData="eventSelected"
+        @closePopup="isOpenEventPopup = $event"
+      />
+    </transition>
     <!-- End: Event Popup -->
   </div>
 </template>

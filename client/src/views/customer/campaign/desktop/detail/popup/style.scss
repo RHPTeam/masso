@@ -87,16 +87,11 @@
 }
 
 /*Transition popup*/
-.popup-enter {
-  transform: translateY(-100%);
+.popup-enter-active, .popup-leave-active {
+  transition: opacity .4s;
 }
-.popup-enter-to {
-  transition: transform 0.75s;
-  transform: translateY(0);
-}
-.popup-leave-to {
-  transition: transform 0.75s;
-  transform: translateY(-100%);
+.popup-enter, .popup-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
 }
   
 /* ChangeColor */
