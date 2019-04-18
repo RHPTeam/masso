@@ -90,7 +90,7 @@
 .popup-enter-active, .popup-leave-active {
   transition: opacity .4s;
 }
-.popup-enter, .popup-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.popup-enter, .popup-leave-to {
   opacity: 0;
 }
   

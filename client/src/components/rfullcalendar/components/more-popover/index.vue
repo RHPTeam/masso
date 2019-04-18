@@ -1,7 +1,11 @@
 <template>
   <div
     class="rc--popover rc--more-popover "
-    :style="{ top: topVal + 'px', left: leftVal + 'px' }"
+    :style="{
+      top: topVal + 'px',
+      left: leftVal + 'px',
+      right: rightVal + 'px'
+    }"
   >
     <div class="rc--header rc--widget-header">
       <span class="rc--title">April 12, 2019</span>
@@ -61,7 +65,7 @@
 
 <script>
 export default {
-  props: ["topVal", "leftVal"],
+  props: ["leftVal", "rightVal", "topVal"],
   methods: {
     closeMorePopover() {
       this.$emit("closeMorePopover", false);
@@ -72,4 +76,14 @@ export default {
 
 <style lang="scss">
 @import "../../style";
+
+/*Transition*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 </style>

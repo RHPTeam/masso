@@ -68,12 +68,14 @@
       <!-- End: Month View Body -->
     </table>
     <!-- Popover -->
-    <rc-more-popover
-      v-if="showMorePopover"
-      @closeMorePopover="showMorePopover = $event"
-      :topVal="topVal"
-      :leftVal="leftVal"
-    />
+    <transition name="fade">
+      <rc-more-popover
+        v-if="showMorePopover"
+        @closeMorePopover="showMorePopover = $event"
+        :topVal="topVal"
+        :leftVal="leftVal"
+      />
+    </transition>
   </div>
 </template>
 

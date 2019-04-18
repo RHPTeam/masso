@@ -56,7 +56,7 @@
           <tbody>
             <tr>
               <td class="rc--axis" style="width: 42px;"></td>
-              <td>
+              <td id="eventColumWidth">
                 <div class="rc--content-col">
                   <div class="rc--event-container rc--mirror-container"></div>
                   <div class="rc--event-container"></div>
@@ -175,7 +175,7 @@
                       @click="eventClick('Dinner', '20:00')"
                     >
                       <div class="rc--content">
-                        <div class="rc--title">20:00 Dinner</div>
+                        <div class="rc--title">12:00 Lunch</div>
                       </div>
                       <div class="rc--resizer rc--end-resizer"></div>
                     </div>
@@ -184,8 +184,29 @@
                       style="top: 725px; bottom: -754px;"
                     >
                       <div class="rc--content">
-                        <div class="rc--more">
+                        <div class="rc--more" @click="showMorePopover(5, 12)">
                           +3 sự kiện
+                        </div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-orange"
+                      style="top: 1276px; bottom: -1305px; z-index: 1; left: 0%; right: 0%;"
+                      @click="eventClick('Sleep', '22:00')"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--title">22:00 Sleep</div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
+                      style="top: 1305px; bottom: -1334px;"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--more" @click="showMorePopover(5, 22)">
+                          +6 sự kiện
                         </div>
                       </div>
                       <div class="rc--resizer rc--end-resizer"></div>
@@ -199,7 +220,50 @@
               <td>
                 <div class="rc--content-col">
                   <div class="rc--event-container rc--mirror-container"></div>
-                  <div class="rc--event-container"></div>
+                  <div class="rc--event-container">
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
+                      style="top: 696px; bottom: -725px; z-index: 1; left: 0%; right: 0%;"
+                      @click="eventClick('Dinner', '20:00')"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--title">12:00 Lunch</div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
+                      style="top: 725px; bottom: -754px;"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--more" @click="showMorePopover(6, 12)">
+                          +4 sự kiện
+                        </div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-green"
+                      style="top: 1334px; bottom: -1363px; z-index: 1; left: 0%; right: 0%;"
+                      @click="eventClick('Reading', '23:00')"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--title">23:00 Reading</div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                    <div
+                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
+                      style="top: 1363px; bottom: -1392px;"
+                    >
+                      <div class="rc--content">
+                        <div class="rc--more" @click="showMorePopover(6, 23)">
+                          +6 sự kiện
+                        </div>
+                      </div>
+                      <div class="rc--resizer rc--end-resizer"></div>
+                    </div>
+                  </div>
                   <div class="rc--highlight-container"></div>
                   <div class="rc--bgevent-container"></div>
                   <div class="rc--business-container"></div>
@@ -210,12 +274,44 @@
         </table>
       </div>
     </div>
+
+    <!-- Popover -->
+    <transition name="fade">
+      <rc-more-popover
+        v-if="isShowMorePopover"
+        @closeMorePopover="isShowMorePopover = $event"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
+import RcMorePopover from "../../more-popover/index";
 export default {
   props: ["timePoint", "weekDays"],
+  data() {
+    return {
+      eventContainer: {},
+      eventContainerWidth: 0,
+      isShowMorePopover: false,
+      leftVal: null,
+      rightVal: null,
+      topVal: null
+    };
+  },
+  mounted() {
+    this.$nextTick(function() {
+      const container = document.querySelector("#eventColumWidth");
+      this.eventContainer = container;
+      window.addEventListener("resize", this.getEventContainerWidth);
+
+      //Init
+      this.getEventContainerWidth();
+    });
+  },
   methods: {
     eventClick(name, time) {
       const dataEmmit = {
@@ -224,16 +320,42 @@ export default {
       };
       this.$emit("eventClick", dataEmmit);
     },
+    getEventContainerWidth() {
+      this.eventContainerWidth = this.eventContainer.offsetWidth;
+    },
     showMorePopover(colIndex, timePoint) {
-      // set top and left popover style
-      let topVal = 32 + timePoint * 2 * 29 + 1;
-      let leftVal = 44 + 173 * colIndex;
+      const timeGridContainerWidth = 1392; // 29*48
 
-      // emit data
-      this.$emit("showMorePopover", true);
-      this.$emit("setTopVal", topVal);
-      this.$emit("setLeftVal", leftVal);
+      // calculate height of more popover element
+      const eventCount = 6; // number of events
+      const popoverHeight = 50 + eventCount * 20;
+
+      // set top and left popover style
+      let topVal = timePoint * 2 * 29;
+      let leftVal = 50 + (this.eventContainerWidth + 0.5) * colIndex;
+
+      if (topVal + popoverHeight >= timeGridContainerWidth) {
+        topVal = topVal - popoverHeight + 57;
+      }
+
+      if (colIndex != 6) {
+        this.topVal = topVal;
+        this.leftVal = leftVal;
+        this.rightVal = null;
+        this.isShowMorePopover = true;
+      } else {
+        this.topVal = topVal;
+        this.leftVal = null;
+        this.rightVal = 0;
+        this.isShowMorePopover = true;
+      }
     }
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.getEventContainerWidth);
+  },
+  components: {
+    RcMorePopover
   }
 };
 </script>
