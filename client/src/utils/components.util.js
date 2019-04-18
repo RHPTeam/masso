@@ -14,6 +14,8 @@ Vue.component("IconBroadcast", () =>
 );
 Vue.component("IconCalendar", () => import("@/components/icons/IconCalendar"));
 Vue.component("IconChat", () => import("@/components/icons/IconChat"));
+Vue.component("IconCopy", () => import("@/components/icons/IconCopy"));
+Vue.component("IconDelete", () => import("@/components/icons/IconDelete"));
 Vue.component("IconEdit", () => import("@/components/icons/IconEdit"));
 Vue.component("IconFriend", () => import("@/components/icons/IconFriend"));
 Vue.component("IconHome", () => import("@/components/icons/IconHome"));
