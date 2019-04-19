@@ -8,5 +8,8 @@ module.exports = {
     return `https://m.facebook.com/graphsearch/str/${encodeURI(
       keyword
     )}/stories-keyword/stories-feed?tsid&source=pivot&pn=5`;
+  },
+  "post": ( id ) => {
+    return `https://www.facebook.com/${ id }`;
   }
 };
