@@ -58,7 +58,7 @@
                 unchecked: '#e4e4e4'
               }"
             />
-            <span :style="[autopost ? {opacity: '1'} : {opacity: '0.8'}]">
+            <span :style="[autopost ? { opacity: '1' } : { opacity: '0.8' }]">
               Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
             </span>
           </div>
@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       isShowColorDropdown: false
-    }
+    };
   },
   methods: {
     closePopup() {
@@ -126,7 +126,7 @@ export default {
       this.$emit("updateAutopost", val);
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
