@@ -13,7 +13,7 @@
 
         <!-- End: Filter -->
         <transition name="slide-fade">
-          <router-view/>
+          <router-view />
         </transition>
       </div>
       <!-- End: Content -->
@@ -30,7 +30,10 @@ export default {
   },
   computed: {
     showFilter() {
-      return this.$route.path === "/posts/categories" || this.$route.path === "/posts/";
+      return (
+        this.$route.path === "/posts/categories" ||
+        this.$route.path === "/posts/"
+      );
     }
   }
 };

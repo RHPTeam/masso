@@ -1,7 +1,11 @@
 <template>
   <div
     class="rc--popover rc--more-popover "
-    :style="{ top: topVal + 'px', left: leftVal + 'px' }"
+    :style="{
+      top: topVal + 'px',
+      left: leftVal + 'px',
+      right: rightVal + 'px'
+    }"
   >
     <div class="rc--header rc--widget-header">
       <span class="rc--title">April 12, 2019</span>
@@ -61,7 +65,7 @@
 
 <script>
 export default {
-  props: ["topVal", "leftVal"],
+  props: ["leftVal", "rightVal", "topVal"],
   methods: {
     closeMorePopover() {
       this.$emit("closeMorePopover", false);

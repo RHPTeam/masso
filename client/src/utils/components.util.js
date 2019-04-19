@@ -18,6 +18,10 @@ Vue.component("IconCalendar", () =>
     import ("@/components/icons/IconCalendar"));
 Vue.component("IconChat", () =>
     import ("@/components/icons/IconChat"));
+Vue.component("IconCopy", () =>
+    import ("@/components/icons/IconCopy"));
+Vue.component("IconDelete", () =>
+    import ("@/components/icons/IconDelete"));
 Vue.component("IconEdit", () =>
     import ("@/components/icons/IconEdit"));
 Vue.component("IconFriend", () =>
@@ -31,6 +35,8 @@ Vue.component("IconInputSearch", () =>
 );
 Vue.component("IconLibs", () =>
     import ("@/components/icons/IconLibs"));
+Vue.component("IconLike", () =>
+    import ("@/components/icons/IconLike"));
 Vue.component("IconLogout", () =>
     import ("@/components/icons/IconLogout"));
 Vue.component("IconMenu", () =>
@@ -39,6 +45,9 @@ Vue.component("IconPlus", () =>
     import ("@/components/icons/IconPlus"));
 Vue.component("IconRemove", () =>
     import ("@/components/icons/IconRemove"));
+Vue.component("IconShare", () =>
+    import ("@/components/icons/IconShare")
+);
 Vue.component("IconScript", () =>
     import ("@/components/icons/IconScript"));
 Vue.component("IconSortDown", () =>
@@ -52,6 +61,8 @@ Vue.component("IconLogoText", () =>
     import ("@/components/icons/IconLogoText"));
 
 // Global Component
+Vue.component("VuePerfectScrollbar", () =>
+    import ("vue-perfect-scrollbar"));
 Vue.component("Breadcrumb", () =>
     import ("@/components/shared/layouts/breadcrumb")
 );

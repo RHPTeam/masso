@@ -1,6 +1,8 @@
 <template>
   <div class="section">
-    <div class="section--header d_flex justify_content_start align_items_center">
+    <div
+      class="section--header d_flex justify_content_start align_items_center"
+    >
       <h5 class="mb_0">Viết bài mới</h5>
       <span class="space"></span>
       <router-link
@@ -9,16 +11,17 @@
         :to="{ name: 'posts' }"
         active-class="active"
         exact
-      >Xem tất cả bài viết</router-link>
+        >Xem tất cả bài viết</router-link
+      >
     </div>
     <div class="section--body ct_0">
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_6 mb_0 mb_md_5">
-          <app-form/>
+          <app-form />
         </div>
-         <div class="c_12 c_lg_12 c_xl_6">
-           <app-list/>
-         </div>
+        <div class="c_12 c_lg_12 c_xl_6">
+          <app-list />
+        </div>
       </div>
     </div>
   </div>

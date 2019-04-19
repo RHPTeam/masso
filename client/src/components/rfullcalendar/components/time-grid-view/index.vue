@@ -47,9 +47,6 @@
               :timePoint="timePoint"
               :weekDays="weekDays"
               @eventClick="eventClick($event)"
-              @setTopVal="topVal = $event"
-              @setLeftVal="leftVal = $event"
-              @showMorePopover="showMorePopover = $event"
             />
             <rc-day-time-grid
               v-if="view === 'day'"
@@ -61,19 +58,11 @@
         </tr>
       </tbody>
     </table>
-    <!-- Popover -->
-    <rc-more-popover
-      v-if="showMorePopover"
-      @closeMorePopover="showMorePopover = $event"
-      :topVal="topVal"
-      :leftVal="leftVal"
-    />
   </div>
 </template>
 
 <script>
 import RcDayTimeGrid from "./day-time-grid/index";
-import RcMorePopover from "../more-popover/index";
 import RcWeekTimeGrid from "./week-time-grid/index";
 export default {
   props: ["activeDay", "dayFullName", "timePoint", "view", "weekDays"],
@@ -91,7 +80,6 @@ export default {
   },
   components: {
     RcDayTimeGrid,
-    RcMorePopover,
     RcWeekTimeGrid
   }
 };

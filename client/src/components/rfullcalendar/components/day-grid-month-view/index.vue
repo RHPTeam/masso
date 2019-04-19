@@ -55,8 +55,9 @@
                   :monthDays="monthDays"
                   :rowIndex="i"
                   @eventClick="eventClick($event)"
-                  @setTopVal="topVal = $event"
                   @setLeftVal="leftVal = $event"
+                  @setRightVal="rightVal = $event"
+                  @setTopVal="topVal = $event"
                   @showMorePopover="showMorePopover = $event"
                 />
                 <!-- End: A week row -->
@@ -68,12 +69,15 @@
       <!-- End: Month View Body -->
     </table>
     <!-- Popover -->
-    <rc-more-popover
-      v-if="showMorePopover"
-      @closeMorePopover="showMorePopover = $event"
-      :topVal="topVal"
-      :leftVal="leftVal"
-    />
+    <transition name="fade">
+      <rc-more-popover
+        v-if="showMorePopover"
+        @closeMorePopover="showMorePopover = $event"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      />
+    </transition>
   </div>
 </template>
 
@@ -85,8 +89,9 @@ export default {
   data() {
     return {
       showMorePopover: false,
-      topVal: 0,
-      leftVal: 0
+      leftVal: null,
+      rightVal: null,
+      topVal: null
     };
   },
   methods: {

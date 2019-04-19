@@ -1,99 +1,130 @@
 <template>
-  <div class="list--data my_3">
-    <div class="item--header d_flex align_items_center px_2 py_2">
-      <div class="col col--content px_3">Nội dung</div>
-      <div class="col col--image px_3">Hình ảnh</div>
-      <div class="col col--like px_3">Thích</div>
-      <div class="col col--share px_3">Chia sẻ</div>
-      <div class="col col--action px_3">Hành động</div>
-    </div>
-    <div class="item--body d_flex align_items_center px_2 py_2">
-      <div class="col col--content px_3">
-        <div
-          class="col--content-text"
-        >Lorem ipsum dolor sit amet, consetetur sadipscing elitr Lorem ipsum dolor sit amet, consetetur sadipscing elitr</div>
+  <div class="wrapper">
+    <div class="list--data my_3">
+      <div class="item--header d_flex align_items_center px_2 py_2">
+        <div class="col col--content px_3">Nội dung</div>
+        <div class="col col--image px_3">Hình ảnh</div>
+        <div class="col col--like px_3">Thích</div>
+        <div class="col col--share px_3">Chia sẻ</div>
+        <div class="col col--action px_3">Hành động</div>
       </div>
-      <div class="col col--image px_3">
-        <div class="d_flex align_items_center justify_content_start">
-          <div class="image--wrap position_relative mr_2">
-            <img
-              src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
-              alt
-            >
-          </div>
-          <div class="image--wrap position_relative mr_2">
-            <img
-              src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
-              alt
-            >
-          </div>
-          <div class="image--wrap position_relative">
-            <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+      <div class="item--body d_flex align_items_center px_2 py_2">
+        <div class="col col--content px_3">
+          <div class="col--content-text">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr Lorem ipsum
+            dolor sit amet, consetetur sadipscing elitr
           </div>
         </div>
-      </div>
-      <div class="col col--like px_3">1902</div>
-      <div class="col col--share px_3">128</div>
-
-      <div class="col col--action px_3 text_center">
-        <span class="mx_1">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-            <icon-info/>
-          </icon-base>
-        </span>
-      </div>
-    </div>
-    <div class="item--body d_flex align_items_center px_2 py_2">
-      <div class="col col--content px_3">
-        <div
-          class="col--content-text"
-        >Lorem ipsum dolor sit amet, consetetur sadipscing elitr Lorem ipsum dolor sit amet, consetetur sadipscing elitr</div>
-      </div>
-      <div class="col col--image px_3">
-        <div class="d_flex align_items_center justify_content_start">
-          <div class="image--wrap position_relative mr_2">
-            <img
-              src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
-              alt
-            >
-          </div>
-          <div class="image--wrap position_relative mr_2">
-            <img
-              src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
-              alt
-            >
-          </div>
-          <div class="image--wrap position_relative">
-            <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+        <div class="col col--image px_3">
+          <div class="d_flex align_items_center justify_content_start">
+            <div class="image--wrap position_relative mr_2">
+              <img
+                src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
+                alt
+              >
+            </div>
+            <div class="image--wrap position_relative mr_2">
+              <img
+                src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
+                alt
+              >
+            </div>
+            <div class="image--wrap position_relative">
+              <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="col col--like px_3">1902</div>
-      <div class="col col--share px_3">128</div>
+        <div class="col col--like px_3">1902</div>
+        <div class="col col--share px_3">128</div>
 
-      <div class="col col--action px_3 text_center">
-        <span class="mx_1">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-            <icon-edit/>
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-            <icon-info/>
-          </icon-base>
-        </span>
+        <div class="col col--action px_3 text_center">
+          <span class="mx_1">
+            <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+              <icon-edit/>
+            </icon-base>
+          </span>
+          <span class="mx_1" @click="openPopupDetail()">
+            <icon-base icon-name="icon-info" viewBox="0 0 18 18">
+              <icon-info/>
+            </icon-base>
+          </span>
+        </div>
+      </div>
+      <div class="item--body d_flex align_items_center px_2 py_2">
+        <div class="col col--content px_3">
+          <div class="col--content-text">
+            Lorem ipsum dolor sit amet, consetetur sadipscing elitr Lorem ipsum
+            dolor sit amet, consetetur sadipscing elitr
+          </div>
+        </div>
+        <div class="col col--image px_3">
+          <div class="d_flex align_items_center justify_content_start">
+            <div class="image--wrap position_relative mr_2">
+              <img
+                src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
+                alt
+              >
+            </div>
+            <div class="image--wrap position_relative mr_2">
+              <img
+                src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
+                alt
+              >
+            </div>
+            <div class="image--wrap position_relative">
+              <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+            </div>
+          </div>
+        </div>
+        <div class="col col--like px_3">1902</div>
+        <div class="col col--share px_3">128</div>
+
+        <div class="col col--action px_3 text_center">
+          <span class="mx_1">
+            <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+              <icon-edit/>
+            </icon-base>
+          </span>
+          <span class="mx_1">
+            <icon-base icon-name="icon-info" viewBox="0 0 18 18">
+              <icon-info/>
+            </icon-base>
+          </span>
+        </div>
       </div>
     </div>
+    <transition name="popup">
+      <popup-detail
+        v-if="showDetail == true"
+        @closePopupDetail="showDetail = $event"
+      />
+    </transition>
+    <transition name="fade">
+      <div
+        v-if="showDetail == true"
+        class="backdrop position_fixed"
+      ></div>
+    </transition>
   </div>
 </template>
 
 <script>
-export default {};
+import PopupDetail from "../detail/index";
+export default {
+  data() {
+    return {
+      showDetail: false,
+    };
+  },
+  components: {
+    PopupDetail
+  },
+  methods: {
+    openPopupDetail() {
+      this.showDetail = true;
+    }   
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -176,6 +207,23 @@ export default {};
   }
 }
 
+.backdrop {
+  background-color: rgba(153, 153, 153, 0.5);
+  height: 100vh;
+  left: 0;
+  max-height: 100vh;
+  top: 0;
+  width: 100%;
+  z-index: 1040;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 // RESPONSIVE
 @media only screen and (max-width: 1800px) {
   .list--data {
@@ -201,7 +249,6 @@ export default {};
 }
 @media only screen and (max-width: 1500px) {
   .list--data {
-    
     .col--content {
       width: calc(100% - 165px);
     }

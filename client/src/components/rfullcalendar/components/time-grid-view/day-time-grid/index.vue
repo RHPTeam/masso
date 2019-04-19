@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="rc--scroller rc--time-grid-container"
-    style="overflow: hidden scroll; height: 607px;"
-  >
+  <div class="rc--time-grid-container" style="overflow: hidden;">
     <div class="rc--time-grid">
       <div class="rc--bg">
         <table>

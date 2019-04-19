@@ -747,6 +747,15 @@ tr:first-child>td>.rc--day-grid-event {
   background-color: #999999;
 }
 
+/*================= Transition ==================*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.4s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 
 
 //=======================================================================
