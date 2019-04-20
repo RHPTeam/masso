@@ -16,7 +16,14 @@ const generalRouter = {
         {
           path: "",
           name: "posts",
-          component: require( "@/views/customer/posts/desktop/posts" ).default
+          component: require( "@/views/customer/posts/desktop/posts/list" )
+            .default
+        },
+        {
+          path: "create",
+          name: "post/create",
+          component: require( "@/views/customer/posts/desktop/posts/create" )
+            .default
         },
         {
           path: "categories",

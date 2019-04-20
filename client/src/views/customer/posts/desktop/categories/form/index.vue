@@ -34,10 +34,14 @@ export default {};
     border-radius: 10px;
   }
   .item {
+    > span {
+      color: #000;
+      font-weight: 600;
+    }
     > input,
     > textarea {
       border: solid 1px #e4e4e4;
-      border-radius: 10px;
+      border-radius: 0.5rem;
       margin-top: 0.75rem;
       outline: none;
       transition: all 0.4s ease;
@@ -58,7 +62,7 @@ export default {};
     > button {
       background-color: #ffb94a;
       border: solid 1px #ffb94a;
-      border-radius: 10px;
+      border-radius: 0.5rem;
       color: #fff;
       cursor: pointer;
       font-size: 16px;

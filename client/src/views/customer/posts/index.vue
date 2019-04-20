@@ -9,7 +9,7 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Filter -->
-        <app-filter />
+        <app-filter v-if="showFilter" />
 
         <!-- End: Filter -->
         <transition name="slide-fade">
@@ -27,6 +27,14 @@ import AppFilter from "./desktop/layouts/filter/index";
 export default {
   components: {
     AppFilter
+  },
+  computed: {
+    showFilter() {
+      return (
+        this.$route.path === "/posts/categories" ||
+        this.$route.path === "/posts/"
+      );
+    }
   }
 };
 </script>

@@ -5,8 +5,8 @@
     class="header d_flex justify_content_between align_items_center"
     :data-theme="currentTheme"
   >
-    <div class="header--left" @click="toogleSidebar">
-      <div class="header--icon">
+    <div class="header--left d_flex justify_content_start align_items_center">
+      <div class="header--icon" @click="toogleSidebar">
         <icon-base
           icon-name="menu"
           width="20"
@@ -16,6 +16,12 @@
           <icon-menu />
         </icon-base>
       </div>
+      <router-link
+      class="header--button ml_4"
+      tag="button"
+      :to="{ name: 'post/create' }"
+      >Viết bài mới</router-link
+    >
     </div>
     <div class="header--right">
       <div

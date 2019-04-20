@@ -31,6 +31,23 @@
     .header--icon {
         cursor: pointer;
     }
+    .header--button {
+        background-color: #ffb94a;
+        border: solid 1px #ffb94a;
+        border-radius: 0.5rem;
+        color: #fff;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: 500;
+        height: 35px;
+        outline: none;
+        transition: all 0.4s ease;
+        width: 124px;
+        &:hover {
+            background-color: transparent;
+            color: #ffb94a;
+        }
+    }
     .profile--image {
         .avatar--wrap {
             width: 40px;

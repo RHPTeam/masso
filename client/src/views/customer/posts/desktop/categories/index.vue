@@ -24,10 +24,10 @@
 </template>
 
 <script>
-import AppNew from "./add-category/index";
+import AppNew from "./form/index";
 import AppAction from "../layouts/action/index";
 import AppInfo from "../layouts/info/index";
-import AppList from "./list-category/index";
+import AppList from "./list/index";
 
 export default {
   components: {
