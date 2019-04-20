@@ -22,7 +22,7 @@ export default {
           to: ""
         },
         {
-          text: "Kịch bản",
+          text: "Bài đăng",
           icon: {
             iconName: "script",
             tagName: "icon-script",
@@ -30,40 +30,7 @@ export default {
             height: 20,
             viewBox: "0 0 24 24"
           },
-          to: ""
-        },
-        {
-          text: "Trò chuyện",
-          icon: {
-            iconName: "chat",
-            tagName: "icon-chat",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: ""
-        },
-        {
-          text: "Trả lời tự động",
-          icon: {
-            iconName: "auto-answer",
-            tagName: "icon-auto-answer",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: ""
-        },
-        {
-          text: "Bạn bè",
-          icon: {
-            iconName: "friend",
-            tagName: "icon-friend",
-            width: 22,
-            height: 22,
-            viewBox: "0 0 24 24"
-          },
-          to: ""
+          to: "posts"
         },
         {
           text: "Chiến dịch",
@@ -74,9 +41,8 @@ export default {
             height: 21,
             viewBox: "0 0 24 24"
           },
-          to: ""
+          to: "campaign"
         },
-
         {
           text: "Tài khoản Facebook",
           icon: {

@@ -1,7 +1,20 @@
 <template>
   <div class="post--filter d_flex justify_content_start align_items_center">
-    <button class="active mr_3">Tất cả bài viết</button>
-    <button>Danh mục</button>
+    <router-link
+      class="mr_3"
+      tag="button"
+      :to="{ name: 'posts' }"
+      active-class="active"
+      exact
+      >Tất cả bài viết</router-link
+    >
+    <router-link
+      class="mr_3"
+      tag="button"
+      :to="{ name: 'categories' }"
+      active-class="active"
+      >Danh mục</router-link
+    >
   </div>
 </template>
 
