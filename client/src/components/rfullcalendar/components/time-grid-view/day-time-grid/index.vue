@@ -51,7 +51,7 @@
           <tbody>
             <tr>
               <td class="rc--axis" style="width: 42px;"></td>
-              <td>
+              <td id="eventColumWidth">
                 <div class="rc--content-col">
                   <div class="rc--event-container rc--mirror-container"></div>
                   <div class="rc--event-container">
@@ -61,69 +61,21 @@
                     >
                       <div class="rc--content">
                         <div class="rc--content-flex">
-                          <div class="rc--content-bg rc--bg-green">
-                            <div
-                              class="rc--title"
-                              @click="
-                                eventClick('Khởi động chiến dịch', '08:00')
-                              "
-                            >
-                              08:00 Khởi động chiến dịch
-                            </div>
-                          </div>
-                          <div class="rc--content-bg rc--bg-green">
-                            <div
-                              class="rc--title"
-                              @click="
-                                eventClick(
-                                  'Khuyến mại khủng nhân dịp sinh nhật',
-                                  '08:00'
-                                )
-                              "
-                            >
-                              08:00 Khuyến mại khủng nhân dịp sinh nhật
-                            </div>
-                          </div>
-                          <div
-                            class="rc--content-bg rc--bg-blue"
-                            @click="eventClick('Khởi động', '08:00')"
-                          >
-                            <div class="rc--title">08:00 Khởi động</div>
-                          </div>
-                          <div
-                            class="rc--content-bg rc--bg-violet"
-                            @click="eventClick('Ngày đầu tiên', '08:00')"
-                          >
-                            <div class="rc--title">08:00 Ngày đầu tiên</div>
-                          </div>
                           <div
                             class="rc--content-bg rc--bg-green"
-                            @click="eventClick('Giới thiệu sản phẩm', '08:00')"
+                            v-for="(event, index) in events"
+                            :key="index"
                           >
-                            <div class="rc--title">
-                              08:00 Giới thiệu sản phẩm mới
+                            <div
+                              class="rc--title"
+                              @click="eventClick(event.name, event.time)"
+                              ref="events"
+                            >
+                              {{ event.time + " " + event.name }}
                             </div>
                           </div>
-                          <div
-                            class="rc--content-bg rc--bg-red"
-                            @click="
-                              eventClick(
-                                'Chương trình chăm sóc khách hàng đặc biệt',
-                                '08:00'
-                              )
-                            "
-                          >
-                            <div class="rc--title">
-                              08:00 Chương trình chăm sóc khách hàng đặc biệt
-                            </div>
-                          </div>
-                          <div
-                            class="rc--content-bg rc--bg-red"
-                            @click="eventClick('Khởi động chiến dịch', '08:00')"
-                          >
-                            <div class="rc--title">
-                              08:00 Khởi động chiến dịch
-                            </div>
+                          <div class="rc--more" @click="showMorePopover(8)">
+                            +2 sự kiện
                           </div>
                         </div>
                       </div>
@@ -162,12 +114,64 @@
         </table>
       </div>
     </div>
+
+    <!-- Popover -->
+    <transition name="fade">
+      <rc-more-popover
+        v-if="isShowMorePopover"
+        @closeMorePopover="isShowMorePopover = $event"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
+import RcMorePopover from "../../more-popover/index";
 export default {
   props: ["timePoint", "activeDay"],
+  data() {
+    return {
+      events: [
+        { time: "08:00", name: "Khởi động chiến dịch" },
+        { time: "08:05", name: "Khuyến mại khủng sinh nhật đầu tiên" },
+        { time: "08:10", name: "Khởi động" },
+        { time: "08:20", name: "Ngày đầu tiên" },
+        { time: "08:25", name: "Giới thiệu sản phẩm mới" },
+        { time: "08:25", name: "Chương trình chăm sóc khách hàng đặc biệt" }
+      ],
+      eventContainer: {},
+      eventContainerWidth: 0,
+      eventContentWidth: 0,
+      isShowMorePopover: false,
+      leftVal: null,
+      rightVal: 0,
+      topVal: null
+    };
+  },
+  mounted() {
+    this.$nextTick(function() {
+      const container = document.querySelector("#eventColumWidth");
+      this.eventContainer = container;
+      window.addEventListener("resize", this.getEventContainerWidth);
+
+      //Init
+      this.getEventContainerWidth();
+
+      //event
+      let w = 64 + 2 * (this.$refs.events.length - 1);
+      this.$refs.events.forEach(item => {
+        w = w + item.clientWidth;
+      });
+      this.eventContentWidth = w;
+
+      if (w > this.eventContainerWidth) {
+        this.$refs.events[5].remove();
+      }
+    });
+  },
   methods: {
     eventClick(name, time) {
       const dataEmmit = {
@@ -176,13 +180,36 @@ export default {
       };
       this.$emit("eventClick", dataEmmit);
     },
+    getEventContainerWidth() {
+      this.eventContainerWidth = this.eventContainer.offsetWidth;
+    },
     isToday(day) {
       const now = new Date(); // now date time
       let today = new Date(now.getFullYear(), now.getMonth(), now.getDate()); // now date at 00:00:00
       if (day.toDateString() === today.toDateString()) {
         return true;
       } else return false;
+    },
+    showMorePopover(timePoint) {
+      const timeGridContainerHeight = 1392; // 29*48
+
+      // calculate height of more popover element
+      const eventCount = 6; // number of events
+      const popoverHeight = 50 + eventCount * 20;
+
+      // set top and left popover style
+      let topVal = timePoint * 2 * 29;
+
+      if (topVal + popoverHeight >= timeGridContainerHeight) {
+        topVal = topVal - popoverHeight + 57;
+      }
+
+      this.topVal = topVal;
+      this.isShowMorePopover = true;
     }
+  },
+  components: {
+    RcMorePopover
   }
 };
 </script>

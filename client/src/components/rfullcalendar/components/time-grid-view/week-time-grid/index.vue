@@ -321,7 +321,7 @@ export default {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
     },
     showMorePopover(colIndex, timePoint) {
-      const timeGridContainerWidth = 1392; // 29*48
+      const timeGridContainerHeight = 1392; // 29*48
 
       // calculate height of more popover element
       const eventCount = 6; // number of events
@@ -331,7 +331,7 @@ export default {
       let topVal = timePoint * 2 * 29;
       let leftVal = 50 + (this.eventContainerWidth + 0.5) * colIndex;
 
-      if (topVal + popoverHeight >= timeGridContainerWidth) {
+      if (topVal + popoverHeight >= timeGridContainerHeight) {
         topVal = topVal - popoverHeight + 57;
       }
 

@@ -180,7 +180,7 @@ export default {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
     },
     showMorePopover(colIndex) {
-      const dayGridMonthWidth = 779;
+      const dayGridMonthHeight = 779;
 
       // calculate height of more popover element
       const eventCount = 6; // number of events
@@ -192,7 +192,7 @@ export default {
       let leftVal = this.eventContainerWidth * colIndex;
       if (colIndex != 0) leftVal = leftVal + 1;
 
-      if (topVal + popoverHeight >= dayGridMonthWidth) {
+      if (topVal + popoverHeight >= dayGridMonthHeight) {
         topVal = topVal - popoverHeight + 124;
       }
 

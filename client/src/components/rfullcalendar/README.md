@@ -31,6 +31,7 @@ This components is registered as a global component.
 
 ### Events
 
-| Name   | Description              |
-| ---    | ---                      |
+| Name       | Description                                |
+| ---        | ---                                        |
+| eventClick | Triggered whenever click on calendar event.|
 
