@@ -27,8 +27,8 @@
     </li>
 
     <li
-      v-for="page in pages"
-      :key="page"
+      v-for="(page, index) in pages"
+      :key="index"
       :class="[
         pageClass,
         page.selected ? activeClass : '',
@@ -100,10 +100,10 @@
       tabindex="0"
       v-html="prevText"
     ></a>
-    <template v-for="page in pages">
+    <template v-for="(page, index) in pages">
       <a
         v-if="page.breakView"
-        :key="page"
+        :key="`p-${index}`"
         :class="[
           pageLinkClass,
           breakViewLinkClass,

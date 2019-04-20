@@ -21,7 +21,6 @@
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
         @click="showDropdown"
-        v-click-outside="closeDropdownUser"
       >
         <div class="profile--image">
           <div
@@ -79,7 +78,7 @@
               <p class="mb_0">{{ user.email }}</p>
             </div>
           </div>
-          <router-link class="dropdown--item" :to="{ name: 'c_account' }">
+          <router-link class="dropdown--item" to="/">
             <icon-base
               icon-name="account"
               width="20"
@@ -88,19 +87,6 @@
             >
               <icon-account /> </icon-base
             >Thiết lập tài khoản
-          </router-link>
-          <router-link
-            class="dropdown--item friend"
-            :to="{ name: 'f_friends' }"
-          >
-            <icon-base
-              icon-name="friend"
-              width="22"
-              height="22"
-              viewBox="0 0 25 25"
-            >
-              <icon-friend /> </icon-base
-            >Quản lý bạn bè
           </router-link>
           <div class="dropdown--divider"></div>
           <a class="dropdown--item" href="javascript:void(0)" @click="logOut">

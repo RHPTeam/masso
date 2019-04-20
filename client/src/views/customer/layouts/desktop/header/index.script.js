@@ -12,9 +12,9 @@ export default {
     };
   },
   computed: {
-    user() {
-      return this.$store.getters.userInfo;
-    },
+    // user() {
+    //   return this.$store.getters.userInfo;
+    // },
     currentTheme() {
       return this.$store.getters.themeName;
     },

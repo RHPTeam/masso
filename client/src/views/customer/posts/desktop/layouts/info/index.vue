@@ -5,7 +5,6 @@
       :page-count="10"
       :page-range="2"
       :margin-pages="2"
-      :click-handler="clickCallback"
       :prev-text="'&#8249;'"
       :next-text="'&#x203A;'"
       :container-class="'pagination'"

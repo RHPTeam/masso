@@ -1,5 +1,5 @@
 <template>
-  <div class="main" :data-theme="currentTheme">
+  <div class="main">
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
