@@ -27,9 +27,9 @@ const generalRouter = {
       ]
     },
     {
-      path: "/campaign",
-      name: "campaign",
-      component: require( "@/views/customer/campaign" ).default
+      path: "/campaigns",
+      name: "campaigns",
+      component: require( "@/views/customer/campaigns" ).default
     }
   ]
 };

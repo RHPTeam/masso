@@ -41,7 +41,7 @@ export default {
             height: 21,
             viewBox: "0 0 24 24"
           },
-          to: "campaign"
+          to: "campaigns"
         },
         {
           text: "Tài khoản Facebook",

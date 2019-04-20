@@ -83,7 +83,7 @@
 
 <script>
 import RcWeekRow from "./week-row/index";
-import RcMorePopover from "../more-popover/index";
+import RcMorePopover from "../../popover/more/index";
 export default {
   props: [ "monthDays" ],
   data() {
@@ -107,5 +107,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "../../style";
+@import "../../../style";
 </style>

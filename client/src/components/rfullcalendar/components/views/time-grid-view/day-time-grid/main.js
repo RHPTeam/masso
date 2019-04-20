@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import RcMorePopover from "../../more-popover/index";
+import RcMorePopover from "../../../popover/more/index";
 export default {
   props: [ "timePoint", "activeDay" ],
   data() {

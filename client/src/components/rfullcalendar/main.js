@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
-import RcDayGridMonthView from "./components/day-grid-month-view/index";
-import RcListWeekView from "./components/list-week-view/index";
-import RcTimeGridView from "./components/time-grid-view/index";
+import RcDayGridMonthView from "./components/views/day-grid-month-view/index";
+import RcListWeekView from "./components/views/list-week-view/index";
+import RcTimeGridView from "./components/views/time-grid-view/index";
 
 export default {
   props: {
