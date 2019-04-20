@@ -1,14 +1,14 @@
 <template>
-  <div :class="{'input-group' : bootstrapStyling}">
+  <div :class="{ 'input-group': bootstrapStyling }">
     <!-- Calendar Button -->
     <span
       v-if="calendarButton"
       class="rhp-datepicker__calendar-button"
-      :class="{'input-group-prepend' : bootstrapStyling}"
+      :class="{ 'input-group-prepend': bootstrapStyling }"
       @click="showCalendar"
-      v-bind:style="{'cursor:not-allowed;' : disabled}"
+      v-bind:style="{ 'cursor:not-allowed;': disabled }"
     >
-      <span :class="{'input-group-text' : bootstrapStyling}">
+      <span :class="{ 'input-group-text': bootstrapStyling }">
         <i :class="calendarButtonIcon">
           {{ calendarButtonIconContent }}
           <span v-if="!calendarButtonIcon">&hellip;</span>
@@ -33,15 +33,15 @@
       @keyup="parseTypedDate"
       @blur="inputBlurred"
       autocomplete="off"
-    >
+    />
     <!-- Clear Button -->
     <span
       v-if="clearButton && selectedDate"
       class="rhp-datepicker__clear-button"
-      :class="{'input-group-append' : bootstrapStyling}"
+      :class="{ 'input-group-append': bootstrapStyling }"
       @click="clearDate()"
     >
-      <span :class="{'input-group-text' : bootstrapStyling}">
+      <span :class="{ 'input-group-text': bootstrapStyling }">
         <i :class="clearButtonIcon">
           <span v-if="!clearButtonIcon">&times;</span>
         </i>

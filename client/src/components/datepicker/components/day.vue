@@ -10,23 +10,36 @@
       <span
         @click="isRtl ? nextMonth() : previousMonth()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}"
-      >&lt;</span>
+        :class="{ disabled: isLeftNavDisabled }"
+        >&lt;</span
+      >
       <span
         class="day__month_btn"
         @click="showMonthCalendar"
         :class="allowedToShowView('month') ? 'up' : ''"
-      >{{ isYmd ? currYearName : currMonthName }} {{ isYmd ? currMonthName : currYearName }}</span>
+        >{{ isYmd ? currYearName : currMonthName }}
+        {{ isYmd ? currMonthName : currYearName }}</span
+      >
       <span
         @click="isRtl ? previousMonth() : nextMonth()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}"
-      >&gt;</span>
+        :class="{ disabled: isRightNavDisabled }"
+        >&gt;</span
+      >
     </header>
     <div :class="isRtl ? 'flex-rtl' : ''">
-      <span class="cell day-header" v-for="d in daysOfWeek" :key="d.timestamp">{{ d }}</span>
+      <span
+        class="cell day-header"
+        v-for="d in daysOfWeek"
+        :key="d.timestamp"
+        >{{ d }}</span
+      >
       <template v-if="blankDays > 0">
-        <span class="cell day blank" v-for="d in blankDays" :key="d.timestamp"></span>
+        <span
+          class="cell day blank"
+          v-for="d in blankDays"
+          :key="d.timestamp"
+        ></span>
       </template>
       <!--
       -->

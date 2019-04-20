@@ -10,22 +10,25 @@
       <span
         @click="isRtl ? nextDecade() : previousDecade()"
         class="prev"
-        :class="{'disabled': isLeftNavDisabled}"
-      >&lt;</span>
+        :class="{ disabled: isLeftNavDisabled }"
+        >&lt;</span
+      >
       <span>{{ getPageDecade }}</span>
       <span
         @click="isRtl ? previousDecade() : nextDecade()"
         class="next"
-        :class="{'disabled': isRightNavDisabled}"
-      >&gt;</span>
+        :class="{ disabled: isRightNavDisabled }"
+        >&gt;</span
+      >
     </header>
     <span
       class="cell year"
       v-for="year in years"
       :key="year.timestamp"
-      :class="{ 'selected': year.isSelected, 'disabled': year.isDisabled }"
+      :class="{ selected: year.isSelected, disabled: year.isDisabled }"
       @click.stop="selectYear(year)"
-    >{{ year.year }}</span>
+      >{{ year.year }}</span
+    >
   </div>
 </template>
 <script>

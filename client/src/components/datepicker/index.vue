@@ -469,5 +469,5 @@ export default {
 // eslint-disable-next-line
 </script>
 <style lang="scss">
-@import './styles/index.scss';
+@import "./styles/index.scss";
 </style>
