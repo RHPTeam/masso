@@ -1,15 +1,14 @@
+/* eslint-disable no-shadow */
 /* eslint-disable strict */
 const cheerio = require( "cheerio" ),
   fs = require( "fs" ),
-  jsdom = require( "jsdom" ),
-  { JSDOM } = jsdom,
   request = require( "request" ),
-  { post } = require( "../../configs/crawl" ),
+  { post, mpost } = require( "../../configs/crawl" ),
   { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
   { findSubString } = require( "../../helpers/utils/functions.util" ),
   getPost = ( { cookie, agent, id, token } ) => {
     return new Promise( ( resolve ) => {
-      const option = {
+      let option = {
         "method": "GET",
         "url": post( id ),
         "headers": {
@@ -31,25 +30,38 @@ const cheerio = require( "cheerio" ),
 
           if ( pageCase === null ) {
             const post = findSubString( $( "div.hidden_elem" ).find( "code#u_0_1c" ).html(), "<!--", "-->" );
-
-            fs.writeFile( "temp.html", post, ( error ) => {
-              if ( error ) {
-                console.log( error );
-              }
-              console.log( "Successfully Written to File." );
-            } );
           } else if ( pageCase !== null ) {
             // Get text in post
             const post = $( "div.permalinkPost" ).find( "div.userContentWrapper" ).find( "div.userContent" ).html();
 
-            // Get images in post ( Note: if post have one images, system will filter undefined to get images link full
+            // Get images in post ( Note: if post have one images, system will filter undefined to get images link full ( current version has only get max which is 5 images )
             $( "div.permalinkPost" ).find( "div.userContentWrapper" ).find( "a[rel*='theater']" ).each( function () {
               images.push( $( this ).attr( "data-ploi" ) );
             } );
+            // Get like and share by m.facebook.com ( Note: When use browser facebook.com which must get ajax link )
+            option = {
+              "method": "GET",
+              "url": mpost( id ),
+              "headers": {
+                "User-Agent": agent,
+                "Cookie": cookie,
+                "Accept": "/"
+              },
+              "form": {
+                "__user": findSubString( cookie, "c_user=", ";" ),
+                "fb_dtsg": token
+              }
+            };
 
-
-
-            console.log( images.filter( ( image ) => image !== undefined ) );
+            request( option, ( error, response, body ) => {
+              $ = cheerio.load( body );
+              fs.writeFile( "temp.html", body, ( error ) => {
+                if ( error ) {
+                  console.log( error );
+                }
+                console.log( "Successfully Written to File." );
+              } );
+            } );
 
             // fs.writeFile( "temp.html", $( "div.permalinkPost" ).find( "div.userContentWrapper" ).find( "a[rel*='theater']" ), ( error ) => {
             //   if ( error ) {
@@ -57,6 +69,17 @@ const cheerio = require( "cheerio" ),
             //   }
             //   console.log( "Successfully Written to File." );
             // } );
+            return resolve( {
+              "error": {
+                "code": 200,
+                "text": null
+              },
+              "results": {
+                "content": post,
+                "text": $( "div.permalinkPost" ).find( "div.userContentWrapper" ).find( "div.userContent" ).text(),
+                "images": images.filter( ( image ) => image !== undefined )
+              }
+            } );
           }
         }
         return resolve( {

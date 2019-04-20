@@ -10,6 +10,9 @@ module.exports = {
     )}/stories-keyword/stories-feed?tsid&source=pivot&pn=5`;
   },
   "post": ( id ) => {
-    return `https://www.facebook.com/${ id }`;
+    return `https://www.facebook.com/${id}`;
+  },
+  "mpost": ( id ) => {
+    return `https://m.facebook.com/${id}`;
   }
 };
