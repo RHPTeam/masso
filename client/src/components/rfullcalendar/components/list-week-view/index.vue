@@ -214,24 +214,22 @@
 
 <script>
 export default {
-  props: ["dayFullName", "monthName", "weekDays"],
+  props: [ "dayFullName", "monthName", "weekDays" ],
   methods: {
-    eventClick(name, time) {
+    eventClick( name, time ) {
       const dataEmmit = {
         name: name,
         time: time
       };
-      this.$emit("eventClick", dataEmmit);
+
+      this.$emit( "eventClick", dataEmmit );
     },
-    formatDate(d) {
-      const time = new Date(d);
-      return (
-        String(time.getDate()).padStart(2, "0") +
-        " " +
-        this.monthName[time.getMonth()] +
-        ", " +
-        time.getFullYear()
-      );
+    formatDate( d ) {
+      const time = new Date( d );
+
+      return `${String( time.getDate() ).padStart( 2, "0" )} ${
+        this.monthName[ time.getMonth() ]
+      }, ${time.getFullYear()}`;
     }
   }
 };

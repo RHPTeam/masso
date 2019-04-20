@@ -65,7 +65,7 @@
 import RcDayTimeGrid from "./day-time-grid/index";
 import RcWeekTimeGrid from "./week-time-grid/index";
 export default {
-  props: ["activeDay", "dayFullName", "timePoint", "view", "weekDays"],
+  props: [ "activeDay", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {
       showMorePopover: false,
@@ -74,8 +74,8 @@ export default {
     };
   },
   methods: {
-    eventClick(data) {
-      this.$emit("eventClick", data);
+    eventClick( data ) {
+      this.$emit( "eventClick", data );
     }
   },
   components: {

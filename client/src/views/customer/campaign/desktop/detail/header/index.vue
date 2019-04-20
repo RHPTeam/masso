@@ -77,10 +77,10 @@
 
 <script>
 export default {
-  props: ["view"],
+  props: [ "view" ],
   methods: {
-    updateCalendarView(val) {
-      this.$emit("updateCalendarView", val);
+    updateCalendarView( val ) {
+      this.$emit( "updateCalendarView", val );
     }
   }
 };

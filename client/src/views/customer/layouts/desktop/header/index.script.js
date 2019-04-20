@@ -1,9 +1,10 @@
+/* eslint-disable prettier/prettier */
 export default {
   data() {
     return {
       user: {
         imageAvatar: "",
-        name: "Đặng Yến",
+        name: "Yến Đặng",
         emai: "dangyen@gmail.com"
       },
       statusCollapse: false,
@@ -24,12 +25,12 @@ export default {
 
   methods: {
     async logOut() {
-      await this.$store.dispatch("logOut");
-      this.$router.push("/signin");
+      await this.$store.dispatch( "logOut" );
+      this.$router.push( "/signin" );
     },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
-      this.$store.dispatch("changeMenu", this.statusCollapse);
+      this.$store.dispatch( "changeMenu", this.statusCollapse );
     },
     showDropdown: function() {
       this.showdropdown = !this.showdropdown;
@@ -40,8 +41,8 @@ export default {
   },
 
   filters: {
-    getFirstLetter(string) {
-      return string.charAt(0).toUpperCase();
+    getFirstLetter( string ) {
+      return string.charAt( 0 ).toUpperCase();
     }
   }
 };

@@ -48,7 +48,7 @@ export default {
     };
   },
   methods: {
-    openEventPopup(data) {
+    openEventPopup( data ) {
       this.eventSelected = data;
       this.isOpenEventPopup = true;
     }

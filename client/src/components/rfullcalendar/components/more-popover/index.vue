@@ -65,10 +65,10 @@
 
 <script>
 export default {
-  props: ["leftVal", "rightVal", "topVal"],
+  props: [ "leftVal", "rightVal", "topVal" ],
   methods: {
     closeMorePopover() {
-      this.$emit("closeMorePopover", false);
+      this.$emit( "closeMorePopover", false );
     }
   }
 };

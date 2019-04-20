@@ -40,7 +40,7 @@ import EventModalBodyCustom from "./body-custom";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
-  props: ["eventData"],
+  props: [ "eventData" ],
   data() {
     return {
       activeColor: { name: "orange", code: "#FFB94A" },
@@ -56,8 +56,8 @@ export default {
     };
   },
   methods: {
-    closePopup(data) {
-      this.$emit("closePopup", data);
+    closePopup( data ) {
+      this.$emit( "closePopup", data );
     }
   },
   components: {

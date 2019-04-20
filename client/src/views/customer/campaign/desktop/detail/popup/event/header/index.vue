@@ -108,7 +108,7 @@
 
 <script>
 export default {
-  props: ["activeColor", "autopost", "colors", "eventData"],
+  props: [ "activeColor", "autopost", "colors", "eventData" ],
   data() {
     return {
       isShowColorDropdown: false
@@ -116,14 +116,14 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit("closePopup", false);
+      this.$emit( "closePopup", false );
     },
-    changeColor(color) {
-      this.$emit("changeColor", color);
+    changeColor( color ) {
+      this.$emit( "changeColor", color );
       this.isShowColorDropdown = false;
     },
-    updateAutopost(val) {
-      this.$emit("updateAutopost", val);
+    updateAutopost( val ) {
+      this.$emit( "updateAutopost", val );
     }
   }
 };

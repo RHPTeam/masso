@@ -85,7 +85,7 @@
 import RcWeekRow from "./week-row/index";
 import RcMorePopover from "../more-popover/index";
 export default {
-  props: ["monthDays"],
+  props: [ "monthDays" ],
   data() {
     return {
       showMorePopover: false,
@@ -95,8 +95,8 @@ export default {
     };
   },
   methods: {
-    eventClick(data) {
-      this.$emit("eventClick", data);
+    eventClick( data ) {
+      this.$emit( "eventClick", data );
     }
   },
   components: {

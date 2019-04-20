@@ -31,7 +31,7 @@
 
 <script>
 export default {
-  props: ["filterList", "filterSelected"],
+  props: [ "filterList", "filterSelected" ],
   data() {
     return {
       showFilterDropdown: false
@@ -41,9 +41,9 @@ export default {
     closeFilterDropdown() {
       this.showFilterDropdown = false;
     },
-    updateFilterSelected(data) {
+    updateFilterSelected( data ) {
       this.filterSelected = data;
-      this.$emit("updateFilterSelected", data);
+      this.$emit( "updateFilterSelected", data );
     }
   }
 };

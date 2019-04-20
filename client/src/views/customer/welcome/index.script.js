@@ -1,3 +1,5 @@
+/* eslint-disable global-require */
+/* eslint-disable prettier/prettier */
 import IconBase from "@/components/icons/IconBase";
 import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconAccount from "@/components/icons/IconAccount";
@@ -7,15 +9,15 @@ export default {
     return {
       showdropdown: false,
       avatar: "",
-      imagePage: require("@/assets/images/zinbee-logo-orange.png"),
+      imagePage: require( "@/assets/images/zinbee-logo-orange.png" ),
       tools: [
         {
           name: "Zinbee Chat",
-          icon: require("@/assets/images/zinbee-chat-icon.svg")
+          icon: require( "@/assets/images/zinbee-chat-icon.svg" )
         },
         {
           name: "Zinbee Post",
-          icon: require("@/assets/images/zinbee-post-icon.svg")
+          icon: require( "@/assets/images/zinbee-post-icon.svg" )
         }
       ]
     };
@@ -27,7 +29,7 @@ export default {
     IconLogout
   },
   methods: {
-    showDropdown: function() {
+    showDropdown() {
       this.showdropdown = !this.showdropdown;
     },
     closeDropdownUser() {
