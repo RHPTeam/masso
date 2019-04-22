@@ -18,12 +18,6 @@ const resetPassword = {
       path: "step-3",
       name: "step3",
       component: () => import( "@/views/customer/resetpassword/components/step3" )
-    },
-    {
-      path: "finish-reset",
-      name: "finish-reset",
-      component: () =>
-        import( "@/views/customer/resetpassword/components/finish" )
     }
   ]
 };

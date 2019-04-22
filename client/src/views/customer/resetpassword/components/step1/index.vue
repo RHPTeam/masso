@@ -31,6 +31,7 @@
     >
       <div class="icon position_absolute">
         <icon-base
+          class="ic--evelope"
           icon-name="envelope"
           width="20.554"
           height="15.713"
@@ -50,7 +51,7 @@
       {{ errorText }}
     </div>
     <div>
-      <button class="btn btn_primary form_control">
+      <button class="btn form_control">
         Gửi mã
       </button>
     </div>

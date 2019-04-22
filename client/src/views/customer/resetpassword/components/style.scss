@@ -57,7 +57,17 @@ form {
     transform: translateY(-50%);
     svg {
       color: #999999;
+    }
+    .ic--evelope {
       vertical-align: text-top;
+    }
+    .ic--lock, .ic--lock-check {
+      vertical-align: top;
+    }
+    .ic--security {
+      stroke: #999999;
+      stroke-width: .3;
+      vertical-align: unset;
     }
   }
   .form_group {
@@ -97,7 +107,12 @@ form {
     &:active {
       background: #ff9e4a;
       border-color: #ff9e4a;
+      box-shadow: none;
+      color: #ffffff;
     }
+  }
+  .password--comfirm {
+    margin-top: 2.25rem;
   }
   .link--custom {
     a {

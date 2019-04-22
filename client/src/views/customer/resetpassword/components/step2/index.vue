@@ -31,9 +31,15 @@
       }"
     >
       <div class="icon position_absolute">
-        <icon-base icon-name="security" viewBox="0 0 20 20"
-          ><icon-security
-        /></icon-base>
+        <icon-base
+          class="ic--security"
+          icon-name="security"
+          width="22"
+          height="22"
+          viewBox="0 0 20 20"
+        >
+          <icon-security />
+        </icon-base>
       </div>
       <input
         type="text"
@@ -43,7 +49,7 @@
       />
     </div>
     <div class="text--error">{{ errorText }}</div>
-    <button class="btn btn_primary form_control">Tiếp theo</button>
+    <button class="btn form_control">Tiếp theo</button>
     <div class="form--redirect mb_1"><a href="#">Trở lại</a></div>
   </form>
 </template>
