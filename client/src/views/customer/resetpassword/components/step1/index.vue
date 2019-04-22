@@ -1,6 +1,6 @@
 <template>
   <form @submit.prevent="sendMail" class="text_center">
-    <div class="form--reset-logo">
+    <div class="form--reset-logo mb_5">
       <icon-base
         icon-name="logo"
         width="210.21"
@@ -10,8 +10,8 @@
         <icon-logo />
       </icon-base>
     </div>
-    <h3 class="">Đặt lại mật khẩu</h3>
-    <div class="form--reset-title">
+    <h3 class="mb_4">Đặt lại mật khẩu</h3>
+    <div class="form--reset-title mb_3">
       Nhập địa chỉ email tài khoản Zinbee của bạn bên dưới.
     </div>
     <app-alert
@@ -23,7 +23,7 @@
       "
     />
     <div
-      class="form_group position_relative"
+      class="form_group position_relative mb_3"
       :class="{
         errors: statusClassError,
         passed: statusClassPassed
@@ -46,8 +46,14 @@
         v-model="email"
       />
     </div>
-    <div class="text--error">{{ errorText }}</div>
-    <button class="btn btn_primary form_control">Gửi mã</button>
+    <div class="text--error">
+      {{ errorText }}
+    </div>
+    <div>
+      <button class="btn btn_primary form_control">
+        Gửi mã
+      </button>
+    </div>
     <div class="mb_1 link--custom">
       <router-link to="/signin">Đăng nhập</router-link>
     </div>
@@ -55,5 +61,5 @@
 </template>
 <script src="./main.js"></script>
 <style lang="scss" scoped>
-@import "./style";
+@import "../style";
 </style>

@@ -6,15 +6,31 @@ form {
   h3 {
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
-    margin: 3rem 0 2rem 0;
+  }
+  .form--reset-img {
+    img {
+      border-radius: 50%;
+    }
+    h4 {
+      color: #444444;
+      font-size: .95rem;
+      font-weight: 600;
+      font-family: "Open Sans", sans-serif;
+      margin-bottom: 1rem;
+      margin-top: .5rem;
+    }
   }
   .form--reset-logo {
-    margin-top: .5rem;
     margin-left: -24px;
   }
   .form--reset-title {
     font-size: .95rem;
     margin-bottom: 1rem;
+  }
+  .form--redirect {
+    a {
+      color: #999999;
+    }
   }
   input {
     border-radius: .625rem;
@@ -73,7 +89,8 @@ form {
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
     height: 46px;
-    margin: 2.5rem 0 4rem;
+    margin-top: 2.5rem;
+    margin-bottom: 4rem;
     text-transform: uppercase;
     &:hover,
     &:focus,
