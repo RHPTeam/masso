@@ -21,16 +21,20 @@
               <img
                 src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
                 alt
-              >
+              />
             </div>
             <div class="image--wrap position_relative mr_2">
               <img
                 src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
                 alt
-              >
+              />
             </div>
             <div class="image--wrap position_relative">
-              <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+              <div
+                class="image--wrap-more d_flex align_items_center justify_content_center"
+              >
+                +2
+              </div>
             </div>
           </div>
         </div>
@@ -40,12 +44,12 @@
         <div class="col col--action px_3 text_center">
           <span class="mx_1">
             <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-              <icon-edit/>
+              <icon-edit />
             </icon-base>
           </span>
           <span class="mx_1" @click="openPopupDetail()">
             <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-              <icon-info/>
+              <icon-info />
             </icon-base>
           </span>
         </div>
@@ -63,16 +67,20 @@
               <img
                 src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
                 alt
-              >
+              />
             </div>
             <div class="image--wrap position_relative mr_2">
               <img
                 src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
                 alt
-              >
+              />
             </div>
             <div class="image--wrap position_relative">
-              <div class="image--wrap-more d_flex align_items_center justify_content_center">+2</div>
+              <div
+                class="image--wrap-more d_flex align_items_center justify_content_center"
+              >
+                +2
+              </div>
             </div>
           </div>
         </div>
@@ -82,12 +90,12 @@
         <div class="col col--action px_3 text_center">
           <span class="mx_1">
             <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-              <icon-edit/>
+              <icon-edit />
             </icon-base>
           </span>
           <span class="mx_1">
             <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-              <icon-info/>
+              <icon-info />
             </icon-base>
           </span>
         </div>
@@ -100,20 +108,17 @@
       />
     </transition>
     <transition name="fade">
-      <div
-        v-if="showDetail == true"
-        class="backdrop position_fixed"
-      ></div>
+      <div v-if="showDetail == true" class="backdrop position_fixed"></div>
     </transition>
   </div>
 </template>
 
 <script>
-import PopupDetail from "../detail/index";
+import PopupDetail from "../popup/detail/index";
 export default {
   data() {
     return {
-      showDetail: false,
+      showDetail: false
     };
   },
   components: {
@@ -122,7 +127,7 @@ export default {
   methods: {
     openPopupDetail() {
       this.showDetail = true;
-    }   
+    }
   }
 };
 </script>
