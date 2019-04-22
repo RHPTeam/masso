@@ -32,7 +32,7 @@ export default {
   methods: {
     async sendPassword() {
       await this.$store.dispatch( "newPassword", this.reset.password );
-      this.$router.push( "/login" );
+      this.$router.push( "/signin" );
     }
   },
   watch: {

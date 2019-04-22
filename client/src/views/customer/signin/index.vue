@@ -1,59 +1,69 @@
 <template>
   <div
-    class="login ct_f p_0 position_relative"
+    class="main ct_f p_0 position_relative"
     :style="{ backgroundImage: 'url(' + srcDefaultLogin + ')' }"
   >
-    <div class="login--above position_absolute"></div>
+    <div class="main--above position_absolute"></div>
     <div class="r m_0">
-      <div class="c_12 c_md_12 c_xl_8 p_0 login--video d_none d_xl_block">
+      <!-- Start: Intro Video -->
+      <div class="c_12 c_md_12 c_xl_8 p_0 main--video d_none d_xl_block">
         <app-intro-video />
       </div>
-      <div class="c_12 c_md_12 c_xl_4 p_0 login--form">
+      <!-- End: Intro Video -->
+      <!-- Start: Main Form -->
+      <div class="c_12 c_md_12 c_xl_4 p_0 main--form">
         <div
           class="form--wrap m_auto d_flex flex_column justify_content_center align_items_center"
         >
-          <div class="login--logo">
-            <icon-base
-              icon-name="logo"
-              width="210.21"
-              height="78.65"
-              viewBox="0 0 250.446 93.703"
-            >
-              <icon-logo />
-            </icon-base>
+          <!-- Start: Form Header -->
+          <div class="from--header">
+            <div class="header--logo">
+              <icon-base
+                icon-name="logo"
+                width="210.21"
+                height="78.65"
+                viewBox="0 0 250.446 93.703"
+              >
+                <icon-logo />
+              </icon-base>
+            </div>
+            <!-- Start: Alert -->
+            <app-alert
+              :type="
+                this.$store.getters.statusResetPassword ? 'alert_success' : ''
+              "
+              :message="
+                this.$store.getters.statusResetPassword
+                  ? 'Bạn đã đặt lại mật khẩu thành công!'
+                  : ''
+              "
+            />
+            <app-alert
+              :type="
+                this.$store.getters.authStatus == '401' ? 'alert_danger' : ''
+              "
+              :message="
+                this.$store.getters.authStatus == '401'
+                  ? 'Tài khoản email hoặc mật khẩu không đúng!'
+                  : ''
+              "
+            />
+            <app-alert
+              :type="
+                this.$store.getters.authStatus == '405' ? 'alert_danger' : ''
+              "
+              :message="
+                this.$store.getters.authStatus == '405'
+                  ? 'Tài khoản của bạn đã hết hạn hoặc bị ngừng truy cập!'
+                  : ''
+              "
+            />
+            <!-- End: Alert -->
+            <h3 class="title text_center">Đăng nhập</h3>
           </div>
-          <app-alert
-            :type="
-              this.$store.getters.statusResetPassword ? 'alert_success' : ''
-            "
-            :message="
-              this.$store.getters.statusResetPassword
-                ? 'Bạn đã đặt lại mật khẩu thành công!'
-                : ''
-            "
-          />
-          <app-alert
-            :type="
-              this.$store.getters.authStatus == '401' ? 'alert_danger' : ''
-            "
-            :message="
-              this.$store.getters.authStatus == '401'
-                ? 'Tài khoản email hoặc mật khẩu không đúng!'
-                : ''
-            "
-          />
-          <app-alert
-            :type="
-              this.$store.getters.authStatus == '405' ? 'alert_danger' : ''
-            "
-            :message="
-              this.$store.getters.authStatus == '405'
-                ? 'Tài khoản của bạn đã hết hạn hoặc bị ngừng truy cập!'
-                : ''
-            "
-          />
-          <h3 class="title">Đăng nhập</h3>
-          <form @submit.prevent="signIn">
+          <!-- End: Form Header -->
+          <!-- Start: Form Body -->
+          <form @submit.prevent="signIn" class="form--body">
             <div
               class="form_group position_relative"
               :class="{
@@ -111,7 +121,7 @@
               >Quên mật khẩu?</router-link
             >
             <div class="form--action">
-              <button type="submit" class="btn btn--login">
+              <button type="submit" class="btn btn--submit">
                 {{
                   this.$store.getters.authStatus === "loading"
                     ? "Đang đăng nhập..."
@@ -120,16 +130,20 @@
               </button>
             </div>
           </form>
+          <!-- End: Form Body -->
+          <!-- Start: Form Footer -->
           <div class="form--footer text_left">
             <div class="form--footer-note">
               <span
                 >Bạn chưa có tài khoản?
-                <router-link to="/register">Đăng ký ngay</router-link>
+                <router-link to="/signup">Đăng ký ngay</router-link>
               </span>
             </div>
           </div>
+          <!-- End: Form Footer -->
         </div>
       </div>
+      <!-- End: Main Form -->
     </div>
   </div>
 </template>

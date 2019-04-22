@@ -1,47 +1,59 @@
 <template>
   <div
-    class="login ct_f p_0 position_relative"
+    class="main ct_f p_0 position_relative"
     :style="{ backgroundImage: 'url(' + srcDefaultSinup + ')' }"
   >
-    <div class="login--above position_absolute"></div>
+    <div class="main--above position_absolute"></div>
     <div class="r m_0">
-      <div class="c_12 c_md_12 c_xl_8 p_0 login--video d_none d_xl_block">
+      <!-- Start: Intro Video -->
+      <div class="c_12 c_md_12 c_xl_8 p_0 main--video d_none d_xl_block">
         <app-intro-video />
       </div>
-      <div class="c_12 c_md_12 c_xl_4 p_0 login--form">
+      <!-- End: Intro Video -->
+      <!-- Start: Main Form -->
+      <div class="c_12 c_md_12 c_xl_4 p_0 main--form">
         <div
           class="form--wrap m_auto d_flex flex_column justify_content_center align_items_center"
         >
-          <div class="login--logo">
-            <icon-base
-              icon-name="logo"
-              width="210.21"
-              height="78.65"
-              viewBox="0 0 250.446 93.703"
-            >
-              <icon-logo />
-            </icon-base>
+          <!-- Start: Form Header -->
+          <div class="form--header">
+            <div class="header--logo">
+              <icon-base
+                icon-name="logo"
+                width="210.21"
+                height="78.65"
+                viewBox="0 0 250.446 93.703"
+              >
+                <icon-logo />
+              </icon-base>
+            </div>
+            <!-- Start: Alert -->
+            <app-alert
+              :type="
+                this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
+              "
+              :message="
+                this.$store.getters.authStatus == 'error'
+                  ? this.$store.getters.textAuth
+                  : ''
+              "
+            />
+            <app-alert
+              :type="
+                this.$store.getters.textAuth == '404' ? 'alert_danger' : ''
+              "
+              :message="
+                this.$store.getters.textAuth == '404'
+                  ? 'Số điện thoại hoặc email đã tồn tại'
+                  : ''
+              "
+            />
+            <!-- End: Alert -->
+            <h3 class="title text_center">Đăng kí</h3>
           </div>
-          <app-alert
-            :type="
-              this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
-            "
-            :message="
-              this.$store.getters.authStatus == 'error'
-                ? this.$store.getters.textAuth
-                : ''
-            "
-          />
-          <app-alert
-            :type="this.$store.getters.textAuth == '404' ? 'alert_danger' : ''"
-            :message="
-              this.$store.getters.textAuth == '404'
-                ? 'Số điện thoại hoặc email đã tồn tại'
-                : ''
-            "
-          />
-          <h3 class="title">Đăng kí</h3>
-          <form @submit.prevent="submit">
+          <!-- End: Form Header -->
+          <!-- Start: Form Body -->
+          <form @submit.prevent="submit" class="form--body">
             <div
               class="form_group position_relative"
               :class="{
@@ -212,7 +224,7 @@
             </div>
             <div class="text--error">{{ errorText.confirmPassword }}</div>
             <div class="form--action action--register">
-              <button type="submit" class="btn btn--login">
+              <button type="submit" class="btn btn--submit">
                 {{
                   this.$store.getters.authStatus === "loading"
                     ? "Đang đăng ký..."
@@ -221,16 +233,20 @@
               </button>
             </div>
           </form>
+          <!-- Start: Form Body -->
+          <!-- Start: Form Footer -->
           <div class="form--footer text_left">
             <div class="form--footer-note">
               <span
                 >Bạn đã có tài khoản?
-                <router-link to="/login">Đăng nhập</router-link>
+                <router-link to="/signin">Đăng nhập</router-link>
               </span>
             </div>
           </div>
+          <!-- End: Form Body -->
         </div>
       </div>
+      <!-- End: Main Form -->
     </div>
   </div>
 </template>
@@ -238,5 +254,5 @@
 <script src="./main.js"></script>
 
 <style lang="scss" scoped>
-@import "../login/style";
+@import "../signin/style";
 </style>

@@ -78,7 +78,7 @@
     <button class="btn form_control">
       Xác nhận
     </button>
-    <div class="mb_1 link--custom"><a href="/login">Đăng nhập</a></div>
+    <div class="mb_1 link--custom"><a href="/signin">Đăng nhập</a></div>
   </form>
 </template>
 <script src="./main.js"></script>
