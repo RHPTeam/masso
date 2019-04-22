@@ -18,12 +18,15 @@ Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
 Vue.component( "IconDelete", () => import( "@/components/icons/IconDelete" ) );
 Vue.component( "IconEdit", () => import( "@/components/icons/IconEdit" ) );
+Vue.component( "IconEnvelope", () => import( "@/components/icons/IconEnvelope" ) );
 Vue.component( "IconFriend", () => import( "@/components/icons/IconFriend" ) );
 Vue.component( "IconHome", () => import( "@/components/icons/IconHome" ) );
 Vue.component( "IconInputSearch", () =>
   import( "@/components/icons/IconInputSearch" )
 );
 Vue.component( "IconLibs", () => import( "@/components/icons/IconLibs" ) );
+Vue.component( "IconLock", () => import( "@/components/icons/IconLock" ) );
+Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
 Vue.component( "IconRemove", () => import( "@/components/icons/IconRemove" ) );

@@ -1,5 +1,5 @@
-/* eslint-disable global-require */
 /* eslint-disable prettier/prettier */
+/* eslint-disable global-require */
 /** When your routing table is too long, you can split it into small modules**/
 
 const generalRouter = {

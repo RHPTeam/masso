@@ -17,11 +17,11 @@
         </icon-base>
       </div>
       <router-link
-      class="header--button ml_4"
-      tag="button"
-      :to="{ name: 'post/create' }"
-      >Viết bài mới</router-link
-    >
+        class="header--button ml_4"
+        tag="button"
+        :to="{ name: 'post/create' }"
+        >Viết bài mới</router-link
+      >
     </div>
     <div class="header--right">
       <div
