@@ -13,22 +13,7 @@
     <!-- End: Desktop Component-->
   </div>
 </template>
-<script>
-import AppHeader from "@/views/customer/layouts/desktop/header";
-import AppSidebar from "@/views/customer/layouts/desktop/sidebar";
-
-export default {
-  components: {
-    AppHeader,
-    AppSidebar
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
 .wrapper {

@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" :data-theme="currentTheme">
     <div class="list--header">
       <h5 class="list--header-title mb_3">Bài viết mẫu nhiều tương tác</h5>
       <span class="list--header-description"
@@ -43,6 +43,11 @@
 <script>
 import AppList from "./table/index";
 export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   components: {
     AppList
   }
@@ -62,7 +67,6 @@ export default {
   }
 }
 .list--input {
-  background-color: #fff;
   border-radius: 10px;
   font-size: 0.875rem;
   height: 40px;
@@ -71,6 +75,8 @@ export default {
   min-width: 300px;
   > input[type="text"] {
     background-color: transparent;
+    border-top-right-radius: calc(0.5rem + 2px);
+    border-bottom-right-radius: calc(0.5rem + 2px);
     border: 0;
     font-size: 0.875rem;
     height: 100%;
@@ -100,10 +106,46 @@ export default {
 .list--keywork {
   &-item {
     background-color: #ffb94a;
+    border: 1px solid #ffb94a;
     border-radius: 5px;
+    cursor: pointer;
     color: #fff;
     font-size: 0.75rem;
     font-weight: 500;
+    &:hover,
+    &:active,
+    &:visited,
+    &:focus {
+      background-color: transparent;
+      border: 1px solid #ffb94a;
+      color: #ffb94a;
+      transition: all 0.5s ease;
+    }
+  }
+}
+// CHANGE COLOR THEME
+.list[data-theme="light"] {
+  .list--header {
+    color: #444444;
+  }
+  .list--input {
+    background-color: #ffffff;
+    input[type="text"] {
+      background: #ffffff;
+      color: #000;
+    }
+  }
+}
+.list[data-theme="dark"] {
+  .list--header {
+    color: #ccc;
+  }
+  .list--input {
+    background-color: #27292d;
+    input[type="text"] {
+      background: #27292d;
+      color: #ccc;
+    }
   }
 }
 </style>

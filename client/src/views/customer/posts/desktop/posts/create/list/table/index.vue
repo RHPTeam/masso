@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :data-theme="currentTheme">
     <div class="list--data my_3">
       <div class="item--header d_flex align_items_center px_2 py_2">
         <div class="col col--content px_3">Nội dung</div>
@@ -120,6 +120,11 @@ export default {
     return {
       showDetail: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   components: {
     PopupDetail
@@ -317,6 +322,28 @@ export default {
     .col--image {
       display: none;
     }
+  }
+}
+//CHANGE COLOR THEME
+
+// THEME lIGHT
+.wrapper[data-theme="light"] {
+  .item--header {
+    background-color: #ffffff;
+  }
+  .item--body {
+    background-color: #fafafa;
+  }
+}
+
+// THEME DARK
+.wrapper[data-theme="dark"] {
+  .item--header {
+    background-color: #27292d;
+    border-bottom: 1px solid #666;
+  }
+  .item--body {
+    background-color: #27292d;
   }
 }
 </style>
