@@ -1,0 +1,98 @@
+form {
+  font-family: "Open Sans", sans-serif;
+  a {
+    text-transform: uppercase;
+  }
+  h3 {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    margin: 3rem 0 2rem 0;
+  }
+  .form--reset-logo {
+    margin-top: .5rem;
+    margin-left: -24px;
+  }
+  .form--reset-title {
+    font-size: .95rem;
+    margin-bottom: 1rem;
+  }
+  input {
+    border-radius: .625rem;
+    height: 46px !important;
+    font-size: .95rem;
+    line-height: 46px;
+    padding-left: 44px;
+    outline: none;
+    transition: all 0.4s ease;
+    &:focus,
+    &:active,
+    &:visited {
+      outline: none;
+      box-shadow: none;
+      border-color: #ffb94a;
+    }
+    &::placeholder {
+      color: #cccccc;
+    }
+  }
+  .icon {
+    left: 15px;
+    top: 57%;
+    transform: translateY(-50%);
+    svg {
+      color: #999999;
+      vertical-align: text-top;
+    }
+  }
+  .form_group {
+    &.errors {
+      input, .error--text {
+        border: 1px solid red;
+        color: red;
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+    &.passed {
+      input, .error--text {
+        border: 1px solid #42b983;
+        color: #42b983
+      }
+      .error--text {
+        border: 0;
+      }
+    }
+  }
+  button {
+    background: #ffb94a;
+    border-color: #ffb94a;
+    border-radius: .625rem;
+    color: #fff;
+    font-size: .95rem;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    height: 46px;
+    margin: 2.5rem 0 4rem;
+    text-transform: uppercase;
+    &:hover,
+    &:focus,
+    &:active {
+      background: #ff9e4a;
+      border-color: #ff9e4a;
+    }
+  }
+  .link--custom {
+    a {
+      &:hover {
+        color: #007bff;
+      }
+    }
+  }
+  .text--error {
+    font-size: 13px;
+    text-align: left;
+    color: red;
+    margin: -10px 0 -28px;
+  }
+}

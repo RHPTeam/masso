@@ -10,7 +10,7 @@
       </div>
       <div class="c_12 c_md_12 c_xl_4 p_0 login--form">
         <div
-          class="form-wrap m_auto d_flex flex_column justify_content_center align_items_center"
+          class="form--wrap m_auto d_flex flex_column justify_content_center align_items_center"
         >
           <div class="login--logo">
             <icon-base
