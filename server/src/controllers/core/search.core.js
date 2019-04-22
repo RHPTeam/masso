@@ -23,7 +23,7 @@ const cheerio = require( "cheerio" ),
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          let $ = cheerio.load( body ), postID, results = [], linkcallback = $( "div#see_more_pager" ).find( "a" ).attr( "href" );
+          let $ = cheerio.load( body ), results = [], linkcallback = $( "div#see_more_pager" ).find( "a" ).attr( "href" );
 
           fs.writeFile( "temp.html", body, ( error ) => {
             if ( error ) {
