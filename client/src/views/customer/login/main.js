@@ -9,15 +9,12 @@ import SecureFunction from "@/utils/secure.util";
 export default {
   data() {
     return {
-      user: {
-        email: "",
-        password: ""
-      },
-      statusFinishForm: false,
       errorText: {
         email: "",
         password: ""
       },
+      srcDefaultLogin: require( "@/assets/images/images-login.jpg" ),
+      statusFinishForm: false,
       statusClassError: {
         email: false,
         password: false
@@ -26,7 +23,10 @@ export default {
         email: false,
         password: false
       },
-      srcDefaultLogin: require( "@/assets/images/images-login.jpg" )
+      user: {
+        email: "",
+        password: ""
+      }
     };
   },
 

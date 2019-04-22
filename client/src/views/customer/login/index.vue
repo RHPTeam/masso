@@ -124,7 +124,7 @@
             <div class="form--footer-note">
               <span
                 >Bạn chưa có tài khoản?
-                <router-link to="/signup">Đăng ký ngay</router-link>
+                <router-link to="/register">Đăng ký ngay</router-link>
               </span>
             </div>
           </div>

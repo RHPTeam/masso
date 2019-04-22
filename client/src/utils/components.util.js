@@ -26,14 +26,18 @@ Vue.component( "IconInputSearch", () =>
 );
 Vue.component( "IconLibs", () => import( "@/components/icons/IconLibs" ) );
 Vue.component( "IconLock", () => import( "@/components/icons/IconLock" ) );
-Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
+Vue.component( "IconLockCheck", () => import( "@/components/icons/IconLockCheck" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
+Vue.component( "IconPhone", () => import( "@/components/icons/IconPhone" ) );
 Vue.component( "IconRemove", () => import( "@/components/icons/IconRemove" ) );
 Vue.component( "IconScript", () => import( "@/components/icons/IconScript" ) );
+Vue.component( "IconSecurity", () => import( "@/components/icons/IconSecurity" ) );
 Vue.component( "IconSortDown", () => import( "@/components/icons/IconSortDown" ) );
+Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 
 // Icon Logo
+Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
 Vue.component( "IconLogoShort", () =>
   import( "@/components/icons/IconLogoShort" )
 );
