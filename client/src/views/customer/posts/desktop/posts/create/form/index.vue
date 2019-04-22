@@ -1,16 +1,16 @@
 <template>
-  <div class="wrapper py_4 px_3">
+  <div class="wrapper py_4 px_3" :data-theme="currentTheme">
     <div class="item mb_4">
       <span>Tên bài viết</span>
-      <input type="text" placeholder="Nhập tên bài viết" />
+      <input type="text" class="input" placeholder="Nhập tên bài viết" />
     </div>
     <div class="item mb_4">
       <span>Nội dung</span>
-      <textarea placeholder="Nhập nội dung"></textarea>
+      <textarea class="input" placeholder="Nhập nội dung"></textarea>
     </div>
     <div class="item mb_4">
       <span>Thêm đường dẫn website hoặc youtube</span>
-      <input type="text" placeholder="Dán đường dẫn tại đây" />
+      <input class="input" type="text" placeholder="Dán đường dẫn tại đây" />
     </div>
     <div class="item mb_4">
       <span>Thêm hình ảnh</span>
@@ -66,12 +66,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
-  background-color: #ffffff;
   border-radius: 10px;
   .item {
     font-size: 14px;
@@ -180,6 +185,38 @@ export default {};
   .gallery {
     .gallery--block {
       width: 80px;
+    }
+  }
+}
+// CHANGE COLOR THEME
+
+// THEME LIGHT
+
+.wrapper[data-theme="light"] {
+  background-color: #ffffff;
+  .item {
+    span {
+      color: #000;
+    }
+    .input {
+      background-color: transparent;
+      border-color: #e4e4e4;
+    }
+  }
+}
+
+// THEME DARK
+
+.wrapper[data-theme="dark"] {
+  background-color: #2f3136;
+  .item {
+    span {
+      color: #cccccc;
+    }
+    .input {
+      background-color: #27292d;
+      border-color: #27292d;
+      color: #cccccc;
     }
   }
 }

@@ -31,7 +31,7 @@ export default {};
     background-color: transparent;
     border: 0;
     border-radius: 10px;
-    color: #666666;
+    color: #999999;
     cursor: pointer;
     font-size: 1rem;
     font-weight: 600;
@@ -41,7 +41,8 @@ export default {};
     transition: all 0.4s ease;
     &:hover,
     &.active {
-      background-color: #ffffff;
+      background-color: #ffb94a;
+      color: #ffffff;
     }
   }
 }

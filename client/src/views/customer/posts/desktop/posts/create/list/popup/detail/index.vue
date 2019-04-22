@@ -1,6 +1,7 @@
 <template>
   <div
     class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
+    :data-theme="currentTheme"
   >
     <div class="modal--content p_4">
       <VuePerfectScrollbar class="detail--scroll">
@@ -122,9 +123,14 @@
 
 <script>
 export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     closePopupDetail() {
-      this.$emit("closePopupDetail", false);
+      this.$emit( "closePopupDetail", false );
     }
   }
 };
@@ -242,5 +248,28 @@ export default {
 .popup-leave-to {
   transition: transform 0.75s;
   transform: translateY(-100%);
+}
+// CHANGE COLOR THEME
+
+//THEME LIGHT
+
+.modal--wrapper[data-theme="light"] {
+  .modal--content {
+    background-color: #ffffff;
+  }
+  .gallery {
+    background-color: #ffffff;
+  }
+}
+
+//THEME DARK
+
+.modal--wrapper[data-theme="dark"] {
+  .modal--content {
+    background-color: #27292d;
+  }
+  .gallery {
+    background-color: #27292d;
+  }
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="post--data my_3">
+  <div class="post--data my_3" :data-theme="currentTheme">
     <div class="item--header d_flex align_items_center px_3 py_2">
       <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
@@ -146,7 +146,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -304,6 +310,40 @@ export default {};
     .col--category {
       display: none !important;
     }
+  }
+}
+
+// CHANGE BACKGROUND COLOR THEME
+
+//LIGHT
+
+.post--data[data-theme="light"] {
+  .item--header {
+    background-color: #fff;
+  }
+  .item--body {
+    background-color: #fafafa;
+  }
+  .image--wrap-more {
+    background-color: #e4e4e4;
+    color: #999999;
+  }
+}
+
+//DARK
+
+.post--data[data-theme="dark"] {
+  .item--header {
+    background-color: #27292d;
+    color: #cccccc;
+  }
+  .item--body {
+    background-color: #27292c;
+    color: #999999;
+  }
+  .image--wrap-more {
+    background-color: #2f3136;
+    color: #999999;
   }
 }
 </style>

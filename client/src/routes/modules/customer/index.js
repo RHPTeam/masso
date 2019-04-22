@@ -1,5 +1,5 @@
-/* eslint-disable global-require */
 /* eslint-disable prettier/prettier */
+/* eslint-disable global-require */
 /** When your routing table is too long, you can split it into small modules**/
 
 const generalRouter = {
@@ -36,6 +36,16 @@ const generalRouter = {
     {
       path: "/campaigns",
       name: "campaigns",
+      component: require( "@/views/customer/campaigns" ).default
+    },
+    {
+      path: "/friends",
+      name: "f_friends",
+      component: require( "@/views/customer/campaigns" ).default
+    },
+    {
+      path: "/account",
+      name: "f_account",
       component: require( "@/views/customer/campaigns" ).default
     }
   ]
