@@ -1,6 +1,6 @@
 <template>
   <div class="rc--view rc--dayGridMonth-view rc--dayGrid-view">
-    <table class="">
+    <table class>
       <!-- Start: Month View Head -->
       <thead class="rc--head">
         <tr>

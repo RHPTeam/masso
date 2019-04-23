@@ -1,5 +1,5 @@
 <template>
-  <div class="category--new">
+  <div class="category--new" :data-theme="currentTheme">
     <div class="category--new-desc mb_3">Thêm danh mục mới</div>
     <div class="category--form py_4 px_3">
       <div class="item mb_4">
@@ -18,7 +18,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
@@ -74,6 +80,48 @@ export default {};
         background-color: transparent;
         color: #ffb94a;
       }
+    }
+  }
+}
+//CHANGE BACKGROUND COLOR THEME
+
+//LIGHT
+.category--new[data-theme="light"] {
+  .category--new-desc {
+    color: #444;
+  }
+  .category--form {
+    background-color: #fff;
+  }
+  .item {
+    > span {
+      color: #000;
+    }
+    input,
+    textarea {
+      background-color: #fff;
+      color: #444;
+    }
+  }
+}
+
+//DARK
+.category--new[data-theme="dark"] {
+  .category--new-desc {
+    color: #cccccc;
+  }
+  .category--form {
+    background-color: #27292d;
+  }
+  .item {
+    > span {
+      color: #cccccc;
+    }
+    input,
+    textarea {
+      background-color: #2f3136;
+      border-color: #2f3136;
+      color: #cccccc;
     }
   }
 }
