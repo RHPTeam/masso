@@ -1,5 +1,5 @@
 <template>
-  <div class="r">
+  <div class="r my_4">
     <!-- Start: Left Content -->
     <div class="c_sm_12 c_md_12 c_lg_4 or_1">
       <div class="right--content p_3">
@@ -18,6 +18,9 @@
       </div>
     </div>
     <!-- End: Right Content -->
+    <!--Start: Dropzone Component-->
+    <dropzone :status="isDropZone" @close="isDropZone = $event" />
+    <!--End: Dropzone Component-->
   </div>
 </template>
 

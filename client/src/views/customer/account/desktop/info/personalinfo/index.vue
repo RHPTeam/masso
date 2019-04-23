@@ -96,8 +96,28 @@
           </div>
         </div>
       </div>
-      <!--  End: Password-->
+      <!--  End: Password -->
     </form>
+    <!-- POPUP -->
+    <transition name="info--change">
+      <!-- Start: Popup info change -->
+      <popup-info-change
+        v-if="showPopupInfoChange === true"
+        :data-theme="currentTheme"
+        @closePopup="showPopupInfoChange = $event"
+      />
+      <!-- End: Popup info change -->
+    </transition>
+    <!-- Start: Popup password change -->
+    <transition name="popup">
+      <popup-password-change
+        v-if="showPopupPasswordChange === true"
+        :data-theme="currentTheme"
+        :reset="reset"
+        @closePopup="closeModalPassword($event)"
+      />
+      <!-- End: Popup password change -->
+    </transition>
   </div>
 </template>
 

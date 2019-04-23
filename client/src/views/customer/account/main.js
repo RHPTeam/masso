@@ -2,6 +2,7 @@
 /* eslint-disable global-require */
 import AppTop from "./desktop/top";
 import UserInfo from "./desktop/info";
+import UserKeywords from "./desktop/keywords";
 
 export default {
   data() {
@@ -17,6 +18,7 @@ export default {
   },
   components: {
     AppTop,
-    UserInfo
+    UserInfo,
+    UserKeywords
   }
 };

@@ -1,4 +1,7 @@
 /* eslint-disable prettier/prettier */
+import PopupInfoChange from "../../popup/infochange";
+import PopupPasswordChange from "../../popup/password";
+
 export default {
   props: [ "user" ],
   data() {
@@ -22,8 +25,8 @@ export default {
       },
       showCustomTheme: false,
       showModal: false,
-      showModalChangePassword: false,
-      showPopupChangeInfo: false,
+      showPopupPasswordChange: false,
+      showPopupInfoChange: false,
       statusClassError: {
         newPassword: false,
         confirmNewPassword: false
@@ -74,7 +77,7 @@ export default {
     },
     async closeModalPassword( event ) {
       await this.resetPasswordForm();
-      this.showModalChangePassword = event;
+      this.showPopupPasswordChange = event;
     },
     resetPasswordForm() {
       this.reset.newPassword = "";
@@ -83,10 +86,10 @@ export default {
   },
   watch: {
     "user.name"() {
-      this.showPopupChangeInfo = true;
+      this.showPopupInfoChange = true;
     },
     "user.phone"() {
-      this.showPopupChangeInfo = true;
+      this.showPopupInfoChange = true;
     },
     "reset.newPassword"( value ) {
       this.errorText.newPassword = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
@@ -110,12 +113,16 @@ export default {
         this.errorText.confirmNewPassword = "";
         this.statusClassError.confirmNewPassword = false;
         this.statusClassPassed.confirmNewPassword = true;
-        this.showModalChangePassword = true;
+        this.showPopupPasswordChange = true;
       } else if ( value.length === 0 ) {
         this.errorText.confirmNewPassword = "";
         this.statusClassError.confirmNewPassword = false;
         this.statusClassPassed.confirmNewPassword = false;
       }
     }
+  },
+  components: {
+    PopupInfoChange,
+    PopupPasswordChange
   }
 };

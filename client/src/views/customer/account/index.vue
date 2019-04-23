@@ -10,10 +10,13 @@
       <app-top :user="user" />
       <!-- End: Top -->
       <!-- Start: Content -->
-      <div class="main--content my_4">
+      <div class="main--content">
         <!-- Start: User Expire -->
         <user-info :user="user" />
         <!-- End: User Info -->
+        <!-- Start: User Keywords -->
+        <user-keywords :user="user" />
+        <!-- End: User Keywords -->
       </div>
       <!-- End: Content -->
     </div>
