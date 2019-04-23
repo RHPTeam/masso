@@ -84,7 +84,7 @@
               <p class="mb_0">{{ user.email }}</p>
             </div>
           </div>
-          <router-link class="dropdown--item" to="/">
+          <router-link class="dropdown--item" :to="{ name: 'account' }">
             <icon-base
               icon-name="account"
               width="20"
