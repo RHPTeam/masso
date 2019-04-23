@@ -86,7 +86,7 @@ module.exports = {
       accountResult = await Account.findById( userId );
 
     if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
     // check acount facebook using cookie is exist
     const foundAccountCookie = await Facebook.find( {
@@ -186,7 +186,7 @@ module.exports = {
     const accountResult = await Account.findById( userId );
 
     if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
     const fbResult = await Facebook.findOne( { "_id": req.query._fbId } );
 
@@ -269,12 +269,12 @@ module.exports = {
     const accountResult = await Account.findById( userId );
 
     if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
     const fbResult = await Facebook.findOne( { "_id": req.query._fbId } );
 
     if ( !fbResult ) {
-      res.status( 403 ).json( jsonResponse( "Thuộc tính này không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Thuộc tính này không tồn tại!", null ) );
     }
     if ( fbResult._account.toString() !== userId ) {
       return res
@@ -303,7 +303,7 @@ module.exports = {
     const accountResult = await Account.findById( userId );
 
     if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
     const foundAccountFb = await Facebook.findById( req.query._fbId );
 
@@ -370,7 +370,7 @@ module.exports = {
     const accountResult = await Account.findById( userId );
 
     if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
     const foundAccountFb = await Facebook.findById( req.query._fbId );
 
