@@ -8,11 +8,15 @@
     box-sizing: border-box;
   }
   .rhp-datepicker__calendar {
+    color: #333333;
     position: absolute;
+    top: 111%;
     z-index: 100;
     background: #fff;
-    width: 300px;
+    width: 330px;
     border: 1px solid #ccc;
+    border-radius: calc(.5rem + 2px);
+    padding: .5rem;
     header {
       display: block;
       line-height: 40px;
@@ -90,12 +94,15 @@
     .cell:not(.blank):not(.disabled).day:hover,
     .cell:not(.blank):not(.disabled).month:hover,
     .cell:not(.blank):not(.disabled).year:hover {
-      border: 1px solid #4bd;
+      border: 1px solid #ffb94a;
+      border-radius: calc(.5rem + 2px);
     }
     .cell.selected,
     .cell.selected:hover,
     .cell.selected.highlighted {
-      background: #4bd;
+      background: #ffb94a;
+      border-radius: calc(.5rem + 2px);
+      color: #ffffff;
     }
     .cell.highlighted {
       background: #cae5ed;
@@ -111,6 +118,7 @@
     }
     .cell.day-header {
       font-size: 75%;
+      font-weight: 600;
       white-space: nowrap;
       cursor: inherit;
       &:hover {
