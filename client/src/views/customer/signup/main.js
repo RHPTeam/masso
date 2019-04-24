@@ -1,11 +1,14 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable global-require */
 import AppIntroVideo from "@/components/shared/introvideo";
 import AppAlert from "@/components/shared/alert";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      infoIP: null,
       confirmPassword: "",
       errorText: {
         name: "",
@@ -46,6 +49,16 @@ export default {
     AppAlert,
     AppIntroVideo
   },
+  async created() {
+    axios
+      .get( "http://ip-api.com/json" )
+      .then( ( response ) => {
+        this.infoIP = response.data;
+      } )
+      .catch( ( error ) => {
+        this.infoIP = "";
+      } );
+  },
   methods: {
     async submit() {
       if ( this.confirmPassword !== this.user.password ) {
@@ -62,7 +75,8 @@ export default {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
-          phone: this.user.phone
+          phone: this.user.phone,
+          ip: this.infoIP
         };
       } else {
         dataSender = {
@@ -70,7 +84,8 @@ export default {
           email: this.user.email,
           password: this.user.password,
           phone: this.user.phone,
-          presenter: this.user.presenter
+          presenter: this.user.presenter,
+          ip: this.infoIP
         };
       }
       const resData = await this.$store.dispatch( "signUp", dataSender );
@@ -78,7 +93,7 @@ export default {
       if ( resData === false ) {
         return;
       }
-      this.$router.go( "/" );
+      this.$router.push( "/welcome" );
     }
   },
   watch: {

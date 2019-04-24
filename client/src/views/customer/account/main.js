@@ -16,6 +16,14 @@ export default {
       }
     };
   },
+  // async created() {
+  //   await this.$store.dispatch( "getUserInfo" );
+  // },
+  computed: {
+    users() {
+      // console.log( this.$store.getters.user );
+    }
+  },
   components: {
     AppTop,
     UserInfo,
