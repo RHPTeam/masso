@@ -1,5 +1,5 @@
 <template>
-  <div class="main--header mb_3">
+  <div class="main--header mb_3" :data-theme="currentTheme">
     <!-- Start: Header Top -->
     <div class="r main--header-top">
       <div class="c_md_6 top--left">
@@ -8,7 +8,7 @@
       <div class="c_md_6 top--right">
         <div class="time--duration">
           <icon-base
-            class="ic--calendar mr_1"
+            class="ic--calendar mr_2"
             icon-name="menu"
             width="20"
             height="20"
@@ -78,6 +78,11 @@
 <script>
 export default {
   props: [ "view" ],
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );

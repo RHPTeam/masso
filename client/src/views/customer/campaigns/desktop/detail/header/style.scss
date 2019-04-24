@@ -1,5 +1,4 @@
 .main--header {
-  color: #444;
   .main--header-top {
     .top--left {
       .title {
@@ -11,7 +10,6 @@
       text-align: right;
       .time--duration {
         .ic--calendar {
-          color: #999;
           vertical-align: text-top;
         }
       }
@@ -42,9 +40,8 @@
     .acion--right {
       text-align: right;
       .btn--custom {
-        border: 1px solid #e4e4e4;
+        border: 1px solid;
         border-radius: 0;
-        color: #cccccc;
         font-size: 0.875rem;
         margin-left: -1px;
         transition: all 0.4 ease;
@@ -52,10 +49,6 @@
           border-top-left-radius: 0.5rem;
           border-bottom-left-radius: 0.5rem;
           margin-left: 0;
-        }
-        &:hover {
-          background-color: #fff;
-          color: #444;
         }
         &:last-child {
           border-top-right-radius: 0.625rem;
@@ -68,6 +61,32 @@
           box-shadow: none;
         }
       }
+    }
+  }
+}
+
+// Change Color
+.main--header[data-theme="light"] {
+  color: #444;
+  .main--header-top {
+    .top--right {
+      .time--duration {
+        .ic--calendar {
+          color: #999999;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    .acion--right {
+      .btn--custom {
+        border-color: #e4e4e4;
+        color: #cccccc; 
+        &:hover {
+          background-color: #fff;
+          color: #444;
+        }
+      }
       .view--active {
         background-color: #fff;
         color: #444;
@@ -76,43 +95,31 @@
   }
 }
 
-// Change Color
-// .main--header[data-theme="light"] {
-//   .main--header-top {
-//     .top--left {
-//       .title {
-//       }
-//     }
-//     .top--right {
-//     }
-//   }
-//   .main--header-action {
-//     .action--left {
-
-//     }
-//     .acion--right {
-//       .btn--custom {
-//       }
-//     }
-//   }
-// }
-
-// .main--header[data-theme="dark"] {
-//   .main--header-top {
-//     .top--left {
-//       .title {
-//       }
-//     }
-//     .top--right {
-//     }
-//   }
-//   .main--header-action {
-//     .action--left {
-
-//     }
-//     .acion--right {
-//       .btn--custom {
-//       }
-//     }
-//   }
-// }
+.main--header[data-theme="dark"] {
+  color: #f7f7f7;
+  .main--header-top {
+    .top--right {
+      .time--duration {
+        .ic--calendar {
+          color: #cccccc;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    .acion--right {
+      .btn--custom {
+        border-color: #444444;
+        color: #666666; 
+        &:hover {
+          background-color: #27292D;
+          color: #f7f7f7;
+        }
+      }
+      .view--active {
+        background-color: #27292D;
+        color: #f7f7f7;
+      }
+    }
+  }
+}

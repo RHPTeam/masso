@@ -5,6 +5,10 @@ import RcTimeGridView from "./components/views/time-grid-view/index";
 
 export default {
   props: {
+    theme: {
+      type: String,
+      default: "light"
+    },
     view: {
       type: String,
       default: "month"

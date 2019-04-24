@@ -4,10 +4,7 @@
       <thead class="rc--head">
         <tr>
           <td class="rc--head-container rc--widget-header">
-            <div
-              class="rc--row rc--widget-header"
-              style="border-right-width: 1px; margin-right: 16px;"
-            >
+            <div class="rc--row rc--widget-header">
               <table>
                 <thead>
                   <tr v-if="view === 'week'">

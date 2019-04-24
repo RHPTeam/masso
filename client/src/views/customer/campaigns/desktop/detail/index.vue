@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
@@ -17,6 +17,7 @@
         <!-- Start: FullCalendar -->
         <fullcalendar
           @eventClick="openEventPopup($event)"
+          :theme="currentTheme"
           :view="calendarView"
         />
         <!-- End: FullCalendar -->
@@ -46,6 +47,11 @@ export default {
       eventSelected: {},
       isOpenEventPopup: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     openEventPopup( data ) {
