@@ -28,6 +28,7 @@
               </icon-base>
             </div>
             <!-- Start: Alert -->
+            <!--Start: Notification change password success -->
             <app-alert
               :type="
                 this.$store.getters.statusResetPassword ? 'alert_success' : ''
@@ -38,6 +39,7 @@
                   : ''
               "
             />
+            <!--End: Notification change password success -->
             <app-alert
               :type="
                 this.$store.getters.authStatus == '401' ? 'alert_danger' : ''

@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-console */
 /* eslint-disable prettier/prettier */
 /* eslint-disable global-require */
 import AppIntroVideo from "@/components/shared/introvideo";
@@ -5,10 +7,12 @@ import AppAlert from "@/components/shared/alert";
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";
+import axios from "axios";
 
 export default {
   data() {
     return {
+      infoIP: null,
       errorText: {
         email: "",
         password: ""
@@ -29,10 +33,25 @@ export default {
       }
     };
   },
-
+  async created() {
+    axios
+      .get( "http://ip-api.com/json" )
+      .then( ( response ) => {
+        this.infoIP = response.data;
+      } )
+      .catch( ( error ) => {
+        this.infoIP = "";
+      } );
+  },
   methods: {
     async signIn() {
-      await this.$store.dispatch( "signIn", this.user );
+      const dataSender = {
+        email: this.user.email,
+        password: this.user.password,
+        ip: this.infoIP
+      };
+
+      await this.$store.dispatch( "signIn", dataSender );
       if (
         parseInt(
           SecureFunction.decodeRole( CookieFunction.getCookie( "cfr" ), 10 )
@@ -43,7 +62,7 @@ export default {
         ) {
           return;
         }
-        this.$router.go( "/" );
+        this.$router.push( "/welcome" );
       } else if (
         parseInt(
           SecureFunction.decodeRole( CookieFunction.getCookie( "cfr" ), 10 )
@@ -51,7 +70,7 @@ export default {
           SecureFunction.decodeRole( CookieFunction.getCookie( "cfr" ), 10 )
         ) === 2
       ) {
-        this.$router.go( "/admin" );
+        this.$router.push( "/admin" );
       }
     }
   },
@@ -64,7 +83,6 @@ export default {
       this.errorText.email = "Email không khả dụng cho định dạng!";
       this.statusClassError.email = true;
       this.statusClassPassed.email = false;
-
       if ( regexEmail.test( value.toLowerCase() ) ) {
         this.errorText.email = "";
         this.statusClassError.email = false;
@@ -79,7 +97,6 @@ export default {
       this.errorText.password = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
       this.statusClassError.password = true;
       this.statusClassPassed.password = false;
-      
       if ( value.length > 5 && value.length < 20 ) {
         this.errorText.password = "";
         this.statusClassError.password = false;
@@ -96,4 +113,3 @@ export default {
     AppIntroVideo
   }
 };
-
