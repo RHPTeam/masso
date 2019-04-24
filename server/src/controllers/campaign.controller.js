@@ -4,7 +4,7 @@
 /**
  * Controller campaign (profile) for project
  * author: hoc-anms
- * date up: 20/04/2019
+ * date up: 23/04/2019
  * date to: ___
  * team: BE-RHP
  */
