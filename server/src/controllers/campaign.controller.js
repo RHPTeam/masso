@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /**
- * Controller post (profile) for project
+ * Controller campaign (profile) for project
  * author: hoc-anms
  * date up: 20/04/2019
  * date to: ___
