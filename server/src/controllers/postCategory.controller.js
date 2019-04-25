@@ -46,9 +46,14 @@ module.exports = {
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
+      const findPost = await Post.find( { "_account": userId } );
+
       dataResponse = dataResponse.map( ( item ) => {
         if ( item._account.toString() === userId ) {
-          return item;
+
+          const num = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
+
+          return { "data": item, "num": num };
         }
       } );
     }
