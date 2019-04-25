@@ -80,12 +80,12 @@ export default {
   data() {
     return {
       categories: [ "Mỹ phẩm", "Du lịch", "Ăn uống", "Thể thao", "Làm đẹp", "Âm nhạc" ],
-      images: [ 
-        "https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350", 
+      images: [
+        "https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350",
         "https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg",
         "https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
       ]
-    }
+    };
   },
   computed: {
     currentTheme() {
