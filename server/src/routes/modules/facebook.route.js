@@ -1,5 +1,5 @@
 /**
- * Create route Role for project
+ * Create route facebook for project
  * author: hocpv
  * date: 22/04/2019
  * team: BE-RHP

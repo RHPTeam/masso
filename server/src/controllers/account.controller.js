@@ -13,9 +13,11 @@ const nodemailer = require( "nodemailer" ),
   CronJob = require( "cron" ).CronJob;
 const randomString = require( "randomstring" );
 const CONFIG = require( "../configs/server" );
+const dictionary = require( "../configs/dictionaries" );
 
 const Account = require( "../models/Account.model" );
 const Role = require( "../models/Role.model" );
+const PostCategory = require( "../models/PostCategory.model" );
 
 const jsonResponse = require( "../configs/res" );
 const checkPhone = require( "../helpers/utils/checkPhone.util" );
@@ -96,9 +98,13 @@ module.exports = {
       "imageAvatar": "",
       "_role": roleMember
     };
-
     const newUser = await new Account( objDefine );
     const sessionToken = await signToken( newUser );
+
+    // Create defaul post category for user
+    const defaultPostCategory = await new PostCategory( { "title": dictionary.DEFAULT_POSTCATEGORY } );
+    
+    await defaultPostCategory.save();
 
     await res.cookie( "sid", sessionToken, option );
     await res.cookie( "uid", newUser._id, option );

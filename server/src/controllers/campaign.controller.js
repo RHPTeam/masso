@@ -2,15 +2,14 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /**
- * Controller post (profile) for project
+ * Controller campaign (profile) for project
  * author: hoc-anms
- * date up: 20/04/2019
+ * date up: 23/04/2019
  * date to: ___
  * team: BE-RHP
  */
 const Account = require( "../models/Account.model" );
-const Post = require( "../models/Post.model" );
-const PostCategory = require( "../models/PostCategory.model" );
+const Campaign = require( "../models/Campaign.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
@@ -18,10 +17,10 @@ const decodeRole = require( "../helpers/utils/decodeRole.util" );
 
 module.exports = {
   /**
-   * Get post category (query or not)
+   * Get all (query)
    * @param req
    * @param res
-   * @returns {Promise<*|Promise<any>>}
+   * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
@@ -39,21 +38,16 @@ module.exports = {
     if (
       decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
     ) {
-      !req.query._id ? ( dataResponse = await PostCategory.find( { "_account": userId } ) ) : ( dataResponse = await PostCategory.find( {
+      !req.query._id ? ( dataResponse = await Campaign.find( { "_account": userId } ) ) : ( dataResponse = await Campaign.find( {
         "_id": req.query._id,
         "_account": userId
       } ) );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
-      const findPost = await Post.find( { "_account": userId } );
-
       dataResponse = dataResponse.map( ( item ) => {
         if ( item._account.toString() === userId ) {
-
-          const num = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
-
-          return { "data": item, "num": num };
+          return item;
         }
       } );
     }
@@ -62,10 +56,10 @@ module.exports = {
       .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
   },
   /**
-   * Create Post Category
+   * Create campaign
    * @param req
    * @param res
-   * @returns {Promise<*|Promise<any>>}
+   * @returns {Promise<void>}
    */
   "create": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
@@ -77,64 +71,61 @@ module.exports = {
 
     const objSave = {
         "title": req.body.title,
-        "description": req.body.description,
+        "description": req.body.description ? req.body.description : "",
+        "started_at": req.body.started_at,
+        "finished_at": req.body.finished_at,
         "_account": userId
       },
-      newPostCategory = await new PostCategory( objSave );
+      newCampaign = await new Campaign( objSave );
 
-    await newPostCategory.save();
+    await newCampaign.save();
 
-    res.status( 200 ).json( jsonResponse( "Tạo bộ sưu tập bài viết thành công!", newPostCategory ) );
+    res.status( 200 ).json( jsonResponse( "Tạo chiến dịch thành công!", newCampaign ) );
   },
   /**
-   * Update Post Category
+   * update campaign
    * @param req
    * @param res
-   * @returns {Promise<*|Promise<any>>}
+   * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
       accountResult = await Account.findById( userId ),
-      findPostCategory = await PostCategory.findById( req.query._pcId );
+      findCampaign = await Campaign.findById( req.query._campId );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    if ( !findPostCategory ) {
-      return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+    if ( !findCampaign ) {
+      return res.status( 403 ).json( jsonResponse( "Chiến dịch không tồn tại!", null ) );
     }
-    const dataPostCategoryUpdate = await PostCategory.findByIdAndUpdate( req.query._pcId, { "$set": req.body }, { "new": true } );
+    if ( req.query._type && ( req.query._type ).trim() === "status" ) {
+      findCampaign.status = !findCampaign.status;
+      await findCampaign.save();
+      return res.status( 201 ).json( jsonResponse( "Cập nhật chiến dịch thành công!", findCampaign ) );
+    }
+    const dataCampaignUpdate = await Campaign.findByIdAndUpdate( req.query._campId, { "$set": req.body }, { "new": true } );
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật bộ sưu tập bài viết thành công!", dataPostCategoryUpdate ) );
+    res.status( 201 ).json( jsonResponse( "Cập nhật chiến dịch thành công!", dataCampaignUpdate ) );
   },
   /**
-   * Delete Post Category
+   * Delete campaign
    * @param req
    * @param res
-   * @returns {Promise<*|Promise<any>>}
+   * @returns {Promise<void>}
    */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
       accountResult = await Account.findById( userId ),
-      findPostCategory = await PostCategory.findById( req.query._pcId );
+      findCampaign = await Campaign.findById( req.query._campId );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    if ( !findPostCategory ) {
-      return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+    if ( !findCampaign ) {
+      return res.status( 403 ).json( jsonResponse( "Chiến dịch không tồn tại!", null ) );
     }
-    const findPost = await Post.find( { "_account": userId } );
-
-    if ( findPost.length > 0 ) {
-      Promise.all( findPost.map( async ( post ) => {
-        if ( post._categories.indexOf( req.query._pcId ) > -1 ) {
-          post._categories.pull( req.query._pcId );
-          await post.save();
-        }
-      } ) );
-    }
-    await PostCategory.findByIdAndRemove( req.query._pcId );
-    res.status( 200 ).json( jsonResponse( "Xóa bộ sưu tập bài viết thành công!", null ) );
+    await Campaign.findByIdAndDelete( req.query._campId );
+    res.status( 200 ).json( jsonResponse( "Xóa chiến dịch thành công!", null ) );
   }
 };

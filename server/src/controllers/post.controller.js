@@ -16,7 +16,7 @@ const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
 const decodeRole = require( "../helpers/utils/decodeRole.util" );
 const config = require( "../configs/server" );
-
+const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
   /**
@@ -71,11 +71,13 @@ module.exports = {
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-
-    const newPost = await new Post( req.body );
+    const findPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+      newPost = await new Post( req.body );
 
     newPost._account = userId;
+    newPost._categories.push( findPostCategory._id );
     await newPost.save();
+    
     res.status( 200 ).json( jsonResponse( "Tạo bài viết thành công!", newPost ) );
   },
   /**
@@ -127,12 +129,14 @@ module.exports = {
     }
     // Update _categories to post
     if ( req.query._type === "1" && req.query._cateId ) {
-      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } );
+      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
+        findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
       
       if ( !findPostCategory ) {
         return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
       }
       if ( findPost._categories.indexOf( findPostCategory._id ) <= -1 ) {
+        findPost._categories.pull( findDefaultPostCategory._id );
         findPost._categories.push( findPostCategory._id );
         await findPost.save();
         return res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", findPost ) );
@@ -146,21 +150,21 @@ module.exports = {
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 1 ) {
+      if ( findItem.typeAttachment === 0 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link video vào attachment loại ảnh!", null ) );
       }
       findItem.link = req.body.link;
       await findPost.save();
       return res.status( 201 ).json( jsonResponse( "Cập nhật attachment trong bài viết thành công!", findPost ) );
     }
-    // Update link video to post
+    // Update link image to post
     if ( req.query._type === "3" && req.query._attachId && req.file ) {
       const findItem = findPost.attachments.filter( ( x ) => x.id === req.query._attachId )[ 0 ];
 
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 0 ) {
+      if ( findItem.typeAttachment === 1 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link image vào link video loại ảnh!", null ) );
       }
       findItem.link = `${config.url}/${ req.file.path.replace( /\\/gi, "/" )}`;
