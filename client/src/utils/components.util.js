@@ -88,6 +88,9 @@ Vue.component( "Breadcrumb", () =>
 Vue.component( "Fullcalendar", () =>
     import( "@/components/fullcalendar" ) );
 
+Vue.component( "Multiselect", () =>
+    import( "@/components/multiselect" ) );
+
 Vue.component( "ToggleSwitch", () =>
     import( "@/components/switch" ) );
 

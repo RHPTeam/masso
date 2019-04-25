@@ -1,14 +1,13 @@
+/* eslint-disable default-case */
 import pointerScroll from "./utils/pointerscroll.util";
-import typeAheadPointer from "./util/typeaheadpointer.util";
+import typeAheadPointer from "./utils/typeaheadpointer.util";
 import ajax from "./utils/ajax.util";
 import Deselect from "./components/deselect";
 import OpenIndicator from "./components/openindicator";
 
 export default {
   components: { Deselect, OpenIndicator },
-
   mixins: [ pointerScroll, typeAheadPointer, ajax ],
-
   props: {
     /**
      * Contains the currently selected value. Very similar to a
@@ -17,7 +16,6 @@ export default {
      * @type {Object||String||null}
      */
     value: {},
-
     /**
      * An array of strings or objects to be used as dropdown choices.
      * If you are using an array of objects, vue-select will look for
@@ -31,7 +29,6 @@ export default {
         return [];
       }
     },
-
     /**
      * Disable the entire component.
      * @type {Boolean}
@@ -40,7 +37,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Can the user clear the selected property.
      * @type {Boolean}
@@ -49,7 +45,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     /**
      * Enable/disable filtering the options.
      * @type {Boolean}
@@ -58,7 +53,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     /**
      * Equivalent to the `multiple` attribute on a `<select>` input.
      * @type {Boolean}
@@ -67,7 +61,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Equivalent to the `placeholder` attribute on an `<input>`.
      * @type {String}
@@ -76,7 +69,6 @@ export default {
       type: String,
       default: ""
     },
-
     /**
      * Sets a Vue transition property on the `.vs__dropdown-menu`.
      * @type {String}
@@ -85,7 +77,6 @@ export default {
       type: String,
       default: "vs__fade"
     },
-
     /**
      * Enables/disables clearing the search text when an option is selected.
      * @type {Boolean}
@@ -94,7 +85,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     /**
      * Close a dropdown when an option is chosen. Set to false to keep the dropdown
      * open (useful when combined with multi-select, for example)
@@ -104,7 +94,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     /**
      * Tells vue-select what key to use when generating option
      * labels when each `option` is an object.
@@ -114,7 +103,6 @@ export default {
       type: String,
       default: "label"
     },
-
     /**
      * Value of the 'autocomplete' field of the input
      * element.
@@ -124,7 +112,6 @@ export default {
       type: String,
       default: "off"
     },
-
     /**
      * When working with objects, the reduce
      * prop allows you to transform a given
@@ -136,7 +123,6 @@ export default {
       type: Function,
       default: ( option ) => option
     },
-
     /**
      * Callback to generate the label text. If {option}
      * is an object, returns option[this.label] by default.
@@ -162,19 +148,17 @@ export default {
         return option;
       }
     },
-
     /**
      * Select the current value if selectOnTab is enabled
      */
     onTab: {
       type: Function,
-      default: function() {
+      default: function () {
         if ( this.selectOnTab ) {
           this.typeAheadSelect();
         }
       }
     },
-
     /**
      * Enable/disable creating options from searchEl.
      * @type {Boolean}
@@ -183,7 +167,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Set the tabindex for the input field.
      * @type {Number}
@@ -192,7 +175,6 @@ export default {
       type: Number,
       default: null
     },
-
     /**
      * When true, newly created tags will be added to
      * the options list.
@@ -202,7 +184,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * When true, existing options will be filtered
      * by the search text. Should not be used in conjunction
@@ -213,7 +194,6 @@ export default {
       type: Boolean,
       default: true
     },
-
     /**
      * Callback to determine if the provided option should
      * match the current search text. Used to determine
@@ -226,11 +206,10 @@ export default {
      */
     filterBy: {
       type: Function,
-      default( label, search ) {
+      default( option, label, search ) {
         return ( label || "" ).toLowerCase().indexOf( search.toLowerCase() ) > -1;
       }
     },
-
     /**
      * Callback to filter results when search text
      * is provided. Default implementation loops
@@ -243,7 +222,7 @@ export default {
      * @return {Boolean}
      */
     filter: {
-      type: Function,
+      "type": Function,
       default( options, search ) {
         return options.filter( ( option ) => {
           let label = this.getOptionLabel( option );
@@ -255,25 +234,22 @@ export default {
         } );
       }
     },
-
     /**
      * User defined function for adding Options
      * @type {Function}
      */
     createOption: {
       type: Function,
-      default( val ) {
-        let newOption = val;
-
+      default( option ) {
+        let newOption = option;
+        
         if ( typeof this.optionList[ 0 ] === "object" ) {
           newOption = { [ this.label ]: newOption };
         }
-
         this.$emit( "option:created", newOption );
         return newOption;
       }
     },
-
     /**
      * When false, updating the options will not reset the select value
      * @type {Boolean}
@@ -282,7 +258,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Disable the dropdown entirely.
      * @type {Boolean}
@@ -291,7 +266,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Sets the id of the input element.
      * @type {String}
@@ -300,7 +274,6 @@ export default {
     inputId: {
       type: String
     },
-
     /**
      * Sets RTL support. Accepts 'ltr', 'rtl', 'auto'.
      * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
@@ -311,7 +284,6 @@ export default {
       type: String,
       default: "auto"
     },
-
     /**
      * When true, hitting the 'tab' key will select the current select value
      * @type {Boolean}
@@ -320,7 +292,6 @@ export default {
       type: Boolean,
       default: false
     },
-
     /**
      * Query Selector used to find the search input
      * when the 'search' scoped slot is used.
@@ -335,7 +306,6 @@ export default {
       default: "[type=search]"
     }
   },
-
   data() {
     return {
       search: "",
@@ -344,7 +314,6 @@ export default {
       _value: [] // Internal value managed by Vue Select if no `value` prop is passed
     };
   },
-
   watch: {
     /**
      * Maybe reset the value
@@ -356,7 +325,6 @@ export default {
         this.clearSelection();
       }
     },
-
     /**
      * Always reset the value when
      * the multiple prop changes.
@@ -367,62 +335,51 @@ export default {
       this.clearSelection();
     }
   },
-
   /**
    * Clone props into mutable values,
    * attach any event listeners.
    */
   created() {
     this.mutableLoading = this.loading;
-
     if ( this.$options.propsData.hasOwnProperty( "reduce" ) && this.value ) {
       if ( Array.isArray( this.value ) ) {
-        this.$data._value = this.value.map( ( value ) =>
-          this.findOptionFromReducedValue( value )
-        );
+        this.$data._value = this.value.map( ( value ) => this.findOptionFromReducedValue( value ) );
       } else {
         this.$data._value = this.findOptionFromReducedValue( this.value );
       }
     }
-
     this.$on( "option:created", this.maybePushTag );
   },
-
   methods: {
     /**
      * Select a given option.
      * @param  {Object|String} option
      * @return {void}
      */
-    select( option ) {
-      let value = option;
+    select( param ) {
+      let option = param;
 
-      if ( !this.isOptionSelected( value ) ) {
-        if ( this.taggable && !this.optionExists( value ) ) {
-          value = this.createOption( value );
+      if ( !this.isOptionSelected( option ) ) {
+        if ( this.taggable && !this.optionExists( option ) ) {
+          option = this.createOption( option );
         }
         if ( this.multiple ) {
-          value = this.selectedValue.concat( value );
+          option = this.selectedValue.concat( option );
         }
-        this.updateValue( value );
+        this.updateValue( option );
       }
-
-      this.onAfterSelect( value );
+      this.onAfterSelect( option );
     },
-
     /**
      * De-select a given option.
      * @param  {Object|String} option
      * @return {void}
      */
-    deselect( option ) {
-      this.updateValue(
-        this.selectedValue.filter( ( val ) => {
-          return !this.optionComparator( val, option );
-        } )
-      );
+    deselect ( option ) {
+      this.updateValue( this.selectedValue.filter( ( val ) => {
+        return !this.optionComparator( val, option );
+      } ) );
     },
-
     /**
      * Clears the currently selected value(s)
      * @return {void}
@@ -430,7 +387,6 @@ export default {
     clearSelection() {
       this.updateValue( this.multiple ? [] : null );
     },
-
     /**
      * Called from this.select after each selection.
      * @param  {Object|String} option
@@ -441,12 +397,10 @@ export default {
         this.open = !this.open;
         this.searchEl.blur();
       }
-
       if ( this.clearSearchOnSelect ) {
         this.search = "";
       }
     },
-
     /**
      * Accepts a selected value, updates local
      * state when required, and triggers the
@@ -455,31 +409,28 @@ export default {
      * @emits input
      * @param value
      */
-    updateValue( value ) {
-      let dataSender;
+    updateValue ( val ) {
+      let value = val;
 
       if ( this.isTrackingValues ) {
         // Vue select has to manage value
         this.$data._value = value;
       }
-
       if ( value !== null ) {
         if ( Array.isArray( value ) ) {
-          dataSender = value.map( ( val ) => this.reduce( val ) );
+          value = value.map( ( vl ) => this.reduce( vl ) );
         } else {
-          dataSender = this.reduce( value );
+          value = this.reduce( value );
         }
       }
-
-      this.$emit( "input", dataSender );
+      this.$emit( "input", value );
     },
-
     /**
      * Toggle the visibility of the dropdown menu.
      * @param  {Event} e
      * @return {void}
      */
-    toggleDropdown( e ) {
+    toggleDropdown ( e ) {
       const target = e.target,
         toggleTargets = [
           this.$el,
@@ -490,9 +441,7 @@ export default {
           ...Array.prototype.slice.call( this.$refs.openIndicator.$el.childNodes )
         ];
 
-      if (
-        toggleTargets.indexOf( target ) > -1 || target.classList.contains( "vs__selected" )
-      ) {
+      if ( toggleTargets.indexOf( target ) > -1 || target.classList.contains( "vs__selected" ) ) {
         if ( this.open ) {
           this.searchEl.blur(); // dropdown will close on blur
         } else if ( !this.disabled ) {
@@ -501,7 +450,6 @@ export default {
         }
       }
     },
-
     /**
      * Check if the given option is currently selected.
      * @param  {Object|String}  option
@@ -512,7 +460,6 @@ export default {
         return this.optionComparator( value, option );
       } );
     },
-
     /**
      * Determine if two option objects are matching.
      *
@@ -531,19 +478,15 @@ export default {
         if ( value === this.reduce( option ) ) {
           return true;
         }
-        if (
-          this.getOptionLabel( value ) === this.getOptionLabel( option ) || this.getOptionLabel( value ) === option
-        ) {
+        if ( ( this.getOptionLabel( value ) === this.getOptionLabel( option ) ) || ( this.getOptionLabel( value ) === option ) ) {
           return true;
         }
         if ( this.reduce( value ) === this.reduce( option ) ) {
           return true;
         }
       }
-
       return false;
     },
-
     /**
      * Finds an option from this.options
      * where a reduced value matches
@@ -552,15 +495,9 @@ export default {
      * @param value {Object}
      * @returns {*}
      */
-    findOptionFromReducedValue( value ) {
-      return (
-        this.options.find(
-          ( option ) =>
-            JSON.stringify( this.reduce( option ) ) === JSON.stringify( value )
-        ) || value
-      );
+    findOptionFromReducedValue ( value ) {
+      return this.options.find( ( option ) => JSON.stringify( this.reduce( option ) ) === JSON.stringify( value ) ) || value;
     },
-
     /**
      * 'Private' function to close the search options
      * @emits  {search:blur}
@@ -570,7 +507,6 @@ export default {
       this.open = false;
       this.$emit( "search:blur" );
     },
-
     /**
      * Delete the value on Delete keypress when there is no
      * text in the search input, & there's tags to delete
@@ -581,14 +517,11 @@ export default {
         let value = null;
 
         if ( this.multiple ) {
-          value = [
-            ...this.selectedValue.slice( 0, this.selectedValue.length - 1 )
-          ];
+          value = [ ...this.selectedValue.slice( 0, this.selectedValue.length - 1 ) ];
         }
         this.updateValue( value );
       }
     },
-
     /**
      * Determine if an option exists
      * within this.optionList array.
@@ -606,17 +539,15 @@ export default {
         return false;
       } );
     },
-
     /**
      * Ensures that options are always
      * passed as objects to scoped slots.
      * @param option
      * @return {*}
      */
-    normalizeOptionForSlot( option ) {
-      return typeof option === "object" ? option : { [ this.label ]: option };
+    normalizeOptionForSlot ( option ) {
+      return ( typeof option === "object" ) ? option : { [ this.label ]: option };
     },
-
     /**
      * If push-tags is true, push the
      * given option to `this.pushedTags`.
@@ -629,7 +560,6 @@ export default {
         this.pushedTags.push( option );
       }
     },
-
     /**
      * If there is any text in the search input, remove it.
      * Otherwise, blur the search input to close the dropdown.
@@ -642,7 +572,6 @@ export default {
         this.search = "";
       }
     },
-
     /**
      * Close the dropdown on blur.
      * @emits  {search:blur}
@@ -664,7 +593,6 @@ export default {
         return;
       }
     },
-
     /**
      * Open the dropdown on focus.
      * @emits  {search:focus}
@@ -674,7 +602,6 @@ export default {
       this.open = true;
       this.$emit( "search:focus" );
     },
-
     /**
      * Event-Handler to help workaround IE11 (probably fixes 10 as well)
      * firing a `blur` event when clicking
@@ -686,7 +613,6 @@ export default {
     onMousedown() {
       this.mousedown = true;
     },
-
     /**
      * Event-Handler to help workaround IE11 (probably fixes 10 as well)
      * @see https://github.com/sagalbot/vue-select/issues/106
@@ -695,14 +621,12 @@ export default {
     onMouseUp() {
       this.mousedown = false;
     },
-
     /**
      * Search 'input' KeyBoardEvent handler.
      * @param e {KeyboardEvent}
      * @return {Function}
      */
-    onSearchKeyDown( e ) {
-      // eslint-disable-next-line default-case
+    onSearchKeyDown ( e ) {
       switch ( e.keyCode ) {
         case 8:
           //  delete
@@ -712,14 +636,12 @@ export default {
           return this.onTab();
       }
     },
-
     /**
      * Search 'input' KeyBoardEvent handler.
      * @param e {KeyboardEvent}
      * @return {Function}
      */
-    onSearchKeyUp( e ) {
-      // eslint-disable-next-line default-case
+    onSearchKeyUp ( e ) {
       switch ( e.keyCode ) {
         case 27:
           //  esc
@@ -739,38 +661,31 @@ export default {
       }
     }
   },
-
   computed: {
     /**
      * Determine if the component needs to
      * track the state of values internally.
      * @return {boolean}
      */
-    isTrackingValues() {
-      return (
-        typeof this.value === "undefined" || this.$options.propsData.hasOwnProperty( "reduce" )
-      );
+    isTrackingValues () {
+      return typeof this.value === "undefined" || this.$options.propsData.hasOwnProperty( "reduce" );
     },
-
     /**
      * The options that are currently selected.
      * @return {Array}
      */
-    selectedValue() {
+    selectedValue () {
       let value = this.value;
 
       if ( this.isTrackingValues ) {
         // Vue select has to manage value internally
         value = this.$data._value;
       }
-
       if ( value ) {
         return [].concat( value );
       }
-
       return [];
     },
-
     /**
      * The options available to be chosen
      * from the dropdown, including any
@@ -778,47 +693,44 @@ export default {
      *
      * @return {Array}
      */
-    optionList() {
+    optionList () {
       return this.options.concat( this.pushedTags );
     },
-
     /**
      * Find the search input DOM element.
      * @returns {HTMLInputElement}
      */
-    searchEl() {
-      return this.$scopedSlots.search ? this.$refs.selectedOptions.querySelector(
-        this.searchInputQuerySelector
-      ) : this.$refs.search;
+    searchEl () {
+      return this.$scopedSlots.search ? this.$refs.selectedOptions.querySelector( this.searchInputQuerySelector ) : this.$refs.search;
     },
-
     /**
      * The object to be bound to the $slots.search scoped slot.
      * @returns {Object}
      */
-    scope() {
+    scope () {
       return {
         search: {
           attributes: {
-            disabled: this.disabled,
-            placeholder: this.searchPlaceholder,
-            tabindex: this.tabindex,
-            readonly: !this.searchable,
-            id: this.inputId,
+            "disabled": this.disabled,
+            "placeholder": this.searchPlaceholder,
+            "tabindex": this.tabindex,
+            "readonly": !this.searchable,
+            "id": this.inputId,
             "aria-expanded": this.dropdownOpen,
             "aria-label": "Search for option",
-            ref: "search",
-            role: "combobox",
-            type: "search",
-            autocomplete: "off",
-            value: this.search
+            "ref": "search",
+            "role": "combobox",
+            "type": "search",
+            "autocomplete": "off",
+            "value": this.search
           },
           events: {
-            keydown: this.onSearchKeyDown,
-            keyup: this.onSearchKeyUp,
-            blur: this.onSearchBlur,
-            focus: this.onSearchFocus,
-            input: ( e ) => ( this.search = e.target.value )
+            "keydown": this.onSearchKeyDown,
+            "keyup": this.onSearchKeyUp,
+            "blur": this.onSearchBlur,
+            "focus": this.onSearchFocus,
+            // eslint-disable-next-line no-return-assign
+            "input": ( e ) => this.search = e.target.value
           }
         },
         spinner: {
@@ -826,7 +738,6 @@ export default {
         }
       };
     },
-
     /**
      * Holds the current state of the component.
      * @return {Object}
@@ -842,7 +753,6 @@ export default {
         "vs--disabled": this.disabled
       };
     },
-
     /**
      * If search text should clear on blur
      * @return {Boolean} True when single and clearSearchOnSelect
@@ -850,7 +760,6 @@ export default {
     clearSearchOnBlur() {
       return this.clearSearchOnSelect && !this.multiple;
     },
-
     /**
      * Return the current state of the
      * search input
@@ -859,7 +768,6 @@ export default {
     searching() {
       return !!this.search;
     },
-
     /**
      * Return the current state of the
      * dropdown menu.
@@ -868,7 +776,6 @@ export default {
     dropdownOpen() {
       return this.noDrop ? false : this.open && !this.mutableLoading;
     },
-
     /**
      * Return the placeholder string if it's set
      * & there is no value selected.
@@ -879,7 +786,6 @@ export default {
         return this.placeholder;
       }
     },
-
     /**
      * The currently displayed options, filtered
      * by the search elements value. If tagging
@@ -894,17 +800,13 @@ export default {
       if ( !this.filterable && !this.taggable ) {
         return optionList;
       }
-
       let options = this.search.length ? this.filter( optionList, this.search, this ) : optionList;
 
-      if (
-        this.taggable && this.search.length && !this.optionExists( this.search )
-      ) {
+      if ( this.taggable && this.search.length && !this.optionExists( this.search ) ) {
         options.unshift( this.search );
       }
       return options;
     },
-
     /**
      * Check if there aren't any options selected.
      * @return {Boolean}
@@ -912,15 +814,12 @@ export default {
     isValueEmpty() {
       return this.selectedValue.length === 0;
     },
-
     /**
      * Determines if the clear button should be displayed.
      * @return {Boolean}
      */
     showClearButton() {
-      return (
-        !this.multiple && this.clearable && !this.open && !this.isValueEmpty
-      );
+      return !this.multiple && this.clearable && !this.open && !this.isValueEmpty;
     }
   }
 };

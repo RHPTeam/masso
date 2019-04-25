@@ -59,11 +59,12 @@ export default {
   color: #444444;
   margin-bottom: 1.25rem;
   &-title {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 600;
   }
   &-description {
     color: #999999;
+    font-size: .875rem;
   }
 }
 .list--input {
@@ -107,10 +108,10 @@ export default {
   &-item {
     background-color: #ffb94a;
     border: 1px solid #ffb94a;
-    border-radius: 5px;
+    border-radius: .5rem;
     cursor: pointer;
     color: #fff;
-    font-size: 0.75rem;
+    font-size: 0.875rem;
     font-weight: 500;
     &:hover,
     &:active,
