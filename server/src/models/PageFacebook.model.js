@@ -26,6 +26,6 @@ PageFacebookSchema.pre( "save", function( next ) {
   next();
 } );
 
-const PageFacebook = mongoose.model( "PostGroup", PageFacebookSchema );
+const PageFacebook = mongoose.model( "PageFacebook", PageFacebookSchema );
 
 module.exports = PageFacebook;

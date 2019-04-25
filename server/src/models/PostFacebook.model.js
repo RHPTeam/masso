@@ -25,7 +25,7 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
-PostSchema.pre( "save", function( next ) {
+PostFacebookSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );

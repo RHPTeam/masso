@@ -13,6 +13,9 @@ router.use( "/post-category", auth, require( "./modules/postCategory.route" ) );
 router.use( "/campaigns", auth, require( "./modules/campaign.route" ) );
 router.use( "/events", auth, require( "./modules/event.route" ) );
 router.use( "/post-group", auth, require( "./modules/postGroup.route" ) );
+router.use( "/group-facebook", auth, require( "./modules/groupFacebook.route" ) );
+router.use( "/page-facebook", auth, require( "./modules/pageFacebook.route" ) );
+router.use( "/post-facebook", auth, require( "./modules/postFacebook.route" ) );
 
 
 module.exports = router;
