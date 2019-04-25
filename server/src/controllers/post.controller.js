@@ -197,12 +197,20 @@ module.exports = {
     }
     // Remove categories from post
     if ( req.query._type === "1" && req.query._cateId ) {
-      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } );
+      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
+        findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
       
       if ( !findPostCategory ) {
         return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
       }
       if ( findPost._categories.indexOf( findPostCategory._id ) > -1 ) {
+        // Catch when delete categories in post if have 1 catgorie push default category again
+        if ( findPost._categories.length === 1 ) {
+          findPost._categories.pull( findPostCategory._id );
+          findPost._categories.push( findDefaultPostCategory._id );
+          await findPost.save();
+          return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );
+        }
         findPost._categories.pull( findPostCategory._id );
         await findPost.save();
         return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );
