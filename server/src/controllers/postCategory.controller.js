@@ -15,6 +15,7 @@ const PostCategory = require( "../models/PostCategory.model" );
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
 const decodeRole = require( "../helpers/utils/decodeRole.util" );
+const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
   /**
@@ -124,6 +125,9 @@ module.exports = {
     }
     if ( !findPostCategory ) {
       return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+    }
+    if ( findPostCategory.title === dictionary.DEFAULT_POSTCATEGORY ) {
+      return res.status( 405 ).json( jsonResponse( "Bạn không được xóa bộ sưu tập bài viết này!", null ) );
     }
     const findPost = await Post.find( { "_account": userId } );
 
