@@ -152,7 +152,7 @@ module.exports = {
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 0 ) {
+      if ( findItem.typeAttachment === 1 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link video vào attachment loại ảnh!", null ) );
       }
       findItem.link = req.body.link;
@@ -166,7 +166,7 @@ module.exports = {
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 1 ) {
+      if ( findItem.typeAttachment === 0 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link image vào link video loại ảnh!", null ) );
       }
       findItem.link = `${config.url}/${ req.file.path.replace( /\\/gi, "/" )}`;
