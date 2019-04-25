@@ -94,12 +94,20 @@
           eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </div>
         <div class="d_flex justify_content_center align_items_center">
-          <div class="tool" v-for="(tool, index) in tools" :key="index">
+          <div class="tool">
             <div
               class="tool--icon"
-              :style="{ backgroundImage: 'url(' + tool.icon + ')' }"
+              :style="{ backgroundImage: 'url(' + imageChat + ')' }"
             ></div>
-            <div class="tool--name">{{ tool.name }}</div>
+            <div class="tool--name">Zinbee Chat</div>
+          </div>
+          <div class="tool">
+            <div
+              class="tool--icon"
+              :style="{ backgroundImage: 'url(' + imagePost + ')' }"
+              @click="gotoHomePost"
+            ></div>
+            <div class="tool--name">Zinbee Post</div>
           </div>
         </div>
       </div>

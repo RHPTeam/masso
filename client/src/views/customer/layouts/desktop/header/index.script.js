@@ -2,19 +2,20 @@
 export default {
   data() {
     return {
-      user: {
-        imageAvatar: "",
-        name: "Yến Đặng",
-        emai: "dangyen@gmail.com"
-      },
       statusCollapse: false,
       showdropdown: false
     };
   },
+  async created() {
+    // await this.$store.dispatch( "getUserInfo" );
+  },
   computed: {
-    // user() {
-    //   return this.$store.getters.userInfo;
-    // },
+    user() {
+      if ( this.$store.getters.userInfo === undefined ) {
+        return;
+      }
+      return this.$store.getters.userInfo;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -42,6 +43,9 @@ export default {
 
   filters: {
     getFirstLetter( string ) {
+      if ( string === undefined ) {
+        return;
+      }
       return string.charAt( 0 ).toUpperCase();
     }
   }

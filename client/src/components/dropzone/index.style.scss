@@ -72,3 +72,27 @@
     }
   }
 }
+
+//CHANGE BACKGROUND COLOR THEME
+
+//LIGHT
+
+.modal--wrapper[data-theme="light"] {
+  .modal--content {
+    background: #ffffff;
+  }
+  .modal--desc {
+    color: #1b1e21;
+  }
+}
+
+//DARK
+
+.modal--wrapper[data-theme="dark"] {
+  .modal--content {
+    background: #27292d;
+  }
+  .modal--desc {
+    color: #cccccc;
+  }
+}

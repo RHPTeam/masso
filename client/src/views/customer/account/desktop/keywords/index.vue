@@ -7,7 +7,9 @@
         nhất với bạn.
       </div>
     </div>
-    <div class="wrapper--content"></div>
+    <div class="wrapper--content">
+      <taggle class="taggle" />
+    </div>
   </div>
 </template>
 
@@ -35,6 +37,11 @@ export default {
     .title {
       font-size: 0.875rem;
       font-weight: 600;
+    }
+  }
+  .wrapper--content {
+    .taggle {
+      border-radius: calc( .5rem + 2px );
     }
   }
 }

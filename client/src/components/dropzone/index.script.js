@@ -6,6 +6,9 @@ export default {
     };
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     fileAvatar() {
       return this.$store.getters.fileAvatar;
     },

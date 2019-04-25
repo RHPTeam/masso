@@ -4,12 +4,15 @@
     <div class="wrapper--top position_relative d_flex align_content_center">
       <div class="title">Ảnh đại diện</div>
       <div class="change--icon ml_auto">
-        <div class="icon" @click.prevent="isDropZone = true">
+        <div class="icon" @click="isDropZone = true">
           <icon-base icon-name viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </div>
       </div>
+      <!--Start: Dropzone Component-->
+    <dropzone :status="isDropZone" @close="isDropZone = $event" />
+    <!--End: Dropzone Component-->
     </div>
     <!-- End: Wrapper Top -->
     <!-- Start: Wrapper Content -->

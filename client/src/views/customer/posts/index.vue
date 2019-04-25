@@ -28,6 +28,9 @@ export default {
   components: {
     AppFilter
   },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
+  },
   computed: {
     showFilter() {
       const isCategoriesRoute = this.$route.path === "/posts/categories",

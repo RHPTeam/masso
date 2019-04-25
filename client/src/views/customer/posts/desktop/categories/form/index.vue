@@ -1,17 +1,33 @@
 <template>
   <div class="category--new" :data-theme="currentTheme">
-    <div class="category--new-desc mb_3">Thêm danh mục mới</div>
-    <div class="category--form py_4 px_3">
+
+    <div class="category--form py_4 px_3" v-if="isUpdateCategories === false">
+      <div class="category--new-desc mb_3">Thêm danh mục mới</div>
       <div class="item mb_4">
         <span>Tên danh mục</span>
-        <input type="text" placeholder="Nhập tên danh mục" />
+        <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategories" />
       </div>
       <div class="item mb_4">
         <span>Mô tả</span>
-        <textarea placeholder="Nhập tên danh mục"></textarea>
+        <textarea placeholder="Nhập tên danh mục" v-model="desCategories"></textarea>
       </div>
-      <div class="item">
-        <button>Thêm</button>
+      <div class="item" @click="createCategories">
+        <button>Thêm mới</button>
+      </div>
+    </div>
+
+    <div class="category--form py_4 px_3" v-if="isUpdateCategories === true">
+      <div class="category--new-desc mb_3">Cập nhật danh mục</div>
+      <div class="item mb_4">
+        <span>Tên danh mục</span>
+        <input type="text" placeholder="Nhập tên danh mục" v-model="categories.title" />
+      </div>
+      <div class="item mb_4">
+        <span>Mô tả</span>
+        <textarea placeholder="Nhập tên danh mục" v-model="categories.description"></textarea>
+      </div>
+      <div class="item" @click="updateCategories">
+        <button>Cập nhật</button>
       </div>
     </div>
   </div>
@@ -19,9 +35,41 @@
 
 <script>
 export default {
+  props: {
+    isUpdateCategories: {
+      type: Boolean
+    }
+  },
+  data() {
+    return {
+      nameCategories: "",
+      desCategories: ""
+    };
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    categories() {
+      // if ( this.$store.getters.categoriesById.length === 0 ) return;
+      return this.$store.getters.categoriesById;
+    }
+  },
+  methods: {
+    async createCategories() {
+      const dataSender = {
+        title: this.nameCategories,
+        description: this.desCategories
+      };
+
+      await this.$store.dispatch( "createCategories", dataSender );
+      this.nameCategories = "";
+      this.desCategories = "";
+    },
+    updateCategories() {
+      this.$store.dispatch( "updateCategories", this.categories );
+      this.categories.title = "";
+      this.categories.description = "";
     }
   }
 };
@@ -37,7 +85,7 @@ export default {
   }
   .category--form {
     background-color: #ffffff;
-    border-radius: 10px;
+    // border-radius: 10px;
   }
   .item {
     > span {
@@ -75,7 +123,6 @@ export default {
       font-weight: 600;
       height: 40px;
       transition: all 0.4s ease;
-      width: 80px;
       &:hover {
         background-color: transparent;
         color: #ffb94a;

@@ -51,7 +51,7 @@
   </div>
 </template>
 <script>
-import { makeDateUtils } from "../utils/DateUtils";
+import { makeDateUtils } from "../utils/date.util";
 export default {
   props: {
     selectedDate: Date,

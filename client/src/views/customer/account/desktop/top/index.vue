@@ -1,5 +1,5 @@
 <template>
-  <div class="main--top d_flex align_items_center p_3">
+  <div class="main--top d_flex align_items_center p_3" :data-theme="currentTheme">
     <div class="exp--account">
       Tài khoản hết hạn: {{ user.expireDate | formatDate }}
     </div>
@@ -12,6 +12,11 @@
 <script>
 export default {
   props: [ "user" ],
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   filters: {
     formatDate( d ) {
       const newDate = new Date( d ),
@@ -32,7 +37,7 @@ export default {
 
 <style lang="scss" scoped>
 .main--top {
-  background-color: white;
+  background-color: #ffffff;
   border-radius: 0.625rem;
   .exp--account {
     color: #ff9e4a;
@@ -70,4 +75,19 @@ export default {
     }
   }
 }
+
+//CHANGE BACKGROUND COLOR THEME
+
+//LIGHT
+
+.main--top[data-theme="light"] {
+
+}
+
+//DARK
+
+.main--top[data-theme="dark"] {
+  background: $mainDark;
+}
+
 </style>

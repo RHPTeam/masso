@@ -4,13 +4,11 @@ import UserPersonalInfo from "./personalinfo";
 
 export default {
   props: [ "user" ],
+  data() {
+    return {
+    };
+  },
   computed: {
-    // user() {
-    //   if ( this.$store.getters.userInfo === undefined ) {
-    //     return;
-    //   }
-    //   return this.$store.getters.userInfo;
-    // },
     currentTheme() {
       return this.$store.getters.themeName;
     }

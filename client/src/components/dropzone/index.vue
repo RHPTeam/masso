@@ -1,15 +1,15 @@
 <template>
-  <div class="modal--wrapper" v-if="status === true">
+  <div class="modal--wrapper" v-if="status === true" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header text_center"></div>
-        <div class="modal--body">
+        <div class="modal--body d_flex flex_column align_items_center">
           <form @submit.prevent="sendFile" class="zone" enctype="multipart/form-data">
             <div class="field">
               <div class="file box primary">
                 <label class="file--label" style="cursor: pointer">
                   <input type="file" ref="file" @change="selectFile" style="display: none">
-                  <span class="file--cta d_flex justify_content_center flex_column">
+                  <span class="file--cta d_flex align_items_center justify_content_center flex_column">
                     <span class="file--cta-icon">
                       <icon-base
                         icon-name="icon-upload-image"

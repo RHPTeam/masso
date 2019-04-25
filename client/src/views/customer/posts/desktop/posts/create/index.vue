@@ -17,7 +17,7 @@
     <div class="section--body ct_0">
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_6 mb_0 mb_md_5">
-          <app-form />
+          <app-form :isShowUpdatePost="isShowUpdatePost" />
         </div>
         <div class="c_12 c_lg_12 c_xl_6">
           <app-list />
@@ -31,6 +31,11 @@
 import AppForm from "./form/index";
 import AppList from "./list/index";
 export default {
+  data() {
+    return {
+      isShowUpdatePost: false
+    };
+  },
   components: {
     AppForm,
     AppList

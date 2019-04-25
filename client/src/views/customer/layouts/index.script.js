@@ -10,6 +10,7 @@ export default {
   },
   async created() {
     this.startUpdateTimer();
+    await this.$store.dispatch( "getUserInfo" );
   },
   beforeDestroy() {
     this.stopUpdateTimer();
@@ -18,6 +19,12 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+    // user() {
+    //   if ( this.$store.getters.userInfo === undefined ) {
+    //     return;
+    //   }
+    //   return this.$store.getters.userInfo;
+    // }
   },
   methods: {
     setTimer() {

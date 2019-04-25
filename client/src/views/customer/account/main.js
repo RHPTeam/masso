@@ -7,21 +7,17 @@ import UserKeywords from "./desktop/keywords";
 export default {
   data() {
     return {
-      user: {
-        name: "Yến Đặng",
-        email: "dangthiyen103@gmail.com",
-        expireDate: new Date(),
-        imageAvatar: "http://source.unsplash.com/random/500x500",
-        phone: "0987651344"
-      }
     };
   },
-  // async created() {
-  //   await this.$store.dispatch( "getUserInfo" );
-  // },
+  async created() {
+    await this.$store.dispatch( "getUserInfo" );
+  },
   computed: {
-    users() {
-      // console.log( this.$store.getters.user );
+    user() {
+      if ( this.$store.getters.userInfo === undefined ) {
+        return;
+      }
+      return this.$store.getters.userInfo;
     }
   },
   components: {

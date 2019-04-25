@@ -10,6 +10,8 @@ export default {
       showdropdown: false,
       avatar: "",
       imagePage: require( "@/assets/images/zinbee-logo-orange.png" ),
+      imageChat: require( "@/assets/images/zinbee-chat-icon.svg" ),
+      imagePost: require( "@/assets/images/zinbee-post-icon.svg" ),
       tools: [
         {
           name: "Zinbee Chat",
@@ -29,6 +31,9 @@ export default {
     IconLogout
   },
   methods: {
+    gotoHomePost() {
+      this.$router.push( "/" );
+    },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
     },

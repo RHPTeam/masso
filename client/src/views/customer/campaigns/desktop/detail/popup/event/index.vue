@@ -1,5 +1,5 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center">
       <div class="modal--content modal--event p_0">
         <!-- Start: Modal Header -->
@@ -54,6 +54,11 @@ export default {
         { name: "red", code: "#FF8787" }
       ]
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     closePopup( data ) {

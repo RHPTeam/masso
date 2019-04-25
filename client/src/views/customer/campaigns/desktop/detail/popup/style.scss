@@ -97,7 +97,7 @@
 /* ChangeColor */
 
 // Light
-.modal--wrapper{
+.modal--wrapper[data-theme="light"] {
   color: #444444;
   .modal--content {
     background-color: #fff;

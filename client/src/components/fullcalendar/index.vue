@@ -1,5 +1,5 @@
 <template>
-  <div id="rcalender" class="rc rc--ltr rc--unthemed">
+  <div id="rcalender" class="rc rc--ltr" :data-theme="theme">
     <div class="rc--toolbar rc--header-toolbar">
       <!-- Start: Month View Toolbar -->
       <div class="rc--toolbar-action" v-if="view === 'month'">

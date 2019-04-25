@@ -18,12 +18,9 @@
       </div>
     </div>
     <!-- End: Right Content -->
-    <!--Start: Dropzone Component-->
-    <dropzone :status="isDropZone" @close="isDropZone = $event" />
-    <!--End: Dropzone Component-->
   </div>
 </template>
-
+ 
 <script src="./main.js"></script>
  
 <style lang="scss" scoped>
