@@ -26,6 +26,7 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "index": async ( req, res ) => {
+    let page = null;
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = req.headers.cfr,
@@ -41,16 +42,17 @@ module.exports = {
     if (
       decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
     ) {
-      !req.query._id ? ( dataResponse = await Post.find( { "_account": userId } ) ) : ( dataResponse = await Post.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
+      // eslint-disable-next-line no-nested-ternary
+      req.query._id ? ( dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ) ) : req.query._size && req.query._page ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) ) ) : req.query._size ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( 0, Number( req.query._size ) ) ) : ( dataResponse = await Post.find( { "_account": userId } ) );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
+      if ( req.query._size ) {
+        page = ( ( await Post.find( { "_account": userId } ) ).length % req.query._size ) === 0 ? Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) : Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+      }
       dataResponse = dataResponse.map( ( item ) => {
         if ( item._account.toString() === userId ) {
-          return item;
+          return { "data": item, "page": page };
         }
       } );
     }

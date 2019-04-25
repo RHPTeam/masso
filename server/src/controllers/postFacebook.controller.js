@@ -38,10 +38,7 @@ module.exports = {
     if (
       decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
     ) {
-      !req.query._id ? ( dataResponse = await PostFacebook.find( { "_account": userId } ) ) : ( dataResponse = await PostFacebook.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
+      req.query._id ? ( dataResponse = await PostFacebook.find( { "_id": req.query._id, "_account": userId } ) ) : ( dataResponse = await PostFacebook.find( { "_account": userId } ) );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
