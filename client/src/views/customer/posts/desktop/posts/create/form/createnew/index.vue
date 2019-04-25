@@ -56,8 +56,13 @@
     </div>
     <div class="item mb_4">
       <span>Danh mục</span>
-      <br />
-      <b>select</b>
+      <multiselect
+        class="mt_3"
+        multiple
+        :options="categories"
+        :maxHeight="200"
+        placeholder="Chọn danh mục"
+      />
     </div>
     <div class="item">
       <button>Tạo mới</button>
@@ -71,7 +76,8 @@ export default {
     return {
       name: "",
       content: "",
-      link: ""
+      link: "",
+      categories: [ "Mỹ phẩm", "Du lịch", "Ăn uống", "Thể thao", "Làm đẹp", "Âm nhạc" ]
     };
   }
 };

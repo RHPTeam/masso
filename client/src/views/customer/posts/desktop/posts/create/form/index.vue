@@ -9,6 +9,7 @@
   </div>
 </template>
 
+
 <script>
 import CreateNew from "./createnew";
 import UpdatePost from "./update";

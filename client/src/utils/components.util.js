@@ -65,6 +65,11 @@ Vue.component( "Fullcalendar", () => import( "@/components/fullcalendar" ) );
 Vue.component( "ToggleSwitch", () => import( "@/components/switch" ) );
 
 Vue.component( "Paginate", () => import( "@/components/shared/paginate" ) );
+Vue.component( "Multiselect", () =>
+    import( "@/components/multiselect" ) );
+
+Vue.component( "ToggleSwitch", () =>
+    import( "@/components/switch" ) );
 
 Vue.component( "Dropzone", () => import( "@/components/dropzone" ) );
 Vue.component( "Taggle", () => import( "@/components/taggle" ) );

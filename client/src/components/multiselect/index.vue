@@ -79,7 +79,7 @@
           <slot name="option" v-bind="normalizeOptionForSlot(option)">{{ getOptionLabel(option) }}</slot>
         </li>
         <li v-if="!filteredOptions.length" class="vs__no-options" @mousedown.stop>
-          <slot name="no-options">Sorry, no matching options.</slot>
+          <slot name="no-options">Không có kết quả.</slot>
         </li>
       </ul>
     </transition>
@@ -89,5 +89,5 @@
 <script src="./main.js"></script>
 
 <style lang="scss" scope>
-@import "./styles";
+@import "./styles/index";
 </style>
