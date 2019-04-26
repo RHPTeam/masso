@@ -32,14 +32,26 @@ const generalRouter = {
     ]
   },
   {
-    path: "/campaigns",
-    name: "campaigns",
-    component: require( "@/views/customer/campaigns" ).default
-  },
-  {
     path: "/friends",
     name: "f_friends",
     component: require( "@/views/customer/friends" ).default
+  },
+  {
+    path: "/campaigns",
+    component: require( "@/views/customer/campaigns" ).default,
+    children: [ {
+      path: "",
+      name: "campaigns",
+      component: require( "@/views/customer/campaigns/desktop/list" )
+        .default
+    },
+    {
+      path: "/:campaign_id",
+      name: "campaigns/detail",
+      component: require( "@/views/customer/campaigns/desktop/detail" )
+        .default
+    }
+    ]
   },
   {
     path: "/account",

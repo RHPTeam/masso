@@ -1,30 +1,18 @@
 <template>
-  <div class="main" :data-theme="currentTheme">
-    <!-- Start: Desktop Component-->
-    <div class="d_none d_md_block">
-      <breadcrumb
-        nameBread="Chiến dịch"
-        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
-      />
-      <!-- Start: Header -->
-      <app-header
-        :view="calendarView"
-        @updateCalendarView="calendarView = $event"
-      />
-      <!-- End: Header -->
-      <!-- Start: Content -->
-      <div class="main--content">
-        <!-- Start: FullCalendar -->
-        <fullcalendar
-          @eventClick="openEventPopup($event)"
-          :theme="currentTheme"
-          :view="calendarView"
-        />
-        <!-- End: FullCalendar -->
-      </div>
-      <!-- End: Content -->
-    </div>
-    <!-- End: Desktop Component-->
+  <div class="campaigns--wrapper" :data-theme="currentTheme">
+    <!-- Start: Header -->
+    <app-header
+      :view="calendarView"
+      @updateCalendarView="calendarView = $event"
+    />
+    <!-- End: Header -->
+    <!-- Start: FullCalendar -->
+    <fullcalendar
+      @eventClick="openEventPopup($event)"
+      :theme="currentTheme"
+      :view="calendarView"
+    />
+    <!-- End: FullCalendar -->
     <!-- Start: Event Popup -->
     <transition name="popup">
       <event-popup
@@ -49,6 +37,9 @@ export default {
     };
   },
   computed: {
+    campaignDetail() {
+      return this.$store.getters.campaignDetail;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     }

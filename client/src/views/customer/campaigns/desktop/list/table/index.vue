@@ -27,11 +27,11 @@
 		<div v-else>
 			<div class="item--body d_flex align_items_center px_3 py_2"
 			v-for="( campaign, index ) in filteredCampaigns"
-			:key="index"
+			:key="index" @click="viewCampaignDetail( campaign )"
 			>
 				<div class="col col--checkbox px_2">
 					<label class="custom--checkbox mb_0">
-						<input type="checkbox" checked />
+						<input type="checkbox"/>
 					</label>
 				</div>
 				<div class="col col--name px_2">

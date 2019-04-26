@@ -3,7 +3,7 @@
     <!-- Start: Header Top -->
     <div class="r main--header-top">
       <div class="c_md_6 top--left">
-        <div class="title">Chiến dịch bán hàng tháng 4</div>
+        <div class="title">{{ campaignDetail.title }}</div>
       </div>
       <div class="c_md_6 top--right">
         <div class="time--duration">
@@ -16,7 +16,7 @@
           >
             <icon-calendar />
           </icon-base>
-          <span>23/03/2019 - 23/03/2019</span>
+          <span>{{ formatDate( campaignDetail.started_at ) + ' - ' + formatDate( campaignDetail.finished_at ) }}</span>
         </div>
       </div>
     </div>
@@ -28,12 +28,15 @@
           <button class="btn btn--add">Thêm sự kiện</button>
         </div>
         <div class="campaing--status d_flex align_items_center">
-          <div class="status--name mr_2">
+          <div class="status--name mr_2" v-if="campaignDetail.status">
             Đang hoạt động
+          </div>
+          <div class="status--name mr_2" v-else>
+            Ngừng hoạt động
           </div>
           <toggle-switch
             @change="toggled = $event.value"
-            :value="true"
+            :value="campaignDetail.status"
             :sync="true"
           />
         </div>
@@ -79,11 +82,22 @@
 export default {
   props: [ "view" ],
   computed: {
+    campaignDetail() {
+      return this.$store.getters.campaignDetail;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
   methods: {
+    formatDate( d ) {
+      const dateTime = new Date( d ),
+        date = String( dateTime.getDate() ).padStart( 2, "0" ),
+        month = String( dateTime.getMonth() + 1 ).padStart( 2, "0" ),
+        year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
+    },
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );
     }

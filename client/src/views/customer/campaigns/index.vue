@@ -1,23 +1,23 @@
 <template>
-  <div>
-    <!-- Start: Campaign Detail -->
-    <campaign-list v-if="true" />
-    <!-- End: Campaign Detail -->
-    <!-- Start: Campaign Detail -->
-    <campaign-detail v-if="false" />
-    <!-- End: Campaign Detail -->
+  <div class="main">
+    <!-- Start: Desktop Component-->
+    <div class="d_none d_md_block">
+      <breadcrumb
+        nameBread="Chiến dịch"
+        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
+      />
+      <!-- Start: Content -->
+      <div class="main--content">
+        <router-view/>
+      </div>
+      <!-- End: Content -->
+    </div>
+    <!-- End: Desktop Component-->
   </div>
 </template>
 
 <script>
-import CampaignDetail from "./desktop/detail/index";
-import CampaignList from "./desktop/list/index";
-
 export default {
-  components: {
-    CampaignDetail,
-    CampaignList
-  }
 };
 </script>
 

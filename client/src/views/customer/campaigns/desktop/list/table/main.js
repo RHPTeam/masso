@@ -43,6 +43,10 @@ export default {
         year = dateTime.getFullYear();
 
       return `${date}/${month}/${year}`;
+    },
+    viewCampaignDetail( campaign ) {
+      this.$store.dispatch( "getCampaignDetail", campaign );
+      this.$router.push( campaign._id );
     }
   }
 };

@@ -2,7 +2,9 @@
   <div class="r main--header mb_4">
     <!-- Start: Header Left-->
     <div class="c_md_12 c_lg_6 main--header-left d_flex">
-      <div class="btn--add-campaign mr_3">Thêm chiến dịch</div>
+      <div class="btn--add-campaign mr_3"
+				@click="isShowCreatCampaignPopup = true"
+      >Thêm chiến dịch</div>
       <div class="campaign--search">
         <span class="ml_2">
           <icon-base
@@ -39,11 +41,20 @@
       />
     </div>
     <!-- End: Header Right-->
+		<!--	Start: Create Campaign Popup	-->
+		<transition name="popup">
+			<create-campaign-popup
+        v-if="isShowCreatCampaignPopup === true"
+        @closePopup="isShowCreatCampaignPopup = $event"
+      />
+		</transition>
+		<!--	End: Create Campaign Popup	-->
   </div>
 </template>
 
 <script>
 import AppFilter from "./filter/index";
+import CreateCampaignPopup from "../../popup/createcampaign";
 export default {
   props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {
@@ -58,6 +69,7 @@ export default {
         { id: "active", name: "Đang hoạt động" },
         { id: "deactive", name: "Ngừng hoạt động" }
       ],
+      isShowCreatCampaignPopup: false,
       search: ""
     };
   },
@@ -73,7 +85,8 @@ export default {
     }
   },
   components: {
-    AppFilter
+    AppFilter,
+    CreateCampaignPopup
   }
 };
 </script>
