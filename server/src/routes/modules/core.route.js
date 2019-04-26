@@ -3,6 +3,7 @@ const core = require( "../../controllers/core.controller" );
 
 router.route( "/groups" ).get( core.getAllGroups );
 router.route( "/pages" ).get( core.gettAllPages );
+router.route( "/posts" ).post( core.createPost );
 router.route( "/posts/:id" ).get( core.getPost );
 router.route( "/search/posts" ).get( core.searchPosts );
 router.route( "/search/pages" ).get( core.searchPages );

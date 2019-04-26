@@ -1,6 +1,10 @@
 <template>
   <div :dir="dir" class="v-select" :class="stateClasses">
-    <div ref="toggle" @mousedown.prevent="toggleDropdown" class="vs__dropdown-toggle">
+    <div
+      ref="toggle"
+      @mousedown.prevent="toggleDropdown"
+      class="vs__dropdown-toggle"
+    >
       <div class="vs__selected-options" ref="selectedOptions">
         <slot
           v-for="option in selectedValue"
@@ -14,7 +18,8 @@
             <slot
               name="selected-option"
               v-bind="normalizeOptionForSlot(option)"
-            >{{ getOptionLabel(option) }}</slot>
+              >{{ getOptionLabel(option) }}</slot
+            >
             <button
               v-if="multiple"
               :disabled="disabled"
@@ -23,13 +28,17 @@
               class="vs__deselect"
               aria-label="Deselect option"
             >
-              <deselect/>
+              <deselect />
             </button>
           </span>
         </slot>
 
         <slot name="search" v-bind="scope.search">
-          <input class="vs__search" v-bind="scope.search.attributes" v-on="scope.search.events">
+          <input
+            class="vs__search"
+            v-bind="scope.search.attributes"
+            v-on="scope.search.events"
+          />
         </slot>
       </div>
 
@@ -42,7 +51,7 @@
           class="vs__clear"
           title="Clear selection"
         >
-          <deselect/>
+          <deselect />
         </button>
 
         <open-indicator
@@ -72,13 +81,22 @@
           v-for="(option, index) in filteredOptions"
           :key="index"
           class="vs__dropdown-option"
-          :class="{ 'vs__dropdown-option--selected': isOptionSelected(option), 'vs__dropdown-option--highlight': index === typeAheadPointer }"
+          :class="{
+            'vs__dropdown-option--selected': isOptionSelected(option),
+            'vs__dropdown-option--highlight': index === typeAheadPointer
+          }"
           @mouseover="typeAheadPointer = index"
           @mousedown.prevent.stop="select(option)"
         >
-          <slot name="option" v-bind="normalizeOptionForSlot(option)">{{ getOptionLabel(option) }}</slot>
+          <slot name="option" v-bind="normalizeOptionForSlot(option)">{{
+            getOptionLabel(option)
+          }}</slot>
         </li>
-        <li v-if="!filteredOptions.length" class="vs__no-options" @mousedown.stop>
+        <li
+          v-if="!filteredOptions.length"
+          class="vs__no-options"
+          @mousedown.stop
+        >
           <slot name="no-options">Sorry, no matching options.</slot>
         </li>
       </ul>
@@ -87,6 +105,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import pointerScroll from "./utils/pointerscroll.util";
 import typeAheadPointer from "./util/typeaheadpointer.util";
 import ajax from "./utils/ajax.util";
@@ -244,11 +263,7 @@ export default {
       default(option) {
         if (typeof option === "object") {
           if (!option.hasOwnProperty(this.label)) {
-            return console.warn(
-              `[vue-select warn]: Label key "option.${this.label}" does not` +
-                ` exist in options object ${JSON.stringify(option)}.\n` +
-                "http://sagalbot.github.io/vue-select/#ex-labels"
-            );
+            return;
           }
           return option[this.label];
         }
@@ -441,7 +456,7 @@ export default {
      * when options change.
      * @return {[type]} [description]
      */
-    options(val) {
+    options() {
       if (!this.taggable && this.resetOnOptionsChange) {
         this.clearSelection();
       }
@@ -495,7 +510,7 @@ export default {
         this.updateValue(option);
       }
 
-      this.onAfterSelect(option);
+      this.onAfterSelect( option );
     },
 
     /**
@@ -875,7 +890,7 @@ export default {
      * @returns {HTMLInputElement}
      */
     searchEl() {
-      return !!this.$scopedSlots["search"]
+      return this.$scopedSlots["search"]
         ? this.$refs.selectedOptions.querySelector(
             this.searchInputQuerySelector
           )
@@ -908,7 +923,7 @@ export default {
             keyup: this.onSearchKeyUp,
             blur: this.onSearchBlur,
             focus: this.onSearchFocus,
-            input: e => (this.search = e.target.value)
+            input: e => ( this.search = e.target.value )
           }
         },
         spinner: {
