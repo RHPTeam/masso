@@ -35,7 +35,7 @@
             Ngừng hoạt động
           </div>
           <toggle-switch
-            @change="toggled = $event.value"
+            @change="updateCampaignStatus()"
             :value="campaignDetail.status"
             :sync="true"
           />
@@ -100,6 +100,11 @@ export default {
     },
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );
+    },
+    updateCampaignStatus() {
+      const campaignId = this.campaignDetail._id;
+
+      this.$store.dispatch( "updateCampaignStatus", campaignId );
     }
   }
 };

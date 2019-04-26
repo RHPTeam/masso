@@ -14,5 +14,8 @@ export default {
     };
 
     return Api().post( "campaigns", dataSender );
+  },
+  updateStatus( id ) {
+    return Api().patch( `campaigns?_campId=${id}&_type=status` );
   }
 };
