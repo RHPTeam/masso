@@ -1,5 +1,5 @@
 <template>
-  <button
+  <div
     class="btn btn--filter"
     @click="showFilterDropdown = !showFilterDropdown"
     v-click-outside="closeFilterDropdown"
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- End: Filter dropdown -->
-  </button>
+  </div>
 </template>
 
 <script>
@@ -53,6 +53,9 @@ export default {
   background-color: #fff;
   border-radius: 0.5rem;
   font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 .75rem;
   position: relative;
   &:active,
   &:focus {
@@ -73,7 +76,7 @@ export default {
     width: auto;
     z-index: 999;
     &--item {
-      padding: 0.375rem 0.75rem;
+      padding: 0 .75rem;
       &:hover {
         background-color: #ffb94a;
         color: #fff;
@@ -83,7 +86,8 @@ export default {
   svg {
     color: #ccc;
     stroke-width: 5;
-    vertical-align: bottom;
+    vertical-align: middle;
+    vertical-align: -webkit-baseline-middle;
   }
 }
 </style>

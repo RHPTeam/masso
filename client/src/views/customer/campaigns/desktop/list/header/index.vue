@@ -1,9 +1,9 @@
 <template>
-  <div class="r main--header mb_3">
+  <div class="r main--header mb_4">
     <!-- Start: Header Left-->
-    <div class="c_md_6 main--header-left d_flex">
-      <button class="btn btn--add-campaign mr_2">Thêm chiến dịch</button>
-      <div class="campaing--search">
+    <div class="c_md_12 c_lg_6 main--header-left d_flex">
+      <div class="btn--add-campaign mr_3">Thêm chiến dịch</div>
+      <div class="campaign--search">
         <span class="ml_2">
           <icon-base
             class="ic--search"
@@ -25,7 +25,7 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-    <div class="c_md_6 main--header-right text_right">
+    <div class="c_md_12 c_lg_6 main--header-right text_right">
       <app-filter
         class="mr_2"
         :filterList="filterShowList"
@@ -85,8 +85,12 @@ export default {
       background-color: #ffb94a;
       border-radius: 0.5rem;
       color: #fff;
+      cursor: pointer;
       font-size: 0.875rem;
       font-weight: 600;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 .75rem;
       &:hover {
         background-color: #ff9e4a;
       }
@@ -97,12 +101,11 @@ export default {
         box-shadow: none;
       }
     }
-    .campaing--search {
+    .campaign--search {
       background-color: #fff;
       background-clip: padding-box;
       border: 0;
       border-radius: 0.5rem;
-      width: 240px;
       svg.ic--search {
         color: #999999;
         vertical-align: middle;
@@ -114,8 +117,8 @@ export default {
         border-radius: 0.5rem;
         color: #444;
         font-size: 0.875rem;
-        height: calc(2.25rem);
-        line-height: 1.5;
+        height: 40px;
+        line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
         width: calc(100%-24px);
         &::placeholder {
