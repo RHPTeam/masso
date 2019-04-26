@@ -39,7 +39,7 @@
 
 <script>
 import AppHeader from "./header";
-import EventPopup from "./popup/event";
+import EventPopup from "../popup/event";
 export default {
   data() {
     return {

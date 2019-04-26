@@ -42,7 +42,6 @@ export default {
       this.showFilterDropdown = false;
     },
     updateFilterSelected( data ) {
-      this.filterSelected = data;
       this.$emit( "updateFilterSelected", data );
     }
   }

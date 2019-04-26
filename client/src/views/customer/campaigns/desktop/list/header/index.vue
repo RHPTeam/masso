@@ -15,7 +15,12 @@
             <icon-input-search />
           </icon-base>
         </span>
-        <input class="search--input" placeholder="Tìm kiếm" type="text" />
+        <input class="search--input"
+          placeholder="Tìm kiếm"
+          type="text"
+          v-model="search"
+          @input="updateSearch()"
+        />
       </div>
     </div>
     <!-- End: Header Left-->
@@ -25,12 +30,12 @@
         class="mr_2"
         :filterList="filterShowList"
         :filterSelected="filterShowSelected"
-        @updateFilterSelected="filterShowSelected = $event"
+        @updateFilterSelected="updateFilterShowSelected($event)"
       />
       <app-filter
         :filterList="filterStatusList"
         :filterSelected="filterStatusSelected"
-        @updateFilterSelected="filterStatusSelected = $event"
+        @updateFilterSelected="updateFilterStatusSelected($event)"
       />
     </div>
     <!-- End: Header Right-->
@@ -40,21 +45,32 @@
 <script>
 import AppFilter from "./filter/index";
 export default {
+  props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {
     return {
       filterShowList: [
-        { id: 0, name: "Hiển thị 25" },
-        { id: 1, name: "Hiển thị 50" },
-        { id: 2, name: "Hiển thị 100" }
+        { id: 25, name: "Hiển thị 25" },
+        { id: 50, name: "Hiển thị 50" },
+        { id: 100, name: "Hiển thị 100" }
       ],
-      filterShowSelected: { id: 0, name: "Hiển thị 25" },
       filterStatusList: [
-        { id: 0, name: "Tất cả trạng thái" },
-        { id: 1, name: "Đang hoạt động" },
-        { id: 2, name: "Ngừng hoạt động" }
+        { id: "all", name: "Tất cả trạng thái" },
+        { id: "active", name: "Đang hoạt động" },
+        { id: "deactive", name: "Ngừng hoạt động" }
       ],
-      filterStatusSelected: { id: 0, name: "Tất cả trạng thái" }
+      search: ""
     };
+  },
+  methods: {
+    updateFilterShowSelected( val ) {
+      this.$emit( "updateFilterShowSelected", val );
+    },
+    updateFilterStatusSelected( val ) {
+      this.$emit( "updateFilterStatusSelected", val );
+    },
+    updateSearch() {
+      this.$emit( "updateSearch", this.search );
+    }
   },
   components: {
     AppFilter
