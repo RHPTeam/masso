@@ -4,44 +4,52 @@
 import PostServices from "@/services/modules/post.services";
 
 const state = {
-    statusPost: "",
-    post: []
+  allPost: [],
+  statusPost: "",
+  post: [],
+  newPost: []
+};
+const getters = {
+  statusPost: ( state ) => state.statusPost,
+  allPost: ( state ) => state.allPost,
+  post: ( state ) => state.post,
+  newPost: ( state ) => state.newPost
+};
+const mutations = {
+  post_request: ( state ) => {
+    state.statusPost = "loading";
   },
-  getters = {
-    statusPost: ( state ) => state.statusPost,
-    post: ( state ) => state.post
+  post_success: ( state ) => {
+    state.statusPost = "success";
   },
-  mutations = {
-    post_request: ( state ) => {
-      state.statusPost = "loading";
-    },
-    post_success: ( state ) => {
-      state.statusPost = "success";
-    },
-    setPost: ( state, payload ) => {
-      state.post = payload;
-    }
+  setAllPost: ( state, payload ) => {
+    state.allPost = payload;
   },
-  actions = {
-    getAllPost: async ( { commit } ) => {
-      commit( "post_request" );
+  setNewPost: ( state, payload ) => {
+    state.newPost = payload;
+  },
+  setPost: ( state, payload ) => {
+    state.post = payload;
+  }
+};
+const actions = {
+  getAllPost: async ( { commit } ) => {
+    commit( "post_request" );
 
-      const resultAllPost = await PostServices.index();
+    const resultAllPost = await PostServices.index();
 
-      commit( "setPost", resultAllPost.data.data );
-      commit( "post_success" );
-    },
-    createNewPost: async ( { commit }, payload ) => {
-      commit( "post_request" );
-      const resultPostCreate = await PostServices.createNewPost( payload );
+    commit( "setPost", resultAllPost.data.data );
+    commit( "post_success" );
+  },
+  createNewPost: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const resultPostCreate = await PostServices.createNewPost( payload );
 
-      commit( "setPost", resultPostCreate.data.data );
-      const result = await PostServices.index();
+    commit( "setNewPost", resultPostCreate.data.data );
 
-      commit( "setPost", result.data.data );
-      commit( "post_success" );
-    }
-  };
+    commit( "post_success" );
+  }
+};
 
 export default {
   state,
