@@ -44,9 +44,10 @@ export default {
 
       return `${date}/${month}/${year}`;
     },
-    viewCampaignDetail( campaign ) {
-      this.$store.dispatch( "getCampaignDetail", campaign );
-      this.$router.push( campaign._id );
+    viewCampaignDetail( id ) {
+      this.$store.dispatch( "getCampaignDetail", id );
+      this.$router.push( { name: "campaigns/detail",
+        params: { campaignId: id } } );
     }
   }
 };

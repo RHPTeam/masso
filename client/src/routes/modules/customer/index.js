@@ -46,7 +46,7 @@ const generalRouter = {
         .default
     },
     {
-      path: "/:campaign_id",
+      path: ":campaignId",
       name: "campaigns/detail",
       component: require( "@/views/customer/campaigns/desktop/detail" )
         .default

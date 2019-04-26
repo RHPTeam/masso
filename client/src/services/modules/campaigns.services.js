@@ -15,6 +15,9 @@ export default {
 
     return Api().post( "campaigns", dataSender );
   },
+  getCampaignById( id ) {
+    return Api().get( `campaigns?_id=${id}` );
+  },
   updateStatus( id ) {
     return Api().patch( `campaigns?_campId=${id}&_type=status` );
   }

@@ -27,7 +27,7 @@
 		<div v-else>
 			<div class="item--body d_flex align_items_center px_3 py_2"
 			v-for="( campaign, index ) in filteredCampaigns"
-			:key="index" @click="viewCampaignDetail( campaign )"
+			:key="index" @click="viewCampaignDetail( campaign._id )"
 			>
 				<div class="col col--checkbox px_2">
 					<label class="custom--checkbox mb_0">
@@ -101,5 +101,5 @@
 <script src="./main.js"></script>
 
 <style lang="scss" scoped>
-@import "./style"
+@import "./style";
 </style>

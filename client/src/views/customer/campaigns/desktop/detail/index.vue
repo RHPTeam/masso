@@ -36,6 +36,11 @@ export default {
       isOpenEventPopup: false
     };
   },
+  async created() {
+    const campaignId = this.$route.params.campaignId;
+
+    await this.$store.dispatch( "getCampaignDetail", campaignId );
+  },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
