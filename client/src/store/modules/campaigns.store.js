@@ -31,6 +31,19 @@ const state = {
 
       await commit( "createCampaign", res.data.data );
     },
+    deleteCampaign: async ( { commit }, payload ) => {
+      const campaigns = state.campaigns.filter(
+        ( campaign ) => campaign._id !== payload
+      );
+
+      let res;
+
+      commit( "setCampaigns", campaigns );
+
+      await CampaignsServices.delete( payload );
+      res = await CampaignsServices.index();
+      commit( "setCampaigns", res.data.data );
+    },
     getAllCampaigns: async ( { commit } ) => {
       const campaigns = await CampaignsServices.index();
 

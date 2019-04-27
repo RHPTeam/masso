@@ -1,6 +1,14 @@
 
+import DeleteCampaignPopup from "../../popup/deletecampaign";
+
 export default {
   props: [ "filterShowSelected", "filterStatusSelected", "search" ],
+  data() {
+    return {
+      campaignDelete: {},
+      isShowDeleteCampaignPopup: false
+    };
+  },
   async created() {
     await this.$store.dispatch( "getAllCampaigns" );
   },
@@ -44,10 +52,17 @@ export default {
 
       return `${date}/${month}/${year}`;
     },
+    showDeleteCampaignPopup( campaign ) {
+      this.isShowDeleteCampaignPopup = true;
+      this.campaignDelete = campaign;
+    },
     viewCampaignDetail( id ) {
       this.$store.dispatch( "getCampaignDetail", id );
       this.$router.push( { name: "campaigns/detail",
         params: { campaignId: id } } );
     }
+  },
+  components: {
+    DeleteCampaignPopup
   }
 };

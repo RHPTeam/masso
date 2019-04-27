@@ -1,5 +1,5 @@
 <template>
-  <div class="r main--header mb_4">
+  <div class="r main--header mb_4" :data-theme="currentTheme">
     <!-- Start: Header Left-->
     <div class="c_md_12 c_lg_6 main--header-left d_flex">
       <div class="btn--add-campaign mr_3"
@@ -73,6 +73,11 @@ export default {
       search: ""
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );
@@ -95,18 +100,13 @@ export default {
 .main--header {
   .main--header-left {
     .btn--add-campaign {
-      background-color: #ffb94a;
       border-radius: 0.5rem;
-      color: #fff;
       cursor: pointer;
       font-size: 0.875rem;
       font-weight: 600;
       height: 40px;
       line-height: 40px;
       padding: 0 .75rem;
-      &:hover {
-        background-color: #ff9e4a;
-      }
       &:active,
       &:focus,
       &:visited {
@@ -115,28 +115,21 @@ export default {
       }
     }
     .campaign--search {
-      background-color: #fff;
       background-clip: padding-box;
       border: 0;
       border-radius: 0.5rem;
       svg.ic--search {
-        color: #999999;
         vertical-align: middle;
       }
       .search--input {
-        background-color: #fff;
         background-clip: padding-box;
         border: 0;
         border-radius: 0.5rem;
-        color: #444;
         font-size: 0.875rem;
         height: 40px;
         line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
         width: calc(100%-24px);
-        &::placeholder {
-          color: #ccc;
-        }
         &:active,
         &:focus,
         &:visited {
@@ -148,6 +141,55 @@ export default {
   }
   .main--header-right {
     font-size: 0.875rem;
+  }
+}
+/* Theme color */
+.main--header[data-theme="light"] {
+  .main--header-left {
+    .btn--add-campaign {
+      background-color: #ffb94a;
+      color: #fff;
+      &:hover {
+        background-color: #ff9e4a;
+      }
+    }
+    .campaign--search {
+      background-color: #fff;
+      svg.ic--search {
+        color: #999999;
+      }
+      .search--input {
+        background-color: #fff;
+        color: #444;
+        &::placeholder {
+          color: #ccc;
+        }
+      }
+    }
+  }
+}
+.main--header[data-theme="dark"] {
+  .main--header-left {
+    .btn--add-campaign {
+      background-color: #ffb94a;
+      color: #fff;
+      &:hover {
+        background-color: #ff9e4a;
+      }
+    }
+    .campaign--search {
+      background-color: #27292d ;
+      svg.ic--search {
+        color: #999999;
+      }
+      .search--input {
+        background-color: #27292d ;
+        color: #f7f7f7;
+        &::placeholder {
+          color: #666;
+        }
+      }
+    }
   }
 }
 </style>

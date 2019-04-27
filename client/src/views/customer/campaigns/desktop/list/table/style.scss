@@ -54,16 +54,12 @@
     border-top-left-radius: .625rem;
     border-top-right-radius: .625rem;
     color: #666666;
-    font-weight: 600;
     height: 48px;
   }
   .item--body {
     background-color: #fafafa;
     cursor: pointer;
     min-height: 48px;
-    &:hover {
-      background-color: #fff !important;
-    }
     &:last-child {
       border-bottom-left-radius: .625rem;
       border-bottom-right-radius: .625rem;
@@ -190,6 +186,9 @@
   }
   .item--body {
     background-color: #fafafa;
+    &:hover {
+      background-color: #fff !important;
+    }
   }
   .image--wrap-more {
     background-color: #e4e4e4;
@@ -205,8 +204,11 @@
     color: #cccccc;
   }
   .item--body {
-    background-color: #27292c;
-    color: #999999;
+    background-color: rgba(39, 41, 45, .4);
+    color: #f7f7f7;
+    &:hover {
+      background-color: #27292d !important;
+    }
   }
   .image--wrap-more {
     background-color: #2f3136;
