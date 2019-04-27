@@ -15,7 +15,7 @@ module.exports = {
       "color": req.body.color || null,
       "location": req.body.location || null,
       "scrapeLink": req.body.scrapeLink ? req.body.scrapeLink : "",
-      "youtube": req.body.youtube || null
+      "youtube": req.body.youtube ? req.body.youtube : ""
     } );
 
     return res.send( result );

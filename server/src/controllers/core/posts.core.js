@@ -7,7 +7,8 @@ const cheerio = require( "cheerio" ),
   { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
   {
     createNewFeed,
-    getPreviewScrape,
+    getPreviewScrapeOther,
+    getPreviewScrapeYoutube,
     handleImageUpload,
     uploadImage
   } = require( "../../helpers/utils/facebook.util" ),
@@ -145,7 +146,7 @@ module.exports = {
     let tokenFull = await getFullDtsgFB( { cookie, agent } ),
       token = tokenFull.value,
       pivacy = tokenFull.privacy,
-      youtubeLink = null,
+      scrapeOtherLink = null,
       av = null,
       listPhotoID = [],
       scrapeLinkObject = {};
@@ -191,44 +192,62 @@ module.exports = {
       } );
 
       listPhotoID = await Promise.all( sources );
-    } else if ( scrapeLink.includes( "facebook.com" ) ) {
-      // Check any case if user paste link post facebook
-      if (
-        scrapeLink.includes( "/permalink/" ) && scrapeLink.includes( "/groups" )
-      ) {
-        // Check case link scrape share of group ( share_type = 37 )
-        scrapeLinkObject.type = scrapeSharePost.group;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "/permalink/" )
-          .trim()
-          .replace( "/", "" );
-      } else if ( scrapeLink.includes( "/posts/" ) ) {
-        // Check case link scrape access strange (profile, fanpage) - ( share_type = 22 )
-        scrapeLinkObject.type = scrapeSharePost.strange;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "/posts/" )
-          .trim()
-          .replace( "/", "" );
-      } else if ( scrapeLink.includes( "story_fbid=" ) ) {
-        // Check case link scrape when post share from other post
-        scrapeLinkObject.type = scrapeSharePost.shareother;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "story_fbid=", "&" );
-      } else if ( scrapeLink.includes( "fbid=" ) ) {
-        // Check case link scrape access threater photo slide
-        scrapeLinkObject.type = scrapeSharePost.threater;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "fbid=" )
-          .trim()
-          .replace( "/", "" );
-      } else if ( scrapeLink.includes( "/videos/" ) ) {
-        // Check case link scrape access video post
-        scrapeLinkObject.type = scrapeSharePost.video;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "/videos/" )
-          .trim()
-          .replace( "/", "" );
-      } else if ( scrapeLink.includes( "profile.php?id=" ) ) {
-        // Check case link scrape share profile other
-        scrapeLinkObject.type = scrapeSharePost.shareprofile;
-        scrapeLinkObject.postId = findSubString( scrapeLink, "id=" )
-          .trim()
-          .replace( "/", "" );
+    } else if (
+      scrapeLink !== null && scrapeLink !== undefined && scrapeLink !== ""
+    ) {
+      // Check any case when user use scrape link
+      if ( scrapeLink.includes( "facebook.com" ) ) {
+        // Check any case if user paste link post facebook
+        if (
+          scrapeLink.includes( "/permalink/" ) && scrapeLink.includes( "/groups" )
+        ) {
+          // Check case link scrape share of group ( share_type = 37 )
+          scrapeLinkObject.type = scrapeSharePost.group;
+          scrapeLinkObject.postId = findSubString( scrapeLink, "/permalink/" )
+            .trim()
+            .replace( "/", "" );
+        } else if ( scrapeLink.includes( "/posts/" ) ) {
+          // Check case link scrape access strange (profile, fanpage) - ( share_type = 22 )
+          scrapeLinkObject.type = scrapeSharePost.strange;
+          scrapeLinkObject.postId = findSubString( scrapeLink, "/posts/" )
+            .trim()
+            .replace( "/", "" );
+        } else if ( scrapeLink.includes( "story_fbid=" ) ) {
+          // Check case link scrape when post share from other post
+          scrapeLinkObject.type = scrapeSharePost.shareother;
+          scrapeLinkObject.postId = findSubString(
+            scrapeLink,
+            "story_fbid=",
+            "&"
+          );
+        } else if ( scrapeLink.includes( "fbid=" ) ) {
+          // Check case link scrape access threater photo slide
+          scrapeLinkObject.type = scrapeSharePost.threater;
+          scrapeLinkObject.postId = findSubString( scrapeLink, "fbid=" )
+            .trim()
+            .replace( "/", "" );
+        } else if ( scrapeLink.includes( "/videos/" ) ) {
+          // Check case link scrape access video post
+          scrapeLinkObject.type = scrapeSharePost.video;
+          scrapeLinkObject.postId = findSubString( scrapeLink, "/videos/" )
+            .trim()
+            .replace( "/", "" );
+        } else if ( scrapeLink.includes( "profile.php?id=" ) ) {
+          // Check case link scrape share profile other
+          scrapeLinkObject.type = scrapeSharePost.shareprofile;
+          scrapeLinkObject.postId = findSubString( scrapeLink, "id=" )
+            .trim()
+            .replace( "/", "" );
+        }
+      } else {
+        const resultPreviewScrape = await getPreviewScrapeOther( {
+          cookie,
+          agent,
+          token,
+          "scrapeLink": scrapeLink
+        } );
+
+        scrapeOtherLink = resultPreviewScrape.results;
       }
     } else if ( youtube !== null && youtube !== undefined && youtube !== "" ) {
       // Check any case if user paste link youtube
@@ -236,14 +255,14 @@ module.exports = {
           "youtube.com",
           "youtubefb.com"
         ),
-        resultPreviewScrape = await getPreviewScrape( {
+        resultPreviewScrape = await getPreviewScrapeYoutube( {
           cookie,
           agent,
           token,
           "youtube": youtubeFullThumbnailLink
         } );
 
-      youtubeLink = resultPreviewScrape.results;
+      scrapeOtherLink = resultPreviewScrape.results;
     }
 
     // Upload post to facebook
@@ -255,9 +274,9 @@ module.exports = {
       "privacy": pivacy,
       color,
       "images": listPhotoID,
-      "youtube": youtubeLink,
+      "youtube": scrapeOtherLink,
       location,
-      "link": scrapeLink
+      "scrapeLink": scrapeOtherLink
     } );
     // Check error if upload post errors
 

@@ -33,7 +33,7 @@ const {
     images,
     location,
     color,
-    link,
+    scrapeLink,
     youtube
   ) => {
     const variables = {
@@ -45,21 +45,14 @@ const {
         "source": "WWW",
         "audience": { "web_privacyx": "300645083384735" },
         "message": { "text": content, "ranges": [] },
-        "logging": {
-          "composer_session_id": "ed7e5149-a986-43db-9d02-b158174f2ab8",
-          "ref": "feedx_sprouts"
-        },
         "with_tags_ids": [],
         "multilingual_translations": [],
         "camera_post_context": {
           "deduplication_id": "ed7e5149-a986-43db-9d02-b158174f2ab8",
           "source": "composer"
         },
-        "composer_source_surface": "newsfeed",
-        "composer_entry_point": "feedx_sprouts",
         "composer_entry_time": 154,
         "composer_session_events_log": { "composition_duration": 128 },
-        "composer_type": "feedx_sprouts",
         "direct_share_status": "NOT_SHARED",
         "sponsor_relationship": "WITH",
         "web_graphml_migration_params": {
@@ -78,10 +71,10 @@ const {
     // Youtube
     if ( youtube !== null ) {
       // eslint-disable-next-line dot-notation
-      variables[ "input" ][ "attachments" ] = [ JSON.stringify(
+      variables[ "input" ][ "attachments" ] = [
         {
           "link": {
-            "share_scrape_data": {
+            "share_scrape_data": JSON.stringify( {
               "share_type": scrapeSharePost.youtubelink,
               "share_params": {
                 "urlInfo": {
@@ -107,10 +100,10 @@ const {
                 "url_scrape_id": youtube.url_scrape_id,
                 "hmac": youtube.hmac
               }
-            }
+            } )
           }
         }
-      ) ];
+      ];
     }
 
     // Check hash uid random (Why same three logging)
@@ -181,7 +174,7 @@ module.exports = {
     images,
     youtube,
     location,
-    link
+    scrapeLink
   } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -201,7 +194,7 @@ module.exports = {
               images,
               location,
               color,
-              link,
+              scrapeLink,
               youtube
             )
           ),
@@ -213,8 +206,6 @@ module.exports = {
 
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          fs.writeFile( "temp.json", body, (er) => {} );
-          fs.writeFile( "compare.json", option, (er) => {} );
           // Check case timeline or group and fanpage
           if (
             location.timeline !== null && location.timeline !== undefined && location.timeline !== ""
@@ -282,7 +273,68 @@ module.exports = {
       } );
     } );
   },
-  "getPreviewScrape": ( { cookie, agent, token, youtube } ) => {
+  "getPreviewScrapeOther": ( { cookie, agent, token, scrapeLink } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "POST",
+        "url": linkGetPreviewScrape(
+          findSubString( cookie, "c_user=", ";" ),
+          scrapeLink
+        ),
+        "headers": {
+          "Cookie": cookie,
+          "User-Agent": agent,
+          "Accept": "/",
+          "Connection": "keep-alive",
+          "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
+        },
+        "form": {
+          "fb_dtsg": token,
+          "__user": findSubString( cookie, "c_user=", ";" ),
+          "__a": "1"
+        }
+      };
+
+      request( option, async ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          if ( !scrapeLink.includes( "facebook.com" ) ) {
+            return resolve( {
+              "errors": {
+                "code": 200,
+                "text": "Lấy thông tin từ link chia sẻ thành công!"
+              },
+              "results": {
+                "link": scrapeLink,
+                "title": convertUnicodeToCharacter(
+                  findSubString( body, '"title":"', '"' )
+                ),
+                "summary": convertUnicodeToCharacter(
+                  findSubString( body, '"summary":"', '"' )
+                ).replace( /\\\//gi, "/" ),
+                "external_author": findSubString(
+                  body,
+                  '"external_author":"',
+                  '"'
+                ).replace( /\\\//gi, "/" ),
+                "thumbnail": findSubString( body, '"images":["', '"' ).replace(
+                  /\\\//gi,
+                  "/"
+                ),
+                "global_share_id": findSubString( body, '"global_share_id":', "," ),
+                "url_scrape_id": findSubString( body, '"url_scrape_id":"', '"' ),
+                "hmac": findSubString( body, '"hmac":"', '"' )
+              }
+            } );
+          }
+        }
+        return resolve( {
+          "errors": requestgetPreviewScrapeFail,
+          "results": null
+        } );
+      } );
+    } );
+  },
+  "getPreviewScrapeYoutube": ( { cookie, agent, token, youtube } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
@@ -306,34 +358,32 @@ module.exports = {
 
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          const callbackObject = {
-            "link": youtube,
-            "title": convertUnicodeToCharacter(
-              findSubString( body, '"title":"', '"' )
-            ),
-            "summary": convertUnicodeToCharacter(
-              findSubString( body, '"summary":"', '"' )
-            ).replace( /\\\//gi, "/" ),
-            "external_author": findSubString(
-              body,
-              '"external_author":"',
-              '"'
-            ).replace( /\\\//gi, "/" ),
-            "thumbnail": findSubString( body, '"images":["', '"' ).replace(
-              /\\\//gi,
-              "/"
-            ),
-            "global_share_id": findSubString( body, '"global_share_id":', "," ),
-            "url_scrape_id": findSubString( body, '"url_scrape_id":"', '"' ),
-            "hmac": findSubString( body, '"hmac":"', '"' )
-          };
-
           return resolve( {
             "errors": {
               "code": 200,
               "text": "Lấy thông tin từ youtube thành công!"
             },
-            "results": callbackObject
+            "results": {
+              "link": youtube,
+              "title": convertUnicodeToCharacter(
+                findSubString( body, '"title":"', '"' )
+              ),
+              "summary": convertUnicodeToCharacter(
+                findSubString( body, '"summary":"', '"' )
+              ).replace( /\\\//gi, "/" ),
+              "external_author": findSubString(
+                body,
+                '"external_author":"',
+                '"'
+              ).replace( /\\\//gi, "/" ),
+              "thumbnail": findSubString( body, '"images":["', '"' ).replace(
+                /\\\//gi,
+                "/"
+              ),
+              "global_share_id": findSubString( body, '"global_share_id":', "," ),
+              "url_scrape_id": findSubString( body, '"url_scrape_id":"', '"' ),
+              "hmac": findSubString( body, '"hmac":"', '"' )
+            }
           } );
         }
         return resolve( {
