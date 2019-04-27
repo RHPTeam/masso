@@ -16,7 +16,7 @@ export default {
     return Api().post( "campaigns", dataSender );
   },
   delete( id ) {
-    return Api.delete( `campaigns?_campId=${id}` );
+    return Api().delete( `campaigns?_campId=${id}` );
   },
   getCampaignById( id ) {
     return Api().get( `campaigns?_id=${id}` );
