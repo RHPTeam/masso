@@ -1,4 +1,4 @@
-/* eslint-disable strict */
+/* eslint-disable no-nested-ternary */
 const {
     linkGetIdPost,
     linkGetPreviewScrape,
@@ -13,7 +13,7 @@ const {
     getIdPostSuccess,
     handleImageSuccess,
     requestGetIdPost,
-    requestgetPreviewScrapeFail,
+    requestGetPreviewScrapeFail,
     requestMissInfo,
     requestNewFeedFail,
     writeFileImageFail
@@ -27,24 +27,16 @@ const {
   request = require( "request" ),
   download = require( "download" ),
   randomstring = require( "randomstring" ),
-  generateObjectVariablesFacebook = (
-    uid,
-    content,
-    images,
-    location,
-    color,
-    scrapeLink,
-    youtube
-  ) => {
+  generateObjectVariablesFacebook = ( { cookie, feed } ) => {
     const variables = {
       "client_mutation_id": "825c85ea-68e2-436e-9f7c-ed4b514fec3a",
-      "actor_id": uid,
+      "actor_id": findSubString( cookie, "c_user=", ";" ),
       "input": {
-        "actor_id": uid,
+        "actor_id": findSubString( cookie, "c_user=", ";" ),
         "client_mutation_id": "f83d7659-623a-474b-9a7b-1bf4ed66c60f",
         "source": "WWW",
         "audience": { "web_privacyx": "300645083384735" },
-        "message": { "text": content, "ranges": [] },
+        "message": { "text": feed.content, "ranges": [] },
         "with_tags_ids": [],
         "multilingual_translations": [],
         "camera_post_context": {
@@ -66,53 +58,119 @@ const {
     };
 
     // Check location post new feed on facebook (Include: Timeline, Group, Page)
+    if ( feed.location ) {
+      // Check timeline
+      if ( feed.location.type === 0 ) {
+        // Do something
+      }
+      // Check group
+      if ( feed.location.type === 1 ) {
+        variables.input.audience = { "to_id": feed.location.value };
+      }
+      // Check page
+      if ( feed.location.type === 2 ) {
+        // eslint-disable-next-line camelcase
+        variables.input.actor_id = feed.location.value;
+        variables.input.audience = { "privacy": { "base_state": "EVERYONE" } };
+      }
+    }
 
-    // Check multi-media
-    // Youtube
-    if ( youtube !== null ) {
-      // eslint-disable-next-line dot-notation
-      variables[ "input" ][ "attachments" ] = [
-        {
-          "link": {
-            "share_scrape_data": JSON.stringify( {
-              "share_type": scrapeSharePost.youtubelink,
-              "share_params": {
-                "urlInfo": {
-                  "canonical": youtube.link,
-                  "final": youtube.link,
-                  "user": youtube.link
-                },
-                "favicon":
-                  "https://www.youtube.com/yts/img/favicon_144-vfliLAfaB.png",
-                "external_author": youtube.external_author,
-                "iframe": [],
-                "title": youtube.title,
-                "summary": youtube.summary,
-                "images_sorted_by_dom": [ youtube.thumbnail ],
-                "ranked_images": {
-                  "images": [ youtube.thumbnail ],
-                  "ranking_model_version": 11,
-                  "specified_og": true
-                },
-                "medium": 106,
-                "url": youtube.link,
-                "global_share_id": youtube.global_share_id,
-                "url_scrape_id": youtube.url_scrape_id,
-                "hmac": youtube.hmac
-              }
-            } )
+    // Check if feed use photo
+    if ( feed.photos ) {
+      variables.input.attachments = feed.photos.map( ( photo ) => {
+        return {
+          "photo": {
+            "id": photo,
+            "tags": []
           }
+        };
+      } );
+    }
+
+    // Check scrape which add attachment scrape_link
+    if ( feed.scrape ) {
+      if ( feed.scrape.link.includes( "facebook.com" ) ) {
+        variables.input.attachments = [
+          {
+            "link": {
+              "share_scrape_data": JSON.stringify( {
+                "share_type": feed.scrape.type,
+                "share_params": feed.scrape.params,
+                "shared_from_post_id": feed.scrape.shared_from_post_id
+              } )
+            }
+          }
+        ];
+      } else {
+        variables.input.attachments = [
+          {
+            "link": {
+              "share_scrape_data": JSON.stringify( {
+                "share_type": scrapeSharePost.youtubelink,
+                "share_params": {
+                  "urlInfo": {
+                    "canonical": feed.scrape.link,
+                    "final": feed.scrape.link,
+                    "user": feed.scrape.link
+                  },
+                  "favicon":
+                    "https://www.youtube.com/yts/img/favicon_144-vfliLAfaB.png",
+                  "external_author": feed.scrape.external_author,
+                  "iframe": [],
+                  "title": feed.scrape.title,
+                  "summary": feed.scrape.summary,
+                  "images_sorted_by_dom": [ feed.scrape.thumbnail ],
+                  "ranked_images": {
+                    "images": [ feed.scrape.thumbnail ],
+                    "ranking_model_version": 11,
+                    "specified_og": true
+                  },
+                  "medium": 106,
+                  "url": feed.scrape.link,
+                  "global_share_id": feed.scrape.global_share_id,
+                  "url_scrape_id": feed.scrape.url_scrape_id,
+                  "hmac": feed.scrape.hmac
+                }
+              } )
+            }
+          }
+        ];
+      }
+    }
+
+    // Check if feed use text format
+    if ( feed.color ) {
+      // eslint-disable-next-line camelcase
+      variables.input.text_format_preset_id = feed.color;
+    }
+
+    // Check if feed use tags
+    if ( feed.tags ) {
+      // eslint-disable-next-line camelcase
+      variables.input.with_tags_ids = feed.tags;
+    }
+
+    // Check if feed use check-in
+    if ( feed.place ) {
+      // eslint-disable-next-line camelcase
+      variables.input.explicit_place_id = feed.place;
+    }
+
+    // Check if feed use activity
+    if ( feed.activity ) {
+      // eslint-disable-next-line camelcase
+      variables.input.inline_activities = [
+        {
+          "taggable_activity_id": feed.activity.type,
+          "object_id": feed.activity.id,
+          "object_text": feed.activity.text
         }
       ];
     }
 
-    // Check hash uid random (Why same three logging)
-
-    // Check number random client mutation id
-
     return variables;
   },
-  getIdPostFacebook = ( { cookie, agent, token, privacy, type, storyID } ) => {
+  getIdPostFacebook = ( { cookie, agent, token, location, privacy, type, storyID } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
@@ -136,17 +194,26 @@ const {
       };
 
       // Change audience case: timeline, group, fanpage
-      if ( type === "timeline" ) {
+      if ( type === 0 ) {
         option.form[ "data[audience][web_privacyx]" ] = privacy;
+      } else if ( type === 1 ) {
+        option.form[ "data[audience][to_id]" ] = location.value;
+      } else if ( type === 2 ) {
+        option.form[ "data[audience][privacy][base_state]" ] = "everyone";
       }
+
+      console.log( option );
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           let postID = null;
 
-          if ( type === "timeline" ) {
-            // Check don't exist privacy_fbid (test_bee)
+          if ( type === 0 ) {
             postID = findSubString( body, '"privacy_fbid":"', '"' );
+          } else if ( type === 1 ) {
+            postID = findSubString( body, "post_id=", "&" );
+          } else if ( type === 2 ) {
+            postID = findSubString( body, '"contentID":"', '"' );
           }
           return resolve( {
             "errors": getIdPostSuccess,
@@ -164,18 +231,7 @@ const {
   };
 
 module.exports = {
-  "createNewFeed": ( {
-    cookie,
-    agent,
-    token,
-    content,
-    privacy,
-    color,
-    images,
-    youtube,
-    location,
-    scrapeLink
-  } ) => {
+  "createNewFeed": ( { cookie, agent, token, feed } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
@@ -188,15 +244,7 @@ module.exports = {
         },
         "form": {
           "variables": JSON.stringify(
-            generateObjectVariablesFacebook(
-              findSubString( cookie, "c_user=", ";" ),
-              content,
-              images,
-              location,
-              color,
-              scrapeLink,
-              youtube
-            )
+            generateObjectVariablesFacebook( { cookie, feed } )
           ),
           "__user": findSubString( cookie, "c_user=", ";" ),
           "fb_dtsg": token,
@@ -206,64 +254,50 @@ module.exports = {
 
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          // Check case timeline or group and fanpage
-          if (
-            location.timeline !== null && location.timeline !== undefined && location.timeline !== ""
-          ) {
-            // Timeline/Profile
-            const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
+          const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
 
-            // Check error when post timeline
-            if ( bodyJson.errors !== null && bodyJson.errors !== undefined ) {
+          if ( bodyJson.errors ) {
+            return resolve( {
+              "errors": {
+                "code": 8188,
+                "text": bodyJson.errors[ 0 ].description
+              },
+              "results": null
+            } );
+          } else if ( bodyJson.data.story_create ) {
+            // Get ID post from id hash preview of facebook
+            const result = await getIdPostFacebook( {
+              cookie,
+              agent,
+              token,
+              "location": feed.location,
+              "privacy": feed.privacy,
+              "type": feed.location.type,
+              "storyID": bodyJson.data.story_create.story.id
+            } );
+
+            if ( result.errors.code !== 200 ) {
               return resolve( {
-                "errors": {
-                  "code": 8188,
-                  "text": bodyJson.errors[ 0 ].description
+                "error": {
+                  "code": result.errors.code,
+                  "text": result.errors.text
                 },
                 "results": null
               } );
-            } else if ( bodyJson.data.story_create !== null ) {
-              // Get ID post from id hash preview of facebook
-              const result = await getIdPostFacebook( {
-                cookie,
-                agent,
-                token,
-                privacy,
-                "type": "timeline",
-                "storyID": bodyJson.data.story_create.story.id
-              } );
-
-              if ( result.errors.code !== 200 ) {
-                return resolve( {
-                  "error": {
-                    "code": result.errors.code,
-                    "text": result.errors.text
-                  },
-                  "results": null
-                } );
-              }
-
-              return resolve( {
-                "error": callbackGetIdPostSuccess,
-                "results": {
-                  "postID": result.results.postID,
-                  "type": "timeline"
-                }
-              } );
-            } else if ( bodyJson === undefined ) {
-              return resolve( {
-                "errors": requestMissInfo,
-                "results": null
-              } );
             }
-          } else if (
-            location.group !== null && location.group !== undefined && location.group !== ""
-          ) {
-            // Group
-          } else if (
-            location.group !== null && location.group !== undefined && location.group !== ""
-          ) {
-            // Page
+
+            return resolve( {
+              "error": callbackGetIdPostSuccess,
+              "results": {
+                "postID": result.results.postID,
+                "type": feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+              }
+            } );
+          } else if ( bodyJson === undefined ) {
+            return resolve( {
+              "errors": requestMissInfo,
+              "results": null
+            } );
           }
         }
         return resolve( {
@@ -273,20 +307,20 @@ module.exports = {
       } );
     } );
   },
-  "getPreviewScrapeOther": ( { cookie, agent, token, scrapeLink } ) => {
+  "getPreviewScrape": ( { cookie, agent, token, scrape } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
         "url": linkGetPreviewScrape(
           findSubString( cookie, "c_user=", ";" ),
-          scrapeLink
+          scrape
         ),
         "headers": {
           "Cookie": cookie,
           "User-Agent": agent,
           "Accept": "/",
           "Connection": "keep-alive",
-          "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
+          "Content-type": "application/x-www-form-urlencoded"
         },
         "form": {
           "fb_dtsg": token,
@@ -297,74 +331,40 @@ module.exports = {
 
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          if ( !scrapeLink.includes( "facebook.com" ) ) {
+          if ( scrape.includes( "facebook.com" ) ) {
+            const attachmentConfigText = findSubString(
+              body,
+              '"attachmentConfig":{',
+              "},"
+            );
+
             return resolve( {
               "errors": {
                 "code": 200,
-                "text": "Lấy thông tin từ link chia sẻ thành công!"
+                "text": "Lấy thông tin từ link facebook chia sẻ thành công!"
               },
               "results": {
-                "link": scrapeLink,
-                "title": convertUnicodeToCharacter(
-                  findSubString( body, '"title":"', '"' )
-                ),
-                "summary": convertUnicodeToCharacter(
-                  findSubString( body, '"summary":"', '"' )
-                ).replace( /\\\//gi, "/" ),
-                "external_author": findSubString(
-                  body,
-                  '"external_author":"',
-                  '"'
-                ).replace( /\\\//gi, "/" ),
-                "thumbnail": findSubString( body, '"images":["', '"' ).replace(
-                  /\\\//gi,
-                  "/"
-                ),
-                "global_share_id": findSubString( body, '"global_share_id":', "," ),
-                "url_scrape_id": findSubString( body, '"url_scrape_id":"', '"' ),
-                "hmac": findSubString( body, '"hmac":"', '"' )
+                "link": scrape,
+                "type": findSubString( attachmentConfigText, '"type":', "," ),
+                "params": findSubString(
+                  attachmentConfigText,
+                  '"params":[',
+                  "],"
+                ).split( "," ),
+                "shared_from_post_id": findSubString(
+                  attachmentConfigText,
+                  '"shared_from_post_id":'
+                )
               }
             } );
           }
-        }
-        return resolve( {
-          "errors": requestgetPreviewScrapeFail,
-          "results": null
-        } );
-      } );
-    } );
-  },
-  "getPreviewScrapeYoutube": ( { cookie, agent, token, youtube } ) => {
-    return new Promise( ( resolve ) => {
-      const option = {
-        "method": "POST",
-        "url": linkGetPreviewScrape(
-          findSubString( cookie, "c_user=", ";" ),
-          youtube
-        ),
-        "headers": {
-          "Cookie": cookie,
-          "User-Agent": agent,
-          "Accept": "/",
-          "Connection": "keep-alive",
-          "Content-type": "application/x-www-form-urlencoded; charset=utf-8"
-        },
-        "form": {
-          "fb_dtsg": token,
-          "__user": findSubString( cookie, "c_user=", ";" ),
-          "__a": "1"
-        }
-      };
-
-      request( option, async ( err, res, body ) => {
-        if ( !err && res.statusCode === 200 ) {
           return resolve( {
             "errors": {
               "code": 200,
-              "text": "Lấy thông tin từ youtube thành công!"
+              "text": "Lấy thông tin từ link chia sẻ thành công!"
             },
             "results": {
-              "link": youtube,
+              "link": scrape,
               "title": convertUnicodeToCharacter(
                 findSubString( body, '"title":"', '"' )
               ),
@@ -387,7 +387,7 @@ module.exports = {
           } );
         }
         return resolve( {
-          "errors": requestgetPreviewScrapeFail,
+          "errors": requestGetPreviewScrapeFail,
           "results": null
         } );
       } );

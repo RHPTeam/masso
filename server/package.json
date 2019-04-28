@@ -128,7 +128,7 @@
       ],
       "yoda": 2,
       "strict": [
-        2,
+        0,
         "function"
       ],
       "no-catch-shadow": 2,
@@ -318,5 +318,10 @@
     "passport-local": "^1.0.0",
     "randomstring": "^1.1.5",
     "request": "^2.88.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }

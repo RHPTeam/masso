@@ -3,12 +3,11 @@
 const cheerio = require( "cheerio" ),
   fs = require( "fs" ),
   request = require( "request" ),
-  { post, mpost, scrapeSharePost } = require( "../../configs/crawl" ),
+  { post, mpost } = require( "../../configs/crawl" ),
   { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
   {
     createNewFeed,
-    getPreviewScrapeOther,
-    getPreviewScrapeYoutube,
+    getPreviewScrape,
     handleImageUpload,
     uploadImage
   } = require( "../../helpers/utils/facebook.util" ),
@@ -25,7 +24,7 @@ const cheerio = require( "cheerio" ),
       };
 
       /**
-       * When id of post appear effect background text. Handle dupplicate text.
+       * When id of post appear effect background text. Handle duplicate text.
        * When id of post is new member of group. Handle get like
        */
 
@@ -36,7 +35,7 @@ const cheerio = require( "cheerio" ),
             images = [];
 
           if ( url === post( id ) ) {
-            // Check two case: profile, fanpage
+            // Check two case: profile, page
             if ( pageCase.length > 0 ) {
               // Get images in post ( Note: if post have one images, system will filter undefined to get images link full ( current version has only get max which is 5 images )
               $( "div.permalinkPost" )
@@ -133,29 +132,20 @@ const cheerio = require( "cheerio" ),
   };
 
 module.exports = {
-  "createPost": async ( {
-    cookie,
-    agent,
-    content,
-    images,
-    color,
-    location,
-    scrapeLink,
-    youtube
-  } ) => {
-    let tokenFull = await getFullDtsgFB( { cookie, agent } ),
+  "createPost": async ( { cookie, agent, feed } ) => {
+    const tokenFull = await getFullDtsgFB( { cookie, agent } ),
       token = tokenFull.value,
-      pivacy = tokenFull.privacy,
-      scrapeOtherLink = null,
-      av = null,
-      listPhotoID = [],
-      scrapeLinkObject = {};
+      privacy = tokenFull.privacy,
+      feedObject = {};
 
     // Check if user upload image or paste link image
-    if ( images.length > 0 ) {
+    if ( feed.photos ) {
       // Case 01: When user post images to facebook
-      const sources = images.map( async ( image ) => {
-        // Check source image extentsion
+      const sources = feed.photos.map( async ( image ) => {
+        // Assign variables when handle link photos
+        let photoID = null;
+
+        // Check source image extension
         const path = await handleImageUpload( image );
 
         // Check download fail
@@ -167,120 +157,63 @@ module.exports = {
           return;
         }
 
-        // Assign variable for "av" author vendor
-        if (
-          ( location.timeline !== null && location.timeline !== undefined && location.timeline !== "" ) || ( location.group !== null && location.group !== undefined && location.group !== "" )
-        ) {
-          av = findSubString( cookie, "c_user=", ";" );
-        } else if (
-          location.page !== null && location.page !== undefined && location.page !== ""
-        ) {
-          av = location.page.id;
+        // Assign variable for "av" author vendor | 0: timeline, 1: group, 2: page
+        if ( feed.location.type === 0 || feed.location.type === 1 ) {
+          feedObject.privacy = findSubString( cookie, "c_user=", ";" );
+        } else if ( feed.location.type === 2 ) {
+          feedObject.privacy = feed.location.value;
         }
 
-        // eslint-disable-next-line one-var
-        const photoID = await uploadImage( {
+        // Get photo ID from facebook return by crawl
+        photoID = await uploadImage( {
           cookie,
           agent,
           token,
           "path": path.results,
-          av
+          "av": feedObject.privacy
         } );
 
         await fs.unlinkSync( path.results );
         return photoID;
       } );
 
-      listPhotoID = await Promise.all( sources );
-    } else if (
-      scrapeLink !== null && scrapeLink !== undefined && scrapeLink !== ""
-    ) {
-      // Check any case when user use scrape link
-      if ( scrapeLink.includes( "facebook.com" ) ) {
-        // Check any case if user paste link post facebook
-        if (
-          scrapeLink.includes( "/permalink/" ) && scrapeLink.includes( "/groups" )
-        ) {
-          // Check case link scrape share of group ( share_type = 37 )
-          scrapeLinkObject.type = scrapeSharePost.group;
-          scrapeLinkObject.postId = findSubString( scrapeLink, "/permalink/" )
-            .trim()
-            .replace( "/", "" );
-        } else if ( scrapeLink.includes( "/posts/" ) ) {
-          // Check case link scrape access strange (profile, fanpage) - ( share_type = 22 )
-          scrapeLinkObject.type = scrapeSharePost.strange;
-          scrapeLinkObject.postId = findSubString( scrapeLink, "/posts/" )
-            .trim()
-            .replace( "/", "" );
-        } else if ( scrapeLink.includes( "story_fbid=" ) ) {
-          // Check case link scrape when post share from other post
-          scrapeLinkObject.type = scrapeSharePost.shareother;
-          scrapeLinkObject.postId = findSubString(
-            scrapeLink,
-            "story_fbid=",
-            "&"
-          );
-        } else if ( scrapeLink.includes( "fbid=" ) ) {
-          // Check case link scrape access threater photo slide
-          scrapeLinkObject.type = scrapeSharePost.threater;
-          scrapeLinkObject.postId = findSubString( scrapeLink, "fbid=" )
-            .trim()
-            .replace( "/", "" );
-        } else if ( scrapeLink.includes( "/videos/" ) ) {
-          // Check case link scrape access video post
-          scrapeLinkObject.type = scrapeSharePost.video;
-          scrapeLinkObject.postId = findSubString( scrapeLink, "/videos/" )
-            .trim()
-            .replace( "/", "" );
-        } else if ( scrapeLink.includes( "profile.php?id=" ) ) {
-          // Check case link scrape share profile other
-          scrapeLinkObject.type = scrapeSharePost.shareprofile;
-          scrapeLinkObject.postId = findSubString( scrapeLink, "id=" )
-            .trim()
-            .replace( "/", "" );
-        }
-      } else {
-        const resultPreviewScrape = await getPreviewScrapeOther( {
-          cookie,
-          agent,
-          token,
-          "scrapeLink": scrapeLink
-        } );
-
-        scrapeOtherLink = resultPreviewScrape.results;
-      }
-    } else if ( youtube !== null && youtube !== undefined && youtube !== "" ) {
-      // Check any case if user paste link youtube
-      const youtubeFullThumbnailLink = youtube.replace(
-          "youtube.com",
-          "youtubefb.com"
-        ),
-        resultPreviewScrape = await getPreviewScrapeYoutube( {
-          cookie,
-          agent,
-          token,
-          "youtube": youtubeFullThumbnailLink
-        } );
-
-      scrapeOtherLink = resultPreviewScrape.results;
+      feedObject.photos = await Promise.all( sources );
     }
 
+    // Check if user want scrape / share something
+    if ( feed.scrape ) {
+      // Check case if user use link of youtube which system will redirect and make full thumbnail
+      if ( feed.scrape.includes( "youtube.com" ) ) {
+        feed.scrape = feed.scrape.replace( "youtube.com", "youtubefb.com" );
+      }
+      const resultPreviewScrape = await getPreviewScrape( {
+        cookie,
+        agent,
+        token,
+        "scrape": feed.scrape
+      } );
+
+      feedObject.scrape = resultPreviewScrape.results;
+    }
+
+    // Check if user change privacy of feed
+    feedObject.privacy = privacy;
+
+    // Pass data from original object of client
+    feedObject.activity = feed.activity;
+    feedObject.color = feed.color;
+    feedObject.content = feed.content;
+    feedObject.location = feed.location;
+    feedObject.place = feed.place;
+    feedObject.tags = feed.tags;
+
     // Upload post to facebook
-    const result = await createNewFeed( {
+    return await createNewFeed( {
       cookie,
       agent,
       token,
-      content,
-      "privacy": pivacy,
-      color,
-      "images": listPhotoID,
-      "youtube": scrapeOtherLink,
-      location,
-      "scrapeLink": scrapeOtherLink
+      "feed": feedObject
     } );
-    // Check error if upload post errors
-
-    return result;
   },
   "getPost": async ( { cookie, agent, id } ) => {
     let token = await getDtsgFB( { cookie, agent } ),

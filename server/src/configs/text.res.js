@@ -19,7 +19,7 @@ module.exports = {
     "code": 1026,
     "text": "[1026] Gửi yêu cầu thông tin lấy id bài viết lên facebook thất bại hoặc thiếu thông tin gửi lên. Vui lòng thử lại!"
   },
-  "requestgetPreviewScrapeFail": {
+  "requestGetPreviewScrapeFail": {
     "code": 1028,
     "text": "[1028] Gửi yêu cầu thông tin lấy thông tin xem trước thất bại hoặc thiếu thông tin gửi lên. Vui lòng thử lại!"
   },
