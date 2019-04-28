@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "serve": "nodemon index.js",
-    "lint": "./node_modules/.bin/eslint index.js && ./node_modules/.bin/eslint src",
-    "lint:fix": "./node_modules/.bin/eslint index.js --fix && ./node_modules/.bin/eslint src --fix"
+    "lint": "./node_modules/.bin/eslint src",
+    "lint:fix": "./node_modules/.bin/eslint src --fix"
   },
   "keywords": [],
   "author": "",
