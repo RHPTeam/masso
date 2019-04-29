@@ -11,7 +11,7 @@
     <div class="list--content">
       <div class="list--filter mb_3">
         <div
-          class="list--input d_flex justify_content_between align_items_center mx_auto mb_3"
+          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2"
         >
           <span class="ml_3 mt_1">
             <icon-base
@@ -28,11 +28,11 @@
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
-          <span class="list--keywork-item py_1 px_2 m_1">keywork1</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork2</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork3</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork4</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork5</span>
+          <span class="list--keywork-item py_1 m_1">keywork1</span>
+          <span class="list--keywork-item py_1 m_1">keywork2</span>
+          <span class="list--keywork-item py_1 m_1">keywork3</span>
+          <span class="list--keywork-item py_1 m_1">keywork4</span>
+          <span class="list--keywork-item py_1 m_1">keywork5</span>
         </div>
       </div>
       <app-list />
@@ -73,7 +73,7 @@ export default {
   height: 40px;
   max-width: 100%;
   width: 60%;
-  min-width: 300px;
+  min-width: 400px;
   > input[type="text"] {
     background-color: transparent;
     border-top-right-radius: calc(0.5rem + 2px);
@@ -106,21 +106,16 @@ export default {
 }
 .list--keywork {
   &-item {
-    background-color: #ffb94a;
-    border: 1px solid #ffb94a;
-    border-radius: .5rem;
     cursor: pointer;
-    color: #fff;
-    font-size: 0.875rem;
+    color: $color-dark-2;
+    font-size: calc(1rem - 3px);
     font-weight: 500;
+    text-decoration: underline;
     &:hover,
     &:active,
     &:visited,
     &:focus {
-      background-color: transparent;
-      border: 1px solid #ffb94a;
       color: #ffb94a;
-      transition: all 0.5s ease;
     }
   }
 }

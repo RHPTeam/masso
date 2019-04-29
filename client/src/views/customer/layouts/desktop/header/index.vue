@@ -16,12 +16,10 @@
           <icon-menu />
         </icon-base>
       </div>
-      <router-link
+      <button
         class="header--button ml_4"
-        tag="button"
-        :to="{ name: 'post/create' }"
-        >Viết bài mới</router-link
-      >
+        @click="createNewPost"
+        >Viết bài mới</button>
     </div>
     <div class="header--right">
       <div
@@ -116,3 +114,4 @@
 <style scoped lang="scss">
 @import "./index.style";
 </style>
+ 

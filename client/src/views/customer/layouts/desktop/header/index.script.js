@@ -21,6 +21,9 @@ export default {
     },
     collapseMenu() {
       this.statusCollapse = this.$store.getters.collapseMenu;
+    },
+    newPost() {
+      return this.$store.getters.newPost;
     }
   },
 
@@ -38,6 +41,15 @@ export default {
     },
     closeDropdownUser() {
       this.showdropdown = false;
+    },
+    async createNewPost() {
+      const dataSender = {};
+
+      await this.$store.dispatch( "createNewPost", dataSender );
+      this.$router.push( {
+        name: "update_post",
+        params: { id: this.newPost._id }
+      } );
     }
   },
 

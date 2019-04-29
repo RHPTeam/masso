@@ -9,12 +9,15 @@ Vue.component( "IconArrowDown", () =>
 Vue.component( "IconAutoAnswer", () =>
   import( "@/components/icons/IconAutoAnswer" )
 );
+Vue.component( "IconArrowLeft", () => import( "@/components/icons/IconArrowLeft" ) );
+
 Vue.component( "IconBase", () => import( "@/components/icons/IconBase" ) );
 Vue.component( "IconBroadcast", () =>
   import( "@/components/icons/IconBroadcast" )
 );
 Vue.component( "IconCalendar", () => import( "@/components/icons/IconCalendar" ) );
 Vue.component( "IconCancel", () => import( "@/components/icons/IconCancel" ) );
+Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
 Vue.component( "IconCheck", () => import( "@/components/icons/IconCheck" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
@@ -22,6 +25,7 @@ Vue.component( "IconDelete", () => import( "@/components/icons/IconDelete" ) );
 Vue.component( "IconEdit", () => import( "@/components/icons/IconEdit" ) );
 Vue.component( "IconEnvelope", () => import( "@/components/icons/IconEnvelope" ) );
 Vue.component( "IconFriend", () => import( "@/components/icons/IconFriend" ) );
+Vue.component( "IconGrid", () => import( "@/components/icons/IconGrid" ) );
 Vue.component( "IconHome", () => import( "@/components/icons/IconHome" ) );
 Vue.component( "IconInfo", () => import( "@/components/icons/IconInfo" ) );
 Vue.component( "IconInputSearch", () =>
@@ -33,6 +37,8 @@ Vue.component( "IconLockCheck", () =>
   import( "@/components/icons/IconLockCheck" )
 );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
+Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
+Vue.component( "IconThreeDotsVerti", () => import( "@/components/icons/IconThreeDotsVerti" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
 Vue.component( "IconPhone", () => import( "@/components/icons/IconPhone" ) );
 Vue.component( "IconPlus", () => import( "@/components/icons/IconPlus" ) );
@@ -40,11 +46,13 @@ Vue.component( "IconRemove", () => import( "@/components/icons/IconRemove" ) );
 Vue.component( "IconScript", () => import( "@/components/icons/IconScript" ) );
 Vue.component( "IconSecurity", () => import( "@/components/icons/IconSecurity" ) );
 Vue.component( "IconSortDown", () => import( "@/components/icons/IconSortDown" ) );
+Vue.component( "IconSmile", () => import( "@/components/icons/IconSmile" ) );
 Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadImage" ) );
 
 // Icon Logo
 Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
+Vue.component( "IconLocation", () => import( "@/components/icons/IconLocation" ) );
 Vue.component( "IconLogoShort", () =>
   import( "@/components/icons/IconLogoShort" )
 );

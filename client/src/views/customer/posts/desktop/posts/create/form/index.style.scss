@@ -42,6 +42,7 @@
       height: 40px;
       outline: none;
       transition: all 0.4s ease;
+      width: 80px;
       &:hover {
         background-color: transparent;
         color: #ffb94a;
@@ -116,7 +117,117 @@
     }
   }
 }
-
+.wrap {
+  border: 1px solid $border-color;
+  border-radius: calc(.5rem + 2px);
+  .content {
+    border-bottom: 1px dotted $border-color;
+    padding-bottom: .5rem;
+    .content--special {
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      min-height: 200px;
+      .close {
+        height: 20px;
+        top: .5rem;
+        right: .5rem;
+        width: 20px;
+        svg {
+          color: #000;
+        }
+      }
+      .description {
+        color: $color-dark;
+        font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+      }
+    }
+    .description {
+      min-height: 50px;
+      &:focus, &:active, &:visited {
+        box-shadow: none;
+        outline: 0;
+      }
+    }
+    div[contenteditable=true]:empty::before {
+      content: attr(placeholder);
+    }
+  }
+  .color {
+    .color--fixed {
+      cursor: pointer;
+    }
+    .color--box {
+      .color--item {
+        background-color: $red;
+        border: 1px solid $border-color;
+        border-radius: 4px;
+        cursor: pointer;
+        height: 20px;
+        margin: 3px;
+        width: 20px;
+      }
+    }
+  }
+  .checkin {
+    border-bottom: 1px solid $border-color;
+    .fixed {
+      background-color: $grayLight;
+      height: 30px;
+      line-height: 30px;
+      width: 50px;
+    }
+    .option {
+      width: calc(100% - 50px);
+      input {
+        border: 0;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+        padding-left: calc(1rem + 4px);
+        &:hover, &:focus, &:active, &:visited {
+          box-shadow: none;
+          outline: 0;
+        }
+      }
+    }
+  }
+  .list {
+    list-style: none;
+    .item {
+      background-color: #f5f6f7;
+      border-radius: 15px;
+      cursor: pointer;
+      display: inline-block !important;
+      margin: 4px;
+      padding: .25rem 10px;
+      svg {
+        margin-bottom: -5px;
+      }
+      span {
+        font-weight: 500;
+        margin-left: .5rem;
+      }
+    }
+    .more {
+      padding: 12px 10px;
+      .dots {
+        height: 6px;
+        width: 6px;
+        border-radius: 50%;
+        background-color: $blackLight;
+        margin: 0 2px;
+      }
+    }
+  }
+  .show {
+    .item {
+      padding: 8px 10px;
+      width: 50%;
+    }
+  }
+}
 // RESPONSIVE
 
 @media only screen and (max-width: 1366px) {
