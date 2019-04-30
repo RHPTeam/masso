@@ -18,60 +18,129 @@
       />
     </div>
 
-      <div class="item mb_4">
-        <span>Nội dung</span>
-        <div class="wrap">
-          <!--        Start: Create and show content-->
-          <div class="content">
-            <div v-if="openContentColor === false" class="p_2">
-              <contenteditable
-                tag="div"
-                class="description"
-                :contenteditable="true"
-                v-model="content"
-                placeholder="Cập nhật nội dung bài viết"
-                @click="showOptionColor"
-              />
-            </div>
-
-            <div v-if="openContentColor === true" id="content--special" class="content--special position_relative d_flex align_items_center justify_content_center p_4" :style="{ backgroundColor: 'red' }">
-              <div class="close position_absolute" @click="changeContentDefault">
-                <icon-base
-                  class="ic--close"
-                  icon-name="close"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 35 35"
-                >
-                  <icon-close />
-                </icon-base>
-              </div>
-              <contenteditable
-                tag="div"
-                class="description"
-                :contenteditable="true"
-                v-model="contentColor"
-                placeholder="Cập nhật nội dung bài viết color"
-              />
-            </div>
-            <div class="mb_1 p_2">_ với Ai đó tại đâu đó</div>
-            <!--          Start: Choose color text-->
-            <color-post class="p_2" v-if="isShowColor === true" @turnOff="isShowColor = $event" @openContentColor="openContentColor = $event" />
-            <!--          End: Choose color text-->
-            <!--        Start:  show image when add-->
-            <image-post v-if="isShowImage === true" />
-            <!--        End:  show image when add-->
+    <div class="item mb_4">
+      <span>Nội dung</span>
+      <div class="wrap">
+        <!--        Start: Create and show content-->
+        <div class="content">
+          <div v-if="openContentColor === false" class="p_2">
+            <contenteditable
+              tag="div"
+              class="description"
+              :contenteditable="true"
+              v-model="content"
+              placeholder="Cập nhật nội dung bài viết"
+              @click="showOptionColor"
+            />
           </div>
-          <!--        End: Create and show content-->
-          <!--          Start: Tag-->
-          <tag-post v-if="isShowTag === true" />
-          <!--          End: Tag-->
-          <!--          Start: Checkin-->
-          <checkin-post v-if="isShowCheckIn === true" />
-          <!--          End: Checkin-->
-          <!--        Start: Show option-->
-          <ul class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2" v-if="isShowMoreOption === false">
-            <li class="item d_flex align_items_center" @click="isShowImage = true">
+
+          <div
+            v-if="openContentColor === true"
+            id="content--special"
+            class="content--special position_relative d_flex align_items_center justify_content_center p_4"
+            :style="{ backgroundColor: bgColorActive }"
+          >
+            <div class="close position_absolute" @click="changeContentDefault">
+              <icon-base
+                class="ic--close"
+                icon-name="close"
+                width="20"
+                height="20"
+                viewBox="0 0 35 35"
+              >
+                <icon-close/>
+              </icon-base>
+            </div>
+            <contenteditable
+              tag="div"
+              class="description"
+              :contenteditable="true"
+              v-model="contentColor"
+              placeholder="Cập nhật nội dung bài viết color"
+            />
+          </div>
+          <div class="d_flex align_items_center mb_1 p_2"
+            v-if="openContentColor === true"
+            :style="{ backgroundColor: bgColorActive }"
+            >
+            <div class="result">_ với <span>Ai đó</span></div>
+            <div class="result">_ tại <span>đâu đó</span></div>
+          </div>
+          <!--          Start: Choose color text-->
+          <color-post
+            class="p_2"
+            v-if="isShowColor === true"
+            @turnOff="isShowColor = $event"
+            @openContentColor="openContentColor = $event"
+            :dataColor="dataColor"
+            @changeBgColor="changeBgColor($event)"
+          />
+          <!--          End: Choose color text-->
+          <!--        Start:  show image when add-->
+          <image-post v-if="isShowImage === true"/>
+          <!--        End:  show image when add-->
+        </div>
+        <!--        End: Create and show content-->
+        <!--          Start: Tag-->
+        <tag-post v-if="isShowTag === true"/>
+        <!--          End: Tag-->
+        <!--          Start: Checkin-->
+        <checkin-post v-if="isShowCheckIn === true"/>
+        <!--          End: Checkin-->
+        <!--        Start: Show option-->
+        <ul
+          class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2"
+          v-if="isShowMoreOption === false"
+        >
+          <li class="item d_flex align_items_center" @click="isShowImage = true">
+            <icon-base
+              class="ic--search"
+              icon-name="upload-image"
+              width="20"
+              height="20"
+              viewBox="0 0 21 21"
+            >
+              <icon-upload-image/>
+            </icon-base>
+            <span>Đăng ảnh</span>
+          </li>
+          <li class="item d_flex align_items_center" @click="isShowCheckIn = true">
+            <icon-base
+              class="ic--search"
+              icon-name="location"
+              width="20"
+              height="20"
+              viewBox="0 0 60 60"
+            >
+              <icon-location/>
+            </icon-base>
+            <span>Địa điểm</span>
+          </li>
+          <li class="item d_flex align_items_center" @click="isShowTag = true">
+            <icon-base
+              class="ic--search"
+              icon-name="user"
+              width="20"
+              height="20"
+              viewBox="0 0 23 23"
+            >
+              <icon-user/>
+            </icon-base>
+            <span>Bạn bè</span>
+          </li>
+          <li class="item more d_flex align_items_center" @click="showOptionColor">
+            <div class="d_flex align_items_center">
+              <div class="dots"></div>
+              <div class="dots"></div>
+              <div class="dots"></div>
+            </div>
+          </li>
+        </ul>
+        <!--        End: show option-->
+        <!--        Start: Show option when click-->
+        <div v-if="isShowMoreOption === true">
+          <div class="list show d_flex align_items_center mt_2">
+            <div class="item d_flex align_items_center" @click="isShowImage = true">
               <icon-base
                 class="ic--search"
                 icon-name="upload-image"
@@ -79,11 +148,11 @@
                 height="20"
                 viewBox="0 0 21 21"
               >
-                <icon-upload-image />
+                <icon-upload-image/>
               </icon-base>
               <span>Đăng ảnh</span>
-            </li>
-            <li class="item d_flex align_items_center" @click="isShowCheckIn = true">
+            </div>
+            <div class="item d_flex align_items_center" @click="isShowCheckIn = true">
               <icon-base
                 class="ic--search"
                 icon-name="location"
@@ -91,11 +160,13 @@
                 height="20"
                 viewBox="0 0 60 60"
               >
-                <icon-location />
+                <icon-location/>
               </icon-base>
               <span>Địa điểm</span>
-            </li>
-            <li class="item d_flex align_items_center" @click="isShowTag = true">
+            </div>
+          </div>
+          <div class="list show d_flex align_items_center mt_1">
+            <div class="item d_flex align_items_center" @click="isShowTag = true">
               <icon-base
                 class="ic--search"
                 icon-name="user"
@@ -103,77 +174,27 @@
                 height="20"
                 viewBox="0 0 23 23"
               >
-                <icon-user />
+                <icon-user/>
               </icon-base>
               <span>Bạn bè</span>
-            </li>
-            <li class="item more d_flex align_items_center" @click="showOptionColor">
-              <div class="d_flex align_items_center">
-                <div class="dots"></div>
-                <div class="dots"></div>
-                <div class="dots"></div>
-              </div>
-            </li>
-          </ul>
-          <!--        End: show option-->
-          <!--        Start: Show option-->
-          <div v-if="isShowMoreOption === true">
-            <div class="list show d_flex align_items_center mt_2">
-              <div class="item d_flex align_items_center" @click="isShowImage = true">
-                <icon-base
-                  class="ic--search"
-                  icon-name="upload-image"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 21 21"
-                >
-                  <icon-upload-image />
-                </icon-base>
-                <span>Đăng ảnh</span>
-              </div>
-              <div class="item d_flex align_items_center" @click="isShowCheckIn = true">
-                <icon-base
-                  class="ic--search"
-                  icon-name="location"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 60 60"
-                >
-                  <icon-location />
-                </icon-base>
-                <span>Địa điểm</span>
-              </div>
             </div>
-            <div class="list show d_flex align_items_center mt_1">
-              <div class="item d_flex align_items_center" @click="isShowTag = true">
-                <icon-base
-                  class="ic--search"
-                  icon-name="user"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 23 23"
-                >
-                  <icon-user />
-                </icon-base>
-                <span>Bạn bè</span>
-              </div>
-              <div class="item d_flex align_items_center" @click="isShowTag = true">
-                <icon-base
-                  class="ic--search"
-                  icon-name="feelings"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 28 28"
-                >
-                  <icon-smile />
-                </icon-base>
-                <span>Cảm xúc</span>
-              </div>
+            <div class="item d_flex align_items_center" @click="isShowTag = true">
+              <icon-base
+                class="ic--search"
+                icon-name="feelings"
+                width="20"
+                height="20"
+                viewBox="0 0 28 28"
+              >
+                <icon-smile/>
+              </icon-base>
+              <span>Cảm xúc</span>
             </div>
           </div>
-          <!--        End: show option-->
         </div>
+        <!--        End: show option when click-->
       </div>
+    </div>
     <div class="item">
       <button>Lưu</button>
     </div>
@@ -182,7 +203,6 @@
 
 
 <script>
-
 import ColorPost from "./color";
 import ImagePost from "./images";
 import TagPost from "./tag";
@@ -194,10 +214,24 @@ export default {
       content: "",
       contentColor: "",
       openContentColor: false,
+      bgColorActive: "#ff0000",
       listCategories: [],
       isShowColor: false,
       dataColor: [
-
+        { name: "black", code: "#000000" },
+        { name: "black blur", code: "#707070" },
+        { name: "blue", code: "#5cf2f9" },
+        { name: "brown", code: "#663104" },
+        { name: "gray", code: "#cccccc" },
+        { name: "gray light", code: "#fafafa" },
+        { name: "gray dark", code: "#444444" },
+        { name: "green", code: "#34ed2a" },
+        { name: "violet", code: "#ed29d9" },
+        { name: "orange", code: "#ff9e4a" },
+        { name: "pink", code: "ff66ff" },
+        { name: "red", code: "#ff0000" },
+        { name: "yellow", code: "#ffff00" },
+        { name: "white", code: "#ffffff" }
       ],
       isShowImage: false,
       isShowTag: false,
@@ -241,6 +275,9 @@ export default {
     changeContentDefault() {
       this.openContentColor = false;
       this.content = this.contentColor;
+    },
+    changeBgColor ( ev ) {
+      this.bgColorActive = ev;
     }
   },
   watch: {
@@ -265,4 +302,11 @@ export default {
 
 <style lang="scss" scoped>
 @import "./index.style";
+.result {
+  span {
+    color: $orange !important;
+    font-size: calc(1rem + 1px);
+    font-weight: 600;
+  }
+}
 </style>
