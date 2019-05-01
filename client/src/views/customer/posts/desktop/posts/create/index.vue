@@ -34,6 +34,10 @@ export default {
   components: {
     AppForm,
     AppList
+  },
+  data() {
+    return {
+    };
   }
 };
 </script>

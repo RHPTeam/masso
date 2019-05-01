@@ -1,5 +1,5 @@
 <template>
-  <div class="main" :data-theme="currentTheme">
+  <div class="main">
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
@@ -30,11 +30,17 @@ export default {
   },
   computed: {
     showFilter() {
-      return (
-        this.$route.path === "/posts/categories" ||
-        this.$route.path === "/posts/"
-      );
+      const isCategoriesRoute = this.$route.path === "/posts/categories",
+            isPostRoute = this.$route.path === "/posts/";
+
+      if ( isCategoriesRoute || isPostRoute ) {
+        return true;
+      }
+      return false;
     }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
   }
 };
 </script>

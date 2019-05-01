@@ -7,6 +7,11 @@ module.exports = {
       enableInSFC: false
     }
   },
-
-  lintOnSave: undefined
+  css: {
+    loaderOptions: {
+      sass: {
+        data: '@import "@/assets/styles/index.scss";'
+      }
+    }
+  }
 };

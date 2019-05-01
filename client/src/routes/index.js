@@ -1,13 +1,23 @@
+/* eslint-disable prettier/prettier */
 import Vue from "vue";
 import Router from "vue-router";
 
-import customer_wellcomeRouter from "./modules/customer/wellcome";
-import customer_generalRouter from "./modules/customer";
+import customerGeneralRouter from "./modules/customer";
+import customerResetPassword from "./modules/customer/resetpassword";
+import customerSigninRouter from "./modules/customer/signin";
+import customerSignupRouter from "./modules/customer/signup";
+import customerWelcomeRouter from "./modules/customer/welcome";
 
-Vue.use(Router);
+Vue.use( Router );
 
-export default new Router({
+export default new Router( {
   mode: "history",
   base: process.env.BASE_URL,
-  routes: [customer_wellcomeRouter, customer_generalRouter]
-});
+  routes: [
+    customerGeneralRouter,
+    customerResetPassword,
+    customerSigninRouter,
+    customerSignupRouter,
+    customerWelcomeRouter
+  ]
+} );

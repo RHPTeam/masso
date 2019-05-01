@@ -45,7 +45,7 @@ export default {
     pageDate: Date,
     pageTimestamp: Number,
     disabledDates: Object,
-    calendarClass: [String, Object, Array],
+    calendarClass: [ String, Object, Array ],
     calendarStyle: Object,
     translation: Object,
     isRtl: Boolean,
@@ -53,7 +53,8 @@ export default {
     useUtc: Boolean
   },
   data() {
-    const constructedDateUtils = makeDateUtils(this.useUtc);
+    const constructedDateUtils = makeDateUtils( this.useUtc );
+
     return {
       utils: constructedDateUtils
     };
@@ -61,25 +62,25 @@ export default {
   computed: {
     months() {
       const d = this.pageDate;
-      let months = [];
-      // set up a new date object to the beginning of the current 'page'
-      let dObj = this.useUtc
-        ? new Date(Date.UTC(d.getUTCFullYear(), 0, d.getUTCDate()))
-        : new Date(
+
+      let months = [],
+          // set up a new date object to the beginning of the current 'page'
+          dObj = this.useUtc ? new Date( Date.UTC( d.getUTCFullYear(), 0, d.getUTCDate() ) ) : new Date(
             d.getFullYear(),
             0,
             d.getDate(),
             d.getHours(),
             d.getMinutes()
           );
-      for (let i = 0; i < 12; i++) {
-        months.push({
-          month: this.utils.getMonthName(i, this.translation.months),
+
+      for ( let i = 0; i < 12; i++ ) {
+        months.push( {
+          month: this.utils.getMonthName( i, this.translation.months ),
           timestamp: dObj.getTime(),
-          isSelected: this.isSelectedMonth(dObj),
-          isDisabled: this.isDisabledMonth(dObj)
-        });
-        this.utils.setMonth(dObj, this.utils.getMonth(dObj) + 1);
+          isSelected: this.isSelectedMonth( dObj ),
+          isDisabled: this.isDisabledMonth( dObj )
+        } );
+        this.utils.setMonth( dObj, this.utils.getMonth( dObj ) + 1 );
       }
       return months;
     },
@@ -89,25 +90,22 @@ export default {
      */
     pageYearName() {
       const yearSuffix = this.translation.yearSuffix;
-      return `${this.utils.getFullYear(this.pageDate)}${yearSuffix}`;
+
+      return `${this.utils.getFullYear( this.pageDate )}${yearSuffix}`;
     },
     /**
      * Is the left hand navigation disabled
      * @return {Boolean}
      */
     isLeftNavDisabled() {
-      return this.isRtl
-        ? this.isNextYearDisabled(this.pageTimestamp)
-        : this.isPreviousYearDisabled(this.pageTimestamp);
+      return this.isRtl ? this.isNextYearDisabled( this.pageTimestamp ) : this.isPreviousYearDisabled( this.pageTimestamp );
     },
     /**
      * Is the right hand navigation disabled
      * @return {Boolean}
      */
     isRightNavDisabled() {
-      return this.isRtl
-        ? this.isPreviousYearDisabled(this.pageTimestamp)
-        : this.isNextYearDisabled(this.pageTimestamp);
+      return this.isRtl ? this.isPreviousYearDisabled( this.pageTimestamp ) : this.isNextYearDisabled( this.pageTimestamp );
     }
   },
   methods: {
@@ -115,27 +113,28 @@ export default {
      * Emits a selectMonth event
      * @param {Object} month
      */
-    selectMonth(month) {
-      if (month.isDisabled) {
+    selectMonth( month ) {
+      if ( month.isDisabled ) {
         return false;
       }
-      this.$emit("selectMonth", month);
+      this.$emit( "selectMonth", month );
     },
     /**
      * Changes the year up or down
      * @param {Number} incrementBy
      */
-    changeYear(incrementBy) {
+    changeYear( incrementBy ) {
       let date = this.pageDate;
-      this.utils.setFullYear(date, this.utils.getFullYear(date) + incrementBy);
-      this.$emit("changedYear", date);
+
+      this.utils.setFullYear( date, this.utils.getFullYear( date ) + incrementBy );
+      this.$emit( "changedYear", date );
     },
     /**
      * Decrements the year
      */
     previousYear() {
-      if (!this.isPreviousYearDisabled()) {
-        this.changeYear(-1);
+      if ( !this.isPreviousYearDisabled() ) {
+        this.changeYear( -1 );
       }
     },
     /**
@@ -143,20 +142,19 @@ export default {
      * @return {Boolean}
      */
     isPreviousYearDisabled() {
-      if (!this.disabledDates || !this.disabledDates.to) {
+      if ( !this.disabledDates || !this.disabledDates.to ) {
         return false;
       }
       return (
-        this.utils.getFullYear(this.disabledDates.to) >=
-        this.utils.getFullYear(this.pageDate)
+        this.utils.getFullYear( this.disabledDates.to ) >= this.utils.getFullYear( this.pageDate )
       );
     },
     /**
      * Increments the year
      */
     nextYear() {
-      if (!this.isNextYearDisabled()) {
-        this.changeYear(1);
+      if ( !this.isNextYearDisabled() ) {
+        this.changeYear( 1 );
       }
     },
     /**
@@ -164,31 +162,27 @@ export default {
      * @return {Boolean}
      */
     isNextYearDisabled() {
-      if (!this.disabledDates || !this.disabledDates.from) {
+      if ( !this.disabledDates || !this.disabledDates.from ) {
         return false;
       }
       return (
-        this.utils.getFullYear(this.disabledDates.from) <=
-        this.utils.getFullYear(this.pageDate)
+        this.utils.getFullYear( this.disabledDates.from ) <= this.utils.getFullYear( this.pageDate )
       );
     },
     /**
      * Emits an event that shows the year calendar
      */
     showYearCalendar() {
-      this.$emit("showYearCalendar");
+      this.$emit( "showYearCalendar" );
     },
     /**
      * Whether the selected date is in this month
      * @param {Date}
      * @return {Boolean}
      */
-    isSelectedMonth(date) {
+    isSelectedMonth( date ) {
       return (
-        this.selectedDate &&
-        this.utils.getFullYear(this.selectedDate) ===
-          this.utils.getFullYear(date) &&
-        this.utils.getMonth(this.selectedDate) === this.utils.getMonth(date)
+        this.selectedDate && this.utils.getFullYear( this.selectedDate ) === this.utils.getFullYear( date ) && this.utils.getMonth( this.selectedDate ) === this.utils.getMonth( date )
       );
     },
     /**
@@ -196,47 +190,34 @@ export default {
      * @param {Date}
      * @return {Boolean}
      */
-    isDisabledMonth(date) {
+    isDisabledMonth( date ) {
       let disabledDates = false;
 
-      if (typeof this.disabledDates === "undefined") {
+      if ( typeof this.disabledDates === "undefined" ) {
         return false;
       }
 
       if (
-        typeof this.disabledDates.to !== "undefined" &&
-        this.disabledDates.to
+        typeof this.disabledDates.to !== "undefined" && this.disabledDates.to
       ) {
         if (
-          (this.utils.getMonth(date) <
-            this.utils.getMonth(this.disabledDates.to) &&
-            this.utils.getFullYear(date) <=
-              this.utils.getFullYear(this.disabledDates.to)) ||
-          this.utils.getFullYear(date) <
-            this.utils.getFullYear(this.disabledDates.to)
+          ( this.utils.getMonth( date ) < this.utils.getMonth( this.disabledDates.to ) && this.utils.getFullYear( date ) <= this.utils.getFullYear( this.disabledDates.to ) ) || this.utils.getFullYear( date ) < this.utils.getFullYear( this.disabledDates.to )
         ) {
           disabledDates = true;
         }
       }
       if (
-        typeof this.disabledDates.from !== "undefined" &&
-        this.disabledDates.from
+        typeof this.disabledDates.from !== "undefined" && this.disabledDates.from
       ) {
         if (
-          (this.utils.getMonth(date) >
-            this.utils.getMonth(this.disabledDates.from) &&
-            this.utils.getFullYear(date) >=
-              this.utils.getFullYear(this.disabledDates.from)) ||
-          this.utils.getFullYear(date) >
-            this.utils.getFullYear(this.disabledDates.from)
+          ( this.utils.getMonth( date ) > this.utils.getMonth( this.disabledDates.from ) && this.utils.getFullYear( date ) >= this.utils.getFullYear( this.disabledDates.from ) ) || this.utils.getFullYear( date ) > this.utils.getFullYear( this.disabledDates.from )
         ) {
           disabledDates = true;
         }
       }
 
       if (
-        typeof this.disabledDates.customPredictor === "function" &&
-        this.disabledDates.customPredictor(date)
+        typeof this.disabledDates.customPredictor === "function" && this.disabledDates.customPredictor( date )
       ) {
         disabledDates = true;
       }

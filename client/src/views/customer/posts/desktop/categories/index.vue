@@ -4,7 +4,7 @@
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5">
           <!-- Start: Add New -->
-          <app-new />
+          <app-new :isUpdateCategories="isUpdateCategories" />
           <!-- End: Add New -->
         </div>
         <div class="c_12 c_lg_12 c_xl_8">
@@ -12,7 +12,7 @@
           <app-action />
           <!-- End: Action -->
           <!-- Start: Data List -->
-          <app-list />
+          <app-list @changeUpdate="isUpdateCategories = $event" />
           <!-- End: Data List -->
           <!-- Start: Info -->
           <app-info />
@@ -35,6 +35,11 @@ export default {
     AppAction,
     AppInfo,
     AppList
+  },
+  data() {
+    return {
+      isUpdateCategories: false
+    };
   }
 };
 </script>

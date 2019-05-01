@@ -55,8 +55,8 @@ import { makeDateUtils } from "../utils/date.util";
 export default {
   props: {
     selectedDate: Date,
-    resetTypedDate: [Date],
-    format: [String, Function],
+    resetTypedDate: [ Date ],
+    format: [ String, Function ],
     translation: Object,
     inline: Boolean,
     id: String,
@@ -64,7 +64,7 @@ export default {
     refName: String,
     openDate: Date,
     placeholder: String,
-    inputClass: [String, Object, Array],
+    inputClass: [ String, Object, Array ],
     clearButton: Boolean,
     clearButtonIcon: String,
     calendarButton: Boolean,
@@ -77,7 +77,8 @@ export default {
     useUtc: Boolean
   },
   data() {
-    const constructedDateUtils = makeDateUtils(this.useUtc);
+    const constructedDateUtils = makeDateUtils( this.useUtc );
+
     return {
       input: null,
       typedDate: false,
@@ -86,25 +87,23 @@ export default {
   },
   computed: {
     formattedValue() {
-      if (!this.selectedDate) {
+      if ( !this.selectedDate ) {
         return null;
       }
-      if (this.typedDate) {
+      if ( this.typedDate ) {
         return this.typedDate;
       }
-      return typeof this.format === "function"
-        ? this.format(this.selectedDate)
-        : this.utils.formatDate(
-            new Date(this.selectedDate),
-            this.format,
-            this.translation
-          );
+      return typeof this.format === "function" ? this.format( this.selectedDate ) : this.utils.formatDate(
+        new Date( this.selectedDate ),
+        this.format,
+        this.translation
+      );
     },
 
     computedInputClass() {
-      if (this.bootstrapStyling) {
-        if (typeof this.inputClass === "string") {
-          return [this.inputClass, "form-control"].join(" ");
+      if ( this.bootstrapStyling ) {
+        if ( typeof this.inputClass === "string" ) {
+          return [ this.inputClass, "form-control" ].join( " " );
         }
         return { "form-control": true, ...this.inputClass };
       }
@@ -119,30 +118,34 @@ export default {
   mounted() {
     this.input = this.$el.querySelector("input");
   },
+  mounted() {
+    this.input = this.$el.querySelector( "input" );
+  },
   methods: {
     showCalendar() {
-      this.$emit("showCalendar");
+      this.$emit( "showCalendar" );
     },
     /**
      * Attempt to parse a typed date
      * @param {Event} event
      */
-    parseTypedDate(event) {
+    parseTypedDate( event ) {
       // close calendar if escape or enter are pressed
       if (
         [
           27, // escape
           13 // enter
-        ].includes(event.keyCode)
+        ].includes( event.keyCode )
       ) {
         this.input.blur();
       }
 
-      if (this.typeable) {
-        const typedDate = Date.parse(this.input.value);
-        if (!isNaN(typedDate)) {
+      if ( this.typeable ) {
+        const typedDate = Date.parse( this.input.value );
+
+        if ( !isNaN( typedDate ) ) {
           this.typedDate = this.input.value;
-          this.$emit("typedDate", new Date(this.typedDate));
+          this.$emit( "typedDate", new Date( this.typedDate ) );
         }
       }
     },
@@ -151,19 +154,19 @@ export default {
      * called once the input is blurred
      */
     inputBlurred() {
-      if (this.typeable && isNaN(Date.parse(this.input.value))) {
+      if ( this.typeable && isNaN( Date.parse( this.input.value ) ) ) {
         this.clearDate();
         this.input.value = null;
         this.typedDate = null;
       }
 
-      this.$emit("closeCalendar");
+      this.$emit( "closeCalendar" );
     },
     /**
      * emit a clearDate event
      */
     clearDate() {
-      this.$emit("clearDate");
+      this.$emit( "clearDate" );
     }
   }
 };

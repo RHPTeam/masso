@@ -1,5 +1,8 @@
 <template>
-  <div class="post--action d_flex justify_content_between align_items_center">
+  <div
+    class="post--action d_flex justify_content_between align_items_center"
+    :data-theme="currentTheme"
+  >
     <div class="post--search d_flex justify_content_between align_items_center">
       <span class="ml_3 mt_1">
         <icon-base
@@ -17,12 +20,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
 .post--search {
-  background-color: #fafafa;
   border-radius: 10px;
   font-size: 0.875rem;
   height: 40px;
@@ -53,6 +61,31 @@ export default {};
   }
   svg {
     color: #999;
+  }
+}
+
+//CHANGE COLOR THEME
+
+//LIGHT
+
+.post--action[data-theme="light"] {
+  .post--search {
+    background-color: #fafafa;
+    input {
+      color: #000;
+    }
+  }
+}
+
+// DARK
+
+.post--action[data-theme="dark"] {
+  .post--search {
+    background-color: #27292d;
+    color: #999;
+    input {
+      color: #999;
+    }
   }
 }
 </style>

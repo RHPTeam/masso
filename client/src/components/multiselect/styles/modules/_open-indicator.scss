@@ -10,7 +10,10 @@ $open-indicator-color: $vs-controls-color;
 $open-indicator-size: $vs-controls-size;
 
 .vs__open-indicator {
+  cursor: pointer;
   fill: $open-indicator-color;
+  stroke: $open-indicator-color;
+  stroke-width: 7.5;
   transform: scale($open-indicator-size);
   transition: transform $transition-duration $transition-timing-function;
   transition-timing-function: $transition-timing-function;

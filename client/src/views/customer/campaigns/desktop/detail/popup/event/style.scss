@@ -1,0 +1,12 @@
+.modal--event {
+  width: 1000px !important;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  font-size: 0.875rem;
+  .body--autopost {
+    height: 100%;
+  }
+  .modal--event-scroll {
+    height: calc(100% - 110px - 1rem);
+  }
+}

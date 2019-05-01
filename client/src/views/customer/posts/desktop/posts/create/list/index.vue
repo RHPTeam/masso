@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" :data-theme="currentTheme">
     <div class="list--header">
       <h5 class="list--header-title mb_3">Bài viết mẫu nhiều tương tác</h5>
       <span class="list--header-description"
@@ -11,7 +11,7 @@
     <div class="list--content">
       <div class="list--filter mb_3">
         <div
-          class="list--input d_flex justify_content_between align_items_center mx_auto mb_3"
+          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2"
         >
           <span class="ml_3 mt_1">
             <icon-base
@@ -28,11 +28,11 @@
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
-          <span class="list--keywork-item py_1 px_2 m_1">keywork1</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork2</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork3</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork4</span>
-          <span class="list--keywork-item py_1 px_2 m_1">keywork5</span>
+          <span class="list--keywork-item py_1 m_1">keywork1</span>
+          <span class="list--keywork-item py_1 m_1">keywork2</span>
+          <span class="list--keywork-item py_1 m_1">keywork3</span>
+          <span class="list--keywork-item py_1 m_1">keywork4</span>
+          <span class="list--keywork-item py_1 m_1">keywork5</span>
         </div>
       </div>
       <app-list />
@@ -45,6 +45,11 @@ import AppList from "./table/index";
 export default {
   components: {
     AppList
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -54,23 +59,25 @@ export default {
   color: #444444;
   margin-bottom: 1.25rem;
   &-title {
-    font-size: 18px;
+    font-size: 1rem;
     font-weight: 600;
   }
   &-description {
     color: #999999;
+    font-size: .875rem;
   }
 }
 .list--input {
-  background-color: #fff;
   border-radius: 10px;
   font-size: 0.875rem;
   height: 40px;
   max-width: 100%;
   width: 60%;
-  min-width: 300px;
+  min-width: 400px;
   > input[type="text"] {
     background-color: transparent;
+    border-top-right-radius: calc(0.5rem + 2px);
+    border-bottom-right-radius: calc(0.5rem + 2px);
     border: 0;
     font-size: 0.875rem;
     height: 100%;
@@ -99,11 +106,42 @@ export default {
 }
 .list--keywork {
   &-item {
-    background-color: #ffb94a;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 0.75rem;
+    cursor: pointer;
+    color: $color-dark-2;
+    font-size: calc(1rem - 3px);
     font-weight: 500;
+    text-decoration: underline;
+    &:hover,
+    &:active,
+    &:visited,
+    &:focus {
+      color: #ffb94a;
+    }
+  }
+}
+// CHANGE COLOR THEME
+.list[data-theme="light"] {
+  .list--header {
+    color: #444444;
+  }
+  .list--input {
+    background-color: #ffffff;
+    input[type="text"] {
+      background: #ffffff;
+      color: #000;
+    }
+  }
+}
+.list[data-theme="dark"] {
+  .list--header {
+    color: #ccc;
+  }
+  .list--input {
+    background-color: #27292d;
+    input[type="text"] {
+      background: #27292d;
+      color: #ccc;
+    }
   }
 }
 </style>

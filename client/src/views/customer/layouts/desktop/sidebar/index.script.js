@@ -9,51 +9,61 @@ export default {
   },
   data() {
     return {
-      menus: [
-        {
-          text: "Bảng điều khiển",
-          icon: {
-            iconName: "home",
-            tagName: "icon-home",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: ""
+      menus: [ {
+        text: "Bảng điều khiển",
+        icon: {
+          iconName: "home",
+          tagName: "icon-home",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
         },
-        {
-          text: "Bài đăng",
-          icon: {
-            iconName: "script",
-            tagName: "icon-script",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "posts"
+        to: ""
+      },
+      {
+        text: "Bài đăng",
+        icon: {
+          iconName: "script",
+          tagName: "icon-script",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
         },
-        {
-          text: "Chiến dịch",
-          icon: {
-            iconName: "broadcast",
-            tagName: "icon-broadcast",
-            width: 21,
-            height: 21,
-            viewBox: "0 0 24 24"
-          },
-          to: "campaign"
+        to: "posts"
+      },
+      {
+        text: "Chiến dịch",
+        icon: {
+          iconName: "broadcast",
+          tagName: "icon-broadcast",
+          width: 21,
+          height: 21,
+          viewBox: "0 0 24 24"
         },
-        {
-          text: "Tài khoản Facebook",
-          icon: {
-            iconName: "account",
-            tagName: "icon-account",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: ""
-        }
+        to: "campaigns"
+      },
+      {
+        text: "Bạn bè",
+        icon: {
+          iconName: "friend",
+          tagName: "icon-friend",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
+        },
+        to: "f_friends"
+      },
+      {
+        text: "Tài khoản Facebook",
+        icon: {
+          iconName: "account",
+          tagName: "icon-account",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
+        },
+        to: ""
+      }
       ]
     };
   }
