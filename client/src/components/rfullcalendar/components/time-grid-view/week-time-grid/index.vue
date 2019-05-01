@@ -288,6 +288,9 @@
 <script>
 import RcMorePopover from "../../more-popover/index";
 export default {
+  components: {
+    RcMorePopover
+  },
   props: ["timePoint", "weekDays"],
   data() {
     return {
@@ -308,6 +311,9 @@ export default {
       //Init
       this.getEventContainerWidth();
     });
+  },
+  beforeDestroy() {
+    window.removeEventListener("resize", this.getEventContainerWidth);
   },
   methods: {
     eventClick(name, time) {
@@ -346,12 +352,6 @@ export default {
       }
       this.isShowMorePopover = true;
     }
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.getEventContainerWidth);
-  },
-  components: {
-    RcMorePopover
   }
 };
 </script>

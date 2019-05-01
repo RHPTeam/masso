@@ -105,6 +105,11 @@ export default {
       type: Number
     }
   },
+  data() {
+    return {
+      toggled: !!this.value
+    };
+  },
   computed: {
     className() {
       let { toggled, disabled } = this;
@@ -118,8 +123,8 @@ export default {
         backgroundColor: this.cssColors
           ? null
           : this.disabled
-          ? this.colorDisabled
-          : this.colorCurrent,
+            ? this.colorDisabled
+            : this.colorCurrent,
         borderRadius: px(Math.round(this.height / 2))
       };
     },
@@ -208,11 +213,6 @@ export default {
         this.toggled = !!value;
       }
     }
-  },
-  data() {
-    return {
-      toggled: !!this.value
-    };
   },
   methods: {
     toggle(event) {

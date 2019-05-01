@@ -193,6 +193,9 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  components: {
+    VuePerfectScrollbar
+  },
   props: ["eventData"],
   data() {
     return {
@@ -216,9 +219,6 @@ export default {
       this.activeColor = color;
       this.isShowColorDropdown = false;
     }
-  },
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>

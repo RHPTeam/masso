@@ -116,6 +116,9 @@ export default {
       this.typedDate = false;
     }
   },
+  mounted() {
+    this.input = this.$el.querySelector("input");
+  },
   methods: {
     showCalendar() {
       this.$emit("showCalendar");
@@ -162,9 +165,6 @@ export default {
     clearDate() {
       this.$emit("clearDate");
     }
-  },
-  mounted() {
-    this.input = this.$el.querySelector("input");
   }
 };
 // eslint-disable-next-line

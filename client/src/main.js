@@ -2,15 +2,19 @@ import Vue from "vue";
 import App from "./App.vue";
 import store from "./store";
 import router from "./routes";
+
 // import Axios from "axios";
 
 import "@/utils/components.util";
+
+import i18n from "./locales/i18n";
 
 Vue.config.productionTip = false;
 // Vue.prototype.$http = Axios;
 new Vue({
   router,
   store,
+  i18n,
   render: h => h(App)
 }).$mount("#app");
 

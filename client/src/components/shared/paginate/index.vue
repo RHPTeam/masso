@@ -246,11 +246,10 @@ export default {
       default: false
     }
   },
-  beforeUpdate() {
-    if (this.forcePage === undefined) return;
-    if (this.forcePage !== this.selected) {
-      this.selected = this.forcePage;
-    }
+  data() {
+    return {
+      innerValue: 1
+    };
   },
   computed: {
     selected: {
@@ -330,10 +329,11 @@ export default {
       return items;
     }
   },
-  data() {
-    return {
-      innerValue: 1
-    };
+  beforeUpdate() {
+    if (this.forcePage === undefined) return;
+    if (this.forcePage !== this.selected) {
+      this.selected = this.forcePage;
+    }
   },
   methods: {
     handlePageSelected(selected) {

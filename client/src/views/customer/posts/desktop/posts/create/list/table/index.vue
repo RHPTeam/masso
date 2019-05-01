@@ -116,13 +116,13 @@
 <script>
 import PopupDetail from "../detail/index";
 export default {
+  components: {
+    PopupDetail
+  },
   data() {
     return {
       showDetail: false
     };
-  },
-  components: {
-    PopupDetail
   },
   methods: {
     openPopupDetail() {

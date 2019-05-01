@@ -48,6 +48,12 @@ export default {
     allowedToShowView: Function,
     useUtc: Boolean
   },
+  data() {
+    const constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
   computed: {
     years() {
       const d = this.pageDate;
@@ -55,19 +61,19 @@ export default {
       // set up a new date object to the beginning of the current 'page'7
       let dObj = this.useUtc
         ? new Date(
-            Date.UTC(
-              Math.floor(d.getUTCFullYear() / 10) * 10,
-              d.getUTCMonth(),
-              d.getUTCDate()
-            )
+          Date.UTC(
+            Math.floor(d.getUTCFullYear() / 10) * 10,
+            d.getUTCMonth(),
+            d.getUTCDate()
           )
+        )
         : new Date(
-            Math.floor(d.getFullYear() / 10) * 10,
-            d.getMonth(),
-            d.getDate(),
-            d.getHours(),
-            d.getMinutes()
-          );
+          Math.floor(d.getFullYear() / 10) * 10,
+          d.getMonth(),
+          d.getDate(),
+          d.getHours(),
+          d.getMinutes()
+        );
       for (let i = 0; i < 10; i++) {
         years.push({
           year: this.utils.getFullYear(dObj),
@@ -107,12 +113,6 @@ export default {
         ? this.isPreviousDecadeDisabled(this.pageTimestamp)
         : this.isNextDecadeDisabled(this.pageTimestamp);
     }
-  },
-  data() {
-    const constructedDateUtils = makeDateUtils(this.useUtc);
-    return {
-      utils: constructedDateUtils
-    };
   },
   methods: {
     selectYear(year) {

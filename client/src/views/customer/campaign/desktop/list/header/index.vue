@@ -40,6 +40,9 @@
 <script>
 import AppFilter from "./filter/index";
 export default {
+  components: {
+    AppFilter
+  },
   data() {
     return {
       filterShowList: [
@@ -55,9 +58,6 @@ export default {
       ],
       filterStatusSelected: { id: 0, name: "Tất cả trạng thái" }
     };
-  },
-  components: {
-    AppFilter
   }
 };
 </script>

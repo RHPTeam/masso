@@ -157,6 +157,7 @@ export default {
       eventContainerWidth: 0
     };
   },
+  computed: {},
   mounted() {
     this.$nextTick(function() {
       const container = document.querySelector("#eventColumWidth");
@@ -167,7 +168,9 @@ export default {
       this.getEventContainerWidth();
     });
   },
-  computed: {},
+  beforeDestroy() {
+    window.removeEventListener("resize", this.getEventContainerWidth);
+  },
   methods: {
     eventClick(name, time) {
       const dataEmmit = {
@@ -208,9 +211,6 @@ export default {
       }
       this.$emit("showMorePopover", true);
     }
-  },
-  beforeDestroy() {
-    window.removeEventListener("resize", this.getEventContainerWidth);
   }
 };
 </script>

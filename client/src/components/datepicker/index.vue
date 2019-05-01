@@ -189,17 +189,6 @@ export default {
       utils: constructedDateUtils
     };
   },
-  watch: {
-    value(value) {
-      this.setValue(value);
-    },
-    openDate() {
-      this.setPageDate();
-    },
-    initialView() {
-      this.setInitialView();
-    }
-  },
   computed: {
     computedInitialView() {
       if (!this.initialView) {
@@ -230,6 +219,20 @@ export default {
     isRtl() {
       return this.translation.rtl === true;
     }
+  },
+  watch: {
+    value(value) {
+      this.setValue(value);
+    },
+    openDate() {
+      this.setPageDate();
+    },
+    initialView() {
+      this.setInitialView();
+    }
+  },
+  mounted() {
+    this.init();
   },
   methods: {
     /**
@@ -271,15 +274,15 @@ export default {
         );
       }
       switch (initialView) {
-        case "year":
-          this.showYearCalendar();
-          break;
-        case "month":
-          this.showMonthCalendar();
-          break;
-        default:
-          this.showDayCalendar();
-          break;
+      case "year":
+        this.showYearCalendar();
+        break;
+      case "month":
+        this.showMonthCalendar();
+        break;
+      default:
+        this.showDayCalendar();
+        break;
       }
     },
     /**
@@ -461,9 +464,6 @@ export default {
         this.setInitialView();
       }
     }
-  },
-  mounted() {
-    this.init();
   }
 };
 // eslint-disable-next-line
