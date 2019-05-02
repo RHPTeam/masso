@@ -62,6 +62,10 @@
 import RcDayTimeGrid from "./day-time-grid/index";
 import RcWeekTimeGrid from "./week-time-grid/index";
 export default {
+  components: {
+    RcDayTimeGrid,
+    RcWeekTimeGrid
+  },
   props: [ "activeDay", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {

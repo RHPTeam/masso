@@ -29,6 +29,11 @@ export default {
     AppListView,
     AppPaginate
   },
+  data() {
+    return {
+      isGrid: true
+    };
+  },
   computed: {
   },
   async created() {
@@ -37,11 +42,6 @@ export default {
     const data = this.$store.getters.users;
 
     await this.$store.dispatch( "getUsersFilter", data );
-  },
-  data() {
-    return {
-      isGrid: true
-    };
   }
 };
 </script>

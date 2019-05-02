@@ -474,6 +474,9 @@ Docs & License: https://rfullcalendar.io/
     .rc--time-grid-container {
       background-color: #fff;
     }
+    td.rc--day-top.rc--today {
+      background: transparent;
+    }
     td.rc--today {
       background: rgba(255, 255, 0, .15);
     }

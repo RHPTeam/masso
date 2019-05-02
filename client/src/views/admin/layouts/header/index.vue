@@ -83,6 +83,17 @@
 
 <script>
 export default {
+  filters: {
+    getFirstLetter( string ) {
+      if ( typeof string === "undefined" ) {
+        return;
+      }
+      if ( string.length === 0 ) {
+        return;
+      }
+      return string.charAt( 0 ).toUpperCase();
+    }
+  },
   data() {
     return {
       statusCollapse: false,
@@ -95,17 +106,6 @@ export default {
     },
     user() {
       return this.$store.getters.userInfo;
-    }
-  },
-  filters: {
-    getFirstLetter( string ) {
-      if ( typeof string === "undefined" ) {
-        return;
-      }
-      if ( string.length === 0 ) {
-        return;
-      }
-      return string.charAt( 0 ).toUpperCase();
     }
   },
   methods: {

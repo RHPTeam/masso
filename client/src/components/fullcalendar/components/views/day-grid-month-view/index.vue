@@ -82,9 +82,14 @@
 </template>
 
 <script>
-import RcWeekRow from "./week-row/index";
 import RcMorePopover from "../../popover/more/index";
+import RcWeekRow from "./week-row/index";
+
 export default {
+  components: {
+    RcMorePopover,
+    RcWeekRow
+  },
   props: [ "monthDays" ],
   data() {
     return {

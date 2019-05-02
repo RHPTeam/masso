@@ -21,7 +21,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[0].asc == false && isSort[0].desc == false"
+            v-if="isSort[0].asc === false && isSort[0].desc === false"
           >
             <icon-arrow-down />
           </icon-base>
@@ -62,7 +62,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[1].asc == false && isSort[1].desc == false"
+            v-if="isSort[1].asc === false && isSort[1].desc === false"
           >
             <icon-arrow-down />
           </icon-base>
@@ -102,7 +102,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[2].asc == false && isSort[2].desc == false"
+            v-if="isSort[2].asc === false && isSort[2].desc === false"
           >
             <icon-arrow-down />
           </icon-base>
@@ -142,7 +142,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[3].asc == false && isSort[3].desc == false"
+            v-if="isSort[3].asc === false && isSort[3].desc === false"
           >
             <icon-arrow-down />
           </icon-base>
