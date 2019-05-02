@@ -51,8 +51,7 @@ export default {
       return this.$store.getters.themeName;
     },
     categories() {
-      // if ( this.$store.getters.categoriesById.length === 0 ) return;
-      return this.$store.getters.categoriesById;
+      return this.$store.getters.categoriesById.data;
     }
   },
   methods: {
@@ -123,9 +122,11 @@ export default {
       font-weight: 600;
       height: 40px;
       transition: all 0.4s ease;
-      &:hover {
+      &:hover, &:focus, &:active, &:visited {
         background-color: transparent;
+        box-shadow: none;
         color: #ffb94a;
+        outline: 0;
       }
     }
   }

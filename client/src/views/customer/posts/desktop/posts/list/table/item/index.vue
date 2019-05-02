@@ -1,53 +1,83 @@
 <template>
-  <div class="post--data my_3" :data-theme="currentTheme">
-    <div class="item--header d_flex align_items_center px_3 py_2">
+  <div class="item--body d_flex align_items_center px_3 py_2">
       <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
-          <input type="checkbox" />
+          <input type="checkbox" checked />
         </label>
       </div>
-      <div class="col col--name px_2">Tên bài viết</div>
-      <div class="col col--category px_2">Danh mục</div>
-      <div class="col col--content px_2">Nội dung</div>
-      <div class="col col--image px_4">Hình ảnh</div>
-      <div class="col col--action px_4">Hành động</div>
-    </div>
-    <!-- if all post === undefined call component loading -->
-    <div v-if="this.allPost.length === 0" class="results text_center p_3 bg_danger">
-      Hiện tại bạn chưa có bài viết, vui lòng tạo mới bài viết của bạn.
-    </div>
-    <!-- else call component item post -->
-    <div v-else>
-      <div v-if="this.$store.getters.statusPost === 'loading'">đang tải kết quả</div>
-      <div v-for="(item, index) in allPost" :key="index">
-        <item-post :item="item" />
+      <div class="col col--name px_2">
+        <div class="col col--name-text">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+        </div>
+      </div>
+      <div class="col col--category px_2">Mỹ phẩm</div>
+      <div class="col col--content px_2">
+        <div class="col--content-text">
+          Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
+          sit amet, consectetur adipiscing elit
+        </div>
+      </div>
+      <div class="col col--image px_2">
+        <div class="d_flex align_items_center justify_content_start">
+          <div class="image--wrap position_relative mr_2">
+            <img
+              src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
+              alt
+            />
+          </div>
+          <div class="image--wrap position_relative mr_2">
+            <img
+              src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
+              alt
+            />
+          </div>
+          <div class="image--wrap position_relative mr_2">
+            <img
+              src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
+              alt
+            />
+          </div>
+          <div class="image--wrap position_relative">
+            <div
+              class="image--wrap-more d_flex align_items_center justify_content_center"
+            >
+              +2
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col--action px_4 text_center">
+        <span class="mx_1">
+          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+            <icon-edit />
+          </icon-base>
+        </span>
+        <span class="mx_1">
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </span>
       </div>
     </div>
-  </div>
 </template>
 
 <script>
-import ItemPost from "./item";
-export default {
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
+  export default {
+    props: {
+      item: {
+        type: Object
+      }
     },
-    allPost () {
-      return this.$store.getters.allPost;
-    }
-  },
-  async created  () {
-    await this.$store.dispatch( "getAllPost" );
-  },
-  components: {
-    ItemPost
   }
-};
 </script>
 
 <style lang="scss" scoped>
-.post--data {
+  .post--data {
   font-size: 0.875rem;
   .item--header {
     background-color: #ffffff;
@@ -56,9 +86,6 @@ export default {
     color: #666666;
     font-weight: 600;
     height: 48px;
-  }
-  .results {
-    color: #ffffff;
   }
   .item--body {
     background-color: #fafafa;

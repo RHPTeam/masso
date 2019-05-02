@@ -8,6 +8,12 @@ export default {
   create( category ) {
     return Api().post( "post-category", category );
   },
+  getByPage(size, page) {
+    return Api().get(`post-category?_size=${size}&_page=${page}`);
+  },
+  getBySize(size) {
+    return Api().get(`post-category?_size=${size}`);
+  },
   show( pcId ) {
     return Api().get( `post-category?_id=${pcId}` );
   },

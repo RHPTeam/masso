@@ -249,6 +249,9 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    colorFb() {
+      return this.$store.getters.colorFb;
+    },
     posts() {
       return this.$store.getters.post;
     },
@@ -279,6 +282,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getAllCategories" );
+    await this.$store.dispatch( "getColorFromFb" );
   },
 
   methods: {

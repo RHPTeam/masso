@@ -20,6 +20,7 @@
         class="header--button ml_4"
         @click="createNewPost"
         >Viết bài mới</button>
+      {{ newPost }}
     </div>
     <div class="header--right">
       <div

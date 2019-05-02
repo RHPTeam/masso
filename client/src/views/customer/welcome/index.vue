@@ -60,7 +60,7 @@
                 <p class="mb_0">dangyen@gmail.com</p>
               </div>
             </div>
-            <router-link class="dropdown--item" :to="{ name: 'c_account' }">
+            <router-link class="dropdown--item" :to="{ name: 'account' }">
               <icon-base
                 icon-name="account"
                 width="20"
