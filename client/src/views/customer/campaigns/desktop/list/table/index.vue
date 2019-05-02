@@ -180,7 +180,7 @@
 		</div>
 		<!-- End: Table Body Empty Data-->
 		<!-- Start: Table Body -->
-		<transition-group v-else name="list-complete" tag="p">
+		<transition-group v-else name="list-transition">
 			<div class="item--body d_flex align_items_center px_3 py_2"
 			v-for="( campaign, index ) in filteredCampaigns"
 			:key="index"
@@ -258,16 +258,8 @@
 	</div>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./style";
-.list-complete-enter, .list-complete-leave-to
-  /* .list-complete-leave-active below version 2.1.8 */ {
-  opacity: 0;
-  transform: translateY(30px);
-}
-.list-complete-leave-active {
-  position: absolute;
-}
+@import "./index.style";
 </style>

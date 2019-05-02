@@ -183,6 +183,16 @@
   }
 }
 
+// TRANSITION
+.list-transition-enter,
+.list-transition-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+.list-transition-leave-active {
+  position: absolute;
+}
+
 // CHANGE BACKGROUND COLOR THEME
 
 //LIGHT

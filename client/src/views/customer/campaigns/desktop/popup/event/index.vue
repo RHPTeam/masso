@@ -75,5 +75,5 @@ export default {
 
 <style lang="scss" scoped>
 @import "../style";
-@import "./style";
+@import "./index.style";
 </style>
