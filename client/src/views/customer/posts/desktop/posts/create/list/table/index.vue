@@ -116,6 +116,12 @@
 <script>
 import PopupDetail from "../popup/detail/index";
 export default {
+  components: {
+    PopupDetail
+  },
+  components: {
+    PopupDetail
+  },
   data() {
     return {
       showDetail: false
@@ -125,9 +131,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  components: {
-    PopupDetail
   },
   methods: {
     openPopupDetail() {

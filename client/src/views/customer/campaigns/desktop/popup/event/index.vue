@@ -40,6 +40,11 @@ import EventModalBodyCustom from "./body-custom";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  components: {
+    EventModalBodyCustom,
+    EventModalHeader,
+    VuePerfectScrollbar
+  },
   props: [ "eventData" ],
   data() {
     return {
@@ -64,11 +69,6 @@ export default {
     closePopup( data ) {
       this.$emit( "closePopup", data );
     }
-  },
-  components: {
-    EventModalBodyCustom,
-    EventModalHeader,
-    VuePerfectScrollbar
   }
 };
 </script>

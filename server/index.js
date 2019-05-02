@@ -54,7 +54,7 @@ roleDefault();
 
 // listen a port
 server.listen( config.port, () => {
-  console.log( `Api server running on localhost:${config.port}` );
+  console.log( `Api server running on ${config.url}` );
 } );
 
 module.exports = app;

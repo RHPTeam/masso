@@ -48,25 +48,38 @@ export default {
     allowedToShowView: Function,
     useUtc: Boolean
   },
+  data() {
+    const constructedDateUtils = makeDateUtils(this.useUtc);
+    return {
+      utils: constructedDateUtils
+    };
+  },
+  data() {
+    const constructedDateUtils = makeDateUtils( this.useUtc );
+
+    return {
+      utils: constructedDateUtils
+    };
+  },
   computed: {
     years() {
       const d = this.pageDate;
 
       let years = [],
-        // set up a new date object to the beginning of the current 'page'7
-        dObj = this.useUtc ? new Date(
-          Date.UTC(
-            Math.floor( d.getUTCFullYear() / 10 ) * 10,
-            d.getUTCMonth(),
-            d.getUTCDate()
-          )
-        ) : new Date(
-          Math.floor( d.getFullYear() / 10 ) * 10,
-          d.getMonth(),
-          d.getDate(),
-          d.getHours(),
-          d.getMinutes()
-        );
+          // set up a new date object to the beginning of the current 'page'7
+          dObj = this.useUtc ? new Date(
+            Date.UTC(
+              Math.floor( d.getUTCFullYear() / 10 ) * 10,
+              d.getUTCMonth(),
+              d.getUTCDate()
+            )
+          ) : new Date(
+            Math.floor( d.getFullYear() / 10 ) * 10,
+            d.getMonth(),
+            d.getDate(),
+            d.getHours(),
+            d.getMinutes()
+          );
 
       for ( let i = 0; i < 10; i++ ) {
         years.push( {
@@ -84,8 +97,8 @@ export default {
      */
     getPageDecade() {
       const decadeStart = Math.floor( this.utils.getFullYear( this.pageDate ) / 10 ) * 10,
-        decadeEnd = decadeStart + 9,
-        yearSuffix = this.translation.yearSuffix;
+            decadeEnd = decadeStart + 9,
+            yearSuffix = this.translation.yearSuffix;
 
       return `${decadeStart} - ${decadeEnd}${yearSuffix}`;
     },
@@ -103,13 +116,6 @@ export default {
     isRightNavDisabled() {
       return this.isRtl ? this.isPreviousDecadeDisabled( this.pageTimestamp ) : this.isNextDecadeDisabled( this.pageTimestamp );
     }
-  },
-  data() {
-    const constructedDateUtils = makeDateUtils( this.useUtc );
-
-    return {
-      utils: constructedDateUtils
-    };
   },
   methods: {
     selectYear( year ) {
@@ -135,7 +141,7 @@ export default {
         return false;
       }
       const disabledYear = this.utils.getFullYear( this.disabledDates.to ),
-        lastYearInPreviousPage = Math.floor( this.utils.getFullYear( this.pageDate ) / 10 ) * 10 - 1;
+            lastYearInPreviousPage = Math.floor( this.utils.getFullYear( this.pageDate ) / 10 ) * 10 - 1;
 
       return disabledYear > lastYearInPreviousPage;
     },
@@ -150,7 +156,7 @@ export default {
         return false;
       }
       const disabledYear = this.utils.getFullYear( this.disabledDates.from ),
-        firstYearInNextPage = Math.ceil( this.utils.getFullYear( this.pageDate ) / 10 ) * 10;
+            firstYearInNextPage = Math.ceil( this.utils.getFullYear( this.pageDate ) / 10 ) * 10;
 
       return disabledYear < firstYearInNextPage;
     },

@@ -1,6 +1,5 @@
 /* eslint-disable strict */
 const cheerio = require( "cheerio" ),
-  fs = require( "fs" ),
   request = require( "request" ),
   { postsSearch } = require( "../../configs/crawl" ),
   { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
@@ -24,13 +23,6 @@ const cheerio = require( "cheerio" ),
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           let $ = cheerio.load( body ), results = [], linkcallback = $( "div#see_more_pager" ).find( "a" ).attr( "href" );
-
-          fs.writeFile( "temp.html", body, ( error ) => {
-            if ( error ) {
-              console.log( error );
-            }
-            console.log( "Successfully Written to File." );
-          } );
 
           $( "div#BrowseResultsContainer" )
             .find( "div.bt.bu" )
@@ -88,8 +80,6 @@ module.exports = {
 
     for ( let i = 1; i <= Math.ceil( number / 12 ); i++ ) {
       const data = await getAllPostBySearch( { cookie, agent, url, token } );
-
-      console.log( data );
 
       url = data.linkcallback;
       if ( i === Math.ceil( number / 12 ) ) {

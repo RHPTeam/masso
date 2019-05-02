@@ -43,13 +43,13 @@
 <script>
 import AppList from "./table/index";
 export default {
+  components: {
+    AppList
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  components: {
-    AppList
   }
 };
 </script>

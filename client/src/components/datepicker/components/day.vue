@@ -126,18 +126,18 @@ export default {
       const d = this.pageDate;
 
       let days = [],
-        // set up a new date object to the beginning of the current 'page'
-        dObj = this.useUtc ? new Date( Date.UTC( d.getUTCFullYear(), d.getUTCMonth(), 1 ) ) : new Date(
-          d.getFullYear(),
-          d.getMonth(),
-          1,
-          d.getHours(),
-          d.getMinutes()
-        ),
-        daysInMonth = this.utils.daysInMonth(
-          this.utils.getFullYear( dObj ),
-          this.utils.getMonth( dObj )
-        );
+          // set up a new date object to the beginning of the current 'page'
+          dObj = this.useUtc ? new Date( Date.UTC( d.getUTCFullYear(), d.getUTCMonth(), 1 ) ) : new Date(
+            d.getFullYear(),
+            d.getMonth(),
+            1,
+            d.getHours(),
+            d.getMinutes()
+          ),
+          daysInMonth = this.utils.daysInMonth(
+            this.utils.getFullYear( dObj ),
+            this.utils.getMonth( dObj )
+          );
 
       for ( let i = 0; i < daysInMonth; i++ ) {
         days.push( {

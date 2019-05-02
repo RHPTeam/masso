@@ -98,10 +98,6 @@ export default {
     eventClick( data ) {
       this.$emit( "eventClick", data );
     }
-  },
-  components: {
-    RcWeekRow,
-    RcMorePopover
   }
 };
 </script>

@@ -29,6 +29,10 @@
 import AppHeader from "./header";
 import EventPopup from "../popup/event";
 export default {
+  components: {
+    AppHeader,
+    EventPopup
+  },
   data() {
     return {
       calendarView: "month",
@@ -54,10 +58,6 @@ export default {
       this.eventSelected = data;
       this.isOpenEventPopup = true;
     }
-  },
-  components: {
-    AppHeader,
-    EventPopup
   }
 };
 </script>

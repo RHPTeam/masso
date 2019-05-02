@@ -31,13 +31,13 @@
 import AppForm from "./form/index";
 import AppList from "./list/index";
 export default {
-  data() {
-    return {
-    };
-  },
   components: {
     AppForm,
     AppList
+  },
+  data() {
+    return {
+    };
   }
 };
 </script>

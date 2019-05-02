@@ -1,18 +1,37 @@
-/* eslint-disable strict */
 const { agent } = require( "../configs/crawl" );
+const { categorizedTextFormatPresets } = require( "../configs/facebook.data" );
 const pagesCore = require( "./core/pages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );
-const { getPost } = require( "./core/posts.core" );
+const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, searchPlaces } = require( "./core/facebook.core" );
+const { createPost, getPost } = require( "./core/posts.core" );
 
 module.exports = {
-  "gettAllPages": async ( req, res ) => {
-    const result = await pagesCore( {
+  "createPost": async ( req, res ) => {
+    const result = await createPost( {
+      "cookie": req.body.cookie || null,
+      "agent": agent,
+      "feed": req.body.feed ? req.body.feed : null
+    } );
+
+    return res.send( result );
+  },
+  "getAllActionTypeLoader": async ( req, res ) => {
+    const result = await getAllActionTypeLoader( {
       "cookie": req.body.cookie || null,
       "agent": agent
     } );
 
-    return res.send( result );
+    return res.status( 200 ).json( result );
+  },
+  "getAllItemActionTypeLoader": async ( req, res ) => {
+    const result = await getAllItemActionTypeLoader( {
+      "cookie": req.body.cookie || null,
+      "agent": agent,
+      "item": req.params.id
+    } );
+
+    return res.status( 200 ).json( result );
   },
   "getAllGroups": async ( req, res ) => {
     const result = await groupsCore( {
@@ -21,6 +40,31 @@ module.exports = {
     } );
 
     return res.send( result );
+  },
+  "getAllPages": async ( req, res ) => {
+    const result = await pagesCore( {
+      "cookie": req.body.cookie || null,
+      "agent": agent
+    } );
+
+    return res.send( result );
+  },
+  "getAllFriends": async ( req, res ) => {
+    const result = await getAllFriends( {
+      "cookie": req.body.cookie || null,
+      "agent": agent
+    } );
+
+    return res.status( 200 ).json( result );
+  },
+  "getAllTextFormatPresets": async ( _req, res ) => {
+    res.status( 200 ).json( {
+      "errors": {
+        "code": 200,
+        "text": "Lấy dữ liệu thư viện nền bài đăng trên facebook thành công!"
+      },
+      "results": categorizedTextFormatPresets
+    } );
   },
   "getPost": async ( req, res ) => {
     const result = await getPost( {
@@ -31,6 +75,18 @@ module.exports = {
 
     return res.send( result );
   },
+  "searchGroups": async () => {},
+  "searchPages": async () => {},
+  "searchPlaces": async ( req, res ) => {
+    const result = await searchPlaces( {
+      "keyword": req.query.keyword ? req.query.keyword : null,
+      "number": req.query.number ? req.query.number : 15,
+      "cookie": req.body.cookie || null,
+      "agent": agent
+    } );
+
+    return res.status( 200 ).json( result );
+  },
   "searchPosts": async ( req, res ) => {
     const result = await searchPost( {
       "keyword": req.query.keyword,
@@ -40,7 +96,5 @@ module.exports = {
     } );
 
     return res.send( result );
-  },
-  "searchGroups": async () => {},
-  "searchPages": async () => {}
+  }
 };

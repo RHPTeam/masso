@@ -26,6 +26,7 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "index": async ( req, res ) => {
+    let page = null;
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = req.headers.cfr,
@@ -41,16 +42,17 @@ module.exports = {
     if (
       decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
     ) {
-      !req.query._id ? ( dataResponse = await Post.find( { "_account": userId } ) ) : ( dataResponse = await Post.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
+      // eslint-disable-next-line no-nested-ternary
+      req.query._id ? ( dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ) ) : req.query._size && req.query._page ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) ) ) : req.query._size ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( 0, Number( req.query._size ) ) ) : ( dataResponse = await Post.find( { "_account": userId } ) );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
+      if ( req.query._size ) {
+        page = ( ( await Post.find( { "_account": userId } ) ).length % req.query._size ) === 0 ? Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) : Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+      }
       dataResponse = dataResponse.map( ( item ) => {
         if ( item._account.toString() === userId ) {
-          return item;
+          return { "data": item, "page": page };
         }
       } );
     }
@@ -150,7 +152,7 @@ module.exports = {
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 0 ) {
+      if ( findItem.typeAttachment === 1 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link video vào attachment loại ảnh!", null ) );
       }
       findItem.link = req.body.link;
@@ -164,7 +166,7 @@ module.exports = {
       if ( typeof findItem === undefined ) {
         return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
       }
-      if ( findItem.typeAttachment === 1 ) {
+      if ( findItem.typeAttachment === 0 ) {
         return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link image vào link video loại ảnh!", null ) );
       }
       findItem.link = `${config.url}/${ req.file.path.replace( /\\/gi, "/" )}`;
@@ -195,12 +197,20 @@ module.exports = {
     }
     // Remove categories from post
     if ( req.query._type === "1" && req.query._cateId ) {
-      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } );
+      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
+        findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
       
       if ( !findPostCategory ) {
         return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
       }
       if ( findPost._categories.indexOf( findPostCategory._id ) > -1 ) {
+        // Catch when delete categories in post if have 1 catgorie push default category again
+        if ( findPost._categories.length === 1 ) {
+          findPost._categories.pull( findPostCategory._id );
+          findPost._categories.push( findDefaultPostCategory._id );
+          await findPost.save();
+          return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );
+        }
         findPost._categories.pull( findPostCategory._id );
         await findPost.save();
         return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );

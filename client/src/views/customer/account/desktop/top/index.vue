@@ -11,18 +11,12 @@
 
 <script>
 export default {
-  props: [ "user" ],
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
   filters: {
     formatDate( d ) {
       const newDate = new Date( d ),
-        year = newDate.getFullYear(),
-        month = newDate.getMonth() + 1,
-        date = newDate.getDate();
+            year = newDate.getFullYear(),
+            month = newDate.getMonth() + 1,
+            date = newDate.getDate();
 
       let minutes = newDate.getMinutes();
 
@@ -30,6 +24,12 @@ export default {
         minutes = `0${minutes}`;
       }
       return `${date}/${month}/${year}`;
+    }
+  },
+  props: [ "user" ],
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   }
 };

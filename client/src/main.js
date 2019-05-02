@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import Vue from "vue";
 import App from "./App.vue";
+import i18n from "./locales/i18n";
 import store from "./store";
 import router from "./routes";
 import Axios from "axios";
@@ -59,28 +60,8 @@ router.beforeEach( ( to, from, next ) => {
   }
 } );
 
-/** ******************* CUSTOM LIBRARY DIRECTIVE ************************/
-Vue.directive( "click-outside", {
-  bind: function( el, binding ) {
-    const bubble = binding.modifiers.bubble,
-      handler = ( e ) => {
-        if ( bubble || ( !el.contains( e.target ) && el !== e.target ) ) {
-          binding.value( e );
-        }
-      };
-
-    el.__vueClickOutside__ = handler;
-
-    document.addEventListener( "click", handler );
-  },
-
-  unbind: function( el ) {
-    document.removeEventListener( "click", el.__vueClickOutside__ );
-    el.__vueClickOutside__ = null;
-  }
-} );
-
 new Vue( {
+  i18n,
   router,
   store,
   render: ( h ) => h( App )

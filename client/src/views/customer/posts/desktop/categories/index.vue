@@ -30,16 +30,16 @@ import AppInfo from "../layouts/info/index";
 import AppList from "./list/index";
 
 export default {
-  data() {
-    return {
-      isUpdateCategories: false
-    };
-  },
   components: {
     AppNew,
     AppAction,
     AppInfo,
     AppList
+  },
+  data() {
+    return {
+      isUpdateCategories: false
+    };
   }
 };
 </script>

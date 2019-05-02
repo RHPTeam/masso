@@ -133,6 +133,14 @@ export default {
       valueFilter: ""
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    listFilter() {
+      return this.$store.getters.listFilter;
+    }
+  },
   async created() {
     await this.$store.dispatch( "listFilterAttribute" );
     // this.$emit("openDone", true);
@@ -223,14 +231,6 @@ export default {
     showOptionFilterAttr() {
       this.showFilterAttribute = true;
       this.$emit( "openDone", true );
-    }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    listFilter() {
-      return this.$store.getters.listFilter;
     }
   }
 };

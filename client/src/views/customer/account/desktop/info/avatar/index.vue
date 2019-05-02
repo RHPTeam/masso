@@ -52,12 +52,6 @@
 
 <script>
 export default {
-  props: [ "user" ],
-  data() {
-    return {
-      isDropZone: false
-    };
-  },
   filters: {
     getFirstLetter( string ) {
       if ( typeof string == "undefined" ) {
@@ -68,6 +62,12 @@ export default {
       }
       return string.charAt( 0 ).toUpperCase();
     }
+  },
+  props: [ "user" ],
+  data() {
+    return {
+      isDropZone: false
+    };
   }
 };
 </script>

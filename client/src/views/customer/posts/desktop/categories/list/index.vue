@@ -26,6 +26,9 @@
 <script>
 import ItemCategories from "./item";
 export default {
+  components: {
+    ItemCategories
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -38,9 +41,6 @@ export default {
     changeUpdate( ev ) {
       this.$emit( "changeUpdate", ev );
     }
-  },
-  components: {
-    ItemCategories
   }
 };
 </script>

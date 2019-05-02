@@ -15,6 +15,7 @@ const PostCategory = require( "../models/PostCategory.model" );
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
 const decodeRole = require( "../helpers/utils/decodeRole.util" );
+const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
   /**
@@ -24,6 +25,7 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "index": async ( req, res ) => {
+    let page = null;
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = req.headers.cfr,
@@ -39,21 +41,21 @@ module.exports = {
     if (
       decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
     ) {
-      !req.query._id ? ( dataResponse = await PostCategory.find( { "_account": userId } ) ) : ( dataResponse = await PostCategory.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
+      // eslint-disable-next-line no-nested-ternary
+      req.query._id ? ( dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": userId } ) ) : req.query._size && req.query._page ? ( dataResponse = ( await PostCategory.find( { "_account": userId } ) ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) ) ) : req.query._size ? ( dataResponse = ( await PostCategory.find( { "_account": userId } ) ).slice( 0, Number( req.query._size ) ) ) : ( dataResponse = await PostCategory.find( { "_account": userId } ) );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       const findPost = await Post.find( { "_account": userId } );
 
+      if ( req.query._size ) {
+        page = ( ( await PostCategory.find( { "_account": userId } ) ).length % req.query._size ) === 0 ? Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size ) : Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+      }
       dataResponse = dataResponse.map( ( item ) => {
         if ( item._account.toString() === userId ) {
-
           const num = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
 
-          return { "data": item, "num": num };
+          return { "data": item, "num": num, "page": page };
         }
       } );
     }
@@ -123,6 +125,9 @@ module.exports = {
     }
     if ( !findPostCategory ) {
       return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+    }
+    if ( findPostCategory.title === dictionary.DEFAULT_POSTCATEGORY ) {
+      return res.status( 405 ).json( jsonResponse( "Bạn không được xóa bộ sưu tập bài viết này!", null ) );
     }
     const findPost = await Post.find( { "_account": userId } );
 

@@ -28,19 +28,19 @@ export default {
   components: {
     AppFilter
   },
-  async created() {
-    await this.$store.dispatch( "getAllCategories" );
-  },
   computed: {
     showFilter() {
       const isCategoriesRoute = this.$route.path === "/posts/categories",
-        isPostRoute = this.$route.path === "/posts/";
+            isPostRoute = this.$route.path === "/posts/";
 
       if ( isCategoriesRoute || isPostRoute ) {
         return true;
       }
       return false;
     }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
   }
 };
 </script>

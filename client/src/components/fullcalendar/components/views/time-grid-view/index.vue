@@ -74,10 +74,6 @@ export default {
     eventClick( data ) {
       this.$emit( "eventClick", data );
     }
-  },
-  components: {
-    RcDayTimeGrid,
-    RcWeekTimeGrid
   }
 };
 </script>
