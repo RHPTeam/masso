@@ -1,6 +1,3 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable one-var */
-
 /**
  * Controller event for project
  * author: hoc-anms
@@ -8,11 +5,8 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const Campaign = require( "../models/Campaign.model" );
 const Event = require( "../models/Event.model" );
-const PageFacebook = require( "../models/PageFacebook.model" );
-const GroupFacebook = require( "../models/GroupFacebook.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
@@ -68,6 +62,17 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "create": async ( req, res ) => {
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
+    } else if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
+      if ( !req.body.content || req.body.content.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
+      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
+      }
+    }
+
     const userId = secure( res, req.headers.authorization ),
       objSave = {
         "title": req.body.title,
@@ -90,15 +95,6 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
-    // Check auto or custom
-    if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
-      if ( !req.body.content || req.body.content.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
-      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
-      }
-    }
-
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
     await findCampaign.save();
@@ -111,45 +107,35 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
+    } else if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
+      if ( !req.body.content || req.body.content.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
+      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
+      }
+    }
+
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
       findEvent = await Event.findById( req.query._eventId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check catch when update event
     if ( !findEvent ) {
-      return res.status( 403 ).json( jsonResponse( "Sự kiện không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+    } else if ( findEvent._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
-    if ( req.query._type && ( req.query._type ).trim() === "status" ) {
+
+    // Check switch status of event
+    if ( req.query._type && req.query._type.trim() === "status" ) {
       findEvent.status = !findEvent.status;
       await findEvent.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật sự kiện thành công!", findEvent ) );
+      return res.status( 201 ).json( jsonResponse( "success", findEvent ) );
     }
-    req.body.post ? findEvent._post.push( req.body.post ) : findEvent._post;
-    await findEvent.save();
-    if ( req.body.target ) {
-      if ( req.body.target.typeTarget === 0 ) {
-        const foundGroupFacebook = await GroupFacebook.findOne( { "_id": req.body.target.id } );
 
-        if ( !foundGroupFacebook ) {
-          return res.status( 403 ).json( jsonResponse( "Group facebook không tồn tại!", null ) );
-        }
-        findEvent._targets.push( req.body.target );
-        await findEvent.save();
-      }
-      const foundPageFacebook = await PageFacebook.findOne( { "_id": req.body.target.id } );
-
-      if ( !foundPageFacebook ) {
-        return res.status( 403 ).json( jsonResponse( "Page facebook không tồn tại!", null ) );
-      }
-      findEvent._targets.push( req.body.target );
-      await findEvent.save();
-    }
-    const dataEventUpdate = await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } );
-
-    res.status( 201 ).json( jsonResponse( "Cập nhật sự kiện trong chiến dịch thành công!", dataEventUpdate ) );
-
+    res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Event
@@ -159,40 +145,23 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
-      findCampaign = await Campaign.findOne( { "_id": req.query._campId, "_account": userId } ),
+      findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
       findEvent = await Event.findById( req.query._eventId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 403 ).json( jsonResponse( "Chiến dịch không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    } else if ( !findEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+    } else if ( findEvent._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
-    if ( !findEvent ) {
-      return res.status( 403 ).json( jsonResponse( "Sự kiện không tồn tại!", null ) );
-    }
-    if ( req.query._postId ) {
 
-      if ( findEvent._post.indexOf( req.query._postId ) <= -1 ) {
-        return res.status( 403 ).json( jsonResponse( "Item không tồn tại!", null ) );
-      }
-      findEvent._post.pull( req.query._postId );
-      await findEvent.save();
-      return res.status( 200 ).json( jsonResponse( "Xóa item post trong sự kiện thành công!", findEvent ) );
-    }
-    if ( req.query._targetId ) {
+    // delete event of campain
+    findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );
+    findCampaign.save();
 
-      if ( findEvent._targets.indexOf( req.query._targetId ) <= -1 ) {
-        return res.status( 403 ).json( jsonResponse( "Item không tồn tại!", null ) );
-      }
-      findEvent._targets.pull( req.query._targetId );
-      await findEvent.save();
-      return res.status( 200 ).json( jsonResponse( "Xóa item _target trong sự kiện thành công!", findEvent ) );
-    }
-    findCampaign._events.pull( findEvent._id );
-    await findCampaign.save();
     await Event.findByIdAndDelete( req.query._eventId );
-    res.status( 200 ).json( jsonResponse( "Xóa sự kiện trong chiến dịch thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
