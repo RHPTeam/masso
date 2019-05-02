@@ -26,7 +26,7 @@ module.exports = {
       userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": userId } );
+      dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": userId } ).lean();
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await PostCategory.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
@@ -35,7 +35,7 @@ module.exports = {
       dataResponse = await PostCategory.find( { "_account": userId } ).lean();
     }
 
-    // Check error not user id or ammout post of category
+    // Check ammout post of category
     dataResponse = dataResponse.map( async ( item ) => {
       if ( item._account.toString() === userId ) {
         const findPost = await Post.find( { "_account": userId } );

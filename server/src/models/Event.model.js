@@ -5,6 +5,7 @@ const mongoose = require( "mongoose" ),
 
   EventSchema = new Schema( {
     "title": { "type": String, "required": true },
+    "color": { "type": String, "default": "#85CFFF" },
     "typeEvent": Number,
     "started_at": Date,
     "finished_at": Date,
@@ -13,7 +14,7 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
-    "_post": [ {
+    "content": [ {
       "type": Schema.Types.ObjectId,
       "ref": "Post"
     } ],

@@ -1,6 +1,3 @@
-/* eslint-disable one-var */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-shadow */
 /**
  * Controller campaign (profile) for project
  * author: hoc-anms
@@ -8,8 +5,8 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const Campaign = require( "../models/Campaign.model" );
+const Event = require( "../models/Event.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
@@ -22,32 +19,40 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
-    let dataResponse = null;
+    let page = null, dataResponse = null;
     const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    if ( req.query._id ) {
+      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account" } ).lean();
+    } else if ( req.query._size && req.query._page ) {
+      dataResponse = ( await Campaign.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+    } else if ( req.query._size ) {
+      dataResponse = ( await Campaign.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Campaign.find( { "_account": userId } ).lean();
     }
 
-    !req.query._id ? ( dataResponse = await Campaign.find( { "_account": userId } ) ) : ( dataResponse = await Campaign.find( {
-      "_id": req.query._id,
-      "_account": userId
-    } ) );
-    if ( !dataResponse ) {
-      return res.status( 403 ).json( jsonResponse( "Chiến dịch này không tồn tại!" ) );
-    }
-    dataResponse = dataResponse.map( ( item ) => {
-      if ( item._account.toString() === userId ) {
-        return item;
+    if ( req.query._size ) {
+      if ( ( await Campaign.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await Campaign.find( { "_account": userId } ) ).length / req.query._size );
+      } else {
+        page = Math.floor( ( await Campaign.find( { "_account": userId } ) ).length / req.query._size ) + 1;
       }
-    } );
+
+      return res
+        .status( 200 )
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
+    }
+
+    // Check when user get one
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
+    }
+
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+      .json( jsonResponse( "success", dataResponse ) );
   },
   /**
    * Create campaign
@@ -56,25 +61,25 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const objSave = {
+    // Handle create campaign
+    const userId = secure( res, req.headers.authorization ),
+      objSave = {
         "title": req.body.title,
         "description": req.body.description ? req.body.description : "",
-        "started_at": req.body.started_at,
-        "finished_at": req.body.finished_at,
+        "started_at": req.body.started_at ? req.body.started_at : Date.now(),
+        "finished_at": req.body.finished_at ? req.body.finished_at : "",
         "_account": userId
       },
       newCampaign = await new Campaign( objSave );
 
     await newCampaign.save();
 
-    res.status( 200 ).json( jsonResponse( "Tạo chiến dịch thành công!", newCampaign ) );
+    res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
   },
   /**
    * update campaign
@@ -83,24 +88,29 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
-      findCampaign = await Campaign.findById( req.query._campId );
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
+    }
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    const userId = secure( res, req.headers.authorization ),
+      findCampaign = await Campaign.findById( req.query._campaignId );
+
+    // Check catch when update campaign
     if ( !findCampaign ) {
-      return res.status( 403 ).json( jsonResponse( "Chiến dịch không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    } else if ( findCampaign._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
+
+    // Check switch status of campaign
     if ( req.query._type && ( req.query._type ).trim() === "status" ) {
       findCampaign.status = !findCampaign.status;
       await findCampaign.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật chiến dịch thành công!", findCampaign ) );
+      return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
-    const dataCampaignUpdate = await Campaign.findByIdAndUpdate( req.query._campId, { "$set": req.body }, { "new": true } );
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật chiến dịch thành công!", dataCampaignUpdate ) );
+    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete campaign
@@ -110,16 +120,19 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
-      findCampaign = await Campaign.findById( req.query._campId );
+      findCampaign = await Campaign.findById( req.query._campaignId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 403 ).json( jsonResponse( "Chiến dịch không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    } else if ( findCampaign._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
-    await Campaign.findByIdAndDelete( req.query._campId );
-    res.status( 200 ).json( jsonResponse( "Xóa chiến dịch thành công!", null ) );
+
+    // delete all event in campain
+    findCampaign._events.map( async ( event ) => await Event.findByIdAndDelete( event ) );
+
+    await Campaign.findByIdAndDelete( req.query._campaignId );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
