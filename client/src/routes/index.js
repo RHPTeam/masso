@@ -2,6 +2,8 @@
 import Vue from "vue";
 import Router from "vue-router";
 
+import adminGeneralRouter from "./modules/admin";
+
 import customerGeneralRouter from "./modules/customer";
 import customerResetPassword from "./modules/customer/resetpassword";
 import customerSigninRouter from "./modules/customer/signin";
@@ -14,6 +16,7 @@ export default new Router( {
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
+    adminGeneralRouter,
     customerGeneralRouter,
     customerResetPassword,
     customerSigninRouter,
