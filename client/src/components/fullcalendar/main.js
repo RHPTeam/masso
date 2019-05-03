@@ -114,6 +114,18 @@ export default {
       );
       
     },
+    eventsOfWeek() {
+      let firstDayOfWeek = new Date( this.weekDays[ 0 ].time ),
+        lastDayOfWeek = new Date( this.weekDays[ 6 ].time ).setHours( 23, 59, 59);
+
+      let res = this.events.filter( ( event ) => {
+        const eventStartTime = new Date(event.started_at);
+
+        return eventStartTime >= firstDayOfWeek && eventStartTime <= lastDayOfWeek;
+      } );
+
+      return res;
+    },
     monthDays() {
       // set days in active month function
       let arr = [],
@@ -214,9 +226,7 @@ export default {
 
       let today = new Date( now.getFullYear(), now.getMonth(), now.getDate() ); // now date at 00:00:00
 
-      if ( day.toDateString() === today.toDateString() ) {
-        return true;
-      } return false;
+      return day.toDateString() === today.toDateString();
     },
     getActiveDay( flag ) {
       this.activeDay.setDate( this.activeDay.getDate() + flag );

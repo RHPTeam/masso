@@ -932,6 +932,7 @@ Docs & License: https://rfullcalendar.io/
       .rc--list-empty {
         display: table-cell;
         text-align: center;
+        padding: .75rem;
         vertical-align: middle;
         &-wrap1 {
           display: table;
@@ -997,9 +998,6 @@ Docs & License: https://rfullcalendar.io/
   .rc--list-view {
     .rc--list-table {
       background-color: #fff;
-      .rc--list-empty {
-        background-color: #fafafa;
-      }
       .rc--list-item {
         &:hover {
           td {

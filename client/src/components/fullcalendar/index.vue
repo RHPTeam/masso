@@ -71,7 +71,7 @@
       <rc-time-grid-view
         v-if="view === 'week' || view === 'day'"
         :activeDay="activeDay"
-        :events="events"
+        :eventsOfWeek="eventsOfWeek"
         :dayFullName="dayFullName"
         :timePoint="timePoint"
         :view="view"
@@ -80,7 +80,7 @@
       ></rc-time-grid-view>
       <rc-list-week-view
         v-if="view === 'list'"
-        :events="events"
+        :eventsOfWeek="eventsOfWeek"
         :dayFullName="dayFullName"
         :monthName="monthName"
         :weekDays="weekDays"
