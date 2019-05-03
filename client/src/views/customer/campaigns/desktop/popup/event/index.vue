@@ -48,16 +48,9 @@ export default {
   props: [ "eventData" ],
   data() {
     return {
-      activeColor: { name: "orange", code: "#FFB94A" },
+      activeColor: "#85CFFF", // blue
       autopost: true,
-      colors: [
-        { name: "blue", code: "#85CFFF" },
-        { name: "violet", code: "#BE92E3" },
-        { name: "green", code: "#7BD48A" },
-        { name: "gray", code: "#999999" },
-        { name: "orange", code: "#FFB94A" },
-        { name: "red", code: "#FF8787" }
-      ]
+      colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ] // blue, violet, green, gray, orange, red
     };
   },
   computed: {

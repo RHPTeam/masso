@@ -17,9 +17,10 @@
     <div class="rc--body rc--widget-content">
       <div class="rc--event-container">
         <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
+          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable"
           v-for="(event, index) in eventsPopupData"
           :key="index"
+          :style="{ backgroundColor: event.color }"
           @click="eventClick(event)"
         >
           <div class="rc--content">

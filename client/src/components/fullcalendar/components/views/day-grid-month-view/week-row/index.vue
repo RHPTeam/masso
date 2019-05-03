@@ -53,7 +53,8 @@
                 :id="[ i === 0 && j === 0 ? 'eventColumnWidth' : null ]"
             >
               <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
+                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable"
+                :style="{ backgroundColor: eventOfDay(monthDays[rowIndex * 7 + j ].time)[i].color }"
                 v-if=" eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i] "
                 @click="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
               >

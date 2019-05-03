@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal--header modal--event-header p_3"
-    :style="{ backgroundColor: activeColor.code }"
+    :style="{ backgroundColor: eventData.color }"
   >
     <!-- Start: Header Row -->
     <div class="r header--row mx_0">
@@ -54,7 +54,7 @@
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
               :switch-color="{
-                checked: activeColor.code,
+                checked: eventData.color,
                 unchecked: '#e4e4e4'
               }"
             />
@@ -79,7 +79,7 @@
               >
                 <div
                   class="color--box"
-                  :style="{ backgroundColor: colors[index].code }"
+                  :style="{ backgroundColor: colors[index] }"
                   @click="changeColor(colors[index])"
                 ></div>
               </div>
@@ -92,7 +92,7 @@
               >
                 <div
                   class="color--box"
-                  :style="{ backgroundColor: colors[index + 3].code }"
+                  :style="{ backgroundColor: colors[index + 3] }"
                   @click="changeColor(colors[index + 3])"
                 ></div>
               </div>
