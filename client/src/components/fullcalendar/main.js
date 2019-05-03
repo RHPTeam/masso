@@ -114,6 +114,11 @@ export default {
       );
       
     },
+    eventOfDay() {
+      return this.events.filter( ( event ) => {
+        return this.compareDate( this.activeDay, event.started_at );
+      } );
+    },
     eventsOfWeek() {
       let firstDayOfWeek = new Date( this.weekDays[ 0 ].time ).setHours( 0, 0, 0),
         lastDayOfWeek = new Date( this.weekDays[ 6 ].time ).setHours( 23, 59, 59);
@@ -218,6 +223,19 @@ export default {
     }
   },
   methods: {
+    compareDate( d1, d2 ) {
+      const d1Time = new Date( d1 ),
+        d1Date = d1Time.getDate(),
+        d1Month = d1Time.getMonth() + 1,
+        d1Year = d1Time.getFullYear(),
+
+        d2Time = new Date( d2 ),
+        d2Date = d2Time.getDate(),
+        d2Month = d2Time.getMonth() + 1,
+        d2Year = d2Time.getFullYear();
+
+      return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
+    },
     eventClick( data ) {
       this.$emit( "eventClick", data );
     },

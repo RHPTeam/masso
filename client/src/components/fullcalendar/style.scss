@@ -216,11 +216,6 @@ Docs & License: https://rfullcalendar.io/
           z-index: 999;
         }
       }
-      &:hover {
-        .rc--title {
-          font-weight: 600;
-        }
-      }
     }
     .rc--limited {
       display: none;
@@ -599,11 +594,6 @@ Docs & License: https://rfullcalendar.io/
           height: 24px;
           line-height: 24px;
           padding: 0 3px;
-          &:hover {
-            .rc--title {
-              font-weight: 600;
-            }
-          }
         }
       }
       .rc--header {

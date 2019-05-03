@@ -72,6 +72,7 @@
         v-if="view === 'week' || view === 'day'"
         :activeDay="activeDay"
         :eventsOfWeek="eventsOfWeek"
+        :eventOfDay="eventOfDay"
         :dayFullName="dayFullName"
         :timePoint="timePoint"
         :view="view"

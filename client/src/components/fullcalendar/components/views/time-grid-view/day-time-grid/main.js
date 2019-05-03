@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import RcMorePopover from "../../../popover/more/index";
 export default {
-  props: [ "timePoint", "activeDay" ],
+  props: [ "activeDay", "eventOfDay", "timePoint", ],
   data() {
     return {
       events: [
@@ -15,6 +15,7 @@ export default {
       eventContainer: {},
       eventContainerWidth: 0,
       eventContentWidth: 0,
+      eventsPopupData: [],
       isShowMorePopover: false,
       leftVal: null,
       rightVal: 0,
@@ -45,13 +46,22 @@ export default {
     } );
   },
   methods: {
-    eventClick( name, time ) {
-      const dataEmmit = {
-        name: name,
-        time: time
-      };
+    eventClick( data) {
+      this.$emit( "eventClick", data );
+    },
+    filterEventsByTime( hour) {
+      return this.eventOfDay.filter( ( event ) => {
+        const eventStartTime = new Date( event.started_at ).getHours();
 
-      this.$emit( "eventClick", dataEmmit );
+        return eventStartTime === hour;
+      } );
+    },
+    formatTime( d ) {
+      const dateTime = new Date( d ),
+        hours = String( dateTime.getHours() ).padStart( 2, "0"),
+        mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
+
+      return `${hours}:${mins}`;
     },
     getEventContainerWidth() {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
@@ -66,11 +76,18 @@ export default {
       }
       return false;
     },
-    showMorePopover( timePoint ) {
+    showEventContent( eventVal) {
+      if ( eventVal=== undefined || eventVal.length === 0 ) {
+        return '';
+      } else {
+        return `${this.formatTime( eventVal.started_at )}  ${eventVal.title}`;
+      }
+    },
+    showMorePopover( timePoint, events ) {
       const timeGridContainerHeight = 1392, // 29*48
         // calculate height of more popover element
         eventCount = 6, // number of events
-        popoverHeight = 50 + eventCount * 20;
+        popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
       let topVal = timePoint * 2 * 29;
@@ -81,6 +98,7 @@ export default {
 
       this.topVal = topVal;
       this.isShowMorePopover = true;
+      this.eventsPopupData = events;
     }
   },
   components: {

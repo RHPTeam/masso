@@ -48,6 +48,7 @@
             />
             <rc-day-time-grid
               v-if="view === 'day'"
+              :eventOfDay="eventOfDay"
               :timePoint="timePoint"
               :activeDay="activeDay"
               @eventClick="eventClick($event)"
@@ -67,7 +68,7 @@ export default {
     RcDayTimeGrid,
     RcWeekTimeGrid
   },
-  props: [ "activeDay", "eventsOfWeek", "dayFullName", "timePoint", "view", "weekDays" ],
+  props: [ "activeDay", "eventOfDay", "eventsOfWeek", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {
       showMorePopover: false,

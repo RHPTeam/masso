@@ -57,47 +57,31 @@
                   <div class="rc--event-container">
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
-                      style="top: 464px; bottom: -493px;"
+                      v-for="(v, i) in 24"
+                      :key="i"
+                      :style="[ {top: i*2*29 + 'px'}, {bottom: -i*2*29 - 29 + 'px'} ]"
                     >
                       <div class="rc--content">
                         <div class="rc--content-flex">
                           <div
-                            class="rc--content-bg rc--bg-green"
-                            v-for="(event, index) in events"
+                            class="rc--content-bg"
+                            v-for="(event, index) in filterEventsByTime(i)"
                             :key="index"
+                            :style="{backgroundColor: event.color}"
                           >
                             <div
                               class="rc--title"
-                              @click="eventClick(event.name, event.time)"
+                              @click="eventClick(event)"
                               ref="events"
                             >
-                              {{ event.time + " " + event.name }}
+                              {{ showEventContent(event) }}
                             </div>
                           </div>
-                          <div class="rc--more" @click="showMorePopover(8)">
+                          <div class="rc--more"
+                               v-if="filterEventsByTime(i).length > 3"
+                               @click="showMorePopover(i, filterEventsByTime(i))"
+                          >
                             +2 sự kiện
-                          </div>
-                        </div>
-                      </div>
-                      <div class="rc--resizer rc--end-resizer"></div>
-                    </div>
-                    <div
-                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
-                      style="top: 493px; bottom: -522px;"
-                    >
-                      <div class="rc--content">
-                        <div class="rc--content-flex">
-                          <div
-                            class="rc--content-bg rc--bg-red"
-                            @click="eventClick('Happy Hour', '08:30')"
-                          >
-                            <div class="rc--title">08:30 Happy Hour</div>
-                          </div>
-                          <div
-                            class="rc--content-bg rc--bg-green"
-                            @click="eventClick('Meeting', '08:30')"
-                          >
-                            <div class="rc--title">08:30 Meeting</div>
                           </div>
                         </div>
                       </div>
@@ -120,6 +104,8 @@
       <rc-more-popover
         v-if="isShowMorePopover"
         @closeMorePopover="isShowMorePopover = $event"
+        @eventClick="eventClick($event)"
+        :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
         :rightVal="rightVal"
         :topVal="topVal"
