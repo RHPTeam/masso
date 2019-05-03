@@ -26,8 +26,8 @@ const actions = {
   getColorFromFb: async ( {commit} ) => {
     commit( "fb_request" );
     const results = await  FacebookServices.getColorFb();
-    console.log( results.data.data );
-    commit( "setColorFb", results.data.data );
+    console.log( results.data.results );
+    commit( "setColorFb", results.data.results );
     commit( "fb_success" );
   }
 };

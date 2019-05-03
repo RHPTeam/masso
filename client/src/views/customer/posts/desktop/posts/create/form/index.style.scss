@@ -160,7 +160,9 @@
     }
     .color--box {
       .color--item {
-        background-color: $red;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
         border: 1px solid $border-color;
         border-radius: 4px;
         cursor: pointer;
