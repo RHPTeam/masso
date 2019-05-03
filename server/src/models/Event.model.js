@@ -6,7 +6,7 @@ const mongoose = require( "mongoose" ),
   EventSchema = new Schema( {
     "title": { "type": String, "required": true },
     "color": { "type": String, "default": "#85CFFF" },
-    "typeEvent": Number,
+    "typeEvent": { "type": Number, "default": 0 },
     "started_at": Date,
     "finished_at": Date,
     "status": { "type": Boolean, "default": 0 },

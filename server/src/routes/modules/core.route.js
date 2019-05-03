@@ -5,6 +5,7 @@ router.route( "/action-type-loader" ).get( core.getAllActionTypeLoader );
 router.route( "/action-type-loader/:id" ).get( core.getAllItemActionTypeLoader );
 router.route( "/friends" ).get( core.getAllFriends );
 router.route( "/groups" ).get( core.getAllGroups );
+router.route( "/info" ).get( core.getUserInfo );
 router.route( "/pages" ).get( core.getAllPages );
 router.route( "/posts" ).post( core.createPost );
 router.route( "/posts/:id" ).get( core.getPost );
