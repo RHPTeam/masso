@@ -7,14 +7,13 @@
       </div>
       <div class="col col--name px_2">
         <div class="col col--name-text">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit
+          {{ item.title }}
         </div>
       </div>
       <div class="col col--category px_2">Mỹ phẩm</div>
       <div class="col col--content px_2">
         <div class="col--content-text">
-          Lorem ipsum dolor sit amet, consectetur tempor incid Lorem ipsum dolor
-          sit amet, consectetur adipiscing elit
+          {{ item.content }}
         </div>
       </div>
       <div class="col col--image px_2">

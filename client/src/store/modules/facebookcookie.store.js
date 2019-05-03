@@ -37,7 +37,7 @@ const mutations = {
   }
 };
 const actions = {
-  createlAccountFb: async ( {commit} ) => {
+  createlAccountFb: async ( {commit}, payload ) => {
     try {
       commit( "fb_request" );
       const dataSender = {
@@ -48,8 +48,9 @@ const actions = {
       await commit( "addNewAccountFacebook", result.data.data );
       commit( "fb_success" );
     } catch ( e ) {
-      if ( e.response.status === 403 ) commit( "addAccountError", "error" );
-      commit( "fb_success" );
+      console.log( e );
+      // if ( e.response.status === 403 ) commit( "addAccountError", "error" );
+      // commit( "fb_success" );
     }
   },
   getAllAccountFb: async ( {commit} ) => {

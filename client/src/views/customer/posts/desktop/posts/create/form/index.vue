@@ -271,14 +271,18 @@ export default {
       return this.$store.getters.categories;
     },
     nameCategories() {
-      let result = [];
+      if(this.categories.length === 0) {
+        return;
+      } else {
+        let result = [];
 
-      this.categories.filter( ( item ) => {
-        if ( item.title !== "" ) {
-          result.push( item.title );
-        }
-      } );
-      return result;
+        this.categories.filter( ( item ) => {
+          if ( item.title !== "" ) {
+            result.push( item.title );
+          }
+        } );
+        return result;
+      }
     },
     randomColor() {
       // console.log(this.colorFb[2]);

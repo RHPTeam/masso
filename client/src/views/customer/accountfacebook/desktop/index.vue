@@ -35,12 +35,12 @@
         <item-account :item="item"/>
       </div>
       <div
-        v-if="this.$store.getters.fbStatus === 'loading'"
+        v-if="this.$store.getters.faceBStatus === 'loading'"
         class="item c_md_6 c_lg_4 c_xl_3"
       >
         <div class="card">
           <div
-            class="card_body d_flex align_items_center justify_content_center"
+            class="card_body text_center d_flex align_items_center justify_content_center"
           >
             <loading-component />
           </div>

@@ -11,9 +11,9 @@ export default {
     return Api().post( "facebook", cookie );
   },
   updateCookieFb ( fbId, cookie ) {
-    return Api().patch( `facebook?_fbId=${fbId}`, cookie );
+    return Api().patch( `facebook?_facebookId=${fbId}`, cookie );
   },
   deleteAccountFb ( fbId ) {
-    return Api().delete(`facebook?_fbId=${fbId}`);
+    return Api().delete(`facebook?_facebookId=${fbId}`);
   }
 }

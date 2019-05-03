@@ -2,20 +2,20 @@ import FacebookServices from '@/services/modules/facebook.services';
 
 const state = {
   colorFb: [],
-  fbStatus: ""
+  faceBStatus: ""
 };
 
 const getters = {
   colorFb: state => state.colorFb,
-  fbStatus: state => state.fbStatus
+  faceBStatus: state => state.faceBStatus
 };
 
 const mutations = {
   fb_request: state => {
-    state.fbStatus = "loading";
+    state.faceBStatus = "loading";
   },
   fb_success: state => {
-    state.fbStatus = "success";
+    state.faceBStatus = "success";
   },
   setColorFb: (  state, payload ) => {
     state.colorFb = payload;
@@ -26,7 +26,6 @@ const actions = {
   getColorFromFb: async ( {commit} ) => {
     commit( "fb_request" );
     const results = await  FacebookServices.getColorFb();
-    console.log( results.data.results );
     commit( "setColorFb", results.data.results );
     commit( "fb_success" );
   }
