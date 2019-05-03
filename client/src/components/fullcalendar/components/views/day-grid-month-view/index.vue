@@ -112,7 +112,7 @@ export default {
       this.$emit( "eventClick", data );
     },
     eventsOfWeek( i ) {
-      let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ),
+      let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ).setHours( 0, 0, 0),
           lastDayOfWeek = new Date( this.monthDays[ i * 7 + 6 ].time ).setHours( 23, 59, 59);
 
       let res = this.events.filter( ( event ) => {

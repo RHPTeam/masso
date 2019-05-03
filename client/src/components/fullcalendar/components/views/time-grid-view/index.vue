@@ -41,6 +41,7 @@
           <td class="fc-widget-content">
             <rc-week-time-grid
               v-if="view === 'week'"
+              :eventsOfWeek="eventsOfWeek"
               :timePoint="timePoint"
               :weekDays="weekDays"
               @eventClick="eventClick($event)"

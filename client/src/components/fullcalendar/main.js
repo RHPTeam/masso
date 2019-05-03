@@ -115,7 +115,7 @@ export default {
       
     },
     eventsOfWeek() {
-      let firstDayOfWeek = new Date( this.weekDays[ 0 ].time ),
+      let firstDayOfWeek = new Date( this.weekDays[ 0 ].time ).setHours( 0, 0, 0),
         lastDayOfWeek = new Date( this.weekDays[ 6 ].time ).setHours( 23, 59, 59);
 
       let res = this.events.filter( ( event ) => {
