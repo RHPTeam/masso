@@ -35,7 +35,7 @@ module.exports = {
       dataResponse = await PostCategory.find( { "_account": userId } ).lean();
     }
 
-    // Check error not user id or ammout post of category
+    // Check ammout post of category
     dataResponse = dataResponse.map( async ( item ) => {
       if ( item._account.toString() === userId ) {
         const findPost = await Post.find( { "_account": userId } );

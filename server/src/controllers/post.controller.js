@@ -14,7 +14,6 @@ const PostCategory = require( "../models/PostCategory.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
 const config = require( "../configs/server" );
 const dictionary = require( "../configs/dictionaries" );
 
@@ -26,39 +25,40 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "index": async ( req, res ) => {
-    let page = null;
-    let dataResponse = null;
+    let page = null, dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
+    if ( req.query._id ) {
+      dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).lean();
+    } else if ( req.query._size && req.query._page ) {
+      dataResponse = ( await Post.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+    } else if ( req.query._size ) {
+      dataResponse = ( await Post.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Post.find( { "_account": userId } ).lean();
+    }
+
+    if ( req.query._size ) {
+      if ( ( await Post.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size );
+      } else {
+        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+      }
+
       return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+        .status( 200 )
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
     }
 
-    if (
-      decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
-    ) {
-      // eslint-disable-next-line no-nested-ternary
-      req.query._id ? ( dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ) ) : req.query._size && req.query._page ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) ) ) : req.query._size ? ( dataResponse = ( await Post.find( { "_account": userId } ) ).slice( 0, Number( req.query._size ) ) ) : ( dataResponse = await Post.find( { "_account": userId } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      if ( req.query._size ) {
-        page = ( ( await Post.find( { "_account": userId } ) ).length % req.query._size ) === 0 ? Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) : Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return { "data": item, "page": page };
-        }
-      } );
+    // Check when user get one
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
     }
+
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+      .json( jsonResponse( "success", dataResponse ) );
   },
   /**
    * Create Post
@@ -68,19 +68,13 @@ module.exports = {
    */
   "create": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId );
+      findPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+      newPost = await new Post( { "title": dictionary.DEFAULT_NAMEPOST, "_account": userId } );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const findPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } ),
-      newPost = await new Post( req.body );
-
-    newPost._account = userId;
     newPost._categories.push( findPostCategory._id );
     await newPost.save();
-    
-    res.status( 200 ).json( jsonResponse( "Tạo bài viết thành công!", newPost ) );
+
+    res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
   /**
    * Add attachment to Post
@@ -90,26 +84,26 @@ module.exports = {
    */
   "addAttachment": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
       findPost = await Post.findById( req.query._postId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Check catch when update post categories
+    if ( !findPostCategory ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+    } else if ( findPost._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
     }
-    if ( !findPost ) {
-      return res.status( 403 ).json( jsonResponse( "Bài viết không tồn tại!", null ) );
-    }
+
     // Add attachment type link video
     if ( req.query._type === "0" ) {
       findPost.attachments.push( { "link": "", "typeAttachment": 0 } );
       await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "Tạo link video của bài viết thành công!", findPost ) );
+      return res.status( 201 ).json( jsonResponse( "success", findPost ) );
     }
     // Add attachment type link image
     if ( req.query._type === "1" ) {
       findPost.attachments.push( { "link": "", "typeAttachment": 1 } );
       await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "Tạo ảnh của bài viết thành công!", findPost ) );
+      return res.status( 201 ).json( jsonResponse( "success", findPost ) );
     }
   },
   /**
@@ -120,12 +114,8 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
       findPost = await Post.findById( req.query._postId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     if ( !findPost ) {
       return res.status( 403 ).json( jsonResponse( "Bài viết không tồn tại!", null ) );
     }
@@ -133,7 +123,7 @@ module.exports = {
     if ( req.query._type === "1" && req.query._cateId ) {
       const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
         findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
-      
+
       if ( !findPostCategory ) {
         return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
       }
@@ -199,7 +189,7 @@ module.exports = {
     if ( req.query._type === "1" && req.query._cateId ) {
       const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
         findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
-      
+
       if ( !findPostCategory ) {
         return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
       }
