@@ -40,9 +40,7 @@ export default {
     return {
       newCampaign: {
         title: "",
-        description: "",
-        startedAt: new Date(),
-        finishedAt: new Date()
+        description: ""
       }
     };
   },

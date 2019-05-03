@@ -16,7 +16,7 @@
           >
             <icon-calendar />
           </icon-base>
-          <span>{{ formatDate( campaignDetail.started_at ) + ' - ' + formatDate( campaignDetail.finished_at ) }}</span>
+          <span>{{ formatDate( campaignDetail.started_at ) + ' - Chưa xác định'  }}</span>
         </div>
       </div>
     </div>

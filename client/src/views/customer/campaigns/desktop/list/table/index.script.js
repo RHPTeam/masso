@@ -67,6 +67,22 @@ export default {
     }
   },
   methods: {
+    activeCurrentSort( i, type ) {
+      this.isSort.forEach( ( item, index ) => {
+        if ( index === i ) {
+          if ( type === "asc" ) {
+            item.asc = true;
+            item.desc = false;
+          } else {
+            item.asc = false;
+            item.desc = true;
+          }
+        } else {
+          item.asc = false;
+          item.desc = false;
+        }
+      } );
+    },
     formatDate( d ) {
       const dateTime = new Date( d ),
         date = String( dateTime.getDate() ).padStart( 2, "0" ),
@@ -112,22 +128,6 @@ export default {
         } );
         this.activeCurrentSort( index, "desc" );
       }
-    },
-    activeCurrentSort( i, type ) {
-      this.isSort.forEach( ( item, index ) => {
-        if ( index === i ) {
-          if ( type === "asc" ) {
-            item.asc = true;
-            item.desc = false;
-          } else {
-            item.asc = false;
-            item.desc = true;
-          }
-        } else {
-          item.asc = false;
-          item.desc = false;
-        }
-      } );
     },
     viewCampaignDetail( id ) {
       this.$store.dispatch( "getCampaignDetail", id );

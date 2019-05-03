@@ -6,22 +6,15 @@ export default {
     return Api().get( "campaigns" );
   },
   create( campaign ) {
-    const dataSender = {
-      "title": campaign.title,
-      "description": campaign.description,
-      "started_at": campaign.startedAt,
-      "finished_at": campaign.finishedAt
-    };
-
-    return Api().post( "campaigns", dataSender );
+    return Api().post( "campaigns", campaign );
   },
   delete( id ) {
-    return Api().delete( `campaigns?_campId=${id}` );
+    return Api().delete( `campaigns?_campaignId=${id}` );
   },
   getCampaignById( id ) {
     return Api().get( `campaigns?_id=${id}` );
   },
   updateStatus( id ) {
-    return Api().patch( `campaigns?_campId=${id}&_type=status` );
+    return Api().patch( `campaigns?_campaignId=${id}&_type=status` );
   }
 };
