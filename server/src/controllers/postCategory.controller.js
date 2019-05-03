@@ -1,20 +1,16 @@
-/* eslint-disable one-var */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-shadow */
 /**
- * Controller post (profile) for project
+ * Controller post categories for project
  * author: hoc-anms
+ * updater: trantoan
  * date up: 20/04/2019
- * date to: ___
+ * date to: 02/05/2019
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const Post = require( "../models/Post.model" );
 const PostCategory = require( "../models/PostCategory.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
 const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
@@ -25,43 +21,53 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "index": async ( req, res ) => {
-    let page = null;
-    let dataResponse = null;
+    let page = null, dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
+    if ( req.query._id ) {
+      dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": userId } ).lean();
+    } else if ( req.query._size && req.query._page ) {
+      dataResponse = ( await PostCategory.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+    } else if ( req.query._size ) {
+      dataResponse = ( await PostCategory.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PostCategory.find( { "_account": userId } ).lean();
+    }
+
+    // Check ammout post of category
+    dataResponse = dataResponse.map( async ( item ) => {
+      if ( item._account.toString() === userId ) {
+        const findPost = await Post.find( { "_account": userId } );
+
+        item.ammout = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
+
+        return item;
+      }
+    } );
+    dataResponse = await Promise.all( dataResponse );
+
+    // If get size server will auto paginate and return page ammout
+    if ( req.query._size ) {
+      if ( ( await PostCategory.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size );
+      } else {
+        page = Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+      }
+
       return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+        .status( 200 )
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
     }
 
-    if (
-      decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
-    ) {
-      // eslint-disable-next-line no-nested-ternary
-      req.query._id ? ( dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": userId } ) ) : req.query._size && req.query._page ? ( dataResponse = ( await PostCategory.find( { "_account": userId } ) ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) ) ) : req.query._size ? ( dataResponse = ( await PostCategory.find( { "_account": userId } ) ).slice( 0, Number( req.query._size ) ) ) : ( dataResponse = await PostCategory.find( { "_account": userId } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      const findPost = await Post.find( { "_account": userId } );
-
-      if ( req.query._size ) {
-        page = ( ( await PostCategory.find( { "_account": userId } ) ).length % req.query._size ) === 0 ? Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size ) : Math.floor( ( await PostCategory.find( { "_account": userId } ) ).length / req.query._size ) + 1;
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          const num = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
-
-          return { "data": item, "num": num, "page": page };
-        }
-      } );
+    // Check when user get one
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
     }
+
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+      .json( jsonResponse( "success", dataResponse ) );
   },
   /**
    * Create Post Category
@@ -70,23 +76,23 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề danh mục không được bỏ trống!" } } );
     }
 
-    const objSave = {
+    // Handle create with mongodb
+    const userId = secure( res, req.headers.authorization ), objSave = {
         "title": req.body.title,
         "description": req.body.description,
         "_account": userId
       },
       newPostCategory = await new PostCategory( objSave );
 
+    // Save mongodb
     await newPostCategory.save();
 
-    res.status( 200 ).json( jsonResponse( "Tạo bộ sưu tập bài viết thành công!", newPostCategory ) );
+    res.status( 200 ).json( jsonResponse( "success", newPostCategory ) );
   },
   /**
    * Update Post Category
@@ -95,19 +101,22 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "update": async ( req, res ) => {
+    // Check validator
+    if ( req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề danh mục không được bỏ trống!" } } );
+    }
+
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
       findPostCategory = await PostCategory.findById( req.query._pcId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check catch when update post categories
     if ( !findPostCategory ) {
-      return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
+    } else if ( findPostCategory._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho danh mục này!" } );
     }
-    const dataPostCategoryUpdate = await PostCategory.findByIdAndUpdate( req.query._pcId, { "$set": req.body }, { "new": true } );
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật bộ sưu tập bài viết thành công!", dataPostCategoryUpdate ) );
+    res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._pcId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Post Category
@@ -117,20 +126,17 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
-      findPostCategory = await PostCategory.findById( req.query._pcId );
+      findPostCategory = await PostCategory.findById( req.query._pcId ),
+      findPost = await Post.find( { "_account": userId } );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check ctach when delete post categories
     if ( !findPostCategory ) {
-      return res.status( 403 ).json( jsonResponse( "Bộ sưu tập bài viết không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
+    } else if ( findPostCategory.title === dictionary.DEFAULT_POSTCATEGORY ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Danh mục mặc định không thể bị xóa!" } );
     }
-    if ( findPostCategory.title === dictionary.DEFAULT_POSTCATEGORY ) {
-      return res.status( 405 ).json( jsonResponse( "Bạn không được xóa bộ sưu tập bài viết này!", null ) );
-    }
-    const findPost = await Post.find( { "_account": userId } );
 
+    // When delete category which all of post of that category will deleted
     if ( findPost.length > 0 ) {
       Promise.all( findPost.map( async ( post ) => {
         if ( post._categories.indexOf( req.query._pcId ) > -1 ) {
@@ -139,7 +145,8 @@ module.exports = {
         }
       } ) );
     }
+
     await PostCategory.findByIdAndRemove( req.query._pcId );
-    res.status( 200 ).json( jsonResponse( "Xóa bộ sưu tập bài viết thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };

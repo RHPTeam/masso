@@ -15,7 +15,7 @@ const passport = require( "passport" );
 const Role = require( "./src/models/Role.model" );
 
 // connect to mongoose NoSQL DB
-mongoose.connect( `${config.db}/postv1`, {
+mongoose.connect( `${config.db}/postv2`, {
   "useCreateIndex": true,
   "useNewUrlParser": true
 } );

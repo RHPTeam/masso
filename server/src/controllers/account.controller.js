@@ -102,8 +102,8 @@ module.exports = {
     const sessionToken = await signToken( newUser );
 
     // Create defaul post category for user
-    const defaultPostCategory = await new PostCategory( { "title": dictionary.DEFAULT_POSTCATEGORY } );
-    
+    const defaultPostCategory = await new PostCategory( { "title": dictionary.DEFAULT_POSTCATEGORY, "_account": newUser._id } );
+
     await defaultPostCategory.save();
 
     await res.cookie( "sid", sessionToken, option );
@@ -618,7 +618,7 @@ module.exports = {
       <div>
         <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
         <span style="font-size: 20px">Email tự động xác nhận passcode</span><br>
-        <span style="font-size: 20px"><b>Code: ${code}</b> </span> 
+        <span style="font-size: 20px"><b>Code: ${code}</b> </span>
       </div>`;
 
     await transporter.sendMail(
