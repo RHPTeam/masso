@@ -51,7 +51,7 @@ export default {
       return this.$store.getters.themeName;
     },
     categories() {
-      return this.$store.getters.categoriesById.data;
+      return this.$store.getters.categoriesById;
     }
   },
   methods: {

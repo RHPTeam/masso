@@ -45,7 +45,12 @@ const generalRouter = {
     path: "/account",
     name: "account",
     component: require( "@/views/customer/account" ).default
-  }
+  },
+    {
+      path: "/f-account",
+      name: "f_account",
+      component: require( "@/views/customer/accountfacebook" ).default
+    }
   ]
 };
 

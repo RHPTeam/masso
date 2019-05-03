@@ -3,24 +3,24 @@ import Api from "@/services";
 
 export default {
   index() {
-    return Api().get( "post-category" );
+    return Api().get( "post-categories" );
   },
-  create( category ) {
-    return Api().post( "post-category", category );
+  create( categories ) {
+    return Api().post( "post-categories", categories );
   },
   getByPage(size, page) {
-    return Api().get(`post-category?_size=${size}&_page=${page}`);
+    return Api().get(`post-categories?_size=${size}&_page=${page}`);
   },
   getBySize(size) {
-    return Api().get(`post-category?_size=${size}`);
+    return Api().get(`post-categories?_size=${size}`);
   },
   show( pcId ) {
-    return Api().get( `post-category?_id=${pcId}` );
+    return Api().get( `post-categories?_id=${pcId}` );
   },
   updateCategories( pcId, content ) {
-    return Api().patch( `post-category?_pcId=${pcId}`, content );
+    return Api().patch( `post-categories?_pcId=${pcId}`, content );
   },
   deleteCagories( pcId ) {
-    return Api().delete( `post-category?_pcId=${pcId}` );
+    return Api().delete( `post-categories?_pcId=${pcId}` );
   }
 };

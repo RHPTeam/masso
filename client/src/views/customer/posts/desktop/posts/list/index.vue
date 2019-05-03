@@ -7,7 +7,7 @@
     <app-list />
     <!-- End: Data List -->
     <!-- Start: Info -->
-    <app-info />
+<!--    <app-info />-->
     <!-- Start: Info -->
   </div>
 </template>
@@ -15,12 +15,10 @@
 <script>
 import AppAction from "../../layouts/action/index";
 import AppList from "./table/index";
-import AppInfo from "../../layouts/info/index";
 export default {
   components: {
     AppAction,
-    AppList,
-    AppInfo
+    AppList
   }
 };
 </script>

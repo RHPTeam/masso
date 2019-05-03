@@ -37,6 +37,7 @@ Vue.component( "IconLockCheck", () =>
   import( "@/components/icons/IconLockCheck" )
 );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
+Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCookie" ) );
 Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
 Vue.component( "IconThreeDotsVerti", () => import( "@/components/icons/IconThreeDotsVerti" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
@@ -81,3 +82,15 @@ Vue.component( "ToggleSwitch", () =>
 
 Vue.component( "Dropzone", () => import( "@/components/dropzone" ) );
 Vue.component( "Taggle", () => import( "@/components/taggle" ) );
+
+/********************* CUSTOM POPUP COMPONENT ****************************/
+Vue.component("AddCookie", () => import("@/components/shared/layouts/addcookie"));
+Vue.component("UpdateCookie", () => import("@/components/shared/layouts/updatecookie"));
+
+
+Vue.component("LoadingComponent", () => import("@/components/shared/layouts/loading"));
+
+/********************* CUSTOM NOTIFICATION COMPONENT ****************************/
+Vue.component("DNotification", () =>
+  import("@/components/shared/layouts/notification")
+);

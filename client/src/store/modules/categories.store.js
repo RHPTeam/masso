@@ -39,20 +39,20 @@ const actions = {
   getAllCategories: async ( { commit } ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.index();
-
+    // console.log( resultCategories.data.data );
     commit( "setCategories", resultCategories.data.data );
     commit( "cate_success" );
   },
   getCategoriesById: async ( { commit }, payload ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.show( payload );
-
-    commit( "setCategoriesById", resultCategories.data.data[ 0 ] );
+    // console.log( resultCategories.data.data );
+    commit( "setCategoriesById", resultCategories.data.data );
     commit( "cate_success" );
   },
   getCategoriesByPage: async (  { commit }, payload ) => {
     commit( "cate_request"  );
-    const result = await CategoriesServices.getByPage( payload );
+    const result = await CategoriesServices.getByPage( payload.size, payload.page );
     commit( "setCategories", result.data.data  );
     commit( "cate_success"  );
   },
@@ -60,7 +60,7 @@ const actions = {
     commit(  "cate_request" );
     const result = await CategoriesServices.getBySize(  payload  );
     commit( "setCategories", result.data.data  );
-    console.log( result.data.data );
+    // console.log( result.data.data );
     commit(  "setSizePageCategories", result.data.data.page );
     commit(  "cate_success" );
   },
@@ -75,21 +75,20 @@ const actions = {
     commit( "cate_success" );
   },
   updateCategories: async ( { commit }, payload ) => {
-    commit( "cate_request" );
     const objSender = {
       title: payload.title,
       description: payload.description
     };
 
     await CategoriesServices.updateCategories( payload._id, objSender );
+    // commit( "setCategories", resultUpdate.data.data );
     const resultCategories = await CategoriesServices.index();
 
     commit( "setCategories", resultCategories.data.data );
-    commit( "cate_success" );
   },
   deleteCategories: async ( { commit }, payload ) => {
     commit( "cate_request" );
-    const resultDel = await CategoriesServices.deleteCagories( payload );
+    await CategoriesServices.deleteCagories( payload );
     const resultCategories = await CategoriesServices.index();
 
     commit( "setCategories", resultCategories.data.data );

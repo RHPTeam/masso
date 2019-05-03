@@ -15,7 +15,7 @@
           <app-list @changeUpdate="isUpdateCategories = $event" />
           <!-- End: Data List -->
           <!-- Start: Info -->
-          <app-info />
+          <!-- <app-info /> -->
           <!-- Start: Info -->
         </div>
       </div>
@@ -40,7 +40,10 @@ export default {
     return {
       isUpdateCategories: false
     };
-  }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
+  },
 };
 </script>
 

@@ -23,12 +23,22 @@
         <item-post :item="item" />
       </div>
     </div>
+<!--    Start: pagination post-->
+    <div>
+      <paginate-post />
+    </div>
+<!--    End: pagination post-->
   </div>
 </template>
 
 <script>
 import ItemPost from "./item";
+import PaginatePost from "./paginate";
 export default {
+  components: {
+    ItemPost,
+    PaginatePost
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -39,9 +49,6 @@ export default {
   },
   async created  () {
     await this.$store.dispatch( "getAllPost" );
-  },
-  components: {
-    ItemPost
   }
 };
 </script>

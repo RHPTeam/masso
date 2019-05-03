@@ -1,11 +1,11 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
-    <div class="post--info-show">Hiển thị 25 trong số 100</div>
+    <div class="post--info-show">Hiển thị {{ perPage }} trong số  {{ totalCate }}</div>
     <paginate
       :pageCount="sizePageCategories"
       :clickHandler="goToPage"
-      :prev-text="preView"
-      :next-text="next"
+      :prev-text="'&#8249;'"
+      :next-text="'&#x203A;'"
       :container-class="'pagination'"
       :page-class="'page-item'"
     ></paginate>
@@ -13,14 +13,16 @@
 </template>
 
 <script>
+
+import CategoriesServices from "@/services/modules/categories.services";
+
 export default {
   data() {
     return {
       currentPage: 1,
       perPage: 10,
       totalCount: null,
-      preView: "&#8249;",
-      next: "&#x203A;"
+      totalCate: ""
     }
   },
   computed: {
@@ -30,6 +32,8 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getCategoriesBySize", this.perPage);
+    let result = await CategoriesServices.index();
+    this.totalCate = result.data.data.length;
   },
   methods: {
     onPageChange(page) {
@@ -37,7 +41,6 @@ export default {
     },
     goToPage(page) {
       const dataSender = {
-        // name: this.keywordSearch,
         size: this.perPage,
         page: page
       };

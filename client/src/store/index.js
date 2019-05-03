@@ -7,6 +7,7 @@ import AccountStore from "./modules/account.store";
 import CategoriesStore from "./modules/categories.store";
 import PostStore from "./modules/post.store";
 import FacebookStore from "./modules/facebook.store";
+import FacebookCookie from "./modules/facebookcookie.store";
 
 Vue.use( Vuex );
 
@@ -16,6 +17,7 @@ export default new Vuex.Store( {
     CategoriesStore,
     DashBoard,
     FacebookStore,
+    FacebookCookie,
     PostStore
   }
 } );

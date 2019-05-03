@@ -261,7 +261,7 @@ export default {
     nameCategories() {
       let result = [];
 
-      this.categories.map( ( item ) => {
+      this.categories.filter( ( item ) => {
         if ( item.title !== "" ) {
           result.push( item.title );
         }
