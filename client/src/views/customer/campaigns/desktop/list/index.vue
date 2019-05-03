@@ -23,16 +23,16 @@
 import AppHeader from "./header";
 import AppTable from "./table";
 export default {
+  components: {
+    AppHeader,
+    AppTable
+  },
   data() {
     return {
       filterShowSelected: { id: 25, name: "Hiển thị 25" },
       filterStatusSelected: { id: "all", name: "Tất cả trạng thái" },
       search: ""
     };
-  },
-  components: {
-    AppHeader,
-    AppTable
   }
 };
 </script>

@@ -91,7 +91,7 @@
                     v-for="role in roles"
                     :key="role.level"
                     :value="role.level"
-                    :selected="role.level == user._role.level ? 'selected' : ''"
+                    :selected="role.level === user._role.level ? 'selected' : ''"
                   >{{ role.level }}</option
                   >
                 </select>

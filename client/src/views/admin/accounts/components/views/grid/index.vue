@@ -121,13 +121,13 @@
     <!-- ************** POPUP ************** -->
     <transition name="popup">
       <edit-popup
-        v-if="showEdit == true"
+        v-if="showEdit === true"
         :user="userSelectEdit"
         @closeAddEdit="showEdit = $event"></edit-popup>
     </transition>
     <transition name="popup">
       <info-popup
-        v-if="showInfo == true"
+        v-if="showInfo === true"
         :user="userSelectInfo"
         @closeAddInfo="showInfo = $event"
         @openAddEdit="showEdit = $event"
@@ -142,7 +142,7 @@
     </transition>
     <transition name="fade">
       <div
-        v-if="showInfo == true || showEdit == true"
+        v-if="showInfo === true || showEdit === true"
         class="backdrop position_fixed"
       ></div>
     </transition>

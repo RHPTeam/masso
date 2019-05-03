@@ -10,7 +10,7 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          :value="eventData.name"
+          :value="eventData.title"
         />
       </div>
       <div class="header--row-right d_flex align_items_center">

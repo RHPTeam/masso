@@ -56,6 +56,10 @@
 import AppFilter from "./filter/index";
 import CreateCampaignPopup from "../../popup/createcampaign";
 export default {
+  components: {
+    AppFilter,
+    CreateCampaignPopup
+  },
   props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {
     return {
@@ -88,10 +92,6 @@ export default {
     updateSearch() {
       this.$emit( "updateSearch", this.search );
     }
-  },
-  components: {
-    AppFilter,
-    CreateCampaignPopup
   }
 };
 </script>

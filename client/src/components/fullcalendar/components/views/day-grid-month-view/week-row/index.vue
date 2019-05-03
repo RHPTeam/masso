@@ -46,101 +46,39 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="rc--event-container" id="eventColumWidth">
+          <tr v-for="(x, i) in 3" :key="i">
+            <td class="rc--event-container"
+                v-for="(v, j) in 7"
+                :key="j"
+                :id="[ i === 0 && j === 0 ? 'eventColumnWidth' : null ]"
+            >
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-blue"
-                @click="eventClick('Long Event', '09:00')"
+                v-if=" eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i] "
+                @click="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
               >
                 <div class="rc--content">
-                  <span class="rc--title">09:00 Long Event</span>
+                  <span class="rc--title">
+                    {{ showEventContent(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i]) }}
+                  </span>
                 </div>
                 <div class="rc--resizer rc--end-resizer"></div>
               </div>
             </td>
-            <td rowspan="1"></td>
-            <td class="rc--event-container">
-              <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable rc--bg-violet"
-                @click="eventClick('Conference', '08:00')"
-              >
-                <div class="rc--content">
-                  <span class="rc--title">08:00 Conference</span>
-                </div>
-                <div class="rc--resizer rc--end-resizer"></div>
-              </div>
-            </td>
-            <td class="rc--event-container">
-              <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
-                @click="eventClick('Birthday Party', '18:00')"
-              >
-                <div class="rc--content">
-                  <span class="rc--title">18:00 Birthday Party</span>
-                </div>
-              </div>
-            </td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
           </tr>
           <tr>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td class="rc--event-container">
-              <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green"
-                @click="eventClick('Repeating Event', '12:00')"
+            <td rowspan="1"
+                v-for="(v, index) in 7"
+                :key="index"
+                :class="[ eventOfDay( monthDays[rowIndex * 7 + index ].time ) !== undefined && eventOfDay( monthDays[rowIndex * 7 + index ].time ).length > 3 ? 'rc--more-cell' : '']"
+            >
+              <div class="rc--more"
+                   @click="showMorePopover( index, eventOfDay( monthDays[rowIndex * 7 + index ].time ) )"
+                   v-if="eventOfDay( monthDays[rowIndex * 7 + index ].time ) !== undefined && eventOfDay( monthDays[rowIndex * 7 + index ].time ).length > 3"
               >
-                <div class="rc--content">
-                  <span class="rc--title">12:00 Repeating Event</span>
-                </div>
+                +{{ eventOfDay( monthDays[rowIndex * 7 + index ].time ).length - 3 }} sự kiện
               </div>
             </td>
-            <td rowspan="1"></td>
-            <td class="rc--event-container">
-              <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-red"
-                @click="eventClick('Meeting', '09:00')"
-              >
-                <div class="rc--content">
-                  <span class="rc--title">09:00 Meeting</span>
-                </div>
-              </div>
-            </td>
-            <td rowspan="1"></td>
-          </tr>
-          <tr>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td class="rc--event-container">
-              <div
-                class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
-                @click="eventClick('Lunch', '12:00')"
-              >
-                <div class="rc--content">
-                  <span class="rc--title">12:00 Lunch</span>
-                </div>
-              </div>
-            </td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-          </tr>
-          <tr>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td class="rc--more-cell" rowspan="1">
-              <div class="rc--more" @click="showMorePopover(3)">
-                +2 sự kiện
-              </div>
-            </td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
-            <td rowspan="1"></td>
           </tr>
         </tbody>
       </table>

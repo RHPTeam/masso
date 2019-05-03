@@ -124,17 +124,16 @@
 
 <script>
 export default {
-  props: [ "user" ],
   components: {
   },
   filters: {
     formatDate( d ) {
       const newDate = new Date( d ),
-        year = newDate.getFullYear(),
-        month = newDate.getMonth() + 1,
-        date = newDate.getDate(),
-        hour = newDate.getHours(),
-        minutes = newDate.getMinutes();
+            year = newDate.getFullYear(),
+            month = newDate.getMonth() + 1,
+            date = newDate.getDate(),
+            hour = newDate.getHours(),
+            minutes = newDate.getMinutes();
 
       return `${hour}:${minutes}, ${date}-${month}-${year}`;
     },
@@ -142,6 +141,7 @@ export default {
       return string.charAt( 0 ).toUpperCase();
     }
   },
+  props: [ "user" ],
   methods: {
     closeAddInfo() {
       this.$emit( "closeAddInfo", false );

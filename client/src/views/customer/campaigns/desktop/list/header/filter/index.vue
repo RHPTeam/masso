@@ -2,7 +2,6 @@
   <div
     class="btn btn--filter"
     @click="showFilterDropdown = !showFilterDropdown"
-    v-click-outside="closeFilterDropdown"
     :data-theme="currentTheme"
   >
     {{ filterSelected.name }}
@@ -44,9 +43,6 @@ export default {
     }
   },
   methods: {
-    closeFilterDropdown() {
-      this.showFilterDropdown = false;
-    },
     updateFilterSelected( data ) {
       this.$emit( "updateFilterSelected", data );
     }

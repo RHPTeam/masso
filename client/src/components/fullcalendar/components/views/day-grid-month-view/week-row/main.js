@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 export default {
-  props: [ "monthDays", "rowIndex" ],
+  props: [ "eventsOfWeek", "monthDays", "rowIndex" ],
   data() {
     return {
       eventContainer: {},
@@ -9,7 +9,7 @@ export default {
   },
   mounted() {
     this.$nextTick( () => {
-      const container = document.querySelector( "#eventColumWidth" );
+      const container = document.querySelector( "#eventColumnWidth" );
 
       this.eventContainer = container;
       window.addEventListener( "resize", this.getEventContainerWidth );
@@ -20,18 +20,45 @@ export default {
   },
   computed: {},
   methods: {
-    eventClick( name, time ) {
-      const dataEmmit = {
-        name: name,
-        time: time
-      };
+    compareDate( d1, d2 ) {
+      const d1Time = new Date( d1 ),
+            d1Date = d1Time.getDate(),
+            d1Month = d1Time.getMonth() + 1,
+            d1Year = d1Time.getFullYear(),
 
-      this.$emit( "eventClick", dataEmmit );
+            d2Time = new Date( d2 ),
+            d2Date = d2Time.getDate(),
+            d2Month = d2Time.getMonth() + 1,
+            d2Year = d2Time.getFullYear();
+
+      return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
+    },
+    eventClick( data) {
+      this.$emit( "eventClick", data );
+    },
+    eventOfDay( day ) {
+      return this.eventsOfWeek.filter( ( event ) => {
+        return this.compareDate( day, event.started_at );
+      } );
+    },
+    formatTime( d ) {
+      const dateTime = new Date( d ),
+        hours = String( dateTime.getHours() ).padStart( 2, "0"),
+        mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
+
+      return `${hours}:${mins}`;
     },
     getEventContainerWidth() {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
     },
-    showMorePopover( colIndex ) {
+    showEventContent( eventVal) {
+      if ( eventVal=== undefined || eventVal.length === 0 ) {
+        return '';
+      } else {
+        return `${this.formatTime( eventVal.started_at )}  ${eventVal.title}`;
+      }
+    },
+    showMorePopover( colIndex, events ) {
       const dayGridMonthHeight = 779,
         // calculate height of more popover element
         eventCount = 6, // number of events
@@ -64,6 +91,7 @@ export default {
         this.$emit( "setRightVal", 0 );
       }
       this.$emit( "showMorePopover", true );
+      this.$emit( "getEvents", events);
     }
   },
   beforeDestroy() {

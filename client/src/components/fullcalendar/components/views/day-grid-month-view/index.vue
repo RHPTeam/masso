@@ -52,9 +52,11 @@
                 <rc-week-row
                   v-for="(v, i) in 6"
                   :key="i"
+                  :eventsOfWeek="eventsOfWeek(i)"
                   :monthDays="monthDays"
                   :rowIndex="i"
                   @eventClick="eventClick($event)"
+                  @getEvents="eventsPopupData = $event"
                   @setLeftVal="leftVal = $event"
                   @setRightVal="rightVal = $event"
                   @setTopVal="topVal = $event"
@@ -73,6 +75,8 @@
       <rc-more-popover
         v-if="showMorePopover"
         @closeMorePopover="showMorePopover = $event"
+        @eventClick="eventClick($event)"
+        :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
         :rightVal="rightVal"
         :topVal="topVal"
@@ -90,18 +94,34 @@ export default {
     RcMorePopover,
     RcWeekRow
   },
-  props: [ "monthDays" ],
+  props: [ "events", "monthDays" ],
   data() {
     return {
+      eventsPopupData: [],
       showMorePopover: false,
       leftVal: null,
       rightVal: null,
       topVal: null
     };
   },
+  computed: {
+
+  },
   methods: {
     eventClick( data ) {
       this.$emit( "eventClick", data );
+    },
+    eventsOfWeek( i ) {
+      let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ),
+          lastDayOfWeek = new Date( this.monthDays[ i * 7 + 6 ].time ).setHours( 23, 59, 59);
+
+      let res = this.events.filter( ( event ) => {
+        const eventStartTime = new Date(event.started_at);
+
+        return eventStartTime >= firstDayOfWeek && eventStartTime <= lastDayOfWeek;
+      } );
+
+      return res;
     }
   }
 };

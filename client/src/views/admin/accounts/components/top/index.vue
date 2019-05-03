@@ -34,7 +34,7 @@
           </div>
           <div class="selected">{{ statusFilter }}</div>
           <div class="options position_absolute m_0"
-                v-if="isshowStatusFilter == true">
+                v-if="isshowStatusFilter === true">
             <div
               class="option"
               v-for="(item, index) in statusOptions"

@@ -23,7 +23,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[0].asc == false && isSort[0].desc == false"
+            v-if="isSort[0].asc === false && isSort[0].desc === false"
           >
             <icon-arrow-down/>
           </icon-base>
@@ -64,7 +64,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[1].asc == false && isSort[1].desc == false"
+            v-if="isSort[1].asc === false && isSort[1].desc === false"
           >
             <icon-arrow-down/>
           </icon-base>
@@ -105,7 +105,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[2].asc == false && isSort[2].desc == false"
+            v-if="isSort[2].asc === false && isSort[2].desc === false"
           >
             <icon-arrow-down/>
           </icon-base>
@@ -146,7 +146,7 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[3].asc == false && isSort[3].desc == false"
+            v-if="isSort[3].asc === false && isSort[3].desc === false"
           >
             <icon-arrow-down/>
           </icon-base>
@@ -228,7 +228,7 @@
       <div class="pronoun">
         <span
           class="btn--action"
-          v-if="user.vocate != 'Chưa thiết lập'"
+          v-if="user.vocate !== 'Chưa thiết lập'"
           @click="showPronounPopup(user._id)"
         >{{ user.vocate | upperCaseFirstLetter }}</span>
         <span class="btn--action" v-else @click="showPronounPopup(user._id)">Chọn để thiết lập</span>
@@ -251,12 +251,12 @@
     <!--*********** POPUP *************-->
     <transition name="popup">
       <pronoun-popup
-        v-if="isShowPronounPopup == true"
+        v-if="isShowPronounPopup === true"
         :data-theme="currentTheme"
         :isShowPronounPopup="isShowPronounPopup"
         :userID="userID"
         @closeAddPopup="isShowPronounPopup = $event"
-      />
+      ></pronoun-popup>
     </transition>
   </div>
   <!--  -->

@@ -41,19 +41,19 @@
             <!--End: Notification change password success -->
             <app-alert
               :type="
-                this.$store.getters.authStatus == '401' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === '401' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus == '401'
+                this.$store.getters.authStatus === '401'
                   ? 'Tài khoản email hoặc mật khẩu không đúng!'
                   : ''
               "></app-alert>
             <app-alert
               :type="
-                this.$store.getters.authStatus == '405' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === '405' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus == '405'
+                this.$store.getters.authStatus === '405'
                   ? 'Tài khoản của bạn đã hết hạn hoặc bị ngừng truy cập!'
                   : ''
               "></app-alert>

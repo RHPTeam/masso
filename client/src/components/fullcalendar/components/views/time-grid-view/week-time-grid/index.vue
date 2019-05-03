@@ -24,7 +24,7 @@
               v-for="(time, index) in timePoint"
               :key="index"
               :data-time="time"
-              :class="[index % 2 != 0 ? 'rc--minor' : '']"
+              :class="[index % 2 !== 0 ? 'rc--minor' : '']"
             >
               <!-- Even Hours -->
               <td
@@ -38,11 +38,11 @@
 
               <!-- Odd hours -->
               <td
-                v-if="index % 2 != 0"
+                v-if="index % 2 !== 0"
                 class="rc--axis rc--time rc--widget-content"
                 style="width: 42px; height: 28px; font-size: .85rem;"
               ></td>
-              <td v-if="index % 2 != 0" class="rc--widget-content"></td>
+              <td v-if="index % 2 !== 0" class="rc--widget-content"></td>
             </tr>
           </tbody>
         </table>
@@ -280,7 +280,7 @@
         :leftVal="leftVal"
         :rightVal="rightVal"
         :topVal="topVal"
-      />
+      ></rc-more-popover>
     </transition>
   </div>
 </template>

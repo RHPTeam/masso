@@ -9,6 +9,7 @@
     <!-- Start: FullCalendar -->
     <fullcalendar
       @eventClick="openEventPopup($event)"
+      :events="events"
       :theme="currentTheme"
       :view="calendarView"
     />
@@ -40,18 +41,22 @@ export default {
       isOpenEventPopup: false
     };
   },
-  async created() {
-    const campaignId = this.$route.params.campaignId;
-
-    await this.$store.dispatch( "getCampaignDetail", campaignId );
-  },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
     },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    events() {
+      return this.$store.getters.events;
     }
+  },
+  async created() {
+    const campaignId = this.$route.params.campaignId;
+
+    await this.$store.dispatch( "getCampaignDetail", campaignId );
+    await this.$store.dispatch( "getAllEvents" );
   },
   methods: {
     openEventPopup( data ) {

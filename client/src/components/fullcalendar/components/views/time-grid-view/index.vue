@@ -66,7 +66,7 @@ export default {
     RcDayTimeGrid,
     RcWeekTimeGrid
   },
-  props: [ "activeDay", "dayFullName", "timePoint", "view", "weekDays" ],
+  props: [ "activeDay", "events", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {
       showMorePopover: false,

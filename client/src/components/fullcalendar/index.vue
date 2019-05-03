@@ -64,25 +64,28 @@
     <div class="rc--view-container">
       <rc-day-grid-month-view
         v-if="view === 'month'"
+        :events="events"
         :monthDays="monthDays"
         @eventClick="eventClick($event)"
-      />
+      ></rc-day-grid-month-view>
       <rc-time-grid-view
         v-if="view === 'week' || view === 'day'"
         :activeDay="activeDay"
+        :events="events"
         :dayFullName="dayFullName"
         :timePoint="timePoint"
         :view="view"
         :weekDays="weekDays"
         @eventClick="eventClick($event)"
-      />
+      ></rc-time-grid-view>
       <rc-list-week-view
         v-if="view === 'list'"
+        :events="events"
         :dayFullName="dayFullName"
         :monthName="monthName"
         :weekDays="weekDays"
         @eventClick="eventClick($event)"
-      />
+      ></rc-list-week-view>
     </div>
   </div>
 </template>

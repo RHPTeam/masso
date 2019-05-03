@@ -42,14 +42,14 @@ export default {
       deleteText: ""
     };
   },
-  watch: {
-    deleteText() {
-      this.deleteConfirm = this.deleteText === "DELETE";
-    }
-  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  watch: {
+    deleteText() {
+      this.deleteConfirm = this.deleteText === "DELETE";
     }
   },
   methods: {

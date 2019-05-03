@@ -66,19 +66,19 @@
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-friends-popup
-        v-if="isShowDeleteFrPopup == true"
+        v-if="isShowDeleteFrPopup === true"
         :data-theme="currentTheme"
         title="Xoá bạn bè khỏi nhóm"
         :isShowDeletePopup="isShowDeleteFrPopup"
         @closeAddPopup="isShowDeleteFrPopup = $event"
         groupTarget="Khách Hàng Tiềm Năng"
-      />
+      ></delete-friends-popup>
       <add-group-popup
-        v-if="isShowAddtoGrPopup == true"
+        v-if="isShowAddtoGrPopup === true"
         :data-theme="currentTheme"
         :isShowDeleteFrPopup="isShowAddtoGrPopup"
         @closeAddPopup="isShowAddtoGrPopup = $event"
-      />
+      ></add-group-popup>
     </transition>
   </div>
 </template>

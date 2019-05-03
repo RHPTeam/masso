@@ -214,7 +214,7 @@
 
 <script>
 export default {
-  props: [ "dayFullName", "monthName", "weekDays" ],
+  props: [ "events", "dayFullName", "monthName", "weekDays" ],
   methods: {
     eventClick( name, time ) {
       const dataEmmit = {
