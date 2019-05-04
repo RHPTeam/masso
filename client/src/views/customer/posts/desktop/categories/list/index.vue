@@ -43,6 +43,9 @@ export default {
       return this.$store.getters.categories.results;
     }
   },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
+  },
   methods: {
     changeUpdate( ev ) {
       this.$emit( "changeUpdate", ev );

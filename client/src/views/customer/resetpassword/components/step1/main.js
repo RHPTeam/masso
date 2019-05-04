@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import AppAlert from "@/components/shared/alert";
+import AppAlert from "@/components/shared/layouts/alert";
 
 export default {
   data() {

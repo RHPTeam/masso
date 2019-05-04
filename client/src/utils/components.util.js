@@ -63,7 +63,7 @@ Vue.component( "IconLogoText", () => import( "@/components/icons/IconLogoText" )
 Vue.component( "VuePerfectScrollbar", () => import( "vue-perfect-scrollbar" ) );
 
 Vue.component( "contenteditable", () =>
-  import( "@/components/shared/contenteditable" )
+  import( "@/components/contenteditable" )
 );
 Vue.component( "Breadcrumb", () =>
   import( "@/components/shared/layouts/breadcrumb" )
@@ -73,7 +73,7 @@ Vue.component( "Fullcalendar", () => import( "@/components/fullcalendar" ) );
 
 Vue.component( "ToggleSwitch", () => import( "@/components/switch" ) );
 
-Vue.component( "Paginate", () => import( "@/components/shared/paginate" ) );
+Vue.component( "Paginate", () => import( "@/components/paginate" ) );
 Vue.component( "Multiselect", () =>
     import( "@/components/multiselect" ) );
 

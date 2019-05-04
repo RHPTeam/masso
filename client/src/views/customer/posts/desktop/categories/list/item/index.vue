@@ -37,6 +37,7 @@
 
 <script>
 import StringFunction from "@/utils/string.util";
+import DeleteItem from "./delete"
 export default {
   props: [ "item" ],
   methods: {

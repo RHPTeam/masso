@@ -10,11 +10,13 @@ const state = {
   categories: [],
   categoriesById: [],
   statusCategories: "",
+  statusError: "",
   sizePageCategories: 1
 };
 const getters = {
   categories: ( state ) => state.categories,
   statusCategories: ( state ) => state.statusCategories,
+  statusError: ( state ) => state.statusError,
   categoriesById: ( state ) => state.categoriesById,
   sizePageCategories: ( state ) => state.sizePageCategories
 };
@@ -24,6 +26,9 @@ const mutations = {
   },
   cate_success: ( state ) => {
     state.statusCategories = "success";
+  },
+  createCateError: ( state, payload ) => {
+    state.statusError = payload
   },
   setCategories: ( state, payload ) => {
     state.categories = payload;
@@ -65,14 +70,21 @@ const actions = {
     commit(  "cate_success" );
   },
   createCategories: async ( { commit }, payload ) => {
-    commit( "cate_request" );
-    const resultCreateCate = await CategoriesServices.create( payload );
+    try {
+      commit( "cate_request" );
+      const resultCreateCate = await CategoriesServices.create( payload );
+      // console.log( resultCreateCate );
+      commit( "setCategories", resultCreateCate.data.data );
+      const resultCategories = await CategoriesServices.index();
 
-    commit( "setCategories", resultCreateCate.data.data );
-    const resultCategories = await CategoriesServices.index();
-
-    commit( "setCategories", resultCategories.data.data );
-    commit( "cate_success" );
+      commit( "setCategories", resultCategories.data.data );
+      commit( "cate_success" );
+    } catch (e) {
+      console.log( e.response.data );
+      if( e.response.status === 403 ) {
+        commit( "createCateError", e.response.data );
+      }
+    }
   },
   updateCategories: async ( { commit }, payload ) => {
     const objSender = {

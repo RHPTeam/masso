@@ -15,13 +15,12 @@
       Nhập địa chỉ email tài khoản Zinbee của bạn bên dưới.
     </div>
     <app-alert
-      :type="this.$store.getters.authStatus == 'loading' ? 'alert_danger' : ''"
+      :type="this.$store.getters.authStatus === 'loading' ? 'alert_danger' : ''"
       :message="
-        this.$store.getters.authStatus == 'loading'
+        this.$store.getters.authStatus === 'loading'
           ? 'Tài khoản email không tồn tại!'
           : ''
-      "
-    />
+      "></app-alert>
     <div
       class="form_group position_relative mb_3"
       :class="{

@@ -3,10 +3,11 @@
 
     <div class="category--form py_4 px_3" v-if="isUpdateCategories === false">
       <div class="category--new-desc mb_3">Thêm danh mục mới</div>
-      <div class="item mb_4">
+      <div class="item mb_2">
         <span>Tên danh mục</span>
         <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategories" />
       </div>
+      <div v-if="this.$store.getters.statusError.status === 'fail'" class="error text_light px_2 py_1 bg_danger mb_2"> {{ this.$store.getters.statusError.data.title }}</div>
       <div class="item mb_4">
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="desCategories"></textarea>
@@ -60,7 +61,6 @@ export default {
         title: this.nameCategories,
         description: this.desCategories
       };
-
       await this.$store.dispatch( "createCategories", dataSender );
       this.nameCategories = "";
       this.desCategories = "";
@@ -129,6 +129,9 @@ export default {
         outline: 0;
       }
     }
+  }
+  .error {
+    border-radius: .5rem;
   }
 }
 //CHANGE BACKGROUND COLOR THEME
