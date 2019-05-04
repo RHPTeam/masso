@@ -42,7 +42,6 @@ router
   .route( "/" )
   .get( PostController.index )
   .post( PostController.create )
-  .patch( upload.single( "file" ), PostController.update )
+  .patch( upload.array( "attachments", 20 ), PostController.update )
   .delete( PostController.delete );
-router.route( "/add-attachment" ).post( PostController.addAttachment );
 module.exports = router;
