@@ -46,7 +46,7 @@
         </div>
       </div>
       <div class="col col--action px_4 text_center">
-        <span class="mx_1">
+        <span class="mx_1" @click="updatePost">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
@@ -72,6 +72,15 @@ export default {
       type: Object
     }
   },
+  methods: {
+    updatePost() {
+      // this.$store.dispatch( "updatePost" );
+      this.$router.push( {
+        name: "update_post",
+        params: { id: this.item._id }
+      } );
+    }
+  }
 }
 </script>
 

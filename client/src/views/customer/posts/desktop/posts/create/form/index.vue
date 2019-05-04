@@ -7,15 +7,16 @@
 
     <div class="item mb_4">
       <span>Danh mục</span>
-      <multiselect
-        class="mt_3"
-        multiple
-        @input="update"
-        v-model="listCategories"
-        :options="nameCategories"
-        :maxHeight="200"
-        placeholder="Chọn danh mục"
-      />
+      <div class="item--categories">
+        <multiselect
+          multiple
+          @input="update"
+          v-model="listCategories"
+          :options="nameCategories"
+          :maxHeight="200"
+          placeholder="Chọn danh mục"
+        />
+      </div>
     </div>
 
     <div class="item mb_4">
