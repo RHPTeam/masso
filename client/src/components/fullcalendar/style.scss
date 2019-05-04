@@ -776,6 +776,7 @@ Docs & License: https://rfullcalendar.io/
           .rc--content-bg {
             border-radius: 3px;
             margin-right: 2px;
+            max-width: 290px;
             .rc--title {
               overflow: hidden;
               white-space: nowrap;
@@ -879,6 +880,84 @@ Docs & License: https://rfullcalendar.io/
     }
   }
 }
+
+/* Responsive */
+@media (max-width: 1366px) {
+  .rc {
+    .rc--time-grid {
+      &-event {
+        .rc--content {
+          .rc--content-flex {
+            .rc--content-bg {
+              max-width: 240px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1200px) {
+  .rc {
+    .rc--time-grid {
+      &-event {
+        .rc--content {
+          .rc--content-flex {
+            .rc--content-bg {
+              max-width: 180px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .rc {
+    .rc--time-grid {
+      &-event {
+        .rc--content {
+          .rc--content-flex {
+            .rc--content-bg {
+              max-width: 170px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .rc {
+    .rc--time-grid {
+      &-event {
+        .rc--content {
+          .rc--content-flex {
+            .rc--content-bg {
+              max-width: 134px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+@media (max-width: 880px) {
+  .rc {
+    .rc--time-grid {
+      &-event {
+        .rc--content {
+          .rc--content-flex {
+            .rc--content-bg {
+              max-width: 96px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 /* Light Theme Color */
 .rc[data-theme="light"] {
   .rc--time-grid {

@@ -51,7 +51,7 @@
           <tbody>
             <tr>
               <td class="rc--axis" style="width: 42px;"></td>
-              <td id="eventColumWidth">
+              <td>
                 <div class="rc--content-col">
                   <div class="rc--event-container rc--mirror-container"></div>
                   <div class="rc--event-container">
@@ -65,23 +65,22 @@
                         <div class="rc--content-flex">
                           <div
                             class="rc--content-bg"
-                            v-for="(event, index) in filterEventsByTime(i)"
+                            v-for="(event, index) in filterEventsByTime(i).slice(0, 3)"
                             :key="index"
                             :style="{backgroundColor: event.color}"
                           >
                             <div
                               class="rc--title"
                               @click="eventClick(event)"
-                              ref="events"
                             >
                               {{ showEventContent(event) }}
                             </div>
                           </div>
                           <div class="rc--more"
-                               v-if="filterEventsByTime(i).length > 3"
+                               v-if="filterEventsByTime(i).length > 2"
                                @click="showMorePopover(i, filterEventsByTime(i))"
                           >
-                            +2 sự kiện
+                            +{{ filterEventsByTime(i).length - 3 }} sự kiện
                           </div>
                         </div>
                       </div>
