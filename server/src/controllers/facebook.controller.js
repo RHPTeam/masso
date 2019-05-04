@@ -9,7 +9,7 @@ const Facebook = require( "../models/Facebook.model" );
 const PageFacebook = require( "../models/PageFacebook.model" );
 const GroupFacebook = require( "../models/GroupFacebook.model" );
 
-const { getUserInfo } = require( "./core/facebook.core" );
+const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions.util" );
 const { agent } = require( "../configs/crawl" );
 const jsonResponse = require( "../configs/res" );
@@ -149,5 +149,78 @@ module.exports = {
 
     await Facebook.findByIdAndDelete( req.query._facebookId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
+  /**
+   * Get All Action Type Loader
+   * @param req
+   * @param res
+   * @return {Promise<*|Promise<anyy>>}
+   */
+  "getAllActionTypeLoader": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      findFacebook = await Facebook.find( { "_account": userId } ),
+      activityList = await getAllActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent } );
+
+    if ( activityList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "error", "message": activityList.error.text } );
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", activityList ) );
+  },
+  /**
+   * Get All Item By Action Type Loader
+   * @param req
+   * @param res
+   * @return {Promise<*|Promise<anyy>>}
+   */
+  "showActionTypeLoader": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      findFacebook = await Facebook.find( { "_account": userId } ),
+      activityItemList = await getAllItemActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent, "item": req.params.id } );
+
+    if ( activityItemList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "error", "message": activityItemList.error.text } );
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", activityItemList ) );
+  },
+  /**
+   * Get All Friends By Account
+   * @param req
+   * @param res
+   * @return {Promise<*|Promise<anyy>>}
+   */
+  "getAllFriends": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      findFacebook = await Facebook.find( { "_account": userId } ),
+      friendsList = await getAllFriends( { "cookie": findFacebook[ 0 ].cookie, agent } );
+
+    if ( friendsList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "error", "message": friendsList.error.text } );
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", friendsList ) );
+  },
+  /**
+   * Search Place By keyword
+   * @param req
+   * @param res
+   * @return {Promise<*|Promise<anyy>>}
+   */
+  "searchPlaces": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      findFacebook = await Facebook.find( { "_account": userId } ),
+      placesList = await searchPlaces( { "cookie": findFacebook[ 0 ].cookie, agent, "keyword": req.query.keyword ? req.query.keyword : null,
+        "number": req.query.number ? req.query.number : 15 } );
+
+    if ( placesList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "error", "message": placesList.error.text } );
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", placesList ) );
   }
 };

@@ -11,6 +11,48 @@ const cheerio = require( "cheerio" ),
   request = require( "request" );
 
 module.exports = {
+  "checkLogin": ( { cookie, agent } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "GET",
+        "url": "https://www.facebook.com",
+        "headers": {
+          "Cookie": cookie,
+          "User-Agent": agent
+        }
+      };
+
+      request( option, ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          if ( body.includes( "https://www.facebook.com/login" ) ) {
+            resolve( {
+              "error": {
+                "code": 405,
+                "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
+              },
+              "results": []
+            } );
+          } else {
+            resolve( {
+              "error": {
+                "code": 200,
+                "text": null
+              },
+              "results": null
+            } );
+          }
+        } else {
+          resolve( {
+            "error": {
+              "code": 404,
+              "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+            },
+            "results": []
+          } );
+        }
+      } );
+    } );
+  },
   "getAllActionTypeLoader": ( { cookie, agent } ) => {
     return new Promise( async ( resolve ) => {
       const token = await getDtsgAg( { cookie, agent } ),
@@ -63,8 +105,6 @@ module.exports = {
             "User-Agent": agent
           }
         };
-
-      console.log( option );
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
