@@ -9,6 +9,7 @@ Vue.component( "IconArrowDown", () =>
 Vue.component( "IconAutoAnswer", () =>
   import( "@/components/icons/IconAutoAnswer" )
 );
+Vue.component( "IconAutopost", () => import( "@/components/icons/IconAutopost" ));
 Vue.component( "IconArrowLeft", () => import( "@/components/icons/IconArrowLeft" ) );
 
 Vue.component( "IconBase", () => import( "@/components/icons/IconBase" ) );

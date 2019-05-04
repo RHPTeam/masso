@@ -1,12 +1,24 @@
 .modal--event {
-  width: 1000px !important;
+  width: calc(100vw - 6rem) !important;
   margin-top: 2rem;
   margin-bottom: 2rem;
   font-size: 0.875rem;
   .body--autopost {
-    height: 100%;
+    height: calc(100vh - 110px - 4rem);
+  }
+  .modal--event-body {
+    transition: all .5s ease;
   }
   .modal--event-scroll {
-    height: calc(100% - 110px - 1rem);
+    height: calc(100vh - 110px - 4.5rem);
+    transition: all .5s ease;
   }
+}
+
+/*Transition */
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }

@@ -50,7 +50,7 @@
             <toggle-switch
               class="mr_2"
               @change="updateAutopost($event.value)"
-              :value="true"
+              :value="eventData.typeEvent === 0"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
               :switch-color="{
@@ -58,7 +58,7 @@
                 unchecked: '#e4e4e4'
               }"
             />
-            <span :style="[autopost ? { opacity: '1' } : { opacity: '0.8' }]">
+            <span :style="[eventData.typeEvent === 0 ? { opacity: '1' } : { opacity: '0.8' }]">
               Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
             </span>
           </div>
@@ -108,7 +108,7 @@
 
 <script>
 export default {
-  props: [ "activeColor", "autopost", "colors", "eventData" ],
+  props: [ "colors", "eventData" ],
   data() {
     return {
       isShowColorDropdown: false
