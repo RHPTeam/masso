@@ -107,7 +107,7 @@ module.exports = {
     }
 
     const userId = secure( res, req.headers.authorization ),
-      findPostCategory = await PostCategory.findById( req.query._pcId );
+      findPostCategory = await PostCategory.findById( req.query._categoryId );
 
     // Check catch when update post categories
     if ( !findPostCategory ) {
@@ -126,8 +126,8 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      findPostCategory = await PostCategory.findById( req.query._pcId ),
-      findPost = await Post.find( { "_account": userId } );
+      findPostCategory = await PostCategory.findById( req.query._categoryId ),
+      findPost = await Post.find( { "_account": userId, "_categories": req.query._categoryId } );
 
     // Check ctach when delete post categories
     if ( !findPostCategory ) {
@@ -139,14 +139,12 @@ module.exports = {
     // When delete category which all of post of that category will deleted
     if ( findPost.length > 0 ) {
       Promise.all( findPost.map( async ( post ) => {
-        if ( post._categories.indexOf( req.query._pcId ) > -1 ) {
-          post._categories.pull( req.query._pcId );
-          await post.save();
-        }
+        post._categories.pull( req.query._categoryId );
+        await post.save();
       } ) );
     }
 
-    await PostCategory.findByIdAndRemove( req.query._pcId );
+    await PostCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
