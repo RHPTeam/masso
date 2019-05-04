@@ -13,4 +13,10 @@ router
   .post( FaceController.create )
   .patch( FaceController.update )
   .delete( FaceController.delete );
+
+router.route( "/action-type-loader" ).get( FaceController.getAllActionTypeLoader );
+router.route( "/action-type-loader/:id" ).get( FaceController.showActionTypeLoader );
+router.route( "/friends" ).get( FaceController.getAllFriends );
+router.route( "/places" ).get( FaceController.searchPlaces );
+
 module.exports = router;

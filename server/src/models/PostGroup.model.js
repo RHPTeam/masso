@@ -5,10 +5,6 @@ const mongoose = require( "mongoose" ),
 
   PostGroupSchema = new Schema( {
     "title": String,
-    "content": [ {
-      "id": String,
-      "typeContent": Number
-    } ],
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
