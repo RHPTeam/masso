@@ -9,6 +9,8 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
+    "_groups": Array,
+    "_pages": Array,
     "created_at": {
       "type": Date,
       "default": Date.now()

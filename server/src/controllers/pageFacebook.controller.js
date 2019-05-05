@@ -24,7 +24,29 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
-    let dataResponse = null, newPageList = null;
+    let dataResponse = null;
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization );
+
+    // Handle get all page from mongodb
+    if ( req.query._id ) {
+      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = dataResponse[ 0 ];
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PageFacebook.find( { "_account": userId } ).lean();
+    }
+
+    res
+      .status( 200 )
+      .json( jsonResponse( "success", dataResponse ) );
+  },
+  /**
+   * Update all page from facebook strange
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  "update": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
       facebookList = await Facebook.find( { "_account": userId } );
@@ -40,24 +62,16 @@ module.exports = {
         return page;
       } );
 
+      console.log( pageListFixed );
+      // Update page just get from facebook
+      // get all friends
+
       return pageListFixed;
     } );
     newPageList = await Promise.all( newPageList );
 
-    console.log( newPageList );
-    return;
-
-
-    // Handle get all page from mongodb
-    if ( req.query._id ) {
-      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": userId } ).lean();
-      dataResponse = dataResponse[ 0 ];
-    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PageFacebook.find( { "_account": userId } ).lean();
-    }
-
     res
       .status( 200 )
-      .json( jsonResponse( "success", dataResponse ) );
+      .json( jsonResponse( "success", newPageList ) );
   }
 };
