@@ -7,8 +7,7 @@ export default {
       showSequenceDropdown: false,
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
-      search: "",
-      groupName: "Khách Hàng Tiềm Năng"
+      search: ""
     };
   },
   computed: {

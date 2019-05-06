@@ -10,6 +10,8 @@ import EventsStore from "./modules/events.store";
 import FacebookStore from "./modules/facebook.store";
 import FacebookCookie from "./modules/facebookcookie.store";
 import FacebookFriend from "./modules/facebookfriend.store";
+import GroupFacebook from "./modules/groupfacebook.store";
+import PageFacebook from "./modules/pagefacebook.store";
 import PostStore from "./modules/post.store";
 import PostGroupStore from "./modules/postgroup.store";
 
@@ -25,6 +27,8 @@ export default new Vuex.Store( {
     FacebookStore,
     FacebookCookie,
     FacebookFriend,
+    GroupFacebook,
+    PageFacebook,
     PostStore,
     PostGroupStore
   }

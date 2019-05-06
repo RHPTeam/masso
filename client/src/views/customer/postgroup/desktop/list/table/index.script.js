@@ -8,74 +8,28 @@ export default {
     return {
       campaignDelete: {},
       isShowDeleteCampaignPopup: false,
-      isSort: [
-        {
-          name: "name",
-          asc: false,
-          desc: false
-        },
-        {
-          name: "type",
-          asc: false,
-          desc: false
-        },
-        {
-          name: "account",
-          asc: false,
-          desc: false
-        }
-      ],
-      postGroups: [
-        {
-          id: "0001",
-          name: "Chuyên hàng xách tay Mỹ Nhật",
-          avatar: "https://image.freepik.com/free-vector/successful-businessman-avatar-cartoon_24640-38906.jpg",
-          type: "Trang",
-          account: "Đặng Yến"
-        },
-        {
-          id: "0002",
-          name: "Mẹ và Bé",
-          avatar: "https://image.freepik.com/free-vector/successful-businessman-avatar-cartoon_24640-38906.jpg",
-          type: "Trang",
-          account: "Đặng Yến"
-        }
-      ]
     };
   },
-  async created() {
-    await this.$store.dispatch( "getAllCampaigns" );
+  created() {
+    this.$store.dispatch( "getFacebookPages" );
+    this.$store.dispatch( "getFacebookGroups" );
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    facebookGroups() {
+      return this.$store.getters.facebookGroups;
+    },
+    facebookGroupsStatus() {
+      return this.$store.getters.facebookGroupsStatus;
+    },
+    facebookPages() {
+      return this.$store.getters.facebookPages;
+    },
+    facebookPagesStatus() {
+      return this.$store.getters.facebookPagesStatus;
     }
-    // campaigns() {
-    //   return this.$store.getters.campaigns;
-    // },
-    // filteredCampaigns() {
-    //   if ( this.filterStatusSelected.id === "all" ) {
-    //     return this.campaigns.filter( ( item ) => {
-    //       return item.title
-    //         .toString()
-    //         .toLowerCase()
-    //         .includes( this.search.toString().toLowerCase() );
-    //     } );
-    //   }
-    //   if ( this.filterStatusSelected.id === "active" ) {
-    //     return this.campaigns.filter( ( item ) => {
-    //       return item.title.toString()
-    //         .toLowerCase()
-    //         .includes( this.search.toString().toLowerCase() ) && item.status === true;
-    //     } );
-    //   }
-    //   return this.campaigns.filter( ( item ) => {
-    //     return item.title
-    //       .toString()
-    //       .toLowerCase()
-    //       .includes( this.search.toString().toLowerCase() ) && item.status === false;
-    //   } );
-    // }
   },
   methods: {
     activeCurrentSort( i, type ) {

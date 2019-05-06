@@ -1,7 +1,6 @@
 <template>
   <div class="list--wrap mt_3">
     <app-table/>
-    <app-pagination/>
   </div>
 </template>
 
@@ -10,8 +9,7 @@ import AppTable from "./table";
 import AppPagination from "./pagination";
 export default {
   components: {
-    AppTable,
-    AppPagination
+    AppTable
   }
 };
 </script>

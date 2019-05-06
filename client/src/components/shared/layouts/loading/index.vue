@@ -15,7 +15,7 @@ export default {
 </script>
 <style scoped lang="scss">
   img {
-    width: 10%;
+    width: 5%;
   }
   // Friends
   .friend {
