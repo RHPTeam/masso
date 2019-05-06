@@ -57,6 +57,11 @@ const generalRouter = {
     path: "/account",
     name: "account",
     component: require( "@/views/customer/account" ).default
+  },
+  {
+    path: "/target-groups",
+    name: "target-groups",
+    component: require( "@/views/customer/targetgroups" ).default
   }
   ]
 };

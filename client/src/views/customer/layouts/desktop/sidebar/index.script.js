@@ -43,6 +43,17 @@ export default {
         to: "campaigns"
       },
       {
+        text: "Quản lý nhóm",
+        icon: {
+          iconName: "friend",
+          tagName: "icon-friend",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
+        },
+        to: "target-groups"
+      },
+      {
         text: "Bạn bè",
         icon: {
           iconName: "friend",

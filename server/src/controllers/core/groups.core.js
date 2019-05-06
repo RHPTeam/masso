@@ -67,7 +67,7 @@ const cheerio = require( "cheerio" ),
 
           if ( url === groups ) {
             // Crawl DOM Facebook return when client request by request package
-            // Case 01: Get all groups which user is admin
+            // Case 01: Get all targetgroups which user is admin
             $( "div#GroupDiscoverCard_admin" )
               .find( 'a[data-hovercard*="/ajax/hovercard"]' )
               .each( function() {
@@ -81,7 +81,7 @@ const cheerio = require( "cheerio" ),
                 } );
               } );
 
-            // Case 02: Get all groups which user is membership
+            // Case 02: Get all targetgroups which user is membership
             $( "div#GroupDiscoverCard_membership" )
               .find( 'a[data-hovercard*="/ajax/hovercard"]' )
               .each( function() {
@@ -102,7 +102,7 @@ const cheerio = require( "cheerio" ),
           }
           /* When client load the first, facebook will get height of browser client to create
               div#group-discover-card-see-moremembership. When user scroll to that div,
-              facebook will auto load more groups */
+              facebook will auto load more targetgroups */
           body = body.replace( "for (;;);", "" );
 
           if ( JSON.parse( body ).domops[ 0 ] === undefined || JSON.parse( body ).domops[ 0 ][ 3 ] === null ) {
@@ -145,7 +145,7 @@ const cheerio = require( "cheerio" ),
             } );
           } );
 
-          // If user has so many groups more which facebook return again for linkcallback
+          // If user has so many targetgroups more which facebook return again for linkcallback
           if ( JSON.parse( body ).domops[ 2 ][ 3 ] === null ) {
             return resolve( {
               "currentgroups": results,
