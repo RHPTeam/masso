@@ -1,172 +1,51 @@
-/* eslint-disable one-var */
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-shadow */
+
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable strict */
-const cheerio = require( "cheerio" ),
-  request = require( "request" ),
-  { groups } = require( "../../configs/crawl" ),
+const request = require( "request" ),
+  { linkgraphfacebook } = require( "../../configs/crawl" ),
+  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
   { findSubString } = require( "../../helpers/utils/functions.util" ),
-  dtsg = ( { cookie, agent } ) => {
+  handle = async ( { cookie, agent, token } ) => {
     return new Promise( ( resolve ) => {
       const option = {
-        "method": "GET",
-        "url": groups,
-        "headers": {
-          "Cookie": cookie,
-          "User-Agent": agent,
-          "Accept": "/",
-          "Connection": "keep-alive"
-        }
-      };
-
-      request( option, function( err, res, body ) {
-        if ( !err && res.statusCode === 200 ) {
-          if ( body.includes( "https://www.facebook.com/login" ) ) {
-            resolve( false );
-          } else {
-            resolve( findSubString( body, '"async_get_token":"', '"' ) );
-          }
-        } else {
-          resolve( {
-            "error": {
-              "code": 404,
-              "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
-            },
-            "results": []
-          } );
-        }
-      } );
-    } );
-  },
-  handle = async ( { cookie, agent, url, token } ) => {
-    return new Promise( ( resolve ) => {
-      const option = {
-        "method": "GET",
-        "url": url,
+        "method": "POST",
+        "url": linkgraphfacebook,
         "headers": {
           "User-Agent": agent,
           "Cookie": cookie
+        },
+        "form": {
+          "__a": "1",
+          "__user": findSubString( cookie, "c_user=", ";" ),
+          "av": findSubString( cookie, "c_user=", ";" ),
+          "fb_dtsg": token,
+          "variables": JSON.stringify( { "count": 10000 } ),
+          "doc_id": 2034588956654971
         }
       };
 
-      request( option, function( err, res, body ) {
+      console.log( option );
+
+      request( option, async function( err, res, body ) {
         if ( !err && res.statusCode === 200 ) {
           // Check conditional url
-          let $ = cheerio.load( body ),
-            linkmore = findSubString(
-              body,
-              'id="group-discover-card-see-moremembership"><div><a href="',
-              '"'
-            ),
-            linkcallback = `https://www.facebook.com${linkmore}&fb_dtsg_ag=${token.replace(
-              ":",
-              "%3A"
-            )}&__user=${findSubString( cookie, "c_user=", ";" )}&__a=1`,
-            results = [];
+          let bodyJson = JSON.parse( body ),
+            groupListNode = bodyJson.data.viewer.groups_tab.badged_group_list.edges;
 
-          if ( url === groups ) {
-            // Crawl DOM Facebook return when client request by request package
-            // Case 01: Get all targetgroups which user is admin
-            $( "div#GroupDiscoverCard_admin" )
-              .find( 'a[data-hovercard*="/ajax/hovercard"]' )
-              .each( function() {
-                results.push( {
-                  "groupID": findSubString(
-                    $( this ).attr( "data-hovercard" ),
-                    "group.php?id=",
-                    "&"
-                  ),
-                  "name": $( this ).text()
-                } );
-              } );
-
-            // Case 02: Get all targetgroups which user is membership
-            $( "div#GroupDiscoverCard_membership" )
-              .find( 'a[data-hovercard*="/ajax/hovercard"]' )
-              .each( function() {
-                results.push( {
-                  "groupID": findSubString(
-                    $( this ).attr( "data-hovercard" ),
-                    "group.php?id=",
-                    "&"
-                  ),
-                  "name": $( this ).text()
-                } );
-              } );
-
-            return resolve( {
-              "currentgroups": results,
-              "linkcallback": linkcallback.replace( /amp;/g, "" )
-            } );
-          }
-          /* When client load the first, facebook will get height of browser client to create
-              div#group-discover-card-see-moremembership. When user scroll to that div,
-              facebook will auto load more targetgroups */
-          body = body.replace( "for (;;);", "" );
-
-          if ( JSON.parse( body ).domops[ 0 ] === undefined || JSON.parse( body ).domops[ 0 ][ 3 ] === null ) {
-            return resolve( {
-              "currentgroups": results,
-              "linkcallback": undefined
-            } );
-          }
-          let leftdom = JSON.parse( body ).domops[ 0 ][ 3 ].__html,
-            rightdom = JSON.parse( body ).domops[ 1 ][ 3 ].__html;
-
-          $ = cheerio.load( leftdom );
-          $( "li" ).each( function() {
-            results.push( {
-              "groupID": findSubString(
-                $( this )
-                  .find( 'a[data-hovercard*="hovercard"]' )
-                  .attr( "data-hovercard" ),
-                "group.php?id=",
-                "&"
-              ),
-              "name": $( this )
-                .find( 'a[data-hovercard*="hovercard"]' )
-                .text()
-            } );
-          } );
-          $ = cheerio.load( rightdom );
-          $( "li" ).each( function() {
-            results.push( {
-              "groupID": findSubString(
-                $( this )
-                  .find( 'a[data-hovercard*="hovercard"]' )
-                  .attr( "data-hovercard" ),
-                "group.php?id=",
-                "&"
-              ),
-              "name": $( this )
-                .find( 'a[data-hovercard*="hovercard"]' )
-                .text()
-            } );
-          } );
-
-          // If user has so many targetgroups more which facebook return again for linkcallback
-          if ( JSON.parse( body ).domops[ 2 ][ 3 ] === null ) {
-            return resolve( {
-              "currentgroups": results,
-              "linkcallback": undefined
-            } );
-          }
-          let moredom = JSON.parse( body ).domops[ 2 ][ 3 ].__html;
-
-          $ = cheerio.load( moredom );
-
-          linkcallback = `https://www.facebook.com${$( "a" ).attr(
-            "href"
-          )}&fb_dtsg_ag=${token}&__user=${findSubString(
-            cookie,
-            "c_user=",
-            ";"
-          )}&__a=1`;
+          groupListNode = await Promise.all( groupListNode.map( ( node ) => {
+            return {
+              "groupId": node.node.id,
+              "name": node.node.name,
+              "profile_picture": node.node.profile_picture.uri
+            };
+          } ) );
 
           return resolve( {
-            "currentgroups": results,
-            "linkcallback": linkcallback
+            "error": {
+              "code": 200,
+              "text": null
+            },
+            "results": groupListNode
           } );
         }
         return resolve( {
@@ -182,18 +61,7 @@ const cheerio = require( "cheerio" ),
 
 module.exports = async ( { cookie, agent } ) => {
   // Get token which can next do anymonre
-  let url = groups, results = [];
-  const token = await dtsg( { cookie, agent } ),
-    getGroups = async ( { cookie, agent, token } ) => {
-      const data = await handle( { cookie, agent, url, token } );
-      
-      results = results.concat( data.currentgroups );
-      if ( data.linkcallback !== undefined ) {
-        url = data.linkcallback;
-        return await getGroups( { cookie, agent, token } );
-      }
-      return results;
-    };
+  const token = await getDtsgFB( { cookie, agent } );
 
   // Check conditional request
   if ( token === false ) {
@@ -205,5 +73,5 @@ module.exports = async ( { cookie, agent } ) => {
       "results": []
     };
   }
-  return await getGroups( { cookie, agent, token } );
+  return await handle( { cookie, agent, token } );
 };

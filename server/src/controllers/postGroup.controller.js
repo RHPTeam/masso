@@ -8,14 +8,11 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const PostGroup = require( "../models/PostGroup.model" );
 const PageFacebook = require( "../models/PageFacebook.model" );
 const GroupFacebook = require( "../models/GroupFacebook.model" );
-
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
 
 module.exports = {
   /**
@@ -33,6 +30,12 @@ module.exports = {
     if ( req.query._id ) {
       dataResponse = await PostGroup.find( { "_id": req.query._id, "_account": userId } ).lean();
       dataResponse = dataResponse[ 0 ];
+      dataResponse._pages = await Promise.all( dataResponse._pages.map( async ( id ) => {
+        return await PageFacebook.findOne( { "pageId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
+      } ) );
+      dataResponse._groups = await Promise.all( dataResponse._groups.map( async ( id ) => {
+        return await GroupFacebook.findOne( { "groupId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
+      } ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await PostGroup.find( { "_account": userId } ).lean();
     }

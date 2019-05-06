@@ -9,5 +9,6 @@ const PageFacebookController = require( "../../controllers/pageFacebook.controll
 
 router
   .route( "/" )
-  .get( PageFacebookController.index );
+  .get( PageFacebookController.index )
+  .patch( PageFacebookController.update );
 module.exports = router;
