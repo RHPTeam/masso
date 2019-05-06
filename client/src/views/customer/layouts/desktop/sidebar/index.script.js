@@ -67,13 +67,13 @@ export default {
       {
         text: "Tài khoản Facebook",
         icon: {
-          iconName: "account",
+          iconName: "fbaccount",
           tagName: "icon-account",
           width: 20,
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: ""
+        to: "f_account"
       }
       ]
     };

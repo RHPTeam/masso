@@ -1,67 +1,57 @@
 <template>
-  <div class="checkin d_flex align_items_center">
-    <div class="fixed text_center">Với</div>
-    <div class="option position_relative">
-      <input type="text" placeholder="Tag bạn bè của bạn ..." v-model="name" @click="isShowSuggest = true">
-      <div class="suggest position_absolute" v-if="isShowSuggest === true">
-        <div v-for="(item, index) in test" :key="index">
-          <div class="item" @click="attachFriend(item)">
-            {{ item.name }}
+  <div class="tag d_flex align_items_center">
+    <div class="fixed d_flex align_items_center justify_content_center">Với</div>
+    <div class="right">
+      <multiselect class="tag--multi" :options="friendFb" label="text" multiple>
+        <template slot="option" slot-scope="option">
+          <div class="d_flex align_items_center">
+            <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.photo + ')' }"></div>
+            <div style="font-weight: 600; margin-left: .5rem;">{{ option.text }}</div>
           </div>
-        </div>
-      </div>
+        </template>
+      </multiselect>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+  },
   data() {
     return {
       name: "",
       isShowSuggest: false,
-      test: [
-        { name: "Tuấn Anh", age: 23 },
-        { name: "Tuấn Em", age: 23 },
-        { name: "Tuấn Minh", age: 23 }
-      ]
+      listCategories: []
     };
   },
-  methods: {
-    attachFriend( item ) {
-      this.name = item.name;
-      this.isShowSuggest = false;
+  computed: {
+    friendFb(){
+      return this.$store.getters.allFriend;
     }
+  },
+  watch: {
+    "name"(value) {
+      if( value.length !== 0 ) this.isShowSuggest  = true;
+    }
+  },
+  async created() {
+  },
+  methods: {
   }
 };
 </script>
 
 <style lang="scss" scoped>
   @import "../index.style";
-  .suggest {
-    background-color: $mainDefault;
-    border: 1px solid $border-color;
-    border-radius: calc(.5rem +2 px);
-    top: 100%;
-    left: 0;
-    max-height: 200px;
+  .right {
     width: 100%;
-    z-index: 99;
-    .item {
-      padding: 6px 8px;
-      &:hover, &:active, &:focus, &:visited {
-        background-color: $orange;
-        color: $mainDefault;
-        transition: all .5s ease;
-      }
-      &:first-child {
-        border-top-left-radius: calc(.5rem +2 px);
-        border-top-right-radius: calc(.5rem +2 px);
-      }
-      &:last-child {
-        border-bottom-left-radius: calc(.5rem +2 px);
-        border-bottom-right-radius: calc(.5rem +2 px);
-      }
-    }
+    background-color: #fff;
+  }
+  .tag--multi .vs__dropdown-toggle {
+      border: none !important;
+  }
+  .tag--multi .vs__dropdown-toggle .vs__actions {
+      display: none;
   }
 </style>

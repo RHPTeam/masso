@@ -6,11 +6,18 @@ const mongoose = require( "mongoose" ),
   PostSchema = new Schema( {
     "title": { "type": String, "default": "" },
     "content": { "type": String, "default": "" },
+    "color": String,
     "attachments": [ {
       "link": String,
       "typeAttachment": Number
-
     } ],
+    "scrape": String,
+    "tags": Array,
+    "activity": {
+      "typeActivity": String,
+      "id": String,
+      "text": String
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

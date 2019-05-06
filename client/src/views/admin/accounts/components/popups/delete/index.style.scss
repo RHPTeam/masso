@@ -93,7 +93,7 @@
 
 /*Transition popup*/
 .popup-enter-active, .popup-leave-active {
-  transition: opacity 1s;
+  transition: opacity .5s;
 }
 .popup-enter, .popup-leave-to {
   opacity: 0;

@@ -14,6 +14,10 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Facebook"
     },
+    "_groups": [ {
+      "type": Schema.Types.ObjectId,
+      "ref": "PostGroups"
+    } ],
     "created_at": {
       "type": Date,
       "default": Date.now()

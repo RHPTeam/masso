@@ -46,6 +46,7 @@ Vue.component( "IconLockCheck", () =>
 );
 Vue.component( "IconMail", () => import( "@/components/icons/IconMail" ) );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
+Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCookie" ) );
 Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
 Vue.component( "IconThreeDotsVerti", () => import( "@/components/icons/IconThreeDotsVerti" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
@@ -73,7 +74,7 @@ Vue.component( "IconLogoText", () => import( "@/components/icons/IconLogoText" )
 Vue.component( "VuePerfectScrollbar", () => import( "vue-perfect-scrollbar" ) );
 
 Vue.component( "contenteditable", () =>
-  import( "@/components/shared/contenteditable" )
+  import( "@/components/contenteditable" )
 );
 Vue.component( "Breadcrumb", () =>
   import( "@/components/shared/layouts/breadcrumb" )
@@ -83,7 +84,7 @@ Vue.component( "Fullcalendar", () => import( "@/components/fullcalendar" ) );
 
 Vue.component( "ToggleSwitch", () => import( "@/components/switch" ) );
 
-Vue.component( "Paginate", () => import( "@/components/shared/paginate" ) );
+Vue.component( "Paginate", () => import( "@/components/paginate" ) );
 Vue.component( "Multiselect", () =>
     import( "@/components/multiselect" ) );
 
@@ -92,3 +93,15 @@ Vue.component( "ToggleSwitch", () =>
 
 Vue.component( "Dropzone", () => import( "@/components/dropzone" ) );
 Vue.component( "Taggle", () => import( "@/components/taggle" ) );
+
+/********************* CUSTOM POPUP COMPONENT ****************************/
+Vue.component("AddCookie", () => import("@/components/shared/layouts/addcookie"));
+Vue.component("UpdateCookie", () => import("@/components/shared/layouts/updatecookie"));
+
+
+Vue.component("LoadingComponent", () => import("@/components/shared/layouts/loading"));
+
+/********************* CUSTOM NOTIFICATION COMPONENT ****************************/
+Vue.component("DNotification", () =>
+  import("@/components/shared/layouts/notification")
+);

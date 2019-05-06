@@ -2,8 +2,8 @@
 /* eslint-disable no-console */
 /* eslint-disable prettier/prettier */
 /* eslint-disable global-require */
-import AppIntroVideo from "@/components/shared/introvideo";
-import AppAlert from "@/components/shared/alert";
+import AppIntroVideo from "@/components/shared/layouts/introvideo";
+import AppAlert from "@/components/shared/layouts/alert";
 
 import CookieFunction from "@/utils/cookie.util";
 import SecureFunction from "@/utils/secure.util";

@@ -38,6 +38,10 @@ export default {
   data() {
     return {
     };
+  },
+  async created (){
+    await this.$store.dispatch( "getAllFriendFb" );
+    await this.$store.dispatch( "getPlaceFromFb" );
   }
 };
 </script>

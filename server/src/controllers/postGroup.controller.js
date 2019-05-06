@@ -27,35 +27,19 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Handle get all page from mongodb
+    if ( req.query._id ) {
+      dataResponse = await PostGroup.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = dataResponse[ 0 ];
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PostGroup.find( { "_account": userId } ).lean();
     }
 
-    if (
-      decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
-    ) {
-      !req.query._id ? ( dataResponse = await PostGroup.find( { "_account": userId } ) ) : ( dataResponse = await PostGroup.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } );
-    }
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+      .json( jsonResponse( "success", dataResponse ) );
   },
   /**
    * Create post group
@@ -64,18 +48,23 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Check validator
+    if ( !req.body.title || req.body.title === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề nhóm nơi đăng không được bỏ trống!" } } );
     }
-    const newPostGroup = await new PostGroup( { "title": req.body.title } );
-    
-    newPostGroup._account = userId;
+
+    // Handle create campaign
+    const userId = secure( res, req.headers.authorization ),
+      newPostGroup = await new PostGroup( {
+        "title": req.body.title,
+        "_pages": req.body._pages ? req.body._pages : [],
+        "_groups": req.body._groups ? req.body._groups : [],
+        "_account": userId
+      } );
+
     await newPostGroup.save();
- 
-    res.status( 200 ).json( jsonResponse( "Tạo nhóm mục tiêu thành công!", newPostGroup ) );
+
+    res.status( 200 ).json( jsonResponse( "success", newPostGroup ) );
 
   },
   /**
@@ -98,7 +87,7 @@ module.exports = {
     if ( req.body.content ) {
       if ( req.body.content.typeContent === 0 ) {
         const foundGroupFacebook = await GroupFacebook.findOne( { "_id": req.body.content.id } );
-        
+
         if ( !foundGroupFacebook ) {
           return res.status( 403 ).json( jsonResponse( "Group facebook không tồn tại!", null ) );
         }
@@ -106,7 +95,7 @@ module.exports = {
         await findPostGroup.save();
       }
       const foundPageFacebook = await PageFacebook.findOne( { "_id": req.body.content.id } );
-        
+
       if ( !foundPageFacebook ) {
         return res.status( 403 ).json( jsonResponse( "Page facebook không tồn tại!", null ) );
       }

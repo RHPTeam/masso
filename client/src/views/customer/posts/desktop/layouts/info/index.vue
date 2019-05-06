@@ -2,11 +2,10 @@
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">Hiển thị 25 trong số 100</div>
     <paginate
-      :page-count="10"
-      :page-range="2"
-      :margin-pages="2"
-      :prev-text="'&#8249;'"
-      :next-text="'&#x203A;'"
+      :pageCount="sizePageCategories"
+      :clickHandler="goToPage"
+      :prev-text="preView"
+      :next-text="next"
       :container-class="'pagination'"
       :page-class="'page-item'"
     ></paginate>
@@ -14,7 +13,38 @@
 </template>
 
 <script>
-export default {};
+export default {
+  data() {
+    return {
+      currentPage: 1,
+      perPage: 10,
+      totalCount: null,
+      preView: "&#8249;",
+      next: "&#x203A;"
+    }
+  },
+  computed: {
+    sizePageCategories() {
+      return this.$store.getters.sizePageCategories;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getCategoriesBySize", this.perPage);
+  },
+  methods: {
+    onPageChange(page) {
+      this.currentPage = page;
+    },
+    goToPage(page) {
+      const dataSender = {
+        // name: this.keywordSearch,
+        size: this.perPage,
+        page: page
+      };
+      this.$store.dispatch("getCategoriesByPage", dataSender);
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>

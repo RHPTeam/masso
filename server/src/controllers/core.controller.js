@@ -3,7 +3,7 @@ const { categorizedTextFormatPresets } = require( "../configs/facebook.data" );
 const pagesCore = require( "./core/pages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );
-const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, searchPlaces } = require( "./core/facebook.core" );
+const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo,searchPlaces } = require( "./core/facebook.core" );
 const { createPost, getPost } = require( "./core/posts.core" );
 
 module.exports = {
@@ -74,6 +74,14 @@ module.exports = {
     } );
 
     return res.send( result );
+  },
+  "getUserInfo": async ( req, res ) => {
+    const result = await getUserInfo( {
+      "cookie": req.body.cookie || null,
+      "agent": agent
+    } );
+
+    res.status( 200 ).json( result );
   },
   "searchGroups": async () => {},
   "searchPages": async () => {},

@@ -1,12 +1,15 @@
 <template>
-   <div class="item--body d_flex align_items_center px_3 py_2">
-      <div class="col col--checkbox px_2">
+    <div class="item--body d_flex align_items_center px_3 py_2">
+      <!-- <div v-if="StringFunction.convertUnicode( item.title ).toLowerCase().trim() === 'chua phan loai'"></div> -->
+      <div>
+        <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
           <input type="checkbox" />
         </label>
       </div>
+      </div>
       <div class="col col--category px_2">{{ item.title }}</div>
-      <div class="col col--posts px_2">{{ item.title }}</div>
+      <div class="col col--posts text_center px_2">{{ item.ammout }}</div>
       <div class="col col--description px_2">
         <div class="col--description-text">
           {{ item.description }}
@@ -33,6 +36,8 @@
 </template>
 
 <script>
+import StringFunction from "@/utils/string.util";
+import DeleteItem from "./delete"
 export default {
   props: [ "item" ],
   methods: {
@@ -48,5 +53,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../index.style"
+  @import "../index.style";
 </style>

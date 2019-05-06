@@ -8,12 +8,13 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const PageFacebook = require( "../models/PageFacebook.model" );
+const Facebook = require( "../models/Facebook.model" );
 
+const { agent } = require( "../configs/crawl" );
+const getAllPages = require( "./core/pages.core" );
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
 
 module.exports = {
   /**
@@ -25,35 +26,52 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    // Handle get all page from mongodb
+    if ( req.query._id ) {
+      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = dataResponse[ 0 ];
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PageFacebook.find( { "_account": userId } ).lean();
     }
 
-    if (
-      decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
-    ) {
-      !req.query._id ? ( dataResponse = await PageFacebook.find( { "_account": userId } ) ) : ( dataResponse = await PageFacebook.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } );
-    }
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
-  
+      .json( jsonResponse( "success", dataResponse ) );
+  },
+  /**
+   * Update all page from facebook strange
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  "update": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      facebookList = await Facebook.find( { "_account": userId } );
+
+    // Get all page from facebook and save
+    newPageList = facebookList.map( async ( facebook ) => {
+      const pageList = await getAllPages( { "cookie": facebook.cookie, agent } );
+
+      // Handle code when fix add other item
+      const pageListFixed = pageList.results.map( ( page ) => {
+        page._account = userId;
+        page._facebook = facebook._id;
+        return page;
+      } );
+
+      console.log( pageListFixed );
+      // Update page just get from facebook
+      // get all friends
+
+      return pageListFixed;
+    } );
+    newPageList = await Promise.all( newPageList );
+
+    res
+      .status( 200 )
+      .json( jsonResponse( "success", newPageList ) );
   }
 };

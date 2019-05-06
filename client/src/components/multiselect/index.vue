@@ -49,8 +49,7 @@
           v-if="!noDrop"
           ref="openIndicator"
           role="presentation"
-          class="vs__open-indicator"
-        />
+          class="vs__open-indicator"></open-indicator>
 
         <slot name="spinner" v-bind="scope.spinner">
           <div class="vs__spinner" v-show="mutableLoading">Loading...</div>
@@ -88,6 +87,6 @@
 
 <script src="./main.js"></script>
 
-<style lang="scss" scope>
+<style lang="scss">
 @import "./styles/index";
 </style>

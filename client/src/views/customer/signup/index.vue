@@ -36,8 +36,7 @@
                 this.$store.getters.authStatus === 'error'
                   ? this.$store.getters.textAuth
                   : ''
-              "
-            ></app-alert>
+              "></app-alert>
             <app-alert
               :type="
                 this.$store.getters.textAuth === '404' ? 'alert_danger' : ''
@@ -46,8 +45,7 @@
                 this.$store.getters.textAuth === '404'
                   ? 'Số điện thoại hoặc email đã tồn tại'
                   : ''
-              "
-            ></app-alert>
+              "></app-alert>
             <!-- End: Alert -->
             <h3 class="title text_center">Đăng kí</h3>
           </div>

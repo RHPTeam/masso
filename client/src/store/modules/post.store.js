@@ -38,7 +38,7 @@ const actions = {
 
     const resultAllPost = await PostServices.index();
 
-    commit( "setPost", resultAllPost.data.data );
+    commit( "setAllPost", resultAllPost.data.data );
     commit( "post_success" );
   },
   createNewPost: async ( { commit }, payload ) => {

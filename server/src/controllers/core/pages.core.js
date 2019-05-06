@@ -44,7 +44,7 @@ const cheerio = require( "cheerio" ),
                 let end = str.indexOf( ",count:", start );
 
                 results.push( {
-                  "id": str
+                  "pageId": str
                     .slice( start, end )
                     .split( "," )[ 0 ]
                     .replace( 'id:"', "" )

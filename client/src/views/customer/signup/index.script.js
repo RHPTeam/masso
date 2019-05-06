@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable global-require */
-import AppIntroVideo from "@/components/shared/introvideo";
-import AppAlert from "@/components/shared/alert";
+import AppIntroVideo from "@/components/shared/layouts/introvideo";
+import AppAlert from "@/components/shared/layouts/alert";
 import axios from "axios";
 
 export default {

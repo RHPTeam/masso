@@ -8,13 +8,11 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const Post = require( "../models/Post.model" );
 const PostCategory = require( "../models/PostCategory.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const config = require( "../configs/server" );
 const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
@@ -31,6 +29,8 @@ module.exports = {
 
     if ( req.query._id ) {
       dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).lean();
+    } else if ( req.query._categoryId ) {
+      dataResponse = await Post.find( { "_categories": req.query._categoryId } ).lean();
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await Post.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
@@ -77,96 +77,49 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
   /**
-   * Add attachment to Post
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
-  "addAttachment": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findPost = await Post.findById( req.query._postId );
-
-    // Check catch when update post categories
-    if ( !findPostCategory ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
-    } else if ( findPost._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
-    }
-
-    // Add attachment type link video
-    if ( req.query._type === "0" ) {
-      findPost.attachments.push( { "link": "", "typeAttachment": 0 } );
-      await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "success", findPost ) );
-    }
-    // Add attachment type link image
-    if ( req.query._type === "1" ) {
-      findPost.attachments.push( { "link": "", "typeAttachment": 1 } );
-      await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "success", findPost ) );
-    }
-  },
-  /**
    * Update Post
    * @param req
    * @param res
    * @returns {Promise<*|Promise<any>>}
    */
   "update": async ( req, res ) => {
+
     const userId = secure( res, req.headers.authorization ),
       findPost = await Post.findById( req.query._postId );
 
+    // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 403 ).json( jsonResponse( "Bài viết không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+    } else if ( findPost._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
     }
-    // Update _categories to post
-    if ( req.query._type === "1" && req.query._cateId ) {
-      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
-        findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
 
-      if ( !findPostCategory ) {
-        return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
-      }
-      if ( findPost._categories.indexOf( findPostCategory._id ) <= -1 ) {
-        findPost._categories.pull( findDefaultPostCategory._id );
-        findPost._categories.push( findPostCategory._id );
-        await findPost.save();
-        return res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", findPost ) );
-      }
-      return res.status( 405 ).json( jsonResponse( "Bạn đã thêm bộ sưu tập này vào bài viêt!", null ) );
-    }
-    // Update link video to post
-    if ( req.query._type === "2" && req.query._attachId ) {
-      const findItem = findPost.attachments.filter( ( x ) => x.id === req.query._attachId )[ 0 ];
+    // Check update post if user upload file
+    if ( req.files && req.files.length > 0 ) {
+      const attachmentsList = req.files.map( ( file ) => {
+        if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
+          return {
+            "link": file.path,
+            "typeAttachment": 1
+          };
+        }
+      } );
 
-      if ( typeof findItem === undefined ) {
-        return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
-      }
-      if ( findItem.typeAttachment === 1 ) {
-        return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link video vào attachment loại ảnh!", null ) );
-      }
-      findItem.link = req.body.link;
+      findPost.attachments = findPost.attachments.concat( attachmentsList );
       await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật attachment trong bài viết thành công!", findPost ) );
+      return res.status( 201 ).json( jsonResponse( "success", findPost ) );
     }
-    // Update link image to post
-    if ( req.query._type === "3" && req.query._attachId && req.file ) {
-      const findItem = findPost.attachments.filter( ( x ) => x.id === req.query._attachId )[ 0 ];
 
-      if ( typeof findItem === undefined ) {
-        return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
-      }
-      if ( findItem.typeAttachment === 0 ) {
-        return res.status( 405 ).json( jsonResponse( "Bạn không thể cập nhật loại link image vào link video loại ảnh!", null ) );
-      }
-      findItem.link = `${config.url}/${ req.file.path.replace( /\\/gi, "/" )}`;
-      await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật attachment trong bài viết thành công!", findPost ) );
+    // Check validator
+    if ( !req.body.title || req.body.title.length === 0 ) {
+      return res.status( 403 ).json( { "status": "fail", "title": "Tiêu đề bài đăng không được bỏ trống!" } );
+    } else if ( req.body.color && req.body.attachments ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không hợp lệ color or attachments!" } );
+    } else if ( req.body.scrape && /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm.test( req.body.scrape ) === false ) {
+      return res.status( 403 ).json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
-    // Update content of post
-    const dataPostUpdate = await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } );
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", dataPostUpdate ) );
+    res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Post
@@ -175,51 +128,38 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "delete": async ( req, res ) => {
+    // Check if don't use query
+    if ( !req.query._postId || req.query._postId === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
+    }
+
     const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findById( userId ),
       findPost = await Post.findById( req.query._postId );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 403 ).json( jsonResponse( "Bài viết không tồn tại!", null ) );
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+    } else if ( findPost._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
     }
-    // Remove categories from post
-    if ( req.query._type === "1" && req.query._cateId ) {
-      const findPostCategory = await PostCategory.findOne( { "_id": req.query._cateId } ),
-        findDefaultPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
 
-      if ( !findPostCategory ) {
-        return res.status( 403 ).json( jsonResponse( "Bộ sưu tập không tồn tại!", null ) );
+    // Remove a file attachments in post
+    if ( req.query._attachmentId ) {
+      const findPostOfAttachment = await Post.findOne( { "attachments._id": req.query._attachmentId } );
+
+      if ( !findPostOfAttachment ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Ảnh không tồn tại trong bài đăng này!" } );
       }
-      if ( findPost._categories.indexOf( findPostCategory._id ) > -1 ) {
-        // Catch when delete categories in post if have 1 catgorie push default category again
-        if ( findPost._categories.length === 1 ) {
-          findPost._categories.pull( findPostCategory._id );
-          findPost._categories.push( findDefaultPostCategory._id );
-          await findPost.save();
-          return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );
+      Post.updateOne( { "_id": req.query._postId }, { "$pull": { "attachments": { "_id": req.query._attachmentId } } }, ( err ) => {
+        if ( err ) {
+          return res.status( 500 ).json( { "status": "error", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
         }
-        findPost._categories.pull( findPostCategory._id );
-        await findPost.save();
-        return res.status( 201 ).json( jsonResponse( "Xóa bộ sưu tập thành công!", findPost ) );
-      }
-      return res.status( 405 ).json( jsonResponse( "Bài viết không nằm trong bộ sưu tập này!", null ) );
+      } );
+      return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
-    // Remove item type link video & type image
-    if ( req.query._type === "2" && req.query._attachId ) {
-      const findItem = findPost.attachments.filter( ( x ) => x.id === req.query._attachId )[ 0 ];
 
-      if ( typeof findItem === undefined ) {
-        return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong bài viết này!", null ) );
-      }
-      findPost.attachments.pull( findItem );
-      await findPost.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật attachment trong bài viết thành công!", findPost ) );
-    }
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );
-    res.status( 200 ).json( jsonResponse( "Xóa bài viết thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
