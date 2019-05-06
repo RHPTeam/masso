@@ -10,6 +10,7 @@
  */
 const PageFacebook = require( "../models/PageFacebook.model" );
 const Facebook = require( "../models/Facebook.model" );
+const PostGroup = require( "../models/PostGroup.model" );
 
 const { agent } = require( "../configs/crawl" );
 const getAllPages = require( "./core/pages.core" );
@@ -49,10 +50,11 @@ module.exports = {
   "update": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
-      facebookList = await Facebook.find( { "_account": userId } );
+      facebookList = await Facebook.find( { "_account": userId } ),
+      postGroupList = await PostGroup.find( { "_account": userId } );
 
     // Get all page from facebook and save
-    newPageList = facebookList.map( async ( facebook ) => {
+    await Promise.all( facebookList.map( async ( facebook ) => {
       const pageList = await getAllPages( { "cookie": facebook.cookie, agent } );
 
       // Handle code when fix add other item
@@ -61,17 +63,31 @@ module.exports = {
         page._facebook = facebook._id;
         return page;
       } );
+      // Delete all page facebook
+      const findPageFacebook = await PageFacebook.find( { "_facebook": facebook._id } );
 
-      console.log( pageListFixed );
-      // Update page just get from facebook
-      // get all friends
+      await Promise.all( findPageFacebook.map( ( pageFacebook ) => {
+        pageFacebook.remove();
+      } ) );
 
-      return pageListFixed;
-    } );
-    newPageList = await Promise.all( newPageList );
+      // insert page facebook list to database
+      await PageFacebook.insertMany( pageListFixed );
+
+      // Check post group exists old ID
+      await Promise.all( postGroupList.map( ( postGroup ) => {
+        postGroup._pages.map( async ( page ) => {
+          const pageChecked = await PageFacebook.findOne( { "pageId": page } );
+
+          if ( !pageChecked ) {
+            postGroup._pages.splice( indexOf( postGroup._pages.indexOf( page ) ), 1 );
+            await postGroup.save();
+          }
+        } );
+      } ) );
+    } ) );
 
     res
       .status( 200 )
-      .json( jsonResponse( "success", newPageList ) );
+      .json( jsonResponse( "success", null ) );
   }
 };
