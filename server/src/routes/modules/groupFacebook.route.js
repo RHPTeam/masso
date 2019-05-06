@@ -9,5 +9,6 @@ const GroupFacebookController = require( "../../controllers/groupFacebook.contro
 
 router
   .route( "/" )
-  .get( GroupFacebookController.index );
+  .get( GroupFacebookController.index )
+  .patch( GroupFacebookController.update );
 module.exports = router;

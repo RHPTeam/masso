@@ -1,11 +1,15 @@
 /* eslint-disable one-var */
 /* eslint-disable camelcase */
-const mongoose = require( "mongoose" ),
+const { url } = require( "../configs/server" ), mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   GroupFacebookSchema = new Schema( {
     "groupId": String,
     "name": String,
+    "profile_picture": {
+      "type": String,
+      "default": `${url}/uploads/defaults/pageicon.png`
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
@@ -14,10 +18,6 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Facebook"
     },
-    "_groups": [ {
-      "type": Schema.Types.ObjectId,
-      "ref": "PostGroups"
-    } ],
     "created_at": {
       "type": Date,
       "default": Date.now()
