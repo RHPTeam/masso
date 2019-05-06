@@ -1,5 +1,5 @@
 import DeleteFriendsPopup from "../popup/delete/";
-import AddGroupPopup from "../popup/add-group";
+import AddGroupPopup from "../popup/addgroup";
 
 export default {
   data() {
