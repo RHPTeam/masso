@@ -1,13 +1,13 @@
 export default {
-  props: [ "isShowDeletePopup", "title", "groupTarget" ],
+  props: [ "title", "groupTarget" ],
 
   data() {
     return {};
   },
 
   methods: {
-    closeAddPopup() {
-      this.$emit( "closeAddPopup", false );
+    closePopup() {
+      this.$emit( "closePopup", false );
     }
   }
 };

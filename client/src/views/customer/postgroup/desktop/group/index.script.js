@@ -1,27 +1,26 @@
+import CreateGroupPopup from "../popup/creategroup";
 import DeleteGroupPopup from "../popup/delete";
 
 export default {
   data() {
     return {
       isActive: true,
-      isShowDeletePopup: false,
-      groupFriend: [
-        "Mỹ phẩm và Làm đẹp",
-        "Tương tác lớn",
-        "Du lịch"
-      ]
+      isShowCreateGroup: false,
+      isShowDeletePopup: false
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    postGroups() {
+      return this.$store.getters.postGroups;
     }
-
+  },
+  async created() {
+    await this.$store.dispatch("getAllPostGroups");
   },
   methods: {
-    createGroup() {
-
-    },
     showDeletePopup() {
       this.isShowDeletePopup = true;
     },
@@ -31,6 +30,7 @@ export default {
 
   },
   components: {
+    CreateGroupPopup,
     DeleteGroupPopup
   }
 };

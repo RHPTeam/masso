@@ -9,7 +9,7 @@
           >Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
-          <button class="btn-skip" @click="closeAddPopup">HỦY</button>
+          <button class="btn-skip" @click="closePopup">HỦY</button>
           <button class="btn-submit">XÓA</button>
         </div>
       </div>

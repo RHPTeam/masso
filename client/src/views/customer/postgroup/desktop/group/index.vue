@@ -8,51 +8,16 @@
       Xem tất cả
     </div>
 
-    <div class="group--item mr_2 mb_2">
+    <div class="group--item mr_2 mb_2"
+         v-for="(postGroup, index) in postGroups"
+         :key="index"
+    >
       <contenteditable
         class="editable"
         tag="div"
         placeholder="Nhập tên..."
         :contenteditable="true"
-        v-model='groupFriend[0]'/>
-      <div class="btn--delete" @click="showDeletePopup()">
-        <icon-base
-          class="icon--add mr_1"
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-          <icon-remove />
-        </icon-base>
-      </div>
-    </div>
-    <div class="group--item mr_2 mb_2">
-      <contenteditable
-        class="editable"
-        tag="div"
-        placeholder="Nhập tên..."
-        :contenteditable="true"
-        v-model='groupFriend[1]'/>
-      <div class="btn--delete" @click="showDeletePopup()">
-        <icon-base
-          class="icon--add mr_1"
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-          <icon-remove />
-        </icon-base>
-      </div>
-    </div>
-    <div class="group--item mr_2 mb_2">
-      <contenteditable
-        class="editable"
-        tag="div"
-        placeholder="Nhập tên..."
-        :contenteditable="true"
-        v-model='groupFriend[2]'/>
+        v-model='postGroup.title'/>
       <div class="btn--delete" @click="showDeletePopup()">
         <icon-base
           class="icon--add mr_1"
@@ -66,7 +31,7 @@
       </div>
     </div>
 
-    <div class="group--item btn--add mb_2" @click="createGroup">
+    <div class="group--item btn--add mb_2" @click="isShowCreateGroup = true">
       <icon-base
         class="icon--add mr_2"
         icon-name="plus"
@@ -80,14 +45,18 @@
 
     <!--*********** POPUP *************-->
     <transition name="popup">
+      <create-group-popup
+        v-if="isShowCreateGroup === true"
+        :data-theme="currentTheme"
+        @closePopup="isShowCreateGroup = $event"
+      ></create-group-popup>
       <delete-group-popup
         v-if="isShowDeletePopup === true"
         :data-theme="currentTheme"
         title="Xoá nhóm"
-        :isShowDeletePopup="isShowDeletePopup"
-        @closeAddPopup="isShowDeletePopup = $event"
+        @closePopup="isShowDeletePopup = $event"
         groupTarget="Khách Hàng Tiềm Năng"
-      />
+      ></delete-group-popup>
     </transition>
   </div>
   <!-- End Segments List -->
