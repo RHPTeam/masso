@@ -65,7 +65,7 @@
                   </span>
                 </div>
                 <div class="text">
-                  Nhóm bạn bè 0
+                  Mỹ phẩm và làm đẹp
                 </div>
               </div>
               <div
@@ -79,7 +79,7 @@
                   </span>
                 </div>
                 <div class="text">
-                  Nhóm bạn bè 1
+                  Tương tác lớn
                 </div>
               </div>
             </div>
@@ -89,9 +89,8 @@
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="disabled">XONG</button>
-          <button class="btn-submit">XONG</button>
+          <button class="btn--skip" @click="closeAddPopup">HỦY</button>-
+          <button class="btn--submit">XONG</button>
         </div>
       </div>
     </div>
@@ -101,6 +100,6 @@
 <script src="./index.script"></script>
 
 <style lang="scss" scoped>
-@import "../popup";
+@import "../style";
 @import "./index.style"
 </style>

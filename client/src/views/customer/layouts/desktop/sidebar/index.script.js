@@ -51,7 +51,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "target-groups"
+        to: "group"
       },
       {
         text: "Bạn bè",

@@ -183,7 +183,7 @@
 		<transition-group v-else name="list-transition">
 			<div class="item--body d_flex align_items_center px_3 py_2"
 			v-for="( campaign, index ) in filteredCampaigns"
-			:key="index"
+			:key="`cp-${index}`"
 			>
 				<div class="col col--checkbox px_2">
 					<label class="custom--checkbox mb_0">

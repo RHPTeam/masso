@@ -1,22 +1,20 @@
 <template>
-  <div class="table my_3" :data-theme="currentTheme">
-    <!-- User Table Header -->
-    <div class="table--item item--header d_flex align_content_center py_3">
-      <div class="checkbox">
-        <span class="checkbox--control">
-          <input type="checkbox" class="checkbox--control-input">
-          <span class="checkbox--control-checkmark"></span>
-        </span>
-      </div>
-      <div class="name">
+	<div class="postgroup--data my_3" :data-theme="currentTheme">
+		<!-- Start: Table Header -->
+		<div class="item--header d_flex align_items_center px_3 py_2">
+			<div class="col col--checkbox px_2">
+				<label class="custom--checkbox mb_0">
+					<input type="checkbox" />
+				</label>
+			</div>
+			<div class="col col--name px_2">
         <span
           class="sort"
-          @click="sortUsersByProperty(isSort[0], 0)"
+          @click="sortCampaignsByProperty(isSort[0], 0)"
           :class="[
             isSort[0].asc === true || isSort[0].desc === true ? 'active' : ''
           ]"
-        >
-          Tên
+        >Tên
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -25,7 +23,7 @@
             viewBox="0 0 160 160"
             v-if="isSort[0].asc === false && isSort[0].desc === false"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
@@ -35,29 +33,28 @@
             viewBox="0 0 160 160"
             v-if="isSort[0].asc"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
-            class="icon--arrow-up ml_1"
+            class="icon--arrow-down descending ml_1"
             icon-name="icon-arrow-up"
             width="12"
             height="12"
-            viewBox="0 0 26 26"
+            viewBox="0 0 160 160"
             v-if="isSort[0].desc"
           >
-            <icon-arrow-up/>
+            <icon-arrow-down />
           </icon-base>
         </span>
       </div>
-      <div class="type">
+			<div class="col col--type px_2">
         <span
           class="sort"
-          @click="sortUsersByProperty(isSort[1], 1)"
+          @click="sortCampaignsByProperty(isSort[1], 1)"
           :class="[
             isSort[1].asc === true || isSort[1].desc === true ? 'active' : ''
           ]"
-        >
-          Loại
+        >Loại
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -66,7 +63,7 @@
             viewBox="0 0 160 160"
             v-if="isSort[1].asc === false && isSort[1].desc === false"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
@@ -76,38 +73,37 @@
             viewBox="0 0 160 160"
             v-if="isSort[1].asc"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
-            class="icon--arrow-up ml_1"
+            class="icon--arrow-down descending ml_1"
             icon-name="icon-arrow-up"
             width="12"
             height="12"
-            viewBox="0 0 26 26"
+            viewBox="0 0 160 160"
             v-if="isSort[1].desc"
           >
-            <icon-arrow-up/>
+            <icon-arrow-down />
           </icon-base>
         </span>
       </div>
-      <div class="account">
+			<div class="col col--account px_2">
         <span
           class="sort"
-          @click="sortUsersByProperty(isSort[1], 1)"
+          @click="sortCampaignsByProperty(isSort[2], 2)"
           :class="[
-            isSort[1].asc === true || isSort[1].desc === true ? 'active' : ''
+            isSort[2].asc === true || isSort[2].desc === true ? 'active' : ''
           ]"
-        >
-          Tài khoản
+        >Tài khoản
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[1].asc === false && isSort[1].desc === false"
+            v-if="isSort[2].asc === false && isSort[2].desc === false"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
@@ -115,61 +111,65 @@
             width="12"
             height="12"
             viewBox="0 0 160 160"
-            v-if="isSort[1].asc"
+            v-if="isSort[2].asc"
           >
-            <icon-arrow-down/>
+            <icon-arrow-down />
           </icon-base>
           <icon-base
-            class="icon--arrow-up ml_1"
+            class="icon--arrow-down descending ml_1"
             icon-name="icon-arrow-up"
             width="12"
             height="12"
-            viewBox="0 0 26 26"
-            v-if="isSort[1].desc"
+            viewBox="0 0 160 160"
+            v-if="isSort[2].desc"
           >
-            <icon-arrow-up/>
+            <icon-arrow-down />
           </icon-base>
         </span>
       </div>
-    </div>
-    <!-- End User Table Header -->
-
-    <div class="table--item item--body d_flex align_content_center py_3" v-for="(item, index) in users" :key="index">
-      <div class="checkbox">
-        <span class="checkbox--control">
-          <input
-            type="checkbox"
-            class="checkbox--control-input"
-            :value="item._id"
-          >
-          <span class="checkbox--control-checkmark"></span>
-        </span>
-      </div>
-      <div class="name">
-        <div class="name--text">
-          <span class="btn--action">{{ item.name }}</span>
-        </div>
-      </div>
-      <div class="type">
-        <span class="btn--action">{{ showType(item.type) }}</span>
-      </div>
-      <div class="account">
-        <span class="btn--action">{{ item.account }}</span>
-      </div>
-    </div>
-
-    <!--*********** POPUP *************-->
+		</div>
+		<!-- End: Table Header -->
+		<!-- Start: Table Body Empty Data-->
+		<div
+			class="item--body d_flex align_items_center justify_content_center px_3 py_2"
+			v-if="postGroups.length === 0"
+		>
+			Không có dữ liệu.
+		</div>
+		<!-- End: Table Body Empty Data-->
+		<!-- Start: Table Body -->
+		<transition-group v-else name="list-transition">
+			<div class="item--body d_flex align_items_center px_3 py_2"
+			v-for="( item, index ) in postGroups"
+			:key="`pgr-${index}`"
+			>
+				<div class="col col--checkbox px_2">
+					<label class="custom--checkbox mb_0">
+						<input type="checkbox"/>
+					</label>
+				</div>
+				<div class="col col--name d_flex align_items_center px_2">
+          <div class="avatar">
+            <img :src="item.avatar" alt="avatar" width="30px" height="30px">
+          </div>
+					<span class="col col--name-text">
+						{{ item.name }}
+					</span>
+				</div>
+				<div class="col col--type pl_3 pr_2">
+					{{ item.type }}
+				</div>
+				<div class="col col--account pl_3 pr_2">
+					{{ item.account }}
+				</div>
+			</div>
+		</transition-group>
+		<!-- End: Table Body -->
+    <!-- Start: Delete Campaign Popup -->
     <transition name="popup">
-      <pronoun-popup
-        v-if="isShowPronounPopup === true"
-        :data-theme="currentTheme"
-        :isShowPronounPopup="isShowPronounPopup"
-        :userID="userID"
-        @closeAddPopup="isShowPronounPopup = $event"
-      ></pronoun-popup>
     </transition>
-  </div>
-  <!--  -->
+    <!-- End: Delete Campaign Popup -->
+	</div>
 </template>
 
 <script src="./index.script.js"></script>

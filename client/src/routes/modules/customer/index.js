@@ -59,9 +59,9 @@ const generalRouter = {
     component: require( "@/views/customer/account" ).default
   },
   {
-    path: "/target-groups",
-    name: "target-groups",
-    component: require( "@/views/customer/targetgroups" ).default
+    path: "/group",
+    name: "group",
+    component: require( "@/views/customer/postgroup" ).default
   },
   {
     path: "/f-account",

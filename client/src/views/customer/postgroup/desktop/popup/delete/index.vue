@@ -20,6 +20,6 @@
 <script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "../popup";
+@import "../style";
 @import "./index.style"
 </style>
