@@ -7,5 +7,8 @@ export default {
   },
   create( postGroup ) {
     return Api().post( "post-group", postGroup );
+  },
+  delete( id ) {
+    return Api().delete( `post-group?_postGroupId=${id}` );
   }
 };

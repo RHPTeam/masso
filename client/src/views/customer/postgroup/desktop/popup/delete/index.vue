@@ -1,25 +1,113 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content">
+      <div class="modal--content px_3 py_4">
         <div class="modal--header">
-          <div class="title--small mt_2">{{ title }} {{ groupTarget.name }}</div>
-          <div
-            class="desc mt_3"
-          >Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
+          <div class="title">{{ title }}</div>
+        </div>
+        <div class="modal--body my_3">
+          <div class="desc" v-if="multiple === false">
+            Toàn bộ dữ liệu liên quan đến {{ typeName }}
+            <span class="campaign--name">{{ targetName }}</span> sẽ bị xóa hoàn toàn. Nhập
+            <span class="text--delete">DELETE</span> để tiếp tục.
+          </div>
+          <input
+            class="modal--body-input mt_3"
+            placeholder="DELETE"
+            type="text"
+            v-model="deleteText"
+          />
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
-          <button class="btn-skip" @click="closePopup">HỦY</button>
-          <button class="btn-submit">XÓA</button>
+          <button
+            class="btn--submit"
+            @click="closePopup()"
+          >HỦY</button>
+          <button
+            class="btn--skip"
+            v-if="deleteConfirm"
+            @click="deleteTargets()"
+          >XÓA</button>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<script src="./index.script.js"></script>
+<script>
+export default {
+  props: {
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    storeActionName: {
+      type: String,
+      default: ""
+    },
+    targetId: {
+      type: String,
+      default: ""
+    },
+    targetIds: {
+      type: Array,
+      default: () => { [] }
+    },
+    targetName: {
+      type: String,
+      default: ""
+    },
+    title: {
+      type: String,
+      default: ""
+    },
+    type: {
+      type: String,
+      default: ""
+    }
+  },
+  data() {
+    return {
+      deleteConfirm: false,
+      deleteText: ""
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    typeName() {
+      let res;
+
+      if (this.type === "postGroup") {
+        res = "nhóm";
+      }
+      return res;
+    }
+  },
+  watch: {
+    deleteText() {
+      this.deleteConfirm = this.deleteText === "DELETE";
+    }
+  },
+  methods: {
+    closePopup() {
+      this.$emit( "closePopup", false );
+    },
+    deleteTargets() {
+      if ( this.multiple === false ) {
+        this.$store.dispatch( this.storeActionName, this.targetId );
+      } else {
+        this.$store.dispatch( this.storeActionName, this.targetIds );
+      }
+      this.$emit( "closePopup", false );
+    }
+  }
+};
+</script>
 
 <style lang="scss" scoped>
 @import "../style";
-@import "./index.style"
+@import "./index.style";
 </style>
+

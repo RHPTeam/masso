@@ -18,7 +18,7 @@
         placeholder="Nhập tên..."
         :contenteditable="true"
         v-model='postGroup.title'/>
-      <div class="btn--delete" @click="showDeletePopup()">
+      <div class="btn--delete" @click="showDeletePopup(postGroup)">
         <icon-base
           class="icon--add mr_1"
           icon-name="remove"
@@ -55,7 +55,10 @@
         :data-theme="currentTheme"
         title="Xoá nhóm"
         @closePopup="isShowDeletePopup = $event"
-        groupTarget="Khách Hàng Tiềm Năng"
+        storeActionName="deletePostGroup"
+        :targetId="groupDelete._id"
+        :targetName="groupDelete.title"
+        type="postGroup"
       ></delete-group-popup>
     </transition>
   </div>

@@ -6,7 +6,8 @@ export default {
     return {
       isActive: true,
       isShowCreateGroup: false,
-      isShowDeletePopup: false
+      isShowDeletePopup: false,
+      groupDelete: {}
     };
   },
   computed: {
@@ -21,8 +22,9 @@ export default {
     await this.$store.dispatch("getAllPostGroups");
   },
   methods: {
-    showDeletePopup() {
+    showDeletePopup( data ) {
       this.isShowDeletePopup = true;
+      this.groupDelete = data;
     },
     seeAllUsers() {
 
