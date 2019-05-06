@@ -1,5 +1,5 @@
 <template>
-  <div class="">
+  <div class="d_flex flex_column align_items_center justify_content_center">
     <img :src="imageLoading" alt="Loading data" />
     <span class="mt_2 d_block">Đang tải dữ liệu</span>
   </div>

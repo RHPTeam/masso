@@ -5,8 +5,8 @@
       <input type="text" placeholder="Chọn địa điểm ..." v-model="placesName" v-click-outside="close" @click="isShowSuggestDefault = true">
       <div class="suggest position_absolute" v-if="isShowSuggestDefault === true">
         <VuePerfectScrollbar class="show">
-          <div v-if="this.$store.getters.faceBStatus === 'loading'" class="d_flex align_items_center">
-            <loading-component/>
+          <div v-if="this.$store.getters.faceBStatus === 'loading'" class="loading d_flex align_items_center">
+            <loading-component class="text_center"/>
           </div>
           <div v-else v-for="(item, index) in placesPopular" :key="index">
             <div class="item--tag d_flex align_items_center" @click="attachPlacesName(item)">
@@ -42,7 +42,6 @@ export default {
   },
   watch: {
     placesName(value) {
-      console.log( value );
       if( value.length !== 0 ) {
         this.$store.dispatch( "searchPlacesCheckIn", value );
       }

@@ -17,10 +17,10 @@ export default {
   show( pcId ) {
     return Api().get( `post-categories?_id=${pcId}` );
   },
-  updateCategories( pcId, content ) {
-    return Api().patch( `post-categories?_pcId=${pcId}`, content );
+  updateCategories( cateId, content ) {
+    return Api().patch( `post-categories?_categoryId=${cateId}`, content );
   },
-  deleteCagories( pcId ) {
-    return Api().delete( `post-categories?_pcId=${pcId}` );
+  deleteCagories( cateId ) {
+    return Api().delete( `post-categories?_categoryId=${cateId}` );
   }
 };
