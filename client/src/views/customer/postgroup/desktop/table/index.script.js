@@ -1,9 +1,9 @@
 
-import DeletePopup from "../../popup/delete";
+import DeletePopup from "../popup/delete";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: [ "filterShowSelected", "filterStatusSelected", "search" ],
+  props: [ "typeFilterSelected",  ],
   data() {
     return {
       campaignDelete: {},

@@ -2,6 +2,7 @@ import DeleteFriendsPopup from "../popup/delete/";
 import AddGroupPopup from "../popup/addgroup";
 
 export default {
+  props: [ "typeFilterSelected" ],
   data() {
     return {
       showSequenceDropdown: false,
@@ -26,7 +27,10 @@ export default {
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
     },
-    updateAccountSelected() {}
+    updateTypeSelected( val ) {
+      this.$emit( "updateFilterSelected", val );
+      this.showSequenceDropdown = false
+    }
   },
   components: {
     DeleteFriendsPopup,

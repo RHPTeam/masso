@@ -18,7 +18,7 @@
           class="btn--sequence"
           @click="showSequenceDropdown = !showSequenceDropdown"
         >
-          Tất cả
+          {{ typeFilterSelected }}
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -30,9 +30,15 @@
           </icon-base>
         </div>
         <div class="dropdown text_left" v-show="showSequenceDropdown">
-          <div class="dropdown--item px_3" @click="updateAccountSelected()">Tất cả</div>
-          <div class="dropdown--item px_3">Trang</div>
-          <div class="dropdown--item px_3">Nhóm</div>
+          <div class="dropdown--item px_3"
+               @click="updateTypeSelected('Tất cả')"
+          >Tất cả</div>
+          <div class="dropdown--item px_3"
+               @click="updateTypeSelected('Trang')"
+          >Trang</div>
+          <div class="dropdown--item px_3"
+               @click="updateTypeSelected('Nhóm')"
+          >Nhóm</div>
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->

@@ -12,10 +12,15 @@
         <app-group/>
         <!-- End: Group -->
         <!-- Start: Info -->
-        <app-info/>
+        <app-info
+          :typeFilterSelected="typeFilterSelected"
+          @updateFilterSelected="typeFilterSelected = $event"
+        />
         <!-- End: Info -->
         <!-- Start: List -->
-        <app-list/>
+        <app-table
+          :typeFilterSelected="typeFilterSelected"
+        />
         <!-- End: List -->
       </div>
       <!-- End: Content -->
@@ -27,13 +32,18 @@
 <script>
 import AppGroup from "./desktop/group";
 import AppInfo from "./desktop/info";
-import AppList from "./desktop/list";
+import AppTable from "./desktop/table";
 
 export default {
   components: {
     AppGroup,
     AppInfo,
-    AppList
+    AppTable
+  },
+  data(){
+    return {
+      typeFilterSelected: "Tất cả"
+    }
   }
 };
 </script>
