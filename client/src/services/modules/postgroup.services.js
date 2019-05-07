@@ -10,5 +10,8 @@ export default {
   },
   delete( id ) {
     return Api().delete( `post-group?_postGroupId=${id}` );
+  },
+  getPostGroupById( id ) {
+    return Api().get( `post-group?_id=${id}` );
   }
 };

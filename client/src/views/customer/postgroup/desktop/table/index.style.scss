@@ -83,6 +83,11 @@
 //LIGHT
 
 .postgroup--data[data-theme="light"] {
+  .alert_secondary {
+    background-color: #fafafa;
+    border-color: #f2f2f2;
+    color: #666666;
+  }
   .item--header {
     background-color: #fff;
   }
@@ -101,6 +106,11 @@
 //DARK
 
 .postgroup--data[data-theme="dark"] {
+  .alert_secondary {
+    background-color: rgba(39, 41, 45, .4);
+    border-color: #23272b;
+    color: #999999;
+  }
   .item--header {
     background-color: #27292d;
     color: #cccccc;

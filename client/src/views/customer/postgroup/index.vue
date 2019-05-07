@@ -9,7 +9,11 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Group -->
-        <app-group/>
+        <app-group
+          :groupSelected="groupSelected"
+          @updateGroupSelected="groupSelected = $event"
+
+        />
         <!-- End: Group -->
         <!-- Start: Info -->
         <app-info
@@ -19,6 +23,7 @@
         <!-- End: Info -->
         <!-- Start: List -->
         <app-table
+          :groupSelected="groupSelected"
           :typeFilterSelected="typeFilterSelected"
         />
         <!-- End: List -->
@@ -42,6 +47,7 @@ export default {
   },
   data(){
     return {
+      groupSelected: false,
       typeFilterSelected: "Tất cả"
     }
   }

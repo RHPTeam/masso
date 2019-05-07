@@ -2,22 +2,26 @@
   <div class="group" :data-theme="currentTheme">
     <div
       class="btn--all mr_3 mb_2"
-      :class="[isActive === false ? 'btn--all-active' : '']"
+      :class="[groupSelected === false ? 'btn--all-active' : '']"
       @click="seeAllUsers"
     >
       Xem tất cả
     </div>
 
     <div class="group--item mr_2 mb_2"
+         :class="[currentIndex === index ? 'active' : '']"
          v-for="(postGroup, index) in postGroups"
          :key="index"
     >
-      <contenteditable
-        class="editable"
-        tag="div"
-        placeholder="Nhập tên..."
-        :contenteditable="true"
-        v-model='postGroup.title'/>
+      <div @click="showPostGroup( postGroup._id, index )">
+        <contenteditable
+          class="editable"
+          tag="div"
+          placeholder="Nhập tên..."
+          :contenteditable="true"
+          v-model='postGroup.title'
+        />
+      </div>
       <div class="btn--delete" @click="showDeletePopup(postGroup)">
         <icon-base
           class="icon--add mr_1"

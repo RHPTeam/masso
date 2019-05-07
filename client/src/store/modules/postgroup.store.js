@@ -3,10 +3,18 @@ import PostGroupServices from "@/services/modules/postgroup.services";
 
 const state = {
     postGroups: [],
+    postGroupDetail: {},
+    postGroupDetailStatus: "",
   },
   getters = {
     postGroups: ( s ) => {
       return s.postGroups;
+    },
+    postGroupDetail: ( s ) => {
+      return s.postGroupDetail;
+    },
+    postGroupDetailStatus: ( s ) => {
+      return s.postGroupDetailStatus;
     }
   },
   mutations = {
@@ -16,6 +24,12 @@ const state = {
     setPostGroups: ( s, payload ) => {
       s.postGroups = payload;
     },
+    setPostGroupDetail: ( s, payload ) => {
+      s.postGroupDetail = payload;
+    },
+    setPostGroupDetailStatus: ( s, payload ) => {
+      s.postGroupDetailStatus = payload;
+    }
   },
   actions = {
     createPostGroup: async ( { commit }, payload ) => {
@@ -40,6 +54,13 @@ const state = {
       const res = await PostGroupServices.index();
 
       await commit( "setPostGroups", res.data.data );
+    },
+    getPostGroupById: async ( { commit }, payload ) => {
+      commit( "setPostGroupDetailStatus", "loading" );
+      const res = await PostGroupServices.getPostGroupById( payload );
+
+      await commit( "setPostGroupDetail", res.data.data );
+      commit( "setPostGroupDetailStatus", "success" );
     }
   };
 

@@ -2,9 +2,10 @@ import CreateGroupPopup from "../popup/creategroup";
 import DeleteGroupPopup from "../popup/delete";
 
 export default {
+  props: [ "groupSelected" ],
   data() {
     return {
-      isActive: true,
+      currentIndex: null,
       isShowCreateGroup: false,
       isShowDeletePopup: false,
       groupDelete: {}
@@ -27,9 +28,14 @@ export default {
       this.groupDelete = data;
     },
     seeAllUsers() {
-
+      this.$emit( "updateGroupSelected", false );
+      this.currentIndex = null;
+    },
+    showPostGroup( id, index ) {
+      this.currentIndex = index;
+      this.$emit( "updateGroupSelected", true );
+      this.$store.dispatch( "getPostGroupById", id );
     }
-
   },
   components: {
     CreateGroupPopup,

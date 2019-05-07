@@ -3,7 +3,7 @@ import DeletePopup from "../popup/delete";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: [ "typeFilterSelected",  ],
+  props: [ "groupSelected", "typeFilterSelected" ],
   data() {
     return {
       campaignDelete: {},
@@ -29,7 +29,46 @@ export default {
     },
     facebookPagesStatus() {
       return this.$store.getters.facebookPagesStatus;
-    }
+    },
+    postGroupDetail() {
+      return this.$store.getters.postGroupDetail;
+    },
+    postGroupDetailStatus() {
+      return this.$store.getters.postGroupDetailStatus;
+    },
+    selectAll: {
+      get() {
+        if (this.groupSelected === false) {
+          return this.users
+            ? this.selectedUIDs.length === this.users.length
+            : false;
+        } else {
+          return this.usersOfGroup
+            ? this.selectedUIDs.length === this.usersOfGroup.length
+            : false;
+        }
+      },
+      set(value) {
+        let selected = [];
+        console.log("value");
+        if (this.groupSelected === false) {
+          if (value) {
+            this.users.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
+        } else {
+          if (value) {
+            this.usersOfGroup.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
+        }
+
+        this.selectedArr = selected;
+        this.$store.dispatch("selectedUIDs", this.selectedArr);
+      }
+    },
   },
   methods: {
     activeCurrentSort( i, type ) {
