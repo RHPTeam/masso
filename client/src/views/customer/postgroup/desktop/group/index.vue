@@ -20,6 +20,8 @@
           placeholder="Nhập tên..."
           :contenteditable="true"
           v-model='postGroup.title'
+          @keyup="upTypingText( postGroup )"
+          @keydown="clearTypingTimer"
         />
       </div>
       <div class="btn--delete" @click="showDeletePopup(postGroup)">

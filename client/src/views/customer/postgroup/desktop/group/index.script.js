@@ -1,6 +1,7 @@
 import CreateGroupPopup from "../popup/creategroup";
 import DeleteGroupPopup from "../popup/delete";
 
+let typingTimer;
 export default {
   props: [ "groupSelected" ],
   data() {
@@ -23,6 +24,9 @@ export default {
     await this.$store.dispatch("getAllPostGroups");
   },
   methods: {
+    clearTypingTimer() {
+      clearTimeout( typingTimer );
+    },
     showDeletePopup( data ) {
       this.isShowDeletePopup = true;
       this.groupDelete = data;
@@ -37,6 +41,21 @@ export default {
       this.$store.dispatch( "getPostGroupById", id );
       this.$store.dispatch( "postGroupGroupsSelected", [] );
       this.$store.dispatch( "postGroupPagesSelected", [] );
+    },
+    async upTypingText( gr ) {
+      await clearTimeout( typingTimer );
+
+      typingTimer = await setTimeout( this.updatePostGroup( gr ), 1000);
+    },
+    updatePostGroup( gr ) {
+      const objSender = {
+        postGroupId: gr._id,
+        title: gr.title,
+        _pages: gr._pages,
+        _groups: gr._groups
+      };
+
+      this.$store.dispatch("updatePostGroup", objSender);
     }
   },
   components: {

@@ -46,6 +46,13 @@ const state = {
     }
   },
   actions = {
+    addToPostGroup: async ( { commit }, payload ) => {
+      await PostGroupServices.updatePostGroup( payload );
+
+      const res = await PostGroupServices.index();
+
+      await commit( "setPostGroups", res.data.data );
+    },
     createPostGroup: async ( { commit }, payload ) => {
       const res = await PostGroupServices.create( payload );
 
@@ -82,13 +89,11 @@ const state = {
     postGroupPagesSelected: ( { commit }, payload ) => {
       commit( "postGroupPagesSelected", payload );
     },
-    addToPostGroup: async ( { commit }, payload ) => {
+    updatePostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
-
-      const res = await PostGroupServices.index();
-
-      await commit( "setPostGroups", res.data.data );
-    }
+      const postGroup = await PostGroupServices.getPostGroupById( payload.postGroupId );
+      await commit( "setPostGroupDetail", postGroup.data.data );
+    },
   };
 
 export default {
