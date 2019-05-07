@@ -3,8 +3,9 @@ const { categorizedTextFormatPresets } = require( "../configs/facebook.data" );
 const pagesCore = require( "./core/pages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );
-const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo,searchPlaces } = require( "./core/facebook.core" );
-const { createPost, getPost } = require( "./core/posts.core" );
+const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
+const { createPost, getPost } = require( "./core/posts.core" ),
+  CronJob = require( "cron" ).CronJob;
 
 module.exports = {
   "createPost": async ( req, res ) => {
@@ -104,5 +105,16 @@ module.exports = {
     } );
 
     return res.send( result );
+  },
+  "testCronSchedule": ( ) => {
+    console.log( "Hello from test cron schedule!" );
+    console.log( 1 );
+    let cronList = {};
+
+    cronList.one = new CronJob( "5 1 * * * *", function () {
+      console.log( "Cron from 01!" );
+    }, true, "Asia/Ho_Chi_Minh" );
+
+    console.log( cronList.one );
   }
 };

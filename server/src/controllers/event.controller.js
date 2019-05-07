@@ -8,8 +8,8 @@
 const Campaign = require( "../models/Campaign.model" );
 const Event = require( "../models/Event.model" );
 
-const jsonResponse = require( "../configs/res" );
-const secure = require( "../helpers/utils/secure.util" );
+const jsonResponse = require( "../configs/res" ),
+  secure = require( "../helpers/utils/secure.util" );
 
 module.exports = {
   /**
@@ -78,6 +78,7 @@ module.exports = {
         "title": req.body.title,
         "color": req.body.color,
         "typeEvent": req.body.typeEvent,
+        "break_point": req.body.break_point,
         "content": req.body.content,
         "_targets": req.body._targets,
         "status": req.body.status,
@@ -98,6 +99,9 @@ module.exports = {
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
     await findCampaign.save();
+
+    // Create Cron Job
+
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
   /**
