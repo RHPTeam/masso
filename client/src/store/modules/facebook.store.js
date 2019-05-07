@@ -1,12 +1,16 @@
 import FacebookServices from '@/services/modules/facebook.services';
 
 const state = {
+  activity: [],
   colorFb: [],
+  listActivity: [],
   faceBStatus: "",
   places: []
 };
 
 const getters = {
+  activity: state => state.activity,
+  listActivity: state => state.listActivity,
   colorFb: state => state.colorFb,
   places: state => state.places,
   faceBStatus: state => state.faceBStatus
@@ -24,6 +28,12 @@ const mutations = {
   },
   setPlaces: (  state, payload ) => {
     state.places = payload;
+  },
+  setActivity: ( state, payload ) => {
+    state.activity = payload;
+  },
+  setListActivity: ( state, payload ) => {
+    state.listActivity = payload;
   }
 };
 
@@ -38,6 +48,19 @@ const actions = {
     commit( "fb_request" );
     const results = await  FacebookServices.getPlaces();
     commit( "setPlaces", results.data.data.results );
+    commit( "fb_success" );
+  },
+  getActivityFb: async ( { commit } ) => {
+    commit( "fb_request" );
+    const results = await  FacebookServices.getActivity();
+    console.log(results.data.data.results);
+    commit( "setActivity", results.data.data.results );
+    commit( "fb_success" );
+  },
+  getListActivityFb: async ( { commit }, payload ) => {
+    commit( "fb_request" );
+    const results = await  FacebookServices.getListItemActivity(  payload );
+    commit( "setListActivity", results.data.data.results );
     commit( "fb_success" );
   },
   searchPlacesCheckIn: async ( { commit }, payload ) => {

@@ -11,6 +11,7 @@ const mongoose = require( "mongoose" ),
       "link": String,
       "typeAttachment": Number
     } ],
+    "place": String,
     "scrape": String,
     "tags": Array,
     "activity": {

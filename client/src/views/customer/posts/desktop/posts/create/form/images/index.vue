@@ -1,7 +1,7 @@
 <template>
   <div class="gallery d_flex justify_content_start align_items_center flex_wrap m_n1">
-    <div class="gallery--block position_relative m_1">
-      <img :src="imageDefault" alt>
+    <div class="gallery--block position_relative m_1" v-for="(item, index) in post.attachments" :key="index">
+      <img :src="item.link" alt>
     </div>
     <div class="gallery--block position_relative m_1">
       <label
@@ -18,16 +18,41 @@
           <icon-plus/>
         </icon-base>
       </label>
-      <input id="file-upload" hidden type="file">
+      <form enctype="multipart/form-data" @submit.prevent="sendFile">
+        <input id="file-upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
+      </form>
     </div>
   </div>
 </template>
 <script>
 export default {
+  props: {
+    post: {
+      type: Object
+    }
+  },
   data() {
     return {
+      file: "",
       imageDefault: require( "@/assets/images/upload/bee-default.jpg" )
     };
+  },
+  methods: {
+    selectFile(id) {
+      this.file = this.$refs.file.files;
+      this.sendFile(id);
+    },
+    sendFile() {
+      const formData = new FormData();
+      Array.from(this.file).forEach((f) => {
+        formData.append("attachments", f)
+      });
+      const objSender = {
+        id: this.post._id,
+        formData: formData
+      };
+      this.$store.dispatch( "updateAttachmentPost", objSender );
+    }
   }
 };
 </script>

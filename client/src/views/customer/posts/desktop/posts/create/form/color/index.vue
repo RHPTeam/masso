@@ -57,7 +57,7 @@ export default {
   components: {
     VuePerfectScrollbar
   },
-  props: [ "randomColor", "colorFb" ],
+  props: [ "randomColor", "colorFb", "post" ],
   data() {
     return {
       isShowDefault: true,
@@ -83,6 +83,9 @@ export default {
     async hiddeOptionColor( color ) {
       await this.$emit( "openContentColor", true );
       await this.$emit( "changeBgColor", color );
+      this.post.color = color;
+      delete this.post.attachments;
+      this.$store.dispatch( "updatePost", this.post );
       this.changeBgColorDefault();
     }
   }

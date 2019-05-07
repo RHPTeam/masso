@@ -26,5 +26,20 @@ export default {
       str.indexOf( start ) + start.length,
       str.indexOf( end, str.indexOf( start ) + start.length )
     );
+  },
+  urlify( text ) {
+    return text.replace( /(https?:\/\/[^\s]+)/g, function(url) {
+      return `<a href="${url}">${url}</a>`;
+    })
+  },
+  detectUrl( text ) {
+    const urlList = [];
+    text.replace( /(https?:\/\/[^\s]+)/g, function(url) {
+      if ( url.search( "</" ) ) {
+      }
+      urlList.push(url);
+      return url;
+    });
+    return urlList;
   }
 };

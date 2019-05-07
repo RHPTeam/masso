@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     updatePost() {
-      // this.$store.dispatch( "updatePost" );
+      this.$store.dispatch( "getPostById", this.item._id );
       this.$router.push( {
         name: "update_post",
         params: { id: this.item._id }

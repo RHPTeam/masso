@@ -14,6 +14,7 @@ const PostCategory = require( "../models/PostCategory.model" );
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
 const dictionary = require( "../configs/dictionaries" );
+const { url } = require( "../configs/server" );
 
 module.exports = {
   /**
@@ -28,7 +29,7 @@ module.exports = {
       userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     } else if ( req.query._categoryId ) {
       dataResponse = await Post.find( { "_categories": req.query._categoryId } ).lean();
     } else if ( req.query._size && req.query._page ) {
@@ -99,7 +100,7 @@ module.exports = {
       const attachmentsList = req.files.map( ( file ) => {
         if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
           return {
-            "link": file.path,
+            "link": `${url}/${file.path}`,
             "typeAttachment": 1
           };
         }
@@ -113,8 +114,6 @@ module.exports = {
     // Check validator
     if ( !req.body.title || req.body.title.length === 0 ) {
       return res.status( 403 ).json( { "status": "fail", "title": "Tiêu đề bài đăng không được bỏ trống!" } );
-    } else if ( req.body.color && req.body.attachments ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không hợp lệ color or attachments!" } );
     } else if ( req.body.scrape && /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm.test( req.body.scrape ) === false ) {
       return res.status( 403 ).json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
