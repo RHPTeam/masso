@@ -5,7 +5,7 @@ export default {
   props: [ "typeFilterSelected" ],
   data() {
     return {
-      showSequenceDropdown: false,
+      showDropdown: false,
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
       search: ""
@@ -18,9 +18,6 @@ export default {
   },
 
   methods: {
-    closeSequenceDropdown() {
-      this.showSequenceDropdown = false;
-    },
     showDeleteFrPopup() {
       this.isShowDeleteFrPopup = true;
     },
@@ -29,7 +26,7 @@ export default {
     },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );
-      this.showSequenceDropdown = false
+      this.showDropdown = false
     }
   },
   components: {

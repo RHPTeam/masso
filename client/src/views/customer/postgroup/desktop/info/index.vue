@@ -13,10 +13,10 @@
       <div class="action mr_2" @click="showDeleteFrPopup">Xóa</div>
       <div class="action mr_2" @click="showAddtoGrPopup">Thêm vào nhóm</div>
       <!--Start: Filter Friend By Account Component-->
-      <div class="action sequence--menu mr_2">
+      <div class="action dropdown--menu mr_2">
         <div
-          class="btn--sequence"
-          @click="showSequenceDropdown = !showSequenceDropdown"
+          class="btn--dropdown"
+          @click="showDropdown = !showDropdown"
         >
           {{ typeFilterSelected }}
           <icon-base
@@ -29,7 +29,7 @@
             <icon-arrow-down/>
           </icon-base>
         </div>
-        <div class="dropdown text_left" v-show="showSequenceDropdown">
+        <div class="dropdown text_left" v-show="showDropdown">
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Tất cả')"
           >Tất cả</div>
