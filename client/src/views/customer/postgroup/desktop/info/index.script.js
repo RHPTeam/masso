@@ -2,7 +2,7 @@ import DeleteFriendsPopup from "../popup/delete/";
 import AddGroupPopup from "../popup/addgroup";
 
 export default {
-  props: [ "typeFilterSelected" ],
+  props: [ "groupSelected", "typeFilterSelected" ],
   data() {
     return {
       showDropdown: false,
@@ -14,7 +14,22 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    facebookGroups() {
+      return this.$store.getters.facebookGroups;
+    },
+    facebookPages() {
+      return this.$store.getters.facebookPages;
+    },
+    postGroupDetail() {
+      return this.$store.getters.postGroupDetail;
+    },
+    postGroupGroupsSelected() {
+      return this.$store.getters.postGroupGroupsSelected;
+    },
+    postGroupPagesSelected() {
+      return this.$store.getters.postGroupPagesSelected;
+    },
   },
 
   methods: {

@@ -13,5 +13,14 @@ export default {
   },
   getPostGroupById( id ) {
     return Api().get( `post-group?_id=${id}` );
+  },
+  updatePostGroup( data ) {
+    const dataSender = {
+      title: data.title,
+      _pages: data._pages,
+      _groups: data._groups
+    };
+
+    return Api().patch( `post-group?_postGroupId=${data.postGroupId}`, dataSender )
   }
 };

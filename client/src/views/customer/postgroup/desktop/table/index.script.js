@@ -5,8 +5,9 @@ export default {
   props: [ "groupSelected", "typeFilterSelected" ],
   data() {
     return {
-      campaignDelete: {},
+      groupsSelectedArr: [],
       isShowDeleteCampaignPopup: false,
+      pagesSelectedArr: []
     };
   },
   created() {
@@ -35,41 +36,89 @@ export default {
     postGroupDetailStatus() {
       return this.$store.getters.postGroupDetailStatus;
     },
-    selectAll: {
+    postGroupGroupsSelected: {
+      get() {
+        return this.$store.getters.postGroupGroupsSelected;
+      },
+      set( val ) {
+        this.$store.dispatch( "postGroupGroupsSelected", val );
+      }
+    },
+    postGroupPagesSelected: {
+      get() {
+        return this.$store.getters.postGroupPagesSelected;
+      },
+      set( val ) {
+        this.$store.dispatch( "postGroupPagesSelected", val );
+      }
+    },
+    selectAllGroups: {
       get() {
         if (this.groupSelected === false) {
-          return this.users
-            ? this.selectedUIDs.length === this.users.length
+          return this.facebookGroups
+            ? this.postGroupGroupsSelected().length === this.facebookGroups.length
             : false;
         } else {
-          return this.usersOfGroup
-            ? this.selectedUIDs.length === this.usersOfGroup.length
+          return this.postGroupDetail._groups
+            ? this.postGroupGroupsSelected.length === this.postGroupDetail._groups.length
             : false;
         }
       },
-      set(value) {
+      set( value ) {
         let selected = [];
-        console.log("value");
         if (this.groupSelected === false) {
           if (value) {
-            this.users.forEach(function(user) {
-              selected.push(user._id);
+            this.facebookGroups.forEach( ( group ) => {
+              selected.push( group.groupId );
             });
           }
         } else {
           if (value) {
-            this.usersOfGroup.forEach(function(user) {
-              selected.push(user._id);
+            this.postGroupDetail._groups.forEach( ( group ) => {
+              selected.push( group.groupId );
             });
           }
         }
 
-        this.selectedArr = selected;
-        this.$store.dispatch("selectedUIDs", this.selectedArr);
+        this.groupsSelectedArr = selected;
+        this.$store.dispatch( "postGroupGroupsSelected", this.groupsSelectedArr );
       }
     },
+    selectAllPages: {
+      get() {
+        if (this.groupSelected === false) {
+          return this.facebookPages
+            ? this.postGroupPagesSelected.length === this.facebookPages.length
+            : false;
+        } else {
+          return this.postGroupDetail._pages
+            ? this.postGroupPagesSelected.length === this.postGroupDetail._pages.length
+            : false;
+        }
+      },
+      set( value ) {
+        let selected = [];
+        if (this.groupSelected === false) {
+          if (value) {
+            this.facebookPages.forEach( ( page ) => {
+              selected.push( page.pageId );
+            });
+          }
+        } else {
+          if (value) {
+            this.postGroupDetail._pages.forEach( ( page ) => {
+              selected.push( page.pageId );
+            });
+          }
+        }
+
+        this.pagesSelectedArr = selected;
+        this.$store.dispatch( "postGroupPagesSelected", this.pagesSelectedArr );
+      }
+    }
   },
   methods: {
+
   },
   components: {
     DeletePopup

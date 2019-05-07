@@ -5,6 +5,8 @@ const state = {
     postGroups: [],
     postGroupDetail: {},
     postGroupDetailStatus: "",
+    postGroupGroupsSelected: [],
+    postGroupPagesSelected: []
   },
   getters = {
     postGroups: ( s ) => {
@@ -15,11 +17,23 @@ const state = {
     },
     postGroupDetailStatus: ( s ) => {
       return s.postGroupDetailStatus;
+    },
+    postGroupGroupsSelected: ( s ) => {
+      return s.postGroupGroupsSelected;
+    },
+    postGroupPagesSelected: ( s ) => {
+      return s.postGroupPagesSelected;
     }
   },
   mutations = {
     createPostGroup: ( s, payload ) => {
       s.postGroups.push( payload );
+    },
+    postGroupGroupsSelected: ( s, payload ) => {
+      s.postGroupGroupsSelected = payload;
+    },
+    postGroupPagesSelected: ( s, payload ) => {
+      s.postGroupPagesSelected = payload;
     },
     setPostGroups: ( s, payload ) => {
       s.postGroups = payload;
@@ -61,6 +75,19 @@ const state = {
 
       await commit( "setPostGroupDetail", res.data.data );
       commit( "setPostGroupDetailStatus", "success" );
+    },
+    postGroupGroupsSelected: ( { commit }, payload ) => {
+      commit( "postGroupGroupsSelected", payload );
+    },
+    postGroupPagesSelected: ( { commit }, payload ) => {
+      commit( "postGroupPagesSelected", payload );
+    },
+    addToPostGroup: async ( { commit }, payload ) => {
+      await PostGroupServices.updatePostGroup( payload );
+
+      const res = await PostGroupServices.index();
+
+      await commit( "setPostGroups", res.data.data );
     }
   };
 

@@ -35,6 +35,8 @@ export default {
       this.currentIndex = index;
       this.$emit( "updateGroupSelected", true );
       this.$store.dispatch( "getPostGroupById", id );
+      this.$store.dispatch( "postGroupGroupsSelected", [] );
+      this.$store.dispatch( "postGroupPagesSelected", [] );
     }
   },
   components: {

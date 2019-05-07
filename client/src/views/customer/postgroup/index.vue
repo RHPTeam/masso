@@ -17,6 +17,7 @@
         <!-- End: Group -->
         <!-- Start: Info -->
         <app-info
+          :groupSelected="groupSelected"
           :typeFilterSelected="typeFilterSelected"
           @updateFilterSelected="typeFilterSelected = $event"
         />

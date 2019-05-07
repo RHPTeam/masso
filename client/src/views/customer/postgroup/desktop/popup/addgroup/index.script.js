@@ -1,33 +1,42 @@
 export default {
   data() {
     return {
-      isShowCreateGroup: false,
-      isShowBtnCreate: true
+      selectedGroups: []
     };
   },
+  computed: {
+    postGroups() {
+      return this.$store.getters.postGroups;
+    },
+    postGroupGroupsSelected() {
+      return this.$store.getters.postGroupGroupsSelected;
+    },
+    postGroupPagesSelected() {
+      return this.$store.getters.postGroupPagesSelected;
+    }
+  },
   methods: {
-    closeAddPopup() {
-      this.$emit( "closeAddPopup", false );
-    },
-    showCreateGroupTrue() {
-      this.isShowCreateGroup = true;
-    },
-    async showCreateGroup() {
-      await this.showCreateGroupTrue();
-      this.isShowBtnCreate = false;
-      this.$refs.newGroup.focus();
-    },
-    cancelCreateGroup() {
-      this.isShowCreateGroup = false;
-      this.isShowBtnCreate = true;
-    },
-    async createGroup() {
-      this.scrollToEnd();
-    },
-    scrollToEnd() {
-      let scroll = this.$el.querySelector( "#groupListScroll" );
+    addToGroup() {
+      this.selectedGroups.forEach( ( item ) => {
+        const postGroup = this.getPostGroupById( item )[ 0 ],
+          dataSender = {
+            postGroupId: item,
+            title: postGroup.title,
+            _pages: this.postGroupPagesSelected,
+            _groups: this.postGroupGroupsSelected
+          };
 
-      scroll.scrollTop = scroll.scrollHeight;
+        this.$store.dispatch( "addToPostGroup" , dataSender );
+      } );
+      this.$emit( "closePopup", false );
+    },
+    closePopup() {
+      this.$emit( "closePopup", false );
+    },
+    getPostGroupById( id ) {
+      return this.postGroups.filter( ( item ) => {
+        return item._id === id;
+      } );
     }
   }
 };
