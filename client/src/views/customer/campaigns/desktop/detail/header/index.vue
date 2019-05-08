@@ -1,11 +1,22 @@
 <template>
   <div class="main--header mb_3" :data-theme="currentTheme">
     <!-- Start: Header Top -->
-    <div class="r main--header-top">
-      <div class="c_md_6 top--left">
-        <div class="title">{{ campaignDetail.title }}</div>
+    <div class="main--header-top d_flex justify_content_between align_items_center">
+      <div class="top--left d_flex align_items_center">
+        <div class="status" :class="[ campaignDetail.status ? 'status--active' : 'status--deactive' ]">
+          {{ campaignDetail.status ? 'Đang hoạt động' : 'Đã ngừng' }}
+        </div>
+        <div class="title ml_2">
+          <contenteditable
+            class="editable"
+            tag="div"
+            placeholder="Nhập tên..."
+            :contenteditable="true"
+            v-model='campaignDetail.title'
+          />
+        </div>
       </div>
-      <div class="c_md_6 top--right">
+      <div class="top--right">
         <div class="time--duration">
           <icon-base
             class="ic--calendar mr_2"
@@ -24,21 +35,33 @@
     <!-- Start: Header Action -->
     <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
-        <div class="new--event mr_3">
-          <button class="btn btn--add">Thêm sự kiện</button>
+        <div class="btn--control mr_3">
+          <button class="btn" :class="[ campaignDetail.status ? 'btn--red' : 'btn--orange' ]">
+            <icon-base
+              class="icon icon--play"
+              icon-name="icon-play"
+              width="14"
+              height="16"
+              viewBox="0 0 13.955 16"
+              v-if="!campaignDetail.status"
+            >
+              <icon-play/>
+            </icon-base>
+            <icon-base
+              class="icon icon--stop"
+              icon-name="icon-stop"
+              width="14"
+              height="14"
+              viewBox="0 0 300 300"
+              v-if="campaignDetail.status"
+            >
+              <icon-stop/>
+            </icon-base>
+            {{ campaignDetail.status ? 'Dừng' : 'Bắt đầu' }}
+          </button>
         </div>
-        <div class="campaing--status d_flex align_items_center">
-          <div class="status--name mr_2" v-if="campaignDetail.status">
-            Đang hoạt động
-          </div>
-          <div class="status--name mr_2" v-else>
-            Ngừng hoạt động
-          </div>
-          <toggle-switch
-            @change="updateCampaignStatus()"
-            :value="campaignDetail.status"
-            :sync="true"
-          />
+        <div class="btn--control">
+          <button class="btn btn---outline-orange">Thêm sự kiện</button>
         </div>
       </div>
       <div class="c_md_6 acion--right">
