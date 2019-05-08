@@ -33,10 +33,11 @@
         <!-- Start: Modal Body Custom -->
         <VuePerfectScrollbar
           class="modal--event-scroll"
-          :eventDetail="eventDetail"
           v-if="eventDetail.typeEvent === 1"
         >
-          <event-modal-body-custom />
+          <event-modal-body-custom
+            :eventDetail="eventDetail"
+          />
         </VuePerfectScrollbar>
         <!-- End: Modal Body Custom -->
       </div>

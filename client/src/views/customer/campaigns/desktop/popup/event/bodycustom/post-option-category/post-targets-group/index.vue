@@ -6,19 +6,25 @@
         <multiselect
           label="title"
           placeholder="Chọn nhóm"
+          v-model="categorySelected"
           :options="postGroupsName"
         ></multiselect>
       </div>
     </div>
     <div class="total--detail">Bao gồm
-      <span>14 nhóm</span> và
-      <span>7 trang</span> được sử dụng.
+      <span>{{ postGroups._pages.length }}  nhóm</span> và
+      <span>{{ postGroups._groups.length }} trang</span> được sử dụng.
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      categorySelected: ""
+    }
+  },
   computed: {
     postGroups() {
       return this.$store.getters.postGroups;
