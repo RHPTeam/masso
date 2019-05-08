@@ -40,7 +40,9 @@ export default {
       return this.$store.getters.themeName;
     },
     categories() {
-      return this.$store.getters.categories.results;
+      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
+      // console.log(this.$store.getters.categories);
+      return this.$store.getters.categories;
     }
   },
   async created() {
