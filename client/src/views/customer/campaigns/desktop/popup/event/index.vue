@@ -12,33 +12,29 @@
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-        <transition name="fade">
-          <div class="modal--event-body" v-if="eventData.typeEvent === 0">
-            <div
-              class="body--autopost d_flex align_items_center justify_content_center"
+        <div class="modal--event-body" v-if="eventData.typeEvent === 0">
+          <div
+            class="body--autopost d_flex align_items_center justify_content_center"
+          >
+            <icon-base
+              class="ic--autopost"
+              icon-name="autopost"
+              width="248"
+              height="254"
+              viewBox="0 0 480 480"
             >
-              <icon-base
-                class="ic--autopost"
-                icon-name="autopost"
-                width="248"
-                height="254"
-                viewBox="0 0 480 480"
-              >
-                <icon-autopost/>
-              </icon-base>
-            </div>
+              <icon-autopost/>
+            </icon-base>
           </div>
-        </transition>
+        </div>
         <!-- End: Modal Body Autopost -->
         <!-- Start: Modal Body Custom -->
-        <transition name="fade">
-          <VuePerfectScrollbar
-            class="modal--event-scroll"
-            v-if="eventData.typeEvent === 1"
-          >
-            <event-modal-body-custom />
-          </VuePerfectScrollbar>
-        </transition>
+        <VuePerfectScrollbar
+          class="modal--event-scroll"
+          v-if="eventData.typeEvent === 1"
+        >
+          <event-modal-body-custom />
+        </VuePerfectScrollbar>
         <!-- End: Modal Body Custom -->
       </div>
     </div>
@@ -46,7 +42,7 @@
 </template>
 
 <script>
-import EventModalBodyCustom from "./body-custom";
+import EventModalBodyCustom from "./bodycustom";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {

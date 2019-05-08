@@ -1,24 +1,27 @@
 .modal--event {
-  width: calc(100vw - 6rem) !important;
+  width: 1000px !important;
   margin-top: 2rem;
   margin-bottom: 2rem;
   font-size: 0.875rem;
   .body--autopost {
     height: calc(100vh - 110px - 4rem);
   }
-  .modal--event-body {
-    transition: all .5s ease;
-  }
   .modal--event-scroll {
     height: calc(100vh - 110px - 4.5rem);
-    transition: all .5s ease;
   }
 }
 
-/*Transition */
-.fade-enter-active, .fade-leave-active {
-  transition: opacity 1s;
+// Theme Color
+.modal--wrapper[data-theme="light"] {
+  color: #444444;
+  .modal--content {
+    background-color: #f7f7f7;
+  }
 }
-.fade-enter, .fade-leave-to {
-  opacity: 0;
+
+.modal--wrapper[data-theme="dark"] {
+  color: #f7f7f7;
+  .modal--content {
+    background-color: #2f3136;
+  }
 }
