@@ -60,6 +60,10 @@
 }
 .gallery {
   margin-top: 0.75rem !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+  display: -webkit-box!important;
   .gallery--block {
     border-radius: 5px;
     overflow: hidden;

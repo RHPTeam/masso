@@ -1,5 +1,6 @@
 <template>
-  <div class="gallery d_flex justify_content_start align_items_center flex_wrap m_n1">
+  <div class="px_2">
+    <VuePerfectScrollbar class="gallery justify_content_start align_items_center flex_wrap m_n1">
     <div class="gallery--block position_relative m_1" v-for="(item, index) in post.attachments" :key="index">
       <img :src="item.link" alt>
     </div>
@@ -22,6 +23,7 @@
         <input id="file-upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
       </form>
     </div>
+    </VuePerfectScrollbar>
   </div>
 </template>
 <script>

@@ -13,7 +13,7 @@
       <div class="col col--action px_4">Hành động</div>
     </div>
     <!-- if all post === undefined call component loading -->
-    <div v-if="this.allPost.length === 0" class="results text_center p_3 bg_danger">
+    <div v-if="allPost.length === 0" class="results text_center p_3 bg_danger">
       Hiện tại bạn chưa có bài viết, vui lòng tạo mới bài viết của bạn.
     </div>
     <!-- else call component item post -->
