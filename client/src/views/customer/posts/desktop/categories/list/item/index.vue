@@ -36,10 +36,12 @@
 </template>
 
 <script>
-import StringFunction from "@/utils/string.util";
-import DeleteItem from "./delete"
 export default {
-  props: [ "item" ],
+  props: {
+    item: {
+      type: Object
+    }
+  },
   methods: {
     async showCategories () {
       await this.$store.dispatch( "getCategoriesById", this.item._id );

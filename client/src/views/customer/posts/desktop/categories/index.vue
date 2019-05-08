@@ -38,10 +38,10 @@ export default {
     return {
       isUpdateCategories: false
     };
-  }
-  // async created() {
-  //   await this.$store.dispatch( "getAllCategories" );
-  // },
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
+  },
 };
 </script>
 

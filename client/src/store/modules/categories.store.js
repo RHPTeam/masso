@@ -44,7 +44,7 @@ const actions = {
   getAllCategories: async ( { commit } ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.index();
-    // console.log( resultCategories.data.data );
+    console.log( resultCategories.data.data );
     commit( "setCategories", resultCategories.data.data );
     commit( "cate_success" );
   },
@@ -72,9 +72,9 @@ const actions = {
   createCategories: async ( { commit }, payload ) => {
     try {
       commit( "cate_request" );
-      const resultCreateCate = await CategoriesServices.create( payload );
+      await CategoriesServices.create( payload );
       // console.log( resultCreateCate );
-      commit( "setCategories", resultCreateCate.data.data );
+      // commit( "setCategories", resultCreateCate.data.data );
       const resultCategories = await CategoriesServices.index();
 
       commit( "setCategories", resultCategories.data.data );
