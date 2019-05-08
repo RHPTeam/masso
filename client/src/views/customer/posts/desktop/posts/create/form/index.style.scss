@@ -54,6 +54,10 @@
     }
   }
 }
+.text_other {
+  color: #ffb94a !important;
+  cursor: pointer !important;
+}
 .gallery {
   margin-top: 0.75rem !important;
   .gallery--block {
@@ -77,7 +81,7 @@
       }
     }
     img {
-      height: auto;
+      height: 100%;
       left: 50%;
       max-width: none;
       top: 50%;
@@ -119,6 +123,16 @@
         }
       }
     }
+  }
+}
+.link {
+  .link--name {
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    padding-right: 20px;
   }
 }
 .wrap {
@@ -215,6 +229,9 @@
       span {
         font-weight: 500;
         margin-left: .5rem;
+      }
+      label {
+        cursor: pointer;
       }
     }
     .more {

@@ -1,5 +1,5 @@
 <template>
-  <div class="tag d_flex align_items_center">
+  <div class="tag d_flex align_items_center mt_2">
     <div class="fixed text_center">Với</div>
     <div class="option position_relative">
       <input type="text" placeholder="Chọn địa điểm ..." v-model="placesName" v-click-outside="close" @click="isShowSuggestDefault = true">
@@ -29,6 +29,11 @@
 
 <script>
 export default {
+  props: {
+    post: {
+      type: Object
+    }
+  },
   data() {
     return {
       placesName: "",
@@ -52,6 +57,9 @@ export default {
   methods: {
     attachPlacesName( item ) {
       this.placesName = item.title;
+      this.post.place = item.title;
+      delete this.post.attachments;
+      this.$store.dispatch( "updatePost", this.post );
       this.isShowSuggestDefault = false;
     },
     close(){

@@ -9,5 +9,11 @@ export default {
   },
   searchPlaces ( key ) {
     return Api().get( `facebook/places?keyword=${key}` );
+  },
+  getActivity() {
+    return Api().get( "facebook/action-type-loader" );
+  },
+  getListItemActivity( itemId ) {
+    return Api().get( `facebook/action-type-loader/${itemId}` );
   }
 }

@@ -5,6 +5,7 @@ import PostServices from "@/services/modules/post.services";
 
 const state = {
   allPost: [],
+  errorPost: "",
   statusPost: "",
   post: [],
   newPost: []
@@ -13,7 +14,8 @@ const getters = {
   statusPost: ( state ) => state.statusPost,
   allPost: ( state ) => state.allPost,
   post: ( state ) => state.post,
-  newPost: ( state ) => state.newPost
+  newPost: ( state ) => state.newPost,
+  errorPost: ( state ) => state.errorPost
 };
 const mutations = {
   post_request: ( state ) => {
@@ -24,6 +26,9 @@ const mutations = {
   },
   setAllPost: ( state, payload ) => {
     state.allPost = payload;
+  },
+  setError: ( state, payload ) => {
+    state.errorPost = payload;
   },
   setNewPost: ( state, payload ) => {
     state.newPost = payload;
@@ -41,6 +46,14 @@ const actions = {
     commit( "setAllPost", resultAllPost.data.data );
     commit( "post_success" );
   },
+  getPostById: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const resultPost = await PostServices.getById( payload );
+    // console.log( resultPost.data.data );
+    commit( "setPost", resultPost.data.data );
+    commit( "post_success" );
+  },
   createNewPost: async ( { commit }, payload ) => {
     commit( "post_request" );
     const resultPostCreate = await PostServices.createNewPost( payload );
@@ -48,6 +61,27 @@ const actions = {
     commit( "setNewPost", resultPostCreate.data.data );
 
     commit( "post_success" );
+  },
+  updatePost: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    await PostServices.updatePost( payload._id, payload );
+
+    const resultPost = await PostServices.getById( payload._id );
+    commit( "setPost", resultPost.data.data );
+
+    commit( "post_success" );
+  },
+  updateAttachmentPost: async ( { commit }, payload ) => {
+    // console.log(payload)
+    await PostServices.updateAttachmentPost( payload.id, payload.formData );
+    const resultPost = await PostServices.getById( payload.id );
+    // console.log(resultPost.data.data);
+    commit( "setPost", resultPost.data.data );
+  },
+  sendErrorUpdate: async ( { commit } ) => {
+    // commit( "post_request" );
+    commit( "setError", 'error' );
+    // commit( "post_success" );
   }
 };
 
