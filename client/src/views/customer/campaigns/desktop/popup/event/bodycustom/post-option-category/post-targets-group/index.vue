@@ -6,14 +6,14 @@
         <multiselect
           label="title"
           placeholder="Chọn nhóm"
-          v-model="categorySelected"
+          @input="postGroupSelected = $event"
           :options="postGroupsName"
         ></multiselect>
       </div>
     </div>
     <div class="total--detail">Bao gồm
-      <span>{{ postGroups._pages.length }}  nhóm</span> và
-      <span>{{ postGroups._groups.length }} trang</span> được sử dụng.
+      <span>{{ getPostGroupByName(postGroupSelected) ? getPostGroupByName(postGroupSelected)._pages.length : 0 }}  nhóm</span> và
+      <span>{{ getPostGroupByName(postGroupSelected) ? getPostGroupByName(postGroupSelected)._groups.length : 0}} trang</span> được sử dụng.
     </div>
   </div>
 </template>
@@ -22,7 +22,7 @@
 export default {
   data() {
     return {
-      categorySelected: ""
+      postGroupSelected: {}
     }
   },
   computed: {
@@ -42,6 +42,19 @@ export default {
   async created() {
     await this.$store.dispatch("getAllPostGroups");
   },
+  methods: {
+    getPostGroupByName( name ) {
+      let res;
+
+      this.postGroups.forEach( ( item ) => {
+        if ( item.title === name ) {
+          res = item;
+        }
+      } );
+
+      return res;
+    }
+  }
 }
 </script>
 
