@@ -53,7 +53,9 @@
     <div class="form--redirect mb_1"><a href="#">Trở lại</a></div>
   </form>
 </template>
-<script src="./main.js"></script>
+
+<script src="./index.script.js"></script>
+
 <style lang="scss" scoped>
 @import "../style";
 </style>

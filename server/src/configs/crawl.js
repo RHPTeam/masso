@@ -54,5 +54,9 @@ module.exports = {
     "threater": 37,
     "shareprofile": 1,
     "youtubelink": 100
-  }
+  },
+  /**
+   * Link GrapQL
+   */
+  "linkgraphfacebook": "https://www.facebook.com/api/graphql"
 };

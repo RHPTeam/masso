@@ -1,11 +1,12 @@
 /* eslint-disable prettier/prettier */
 import RcMorePopover from "../../../popover/more/index";
 export default {
-  props: [ "timePoint", "weekDays" ],
+  props: [ "eventsOfWeek", "timePoint", "weekDays" ],
   data() {
     return {
       eventContainer: {},
       eventContainerWidth: 0,
+      eventsPopupData: [],
       isShowMorePopover: false,
       leftVal: null,
       rightVal: null,
@@ -14,7 +15,7 @@ export default {
   },
   mounted() {
     this.$nextTick( () => {
-      const container = document.querySelector( "#eventColumWidth" );
+      const container = document.querySelector( "#eventColumnWidth" );
 
       this.eventContainer = container;
       window.addEventListener( "resize", this.getEventContainerWidth );
@@ -24,22 +25,56 @@ export default {
     } );
   },
   methods: {
-    eventClick( name, time ) {
-      const dataEmmit = {
-        name: name,
-        time: time
-      };
+    compareDate( d1, d2 ) {
+      const d1Time = new Date( d1 ),
+        d1Date = d1Time.getDate(),
+        d1Month = d1Time.getMonth() + 1,
+        d1Year = d1Time.getFullYear(),
 
-      this.$emit( "eventClick", dataEmmit );
+        d2Time = new Date( d2 ),
+        d2Date = d2Time.getDate(),
+        d2Month = d2Time.getMonth() + 1,
+        d2Year = d2Time.getFullYear();
+
+      return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
+    },
+    eventClick( data) {
+      this.$emit( "eventClick", data );
+    },
+    filterEventsByDay( day ) {
+      return this.eventsOfWeek.filter( ( event ) => {
+        return this.compareDate( day, event.started_at );
+      } );
+    },
+    filterEventsByTime( hour, events ) {
+      return events.filter( ( event ) => {
+        const eventStartTime = new Date( event.started_at ).getHours();
+
+        return eventStartTime === hour;
+      } );
+    },
+    formatTime( d ) {
+      const dateTime = new Date( d ),
+        hours = String( dateTime.getHours() ).padStart( 2, "0"),
+        mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
+
+      return `${hours}:${mins}`;
     },
     getEventContainerWidth() {
       this.eventContainerWidth = this.eventContainer.offsetWidth;
     },
-    showMorePopover( colIndex, timePoint ) {
+    showEventContent( eventVal) {
+      if ( eventVal=== undefined || eventVal.length === 0 ) {
+        return '';
+      } else {
+        return `${this.formatTime( eventVal.started_at )}  ${eventVal.title}`;
+      }
+    },
+    showMorePopover( colIndex, timePoint , events) {
       const timeGridContainerHeight = 1392, // 29*48
         // calculate height of more popover element
         eventCount = 6, // number of events
-        popoverHeight = 50 + eventCount * 20;
+        popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
       let topVal = timePoint * 2 * 29,
@@ -59,6 +94,7 @@ export default {
         this.rightVal = 0;
       }
       this.isShowMorePopover = true;
+      this.eventsPopupData = events;
     }
   },
   beforeDestroy() {

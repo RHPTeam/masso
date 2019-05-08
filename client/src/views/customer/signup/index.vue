@@ -249,8 +249,8 @@
   </div>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "../signin/style";
+@import "../signin/index.style";
 </style>

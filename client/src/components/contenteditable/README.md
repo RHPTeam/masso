@@ -23,7 +23,7 @@ With a build system
 npm install --save vue-contenteditable
 ```
 
-In your ``main.js`` :
+In your ``index.script.js`` :
 
 ```
 import contenteditable from 'vue-contenteditable'

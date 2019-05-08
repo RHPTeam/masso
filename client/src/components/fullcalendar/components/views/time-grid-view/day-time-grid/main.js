@@ -1,76 +1,56 @@
 /* eslint-disable prettier/prettier */
 import RcMorePopover from "../../../popover/more/index";
 export default {
-  props: [ "timePoint", "activeDay" ],
+  props: [ "activeDay", "eventOfDay", "timePoint", ],
   data() {
     return {
-      events: [
-        { time: "08:00", name: "Khởi động chiến dịch" },
-        { time: "08:05", name: "Khuyến mại khủng sinh nhật đầu tiên" },
-        { time: "08:10", name: "Khởi động" },
-        { time: "08:20", name: "Ngày đầu tiên" },
-        { time: "08:25", name: "Giới thiệu sản phẩm mới" },
-        { time: "08:25", name: "Chương trình chăm sóc khách hàng đặc biệt" }
-      ],
-      eventContainer: {},
-      eventContainerWidth: 0,
+      eventContent: {},
       eventContentWidth: 0,
+      eventsPopupData: [],
       isShowMorePopover: false,
       leftVal: null,
       rightVal: 0,
       topVal: null
     };
   },
-  mounted() {
-    this.$nextTick( function() {
-      const container = document.querySelector( "#eventColumWidth" );
-
-      this.eventContainer = container;
-      window.addEventListener( "resize", this.getEventContainerWidth );
-
-      // Init
-      this.getEventContainerWidth();
-
-      // event
-      let w = 64 + 2 * ( this.$refs.events.length - 1 );
-
-      this.$refs.events.forEach( ( item ) => {
-        w = w + item.clientWidth;
-      } );
-      this.eventContentWidth = w;
-
-      if ( w > this.eventContainerWidth ) {
-        this.$refs.events[ 5 ].remove();
-      }
-    } );
-  },
   methods: {
-    eventClick( name, time ) {
-      const dataEmmit = {
-        name: name,
-        time: time
-      };
-
-      this.$emit( "eventClick", dataEmmit );
+    eventClick( data) {
+      this.$emit( "eventClick", data );
     },
-    getEventContainerWidth() {
-      this.eventContainerWidth = this.eventContainer.offsetWidth;
+    filterEventsByTime( hour) {
+      return this.eventOfDay.filter( ( event ) => {
+        const eventStartTime = new Date( event.started_at ).getHours();
+
+        return eventStartTime === hour;
+      } );
+    },
+    formatTime( d ) {
+      const dateTime = new Date( d ),
+        hours = String( dateTime.getHours() ).padStart( 2, "0"),
+        mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
+
+      return `${hours}:${mins}`;
     },
     isToday( day ) {
       const now = new Date(); // now date time
 
       let today = new Date( now.getFullYear(), now.getMonth(), now.getDate() ); // now date at 00:00:00
 
-      if ( day.toDateString() === today.toDateString() ) {
-        return true;
-      }
-      return false;
+      return day.toDateString() === today.toDateString();
+
     },
-    showMorePopover( timePoint ) {
+    showEventContent( eventVal) {
+      if ( eventVal=== undefined || eventVal.length === 0 ) {
+        return '';
+      } else {
+        return `${this.formatTime( eventVal.started_at )}  ${eventVal.title}`;
+      }
+    },
+    showMorePopover( timePoint, events ) {
       const timeGridContainerHeight = 1392, // 29*48
         // calculate height of more popover element
         eventCount = 6, // number of events
-        popoverHeight = 50 + eventCount * 20;
+        popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
       let topVal = timePoint * 2 * 29;
@@ -81,6 +61,7 @@ export default {
 
       this.topVal = topVal;
       this.isShowMorePopover = true;
+      this.eventsPopupData = events;
     }
   },
   components: {

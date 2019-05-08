@@ -1,0 +1,197 @@
+.main--header {
+  .main--header-top {
+    .top--left {
+      .status {
+        border: 1px solid;
+        border-radius: .375rem;
+        font-size: .75rem;
+        padding: .1rem .3rem;
+        &.status--active {
+          border-color: #33cc33;
+          color: #33cc33;
+        }
+        &.status--deactive {
+          border-color: #F96666;
+          color: #F96666;
+        }
+      }
+      .title {
+        font-weight: 600;
+        .editable {
+          border-radius: .625rem;
+          box-shadow: none;
+          padding: .375rem .75rem;
+          outline: 0;
+          transition: background-color .4s ease;
+          width: 100%;
+        }
+      }
+    }
+    .top--right {
+      font-size: 0.875rem;
+      text-align: right;
+      .time--duration {
+        padding-top: .375rem;
+        .ic--calendar {
+          vertical-align: text-top;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    font-size: 0.875rem;
+    .action--left {
+      .btn--control {
+        .btn {
+          border-radius: 0.5rem;
+          font-size: 0.875rem;
+          &:active,
+          &:focus,
+          &:visited {
+            outline: 0 !important;
+            box-shadow: none;
+          }
+        }
+        .btn--orange {
+          background-color: #ffb94a;
+          color: #fff;
+          &:hover {
+            background-color: #FF9E4A;
+          }
+        }
+        .btn---outline-orange {
+          background-color: #fff;
+          border-color: #ffb94a;
+          color: #ffb94a;
+          &:hover {
+            border-color: #FF9E4A;
+            color: #FF9E4A;
+          }
+        }
+        .btn--red {
+          background-color: #F96666;
+          color: #fff;
+          &:hover {
+            background-color: #f44542;
+          }
+        }
+        .icon--play {
+          margin-right: .2rem;
+          stroke: #fff;
+          stroke-width: .375;
+        }
+        .icon--stop {
+          margin-right: .2rem;
+        }
+      }
+    }
+    .acion--right {
+      text-align: right;
+      .btn--custom {
+        border: 1px solid;
+        border-radius: 0;
+        font-size: 0.875rem;
+        margin-left: -1px;
+        transition: all 0.4s ease;
+        &:first-child {
+          border-top-left-radius: 0.5rem;
+          border-bottom-left-radius: 0.5rem;
+          margin-left: 0;
+        }
+        &:last-child {
+          border-top-right-radius: 0.625rem;
+          border-bottom-right-radius: 0.625rem;
+        }
+        &:active,
+        &:focus,
+        &:visited {
+          outline: 0 !important;
+          box-shadow: none;
+        }
+      }
+    }
+  }
+}
+
+// Change Color
+.main--header[data-theme="light"] {
+  color: #444;
+  .main--header-top {
+    .top--left {
+      .title {
+        .editable {
+          &:hover,
+          &:active,
+          &:focus,
+          &:visited {
+            background-color: #fff;
+          }
+        }
+      }
+    }
+    .top--right {
+      .time--duration {
+        .ic--calendar {
+          color: #999999;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    .acion--right {
+      .btn--custom {
+        border-color: #e4e4e4;
+        color: #cccccc; 
+        &:hover {
+          background-color: #fff;
+          color: #444;
+        }
+      }
+      .view--active {
+        background-color: #fff;
+        color: #444;
+      }
+    }
+  }
+}
+
+.main--header[data-theme="dark"] {
+  color: #f7f7f7;
+  .main--header-top {
+    .top--left {
+      .title {
+        .editable {
+          &:hover,
+          &:active,
+          &:focus,
+          &:visited {
+            background-color: #27292c;
+          }
+        }
+      }
+    }
+    .top--right {
+      .time--duration {
+        .ic--calendar {
+          color: #cccccc;
+        }
+      }
+    }
+  }
+  .main--header-action {
+    .acion--right {
+      .btn--custom {
+        border-color: #444444;
+        color: #666666; 
+        &:hover {
+          background-color: #27292D;
+          color: #f7f7f7;
+        }
+      }
+      .view--active {
+        background-color: #27292D;
+        color: #f7f7f7;
+      }
+    }
+  }
+}

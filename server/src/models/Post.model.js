@@ -14,6 +14,7 @@ const mongoose = require( "mongoose" ),
     "place": String,
     "scrape": String,
     "tags": Array,
+    "place": String,
     "activity": {
       "typeActivity": String,
       "id": String,

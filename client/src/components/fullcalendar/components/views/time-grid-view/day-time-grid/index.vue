@@ -22,7 +22,7 @@
               v-for="(time, index) in timePoint"
               :key="index"
               :data-time="time"
-              :class="[index % 2 != 0 ? 'rc--minor' : '']"
+              :class="[index % 2 !== 0 ? 'rc--minor' : '']"
             >
               <!-- Even Hours -->
               <td
@@ -36,11 +36,11 @@
 
               <!-- Odd hours -->
               <td
-                v-if="index % 2 != 0"
+                v-if="index % 2 !== 0"
                 class="rc--axis rc--time rc--widget-content"
                 style="width: 42px; height: 28px; font-size: .85rem;"
               ></td>
-              <td v-if="index % 2 != 0" class="rc--widget-content"></td>
+              <td v-if="index % 2 !== 0" class="rc--widget-content"></td>
             </tr>
           </tbody>
         </table>
@@ -51,53 +51,36 @@
           <tbody>
             <tr>
               <td class="rc--axis" style="width: 42px;"></td>
-              <td id="eventColumWidth">
+              <td>
                 <div class="rc--content-col">
                   <div class="rc--event-container rc--mirror-container"></div>
                   <div class="rc--event-container">
                     <div
                       class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
-                      style="top: 464px; bottom: -493px;"
+                      v-for="(v, i) in 24"
+                      :key="i"
+                      :style="[ {top: i*2*29 + 'px'}, {bottom: -i*2*29 - 29 + 'px'} ]"
                     >
                       <div class="rc--content">
                         <div class="rc--content-flex">
                           <div
-                            class="rc--content-bg rc--bg-green"
-                            v-for="(event, index) in events"
+                            class="rc--content-bg"
+                            v-for="(event, index) in filterEventsByTime(i).slice(0, 3)"
                             :key="index"
+                            :style="{backgroundColor: event.color}"
                           >
                             <div
                               class="rc--title"
-                              @click="eventClick(event.name, event.time)"
-                              ref="events"
+                              @click="eventClick(event)"
                             >
-                              {{ event.time + " " + event.name }}
+                              {{ showEventContent(event) }}
                             </div>
                           </div>
-                          <div class="rc--more" @click="showMorePopover(8)">
-                            +2 sự kiện
-                          </div>
-                        </div>
-                      </div>
-                      <div class="rc--resizer rc--end-resizer"></div>
-                    </div>
-                    <div
-                      class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
-                      style="top: 493px; bottom: -522px;"
-                    >
-                      <div class="rc--content">
-                        <div class="rc--content-flex">
-                          <div
-                            class="rc--content-bg rc--bg-red"
-                            @click="eventClick('Happy Hour', '08:30')"
+                          <div class="rc--more"
+                               v-if="filterEventsByTime(i).length > 2"
+                               @click="showMorePopover(i, filterEventsByTime(i))"
                           >
-                            <div class="rc--title">08:30 Happy Hour</div>
-                          </div>
-                          <div
-                            class="rc--content-bg rc--bg-green"
-                            @click="eventClick('Meeting', '08:30')"
-                          >
-                            <div class="rc--title">08:30 Meeting</div>
+                            +{{ filterEventsByTime(i).length - 3 }} sự kiện
                           </div>
                         </div>
                       </div>
@@ -120,10 +103,12 @@
       <rc-more-popover
         v-if="isShowMorePopover"
         @closeMorePopover="isShowMorePopover = $event"
+        @eventClick="eventClick($event)"
+        :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
         :rightVal="rightVal"
         :topVal="topVal"
-      />
+      ></rc-more-popover>
     </transition>
   </div>
 </template>

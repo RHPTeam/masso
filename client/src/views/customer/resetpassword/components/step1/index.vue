@@ -20,7 +20,8 @@
         this.$store.getters.authStatus === 'loading'
           ? 'Tài khoản email không tồn tại!'
           : ''
-      "></app-alert>
+      "
+    ></app-alert>
     <div
       class="form_group position_relative mb_3"
       :class="{
@@ -59,7 +60,9 @@
     </div>
   </form>
 </template>
-<script src="./main.js"></script>
+
+<script src="./index.script.js"></script>
+
 <style lang="scss" scoped>
 @import "../style";
 </style>

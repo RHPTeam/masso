@@ -17,45 +17,14 @@
     <div class="rc--body rc--widget-content">
       <div class="rc--event-container">
         <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green"
+          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable"
+          v-for="(event, index) in eventsPopupData"
+          :key="index"
+          :style="{ backgroundColor: event.color }"
+          @click="eventClick(event)"
         >
           <div class="rc--content">
-            <span class="rc--title">08:00 Conference</span>
-          </div>
-        </div>
-        <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
-        >
-          <div class="rc--content">
-            <span class="rc--title">09:30 Meeting</span>
-          </div>
-        </div>
-        <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-green"
-        >
-          <div class="rc--content">
-            <span class="rc--title">12:00 Lunch</span>
-          </div>
-        </div>
-        <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-red"
-        >
-          <div class="rc--content">
-            <span class="rc--title">14:30 Meeting</span>
-          </div>
-        </div>
-        <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-blue"
-        >
-          <div class="rc--content">
-            <span class="rc--title">16:00 Happy Hour</span>
-          </div>
-        </div>
-        <div
-          class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--bg-orange"
-        >
-          <div class="rc--content">
-            <span class="rc--title">20:00 Dinner</span>
+            <span class="rc--title">{{ showEventContent(event) }}</span>
           </div>
         </div>
       </div>
@@ -65,10 +34,27 @@
 
 <script>
 export default {
-  props: [ "leftVal", "rightVal", "topVal" ],
+  props: [ "eventsPopupData", "leftVal", "rightVal", "topVal" ],
   methods: {
     closeMorePopover() {
       this.$emit( "closeMorePopover", false );
+    },
+    eventClick( data) {
+      this.$emit( "eventClick", data );
+    },
+    formatTime( d ) {
+      const dateTime = new Date( d ),
+            hours = String( dateTime.getHours() ).padStart( 2, "0"),
+            mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
+
+      return `${hours}:${mins}`;
+    },
+    showEventContent( eventVal) {
+      if ( eventVal=== undefined || eventVal.length === 0 ) {
+        return '';
+      } else {
+        return `${this.formatTime( eventVal.started_at )}  ${eventVal.title}`;
+      }
     }
   }
 };

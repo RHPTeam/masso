@@ -1,8 +1,8 @@
 <template>
-  <button
+  <div
     class="btn btn--filter"
     @click="showFilterDropdown = !showFilterDropdown"
-    v-click-outside="closeFilterDropdown"
+    :data-theme="currentTheme"
   >
     {{ filterSelected.name }}
     <icon-base
@@ -26,7 +26,7 @@
       </div>
     </div>
     <!-- End: Filter dropdown -->
-  </button>
+  </div>
 </template>
 
 <script>
@@ -37,12 +37,13 @@ export default {
       showFilterDropdown: false
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
-    closeFilterDropdown() {
-      this.showFilterDropdown = false;
-    },
     updateFilterSelected( data ) {
-      this.filterSelected = data;
       this.$emit( "updateFilterSelected", data );
     }
   }
@@ -51,9 +52,11 @@ export default {
 
 <style lang="scss" scoped>
 .btn--filter {
-  background-color: #fff;
   border-radius: 0.5rem;
   font-size: inherit;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 .75rem;
   position: relative;
   &:active,
   &:focus {
@@ -63,9 +66,6 @@ export default {
   .dropdown {
     border: 0;
     border-radius: 0.5rem;
-    background-color: #fff;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    color: #444;
     padding: 0.375rem 0;
     position: absolute;
     top: calc(100% + 3px);
@@ -74,7 +74,23 @@ export default {
     width: auto;
     z-index: 999;
     &--item {
-      padding: 0.375rem 0.75rem;
+      padding: 0 .75rem;
+    }
+  }
+  svg {
+    stroke-width: 5;
+    vertical-align: middle;
+    vertical-align: -webkit-baseline-middle;
+  }
+}
+/*  Theme color */
+.btn--filter[data-theme="light"] {
+  background-color: #fff;
+  .dropdown {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: #444;
+    &--item {
       &:hover {
         background-color: #ffb94a;
         color: #fff;
@@ -83,8 +99,24 @@ export default {
   }
   svg {
     color: #ccc;
-    stroke-width: 5;
-    vertical-align: bottom;
+  }
+}
+.btn--filter[data-theme="dark"] {
+  background-color: #27292d;
+  color: #f7f7f7;
+  .dropdown {
+    background-color: #27292d;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #f7f7f7;
+    &--item {
+      &:hover {
+        background-color: #ffb94a;
+        color: #fff;
+      }
+    }
+  }
+  svg {
+    color: #999;
   }
 }
 </style>

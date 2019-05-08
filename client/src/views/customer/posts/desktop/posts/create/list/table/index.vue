@@ -103,12 +103,12 @@
     </div>
     <transition name="popup">
       <popup-detail
-        v-if="showDetail == true"
+        v-if="showDetail === true"
         @closePopupDetail="showDetail = $event"
       />
     </transition>
     <transition name="fade">
-      <div v-if="showDetail == true" class="backdrop position_fixed"></div>
+      <div v-if="showDetail === true" class="backdrop position_fixed"></div>
     </transition>
   </div>
 </template>

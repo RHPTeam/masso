@@ -147,8 +147,8 @@
   </div>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./style";
+@import "./index.style";
 </style>
