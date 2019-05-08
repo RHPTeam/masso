@@ -57,7 +57,7 @@
                   <!--End: Show activity -->
                   <!--Start: Show tag friend-->
                   <div class="ml_1">
-                    <div v-if="nameFriend.length === 0"></div>
+                    <div v-if="post.tags.length === 0"></div>
                     <div v-else>
                         <!--Start:  If tag 1 friend-->
                         <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
@@ -384,16 +384,19 @@ export default {
     },
     // Get Post by Id
     post() {
-      if ( this.$store.getters.post === undefined ) return;
+      // if ( this.$store.getters.post === undefined ) return;
+      if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
       return this.$store.getters.post;
     },
     //Get Categories
     categories() {
-      if ( this.$store.getters.categories === undefined ) return;
+      // if ( this.$store.getters.categories === undefined ) return;
+      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
       return this.$store.getters.categories;
     },
     //Get friend Facebook
     friendFb() {
+      if ( this.$store.getters.allFriend === undefined ) return;
       return this.$store.getters.allFriend;
     },
     // Get 12 first item from more color
