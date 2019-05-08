@@ -18,7 +18,6 @@
     <transition name="popup">
       <event-popup
         v-if="isOpenEventPopup"
-        :eventData="eventSelected"
         @closePopup="isOpenEventPopup = $event"
       />
     </transition>
@@ -37,7 +36,6 @@ export default {
   data() {
     return {
       calendarView: "month",
-      eventSelected: {},
       isOpenEventPopup: false
     };
   },
@@ -47,6 +45,9 @@ export default {
     },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    eventDetail() {
+      return this.$store.getters.eventDetail;
     }
   },
   async created() {
@@ -56,7 +57,7 @@ export default {
   },
   methods: {
     openEventPopup( data ) {
-      this.eventSelected = data;
+      this.$store.dispatch( "getEventById", data._id );
       this.isOpenEventPopup = true;
     }
   }

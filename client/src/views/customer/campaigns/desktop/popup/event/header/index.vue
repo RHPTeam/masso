@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal--header modal--event-header p_3"
-    :style="{ backgroundColor: eventData.color }"
+    :style="{ backgroundColor: eventDetail.color }"
   >
     <!-- Start: Header Row -->
     <div class="r header--row mx_0">
@@ -10,7 +10,8 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          :value="eventData.title"
+          v-model="eventDetail.title"
+          @input="changeTitle()"
         />
       </div>
       <div class="header--row-right d_flex align_items_center">
@@ -36,7 +37,7 @@
             <icon-remove />
           </icon-base>
         </div>
-        <div class="btn--header btn--save" @click="closePopup">
+        <div class="btn--header btn--save" @click="updateEvent()">
           XONG
         </div>
       </div>
@@ -50,15 +51,15 @@
             <toggle-switch
               class="mr_2"
               @change="updateAutopost($event.value)"
-              :value="eventData.typeEvent === 0"
+              :value="eventDetail.typeEvent === 0"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
               :switch-color="{
-                checked: eventData.color,
+                checked: eventDetail.color,
                 unchecked: '#e4e4e4'
               }"
             />
-            <span :style="[eventData.typeEvent === 0 ? { opacity: '1' } : { opacity: '0.8' }]">
+            <span :style="[eventDetail.typeEvent === 0 ? { opacity: '1' } : { opacity: '0.8' }]">
               Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
             </span>
           </div>
@@ -108,7 +109,7 @@
 
 <script>
 export default {
-  props: [ "colors", "eventData" ],
+  props: [ "colors", "eventDetail" ],
   data() {
     return {
       isShowColorDropdown: false
@@ -122,8 +123,15 @@ export default {
       this.$emit( "changeColor", color );
       this.isShowColorDropdown = false;
     },
+    changeTitle( ) {
+      this.$emit( "changeTitle", this.eventDetail.title );
+    },
     updateAutopost( val ) {
       this.$emit( "updateAutopost", val );
+    },
+    updateEvent() {
+      this.$emit( "updateEvent" );
+      this.$emit( "closePopup", false );
     }
   }
 };

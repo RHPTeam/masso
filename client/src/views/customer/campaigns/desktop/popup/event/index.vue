@@ -5,14 +5,16 @@
         <!-- Start: Modal Header -->
         <event-modal-header
           :colors="colors"
-          :eventData="eventData"
+          :eventDetail="eventDetail"
           @closePopup="closePopup($event)"
           @changeColor="changeColor($event)"
+          @changeTitle="changeTitle($event)"
           @updateAutopost="changeAutopost($event)"
+          @updateEvent="updateEvent()"
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-        <div class="modal--event-body" v-if="eventData.typeEvent === 0">
+        <div class="modal--event-body" v-if="eventDetail.typeEvent === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
           >
@@ -31,7 +33,8 @@
         <!-- Start: Modal Body Custom -->
         <VuePerfectScrollbar
           class="modal--event-scroll"
-          v-if="eventData.typeEvent === 1"
+          :eventDetail="eventDetail"
+          v-if="eventDetail.typeEvent === 1"
         >
           <event-modal-body-custom />
         </VuePerfectScrollbar>
@@ -51,15 +54,20 @@ export default {
     EventModalHeader,
     VuePerfectScrollbar
   },
-  props: [ "eventData" ],
   data() {
     return {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ] // blue, violet, green, gray, orange, red
     };
   },
   computed: {
+    campaignDetail() {
+      return this.$store.getters.campaignDetail;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    eventDetail() {
+      return this.$store.getters.eventDetail;
     }
   },
   methods: {
@@ -67,10 +75,22 @@ export default {
       this.$emit( "closePopup", data );
     },
     changeAutopost: function (val) {
-      val === true ? this.eventData.typeEvent = 0 : this.eventData.typeEvent = 1;
+      val === true ? this.eventDetail.typeEvent = 0 : this.eventDetail.typeEvent = 1;
     },
     changeColor( color ) {
-      this.eventData.color = color;
+      this.eventDetail.color = color;
+    },
+    changeTitle( title ) {
+      this.eventDetail.title = title;
+    },
+    updateEvent( ) {
+      const dataSender = {
+        campId: this.campaignDetail._id,
+        eventId: this.eventDetail._id,
+        event: this.eventDetail
+      };
+
+      this.$store.dispatch( "updateEvent", dataSender );
     }
   }
 };
