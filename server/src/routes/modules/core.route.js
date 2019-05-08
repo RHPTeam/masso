@@ -14,5 +14,6 @@ router.route( "/search/pages" ).get( core.searchPages );
 router.route( "/search/places" ).get( core.searchPlaces );
 router.route( "/search/posts" ).get( core.searchPosts );
 router.route( "/text-format-presets" ).get( core.getAllTextFormatPresets );
+router.route( "/test" ).get( core.testCronSchedule );
 
 module.exports = router;

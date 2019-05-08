@@ -13,6 +13,7 @@ const mongoose = require( "mongoose" ),
     } ],
     "scrape": String,
     "tags": Array,
+    "place": String,
     "activity": {
       "typeActivity": String,
       "id": String,

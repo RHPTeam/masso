@@ -9,7 +9,11 @@ const mongoose = require( "mongoose" ),
     "typeEvent": { "type": Number, "default": 0 },
     "started_at": Date,
     "finished_at": Date,
-    "status": { "type": Boolean, "default": 0 },
+    "status": { "type": Boolean, "default": 1 },
+    "break_point": {
+      "type": Number,
+      "default": 15
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

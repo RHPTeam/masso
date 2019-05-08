@@ -16,5 +16,17 @@ module.exports = {
       str.indexOf( start ) + start.length,
       str.indexOf( end, str.indexOf( start ) + start.length )
     );
+  },
+  "getObjectDate": ( str ) => {
+    const date = new Date( str );
+
+    return {
+      "second": 0,
+      "minute": parseFloat( dataItem.timeSetting.hour.split( ":" )[ 1 ] ),
+      "hour": parseFloat( dataItem.timeSetting.hour.split( ":" )[ 0 ] ),
+      "date": date.getDate(),
+      "month": date.getMonth(),
+      "day": dataItem.timeSetting.repeat.valueRepeat
+    };
   }
 };
