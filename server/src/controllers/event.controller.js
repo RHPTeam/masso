@@ -73,7 +73,7 @@ module.exports = {
       }
     }
 
-    const userId = secure( res, req.headers.authorization ),
+    const errors = [], userId = secure( res, req.headers.authorization ),
       objSave = {
         "title": req.body.title,
         "color": req.body.color,
@@ -87,7 +87,17 @@ module.exports = {
         "_account": userId
       },
       newEvent = await new Event( objSave ),
-      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } );
+      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( "_events" );
+
+    // Check exist started_at
+    await Promise.all( findCampaign._events.map( ( event ) => {
+      if ( event.started_at === req.body.started_at ) {
+        errors.push( event.title );
+      }
+    } ) );
+    if ( errors.length > 0 ) {
+      return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
+    }
 
     // Check catch when update event
     if ( !findCampaign ) {
