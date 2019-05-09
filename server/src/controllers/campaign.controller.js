@@ -7,18 +7,9 @@
  */
 const Campaign = require( "../models/Campaign.model" );
 const Event = require( "../models/Event.model" );
-const Facebook = require( "../models/Facebook.model" );
-const PostGroup = require( "../models/PostGroup.model" );
-const GroupFacebook = require( "../models/GroupFacebook.model" );
-const PageFacebook = require( "../models/PageFacebook.model" );
-
-const { createPost } = require( "../controllers/core/posts.core" );
-const { getRandom } = require( "../helpers/utils/arrayFunction.util" );
-const { agent } = require( "../configs/crawl" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const GLOBAL = require( "../databases/variables.global" ), CronJob = require( "cron" ).CronJob;
 
 
 module.exports = {
