@@ -101,6 +101,7 @@
       <transition name="popup">
         <create-new-event
           v-if="isShowCreateEvent === true"
+          :campaignsId="campaignDetail._id"
           @closePopup="isShowCreateEvent = $event"
         />
       </transition>
@@ -110,7 +111,7 @@
 </template>
 
 <script>
-import CreateNewEvent from "../../popup/create/";
+import CreateNewEvent from "../../popup/created/";
 export default {
   components: {
     CreateNewEvent

@@ -15,7 +15,7 @@
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-         <div class="modal--event-body" v-if="eventDedault.type_event === 0">
+        <div class="modal--event-body" v-if="eventDedault.type_event === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
           >
@@ -38,6 +38,11 @@
         >
           <event-modal-body-custom
             :eventDedault="eventDedault"
+            @updateCateFromMiddleComponent="eventDedault.post_category = $event"
+            @updateGroupFromMiddleComponent="eventDedault.target_category = $event"
+            @updateTimeBreakPointFromMiddleComponent="eventDedault.break_point = $event"
+            @updateDateFromMiddleComponent="parseDateSetup($event)"
+            @updateTimeFromMiddleComponent="parseTimeSetup($event)"
           />
         </VuePerfectScrollbar>
         <!-- End: Modal Body Custom -->
@@ -47,7 +52,7 @@
 </template>
 
 <script>
-import EventModalBodyCustom from "./bodycustom";
+import EventModalBodyCustom from "./body";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
@@ -67,9 +72,21 @@ export default {
       eventDedault: {
         "color": "#85CFFF",
         "title": "",
-        "type_event": 0,
+        "type_event": 1,
         "status": false,
-        "break_point": 15
+        "break_point": 15,
+        "post_category": {},
+        "post_custom": [],
+        "started_at": "",
+        "target_category": {},
+        "target_custom": []
+      },
+      dateSetup: {
+        minute: null,
+        hour: null,
+        date: null,
+        month: null,
+        year: null
       },
       isShowAlert: false,
     };
@@ -112,12 +129,22 @@ export default {
         this.$store.dispatch( "createdNewEvent", dataSender );
         this.closePopup();
       }
+    },
+    parseDateSetup( val ){
+      console.log( val );
+      this.dateSetup.date = val.date;
+      this.dateSetup.month = val.month;
+      this.dateSetup.year = val.year;
+    },
+    parseTimeSetup( val ){
+      this.dateSetup.minute = val.minute;
+      this.dateSetup.hour = val.hour;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../style";
-@import "./index.style";
+  @import "./index.default";
+  @import "./index.style";
 </style>

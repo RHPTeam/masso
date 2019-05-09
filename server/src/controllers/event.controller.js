@@ -65,14 +65,14 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( !req.body.type_event ) {
+    } else if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
     } else if ( req.body.type_event === 1 ) {
-      if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
+      if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
       } else if ( req.body.break_point < 5 ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
-      } else if ( !req.body.started_at ) {
+      } else if ( req.body.started_at === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
         return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
@@ -80,7 +80,7 @@ module.exports = {
     }
 
     const errors = [], userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( { "path": "_events", "select": "started_at" } );
+      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( { "path": "_events", "select": "title started_at" } );
 
     // Check catch when update event
     if ( !findCampaign ) {
@@ -100,6 +100,7 @@ module.exports = {
         errors.push( event.title );
       }
     } ) );
+    console.log( errors );
     if ( errors.length > 0 ) {
       return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
     }

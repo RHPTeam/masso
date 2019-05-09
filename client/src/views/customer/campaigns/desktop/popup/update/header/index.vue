@@ -10,13 +10,35 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          v-model="title"
+          v-model="eventDedault.title"
           @input="changeTitle()"
         />
       </div>
-      <div class="header--row-right d_flex align_items_center ml_auto">
-        <div class="btn--header btn--save" @click="createEvent()">
-          TẠO MỚI
+      <div class="header--row-right d_flex align_items_center">
+        <div class="btn--header btn--copy mr_2">
+          <icon-base
+            class="ic--copy"
+            icon-name="ic--copy"
+            width="24"
+            height="24"
+            viewBox="0 0 500 500"
+          >
+            <icon-copy />
+          </icon-base>
+        </div>
+        <div class="btn--header btn--delete mr_2">
+          <icon-base
+            class="ic--remove"
+            icon-name="ic--remove"
+            width="24"
+            height="24"
+            viewBox="0 0 16 16"
+          >
+            <icon-remove />
+          </icon-base>
+        </div>
+        <div class="btn--header btn--save" @click="updateEvent()">
+          CẬP NHẬT
         </div>
       </div>
     </div>
@@ -125,6 +147,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../style";
-@import "./index.style";
+  @import "../../style";
+  @import "./index.style";
 </style>

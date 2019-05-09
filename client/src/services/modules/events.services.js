@@ -5,8 +5,8 @@ export default {
   index() {
     return Api().get( "events" );
   },
-  create( event ) {
-    return Api().post( "events", event );
+  create( campaignsId, event ) {
+    return Api().post( `events?_campaignId=${campaignsId}`, event );
   },
   getEventById( id ) {
     return Api().get( `events?_id=${id}` );

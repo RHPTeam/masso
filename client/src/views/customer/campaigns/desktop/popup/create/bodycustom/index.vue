@@ -24,6 +24,11 @@ export default {
     PostContentOptions,
     PostOptionCategory
   },
+  props: {
+    eventDedault: {
+      type: Object
+    }
+  },
   data() {
     return {
       postContentOption: "none"

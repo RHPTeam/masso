@@ -5,24 +5,39 @@ import CampaignsServices from "@/services/modules/campaigns.services";
 const state = {
     events: [],
     eventDetail: {},
+    errorEvent: []
   },
   getters = {
-    events: ( s ) => {
-      return s.events;
+    events: ( state ) => {
+      return state.events;
     },
-    eventDetail: ( s ) => {
-      return s.eventDetail;
-    }
+    eventDetail: ( state ) => {
+      return state.eventDetail;
+    },
+    errorEvent: state => state.errorEvent
   },
   mutations = {
-    setEvents: ( s, payload ) => {
-      s.events = payload;
+    setEvents: ( state, payload ) => {
+      state.events = payload;
     },
-    setEventDetail: ( s, payload ) => {
-      s.eventDetail = payload;
+    setEventDetail: ( state, payload ) => {
+      state.eventDetail = payload;
+    },
+    setErrorEvent: ( state, payload ) => {
+      state.errorEvent = payload;
     }
   },
   actions = {
+  createdNewEvent: async ( { commit }, payload ) => {
+    try {
+      await EventsServices.create(payload.campaignsId, payload.content);
+      const result = EventsServices.index();
+      commit( "setEvents", result.data.data );
+    } catch (e) {
+      console.log(e.response);
+      if(e.response.status === 403) commit( "setErrorEvent", e.response.data )
+    }
+  },
     getAllEvents: async ( { commit } ) => {
       const res = await EventsServices.index();
 

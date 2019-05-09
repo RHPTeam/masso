@@ -1,7 +1,7 @@
 <template>
   <div class="post--content-detail">
     <div class="breadcrumb">
-      <div class="btn--back" @click="updatePostContentOption()">
+      <div class="btn--back" @click="comeBackOptionPost">
         <icon-base
           class="icon--arrow-left"
           icon-name="arrow"
@@ -47,13 +47,13 @@
             Nơi đăng
           </div>
           <div class="option--selected"
-            v-if="optionPostTarget === 'group'"
+               v-if="optionPostTarget === 'group'"
           >
             <span class="mr_2">Đăng tới nhóm đã lưu.</span>
             <span @click="optionPostTarget = 'none'">Thay đổi</span>
           </div>
           <div class="option--selected"
-            v-if="optionPostTarget === 'custom'"
+               v-if="optionPostTarget === 'custom'"
           >
             <span class="mr_2">Tùy chỉnh nơi đăng cụ thể.</span>
             <span @click="optionPostTarget = 'none'">Thay đổi</span>
@@ -61,7 +61,7 @@
         </div>
         <!-- Start: Options Group -->
         <div class="r options--group px_3"
-            v-if="optionPostTarget === 'none'"
+             v-if="optionPostTarget === 'none'"
         >
           <div class="c_md_6">
             <div class="options--item d_flex align_items_center justify_content_between"
@@ -87,7 +87,7 @@
           </div>
           <div class="c_md_6">
             <div class="options--item d_flex align_items_center justify_content_between"
-                @click="optionPostTarget = 'group'"
+                 @click="optionPostTarget = 'group'"
             >
               <div class="item--content">
                 <div class="name mb_1">Tùy chọn nơi đăng cụ thể</div>
@@ -123,8 +123,8 @@
 </template>
 
 <script>
-import PostTargetsGroup from "./post-targets-group";
-import PostTime from "./posttime";
+import PostTargetsGroup from "./post-target-group";
+import PostTime from "../custom-time";
 
 export default {
   components: {
@@ -143,13 +143,13 @@ export default {
     },
   },
   methods: {
-    updatePostContentOption() {
-      this.$emit( "updatePostContentOption", "none" );
+    comeBackOptionPost() {
+      this.$emit( "return", "none" );
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-@import "./index.style.scss";
+  @import "./index.style.scss";
 </style>

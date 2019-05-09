@@ -15,7 +15,7 @@
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-         <div class="modal--event-body" v-if="eventDedault.type_event === 0">
+        <div class="modal--event-body" v-if="eventDedault.type_event === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
           >
@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import EventModalBodyCustom from "./bodycustom";
+import EventModalBodyCustom from "./body";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
@@ -118,6 +118,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../style";
-@import "./index.style";
+  @import "./index.default";
+  @import "./index.style";
 </style>

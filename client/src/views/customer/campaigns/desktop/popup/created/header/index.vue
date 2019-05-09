@@ -29,7 +29,7 @@
           <div>
             <toggle-switch
               class="mr_2"
-              :value="true"
+              :value="false"
               @change="updateAutopost($event.value)"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
@@ -125,6 +125,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../style";
-@import "./index.style";
+  @import "../../style";
+  @import "./index.style";
 </style>
