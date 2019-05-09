@@ -2,15 +2,23 @@
 import CampaignsServices from "@/services/modules/campaigns.services";
 
 const state = {
+    allCampaigns: [],
     campaigns: [],
-    campaignDetail: {}
+    campaignDetail: {},
+    campaignsPagesSize: 1
   },
   getters = {
+    allCampaigns: ( s ) => {
+      return s.allCampaigns;
+    },
     campaigns: ( s ) => {
       return s.campaigns;
     },
     campaignDetail: ( s ) => {
       return s.campaignDetail;
+    },
+    campaignsPagesSize: ( s ) => {
+      return s.campaignsPagesSize;
     }
   },
   mutations = {
@@ -18,11 +26,17 @@ const state = {
       s.campaigns.push( payload );
       s.campaignDetail = payload;
     },
+    setAllCampaigns: ( s, payload ) => {
+      s.allCampaigns = payload;
+    },
     setCampaigns: ( s, payload ) => {
       s.campaigns = payload;
     },
     setCampaignDetail: ( s, payload ) => {
       s.campaignDetail = payload;
+    },
+    setCampaignsPagesSize: ( s, payload ) => {
+      s.campaignsPagesSize = payload;
     }
   },
   actions = {
@@ -45,9 +59,15 @@ const state = {
       commit( "setCampaigns", res.data.data );
     },
     getAllCampaigns: async ( { commit } ) => {
-      const campaigns = await CampaignsServices.index();
+      const res = await CampaignsServices.index();
 
-      await commit( "setCampaigns", campaigns.data.data );
+      await commit( "setAllCampaigns", res.data.data );
+    },
+    getCampaignsByPage: async ( { commit }, payload ) => {
+      const res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+
+      await commit( "setCampaigns", res.data.data.results );
+      await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     getCampaignDetail: async ( { commit }, payload ) => {
       const res = await CampaignsServices.getCampaignById( payload );
