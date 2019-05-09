@@ -6,26 +6,37 @@ const mongoose = require( "mongoose" ),
   EventSchema = new Schema( {
     "title": { "type": String, "required": true },
     "color": { "type": String, "default": "#85CFFF" },
-    "typeEvent": { "type": Number, "default": 0 },
-    "started_at": Date,
-    "finished_at": Date,
-    "status": { "type": Boolean, "default": 1 },
+    "type_event": { "type": Number, "default": 0 },
+    "status": Boolean,
+    "post_category": {
+      "type": Schema.Types.ObjectId,
+      "ref": "PostCategory"
+    },
+    "post_custom": [ {
+      "type": Schema.Types.ObjectId,
+      "ref": "Post"
+    } ],
+    "timeline": [ {
+      "type": Schema.Types.ObjectId,
+      "ref": "Facebook"
+    } ],
+    "target_category": {
+      "type": Schema.Types.ObjectId,
+      "ref": "PostGroup"
+    },
+    "target_custom": [ {
+      "typeTarget": Number,
+      "id": String
+    } ],
     "break_point": {
       "type": Number,
       "default": 15
     },
+    "started_at": Date,
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
-    "content": [ {
-      "type": Schema.Types.ObjectId,
-      "ref": "Post"
-    } ],
-    "_targets": [ {
-      "id": String,
-      "typeTarget": Number
-    } ],
     "created_at": {
       "type": Date,
       "default": Date.now()
