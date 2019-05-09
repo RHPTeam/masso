@@ -3,16 +3,15 @@
     <!-- Start: Header Top -->
     <div class="main--header-top d_flex justify_content_between align_items_center">
       <div class="top--left d_flex align_items_center">
-        <div class="status" :class="[ campaignDetail.status ? 'status--active' : 'status--deactive' ]">
-          {{ campaignDetail.status ? 'Đang hoạt động' : 'Đã ngừng' }}
-        </div>
-        <div class="title ml_2">
+        <div class="title">
           <contenteditable
             class="editable"
             tag="div"
             placeholder="Nhập tên..."
+            :noNL="true"
             :contenteditable="true"
             v-model='campaignDetail.title'
+            @returned="updateCampaign( campaignDetail )"
           />
         </div>
       </div>
@@ -36,32 +35,20 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn" :class="[ campaignDetail.status ? 'btn--red' : 'btn--orange' ]">
-            <icon-base
-              class="icon icon--play"
-              icon-name="icon-play"
-              width="14"
-              height="16"
-              viewBox="0 0 13.955 16"
-              v-if="!campaignDetail.status"
-            >
-              <icon-play/>
-            </icon-base>
-            <icon-base
-              class="icon icon--stop"
-              icon-name="icon-stop"
-              width="14"
-              height="14"
-              viewBox="0 0 300 300"
-              v-if="campaignDetail.status"
-            >
-              <icon-stop/>
-            </icon-base>
-            {{ campaignDetail.status ? 'Dừng' : 'Bắt đầu' }}
-          </button>
+          <button class="btn btn--orange">Thêm sự kiện</button>
         </div>
-        <div class="btn--control">
-          <button class="btn btn---outline-orange">Thêm sự kiện</button>
+        <div class="campaing--status d_flex align_items_center">
+          <div class="status--name mr_2" v-if="campaignDetail.status">
+            Đang hoạt động
+          </div>
+          <div class="status--name mr_2" v-else>
+            Ngừng hoạt động
+          </div>
+          <toggle-switch
+            @change="updateCampaignStatus()"
+            :value="campaignDetail.status"
+            :sync="true"
+          />
         </div>
       </div>
       <div class="c_md_6 acion--right">
@@ -102,6 +89,8 @@
 </template>
 
 <script>
+let typingTimer;
+
 export default {
   props: [ "view" ],
   computed: {
@@ -113,6 +102,9 @@ export default {
     }
   },
   methods: {
+    clearTypingTimer() {
+      clearTimeout( typingTimer );
+    },
     formatDate( d ) {
       const dateTime = new Date(d),
             date = String(dateTime.getDate()).padStart(2, "0"),
@@ -128,6 +120,21 @@ export default {
       const campaignId = this.campaignDetail._id;
 
       this.$store.dispatch( "updateCampaignStatus", campaignId );
+    },
+    async upTypingText( campaign ) {
+      await clearTimeout( typingTimer );
+
+      typingTimer = await setTimeout( this.updateCampaign( campaign ), 1000);
+    },
+    updateCampaign( campaign ) {
+      const objSender = {
+        campId: campaign._id,
+        campaign: {
+          title: campaign.title
+        }
+      };
+
+      this.$store.dispatch( "updateCampaignDetail", objSender );
     }
   }
 };
