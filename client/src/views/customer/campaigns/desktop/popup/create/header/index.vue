@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal--header modal--event-header p_3"
-    :style="{ backgroundColor: eventDetail.color }"
+    :style="{ backgroundColor: colors[0] }"
   >
     <!-- Start: Header Row -->
     <div class="r header--row mx_0">
@@ -10,35 +10,13 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          v-model="eventDetail.title"
+          v-model="title"
           @input="changeTitle()"
         />
       </div>
-      <div class="header--row-right d_flex align_items_center">
-        <div class="btn--header btn--copy mr_2">
-          <icon-base
-            class="ic--copy"
-            icon-name="ic--copy"
-            width="24"
-            height="24"
-            viewBox="0 0 500 500"
-          >
-            <icon-copy />
-          </icon-base>
-        </div>
-        <div class="btn--header btn--delete mr_2">
-          <icon-base
-            class="ic--remove"
-            icon-name="ic--remove"
-            width="24"
-            height="24"
-            viewBox="0 0 16 16"
-          >
-            <icon-remove />
-          </icon-base>
-        </div>
+      <div class="header--row-right d_flex align_items_center ml_auto">
         <div class="btn--header btn--save" @click="updateEvent()">
-          CẬP NHẬT
+          TẠO MỚI
         </div>
       </div>
     </div>
@@ -51,15 +29,14 @@
             <toggle-switch
               class="mr_2"
               @change="updateAutopost($event.value)"
-              :value="eventDetail.typeEvent === 0"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
               :switch-color="{
-                checked: eventDetail.color,
+                checked: '#ffa94b',
                 unchecked: '#e4e4e4'
               }"
             />
-            <span :style="[eventDetail.typeEvent === 0 ? { opacity: '1' } : { opacity: '0.8' }]">
+            <span>
               Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
             </span>
           </div>
@@ -112,6 +89,7 @@ export default {
   props: [ "colors", "eventDetail" ],
   data() {
     return {
+      title: "",
       isShowColorDropdown: false
     };
   },

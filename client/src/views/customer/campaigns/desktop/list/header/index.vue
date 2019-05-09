@@ -54,7 +54,7 @@
 
 <script>
 import AppFilter from "./filter/index";
-import CreateCampaignPopup from "../../popup/createcampaign";
+import CreateCampaignPopup from "../../popup/event/createcampaign";
 export default {
   components: {
     AppFilter,

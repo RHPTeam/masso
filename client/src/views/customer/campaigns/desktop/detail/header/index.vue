@@ -60,7 +60,7 @@
             {{ campaignDetail.status ? 'Dừng' : 'Bắt đầu' }}
           </button>
         </div>
-        <div class="btn--control">
+        <div class="btn--control" @click="isShowCreateEvent = true">
           <button class="btn btn---outline-orange">Thêm sự kiện</button>
         </div>
       </div>
@@ -97,13 +97,30 @@
         </div>
       </div>
       <!-- End: Header Action -->
+      <!--	Start: Create Campaign Popup	-->
+      <transition name="popup">
+        <create-new-event
+          v-if="isShowCreateEvent === true"
+          @closePopup="isShowCreateEvent = $event"
+        />
+      </transition>
+      <!--	End: Create Campaign Popup	-->
     </div>
   </div>
 </template>
 
 <script>
+import CreateNewEvent from "../../popup/create/";
 export default {
+  components: {
+    CreateNewEvent
+  },
   props: [ "view" ],
+  data() {
+    return {
+      isShowCreateEvent: false
+    }
+  },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
