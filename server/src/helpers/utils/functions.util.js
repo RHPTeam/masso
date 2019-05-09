@@ -21,12 +21,12 @@ module.exports = {
     const date = new Date( str );
 
     return {
-      "second": 0,
-      "minute": parseFloat( dataItem.timeSetting.hour.split( ":" )[ 1 ] ),
-      "hour": parseFloat( dataItem.timeSetting.hour.split( ":" )[ 0 ] ),
+      "second": date.getSeconds(),
+      "minute": date.getMinutes(),
+      "hour": date.getHours(),
       "date": date.getDate(),
       "month": date.getMonth(),
-      "day": dataItem.timeSetting.repeat.valueRepeat
+      "day": date.getDay()
     };
   }
 };
