@@ -28,7 +28,9 @@
       <!-- End: Notification List -->
       <!-- Start: Notification Footer -->
       <div class="notification--footer text_center">
-        <div class="btn--see-all">Xem tất cả</div>
+        <div class="btn--see-all"
+             @click="seeAllNotifications()"
+        >Xem tất cả</div>
       </div>
       <!-- End: Notification Footer -->
     </div>
@@ -46,6 +48,12 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    seeAllNotifications() {
+      this.$router.push( { name: "notifications" } );
+      this.$emit( "closeDropdown", false );
     }
   }
 }

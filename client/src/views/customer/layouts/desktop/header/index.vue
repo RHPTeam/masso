@@ -49,6 +49,7 @@
             <header-notification
               v-if="isShowNotificationDropdown"
               :notifications="notifications"
+              @closeDropdown="isShowNotificationDropdown = $event"
             ></header-notification>
           </transition>
         </div>
