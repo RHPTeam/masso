@@ -5,7 +5,8 @@ import CampaignsServices from "@/services/modules/campaigns.services";
 const state = {
     events: [],
     eventDetail: {},
-    errorEvent: []
+    errorEvent: [],
+    statusEvent: ""
   },
   getters = {
     events: ( state ) => {
@@ -14,7 +15,8 @@ const state = {
     eventDetail: ( state ) => {
       return state.eventDetail;
     },
-    errorEvent: state => state.errorEvent
+    errorEvent: state => state.errorEvent,
+    statusEvent: state => state.statusEvent
   },
   mutations = {
     setEvents: ( state, payload ) => {
@@ -25,37 +27,37 @@ const state = {
     },
     setErrorEvent: ( state, payload ) => {
       state.errorEvent = payload;
+    },
+    ev_request: state => {
+      state.statusEvent = 'loading';
+    },
+    ev_success: state => {
+      state.statusEvent = 'success';
     }
   },
   actions = {
   createdNewEvent: async ( { commit }, payload ) => {
-    try {
+      commit( "ev_request");
       await EventsServices.create(payload.campaignsId, payload.content);
-      const result = EventsServices.index();
-      commit( "setEvents", result.data.data );
-    } catch (e) {
-      console.log(e.response);
-      if(e.response.status === 403) commit( "setErrorEvent", e.response.data )
-    }
+      const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignsId );
+      console.log(campaignDetail.data.data);
+      await commit( "setCampaignDetail", campaignDetail.data.data );
+      commit( "ev_success");
   },
     getAllEvents: async ( { commit } ) => {
       const res = await EventsServices.index();
-
+      console.log(res.data.data);
       await commit( "setEvents", res.data.data );
     },
     getEventById: async ( { commit }, payload ) => {
       const res = await EventsServices.getEventById( payload );
-
       await  commit( "setEventDetail", res.data.data );
     },
     updateEvent: async ( { commit }, payload ) => {
       const res = await EventsServices.updateEvent( payload );
-
       await  commit( "setEventDetail", res.data.data );
-
       //update campaign detail
        const campaignDetail = await CampaignsServices.getCampaignById( payload.campId );
-
       await commit( "setCampaignDetail", campaignDetail.data.data );
     }
   };

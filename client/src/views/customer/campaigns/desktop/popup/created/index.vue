@@ -118,14 +118,17 @@ export default {
       this.eventDedault.title = title;
     },
     updateEvent( val ) {
-      const dataSender = {
-        campaignsId: this.campaignsId,
-        content: this.eventDedault
-      };
-      console.log( dataSender );
       if( val === '' ) {
         this.isShowAlert = true;
       } else {
+        console.log(this.dateSetup);
+        const result = new Date( this.dateSetup.year, this.dateSetup.month, this.dateSetup.date, this.dateSetup.hour, this.dateSetup.minute, 0 );
+        this.eventDedault.started_at = result;
+        const dataSender = {
+          campaignsId: this.campaignsId,
+          content: this.eventDedault
+        };
+        console.log(dataSender);
         this.$store.dispatch( "createdNewEvent", dataSender );
         this.closePopup();
       }

@@ -52,7 +52,6 @@ export default {
   },
   async created() {
     const campaignId = this.$route.params.campaignId;
-
     await this.$store.dispatch( "getCampaignDetail", campaignId );
   },
   methods: {
