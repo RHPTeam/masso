@@ -147,6 +147,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../style";
+  @import "../../deletecampaign/style";
   @import "./index.style";
 </style>

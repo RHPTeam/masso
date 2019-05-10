@@ -27,7 +27,7 @@
 
 <script>
 import AppHeader from "./header";
-import EventPopup from "../popup/event";
+import EventPopup from "../popup/update";
 export default {
   components: {
     AppHeader,

@@ -65,7 +65,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../style";
+@import "./style";
 .modal--wrapper {
   .modal--dialog {
     .modal--content {
