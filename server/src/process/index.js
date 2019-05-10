@@ -11,10 +11,10 @@ const { createPost } = require( "../controllers/core/posts.core" ),
   GLOBAL = require( "../databases/variables.global" ),
   CronJob = require( "cron" ).CronJob,
   /**
-   *
+   * Restructure object feed before send to api post feed
    * @param data
    * @param target
-   * @param type [0: , 1: , 2: ,3: ]
+   * @param type [0: , 1: Group & Page , 2: Group ,3: Page]
    * @returns {{scrape: (*|string|String|StringConstructor), activity: {id: (*|String|StringConstructor), text: (*|String|StringConstructor), type: (*|String|StringConstructor)}, location: {type: number, value: *}, place: (*|String|StringConstructor), photos: (*[]|Array|attachments|{typeAttachment, link}|*|$pull.attachments), content: *, tags: *}}
    */
   defineFeedFacebook = ( data, target, type ) => {
@@ -42,8 +42,23 @@ const { createPost } = require( "../controllers/core/posts.core" ),
         feed.location.type = 2;
       }
     }
+    // Groups
+    if ( type === 2 ) {
+      feed.location.type = 1;
+    }
+    // Pages
+    if ( type === 3 ) {
+      feed.location.type = 2;
+    }
     return feed;
   },
+  /**
+   * Handle multi target group and page
+   * @param input
+   * @param data
+   * @param point
+   * @returns {Promise<void>}
+   */
   handleManyTarget = async ( input, data, point ) => {
     await Promise.all( data.map( async ( target ) => {
       GLOBAL.set( target._id, new CronJob( `* ${point} * * * *`, async function () {
@@ -69,26 +84,34 @@ const { createPost } = require( "../controllers/core/posts.core" ),
         GLOBAL.get( target._id ).stop();
       }, true, "Asia/Ho_Chi_Minh" ) );
     } ) );
-  };
+  },
   /**
-   *
+   * Handle one of data with page or group
    * @param input
    * @param data
-   * @param type [0: Group | 1: Page]
+   * @param type [1: Group | 2: Page]
    * @returns {Promise<void>}
    */
-// handleManyTargetCategory = async ( input, data, type ) => {
-// let facebook = {},
-//   postSelected = getRandom( input, 1 ), facebook = [];
-//
-// const groupInfo = await GroupFacebook.find( { "groupId": target.id } );
-//
-// facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );
-// if ( type === 0 ) {
-//
-// }
-//   feed = defineFeedFacebook( postSelected[ 0 ], data, 3 );
-// };
+  handleManyTargetCategory = async ( input, data, type ) => {
+    let facebook = {},
+      postSelected = getRandom( data, 1 ),
+      feed = {};
+
+    if ( type === 1 ) {
+      const groupInfo = await GroupFacebook.find( { "groupId": input } );
+
+      feed = defineFeedFacebook( postSelected[ 0 ], { "id": input }, 2 );
+      facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );
+    } else if ( type === 2 ) {
+      const pageInfo = await PageFacebook.find( { "pageId": input } );
+
+      feed = defineFeedFacebook( postSelected[ 0 ], { "id": input }, 3 );
+      facebook = await Facebook.findOne( { "_id": pageInfo[ 0 ]._facebook } );
+    }
+
+    // Create new feed
+    createPost( { "cookie": facebook.cookie, agent, feed } );
+  };
 
 
 ( () => {
@@ -120,9 +143,11 @@ const { createPost } = require( "../controllers/core/posts.core" ),
             event.target_category._pages.map( async ( page ) => {
               GLOBAL.set( page.pageId, new CronJob( `* ${event.break_point} * * * *`, async function () {
                 if ( event.post_custom.length > 0 ) {
-
+                  await handleManyTargetCategory( page, event.post_custom, 2 );
                 } else if ( event.post_category ) {
                   const postListByCategory = await Post.find( { "_categories": event.post_category } );
+
+                  await handleManyTargetCategory( page, postListByCategory, 2 );
                 }
               }, function () {
                 GLOBAL.get( page.pageId ).stop();
@@ -131,9 +156,21 @@ const { createPost } = require( "../controllers/core/posts.core" ),
           }
 
           // Groups
-          event.target._groups.map( ( group ) => {
+          if ( event.target_category._groups.length > 0 ) {
+            event.target._groups.map( ( group ) => {
+              GLOBAL.set( group.groupId, new CronJob( `* ${event.break_point} * * * *`, async function () {
+                if ( event.post_custom.length > 0 ) {
+                  await handleManyTargetCategory( group, event.post_custom, 1 );
+                } else if ( event.post_category ) {
+                  const postListByCategory = await Post.find( { "_categories": event.post_category } );
 
-          } );
+                  await handleManyTargetCategory( group, postListByCategory, 1 );
+                }
+              }, function () {
+                GLOBAL.get( group.groupId ).stop();
+              }. true, "Asia/Ho_Chi_minh" ) );
+            } );
+          }
         }
       }, function () {
         GLOBAL.get( event._id ).stop();
