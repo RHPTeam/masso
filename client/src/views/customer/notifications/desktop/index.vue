@@ -2,7 +2,9 @@
   <div class="notification--wrapper" :data-theme="currentTheme">
     <!-- Start: Header -->
     <div class="notification--header mb_3">
-      <div class="action read--all">Đánh dấu tất cả là đã đọc</div>
+      <div class="action">
+        <div class="btn read--all">Đánh dấu tất cả là đã đọc</div>
+      </div>
     </div>
     <!-- End: Header -->
     <!-- Start: Content -->

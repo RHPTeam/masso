@@ -2,12 +2,14 @@
   font-size: .875rem;
   .notification--header {
     .action {
-      &.read--all {
-        color: #999;
+      .read--all {
+        border-radius: .625rem;
+        border: 1px solid;
         cursor: pointer;
-        &:hover {
-          text-decoration: underline;
-        }
+        color: #ffb94a;
+        font-size: .875rem;
+        padding: .5rem .75rem !important;
+        transition: all .4s ease;
       }
     }
   }
@@ -77,6 +79,17 @@
 /* Theme Color */
 /* Light */
 .notification--wrapper[data-theme="light"] {
+  .notification--header {
+    .action {
+      .read--all {
+        background-color: #fff;
+        border-color: #fff;
+        &:hover {
+          border-color: #ffb94a;
+        }
+      }
+    }
+  }
   .notification--content {
     background-color: #fff;
     .notification--list {
@@ -120,6 +133,17 @@
 /* Dark */
 .notification--wrapper[data-theme="dark"] {
   color: #f7f7f7;
+  .notification--header {
+    .action {
+      .read--all {
+        background-color: #27292c;
+        border-color: #27292c;
+        &:hover {
+          border-color: #ffb94a;
+        }
+      }
+    }
+  }
   .notification--content {
     background-color: #27292c;
     .notification--list {

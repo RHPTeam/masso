@@ -46,7 +46,7 @@ export default {
         return;
       }
       if ( parseInt( value.getHours() ) > 5 && parseInt( value.getHours() ) < 18 ) {
-        this.$store.dispatch( "changeThemeName", "dark" );
+        this.$store.dispatch( "changeThemeName", "light" );
       } else if (
         ( parseInt( value.getHours() ) >= 18 && parseInt( value.getHours() ) <= 23 ) || ( parseInt( value.getHours() ) >= 0 && parseInt( value.getHours() ) <= 5 )
       ) {
