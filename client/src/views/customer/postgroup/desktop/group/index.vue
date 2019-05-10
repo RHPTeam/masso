@@ -19,6 +19,7 @@
           tag="div"
           placeholder="Nhập tên..."
           :contenteditable="true"
+          :noNL="true"
           v-model='postGroup.title'
           @keyup="upTypingText( postGroup )"
           @keydown="clearTypingTimer"

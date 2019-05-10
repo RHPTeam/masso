@@ -14,6 +14,12 @@ export default {
   getCampaignById( id ) {
     return Api().get( `campaigns?_id=${id}` );
   },
+  getCampaignsByPage( size, page ) {
+    return Api().get( `campaigns?_size=${size}&_page=${page}` );
+  },
+  updateCampaign( data ) {
+    return Api().patch( `campaigns?_campaignId=${data.campId}`, data.campaign );
+  },
   updateStatus( id ) {
     return Api().patch( `campaigns?_campaignId=${id}&_type=status` );
   }

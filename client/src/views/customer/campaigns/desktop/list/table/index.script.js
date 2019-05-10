@@ -3,7 +3,7 @@ import DeleteCampaignPopup from "../../popup/deletecampaign";
 import ConvertUnicode from "@/utils/string.util.js";
 
 export default {
-  props: [ "filterShowSelected", "filterStatusSelected", "search" ],
+  props: [ "currentPage", "filterShowSelected", "filterStatusSelected", "search" ],
   data() {
     return {
       campaignDelete: {},
@@ -33,7 +33,12 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch( "getAllCampaigns" );
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getCampaignsByPage", dataSender );
   },
   computed: {
     currentTheme() {

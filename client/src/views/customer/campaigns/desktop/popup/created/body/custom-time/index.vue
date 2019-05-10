@@ -81,7 +81,6 @@ export default {
     updateTime(val){
       this.newDate.minute = parseInt(val.mm);
       this.newDate.hour = parseInt(val.HH);
-      console.log(this.newDate);
       this.$emit( "updateTimeToMiddleComponent", this.newDate );
     }
   },

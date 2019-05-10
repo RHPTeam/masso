@@ -21,7 +21,29 @@
         @click="createNewPost"
         >Viết bài mới</button>
     </div>
-    <div class="header--right">
+    <div class="header--right d_flex align_items_center">
+      <div class="notification--groups position_relative">
+        <div class="btn--notification position_relative mr_3"
+          @click="showNotification = !showNotification"
+        >
+          <icon-base
+            icon-name="bell"
+            width="20px"
+            height="20px"
+            viewBox="0 0 512 512"
+          >
+            <icon-bell></icon-bell>
+          </icon-base>
+          <div class="notification--total position_absolute">
+            <div class="text">14</div>
+          </div>
+        </div>
+        <div class="notification--dropdown position_absolute">
+          <header-notification
+            v-if="showNotification"
+          ></header-notification>
+        </div>
+      </div>
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
         @click="showDropdown"
