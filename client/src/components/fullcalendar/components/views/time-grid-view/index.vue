@@ -41,12 +41,14 @@
           <td class="fc-widget-content">
             <rc-week-time-grid
               v-if="view === 'week'"
+              :eventsOfWeek="eventsOfWeek"
               :timePoint="timePoint"
               :weekDays="weekDays"
               @eventClick="eventClick($event)"
             />
             <rc-day-time-grid
               v-if="view === 'day'"
+              :eventOfDay="eventOfDay"
               :timePoint="timePoint"
               :activeDay="activeDay"
               @eventClick="eventClick($event)"
@@ -62,7 +64,11 @@
 import RcDayTimeGrid from "./day-time-grid/index";
 import RcWeekTimeGrid from "./week-time-grid/index";
 export default {
-  props: [ "activeDay", "dayFullName", "timePoint", "view", "weekDays" ],
+  components: {
+    RcDayTimeGrid,
+    RcWeekTimeGrid
+  },
+  props: [ "activeDay", "eventOfDay", "eventsOfWeek", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {
       showMorePopover: false,

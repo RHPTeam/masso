@@ -1,34 +1,63 @@
 <template>
-  <div class="main">
-    <!-- Start: Desktop Component-->
-    <div class="d_none d_md_block">
-      <breadcrumb
-        nameBread="Chiến dịch"
-        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
-      />
-      <!-- Start: Header -->
-      <app-header
-        :view="calendarView"
-        @updateCalendarView="calendarView = $event"
-      />
-      <!-- End: Header -->
-      <!-- Start: Content -->
-      <div class="main--content">
-        <!-- Start: Data Table -->
-        <div>This is data table.</div>
-        <!-- End: Data Table -->
-      </div>
-      <!-- End: Content -->
-    </div>
-    <!-- End: Desktop Component-->
+  <div class="campaigns--wrapper">
+    <!-- Start: Header -->
+    <app-header
+      :filterShowSelected="filterShowSelected"
+      :filterStatusSelected="filterStatusSelected"
+      @updateFilterShowSelected="updateFilterShowSelected($event)"
+      @updateFilterStatusSelected="filterStatusSelected = $event"
+      @updateSearch="search = $event"
+    />
+    <!-- End: Header -->
+    <!-- Start: Data Table -->
+    <app-table
+      :currentPage="currentPage"
+      :filterShowSelected="filterShowSelected"
+      :filterStatusSelected="filterStatusSelected"
+      :search="search"
+    />
+    <!-- End: Data Table -->
+    <!-- Start: Footer -->
+    <app-footer
+      :currentPage="currentPage"
+      :filterShowSelected="filterShowSelected"
+      @updateCurrentPage="currentPage = $event"
+    />
+    <!-- End: Footer -->
   </div>
 </template>
 
 <script>
 import AppHeader from "./header";
+import AppTable from "./table";
+import AppFooter from "./footer";
+
 export default {
   components: {
-    AppHeader
+    AppHeader,
+    AppTable,
+    AppFooter
+  },
+  data() {
+    return {
+      currentPage: 1,
+      filterShowSelected: { id: 25, name: "Hiển thị 25" },
+      filterStatusSelected: { id: "all", name: "Tất cả trạng thái" },
+      search: ""
+    };
+  },
+  methods: {
+    updateFilterShowSelected( val ) {
+      this.filterShowSelected = val;
+      this.currentPage = 1;
+
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+
+      this.$store.dispatch( "getCampaignsByPage", dataSender );
+    }
   }
 };
 </script>

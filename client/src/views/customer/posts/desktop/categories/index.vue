@@ -15,7 +15,7 @@
           <app-list @changeUpdate="isUpdateCategories = $event" />
           <!-- End: Data List -->
           <!-- Start: Info -->
-          <app-info />
+          <!-- <app-info /> -->
           <!-- Start: Info -->
         </div>
       </div>
@@ -26,21 +26,22 @@
 <script>
 import AppNew from "./form/index";
 import AppAction from "../layouts/action/index";
-import AppInfo from "../layouts/info/index";
 import AppList from "./list/index";
 
 export default {
   components: {
     AppNew,
     AppAction,
-    AppInfo,
     AppList
   },
   data() {
     return {
       isUpdateCategories: false
     };
-  }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
+  },
 };
 </script>
 

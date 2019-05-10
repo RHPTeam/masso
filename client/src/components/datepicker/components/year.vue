@@ -49,12 +49,6 @@ export default {
     useUtc: Boolean
   },
   data() {
-    const constructedDateUtils = makeDateUtils(this.useUtc);
-    return {
-      utils: constructedDateUtils
-    };
-  },
-  data() {
     const constructedDateUtils = makeDateUtils( this.useUtc );
 
     return {

@@ -1,9 +1,15 @@
 /* eslint-disable prettier/prettier */
+import HeaderNotification from "./notification";
+
 export default {
+  components: {
+    HeaderNotification
+  },
   data() {
     return {
       statusCollapse: false,
-      showdropdown: false
+      showdropdown: false,
+      showNotification: false
     };
   },
   async created() {

@@ -30,24 +30,22 @@
             <!-- Start: Alert -->
             <app-alert
               :type="
-                this.$store.getters.authStatus == 'error' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === 'error' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus == 'error'
+                this.$store.getters.authStatus === 'error'
                   ? this.$store.getters.textAuth
                   : ''
-              "
-            />
+              "></app-alert>
             <app-alert
               :type="
-                this.$store.getters.textAuth == '404' ? 'alert_danger' : ''
+                this.$store.getters.textAuth === '404' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.textAuth == '404'
+                this.$store.getters.textAuth === '404'
                   ? 'Số điện thoại hoặc email đã tồn tại'
                   : ''
-              "
-            />
+              "></app-alert>
             <!-- End: Alert -->
             <h3 class="title text_center">Đăng kí</h3>
           </div>
@@ -251,8 +249,8 @@
   </div>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "../signin/style";
+@import "../signin/index.style";
 </style>

@@ -37,29 +37,26 @@
                 this.$store.getters.statusResetPassword
                   ? 'Bạn đã đặt lại mật khẩu thành công!'
                   : ''
-              "
-            />
+              "></app-alert>
             <!--End: Notification change password success -->
             <app-alert
               :type="
-                this.$store.getters.authStatus == '401' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === '401' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus == '401'
+                this.$store.getters.authStatus === '401'
                   ? 'Tài khoản email hoặc mật khẩu không đúng!'
                   : ''
-              "
-            />
+              "></app-alert>
             <app-alert
               :type="
-                this.$store.getters.authStatus == '405' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === '405' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus == '405'
+                this.$store.getters.authStatus === '405'
                   ? 'Tài khoản của bạn đã hết hạn hoặc bị ngừng truy cập!'
                   : ''
-              "
-            />
+              "></app-alert>
             <!-- End: Alert -->
             <h3 class="title text_center">Đăng nhập</h3>
           </div>
@@ -150,8 +147,8 @@
   </div>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./style";
+@import "./index.style";
 </style>

@@ -1,5 +1,4 @@
 /* eslint-disable prettier/prettier */
-/* eslint-disable global-require */
 import AppTop from "./desktop/top";
 import UserInfo from "./desktop/info";
 import UserKeywords from "./desktop/keywords";

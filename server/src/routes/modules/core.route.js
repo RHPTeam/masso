@@ -9,7 +9,7 @@ router.route( "/info" ).get( core.getUserInfo );
 router.route( "/pages" ).get( core.getAllPages );
 router.route( "/posts" ).post( core.createPost );
 router.route( "/posts/:id" ).get( core.getPost );
-router.route( "/search/groups" ).get( core.searchGroups );
+router.route( "/search/targetgroups" ).get( core.searchGroups );
 router.route( "/search/pages" ).get( core.searchPages );
 router.route( "/search/places" ).get( core.searchPlaces );
 router.route( "/search/posts" ).get( core.searchPosts );

@@ -81,7 +81,9 @@
     <div class="mb_1 link--custom"><a href="/signin">Đăng nhập</a></div>
   </form>
 </template>
-<script src="./main.js"></script>
+
+<script src="./index.script.js"></script>
+
 <style lang="scss" scoped>
 @import "../style";
 </style>

@@ -14,28 +14,39 @@
     </div>
 
     <div class="item--wrap">
-      <div v-if="this.categories.length === 0"></div>
-      <div v-else v-for="(item, index) in categories" :key="index">
+      <div v-for="(item, index) in categories" :key="index">
         <item-categories :item="item" @update="changeUpdate($event)" />
       </div>
     </div>
+    <!-- Start: Paginate Categories -->
+    <div>
+      <cate-paginate />
+    </div>
+    <!-- End: Paginate Categories -->
     </div>
   </div>
 </template>
 
 <script>
 import ItemCategories from "./item";
+import CatePaginate from "./paginate";
 export default {
   components: {
-    ItemCategories
+    ItemCategories,
+    CatePaginate
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     categories() {
+      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
+      // console.log(this.$store.getters.categories);
       return this.$store.getters.categories;
     }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllCategories" );
   },
   methods: {
     changeUpdate( ev ) {

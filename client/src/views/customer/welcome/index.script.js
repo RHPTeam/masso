@@ -9,7 +9,7 @@ export default {
     return {
       showdropdown: false,
       avatar: "",
-      imagePage: require( "@/assets/images/zinbee-logo-orange.png" ),
+      imagePage: require( "@/assets/images/zinbee-logo-orange.svg" ),
       imageChat: require( "@/assets/images/zinbee-chat-icon.svg" ),
       imagePost: require( "@/assets/images/zinbee-post-icon.svg" ),
       tools: [

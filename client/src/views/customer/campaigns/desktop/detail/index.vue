@@ -1,35 +1,23 @@
 <template>
-  <div class="main" :data-theme="currentTheme">
-    <!-- Start: Desktop Component-->
-    <div class="d_none d_md_block">
-      <breadcrumb
-        nameBread="Chiến dịch"
-        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
-      />
-      <!-- Start: Header -->
-      <app-header
-        :view="calendarView"
-        @updateCalendarView="calendarView = $event"
-      />
-      <!-- End: Header -->
-      <!-- Start: Content -->
-      <div class="main--content">
-        <!-- Start: FullCalendar -->
-        <fullcalendar
-          @eventClick="openEventPopup($event)"
-          :theme="currentTheme"
-          :view="calendarView"
-        />
-        <!-- End: FullCalendar -->
-      </div>
-      <!-- End: Content -->
-    </div>
-    <!-- End: Desktop Component-->
+  <div class="campaigns--wrapper" :data-theme="currentTheme">
+    <!-- Start: Header -->
+    <app-header
+      :view="calendarView"
+      @updateCalendarView="calendarView = $event"
+    />
+    <!-- End: Header -->
+    <!-- Start: FullCalendar -->
+    <fullcalendar
+      @eventClick="openEventPopup($event)"
+      :events="campaignDetail._events"
+      :theme="currentTheme"
+      :view="calendarView"
+    />
+    <!-- End: FullCalendar -->
     <!-- Start: Event Popup -->
     <transition name="popup">
       <event-popup
         v-if="isOpenEventPopup"
-        :eventData="eventSelected"
         @closePopup="isOpenEventPopup = $event"
       />
     </transition>
@@ -39,7 +27,7 @@
 
 <script>
 import AppHeader from "./header";
-import EventPopup from "./popup/event";
+import EventPopup from "../popup/update";
 export default {
   components: {
     AppHeader,
@@ -48,18 +36,27 @@ export default {
   data() {
     return {
       calendarView: "month",
-      eventSelected: {},
       isOpenEventPopup: false
     };
   },
   computed: {
+    campaignDetail() {
+      return this.$store.getters.campaignDetail;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    eventDetail() {
+      return this.$store.getters.eventDetail;
     }
+  },
+  async created() {
+    const campaignId = this.$route.params.campaignId;
+    await this.$store.dispatch( "getCampaignDetail", campaignId );
   },
   methods: {
     openEventPopup( data ) {
-      this.eventSelected = data;
+      this.$store.dispatch( "getEventById", data._id );
       this.isOpenEventPopup = true;
     }
   }
