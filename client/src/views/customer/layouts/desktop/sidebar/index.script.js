@@ -43,7 +43,7 @@ export default {
         to: "campaigns"
       },
       {
-        text: "Quản lý nhóm",
+        text: "Nhóm & Trang",
         icon: {
           iconName: "friend",
           tagName: "icon-friend",
@@ -53,7 +53,7 @@ export default {
         },
         to: "group"
       },
-      {
+      /*{
         text: "Bạn bè",
         icon: {
           iconName: "friend",
@@ -63,7 +63,7 @@ export default {
           viewBox: "0 0 24 24"
         },
         to: "f_friends"
-      },
+      },*/
       {
         text: "Tài khoản Facebook",
         icon: {

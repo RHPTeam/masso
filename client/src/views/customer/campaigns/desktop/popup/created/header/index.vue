@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal--header modal--event-header p_3"
-    :style="{ backgroundColor: eventDetail.color }"
+    :style="{ backgroundColor: eventDedault.color }"
   >
     <!-- Start: Header Row -->
     <div class="r header--row mx_0">
@@ -10,39 +10,18 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          v-model="eventDetail.title"
+          v-model="title"
           @input="changeTitle()"
         />
       </div>
-      <div class="header--row-right d_flex align_items_center">
-        <div class="btn--header btn--copy mr_2">
-          <icon-base
-            class="ic--copy"
-            icon-name="ic--copy"
-            width="24"
-            height="24"
-            viewBox="0 0 500 500"
-          >
-            <icon-copy />
-          </icon-base>
-        </div>
-        <div class="btn--header btn--delete mr_2">
-          <icon-base
-            class="ic--remove"
-            icon-name="ic--remove"
-            width="24"
-            height="24"
-            viewBox="0 0 16 16"
-          >
-            <icon-remove />
-          </icon-base>
-        </div>
-        <div class="btn--header btn--save" @click="updateEvent()">
-          XONG
+      <div class="header--row-right d_flex align_items_center ml_auto">
+        <div class="btn--header btn--save" @click="createEvent()">
+          TẠO MỚI
         </div>
       </div>
     </div>
     <!-- End: Header Row -->
+    <div v-if="isShowAlert === true" class="text_danger mt_2"> Tiêu đề của event không được bỏ trống ! </div>
     <!-- Start: Header Row -->
     <div class="r header--row mx_0 justify_content_between mt_3">
       <div class="header--row-left">
@@ -50,16 +29,16 @@
           <div>
             <toggle-switch
               class="mr_2"
+              :value="false"
               @change="updateAutopost($event.value)"
-              :value="eventDetail.typeEvent === 0"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
               :switch-color="{
-                checked: eventDetail.color,
+                checked: '#ffa94b',
                 unchecked: '#e4e4e4'
               }"
             />
-            <span :style="[eventDetail.typeEvent === 0 ? { opacity: '1' } : { opacity: '0.8' }]">
+            <span>
               Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
             </span>
           </div>
@@ -109,11 +88,19 @@
 
 <script>
 export default {
-  props: [ "colors", "eventDetail" ],
+  props: [ "colors", "eventDedault", "isShowAlert" ],
   data() {
     return {
+      title: "",
       isShowColorDropdown: false
     };
+  },
+  computed: {
+    statusError() {
+      if(Object.entries(this.$store.getters.errorEvent).length === 0 && this.$store.getters.errorEvent.constructor === Object) return;
+      console.log(this.$store.getters.errorEvent);
+      return this.$store.getters.errorEvent;
+    }
   },
   methods: {
     closePopup() {
@@ -124,20 +111,20 @@ export default {
       this.isShowColorDropdown = false;
     },
     changeTitle( ) {
-      this.$emit( "changeTitle", this.eventDetail.title );
+      this.$emit( "changeTitle", this.title );
     },
     updateAutopost( val ) {
       this.$emit( "updateAutopost", val );
     },
-    updateEvent() {
-      this.$emit( "updateEvent" );
-      this.$emit( "closePopup", false );
+    createEvent() {
+      this.$emit( "updateEvent", this.title );
+      // this.$emit( "closePopup", false );
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../../style";
-@import "./index.style";
+  @import "../../deletecampaign/style";
+  @import "./index.style";
 </style>

@@ -14,6 +14,9 @@ const mongoose = require( "mongoose" );
 const passport = require( "passport" );
 const Role = require( "./src/models/Role.model" );
 
+// Combine module process to handle multi process
+require( "./src/process" );
+
 // connect to mongoose NoSQL DB
 mongoose.connect( `${config.db}/postv2`, {
   "useCreateIndex": true,

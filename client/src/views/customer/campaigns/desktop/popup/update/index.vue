@@ -5,16 +5,17 @@
         <!-- Start: Modal Header -->
         <event-modal-header
           :colors="colors"
-          :eventDetail="eventDetail"
+          :eventDedault="eventDedault"
+          :isShowAlert="isShowAlert"
           @closePopup="closePopup($event)"
-          @changeColor="changeColor($event)"
+          @changeColor="eventDedault.color = $event"
           @changeTitle="changeTitle($event)"
           @updateAutopost="changeAutopost($event)"
-          @updateEvent="updateEvent()"
+          @updateEvent="updateEvent($event)"
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-        <div class="modal--event-body" v-if="eventDetail.typeEvent === 0">
+        <div class="modal--event-body" v-if="eventDedault.type_event === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
           >
@@ -33,10 +34,10 @@
         <!-- Start: Modal Body Custom -->
         <VuePerfectScrollbar
           class="modal--event-scroll"
-          v-if="eventDetail.typeEvent === 1"
+          v-if="eventDedault.type_event === 1"
         >
           <event-modal-body-custom
-            :eventDetail="eventDetail"
+            :eventDedault="eventDedault"
           />
         </VuePerfectScrollbar>
         <!-- End: Modal Body Custom -->
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-import EventModalBodyCustom from "./bodycustom";
+import EventModalBodyCustom from "./body";
 import EventModalHeader from "./header";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
@@ -55,9 +56,22 @@ export default {
     EventModalHeader,
     VuePerfectScrollbar
   },
+  props: {
+    campaignsId: {
+      type: String
+    }
+  },
   data() {
     return {
-      colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ] // blue, violet, green, gray, orange, red
+      colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ], // blue, violet, green, gray, orange, red
+      eventDedault: {
+        "color": "#85CFFF",
+        "title": "",
+        "type_event": 0,
+        "status": false,
+        "break_point": 15
+      },
+      isShowAlert: false,
     };
   },
   computed: {
@@ -68,6 +82,8 @@ export default {
       return this.$store.getters.themeName;
     },
     eventDetail() {
+      if(Object.entries(this.$store.getters.eventDetail).length === 0 && this.$store.getters.eventDetail.constructor === Object) return;
+      // console.log(this.$store.getters.eventDetail);
       return this.$store.getters.eventDetail;
     }
   },
@@ -76,28 +92,32 @@ export default {
       this.$emit( "closePopup", data );
     },
     changeAutopost: function (val) {
-      val === true ? this.eventDetail.typeEvent = 0 : this.eventDetail.typeEvent = 1;
+      val === true ? this.eventDedault.type_event = 0 : this.eventDedault.type_event = 1;
     },
     changeColor( color ) {
-      this.eventDetail.color = color;
+      this.eventDedault.color = color;
     },
     changeTitle( title ) {
-      this.eventDetail.title = title;
+      this.eventDedault.title = title;
     },
-    updateEvent( ) {
+    updateEvent( val ) {
       const dataSender = {
-        campId: this.campaignDetail._id,
-        eventId: this.eventDetail._id,
-        event: this.eventDetail
+        campaignsId: this.campaignsId,
+        content: this.eventDedault
       };
-
-      this.$store.dispatch( "updateEvent", dataSender );
+      console.log( dataSender );
+      if( val === '' ) {
+        this.isShowAlert = true;
+      } else {
+        this.$store.dispatch( "createdNewEvent", dataSender );
+        this.closePopup();
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../style";
-@import "./index.style";
+  @import "./index.default";
+  @import "./index.style";
 </style>

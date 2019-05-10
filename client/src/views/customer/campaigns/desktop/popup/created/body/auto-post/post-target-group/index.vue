@@ -6,8 +6,8 @@
         <multiselect
           label="title"
           placeholder="Chọn nhóm"
-          @input="postGroupSelected = $event"
-          :options="postGroupsName"
+          @input="updateGroupSelected"
+          :options="postGroups"
         ></multiselect>
       </div>
     </div>
@@ -31,11 +31,9 @@ export default {
     },
     postGroupsName() {
       let arr = [];
-
       this.postGroups.forEach( ( item ) => {
         arr.push( item.title );
       } );
-
       return arr;
     }
   },
@@ -45,27 +43,30 @@ export default {
   methods: {
     getPostGroupByName( name ) {
       let res;
-
       this.postGroups.forEach( ( item ) => {
         if ( item.title === name ) {
           res = item;
         }
       } );
-
       return res;
+    },
+    updateGroupSelected( val ) {
+      console.log(val);
+      this.postGroupSelected = val;
+      this.$emit( "updateGroupToMiddleComponent", val._id );
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.post--targets-group {
-  .desc {
+  .post--targets-group {
+    .desc {
 
+    }
+    .multiselect--custom {
+      background-color: #fff;
+      border-radius: .625rem;
+    }
   }
-  .multiselect--custom {
-    background-color: #fff;
-    border-radius: .625rem;
-  }
-}
 </style>

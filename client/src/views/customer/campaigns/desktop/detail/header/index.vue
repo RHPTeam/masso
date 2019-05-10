@@ -35,7 +35,9 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn btn--orange">Thêm sự kiện</button>
+          <button class="btn btn--orange" 
+                  @click="isShowCreateEvent = true"
+          >Thêm sự kiện</button>
         </div>
         <div class="campaing--status d_flex align_items_center">
           <div class="status--name mr_2" v-if="campaignDetail.status">
@@ -84,15 +86,33 @@
         </div>
       </div>
       <!-- End: Header Action -->
+      <!--	Start: Create Campaign Popup	-->
+      <transition name="popup">
+        <create-new-event
+          v-if="isShowCreateEvent === true"
+          :campaignsId="campaignDetail._id"
+          @closePopup="isShowCreateEvent = $event"
+        />
+      </transition>
+      <!--	End: Create Campaign Popup	-->
     </div>
   </div>
 </template>
 
 <script>
+import CreateNewEvent from "../../popup/created/";
 let typingTimer;
 
 export default {
+  components: {
+    CreateNewEvent
+  },
   props: [ "view" ],
+  data() {
+    return {
+      isShowCreateEvent: false
+    }
+  },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;

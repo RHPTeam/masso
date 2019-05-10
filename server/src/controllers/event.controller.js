@@ -65,29 +65,34 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
-      if ( !req.body.content || req.body.content.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
-      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
+    } else if ( req.body.type_event === undefined ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
+    } else if ( req.body.type_event === 1 ) {
+      if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
+      } else if ( req.body.break_point < 5 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
+      } else if ( req.body.started_at === undefined ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
+      } else if ( Date.now() > req.body.started_at ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
     const errors = [], userId = secure( res, req.headers.authorization ),
-      objSave = {
-        "title": req.body.title,
-        "color": req.body.color,
-        "typeEvent": req.body.typeEvent,
-        "break_point": req.body.break_point,
-        "content": req.body.content,
-        "_targets": req.body._targets,
-        "status": req.body.status,
-        "started_at": req.body.started_at ? req.body.started_at : Date.now(),
-        "finished_at": req.body.finished_at ? req.body.finished_at : null,
-        "_account": userId
-      },
-      newEvent = await new Event( objSave ),
-      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( "_events" );
+      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( { "path": "_events", "select": "title started_at" } );
+
+    // Check catch when update event
+    if ( !findCampaign ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    } else if ( findCampaign._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+    }
+
+    // Check status of campaign to create status for event
+    req.body.status = findCampaign.status;
+    // eslint-disable-next-line one-var
+    const newEvent = await new Event( req.body );
 
     // Check exist started_at
     await Promise.all( findCampaign._events.map( ( event ) => {
@@ -95,15 +100,9 @@ module.exports = {
         errors.push( event.title );
       }
     } ) );
+    console.log( errors );
     if ( errors.length > 0 ) {
       return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
-    }
-
-    // Check catch when update event
-    if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
-    } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
     await newEvent.save();

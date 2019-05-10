@@ -7,15 +7,25 @@
   * {
     box-sizing: border-box;
   }
+  input[type="text"] {
+    border-radius: .625rem;
+    border: none;
+    height: 40px;
+    padding-left: 1rem;
+    &:hover,&:active,&:visited,&:focus {
+      box-shadow: none;
+      outline: 0;
+    }
+  }
   .rhp-datepicker__calendar {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: calc(.5rem + 2px);
     color: #333333;
     position: absolute;
     top: 111%;
     z-index: 100;
-    background: #fff;
     width: 330px;
-    border: 1px solid #ccc;
-    border-radius: calc(.5rem + 2px);
     padding: .5rem;
     header {
       display: block;

@@ -16,7 +16,7 @@
       <div class="post--time-item d_flex align_items_center mb_3">
         <div class="item--label mr_3">Thời gian bắt đầu:</div>
         <div class="item--input d_flex align_items_center">
-          <input class="form_control input--time mr_2"
+          <input class="form_control text_center input--time mr_2"
                  type="time"
           >
           <datepicker
@@ -79,46 +79,46 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.post--time {
-  .title {
-    color: #666;
-    font-weight: 600;
-    .icon--sort-down {
-      vertical-align: middle;
-      vertical-align: -webkit-baseline-middle;
+  .post--time {
+    .title {
+      color: #666;
+      font-weight: 600;
+      .icon--sort-down {
+        vertical-align: middle;
+        vertical-align: -webkit-baseline-middle;
+      }
     }
-  }
-  .post--time-item {
-    .item--input {
-      input {
-        border: 0;
-        border-radius: .625rem;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-        &:focus {
+    .post--time-item {
+      .item--input {
+        input {
           border: 0;
-          box-shadow: none;
-          outline: 0;
-        }
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-          /* display: none; <- Crashes Chrome on hover */
-          -webkit-appearance: none;
-          margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
-        }
+          border-radius: .625rem;
+          height: 40px;
+          line-height: 40px;
+          text-align: center;
+          &:focus {
+            border: 0;
+            box-shadow: none;
+            outline: 0;
+          }
+          &::-webkit-outer-spin-button,
+          &::-webkit-inner-spin-button {
+            /* display: none; <- Crashes Chrome on hover */
+            -webkit-appearance: none;
+            margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+          }
 
-        &[type=number] {
-          -moz-appearance:textfield; /* Firefox */
+          &[type=number] {
+            -moz-appearance:textfield; /* Firefox */
+          }
         }
-      }
-      .input--number {
-        width: 80px;
-      }
-      .input--time {
-        width: 80px;
+        .input--number {
+          width: 80px;
+        }
+        .input--time {
+          width: 109px;
+        }
       }
     }
   }
-}
 </style>
