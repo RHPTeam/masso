@@ -26,7 +26,8 @@ module.exports = {
       "hour": date.getHours(),
       "date": date.getDate(),
       "month": date.getMonth(),
-      "day": date.getDay()
+      "day": date.getDay(),
+      "year": date.getFullYear()
     };
   }
 };

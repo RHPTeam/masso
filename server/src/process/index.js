@@ -5,7 +5,9 @@ const GroupFacebook = require( "../models/GroupFacebook.model" );
 const PageFacebook = require( "../models/PageFacebook.model" );
 const Post = require( "../models/Post.model" );
 
-const { createPost } = require( "../controllers/core/posts.core" ),
+const fs = require( "fs" ),
+  { createPost } = require( "../controllers/core/posts.core" ),
+  { getObjectDate } = require( "../helpers/utils/functions.util" ),
   { getRandom } = require( "../helpers/utils/arrayFunction.util" ),
   { agent } = require( "../configs/crawl" ),
   GLOBAL = require( "../databases/variables.global" ),
@@ -34,6 +36,10 @@ const { createPost } = require( "../controllers/core/posts.core" ),
         "text": data.activity.text
       }
     };
+
+    if ( type === 0 ) {
+      feed.location.value = "";
+    }
 
     if ( type === 1 ) {
       if ( target.typeTarget === 0 ) {
@@ -126,10 +132,31 @@ const { createPost } = require( "../controllers/core/posts.core" ),
       if ( GLOBAL.object_key_exists( event._id ) === true ) {
         return false;
       }
+      // Auto
+      if ( event.type_event === 0 ) {
+        // Handle auto post event choose auto
+        const postList = await Post.find( { "_account": event._account } ),
+          postSelected = getRandom( postList, 1 ),
+          feed = defineFeedFacebook( postSelected[ 0 ], { "id": "" }, 0 ),
+          hour = JSON.parse( fs.readFileSync( "", "utf8" ) );
+
+        await Promise.all( hour.goldTimeToCreateFeed.hour.map( async ( item ) => {
+          const objectTime = getObjectDate( event.started_at ),
+            facebookList = await Facebook.find( { "_account": event._account } );
+
+          GLOBAL.set( event._id, new CronJob( new Date( objectTime.year, objectTime.month, objectTime.date, item, objectTime.minute ), async function () {
+            await Promise.all( facebookList.map( ( facebook ) => {
+              createPost( { "cookie": facebook.cookie, agent, feed } );
+            } ) );
+          }, function () {
+            GLOBAL.get( event._id ).stop();
+          }, true, "Asia/Ho_Chi_Minh" ) );
+        } ) );
+      }
+
+      // Custom
       GLOBAL.set( event._id, new CronJob( new Date( event.started_at ), async function () {
-        if ( event.type_event === 0 ) {
-          // Handle auto post event choose auto
-        } else if ( event.target_custom.length > 0 ) {
+        if ( event.target_custom.length > 0 ) {
           if ( event.post_custom.length > 0 ) {
             await handleManyTarget( event.post_custom, event.target_custom, event.break_point );
           } else if ( event.post_category ) {
@@ -151,7 +178,7 @@ const { createPost } = require( "../controllers/core/posts.core" ),
                 }
               }, function () {
                 GLOBAL.get( page.pageId ).stop();
-              }. true, "Asia/Ho_Chi_minh" ) );
+              }. true, "Asia/Ho_Chi_Minh" ) );
             } );
           }
 
@@ -168,7 +195,7 @@ const { createPost } = require( "../controllers/core/posts.core" ),
                 }
               }, function () {
                 GLOBAL.get( group.groupId ).stop();
-              }. true, "Asia/Ho_Chi_minh" ) );
+              }. true, "Asia/Ho_Chi_Minh" ) );
             } );
           }
         }

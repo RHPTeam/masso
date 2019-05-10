@@ -24,8 +24,6 @@ const request = require( "request" ),
         }
       };
 
-      console.log( option );
-
       request( option, async function( err, res, body ) {
         if ( !err && res.statusCode === 200 ) {
           // Check conditional url
