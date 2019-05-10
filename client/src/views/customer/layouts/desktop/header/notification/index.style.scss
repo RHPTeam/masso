@@ -1,0 +1,183 @@
+.notification--wrapper {
+  border: 1px solid;
+  border-radius: .625rem;
+  font-size: .825rem;
+  transform-origin: top;
+  transition: all .4s ease-in-out;
+  &::before {
+    content:"";
+    position: absolute;
+    right: 15px;
+    top: -8px;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 10px 10px 10px;
+    z-index:99999;
+  }
+  .notification--content {
+    .notification--header {
+      border: 1px solid;
+      border-top-left-radius: .625rem;
+      border-top-right-radius: .625rem;
+      padding: .5rem .75rem;
+      .title {
+        font-weight: 600;
+      }
+      .action {
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    .notification--body {
+      max-height: 260px;
+      .notification--list {
+        border: 1px solid;
+        border-top: 0;
+        border-bottom: 0;
+        &-item {
+          border-bottom: 1px solid;
+          cursor: pointer;
+          padding: .5rem .75rem;
+          transition: background-color .4s ease;
+          &:last-child {
+            border-bottom: 0;
+          }
+          .item--image {
+            margin-right: .75rem;
+            img {
+              border-radius: 100%;
+              height: 50px;
+              width: 50px;
+            }
+          }
+          .item--info {
+            .item--content {
+              line-height: 1.2;
+            }
+            .item--time {
+              font-size: .75rem;
+            }
+          }
+        }
+      }
+    }
+    .notification--footer {
+      border: 1px solid;
+      border-bottom-left-radius: .625rem;
+      border-bottom-right-radius: .625rem;
+      padding: .5rem .75rem;
+      .btn--see-all {
+        cursor: pointer;
+        font-weight: 600;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+  }
+}
+
+/* Transition */
+.dropdown-enter, .dropdown-leave-to{
+  transform: scaleY(0);
+}
+
+/* Theme Color */
+/* Light */
+.notification--wrapper[data-theme="light"] {
+  background-color: #fff;
+  border-color: #e4e4e4;
+  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+  color: #444;
+  &::before {
+    border-color: transparent transparent #fff transparent;
+  }
+  .notification--content {
+    .notification--header {
+      border-color: #e4e4e4;
+      .title {
+      }
+      .action {
+        color: #ffb94a;
+      }
+    }
+    .notification--body {
+      .notification--list {
+        border-color: #e4e4e4;
+        &-item {
+          background-color: #f7f7f7;
+          border-bottom-color: #e4e4e4;
+          &:hover {
+            background-color: #f2f2f2;
+          }
+          &.item--read {
+            background-color: #fff;
+            &:hover {
+              background-color: #f2f2f2;
+            }
+          }
+          .item--time {
+            color: #999999;
+          }
+        }
+      }
+    }
+    .notification--footer {
+      border-color: #e4e4e4;
+      .btn--see-all {
+        color: #ffb94a;
+      }
+    }
+  }
+}
+
+/* Dark */
+.notification--wrapper[data-theme="dark"] {
+  background-color: #27292c;
+  border-color: #444444;
+  box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+  color: #f7f7f7;
+  &::before {
+    border-color: transparent transparent #27292c transparent;
+  }
+  .notification--content {
+    .notification--header {
+      border-color: #444444;
+      .title {
+      }
+      .action {
+        color: #ffb94a;
+      }
+    }
+    .notification--body {
+      .notification--list {
+        border-color: #444444;
+        &-item {
+          background-color: #2f3136;
+          border-bottom-color: #444444;
+          &:hover {
+            background-color: #25272a;
+          }
+          &.item--read {
+            background-color: #27292c;
+            &:hover {
+              background-color: #25272a;
+            }
+          }
+          .item--time {
+            color: #999999;
+          }
+        }
+      }
+    }
+    .notification--footer {
+      border-color: #444444;
+      .btn--see-all {
+        color: #ffb94a;
+      }
+    }
+  }
+}

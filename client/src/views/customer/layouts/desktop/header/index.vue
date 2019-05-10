@@ -5,6 +5,7 @@
     class="header d_flex justify_content_between align_items_center"
     :data-theme="currentTheme"
   >
+    <!-- Start: Header Left -->
     <div class="header--left d_flex justify_content_start align_items_center">
       <div class="header--icon" @click="toogleSidebar">
         <icon-base
@@ -21,12 +22,16 @@
         @click="createNewPost"
         >Viết bài mới</button>
     </div>
+    <!-- End: Header Left -->
+    <!-- Start: Header Right -->
     <div class="header--right d_flex align_items_center">
+      <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3"
-          @click="showNotification = !showNotification"
+          @click="showNotificationDropdown"
         >
           <icon-base
+            :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="bell"
             width="20px"
             height="20px"
@@ -35,18 +40,25 @@
             <icon-bell></icon-bell>
           </icon-base>
           <div class="notification--total position_absolute">
-            <div class="text">14</div>
+            <div class="text text_center">{{ notifications.length }}</div>
           </div>
         </div>
+        <!-- Start: Notification Dropdown -->
         <div class="notification--dropdown position_absolute">
-          <header-notification
-            v-if="showNotification"
-          ></header-notification>
+          <transition name="dropdown">
+            <header-notification
+              v-if="isShowNotificationDropdown"
+              :notifications="notifications"
+            ></header-notification>
+          </transition>
         </div>
+        <!-- End: Notification Dropdown -->
       </div>
+      <!-- End: Notification Groups -->
+      <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
-        @click="showDropdown"
+        @click="showProfileDropdown"
       >
         <div class="profile--image">
           <div
@@ -74,9 +86,10 @@
             <icon-arrow-down />
           </icon-base>
         </div>
+        <!-- Start: Dropdown Menu -->
         <div
           class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
-          :class="{ show: showdropdown }"
+          :class="{ show: isShowProfileDropdown }"
         >
           <span class="with--arrow">
             <span class="bg-orange"></span>
@@ -84,20 +97,18 @@
           <div
             class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2"
           >
-            <div class="avatar--wrap">
-              <div
-                v-if="user.imageAvatar"
-                class="avatar--content avatar--img position_relative d_block"
-                :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
-              ></div>
-              <div
-                v-else
-                class="avatar--content avatar--default position_relative d_block"
-              >
-                <span class="position_absolute">
-                  {{ user.name | getFirstLetter }}
-                </span>
-              </div>
+            <div
+              v-if="user.avatar"
+              class="avatar--wrap avatar--img position_relative d_block"
+              :style="{ backgroundImage: 'url(' + user.avatar + ')' }"
+            ></div>
+            <div
+              v-else
+              class="avatar--wrap avatar--default position_relative d_block"
+            >
+            <span class="position_absolute">{{
+              user.name | getFirstLetter
+            }}</span>
             </div>
             <div class="ml_2">
               <h4 class="mb_0">{{ user.name }}</h4>
@@ -126,8 +137,11 @@
             >Đăng xuất
           </a>
         </div>
+        <!-- End: Dropdown Menu -->
       </div>
+      <!-- End: User Info -->
     </div>
+    <!-- End: Header Right -->
   </div>
 </template>
 
