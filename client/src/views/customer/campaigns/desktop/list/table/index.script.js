@@ -1,6 +1,6 @@
 
 import DeleteCampaignPopup from "../../popup/deletecampaign";
-import ConvertUnicode from "@/utils/string.util.js";
+import ConvertUnicode from "@/utils/functions/string.js";
 
 export default {
   props: [ "currentPage", "filterShowSelected", "filterStatusSelected", "search" ],

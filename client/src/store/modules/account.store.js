@@ -6,7 +6,7 @@
 /* eslint-disable no-unused-vars */
 import AccountServices from "@/services/modules/account.services";
 
-import CookieFunction from "@/utils/cookie.util";
+import CookieFunction from "@/utils/functions/cookie";
 import axios from "axios";
 
 const state = {

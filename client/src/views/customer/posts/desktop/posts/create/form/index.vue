@@ -341,7 +341,7 @@ import TagPost from "./tag";
 import CheckinPost from "./checkin";
 import ActivityPost from "./activity";
 
-import StringFunction from "@/utils/string.util";
+import StringFunction from "@/utils/functions/string";
 
 let typingTimer;
 

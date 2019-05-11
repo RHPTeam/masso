@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import Vue from "vue/types";
+import Vue from "vue";
 
 // Icon Component
 Vue.component( "IconAccount", () => import( "@/components/icons/IconAccount" ) );
