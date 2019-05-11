@@ -53,7 +53,6 @@ const actions = {
   getActivityFb: async ( { commit } ) => {
     commit( "fb_request" );
     const results = await  FacebookServices.getActivity();
-    console.log(results.data.data.results);
     commit( "setActivity", results.data.data.results );
     commit( "fb_success" );
   },
@@ -65,7 +64,6 @@ const actions = {
   },
   searchPlacesCheckIn: async ( { commit }, payload ) => {
     commit( "fb_request" );
-    console.log( payload );
     const results = await  FacebookServices.searchPlaces( payload );
     commit( "setPlaces", results.data.data.results );
     commit( "fb_success" );

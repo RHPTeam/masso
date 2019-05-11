@@ -1,6 +1,3 @@
-/* eslint-disable one-var */
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-shadow */
 /**
  * Controller post (profile) for project
  * author: hoc-anms

@@ -202,8 +202,6 @@ const {
         option.form[ "data[audience][privacy][base_state]" ] = "everyone";
       }
 
-      console.log( option );
-
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           let postID = null;

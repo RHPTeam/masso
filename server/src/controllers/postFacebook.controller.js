@@ -23,34 +23,40 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
-    let dataResponse = null;
+    let page = null, dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findById( userId );
+      userId = secure( res, authorization );
 
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    if ( req.query._id ) {
+      dataResponse = await PostFacebook.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
+    } else if ( req.query._size && req.query._page ) {
+      dataResponse = ( await PostFacebook.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+    } else if ( req.query._size ) {
+      dataResponse = ( await PostFacebook.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Post.find( { "_account": userId } ).lean();
     }
 
-    if (
-      decodeRole( role, 10 ) === 0 || decodeRole( role, 10 ) === 1 || decodeRole( role, 10 ) === 2
-    ) {
-      req.query._id ? ( dataResponse = await PostFacebook.find( { "_id": req.query._id, "_account": userId } ) ) : ( dataResponse = await PostFacebook.find( { "_account": userId } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
+    if ( req.query._size ) {
+      if ( ( await Post.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size );
+      } else {
+        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
       }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } );
+
+      return res
+        .status( 200 )
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
     }
+
+    // Check when user get one
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
+    }
+
     res
       .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+      .json( jsonResponse( "success", dataResponse ) );
   
   },
   /**

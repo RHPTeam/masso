@@ -139,7 +139,6 @@ export default {
       this.$emit( "updateTimeCustomFromMiddleComponent", val );
     },
     updatePostCustomToParent( val ){
-      console.log(val);
       this.$emit( "updatePostCustomFromMiddleComponent", val );
     },
     updateGroupFacebookCustomToParent( val ){

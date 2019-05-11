@@ -3,8 +3,8 @@
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
-        nameBread="Chiến dịch"
-        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
+        nameBread="Thiết lập chiến dịch"
+        subBread="Giúp bạn thiết lập bộ hẹn cho bài đăng theo ý muốn và trực quan hơn"
       />
       <!-- Start: Content -->
       <div class="main--content">

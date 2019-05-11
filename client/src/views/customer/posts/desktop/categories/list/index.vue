@@ -41,7 +41,6 @@ export default {
     },
     categories() {
       if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
-      // console.log(this.$store.getters.categories);
       return this.$store.getters.categories;
     }
   },

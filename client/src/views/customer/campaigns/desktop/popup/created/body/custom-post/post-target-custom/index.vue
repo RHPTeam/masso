@@ -43,11 +43,9 @@
 export default {
   computed: {
     facebookGroups() {
-      console.log(this.$store.getters.facebookGroups);
       return this.$store.getters.facebookGroups;
     },
     facebookPages() {
-      console.log(this.$store.getters.facebookPages);
       return this.$store.getters.facebookPages;
     },
   },

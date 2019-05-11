@@ -51,7 +51,6 @@ export default {
       return res;
     },
     updateGroupSelected( val ) {
-      console.log(val);
       this.postGroupSelected = val;
       this.$emit( "updateGroupToMiddleComponent", val._id );
     }

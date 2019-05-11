@@ -48,7 +48,6 @@ const actions = {
       await commit( "addNewAccountFacebook", result.data.data );
       commit( "fb_success" );
     } catch ( e ) {
-      console.log( e );
       // if ( e.response.status === 403 ) commit( "addAccountError", "error" );
       // commit( "fb_success" );
     }
@@ -68,7 +67,6 @@ const actions = {
   updateAccountFb: async ( {commit}, payload ) => {
     try {
       commit( "fb_request" );
-      // console.log(payload);
       const dataSender = {
         cookie: payload.cookie
       };

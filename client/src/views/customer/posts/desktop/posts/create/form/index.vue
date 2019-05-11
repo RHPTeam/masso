@@ -440,9 +440,7 @@ export default {
     // Get name item activity
     activityFeelName() {
       let result = this.post.activity.typeActivity;
-      // console.log(result);
       let newStr = result.slice( 4 );
-      // console.log(newStr);
       let str = newStr.split(".");
       return str[0];
     }
@@ -458,7 +456,6 @@ export default {
         this.post.color = "";
         this.$store.dispatch( "updatePost", this.post );
       } else {
-        console.log(1);
       }
     },
     contentColor( value ) {
@@ -481,7 +478,6 @@ export default {
     },
     // Update categories post
     updateCate( value ) {
-      console.log( value );
       this.$store.dispatch( "updatePost", this.post );
     },
     updateTitlePost( value ){

@@ -46,7 +46,6 @@ const actions = {
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
     const resultAllPost = await PostServices.index();
-    console.log(resultAllPost.data.data);
     commit( "setAllPost", resultAllPost.data.data );
     commit( "post_success" );
   },
@@ -54,15 +53,12 @@ const actions = {
     commit( "post_request" );
 
     const resultPost = await PostServices.getById( payload );
-    // console.log( resultPost.data.data );
     commit( "setPost", resultPost.data.data );
     commit( "post_success" );
   },
   getPostByCategories: async ( { commit }, payload ) => {
     commit( "post_request" );
-    console.log(payload);
     const resultPost = await PostServices.getByCategories( payload );
-    console.log(resultPost.data.data);
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
@@ -84,10 +80,8 @@ const actions = {
     commit( "post_success" );
   },
   updateAttachmentPost: async ( { commit }, payload ) => {
-    // console.log(payload)
     await PostServices.updateAttachmentPost( payload.id, payload.formData );
     const resultPost = await PostServices.getById( payload.id );
-    // console.log(resultPost.data.data);
     commit( "setPost", resultPost.data.data );
   },
   sendErrorUpdate: async ( { commit } ) => {

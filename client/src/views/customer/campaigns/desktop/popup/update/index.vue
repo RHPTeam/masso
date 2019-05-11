@@ -83,7 +83,6 @@ export default {
     },
     eventDetail() {
       if(Object.entries(this.$store.getters.eventDetail).length === 0 && this.$store.getters.eventDetail.constructor === Object) return;
-      // console.log(this.$store.getters.eventDetail);
       return this.$store.getters.eventDetail;
     }
   },
@@ -105,7 +104,6 @@ export default {
         campaignsId: this.campaignsId,
         content: this.eventDedault
       };
-      console.log( dataSender );
       if( val === '' ) {
         this.isShowAlert = true;
       } else {
