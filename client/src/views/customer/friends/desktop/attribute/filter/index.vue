@@ -109,7 +109,7 @@
   </div>
 </template>
 <script>
-import ConvertUnicode from "@/utils/string.util";
+import ConvertUnicode from "@/utils/functions/string";
 export default {
   props: {
     bcId: String,

@@ -141,5 +141,31 @@ module.exports = {
 
     await Campaign.findByIdAndDelete( req.query._campaignId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
+  /**
+   * Duplicate new campaign
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  "duplicate": async ( req, res ) => {
+    const userId = secure( res, req.headers.authorization ),
+      findCampaign = await Campaign.findById( req.query._campaignId ).select( "-_id -__v -updated_at -created_at" ).lean();
+
+    // Check catch when delete campaign
+    if ( !findCampaign ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    } else if ( findCampaign._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
+    }
+
+    findCampaign.title = `${findCampaign.title} Copy`;
+
+    // eslint-disable-next-line one-var
+    const newCampaign = new Campaign( findCampaign );
+
+    newCampaign.save();
+
+    res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
   }
 };

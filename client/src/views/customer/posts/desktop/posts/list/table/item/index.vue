@@ -11,11 +11,6 @@
         </div>
       </div>
       <div class="col col--category px_2">Mỹ phẩm</div>
-      <div class="col col--content px_2">
-        <div class="col--content-text">
-          {{ item.content }}
-        </div>
-      </div>
       <div class="col col--image px_2">
         <div class="d_flex align_items_center justify_content_start">
           <div class="image--wrap position_relative mr_2">
@@ -85,7 +80,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .post--data {
+.post--data {
   font-size: 0.875rem;
   .item--header {
     background-color: #ffffff;
@@ -108,21 +103,13 @@ export default {
     width: calc(20px + 1rem);
   }
   .col--name {
-    width: calc(40% - 140px - 3.5rem);
+    width: calc(100% - 20% - 312px - 7rem);
   }
   .col--category {
-    width: 14%;
-  }
-  .col--content {
-    width: calc(46% - 140px - 3.5rem);
-    &-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    width: 20%;
   }
   .col--image {
-    width: calc(185px + 3rem);
+    width: calc(217px + 3rem);
   }
   .col--action {
     width: calc(75px + 3rem);

@@ -13,4 +13,8 @@ router
   .post( CampaignController.create )
   .patch( CampaignController.update )
   .delete( CampaignController.delete );
+
+router
+  .route( "/duplicate" )
+  .post( CampaignController.duplicate );
 module.exports = router;

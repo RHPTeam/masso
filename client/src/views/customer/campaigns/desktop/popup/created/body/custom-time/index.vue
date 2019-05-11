@@ -40,7 +40,7 @@
 <script>
 const currentTimeStamp = new Date();
 
-import DateFunction from "@/utils/date.util";
+import DateFunction from "@/utils/functions/date";
 
 export default {
   components: {
