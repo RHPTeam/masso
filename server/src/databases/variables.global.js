@@ -5,11 +5,18 @@ const cronListObjectProperties = {};
 
 module.exports = {
   "set": ( key, value ) => {
-    Object.defineProperty( cronListObjectProperties, key, {
-      "value": value
+    Object.defineProperty( cronListObjectProperties, `rhp${key}`, {
+      "value": value,
+      "writable": true
     } );
   },
   "get": ( key ) => {
-    return cronListObjectProperties[ key ];
+    return cronListObjectProperties[ `rhp${key}` ];
+  },
+  "object_key_exists": ( key ) => {
+    if ( Object.keys( cronListObjectProperties ).includes( key ) ) {
+      return true;
+    }
+    return false;
   }
 };

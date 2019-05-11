@@ -1,8 +1,9 @@
 /**
  * Controller campaign (profile) for project
  * author: hoc-anms
+ * updater: sky albert
  * date up: 23/04/2019
- * date to: ___
+ * date to: 09/05/2019
  * team: BE-RHP
  */
 const Campaign = require( "../models/Campaign.model" );
@@ -95,7 +96,7 @@ module.exports = {
     }
 
     const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findById( req.query._campaignId ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account" } );
+      findCampaign = await Campaign.findById( req.query._campaignId );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -107,6 +108,11 @@ module.exports = {
     // Check switch status of campaign
     if ( req.query._type && ( req.query._type ).trim() === "status" ) {
       findCampaign.status = !findCampaign.status;
+
+      await Promise.all( findCampaign._events.map( async ( event ) => {
+        await Event.findByIdAndUpdate( event, { "$set": { "status": findCampaign.status } }, { "new": true } );
+      } ) );
+
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }

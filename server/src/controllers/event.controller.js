@@ -123,11 +123,17 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
-      if ( !req.body.content || req.body.content.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
-      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
+    } else if ( !req.body.type_event ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
+    } else if ( req.body.type_event === 1 ) {
+      if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
+      } else if ( req.body.break_point < 5 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
+      } else if ( !req.body.started_at ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
+      } else if ( Date.now() > req.body.started_at ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 

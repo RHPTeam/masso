@@ -22,7 +22,7 @@ const mongoose = require( "mongoose" ),
     } ],
     "target_category": {
       "type": Schema.Types.ObjectId,
-      "ref": "PostGroup"
+      "ref": "PostGroups"
     },
     "target_custom": [ {
       "typeTarget": Number,
