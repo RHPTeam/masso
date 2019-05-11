@@ -1,49 +1,122 @@
 <template>
-  <div class="post--filter d_flex justify_content_start align_items_center">
-    <router-link
-      class="mr_3"
-      tag="button"
-      :to="{ name: 'posts' }"
-      active-class="active"
-      exact
-      >Tất cả bài viết</router-link
+  <div
+    class="btn btn--filter"
+    @click="showFilterDropdown = !showFilterDropdown"
+    :data-theme="currentTheme"
+  >
+    {{ filterSelected.name }}
+    <icon-base
+      class="ml_1"
+      icon-name="icon-sort-down"
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
     >
-    <router-link
-      class="mr_3"
-      tag="button"
-      :to="{ name: 'categories' }"
-      active-class="active"
-      >Danh mục</router-link
-    >
+      <icon-sort-down />
+    </icon-base>
+    <!-- Start: Filter dropdown -->
+    <div class="dropdown text_left" v-show="showFilterDropdown">
+      <div
+        class="dropdown--item"
+        v-for="(item, index) in filterList"
+        :key="`a-${index}`"
+        @click="updateFilterSelected(item)"
+      >
+        {{ item.name }}
+      </div>
+    </div>
+    <!-- End: Filter dropdown -->
   </div>
 </template>
 
 <script>
-export default {};
+  export default {
+    props: [ "filterList", "filterSelected" ],
+    data() {
+      return {
+        showFilterDropdown: false
+      };
+    },
+    computed: {
+      currentTheme() {
+        return this.$store.getters.themeName;
+      }
+    },
+    methods: {
+      updateFilterSelected( data ) {
+        this.$emit( "updateFilterSelected", data );
+      }
+    }
+  };
 </script>
 
 <style lang="scss" scoped>
-.post--filter {
-  margin: 2rem 0;
-  height: 42px;
-  font-size: 0.875rem;
-  > button {
-    background-color: transparent;
-    border: 0;
-    border-radius: 10px;
-    color: #999999;
-    cursor: pointer;
-    font-size: 1rem;
-    font-weight: 600;
-    height: 100%;
-    outline: none;
-    padding: 0 1.5rem;
-    transition: all 0.4s ease;
-    &:hover,
-    &.active {
-      background-color: #ffb94a;
-      color: #ffffff;
+  .btn--filter {
+    border-radius: 0.5rem;
+    font-size: inherit;
+    height: 40px;
+    line-height: 40px;
+    padding: 0 .75rem;
+    position: relative;
+    &:active,
+    &:focus {
+      box-shadow: none;
+      outline: 0;
+    }
+    .dropdown {
+      border: 0;
+      border-radius: 0.5rem;
+      padding: 0.375rem 0;
+      position: absolute;
+      top: calc(100% + 3px);
+      right: 0;
+      min-width: 13rem;
+      width: auto;
+      z-index: 999;
+      &--item {
+        padding: 0 .75rem;
+      }
+    }
+    svg {
+      stroke-width: 5;
+      vertical-align: middle;
+      vertical-align: -webkit-baseline-middle;
     }
   }
-}
+  /*  Theme color */
+  .btn--filter[data-theme="light"] {
+    background-color: #fff;
+    .dropdown {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      color: #444;
+      &--item {
+        &:hover {
+          background-color: #ffb94a;
+          color: #fff;
+        }
+      }
+    }
+    svg {
+      color: #ccc;
+    }
+  }
+  .btn--filter[data-theme="dark"] {
+    background-color: #27292d;
+    color: #f7f7f7;
+    .dropdown {
+      background-color: #27292d;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+      color: #f7f7f7;
+      &--item {
+        &:hover {
+          background-color: #ffb94a;
+          color: #fff;
+        }
+      }
+    }
+    svg {
+      color: #999;
+    }
+  }
 </style>

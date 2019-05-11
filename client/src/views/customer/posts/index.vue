@@ -9,7 +9,7 @@
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Filter -->
-        <app-filter v-if="showFilter" />
+        <app-navigation v-if="showNavigation" />
 
         <!-- End: Filter -->
         <transition name="slide-fade">
@@ -23,20 +23,18 @@
 </template>
 
 <script>
-import AppFilter from "./desktop/layouts/filter/index";
+import AppNavigation from "./desktop/layouts/navigation/index";
 export default {
   components: {
-    AppFilter
+    AppNavigation
   },
   computed: {
-    showFilter() {
+    showNavigation() {
       const isCategoriesRoute = this.$route.path === "/posts/categories",
             isPostRoute = this.$route.path === "/posts/";
 
-      if ( isCategoriesRoute || isPostRoute ) {
-        return true;
-      }
-      return false;
+      return isCategoriesRoute || isPostRoute;
+
     }
   },
   async created() {

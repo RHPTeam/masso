@@ -433,7 +433,7 @@ export default {
       if (arrIcon === undefined) {
         return;
       } else {
-        let arr =  arrIcon.filter(item => {
+        let arr =  arrIcon.navigation(item => {
           if( item.uid == result ) return item.photo;
         });
         return arr[0].photo;

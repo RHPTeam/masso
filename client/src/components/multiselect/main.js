@@ -211,7 +211,7 @@ export default {
       }
     },
     /**
-     * Callback to filter results when search text
+     * Callback to navigation results when search text
      * is provided. Default implementation loops
      * each option, and returns the result of
      * this.filterBy.

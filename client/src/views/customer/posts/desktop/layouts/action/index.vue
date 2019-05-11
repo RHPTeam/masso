@@ -70,7 +70,7 @@ export default {
 
 .post--action[data-theme="light"] {
   .post--search {
-    background-color: #fafafa;
+    background-color: #fff;
     input {
       color: #000;
     }
