@@ -30,24 +30,24 @@
 </template>
 
 <script>
-  export default {
-    props: [ "filterList", "filterSelected" ],
-    data() {
-      return {
-        showFilterDropdown: false
-      };
-    },
-    computed: {
-      currentTheme() {
-        return this.$store.getters.themeName;
-      }
-    },
-    methods: {
-      updateFilterSelected( data ) {
-        this.$emit( "updateFilterSelected", data );
-      }
+export default {
+  props: [ "filterList", "filterSelected" ],
+  data() {
+    return {
+      showFilterDropdown: false
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
-  };
+  },
+  methods: {
+    updateFilterSelected( data ) {
+      this.$emit( "updateFilterSelected", data );
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

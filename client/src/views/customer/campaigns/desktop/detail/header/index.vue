@@ -2,7 +2,7 @@
   <div class="main--header mb_3" :data-theme="currentTheme">
     <!-- Start: Header Top -->
     <div class="main--header-top d_flex justify_content_between align_items_center">
-      <div class="top--left d_flex align_items_center">
+      <div class="top--left d_flex align_items_center mr_3">
         <div class="title">
           <contenteditable
             class="editable"
@@ -11,7 +11,7 @@
             :noNL="true"
             :contenteditable="true"
             v-model='campaignDetail.title'
-            @returned="updateCampaign( campaignDetail )"
+            @returned="updateCampaign()"
           />
         </div>
       </div>
@@ -146,11 +146,11 @@ export default {
 
       typingTimer = await setTimeout( this.updateCampaign( campaign ), 1000);
     },
-    updateCampaign( campaign ) {
+    updateCampaign() {
       const objSender = {
-        campId: campaign._id,
+        campId: this.campaignDetail._id,
         campaign: {
-          title: campaign.title
+          title: this.campaignDetail.title
         }
       };
 
