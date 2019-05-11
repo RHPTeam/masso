@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import Vue from "vue";
+import Vue from "vue/types";
 
 // Icon Component
 Vue.component( "IconAccount", () => import( "@/components/icons/IconAccount" ) );
@@ -110,3 +110,8 @@ Vue.component("LoadingComponent", () => import("@/components/shared/layouts/load
 Vue.component("DNotification", () =>
   import("@/components/shared/layouts/notification")
 );
+
+/**
+ * Assign Global Vue Directives
+ */
+Vue.use( () => import("@/directives/click-outside") );

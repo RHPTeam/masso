@@ -182,5 +182,28 @@ module.exports = {
 
     await Event.findByIdAndDelete( req.query._eventId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
+  "duplicate": async ( req, res ) => {
+    const userId = secure( res, req.headers.authorization ),
+      findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
+      findEvent = await Event.findById( req.query._eventId ).select( "-_id -__v -updated_at -created_at" ).lean();
+
+    // Check catch when duplicate
+    if ( !findEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+    } else if ( findEvent._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+    }
+
+    findEvent.title = `${findEvent.title} Copy`;
+
+    // eslint-disable-next-line one-var
+    const newEvent = new Event( findEvent );
+
+    await newEvent.save();
+    findCampaign._events.push( newEvent._id );
+    findCampaign.save();
+
+    res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   }
 };

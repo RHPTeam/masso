@@ -13,4 +13,8 @@ router
   .post( EventController.create )
   .patch( EventController.update )
   .delete( EventController.delete );
+
+router
+  .route( "/duplicate" )
+  .post( EventController.duplicate );
 module.exports = router;
