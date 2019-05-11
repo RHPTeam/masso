@@ -1,7 +1,7 @@
 <template>
   <div
     class="modal--header modal--event-header p_3"
-    :style="{ backgroundColor: eventDedault.color }"
+    :style="{ backgroundColor: eventDetail.color }"
   >
     <!-- Start: Header Row -->
     <div class="r header--row mx_0">
@@ -10,7 +10,7 @@
           class="event--name"
           type="text"
           placeholder="Nhập tên sự kiện"
-          v-model="eventDedault.title"
+          v-model="eventDetail.title"
           @input="changeTitle()"
         />
       </div>
@@ -51,7 +51,7 @@
           <div>
             <toggle-switch
               class="mr_2"
-              :value="true"
+              :value="eventDetail.status"
               @change="updateAutopost($event.value)"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
@@ -110,7 +110,7 @@
 
 <script>
 export default {
-  props: [ "colors", "eventDedault", "isShowAlert" ],
+  props: [ "colors", "eventDetail", "isShowAlert" ],
   data() {
     return {
       title: "",

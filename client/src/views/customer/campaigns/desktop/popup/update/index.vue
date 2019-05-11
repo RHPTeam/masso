@@ -5,17 +5,17 @@
         <!-- Start: Modal Header -->
         <event-modal-header
           :colors="colors"
-          :eventDedault="eventDedault"
+          :eventDetail="eventDetail"
           :isShowAlert="isShowAlert"
           @closePopup="closePopup($event)"
-          @changeColor="eventDedault.color = $event"
+          @changeColor="eventDetail.color = $event"
           @changeTitle="changeTitle($event)"
           @updateAutopost="changeAutopost($event)"
           @updateEvent="updateEvent($event)"
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
-        <div class="modal--event-body" v-if="eventDedault.type_event === 0">
+        <div class="modal--event-body" v-if="eventDetail.type_event === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
           >
@@ -34,7 +34,7 @@
         <!-- Start: Modal Body Custom -->
         <VuePerfectScrollbar
           class="modal--event-scroll"
-          v-if="eventDedault.type_event === 1"
+          v-if="eventDetail.type_event === 1"
         >
           <event-modal-body-custom
             :eventDedault="eventDedault"
@@ -92,13 +92,13 @@ export default {
       this.$emit( "closePopup", data );
     },
     changeAutopost: function (val) {
-      val === true ? this.eventDedault.type_event = 0 : this.eventDedault.type_event = 1;
+      val === true ? this.eventDetail.type_event = 0 : this.eventDetail.type_event = 1;
     },
     changeColor( color ) {
-      this.eventDedault.color = color;
+      this.eventDetail.color = color;
     },
     changeTitle( title ) {
-      this.eventDedault.title = title;
+      this.eventDetail.title = title;
     },
     updateEvent( val ) {
       const dataSender = {

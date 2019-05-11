@@ -5,6 +5,7 @@ import PostServices from "@/services/modules/post.services";
 
 const state = {
   allPost: [],
+  postOfCate: [],
   errorPost: "",
   statusPost: "",
   post: [],
@@ -15,7 +16,8 @@ const getters = {
   allPost: ( state ) => state.allPost,
   post: ( state ) => state.post,
   newPost: ( state ) => state.newPost,
-  errorPost: ( state ) => state.errorPost
+  errorPost: ( state ) => state.errorPost,
+  postOfCate: ( state ) => state.postOfCate
 };
 const mutations = {
   post_request: ( state ) => {
@@ -35,14 +37,16 @@ const mutations = {
   },
   setPost: ( state, payload ) => {
     state.post = payload;
+  },
+  setPostByCate: ( state, payload ) => {
+    state.setPostByCate = payload;
   }
 };
 const actions = {
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
-
     const resultAllPost = await PostServices.index();
-
+    console.log(resultAllPost.data.data);
     commit( "setAllPost", resultAllPost.data.data );
     commit( "post_success" );
   },
@@ -52,6 +56,14 @@ const actions = {
     const resultPost = await PostServices.getById( payload );
     // console.log( resultPost.data.data );
     commit( "setPost", resultPost.data.data );
+    commit( "post_success" );
+  },
+  getPostByCategories: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    console.log(payload);
+    const resultPost = await PostServices.getByCategories( payload );
+    console.log(resultPost.data.data);
+    commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
   createNewPost: async ( { commit }, payload ) => {

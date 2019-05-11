@@ -7,7 +7,7 @@ export default {
       "minute": date.getMinutes(),
       "hour": date.getHours(),
       "date": date.getDate(),
-      "month": date.getMonth() + 1,
+      "month": date.getMonth(),
       "year": date.getFullYear(),
       "day": date.getDay()
     };

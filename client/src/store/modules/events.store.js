@@ -51,6 +51,7 @@ const state = {
     },
     getEventById: async ( { commit }, payload ) => {
       const res = await EventsServices.getEventById( payload );
+      console.log(res.data.data);
       await  commit( "setEventDetail", res.data.data );
     },
     updateEvent: async ( { commit }, payload ) => {

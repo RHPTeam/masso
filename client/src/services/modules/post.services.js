@@ -11,6 +11,9 @@ export default {
   getById( postId ) {
     return Api().get( `posts?_id=${postId}` );
   },
+  getByCategories( categoryId ) {
+    return Api().get( `posts?_categoryId=${categoryId}` );
+  },
   updatePost ( postId, content ) {
     return Api().patch( `posts?_postId=${postId}`, content );
   },
