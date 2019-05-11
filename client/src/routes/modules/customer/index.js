@@ -67,6 +67,11 @@ const generalRouter = {
     path: "/f-account",
     name: "f_account",
     component: require( "@/views/customer/accountfacebook" ).default
+  },
+  {
+    path: "/notifications",
+    name: "notifications",
+    component: require( "@/views/customer/notifications" ).default
   }
   ]
 };
