@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="options--item d_flex align_items_center justify_content_between"
-               @click="isShowOptionPost = 'custom'"
+               @click="showOptionContentCustom"
           >
             <div class="item--content">
               <div class="name mb_1">Tùy chọn đăng bài viết cụ thể</div>
@@ -85,6 +85,13 @@
     <custom-post
       v-if="isShowOptionPost === 'custom'"
       @comeBack="isShowOptionPost = $event"
+      @attachGroupCustom="updateGroupCustom($event)"
+      @attachTimeCustomBreakPoint="updateTimeCustomBreakPointToParent($event)"
+      @attachDateCustom="updateDateCustomToParent($event)"
+      @attachTimeCustom="updateTimeCustomToParent($event)"
+      @attachPostCustom="updatePostCustomToParent($event)"
+      @attachGroupFacebookCustom="updateGroupFacebookCustomToParent($event)"
+      @attachPagesFacebookCustom="updatePagesFacebookCustomToParent($event)"
     />
     <!--End: Setup custom post-->
   </div>
@@ -119,9 +126,35 @@ export default {
     updateTimeToParent(val){
       this.$emit( "updateTimeFromMiddleComponent", val);
     },
+    updateGroupCustom ( val ) {
+      this.$emit( "updateGroupCustomFromMiddleComponent", val );
+    },
+    updateTimeCustomBreakPointToParent( val ){
+      this.$emit( "updateTimeBreakPointCustomFromMiddleComponent", val );
+    },
+    updateDateCustomToParent( val ){
+      this.$emit( "updateDateCustomFromMiddleComponent", val );
+    },
+    updateTimeCustomToParent( val ){
+      this.$emit( "updateTimeCustomFromMiddleComponent", val );
+    },
+    updatePostCustomToParent( val ){
+      this.$emit( "updatePostCustomFromMiddleComponent", val );
+    },
+    updateGroupFacebookCustomToParent( val ){
+      this.$emit( "updateGroupFacebookCustomFromMiddleComponent", val );
+    },
+    updatePagesFacebookCustomToParent( val ){
+      this.$emit( "updatePagesFacebookCustomFromMiddleComponent", val );
+    },
     showOptionContentAuto() {
       this.$store.dispatch( "getAllCategories" );
       this.isShowOptionPost = 'auto'
+    },
+    showOptionContentCustom() {
+      this.$store.dispatch( "getAllCategories" );
+      this.$store.dispatch( "getAllPost" );
+      this.isShowOptionPost = 'custom'
     }
   },
 }

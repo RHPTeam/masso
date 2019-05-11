@@ -3,8 +3,8 @@
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
-        nameBread="Facebook Post"
-        subBread="Lorem ipsum dolor sit amet, consetetur sadipscing elitr"
+        nameBread="Thiết lập bài đăng"
+        subBread="Giúp bạn lưu các bài đăng vào thư viện, quản lý bài đăng theo nhóm mà bạn muốn"
       />
       <!-- Start: Content -->
       <div class="main--content">

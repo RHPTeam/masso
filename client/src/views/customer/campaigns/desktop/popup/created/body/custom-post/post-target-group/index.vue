@@ -52,7 +52,11 @@ export default {
     },
     updateGroupSelected( val ) {
       this.postGroupSelected = val;
-      this.$emit( "updateGroupToMiddleComponent", val._id );
+      const dataSender = {
+        typeTarget: 0,
+        id: val._id
+      };
+      this.$emit( "updateGroupToMiddleComponent", dataSender );
     }
   }
 }

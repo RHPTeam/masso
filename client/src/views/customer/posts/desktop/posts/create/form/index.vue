@@ -384,19 +384,17 @@ export default {
     },
     // Get Post by Id
     post() {
-      // if ( this.$store.getters.post === undefined ) return;
       if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
       return this.$store.getters.post;
     },
     //Get Categories
     categories() {
-      // if ( this.$store.getters.categories === undefined ) return;
       if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
       return this.$store.getters.categories;
     },
     //Get friend Facebook
     friendFb() {
-      if ( this.$store.getters.allFriend === undefined ) return;
+      if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
       return this.$store.getters.allFriend;
     },
     // Get 12 first item from more color
@@ -442,9 +440,7 @@ export default {
     // Get name item activity
     activityFeelName() {
       let result = this.post.activity.typeActivity;
-      // console.log(result);
       let newStr = result.slice( 4 );
-      // console.log(newStr);
       let str = newStr.split(".");
       return str[0];
     }
@@ -460,7 +456,6 @@ export default {
         this.post.color = "";
         this.$store.dispatch( "updatePost", this.post );
       } else {
-        console.log(1);
       }
     },
     contentColor( value ) {
@@ -473,28 +468,27 @@ export default {
     }
   },
   async created() {
-    // await this.$store.dispatch( "getAllCategories" );
     await this.$store.dispatch( "getColorFromFb" );
   },
 
   methods: {
-    chooseLinkContent(val){
+    chooseLinkContent( val ){
       this.post.scrape = val;
       this.$store.dispatch( "updatePost", this.post );
     },
     // Update categories post
-    updateCate(value) {
+    updateCate( value ) {
       this.$store.dispatch( "updatePost", this.post );
     },
-    updateTitlePost(value){
-      clearTimeout(typingTimer);
-      typingTimer = setTimeout(this.updateTitle(value), 8000);
+    updateTitlePost( value ){
+      clearTimeout( typingTimer );
+      typingTimer = setTimeout(this.updateTitle( value ), 8000);
     },
     clear(){
-      clearTimeout(typingTimer);
+      clearTimeout( typingTimer );
     },
     // Update title post
-    updateTitle(value){
+    updateTitle( value ){
       this.$store.dispatch( "updatePost", value );
     },
     showOptionColor() {
@@ -513,14 +507,16 @@ export default {
     savePost(){
       this.$store.dispatch( "updatePost", this.post );
     },
-    selectFile(id) {
+    // Select file images
+    selectFile( id ) {
       this.file = this.$refs.file.files;
-      this.sendFile(id);
+      this.sendFile( id );
     },
+    // Update file images to post
     sendFile() {
       const formData = new FormData();
-      Array.from(this.file).forEach((f) => {
-        formData.append("attachments", f)
+      Array.from( this.file ).forEach(( f ) => {
+        formData.append( "attachments", f )
       });
       const objSender = {
         id: this.post._id,

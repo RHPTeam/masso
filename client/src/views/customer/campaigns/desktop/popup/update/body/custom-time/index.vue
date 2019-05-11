@@ -16,29 +16,21 @@
       <div class="post--time-item d_flex align_items_center mb_3">
         <div class="item--label mr_3">Thời gian bắt đầu:</div>
         <div class="item--input d_flex align_items_center">
-          <input class="form_control text_center input--time mr_2"
-                 type="time"
-          >
-          <datepicker
+          <time-picker class="mr_2" v-model="yourTimeValue" @change="updateTime" />
+          <date-picker
             class="time--datepicker"
+            @selected="updateDate"
+            :disabledDates="disabledDates"
           />
         </div>
       </div>
       <div class="post--time-item d_flex align_items_center">
         <div class="item--label mr_3">Thời gian chờ giữa các lần gửi:</div>
         <div class="item--input d_flex align_items_center mr_2">
-          <select-box
-            :options="timeValues"
-            :selected="timeValueSelected"
-            @updateSelected="timeValueSelected = $event"
-          />
+          <input class="input--time" type="number" min="5" v-model="timeNumberDefault" />
         </div>
         <div class="item--input d_flex align_items_center">
-          <select-box
-            :options="timeUnits"
-            :selected="timeUnitSelected"
-            @updateSelected="timeUnitSelected = $event"
-          />
+          <input class="input--time" type="text" v-model="timeDescDefault" readonly />
         </div>
       </div>
     </div>
@@ -46,33 +38,28 @@
 </template>
 
 <script>
-import Datepicker from "@/components/datepicker";
-import SelectBox from "./selectbox"
 
 export default {
   components: {
-    Datepicker,
-    SelectBox
   },
   data() {
     return {
-      timeUnits: [
-        { id: 'min', name: 'phút' },
-        { id: 'hour', name: 'giờ' },
-        { id: 'day', name: 'ngày' }
-      ],
-      timeUnitSelected: { id: 'min', name: 'phút' },
-      timeValues: [
-        { id: 0, name: 1 },
-        { id: 1, name: 2 },
-        { id: 2, name: 3 },
-        { id: 3, name: 4 },
-        { id: 4, name: 10 },
-        { id: 5, name: 15 },
-        { id: 6, name: 20 },
-        { id: 7, name: 25 },
-      ],
-      timeValueSelected: { id: 4, name: 10 },
+      disabledDates: {
+        to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
+      },
+      timeNumberDefault: 15,
+      timeDescDefault: "Phút",
+      yourTimeValue: {
+        HH: "07",
+        mm: "00"
+      },
+      newDate: {
+        minute: null,
+        hour: null,
+        date: null,
+        month: null,
+        year: null
+      }
     }
   }
 }

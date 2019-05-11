@@ -40,13 +40,11 @@ const state = {
       commit( "ev_request");
       await EventsServices.create(payload.campaignsId, payload.content);
       const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignsId );
-      console.log(campaignDetail.data.data);
       await commit( "setCampaignDetail", campaignDetail.data.data );
       commit( "ev_success");
   },
     getAllEvents: async ( { commit } ) => {
       const res = await EventsServices.index();
-      console.log(res.data.data);
       await commit( "setEvents", res.data.data );
     },
     getEventById: async ( { commit }, payload ) => {

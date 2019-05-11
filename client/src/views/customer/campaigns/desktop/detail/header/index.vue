@@ -35,9 +35,9 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn btn--orange" 
-                  @click="isShowCreateEvent = true"
+          <button class="btn btn--orange" @click="isShowCreateEvent = true"
           >Thêm sự kiện</button>
+
         </div>
         <div class="campaing--status d_flex align_items_center">
           <div class="status--name mr_2" v-if="campaignDetail.status">
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+
 import CreateNewEvent from "../../popup/created/";
 let typingTimer;
 

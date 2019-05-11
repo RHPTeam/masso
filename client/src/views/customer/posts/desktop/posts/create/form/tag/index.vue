@@ -52,7 +52,6 @@ export default {
           let uid = item.uid.toString();
           this.post.tags.push( uid );
           this.post.tags = [...new Set(this.post.tags)];
-          console.log( this.post );
 
           this.$store.dispatch( "updatePost", this.post )
         });

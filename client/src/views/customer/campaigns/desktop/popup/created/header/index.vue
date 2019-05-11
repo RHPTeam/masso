@@ -98,7 +98,6 @@ export default {
   computed: {
     statusError() {
       if(Object.entries(this.$store.getters.errorEvent).length === 0 && this.$store.getters.errorEvent.constructor === Object) return;
-      console.log(this.$store.getters.errorEvent);
       return this.$store.getters.errorEvent;
     }
   },
