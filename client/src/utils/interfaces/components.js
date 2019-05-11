@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import Vue from "vue";
 
 // Icon Component
@@ -110,3 +109,8 @@ Vue.component("LoadingComponent", () => import("@/components/shared/layouts/load
 Vue.component("DNotification", () =>
   import("@/components/shared/layouts/notification")
 );
+
+/**
+ * Assign Global Vue Directives
+ */
+Vue.use( () => import("@/directives/click-outside") );

@@ -123,11 +123,17 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.typeEvent && req.body.typeEvent === 1 ) {
-      if ( !req.body.content || req.body.content.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Bài đăng không được bỏ trống!" } } );
-      } else if ( !req.body._targets || req.body._targets.length === 0 ) {
-        return res.status( 403 ).json( { "status": "fail", "data": { "_targets": "Nơi đăng không được bỏ trống!" } } );
+    } else if ( !req.body.type_event ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
+    } else if ( req.body.type_event === 1 ) {
+      if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
+      } else if ( req.body.break_point < 5 ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
+      } else if ( !req.body.started_at ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
+      } else if ( Date.now() > req.body.started_at ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -176,5 +182,28 @@ module.exports = {
 
     await Event.findByIdAndDelete( req.query._eventId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
+  "duplicate": async ( req, res ) => {
+    const userId = secure( res, req.headers.authorization ),
+      findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
+      findEvent = await Event.findById( req.query._eventId ).select( "-_id -__v -updated_at -created_at" ).lean();
+
+    // Check catch when duplicate
+    if ( !findEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+    } else if ( findEvent._account.toString() !== userId ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+    }
+
+    findEvent.title = `${findEvent.title} Copy`;
+
+    // eslint-disable-next-line one-var
+    const newEvent = new Event( findEvent );
+
+    await newEvent.save();
+    findCampaign._events.push( newEvent._id );
+    findCampaign.save();
+
+    res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   }
 };

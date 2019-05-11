@@ -8,7 +8,6 @@
       </div>
       <div class="col col--name px_2">Tên bài viết</div>
       <div class="col col--category px_2">Danh mục</div>
-      <div class="col col--content px_2">Nội dung</div>
       <div class="col col--image px_4">Hình ảnh</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
@@ -23,11 +22,11 @@
         <item-post :item="item" />
       </div>
     </div>
-<!--    Start: pagination post-->
+    <!-- Start: pagination post-->
     <div>
       <paginate-post />
     </div>
-<!--    End: pagination post-->
+    <!-- End: pagination post-->
   </div>
 </template>
 
@@ -80,21 +79,13 @@ export default {
     width: calc(20px + 1rem);
   }
   .col--name {
-    width: calc(40% - 140px - 3.5rem);
+    width: calc(100% - 20% - 312px - 7rem);
   }
   .col--category {
-    width: 14%;
-  }
-  .col--content {
-    width: calc(46% - 140px - 3.5rem);
-    &-text {
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    width: 20%;
   }
   .col--image {
-    width: calc(185px + 3rem);
+    width: calc(217px + 3rem);
   }
   .col--action {
     width: calc(75px + 3rem);

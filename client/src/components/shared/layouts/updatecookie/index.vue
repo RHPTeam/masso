@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import StringFuntion from "@/utils/string.util";
+import StringFuntion from "@/utils/functions/string";
 export default {
   props: ["item", "subBread", "nameBread"],
   data() {

@@ -93,11 +93,13 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
     }
 
-    res.status( 201 ).json( jsonResponse( "success", await PostGroup.findByIdAndUpdate( req.query._postGroupId, { "$set": {
-      "title": req.body.title,
-      "_pages": req.body._pages ? req.body._pages : [],
-      "_groups": req.body._groups ? req.body._groups : []
-    } }, { "new": true } ) ) );
+    // check exists in database
+    req.body._groups = req.body._groups.concat( findPostGroup._groups );
+    req.body._pages = req.body._pages.concat( findPostGroup._pages );
+    req.body._groups = [ ...new Set( req.body._groups ) ];
+    req.body._pages = [ ...new Set( req.body._pages ) ];
+
+    res.status( 201 ).json( jsonResponse( "success", await PostGroup.findByIdAndUpdate( req.query._postGroupId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete post group

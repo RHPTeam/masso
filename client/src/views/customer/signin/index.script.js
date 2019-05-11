@@ -5,8 +5,8 @@
 import AppIntroVideo from "@/components/shared/layouts/introvideo";
 import AppAlert from "@/components/shared/layouts/alert";
 
-import CookieFunction from "@/utils/cookie.util";
-import SecureFunction from "@/utils/secure.util";
+import CookieFunction from "@/utils/functions/cookie";
+import SecureFunction from "@/utils/functions/decode";
 import axios from "axios";
 
 export default {

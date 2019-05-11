@@ -1,4 +1,4 @@
-import convertUnicode from "@/utils/string.util.js";
+import convertUnicode from "@/utils/functions/string.js";
 export default {
   props: [ "isGrid" ],
   data() {
