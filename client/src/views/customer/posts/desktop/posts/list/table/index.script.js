@@ -7,7 +7,7 @@ export default {
     DeletePopup,
     ItemPost
   },
-  props: [ "filterCategorySelected", "filterShowSelected", "search" ],
+  props: [ "currentPage", "filterCategorySelected", "filterShowSelected", "search" ],
   data() {
     return {
       isShowDeletePopup: false,
@@ -26,7 +26,7 @@ export default {
       return this.$store.getters.themeName;
     },
     allPost() {
-      return this.$store.getters.allPost;
+      return this.$store.getters.postsPage;
     },
     filterAllPost() {
       if ( this.filterCategorySelected.id === "all" ) {
@@ -49,7 +49,12 @@ export default {
     }
   },
   async created  () {
-    await this.$store.dispatch( "getAllPost" );
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
     activeCurrentSort( i, type ) {

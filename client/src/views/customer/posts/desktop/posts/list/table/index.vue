@@ -57,7 +57,9 @@
     </div>
     <!-- else call component item post -->
     <div v-else>
-      <div v-if="this.$store.getters.statusPost === 'loading'">đang tải kết quả</div>
+      <div v-if="this.$store.getters.statusPost === 'loading'">
+        <loading-component></loading-component>
+      </div>
       <item-post
         v-for="(item, index) in filterAllPost"
         :key="index"

@@ -7,7 +7,7 @@ const state = {
   post: [],
   postOfCate: [],
   postsPage: [],
-  postsPagesSize: 1,
+  postsPageSize: 1,
   statusPost: ""
 };
 const getters = {
@@ -17,7 +17,7 @@ const getters = {
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage,
-  postsPagesSize: ( state ) => state.postsPagesSize,
+  postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
 };
 const mutations = {
@@ -46,7 +46,7 @@ const mutations = {
     state.postsPage = payload;
   },
   setPostsPageSize: ( state, payload ) => {
-    state.postsPagesSize = payload;
+    state.postsPageSize = payload;
   }
 };
 const actions = {
@@ -91,8 +91,15 @@ const actions = {
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
-  getPostsByPage: async ( {commit}, payload ) => {
+  getPostsByPage: async ( { commit }, payload ) => {
+    commit( "post_request" );
 
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+
+    commit( "post_success" );
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );

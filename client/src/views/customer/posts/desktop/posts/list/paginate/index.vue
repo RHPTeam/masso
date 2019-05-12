@@ -1,10 +1,10 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ posts.length }} trong số {{ allPosts.length }}
+      Hiển thị {{ postsPage.length }} trong số {{ allPosts.length }}
     </div>
     <paginate
-      :pageCount="1"
+      :pageCount="postsPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
       :next-text="nextText"
@@ -28,15 +28,21 @@ export default {
     allPosts() {
       return this.$store.getters.allPost;
     },
-    posts() {
-      return this.$store.getters.campaigns;
+    postsPage() {
+      return this.$store.getters.postsPage;
     },
-    postsPagesSize() {
-      return this.$store.getters.postsPagesSize;
+    postsPageSize() {
+      return this.$store.getters.postsPageSize;
     }
   },
   async created() {
-    await this.$store.dispatch("getCategoriesBySize", this.perPage);
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getPostsByPage", dataSender );
+    await this.$store.dispatch( "getAllPost" );
   },
   methods: {
     goToPage( page ) {
