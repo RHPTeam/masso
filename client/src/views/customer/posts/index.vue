@@ -4,7 +4,7 @@
     <div class="d_none d_md_block">
       <breadcrumb
         nameBread="Thiết lập bài đăng"
-        subBread="Giúp bạn lưu các bài đăng vào thư viện, quản lý bài đăng theo nhóm mà bạn muốn"
+        subBread="Giúp bạn lưu các bài đăng vào thư viện và quản lý bài đăng theo nhóm mong muốn"
       />
       <!-- Start: Content -->
       <div class="main--content">
@@ -34,7 +34,6 @@ export default {
             isPostRoute = this.$route.path === "/posts/";
 
       return isCategoriesRoute || isPostRoute;
-
     }
   },
   async created() {

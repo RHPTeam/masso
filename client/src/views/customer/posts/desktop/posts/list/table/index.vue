@@ -41,6 +41,7 @@ export default {
     ItemPost,
     PaginatePost
   },
+  props: [  ],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -233,8 +234,8 @@ export default {
     color: #cccccc;
   }
   .item--body {
-    background-color: #27292c;
-    color: #999999;
+    background-color: rgba(39, 41, 45, 0.4);
+    color: #f7f7f7;
   }
   .image--wrap-more {
     background-color: #2f3136;

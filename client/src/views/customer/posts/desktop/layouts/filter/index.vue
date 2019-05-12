@@ -16,21 +16,28 @@
     </icon-base>
     <!-- Start: Filter dropdown -->
     <div class="dropdown text_left" v-show="showFilterDropdown">
-      <div
-        class="dropdown--item"
-        v-for="(item, index) in filterList"
-        :key="`a-${index}`"
-        @click="updateFilterSelected(item)"
-      >
-        {{ item.name }}
-      </div>
+      <VuePerfectScrollbar class="scroll--control">
+        <div
+          class="dropdown--item"
+          v-for="(item, index) in filterList"
+          :key="`a-${index}`"
+          @click="updateFilterSelected(item)"
+        >
+          {{ item.name }}
+        </div>
+      </VuePerfectScrollbar>
     </div>
     <!-- End: Filter dropdown -->
   </div>
 </template>
 
 <script>
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+
 export default {
+  components: {
+    VuePerfectScrollbar
+  },
   props: [ "filterList", "filterSelected" ],
   data() {
     return {
@@ -75,6 +82,9 @@ export default {
       z-index: 999;
       &--item {
         padding: 0 .75rem;
+      }
+      .scroll--control {
+        max-height: 200px;
       }
     }
     svg {
