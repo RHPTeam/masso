@@ -22,6 +22,12 @@
 <script>
 export default {
   props: [ "currentPage", "filterShowSelected" ],
+  data() {
+    return {
+      nextText: "&#x203A;",
+      prevText: "&#8249;"
+    }
+  },
   computed: {
     allCampaigns() {
       return this.$store.getters.allCampaigns;

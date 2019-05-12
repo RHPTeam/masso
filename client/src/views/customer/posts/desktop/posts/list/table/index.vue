@@ -25,21 +25,15 @@
         :item="item"
       />
     </div>
-    <!-- Start: pagination post-->
-    <div class="mt_3">
-      <paginate-post />
-    </div>
-    <!-- End: pagination post-->
   </div>
 </template>
 
 <script>
 import ItemPost from "./item";
-import PaginatePost from "./paginate";
+
 export default {
   components: {
-    ItemPost,
-    PaginatePost
+    ItemPost
   },
   props: [ "filterCategorySelected", "filterShowSelected", "search" ],
   computed: {

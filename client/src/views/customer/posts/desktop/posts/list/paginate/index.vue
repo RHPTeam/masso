@@ -1,47 +1,54 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
-    <div class="post--info-show">Hiển thị 25 trong số 100</div>
+    <div class="post--info-show">
+      Hiển thị {{ posts.length }} trong số {{ allPosts.length }}
+    </div>
     <paginate
-      :pageCount="sizePageCategories"
+      :pageCount="1"
       :clickHandler="goToPage"
-      :prev-text="preView"
-      :next-text="next"
+      :prev-text="prevText"
+      :next-text="nextText"
       :container-class="'pagination'"
       :page-class="'page-item'"
+      @input="updateCurrentPage($event)"
     ></paginate>
   </div>
 </template>
 
 <script>
 export default {
+  props: [ "currentPage", "filterShowSelected" ],
   data() {
     return {
-      currentPage: 1,
-      perPage: 10,
-      totalCount: null,
-      preView: "&#8249;",
-      next: "&#x203A;"
+      nextText: "&#x203A;",
+      prevText: "&#8249;"
     }
   },
   computed: {
-    sizePageCategories() {
-      return this.$store.getters.sizePageCategories;
+    allPosts() {
+      return this.$store.getters.allPost;
+    },
+    posts() {
+      return this.$store.getters.campaigns;
+    },
+    postsPagesSize() {
+      return this.$store.getters.postsPagesSize;
     }
   },
   async created() {
     await this.$store.dispatch("getCategoriesBySize", this.perPage);
   },
   methods: {
-    onPageChange(page) {
-      this.currentPage = page;
-    },
-    goToPage(page) {
+    goToPage( page ) {
       const dataSender = {
-        // name: this.keywordSearch,
-        size: this.perPage,
+        size: this.filterShowSelected.id,
         page: page
       };
-      this.$store.dispatch("getCategoriesByPage", dataSender);
+
+      this.$store.dispatch( "getPostsByPage", dataSender );
+    },
+    updateCurrentPage( val ) {
+      this.$emit( "updateCurrentPage", val );
     }
   },
 };
