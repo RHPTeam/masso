@@ -61,7 +61,7 @@ export default {
       type: String,
       default: ""
     },
-    type: {
+    typeName: {
       type: String,
       default: ""
     }
@@ -75,14 +75,6 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    typeName() {
-      let res;
-
-      if (this.type === "postGroup") {
-        res = "nhóm";
-      }
-      return res;
     }
   },
   watch: {

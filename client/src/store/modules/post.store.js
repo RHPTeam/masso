@@ -43,6 +43,28 @@ const mutations = {
   }
 };
 const actions = {
+  createNewPost: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const resultPostCreate = await PostServices.createNewPost( payload );
+
+    commit( "setNewPost", resultPostCreate.data.data );
+
+    commit( "post_success" );
+  },
+  deletePost: async ( { commit }, payload ) => {
+    const posts = state.allPost.filter( ( post ) => {
+      return post._id = payload;
+    } );
+
+    let res;
+
+    commit( "setAllPost", posts );
+
+    await PostServices.deletePost( payload );
+
+    res = await PostServices.index();
+    commit( "setAllPost", res.data.data );
+  },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
     const resultAllPost = await PostServices.index();
@@ -62,13 +84,10 @@ const actions = {
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
-  createNewPost: async ( { commit }, payload ) => {
-    commit( "post_request" );
-    const resultPostCreate = await PostServices.createNewPost( payload );
-
-    commit( "setNewPost", resultPostCreate.data.data );
-
-    commit( "post_success" );
+  sendErrorUpdate: async ( { commit } ) => {
+    // commit( "post_request" );
+    commit( "setError", 'error' );
+    // commit( "post_success" );
   },
   updatePost: async ( { commit }, payload ) => {
     commit( "post_request" );
@@ -83,11 +102,6 @@ const actions = {
     await PostServices.updateAttachmentPost( payload.id, payload.formData );
     const resultPost = await PostServices.getById( payload.id );
     commit( "setPost", resultPost.data.data );
-  },
-  sendErrorUpdate: async ( { commit } ) => {
-    // commit( "post_request" );
-    commit( "setError", 'error' );
-    // commit( "post_success" );
   }
 };
 

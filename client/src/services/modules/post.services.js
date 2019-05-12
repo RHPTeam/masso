@@ -22,5 +22,8 @@ export default {
   },
   deleteAttachmentPost ( postId, attachmentId ) {
     return Api().delete( `posts?_postId=${postId}&_attachmentId=${attachmentId}` );
+  },
+  deletePost( id ) {
+    return Api().delete( `posts?_postId=${id}` );
   }
 };

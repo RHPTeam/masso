@@ -59,7 +59,7 @@
           <icon-edit />
         </icon-base>
       </span>
-      <span class="mx_1">
+      <span class="mx_1" @click="showDeletePopup()">
         <icon-base
           icon-name="remove"
           width="20"
@@ -88,6 +88,9 @@ export default {
         name: "update_post",
         params: { id: this.item._id }
       } );
+    },
+    showDeletePopup() {
+      this.$emit( "showDeletePopup", this.item );
     }
   }
 }

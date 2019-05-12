@@ -23,19 +23,41 @@
         v-for="(item, index) in filterAllPost"
         :key="index"
         :item="item"
+        @showDeletePopup="showDeletePopup($event)"
       />
     </div>
+    <!--*********** POPUP *************-->
+    <transition name="popup">
+      <delete-popup
+        v-if="isShowDeletePopup === true"
+        :data-theme="currentTheme"
+        title="Xoá bài đăng"
+        @closePopup="isShowDeletePopup = $event"
+        storeActionName="deletePost"
+        :targetId="postDelete._id"
+        :targetName="postDelete.title"
+        typeName="bài đăng"
+      ></delete-popup>
+    </transition>
   </div>
 </template>
 
 <script>
+import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item";
 
 export default {
   components: {
+    DeletePopup,
     ItemPost
   },
   props: [ "filterCategorySelected", "filterShowSelected", "search" ],
+  data() {
+    return {
+      isShowDeletePopup: false,
+      postDelete: {}
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -65,6 +87,12 @@ export default {
   },
   async created  () {
     await this.$store.dispatch( "getAllPost" );
+  },
+  methods: {
+    showDeletePopup( post ) {
+      this.postDelete = post;
+      this.isShowDeletePopup = true;
+    }
   }
 };
 </script>
