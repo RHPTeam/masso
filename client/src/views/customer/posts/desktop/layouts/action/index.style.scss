@@ -45,7 +45,10 @@
     .post--search {
       background-color: #fff;
       input {
-        color: #000;
+        color: #444;
+        &::placeholder {
+          color: #ccc;
+        }
       }
     }
   }
@@ -56,9 +59,12 @@
   .action--left {
     .post--search {
       background-color: #27292d;
-      color: #999;
+      color: #f7f7f7;
       input {
-        color: #999;
+        color: #f7f7f7;
+        &::placeholder {
+          color: #666666;
+        }
       }
     }
   }

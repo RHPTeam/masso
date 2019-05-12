@@ -1,23 +1,24 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable one-var */
 import PostServices from "@/services/modules/post.services";
 
 const state = {
   allPost: [],
-  postOfCate: [],
   errorPost: "",
-  statusPost: "",
+  newPost: [],
   post: [],
-  newPost: []
+  postOfCate: [],
+  postsPage: [],
+  postsPagesSize: 1,
+  statusPost: ""
 };
 const getters = {
-  statusPost: ( state ) => state.statusPost,
   allPost: ( state ) => state.allPost,
-  post: ( state ) => state.post,
-  newPost: ( state ) => state.newPost,
   errorPost: ( state ) => state.errorPost,
-  postOfCate: ( state ) => state.postOfCate
+  newPost: ( state ) => state.newPost,
+  post: ( state ) => state.post,
+  postOfCate: ( state ) => state.postOfCate,
+  postsPage: ( state ) => state.postsPage,
+  postsPagesSize: ( state ) => state.postsPagesSize,
+  statusPost: ( state ) => state.statusPost,
 };
 const mutations = {
   post_request: ( state ) => {
@@ -40,6 +41,12 @@ const mutations = {
   },
   setPostByCate: ( state, payload ) => {
     state.setPostByCate = payload;
+  },
+  setPostsPage: ( state, payload ) => {
+    state.postsPage = payload;
+  },
+  setPostsPageSize: ( state, payload ) => {
+    state.postsPagesSize = payload;
   }
 };
 const actions = {
@@ -83,6 +90,9 @@ const actions = {
     const resultPost = await PostServices.getByCategories( payload );
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
+  },
+  getPostsByPage: async ( {commit}, payload ) => {
+
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );

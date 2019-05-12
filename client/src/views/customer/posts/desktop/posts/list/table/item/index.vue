@@ -1,10 +1,10 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
-    <!--      <div class="col col&#45;&#45;checkbox px_2">-->
-    <!--        <label class="custom&#45;&#45;checkbox mb_0">-->
-    <!--          <input type="checkbox" checked />-->
-    <!--        </label>-->
-    <!--      </div>-->
+    <!--<div class="col col--checkbox px_2">
+      <label class="custom--checkbox mb_0">
+        <input type="checkbox" checked />
+      </label>
+    </div>-->
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
       <div class="col col--name-text"
@@ -34,11 +34,10 @@
              v-for="( image, index ) in item.attachments.slice(0, 3)"
              :key="`img-${index}`"
         >
-          <img
-            v-if="image.typeAttachment === 1"
-            :src="image.link"
-            alt="hình ảnh"
-          />
+          <div class="image--bg"
+               v-if="image.typeAttachment === 1"
+               :style="{ backgroundImage: 'url(' + image.link + ')'}"
+          ></div>
         </div>
         <div class="image--wrap position_relative"
               v-if="item.attachments.length > 3"
