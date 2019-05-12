@@ -6,7 +6,46 @@
 <!--          <input type="checkbox" />-->
 <!--        </label>-->
 <!--      </div>-->
-      <div class="col col--name px_2">Tên bài viết</div>
+      <div class="col col--name px_2">
+        <span
+          class="sort"
+          @click="sortPostsByProperty(isSort[0], 0)"
+          :class="[
+            isSort[0].asc === true || isSort[0].desc === true ? 'active' : ''
+          ]"
+        >Tên bài viết
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[0].asc === false && isSort[0].desc === false"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[0].asc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down descending ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+            v-if="isSort[0].desc"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </span>
+      </div>
       <div class="col col--category px_2">Danh mục</div>
       <div class="col col--image px_4">Hình ảnh</div>
       <div class="col col--action px_4">Hành động</div>
@@ -24,78 +63,25 @@
         :key="index"
         :item="item"
         @showDeletePopup="showDeletePopup($event)"
-      />
+      ></item-post>
     </div>
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-popup
         v-if="isShowDeletePopup === true"
         :data-theme="currentTheme"
-        title="Xoá bài đăng"
+        title="Xoá bài viết"
         @closePopup="isShowDeletePopup = $event"
         storeActionName="deletePost"
         :targetId="postDelete._id"
         :targetName="postDelete.title"
-        typeName="bài đăng"
+        typeName="bài viết"
       ></delete-popup>
     </transition>
   </div>
 </template>
 
-<script>
-import DeletePopup from "@/components/popups/delete";
-import ItemPost from "./item";
-
-export default {
-  components: {
-    DeletePopup,
-    ItemPost
-  },
-  props: [ "filterCategorySelected", "filterShowSelected", "search" ],
-  data() {
-    return {
-      isShowDeletePopup: false,
-      postDelete: {}
-    }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    allPost() {
-      return this.$store.getters.allPost;
-    },
-    filterAllPost() {
-      if ( this.filterCategorySelected.id === "all" ) {
-        return this.allPost.filter( ( post ) => {
-          return post.title
-            .toString()
-            .toLowerCase()
-            .includes( this.search.toString().toLowerCase() );
-        } );
-      }
-      return this.allPost.filter( ( post ) => {
-        const checkedArr = post._categories.filter( ( category ) => {
-          return category._id === this.filterCategorySelected.id;
-        } );
-
-        return post.title.toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
-      } );
-    }
-  },
-  async created  () {
-    await this.$store.dispatch( "getAllPost" );
-  },
-  methods: {
-    showDeletePopup( post ) {
-      this.postDelete = post;
-      this.isShowDeletePopup = true;
-    }
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
 @import "./index.style";
