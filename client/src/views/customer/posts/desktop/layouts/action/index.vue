@@ -15,7 +15,11 @@
           <icon-input-search />
         </icon-base>
       </span>
-        <input type="text" placeholder="Tìm kiếm" />
+        <input type="text"
+               placeholder="Tìm kiếm"
+               v-model="search"
+               @input="updateSearch()"
+        />
       </div>
     </div>
     <div class="action--right">
@@ -49,7 +53,8 @@ export default {
         { id: 50, name: "Hiển thị 50" },
         { id: 100, name: "Hiển thị 100" }
       ],
-      filterCategoriesList: [ { id: "all", name: "Tất cả" } ]
+      filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
+      search: ""
     }
   },
   computed: {
@@ -63,7 +68,6 @@ export default {
   async created() {
     await this.$store.dispatch( "getAllCategories" );
     await this.categories.forEach( ( item ) => {
-      console.log(item);
       const data = {
         id: item._id,
         name: item.title
@@ -71,8 +75,6 @@ export default {
 
       this.filterCategoriesList.push( data );
     } );
-
-    console.log( this.filterCategoriesList );
   },
   methods: {
     updateFilterShowSelected( val ) {
@@ -80,6 +82,9 @@ export default {
     },
     updateFilterCategorySelected( val ) {
       this.$emit( "updateFilterCategorySelected", val );
+    },
+    updateSearch() {
+      this.$emit( "updateSearch", this.search );
     }
   }
 };
