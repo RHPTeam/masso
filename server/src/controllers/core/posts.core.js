@@ -38,7 +38,7 @@ const cheerio = require( "cheerio" ),
           if ( url === post( id ) ) {
             // Check two case: profile, page
             if ( pageCase.length > 0 ) {
-              // Get images in post ( Note: if post have one images, system will filter undefined to get images link full ( current version has only get max which is 5 images )
+              // Get images in post ( Note: if post have one images, system will navigation undefined to get images link full ( current version has only get max which is 5 images )
               $( "div.permalinkPost" )
                 .find( "div.userContentWrapper" )
                 .find( "a[rel*='theater']" )

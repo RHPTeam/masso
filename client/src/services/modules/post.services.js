@@ -14,6 +14,9 @@ export default {
   getByCategories( categoryId ) {
     return Api().get( `posts?_categoryId=${categoryId}` );
   },
+  getPostsByPage( size, page ) {
+    return Api().get( `posts?_size=${size}&_page=${page}` );
+  },
   updatePost ( postId, content ) {
     return Api().patch( `posts?_postId=${postId}`, content );
   },
@@ -22,5 +25,8 @@ export default {
   },
   deleteAttachmentPost ( postId, attachmentId ) {
     return Api().delete( `posts?_postId=${postId}&_attachmentId=${attachmentId}` );
+  },
+  deletePost( id ) {
+    return Api().delete( `posts?_postId=${id}` );
   }
 };

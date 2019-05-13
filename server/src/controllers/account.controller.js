@@ -4,6 +4,7 @@
 /**
  * Controller users or account for project
  * author: hoc-anms
+ * updater: sky albert
  * date up: 20/04/2019
  * date to: ___
  * team: BE-RHP
@@ -403,6 +404,12 @@ module.exports = {
       .status( 405 )
       .json( jsonResponse( "Bạn không có quyền truy cập !!!!!!", null ) );
   },
+  /**
+   * Delete user
+   * @param req
+   * @param res
+   * @returns {Promise<*|Promise<any>>}
+   */
   "deleteUser": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization );
     const role = req.headers.cfr;
@@ -518,7 +525,7 @@ module.exports = {
     }
     res
       .status( 405 )
-      .json( jsonResponse( "Only Admin and SuperAdmin do action!!", null ) );
+      .json( jsonResponse( "Only Admin and SuperAdmin do postsaction!!", null ) );
   },
   /** *
    * Change password for user
@@ -749,5 +756,45 @@ module.exports = {
     res
       .status( 200 )
       .json( jsonResponse( "Cập nhật ảnh đại diện thành công", foundUser ) );
+  },
+  /**
+   * Active by key
+   * @param req
+   * @param res
+   * @returns {Promise<*|Promise<any>>}
+   */
+  "active": async ( req, res ) => {
+    if ( req.body.presenter === undefined || req.body.presenter.length === 0 ) {
+      return res.status( 404 ).json( { "status": "fail", "presenter": "Mã kích hoạt không được để trống" } );
+    }
+
+    const userId = secure( res, req.headers.authorization ),
+      userInfo = await Account.findOne( { "_id": userId } ),
+      roleUser = await Role.findOne( { "_id": userInfo._role } );
+
+    // Check role and permission
+    if ( roleUser.level.toLowerCase() !== "superadmin" && roleUser.level.toLowerCase() !== "admin" ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền để thực hiện chức năng này!" } );
+    }
+
+    // Active by key
+    if ( req.body.presenter && req.body.presenter.length > 0 ) {
+      // find all user have key
+      const userList = await Account.find( { "presenter": req.body.presenter } );
+
+      if ( userList.length === 0 ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Mã kích hoạt không tồn tại!" } );
+      }
+
+      await Promise.all( userList.map( async ( user ) => {
+        user.status = 1;
+        user.expireDate = req.body.expireDate;
+
+        await user.save();
+      } ) );
+    }
+
+    res.status( 201 ).json( jsonResponse( "success", null ) );
   }
+
 };

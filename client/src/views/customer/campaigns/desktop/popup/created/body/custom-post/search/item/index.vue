@@ -27,7 +27,6 @@ export default {
     async addPostFromChildren( val ) {
       await this.$emit( "pushIdPostToArray", val );
       this.isActive = true;
-      console.log(val);
     }
   },
 }

@@ -3,16 +3,20 @@
     <div class="ct_f">
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5">
-          <!-- Start: Add New -->
-          <app-new :isUpdateCategories="isUpdateCategories" />
-          <!-- End: Add New -->
+          <!-- Start: Category Form -->
+          <app-form 
+            :isUpdateCategories="isUpdateCategories" 
+          />
+          <!-- End: Category Form -->
         </div>
         <div class="c_12 c_lg_12 c_xl_8">
           <!-- Start: Action -->
           <app-action />
           <!-- End: Action -->
           <!-- Start: Data List -->
-          <app-list @changeUpdate="isUpdateCategories = $event" />
+          <app-list 
+            @changeUpdate="isUpdateCategories = $event" 
+          />
           <!-- End: Data List -->
           <!-- Start: Info -->
           <!-- <app-info /> -->
@@ -24,14 +28,14 @@
 </template>
 
 <script>
-import AppNew from "./form/index";
-import AppAction from "../layouts/action/index";
-import AppList from "./list/index";
+import AppAction from "../layouts/categoriesaction";
+import AppForm from "./form";
+import AppList from "./list";
 
 export default {
   components: {
-    AppNew,
     AppAction,
+    AppForm,
     AppList
   },
   data() {

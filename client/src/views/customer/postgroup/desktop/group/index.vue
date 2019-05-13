@@ -65,7 +65,7 @@
         storeActionName="deletePostGroup"
         :targetId="groupDelete._id"
         :targetName="groupDelete.title"
-        type="postGroup"
+        typeName="nhóm"
       ></delete-group-popup>
     </transition>
   </div>

@@ -201,26 +201,19 @@ export default {
     updateGroup( val ){
       // this.targetDefault.target_category.push( val );
       // delete this.targetDefault.target_custom;
-      // console.log(this.targetDefault);
       this.$emit( "attachGroupCustom", val );
     },
     updateGroupFacebook( val ){
       // this.targetDefault.target_custom =  val;
       // delete this.eventDedault.target_category;
-      // console.log(this.targetDefault);
       // // const dataSender = this.targetDefault.target_custom.map(item => {
       // //
       // // })
-      console.log( "group" )
-      console.log( val )
       this.$emit( "attachGroupFacebookCustom", val );
     },
     updatePagesFacebook( val){
       // this.targetDefault.target_custom = val;
       // delete this.eventDedault.target_category;
-      // console.log(this.targetDefault);
-      console.log( "page" )
-      console.log( val )
       this.$emit( "attachPagesFacebookCustom", val );
     },
     pushIdToArray( val ) {

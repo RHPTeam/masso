@@ -8,19 +8,22 @@
         </label>
       </div>
       <div class="col col--category px_2">Tên danh mục</div>
-      <div class="col col--posts px_2">Số bài viết</div>
+      <div class="col col--posts text_center px_2">Số bài viết</div>
       <div class="col col--description px_2">Mô tả</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
 
     <div class="item--wrap">
-      <div v-for="(item, index) in categories" :key="index">
-        <item-categories :item="item" @update="changeUpdate($event)" />
-      </div>
+      <item-categories
+        v-for="(item, index) in categories"
+        :key="index"
+        :item="item"
+        @update="changeUpdate($event)"
+      />
     </div>
     <!-- Start: Paginate Categories -->
-    <div>
-      <cate-paginate />
+    <div class="mt_3">
+      <category-paginate />
     </div>
     <!-- End: Paginate Categories -->
     </div>
@@ -29,19 +32,23 @@
 
 <script>
 import ItemCategories from "./item";
-import CatePaginate from "./paginate";
+import CategoryPaginate from "./paginate";
+
 export default {
   components: {
     ItemCategories,
-    CatePaginate
+    CategoryPaginate
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     categories() {
-      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
-      // console.log(this.$store.getters.categories);
+      if (
+        Object.entries(this.$store.getters.categories ).length === 0 &&
+        this.$store.getters.categories.constructor === Object
+      ) return;
+
       return this.$store.getters.categories;
     }
   },

@@ -100,7 +100,6 @@ module.exports = {
         errors.push( event.title );
       }
     } ) );
-    console.log( errors );
     if ( errors.length > 0 ) {
       return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
     }

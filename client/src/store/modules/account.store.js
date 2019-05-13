@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 /* eslint-disable arrow-parens */
 /* eslint-disable one-var */
 /* eslint-disable camelcase */
@@ -87,7 +86,6 @@ const actions = {
   signIn: async ( { commit }, user ) => {
     try {
       commit( "auth_request" );
-      console.log( user );
       const resData = await AccountServices.signIn( user );
 
       CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
@@ -260,6 +258,11 @@ const actions = {
     const result = await AccountServices.upload( payload );
 
     commit( "user_set", result.data.data );
+  },
+  activeAccount: async ( { commit }, payload ) => {
+    commit( "auth_request" );
+    await AccountServices.active( payload );
+    commit( "auth_request_success" );
   }
 };
 

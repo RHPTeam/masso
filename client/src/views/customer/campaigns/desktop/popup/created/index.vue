@@ -145,14 +145,12 @@ export default {
             campaignsId: this.campaignsId,
             content: this.eventDedault
           };
-          console.log(dataSender);
           this.$store.dispatch( "createdNewEvent", dataSender );
         } else if( this.eventDedault.type_event === 1 ) {
           const dataSender = {
             campaignsId: this.campaignsId,
             content: this.eventDedault
           };
-          console.log(dataSender);
           this.$store.dispatch( "createdNewEvent", dataSender );
         }
         this.closePopup();

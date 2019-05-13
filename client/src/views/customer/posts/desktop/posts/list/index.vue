@@ -1,24 +1,64 @@
 <template>
   <div class="post--wrap">
     <!-- Start: Action -->
-    <app-action />
+    <app-action
+      :filterCategorySelected="filterCategorySelected"
+      :filterShowSelected="filterShowSelected"
+      @updateFilterCategorySelected="filterCategorySelected = $event"
+      @updateFilterShowSelected="updateFilterShowSelected($event)"
+      @updateSearch="search = $event"
+    />
     <!-- End: Action -->
     <!-- Start: Data List -->
-    <app-list />
+    <app-table
+      :currentPage="currentPage"
+      :filterCategorySelected="filterCategorySelected"
+      :filterShowSelected="filterShowSelected"
+      :search="search"
+    />
     <!-- End: Data List -->
-    <!-- Start: Info -->
-<!--    <app-info />-->
-    <!-- Start: Info -->
+    <!-- Start: pagination post-->
+    <div class="mt_3">
+      <app-paginate
+        :currentPage="currentPage"
+        :filterShowSelected="filterShowSelected"
+      />
+    </div>
+    <!-- End: pagination post-->
   </div>
 </template>
 
 <script>
-import AppAction from "../../layouts/action/index";
-import AppList from "./table/index";
+import AppAction from "../../layouts/postsaction/index";
+import AppPaginate from "./paginate";
+import AppTable from "./table/index";
+
 export default {
   components: {
     AppAction,
-    AppList
+    AppPaginate,
+    AppTable
+  },
+  data() {
+    return {
+      currentPage: 1,
+      filterCategorySelected: { id: "all", name: "Tất cả" },
+      filterShowSelected: { id: 25, name: "Hiển thị 25" },
+      search: ""
+    }
+  },
+  methods: {
+    updateFilterShowSelected( selected) {
+      this.filterShowSelected = selected;
+      this.currentPage = 1;
+
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+
+      this.$store.dispatch( "getPostsByPage", dataSender );
+    }
   }
 };
 </script>

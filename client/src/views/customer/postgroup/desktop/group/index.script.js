@@ -1,8 +1,12 @@
 import CreateGroupPopup from "../popup/creategroup";
-import DeleteGroupPopup from "../popup/delete";
+import DeleteGroupPopup from "@/components/popups/delete";
 
 let typingTimer;
 export default {
+  components: {
+    CreateGroupPopup,
+    DeleteGroupPopup
+  },
   props: [ "groupSelected" ],
   data() {
     return {
@@ -57,9 +61,5 @@ export default {
 
       this.$store.dispatch("updatePostGroup", objSender);
     }
-  },
-  components: {
-    CreateGroupPopup,
-    DeleteGroupPopup
   }
 };

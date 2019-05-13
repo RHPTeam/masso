@@ -44,14 +44,12 @@ const actions = {
   getAllCategories: async ( { commit } ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.index();
-    console.log( resultCategories.data.data );
     commit( "setCategories", resultCategories.data.data );
     commit( "cate_success" );
   },
   getCategoriesById: async ( { commit }, payload ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.show( payload );
-    // console.log( resultCategories.data.data );
     commit( "setCategoriesById", resultCategories.data.data );
     commit( "cate_success" );
   },
@@ -65,7 +63,6 @@ const actions = {
     commit(  "cate_request" );
     const result = await CategoriesServices.getBySize(  payload  );
     commit( "setCategories", result.data.data  );
-    // console.log( result.data.data );
     commit(  "setSizePageCategories", result.data.data.page );
     commit(  "cate_success" );
   },
@@ -73,14 +70,11 @@ const actions = {
     try {
       commit( "cate_request" );
       await CategoriesServices.create( payload );
-      // console.log( resultCreateCate );
-      // commit( "setCategories", resultCreateCate.data.data );
       const resultCategories = await CategoriesServices.index();
 
       commit( "setCategories", resultCategories.data.data );
       commit( "cate_success" );
     } catch (e) {
-      console.log( e.response.data );
       if( e.response.status === 403 ) {
         commit( "createCateError", e.response.data );
       }
