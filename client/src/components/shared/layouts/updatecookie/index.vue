@@ -75,7 +75,6 @@ export default {
           cookie: this.cookie
         });
         this.$emit("closeAddPopup", false);
-        this.$router.go("/f_account");
       } else {
         this.isShowAlert = true;
       }

@@ -11,6 +11,10 @@
       </div>
     </div>
     <!-- End: Desktop Component-->
+
+    <!-- Start: Notification for check login facebook account-->
+    <app-notification />
+    <!-- End: Notification for check login facebook account-->
   </div>
 </template>
 <script src="./index.script.js"></script>

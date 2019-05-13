@@ -19,8 +19,8 @@ const io = require( "socket.io-client" ),
 
 
 // Combine module process to handle multi process
-
 require( "./src/process" );
+require( "./src/microservices" );
 
 // connect to mongoose NoSQL DB
 mongoose.connect( `${config.db}/postv2`, {

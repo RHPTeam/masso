@@ -1,30 +1,32 @@
 /* eslint-disable prettier/prettier */
 import AppHeader from "@/views/customer/layouts/desktop/header";
 import AppSidebar from "@/views/customer/layouts/desktop/sidebar";
+import AppNotification from "@/views/customer/layouts/desktop/notification";
+
+import CookieFunction from "@/utils/functions/cookie";
 
 export default {
   data() {
     return {
-      timer: ""
+      timer: "",
+      interval: null
     };
   },
   async created() {
     this.startUpdateTimer();
     await this.$store.dispatch( "getUserInfo" );
+
+    // Check Login
+    this.setCheckLogin();
   },
   beforeDestroy() {
     this.stopUpdateTimer();
+    clearInterval( this.interval );
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-    // user() {
-    //   if ( this.$store.getters.userInfo === undefined ) {
-    //     return;
-    //   }
-    //   return this.$store.getters.userInfo;
-    // }
   },
   methods: {
     setTimer() {
@@ -35,6 +37,9 @@ export default {
     },
     stopUpdateTimer() {
       clearInterval( this.timer );
+    },
+    setCheckLogin() {
+      this.interval = setInterval(() => this.$socket.emit( "check_login", CookieFunction.getCookie( "uid" ) ), 5000);
     }
   },
   watch: {
@@ -54,8 +59,17 @@ export default {
       }
     }
   },
+  sockets: {
+    async statusAccount(value) {
+      console.log( value );
+      if (value === false) {
+        this.$store.dispatch("getAllAccountFb");
+      }
+    }
+  },
   components: {
     AppHeader,
-    AppSidebar
+    AppSidebar,
+    AppNotification
   }
 };

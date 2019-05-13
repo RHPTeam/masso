@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="item">
     <div class="card_body">
       <div class="card--header">
         <delete-popup :content="item" />
