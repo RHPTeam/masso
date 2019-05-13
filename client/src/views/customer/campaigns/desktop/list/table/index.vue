@@ -220,7 +220,7 @@
 					</div>
 				</div>
 				<div class="col col--action px_4 text_center">
-					<span class="mx_1">
+					<span class="mx_1" @click="showDuplicateCampaignPopup(campaign)">
 						<icon-base
 							class="ic--copy"
 							icon-name="copy"
@@ -250,9 +250,19 @@
     <transition name="popup">
       <delete-campaign-popup
         v-if="isShowDeleteCampaignPopup === true"
-        :campaign="campaignDelete"
+        :data-theme="currentTheme"
+        title="Xoá chiến dịch"
         @closePopup="isShowDeleteCampaignPopup = $event"
+        storeActionName="deleteCampaign"
+        :targetData="targetDataDelete"
+        :targetName="campaignDelete.title"
+        typeName="chiến dịch"
       ></delete-campaign-popup>
+      <duplicate-campaign-popup
+        v-if="isShowDuplicateCampaignPopup"
+        :campaignDuplicate="campaignDuplicate"
+        @closePopup="isShowDuplicateCampaignPopup = $event"
+      ></duplicate-campaign-popup>
     </transition>
     <!-- End: Delete Campaign Popup -->
 	</div>

@@ -11,16 +11,13 @@ export default {
   getByPage(size, page) {
     return Api().get(`post-categories?_size=${size}&_page=${page}`);
   },
-  getBySize(size) {
-    return Api().get(`post-categories?_size=${size}`);
-  },
   show( pcId ) {
     return Api().get( `post-categories?_id=${pcId}` );
   },
-  updateCategories( cateId, content ) {
-    return Api().patch( `post-categories?_categoryId=${cateId}`, content );
+  updateCategory( cateId, category ) {
+    return Api().patch( `post-categories?_categoryId=${cateId}`, category );
   },
-  deleteCagories( cateId ) {
+  deleteCategory( cateId ) {
     return Api().delete( `post-categories?_categoryId=${cateId}` );
   }
 };

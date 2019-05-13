@@ -144,8 +144,7 @@ export default {
   },
   computed: {
     categories() {
-      if ( this.$store.getters.categories === undefined ) return;
-      return this.$store.getters.categories;
+      return this.$store.getters.allCategories;
     },
   },
   methods: {

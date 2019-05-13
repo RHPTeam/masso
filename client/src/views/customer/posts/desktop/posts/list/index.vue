@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import AppAction from "../../layouts/postsaction/index";
+import AppAction from "../../layouts/actions/posts/index";
 import AppPaginate from "./paginate";
 import AppTable from "./table/index";
 

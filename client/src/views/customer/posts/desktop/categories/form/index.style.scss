@@ -78,6 +78,14 @@
         color: #ccc;
       }
     }
+    .btn--cancel {
+      background-color: transparent;
+      color: #999999;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #f7f7f7;
+        color: #999999;
+      }
+    }
   }
 }
 
@@ -96,11 +104,19 @@
     }
     input,
     textarea {
-      background-color: #2f3136;
+      background-color: #27292d;
       border-color: #444;
-      color: #cccccc;
+      color: #f7f7f7;
       &::placeholder {
-        color: #ccc;
+        color: #666;
+      }
+    }
+    .btn--cancel {
+      background-color: transparent;
+      color: #999999;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #2f3136;
+        color: #999999;
       }
     }
   }

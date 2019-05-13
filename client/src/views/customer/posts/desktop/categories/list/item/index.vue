@@ -1,27 +1,27 @@
 <template>
-    <div class="item--body d_flex align_items_center px_3 py_2">
-      <!-- <div v-if="StringFunction.convertUnicode( item.title ).toLowerCase().trim() === 'chua phan loai'"></div> -->
-      <div>
-        <div class="col col--checkbox px_2">
-        <label class="custom--checkbox mb_0">
-          <input type="checkbox" />
-        </label>
+  <div class="item--body d_flex align_items_center px_3 py_2">
+    <!--<div class="col col--checkbox px_2">
+      <label class="custom--checkbox mb_0">
+        <input type="checkbox" />
+      </label>
+    </div>-->
+    <div class="col col--category px_2">{{ item.title }}</div>
+    <div class="col col--posts text_center px_2">{{ item.ammout }}</div>
+    <div class="col col--description px_2">
+      <div class="col--description-text">
+        {{ item.description }}
       </div>
-      </div>
-      <div class="col col--category px_2">{{ item.title }}</div>
-      <div class="col col--posts text_center px_2">{{ item.ammout }}</div>
-      <div class="col col--description px_2">
-        <div class="col--description-text">
-          {{ item.description }}
-        </div>
-      </div>
-      <div class="col col--action px_4 text_center">
-        <span class="mx_1" @click="showCategories">
+    </div>
+    <div class="col col--action px_4 text_center"
+         :class="[ item.title === 'Chưa phân loại' ? 'action--disabled' : null ]"
+    >
+      <span v-if="item.title === 'Chưa phân loại'">
+        <span class="mx_1">
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
-        <span class="mx_1" @click="deleteCagories">
+        <span class="mx_1">
           <icon-base
             icon-name="remove"
             width="20"
@@ -31,29 +31,54 @@
             <icon-remove />
           </icon-base>
         </span>
-      </div>
+      </span>
+      <span v-else>
+        <span class="mx_1" @click="updateCategory">
+          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+            <icon-edit />
+          </icon-base>
+        </span>
+        <span class="mx_1" @click="showDeletePopup">
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </span>
+      </span>
     </div>
+  </div>
 </template>
 
 <script>
 export default {
-  props: {
-    item: {
-      type: Object
-    }
-  },
+  props: [ "item" ],
   methods: {
-    async showCategories () {
-      await this.$store.dispatch( "getCategoriesById", this.item._id );
-      this.$emit( "update", true );
+    updateCategory() {
+      this.$emit( "updateCategory", this.item );
     },
-    deleteCagories () {
-      this.$store.dispatch( "deleteCategories", this.item._id );
+    showDeletePopup() {
+      this.$emit( "showDeletePopup", this.item );
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  @import "../index.style";
+@import "../index.style";
+.action--disabled {
+  span {
+    svg {
+      color: #999 !important;
+      cursor: not-allowed !important;
+      opacity: .5 !important;
+      &:hover {
+        color: #999 !important;
+      }
+    }
+  }
+}
 </style>

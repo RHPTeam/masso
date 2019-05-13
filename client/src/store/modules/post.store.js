@@ -59,18 +59,20 @@ const actions = {
     commit( "post_success" );
   },
   deletePost: async ( { commit }, payload ) => {
-    const posts = state.allPost.filter( ( post ) => {
-      return post._id = payload;
+    const posts = state.postsPage.filter( ( post ) => {
+      return post._id = payload.id;
     } );
 
     let res;
 
-    commit( "setAllPost", posts );
+    await commit( "setPostsPage", posts );
+    await commit( "setPostsPageSize", posts.length );
 
-    await PostServices.deletePost( payload );
+    await PostServices.deletePost( payload.id );
 
-    res = await PostServices.index();
-    commit( "setAllPost", res.data.data );
+    res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
   },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );

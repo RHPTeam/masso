@@ -29,18 +29,23 @@
         :filterSelected="filterShowSelected"
         @updateFilterSelected="updateFilterShowSelected($event)"
       />
+      <app-filter
+        :filterList="filterCategoriesList"
+        :filterSelected="filterCategorySelected"
+        @updateFilterSelected="updateFilterCategorySelected($event)"
+      />
     </div>
   </div>
 </template>
 
 <script>
-import AppFilter from "../filter";
+import AppFilter from "../../filter/index";
 
 export default {
   components: {
     AppFilter
   },
-  props: [ "filterShowSelected" ],
+  props: [ "filterCategorySelected", "filterShowSelected" ],
   data() {
     return {
       filterShowList: [
@@ -56,13 +61,13 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    categories() {
-      return this.$store.getters.categories;
+    allCategories() {
+      return this.$store.getters.allCategories;
     }
   },
   async created() {
     await this.$store.dispatch( "getAllCategories" );
-    await this.categories.forEach( ( item ) => {
+    await this.allCategories.forEach( ( item ) => {
       const data = {
         id: item._id,
         name: item.title
@@ -86,5 +91,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "index.style";
 </style>

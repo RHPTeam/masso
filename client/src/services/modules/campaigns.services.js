@@ -11,6 +11,9 @@ export default {
   delete( id ) {
     return Api().delete( `campaigns?_campaignId=${id}` );
   },
+  duplicate( id ) {
+    return Api().post( `campaigns/duplicate?_campaignId=${id}` );
+  },
   getCampaignById( id ) {
     return Api().get( `campaigns?_id=${id}` );
   },

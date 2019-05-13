@@ -60,14 +60,14 @@ const state = {
     },
     deletePostGroup: async ( { commit }, payload ) => {
       const postGroups = state.postGroups.filter(
-        ( postGroup ) => postGroup._id !== payload
+        ( postGroup ) => postGroup._id !== payload.id
       );
 
       let res;
 
       commit( "setPostGroups", postGroups );
 
-      await PostGroupServices.delete( payload );
+      await PostGroupServices.delete( payload.id );
       res = await PostGroupServices.index();
       commit( "setPostGroups", res.data.data );
     },

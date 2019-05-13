@@ -164,8 +164,12 @@ module.exports = {
     // eslint-disable-next-line one-var
     const newCampaign = new Campaign( findCampaign );
 
-    newCampaign.save();
+    await newCampaign.save();
+ 
+  
+    // eslint-disable-next-line one-var
+    const campaignReturned = await Campaign.findOne( { "_id": newCampaign._id } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account" } ).lean();
 
-    res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
+    res.status( 200 ).json( jsonResponse( "success", campaignReturned ) );
   }
 };
