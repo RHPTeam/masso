@@ -57,15 +57,17 @@
     </div>
     <!-- else call component item post -->
     <div v-else>
-      <div v-if="this.$store.getters.statusPost === 'loading'">
+      <div v-if="this.$store.getters.statusPost === 'loading'" class="mt_3">
         <loading-component></loading-component>
       </div>
-      <item-post
-        v-for="(item, index) in filterAllPost"
-        :key="index"
-        :item="item"
-        @showDeletePopup="showDeletePopup($event)"
-      ></item-post>
+      <div v-else>
+        <item-post
+          v-for="(item, index) in filterAllPost"
+          :key="index"
+          :item="item"
+          @showDeletePopup="showDeletePopup($event)"
+        ></item-post>
+      </div>
     </div>
     <!--*********** POPUP *************-->
     <transition name="popup">
