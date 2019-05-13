@@ -2,11 +2,11 @@
 	<div class="campaigns--data my_3" :data-theme="currentTheme">
 		<!-- Start: Table Header -->
 		<div class="item--header d_flex align_items_center px_3 py_2">
-			<div class="col col--checkbox px_2">
+			<!--<div class="col col--checkbox px_2">
 				<label class="custom--checkbox mb_0">
 					<input type="checkbox" />
 				</label>
-			</div>
+			</div>-->
 			<div class="col col--name px_2">
         <span
           class="sort"
@@ -185,11 +185,11 @@
 			v-for="( campaign, index ) in filteredCampaigns"
 			:key="`cp-${index}`"
 			>
-				<div class="col col--checkbox px_2">
+				<!--<div class="col col--checkbox px_2">
 					<label class="custom--checkbox mb_0">
 						<input type="checkbox"/>
 					</label>
-				</div>
+				</div>-->
 				<div class="col col--name px_2">
 					<span class="col col--name-text" @click="viewCampaignDetail( campaign._id )">
 						{{ campaign.title }}
@@ -209,7 +209,7 @@
 				<div class="col col--status px_2">
 					<div class="status--content d_flex align_items_center">
 						<div class="status--dot mr_2"
-							:class="[ campaign.status ? 'active' : 'deactive' ]"
+							:class="[ campaign.status ? 'dot--active' : 'dot--deactive' ]"
 						></div>
 						<div class="status--text" v-if="campaign.status">
 							Đang hoạt động

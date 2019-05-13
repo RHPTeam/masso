@@ -1,6 +1,4 @@
 
-import DeletePopup from "../popup/delete";
-
 export default {
   props: [ "groupSelected", "typeFilterSelected" ],
   data() {
@@ -116,11 +114,5 @@ export default {
         this.$store.dispatch( "postGroupPagesSelected", this.pagesSelectedArr );
       }
     }
-  },
-  methods: {
-
-  },
-  components: {
-    DeletePopup
   }
 };

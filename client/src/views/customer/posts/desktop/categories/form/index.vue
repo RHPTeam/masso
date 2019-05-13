@@ -1,36 +1,42 @@
 <template>
-  <div class="category--new" :data-theme="currentTheme">
-
-    <div class="category--form py_4 px_3" v-if="isUpdateCategories === false">
-      <div class="category--new-desc mb_3">Thêm danh mục mới</div>
-      <div class="item mb_2">
+  <div class="form-wrapper" :data-theme="currentTheme">
+    <!-- Start: Create Form -->
+    <div class="category--form p_3" v-if="isUpdateCategories === false">
+      <div class="form--title mb_3">Thêm danh mục mới</div>
+      <div class="item">
         <span>Tên danh mục</span>
         <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategories" />
       </div>
-      <div v-if="this.$store.getters.statusError.status === 'fail'" class="error text_light px_2 py_1 bg_danger mb_2"> {{ this.$store.getters.statusError.data.title }}</div>
-      <div class="item mb_4">
+      <div v-if="this.$store.getters.statusError.status === 'fail'"
+           class="text--error mt_1"
+      >
+        {{ this.$store.getters.statusError.data.title }}
+      </div>
+      <div class="item mt_3">
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="desCategories"></textarea>
       </div>
-      <div class="item" @click="createCategories">
+      <div class="item mt_3" @click="createCategories">
         <button>Thêm mới</button>
       </div>
     </div>
-
-    <div class="category--form py_4 px_3" v-if="isUpdateCategories === true">
-      <div class="category--new-desc mb_3">Cập nhật danh mục</div>
-      <div class="item mb_4">
+    <!-- End: Create Form -->
+    <!-- Start: Update Form -->
+    <div class="category--form p_3" v-if="isUpdateCategories === true">
+      <div class="form--title mb_3">Cập nhật danh mục</div>
+      <div class="item">
         <span>Tên danh mục</span>
         <input type="text" placeholder="Nhập tên danh mục" v-model="categories.title" />
       </div>
-      <div class="item mb_4">
+      <div class="item mt_3">
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="categories.description"></textarea>
       </div>
-      <div class="item" @click="updateCategories">
+      <div class="item mt_3" @click="updateCategories">
         <button>Cập nhật</button>
       </div>
     </div>
+    <!-- End: Update Form -->
   </div>
 </template>
 
@@ -75,105 +81,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.category--new {
-  color: #444444;
-  font-size: 14px;
-  &-desc {
-    font-weight: 600;
-    height: 40px;
-  }
-  .category--form {
-    background-color: #ffffff;
-    // border-radius: 10px;
-  }
-  .item {
-    > span {
-      color: #000;
-      font-weight: 600;
-    }
-    > input,
-    > textarea {
-      border: solid 1px #e4e4e4;
-      border-radius: 0.5rem;
-      margin-top: 0.75rem;
-      outline: none;
-      transition: all 0.4s ease;
-      width: 100%;
-      &:focus {
-        border-color: #ffb94a;
-      }
-    }
-    > input {
-      padding: 0 0.75rem;
-      height: 40px;
-    }
-    > textarea {
-      height: 120px;
-      padding: 0.75rem;
-      resize: none;
-    }
-    > button {
-      background-color: #ffb94a;
-      border: solid 1px #ffb94a;
-      border-radius: 0.5rem;
-      color: #fff;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      height: 40px;
-      transition: all 0.4s ease;
-      &:hover, &:focus, &:active, &:visited {
-        background-color: transparent;
-        box-shadow: none;
-        color: #ffb94a;
-        outline: 0;
-      }
-    }
-  }
-  .error {
-    border-radius: .5rem;
-  }
-}
-//CHANGE BACKGROUND COLOR THEME
-
-//LIGHT
-.category--new[data-theme="light"] {
-  .category--new-desc {
-    color: #444;
-  }
-  .category--form {
-    background-color: #fff;
-  }
-  .item {
-    > span {
-      color: #000;
-    }
-    input,
-    textarea {
-      background-color: #fff;
-      color: #444;
-    }
-  }
-}
-
-//DARK
-.category--new[data-theme="dark"] {
-  .category--new-desc {
-    color: #cccccc;
-  }
-  .category--form {
-    background-color: #27292d;
-  }
-  .item {
-    > span {
-      color: #cccccc;
-    }
-    input,
-    textarea {
-      background-color: #2f3136;
-      border-color: #2f3136;
-      color: #cccccc;
-    }
-  }
-}
+@import "./index.style";
 </style>

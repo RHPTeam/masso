@@ -1,23 +1,24 @@
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable one-var */
 import PostServices from "@/services/modules/post.services";
 
 const state = {
   allPost: [],
-  postOfCate: [],
   errorPost: "",
-  statusPost: "",
+  newPost: [],
   post: [],
-  newPost: []
+  postOfCate: [],
+  postsPage: [],
+  postsPageSize: 1,
+  statusPost: ""
 };
 const getters = {
-  statusPost: ( state ) => state.statusPost,
   allPost: ( state ) => state.allPost,
-  post: ( state ) => state.post,
-  newPost: ( state ) => state.newPost,
   errorPost: ( state ) => state.errorPost,
-  postOfCate: ( state ) => state.postOfCate
+  newPost: ( state ) => state.newPost,
+  post: ( state ) => state.post,
+  postOfCate: ( state ) => state.postOfCate,
+  postsPage: ( state ) => state.postsPage,
+  postsPageSize: ( state ) => state.postsPageSize,
+  statusPost: ( state ) => state.statusPost,
 };
 const mutations = {
   post_request: ( state ) => {
@@ -40,9 +41,37 @@ const mutations = {
   },
   setPostByCate: ( state, payload ) => {
     state.setPostByCate = payload;
+  },
+  setPostsPage: ( state, payload ) => {
+    state.postsPage = payload;
+  },
+  setPostsPageSize: ( state, payload ) => {
+    state.postsPageSize = payload;
   }
 };
 const actions = {
+  createNewPost: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const resultPostCreate = await PostServices.createNewPost( payload );
+
+    commit( "setNewPost", resultPostCreate.data.data );
+
+    commit( "post_success" );
+  },
+  deletePost: async ( { commit }, payload ) => {
+    const posts = state.allPost.filter( ( post ) => {
+      return post._id = payload;
+    } );
+
+    let res;
+
+    commit( "setAllPost", posts );
+
+    await PostServices.deletePost( payload );
+
+    res = await PostServices.index();
+    commit( "setAllPost", res.data.data );
+  },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
     const resultAllPost = await PostServices.index();
@@ -62,13 +91,20 @@ const actions = {
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
-  createNewPost: async ( { commit }, payload ) => {
+  getPostsByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const resultPostCreate = await PostServices.createNewPost( payload );
 
-    commit( "setNewPost", resultPostCreate.data.data );
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
 
     commit( "post_success" );
+  },
+  sendErrorUpdate: async ( { commit } ) => {
+    // commit( "post_request" );
+    commit( "setError", 'error' );
+    // commit( "post_success" );
   },
   updatePost: async ( { commit }, payload ) => {
     commit( "post_request" );
@@ -83,11 +119,6 @@ const actions = {
     await PostServices.updateAttachmentPost( payload.id, payload.formData );
     const resultPost = await PostServices.getById( payload.id );
     commit( "setPost", resultPost.data.data );
-  },
-  sendErrorUpdate: async ( { commit } ) => {
-    // commit( "post_request" );
-    commit( "setError", 'error' );
-    // commit( "post_success" );
   }
 };
 

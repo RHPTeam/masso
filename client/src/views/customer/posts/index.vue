@@ -4,16 +4,16 @@
     <div class="d_none d_md_block">
       <breadcrumb
         nameBread="Thiết lập bài đăng"
-        subBread="Giúp bạn lưu các bài đăng vào thư viện, quản lý bài đăng theo nhóm mà bạn muốn"
+        subBread="Giúp bạn lưu các bài đăng vào thư viện và quản lý bài đăng theo nhóm mong muốn"
       />
       <!-- Start: Content -->
       <div class="main--content">
         <!-- Start: Filter -->
-        <app-filter v-if="showFilter" />
+        <app-navigation v-if="showNavigation" />
 
         <!-- End: Filter -->
         <transition name="slide-fade">
-          <router-view />
+          <router-view :key="$route.path" />
         </transition>
       </div>
       <!-- End: Content -->
@@ -23,20 +23,17 @@
 </template>
 
 <script>
-import AppFilter from "./desktop/layouts/filter/index";
+import AppNavigation from "./desktop/layouts/navigation/index";
 export default {
   components: {
-    AppFilter
+    AppNavigation
   },
   computed: {
-    showFilter() {
+    showNavigation() {
       const isCategoriesRoute = this.$route.path === "/posts/categories",
             isPostRoute = this.$route.path === "/posts/";
 
-      if ( isCategoriesRoute || isPostRoute ) {
-        return true;
-      }
-      return false;
+      return isCategoriesRoute || isPostRoute;
     }
   },
   async created() {

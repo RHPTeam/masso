@@ -11,7 +11,7 @@ export default {
     return Api().get( `facebook/places?keyword=${key}` );
   },
   getActivity() {
-    return Api().get( "facebook/action-type-loader" );
+    return Api().get( "facebook/postsaction-type-loader" );
   },
   getListItemActivity( itemId ) {
     return Api().get( `facebook/action-type-loader/${itemId}` );

@@ -1,4 +1,4 @@
-import DeleteFriendsPopup from "../popup/delete/";
+import DeleteFriendsPopup from "../../../../../components/popups/delete/";
 import AddGroupPopup from "../popup/addgroup";
 
 export default {
