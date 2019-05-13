@@ -227,6 +227,7 @@
       display: inline-block !important;
       margin: 4px;
       padding: .25rem 10px;
+      width: calc(100% / 4);
       svg {
         margin-bottom: -5px;
       }
@@ -236,16 +237,21 @@
       }
       label {
         cursor: pointer;
+        margin: 0;
       }
     }
     .more {
       padding: 12px 10px;
-      .dots {
-        height: 6px;
-        width: 6px;
-        border-radius: 50%;
-        background-color: $blackLight;
-        margin: 0 2px;
+      >div {
+        margin: 0 auto;
+        width: 30px;
+        .dots {
+          height: 6px;
+          width: 6px;
+          border-radius: 50%;
+          background-color: $blackLight;
+          margin: 0 2px;
+        }
       }
     }
   }

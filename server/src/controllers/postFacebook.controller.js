@@ -6,7 +6,6 @@
  * date to: 11/05/2019
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" );
 const PostFacebook = require( "../models/PostFacebook.model" );
 
 const jsonResponse = require( "../configs/res" );
