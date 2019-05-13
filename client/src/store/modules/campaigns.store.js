@@ -47,16 +47,19 @@ const state = {
     },
     deleteCampaign: async ( { commit }, payload ) => {
       const campaigns = state.campaigns.filter(
-        ( campaign ) => campaign._id !== payload
+        ( campaign ) => campaign._id !== payload.id
       );
 
       let res;
 
       commit( "setCampaigns", campaigns );
+      commit( "setCampaignsPagesSize", campaigns.length );
 
-      await CampaignsServices.delete( payload );
-      res = await CampaignsServices.index();
-      commit( "setCampaigns", res.data.data );
+      await CampaignsServices.delete( payload.id );
+
+      res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+      await commit( "setCampaigns", res.data.data.results );
+      await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     getAllCampaigns: async ( { commit } ) => {
       const res = await CampaignsServices.index();

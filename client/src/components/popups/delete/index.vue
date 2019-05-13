@@ -51,13 +51,8 @@ export default {
       type: String,
       default: ""
     },
-    targetId: {
-      type: String,
-      default: ""
-    },
-    targetIds: {
-      type: Array,
-      default: () => { [] }
+    targetData: {
+      type: Object
     },
     targetName: {
       type: String,
@@ -93,11 +88,8 @@ export default {
       this.$emit( "closePopup", false );
     },
     deleteTargets() {
-      if ( this.multiple === false ) {
-        this.$store.dispatch( this.storeActionName, this.targetId );
-      } else {
-        this.$store.dispatch( this.storeActionName, this.targetIds );
-      }
+      this.$store.dispatch( this.storeActionName, this.targetData );
+
       this.$emit( "closePopup", false );
     }
   }

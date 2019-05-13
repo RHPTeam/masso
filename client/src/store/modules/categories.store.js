@@ -85,18 +85,20 @@ const actions = {
     commit( "setCategoriesPageSize", res.data.data.page );
   },
   deleteCategory: async ( { commit }, payload ) => {
-    const categories = state.allCategories.filter( ( category ) => {
-      return category._id !== payload;
+    const categories = state.categoriesPage.filter( ( category ) => {
+      return category._id !== payload.id;
     } );
 
     let res;
 
-    commit( "setAllCategories", categories );
+    commit( "setCategoriesPage", categories );
+    commit( "setCategoriesPageSize", categories.length );
 
-    await CategoriesServices.deleteCategory( payload );
+    await CategoriesServices.deleteCategory( payload.id );
 
-    res = await CategoriesServices.index();
-    commit( "setAllCategories", res.data.data );
+    res = await CategoriesServices.getByPage( payload.size, payload.page );
+    commit( "setCategoriesPage", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
   }
 };
 

@@ -18,7 +18,8 @@ export default {
           desc: false
         }
       ],
-      postDelete: {}
+      postDelete: {},
+      targetDataDelete: {}
     }
   },
   computed: {
@@ -75,6 +76,11 @@ export default {
     },
     showDeletePopup( post ) {
       this.postDelete = post;
+      this.targetDataDelete = {
+        id: post._id,
+        page: this.currentPage,
+        size: this.filterShowSelected.id
+      };
       this.isShowDeletePopup = true;
     },
     sortPostsByProperty( sortSelected, index ) {

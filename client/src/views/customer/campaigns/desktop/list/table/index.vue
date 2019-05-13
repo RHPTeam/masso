@@ -250,8 +250,13 @@
     <transition name="popup">
       <delete-campaign-popup
         v-if="isShowDeleteCampaignPopup === true"
-        :campaign="campaignDelete"
+        :data-theme="currentTheme"
+        title="Xoá chiến dịch"
         @closePopup="isShowDeleteCampaignPopup = $event"
+        storeActionName="deleteCampaign"
+        :targetData="targetDataDelete"
+        :targetName="campaignDelete.title"
+        typeName="chiến dịch"
       ></delete-campaign-popup>
     </transition>
     <!-- End: Delete Campaign Popup -->

@@ -12,7 +12,8 @@ export default {
   data() {
     return {
       isShowDeletePopup: false,
-      categoryDelete: {}
+      categoryDelete: {},
+      targetDataDelete: {},
     }
   },
   computed: {
@@ -44,6 +45,11 @@ export default {
     },
     showDeletePopup( category ) {
       this.categoryDelete = category;
+      this.targetDataDelete = {
+        id: category._id,
+        page: this.currentPage,
+        size: this.filterShowSelected.id
+      };
       this.isShowDeletePopup = true;
     },
     updateCurrentPage( val ) {

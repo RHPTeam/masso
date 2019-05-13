@@ -52,7 +52,7 @@
         title="Xoá danh mục"
         storeActionName="deleteCategory"
         description="Các bài viết thuộc danh mục này sẽ được chuyển sang danh mục Chưa phân loại."
-        :targetId="categoryDelete._id"
+        :targetData="targetDataDelete"
         :targetName="categoryDelete.title"
         typeName="danh mục"
         @closePopup="isShowDeletePopup = $event"

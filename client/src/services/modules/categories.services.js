@@ -15,7 +15,6 @@ export default {
     return Api().get( `post-categories?_id=${pcId}` );
   },
   updateCategory( cateId, category ) {
-    console.log(category);
     return Api().patch( `post-categories?_categoryId=${cateId}`, category );
   },
   deleteCategory( cateId ) {

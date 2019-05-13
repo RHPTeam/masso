@@ -1,5 +1,5 @@
 
-import DeleteCampaignPopup from "../../popup/deletecampaign";
+import DeleteCampaignPopup from "@/components/popups/delete";
 import ConvertUnicode from "@/utils/functions/string.js";
 
 export default {
@@ -29,7 +29,8 @@ export default {
           asc: false,
           desc: false
         }
-      ]
+      ],
+      targetDataDelete: {},
     };
   },
   async created() {
@@ -99,6 +100,11 @@ export default {
     showDeleteCampaignPopup( campaign ) {
       this.isShowDeleteCampaignPopup = true;
       this.campaignDelete = campaign;
+      this.targetDataDelete = {
+        id: campaign._id,
+        page: this.currentPage,
+        size: this.filterShowSelected.id
+      };
     },
     sortCampaignsByProperty( sortSelected, index ) {
       const attr = sortSelected.name;

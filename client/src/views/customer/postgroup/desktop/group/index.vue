@@ -63,7 +63,7 @@
         title="Xoá nhóm"
         @closePopup="isShowDeletePopup = $event"
         storeActionName="deletePostGroup"
-        :targetId="groupDelete._id"
+        :targetData="{ id: groupDelete._id }"
         :targetName="groupDelete.title"
         typeName="nhóm"
       ></delete-group-popup>
