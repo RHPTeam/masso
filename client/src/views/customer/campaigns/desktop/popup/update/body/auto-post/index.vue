@@ -1,17 +1,6 @@
 <template>
   <div class="post--content-detail">
     <div class="breadcrumb">
-      <div class="btn--back" @click="comeBackOptionPost">
-        <icon-base
-          class="icon--arrow-left"
-          icon-name="arrow"
-          width="18"
-          height="22"
-          viewBox="0 0 28 28"
-        >
-          <icon-arrow-left></icon-arrow-left>
-        </icon-base>
-      </div>
       <div class="breadcrumb--text">Tự động đăng bài viết từ danh mục</div>
     </div>
     <div class="content--wrapper">
@@ -23,9 +12,15 @@
             <div class="multiselect--custom">
               <multiselect
                 label="title"
+                v-model="eventDetail.post_category"
+                @input="updateCate"
                 :options="categories"
                 placeholder="Chọn danh mục"
-              />
+              >
+                <template slot="option" slot-scope="option">
+                  <span>{{ option.title }}</span>
+                </template>
+              </multiselect>
             </div>
           </div>
         </div>
@@ -65,7 +60,7 @@
         >
           <div class="c_md_6">
             <div class="options--item d_flex align_items_center justify_content_between"
-                 @click="optionPostTarget = 'group'"
+                 @click="showOptionPostGroupOfUser"
             >
               <div class="item--content">
                 <div class="name mb_1">Đăng tới nhóm cụ thể</div>
@@ -87,7 +82,7 @@
           </div>
           <div class="c_md_6">
             <div class="options--item d_flex align_items_center justify_content_between"
-                 @click="optionPostTarget = 'group'"
+                 @click="showOptionPostPage"
             >
               <div class="item--content">
                 <div class="name mb_1">Tùy chọn nơi đăng cụ thể</div>
@@ -109,27 +104,42 @@
           </div>
         </div>
         <!-- Start: Options Group -->
+        <!-- Start: Post Targets Custom-->
+        <post-targets-custom
+          class="px_3 mt_3"
+          v-if="optionPostTarget === 'custom'"
+          :eventDetail="eventDetail"
+        />
+        <!-- Start: Post Targets Custom-->
         <!-- Start: Post Targets Group-->
         <post-targets-group
-          class="px_3 mt_3"
           v-if="optionPostTarget === 'group'"
+          class="px_3 mt_3"
+          :eventDetail="eventDetail"
         />
         <!-- Start: Post Targets Group-->
       </div>
       <!-- Start: Post Targets -->
-      <post-time></post-time>
+      <post-time :eventDetail="eventDetail" />
     </div>
   </div>
 </template>
 
 <script>
-import PostTargetsGroup from "./post-target-group";
+import PostTargetsGroup from "../post-target-group";
+import PostTargetsCustom from "../post-target-custom";
 import PostTime from "../custom-time";
 
 export default {
   components: {
     PostTargetsGroup,
+    PostTargetsCustom,
     PostTime
+  },
+  props: {
+    eventDetail: {
+      type: Object
+    }
   },
   data() {
     return {
@@ -145,6 +155,24 @@ export default {
   methods: {
     comeBackOptionPost() {
       this.$emit( "return", "none" );
+    },
+    showOptionPostGroupOfUser(){
+      this.$store.dispatch( "getAllPostGroups" );
+      delete this.eventDetail.target_custom;
+      this.optionPostTarget = 'group';
+    },
+    showOptionPostPage(){
+      this.$store.dispatch( "getFacebookGroups" );
+      this.$store.dispatch( "getFacebookPages" );
+      delete this.eventDetail.target_category;
+      this.optionPostTarget = 'custom';
+    },
+    updateCate(){
+      const objSender = {
+        campId: this.$route.params.campaignId,
+        content: this.eventDetail
+      };
+      this.$store.dispatch( "updateEvent", objSender);
     }
   }
 }

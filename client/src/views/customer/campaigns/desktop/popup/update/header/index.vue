@@ -15,7 +15,7 @@
         />
       </div>
       <div class="header--row-right d_flex align_items_center">
-        <div class="btn--header btn--copy mr_2">
+        <div class="btn--header btn--copy mr_2" @click="closePopup">
           <icon-base
             class="ic--copy"
             icon-name="ic--copy"
@@ -51,7 +51,7 @@
           <div>
             <toggle-switch
               class="mr_2"
-              :value="eventDetail.status"
+              :value="eventDetail.type_event === 0 ? true : false"
               @change="updateAutopost($event.value)"
               :sync="true"
               :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"

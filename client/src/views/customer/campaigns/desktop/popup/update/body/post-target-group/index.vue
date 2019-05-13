@@ -6,23 +6,28 @@
         <multiselect
           label="title"
           placeholder="Chọn nhóm"
-          @input="postGroupSelected = $event"
-          :options="postGroupsName"
+          @input="postGroupSelected"
+          :options="postGroups"
+          v-model="eventDetail.target_category"
         ></multiselect>
       </div>
-    </div>
-    <div class="total--detail">Bao gồm
-      <span>{{ getPostGroupByName(postGroupSelected) ? getPostGroupByName(postGroupSelected)._pages.length : 0 }}  nhóm</span> và
-      <span>{{ getPostGroupByName(postGroupSelected) ? getPostGroupByName(postGroupSelected)._groups.length : 0}} trang</span> được sử dụng.
+      <div class="total--detail text_right">
+        Bao gồm {{ eventDetail.target_category.length }} nhóm được sử dụng
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    eventDetail: {
+      type: Object
+    }
+  },
   data() {
     return {
-      postGroupSelected: {}
+
     }
   },
   computed: {
@@ -53,6 +58,13 @@ export default {
       } );
 
       return res;
+    },
+    postGroupSelected() {
+      const dataSender = {
+        campId: this.$route.params.campaignId,
+        content: this.eventDetail
+      };
+      this.$store.dispatch( "updateEvent", dataSender );
     }
   }
 }
