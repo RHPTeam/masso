@@ -32,8 +32,8 @@
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="category.description"></textarea>
       </div>
-      <div class="item d_flex justify_content_between mt_3" @click="updateCategory">
-        <button>Cập nhật</button>
+      <div class="item d_flex justify_content_between mt_3">
+        <button @click="updateCategory">Cập nhật</button>
         <button class="btn--cancel" @click="cancelUpdateCategory">Hủy</button>
       </div>
     </div>
@@ -72,6 +72,8 @@ export default {
         size: this.filterShowSelected.id
       };
       await this.$store.dispatch( "createCategory", dataSender );
+      this.nameCategory = "";
+      this.desCategory = "";
     },
     updateCategory() {
       const dataSender = {
