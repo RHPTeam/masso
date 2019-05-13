@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper py_4 px_3" :data-theme="currentTheme">
-    <div></div>
-    <div>
+    <div v-if="post">
       <div class="item mb_4">
         <span>Tên bài viết</span>
         <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keyup="updateTitlePost(post)" @keydown="clear" />
@@ -44,8 +43,7 @@
 
               <!--Start: Show tag and check in-->
               <div class="mb_1 p_2">
-                <!-- <div v-if="nameFriend.length === 0"></div>-->
-                <div class="d_flex align_items_center">
+                <div class="d_flex align_items_center" v-if="nameFriend.length > 0">
                   <span> — </span>
                   <!--Start: Show activity -->
                   <div class="ml_1">
@@ -142,7 +140,7 @@
                 </div>
                 <!--End: Show activity -->
                 <!--Start: Show tag friend-->
-                <div class="ml_1">
+                <div class="ml_1" v-if="nameFriend.length > 0">
                   <div v-if="nameFriend.length === 0"></div>
                   <div v-else>
                     <!--Start:  If tag 1 friend-->
@@ -190,7 +188,7 @@
             </div>
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
-            <div v-if="post.attachments.length > 0">
+            <div v-if="post.attachments && post.attachments.length > 0">
               <div v-if="this.$store.getters.errorPost === 'error'" class="text_danger">
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
@@ -347,9 +345,8 @@
       <!--End: Show share link user used content -->
 
       <!--Start: if array link content dont undefined-->
-      <div>
-        <div v-if="linkContent.length === 0"></div>
-        <div v-else class="item mb_4">
+      <div v-if="linkContent">
+        <div v-if="linkContent.length > 0" class="item mb_4">
           <span>Link chia sẻ</span>
           <div class="mt_2">Bạn chỉ có thể sử dụng 1 link chia sẻ trong bài viết, hãy cân nhắc trước khi lựa chọn. </div>
           <div class="wrap p_2 mt_2">
@@ -371,231 +368,8 @@
 </template>
 
 
-<script>
-import ColorPost from "./color";
-import ImagePost from "./images";
-import TagPost from "./tag";
-import CheckinPost from "./checkin";
-import ActivityPost from "./activity";
+<script src="./index.script.js">
 
-import StringFunction from "@/utils/functions/string";
-
-let typingTimer;
-
-export default {
-  components: {
-    ColorPost,
-    ImagePost,
-    TagPost,
-    CheckinPost,
-    ActivityPost
-  },
-  data() {
-    return {
-      statusContentEditable: true,
-      statusNoHTML: false,
-      name: "",
-      linkContent: [],
-      contentColor: "",
-      openContentColor: false,
-      bgColorActive: "background-color: #ff0000",
-      listCategories: [],
-      file: "",
-      photo: null,
-      isShowColorControl: false,
-      isShowColor: false,
-      isShowImage: false,
-      isShowTag: false,
-      isShowCheckIn: false,
-      isShowActivity: false,
-      isShowMoreOption: false,
-      isActiveImage: false
-    };
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    //Get background from Facebook
-    colorFb() {
-      return this.$store.getters.colorFb;
-    },
-    // Get Post by Id
-    post() {
-      if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
-      return this.$store.getters.post;
-    },
-    //Get Categories
-    categories() {
-      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
-      return this.$store.getters.categories;
-    },
-    //Get friend Facebook
-    friendFb() {
-      if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
-      return this.$store.getters.allFriend;
-    },
-    // Get 12 first item from more color
-    randomColor() {
-      return this.colorFb[2].textFormats.slice(0, 11);
-    },
-    // Get name friend from uid item tags of post
-    nameFriend(){
-      let result = this.post.tags;
-      if( result === undefined || result === "" ) {
-        return result = [];
-      } else {
-        const results = [];
-        let arrOther = this.friendFb;
-        result.map( uid => {
-          return arrOther.map( item => {
-            if( item.uid == uid ) results.push( item.text );
-          } );
-        } );
-        return results;
-      }
-    },
-    // Get friend from item 1 to end
-    moreFriend(){
-      return this.nameFriend.slice(1);
-    },
-    /*listIconActivity() {
-      if ( this.$store.getters.listActivity === undefined ) return;
-      return this.$store.getters.listActivity;
-    },
-    iconActivity() {
-      let result = this.post.activity.id;
-      let arrIcon = this.listIconActivity;
-      if (arrIcon === undefined) {
-        return;
-      } else {
-        let arr =  arrIcon.navigation(item => {
-          if( item.uid == result ) return item.photo;
-        });
-        return arr[0].photo;
-      }
-    },*/
-    // Get name item activity
-    activityFeelName() {
-      let result = this.post.activity.typeActivity;
-      let newStr = result.slice( 4 );
-      let str = newStr.split(".");
-      return str[0];
-    }
-  },
-  watch: {
-    /**
-     * check contetn of post using StringFunction get urls have in content
-     * If length content > 200 character delete color of post
-     */
-    "post.content"( value ) {
-      //check scrape
-      this.linkContent = StringFunction.detectUrl(value);
-      // this.$store.dispatch( "updatePost", this.post  );
-      // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
-        this.isShowColor = false;
-        delete this.post.color;
-        this.$store.dispatch( "updatePost", this.post );
-      } else {
-        this.$store.dispatch( "updatePost", this.post );
-      }
-    }
-  },
-  async created() {
-    await this.$store.dispatch( "getColorFromFb" );
-  },
-
-  methods: {
-    /**
-     * [changeResultContentColor description]
-     * @param  {[Boolean]} val [true]
-     * @description attach content to contetn color and open modules content color then hidden choose option images for post.
-     */
-    changeResultContentColor( val ){
-      this.isActiveImage = val;
-    },
-    chooseLinkContent( val ){
-      this.post.scrape = val;
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    // Update categories post
-    updateCate( value ) {
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    updateTitlePost( value ){
-      clearTimeout( typingTimer );
-      typingTimer = setTimeout(this.updateTitle( value ), 8000);
-    },
-    clear(){
-      clearTimeout( typingTimer );
-    },
-    // Update title post
-    updateTitle( value ){
-      this.$store.dispatch( "updatePost", value );
-    },
-    showOptionColor() {
-      this.isShowColor = true;
-    },
-    showOptionPostCheckin(){
-      this.isShowTag = false;
-      this.isShowActivity = false;
-      this.isShowCheckIn = true;
-    },
-    showOptionPostTagsFriend(){
-      this.isShowActivity = false;
-      this.isShowCheckIn = false;
-      this.isShowTag = true;
-    },
-    /**
-     * [showOptionPostActivity description]
-     * @return {[type]} [description]
-     */
-    showOptionPostActivity(){
-      this.isShowTag = false;
-      this.isShowCheckIn = false;
-      this.isShowActivity = true;
-    },
-    changeContentDefault() {
-      this.openContentColor = false;
-      this.content = this.contentColor;
-    },
-    showOptionPostImages(){
-      this.isShowColor = false;
-      delete this.post.color;
-      this.isShowImage = true;
-    },
-    // Change background when choose background from component colors
-    changeBgColor ( ev ) {
-      this.bgColorActive = ev;
-    },
-    // Update post when click button Save
-    savePost(){
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    // Select file images
-    selectFile( id ) {
-      this.file = this.$refs.file.files;
-      this.sendFile( id );
-    },
-    // Update file images to post
-    sendFile() {
-      const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
-      });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
-      } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
-      }
-    }
-  }
-};
 </script>
 
 <style lang="scss" scoped>
