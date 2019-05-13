@@ -115,7 +115,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Post

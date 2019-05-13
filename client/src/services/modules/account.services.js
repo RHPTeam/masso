@@ -58,5 +58,8 @@ export default {
   },
   upload( file ) {
     return Api().post( "users", file );
+  },
+  active( user ) {
+    return Api().post( "users/active", user );
   }
 };
