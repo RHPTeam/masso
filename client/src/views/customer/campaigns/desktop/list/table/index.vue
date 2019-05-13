@@ -220,7 +220,7 @@
 					</div>
 				</div>
 				<div class="col col--action px_4 text_center">
-					<span class="mx_1">
+					<span class="mx_1" @click="showDuplicateCampaignPopup(campaign)">
 						<icon-base
 							class="ic--copy"
 							icon-name="copy"
@@ -258,6 +258,11 @@
         :targetName="campaignDelete.title"
         typeName="chiến dịch"
       ></delete-campaign-popup>
+      <duplicate-campaign-popup
+        v-if="isShowDuplicateCampaignPopup"
+        :campaignDuplicate="campaignDuplicate"
+        @closePopup="isShowDuplicateCampaignPopup = $event"
+      ></duplicate-campaign-popup>
     </transition>
     <!-- End: Delete Campaign Popup -->
 	</div>

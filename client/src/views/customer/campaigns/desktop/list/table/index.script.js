@@ -1,13 +1,16 @@
 
-import DeleteCampaignPopup from "@/components/popups/delete";
 import ConvertUnicode from "@/utils/functions/string.js";
+import DeleteCampaignPopup from "@/components/popups/delete";
+import DuplicateCampaignPopup from "../../popup/duplicate";
 
 export default {
   props: [ "currentPage", "filterShowSelected", "filterStatusSelected", "search" ],
   data() {
     return {
       campaignDelete: {},
+      campaignDuplicate: {},
       isShowDeleteCampaignPopup: false,
+      isShowDuplicateCampaignPopup: false,
       isSort: [
         {
           name: "title",
@@ -106,6 +109,10 @@ export default {
         size: this.filterShowSelected.id
       };
     },
+    showDuplicateCampaignPopup( campaign ) {
+      this.isShowDuplicateCampaignPopup = true;
+      this.campaignDuplicate = campaign;
+    },
     sortCampaignsByProperty( sortSelected, index ) {
       const attr = sortSelected.name;
 
@@ -147,6 +154,7 @@ export default {
     }
   },
   components: {
-    DeleteCampaignPopup
+    DeleteCampaignPopup,
+    DuplicateCampaignPopup
   }
 };

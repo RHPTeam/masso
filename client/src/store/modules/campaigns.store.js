@@ -61,6 +61,10 @@ const state = {
       await commit( "setCampaigns", res.data.data.results );
       await commit( "setCampaignsPagesSize", res.data.data.page );
     },
+    duplicateCampaign: async ( { commit }, payload ) => {
+      const res = await CampaignsServices.duplicate( payload );
+      await commit( "setCampaignDetail", res.data.data );
+    },
     getAllCampaigns: async ( { commit } ) => {
       const res = await CampaignsServices.index();
 
