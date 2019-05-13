@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper py_4 px_3" :data-theme="currentTheme">
-    <div></div>
-    <div>
+    <div v-if="post">
       <div class="item mb_4">
         <span>Tên bài viết</span>
         <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keyup="updateTitlePost(post)" @keydown="clear" />
@@ -31,7 +30,7 @@
           <!--Start: Create and show content-->
           <div class="content position_relative">
             <!--Start: Content Default-->
-            <div v-if="openContentColor === false" class="p_2">
+            <div v-if="post.color === undefined || post.color === ''" class="p_2">
               <contenteditable
                 tag="div"
                 class="description"
@@ -44,8 +43,7 @@
 
               <!--Start: Show tag and check in-->
               <div class="mb_1 p_2">
-                <!-- <div v-if="nameFriend.length === 0"></div>-->
-                <div class="d_flex align_items_center">
+                <div class="d_flex align_items_center" v-if="nameFriend.length > 0">
                   <span> — </span>
                   <!--Start: Show activity -->
                   <div class="ml_1">
@@ -93,8 +91,8 @@
 
             <!--Start: Content Choose Color-->
             <div
-              v-if="openContentColor === true"
-              :style="bgColorActive"
+              v-else
+              :style="post.color"
               id="content--special"
             >
               <div class="content--special d_flex align_items_center justify_content_center p_4 position_relative">
@@ -115,7 +113,7 @@
                   tag="div"
                   class="description"
                   :contenteditable="true"
-                  v-model="contentColor"
+                  v-model="post.content"
                   placeholder="Cập nhật nội dung bài viết color"
                 />
 
@@ -131,9 +129,46 @@
               </div>
               <!--End: Choose color text-->
               <!--Start: Show tag and check in-->
-              <div class="d_flex align_items_center mb_1 p_2">
-                <div class="result">_ với <span>Ai đó</span></div>
-                <div class="result">_ tại <span>đâu đó</span></div>
+              <div class="d_flex align_items_center pb_3">
+                <span> — </span>
+                <!--Start: Show activity -->
+                <div class="ml_1">
+                  <div v-if="post.activity === undefined || post.activity === ''"></div>
+                  <div v-else class="d_flex align_items_center">
+                    Đang <div class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></div> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                  </div>
+                </div>
+                <!--End: Show activity -->
+                <!--Start: Show tag friend-->
+                <div class="ml_1" v-if="nameFriend.length > 0">
+                  <div v-if="nameFriend.length === 0"></div>
+                  <div v-else>
+                    <!--Start:  If tag 1 friend-->
+                    <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
+                    <!--End: If tag 1 friend-->
+                    <!--Start: If tags over 1 friend-->
+                    <div v-else class="result d_flex align_items_center">
+                      <div>với <span>{{ nameFriend[0] }}</span></div>
+                      <div class="more--other position_relative ml_1">
+                        và <span> {{ nameFriend.length - 1 }} người khác</span>
+                        <div class="more--friend position_absolute">
+                          <div class="more--wrap">
+                            <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--End: If tags over 1 friend-->
+                  </div>
+                </div>
+                <!--End: Show tag friend-->
+
+                <!--Start: Show check in -->
+                <div class="ml_1">
+                  <div v-if="post.place === '' || post.place === undefined"></div>
+                  <div v-else class="result">tại <span>{{ post.place }}</span></div>
+                </div>
+                <!--End: Show check in -->
               </div>
               <!--End: Show tag and check in-->
             </div>
@@ -144,7 +179,7 @@
               <color-post
                 class="px_2 py_1"
                 @turnOff="isShowColor = $event"
-                @openContentColor="openContentColor = $event"
+                @openContentColor="changeResultContentColor($event)"
                 :randomColor="randomColor"
                 :colorFb="colorFb"
                 :post="post"
@@ -153,7 +188,7 @@
             </div>
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
-            <div v-if="post.attachments.length > 0">
+            <div v-if="post.attachments && post.attachments.length > 0">
               <div v-if="this.$store.getters.errorPost === 'error'" class="text_danger">
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
@@ -178,7 +213,7 @@
             class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2"
             v-if="isShowMoreOption === false"
           >
-            <li class="item d_flex align_items_center" @click="isShowImage = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostImages">
               <label for="upload--images">
                 <icon-base
                   class="ic--search"
@@ -195,7 +230,7 @@
                 <input id="upload--images" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
               </form>
             </li>
-            <li class="item d_flex align_items_center" @click="isShowCheckIn = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
                 class="ic--search"
                 icon-name="location"
@@ -207,7 +242,7 @@
               </icon-base>
               <span>Địa điểm</span>
             </li>
-            <li class="item d_flex align_items_center" @click="isShowTag = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
                 class="ic--search"
                 icon-name="user"
@@ -219,7 +254,7 @@
               </icon-base>
               <span>Bạn bè</span>
             </li>
-            <li class="item more d_flex align_items_center" @click="showOptionColor">
+            <li class="item more d_flex align_items_center justify_content_between" @click="isShowMoreOption = true">
               <div class="d_flex align_items_center">
                 <div class="dots"></div>
                 <div class="dots"></div>
@@ -231,7 +266,7 @@
           <!--Start: Show option when click-->
           <div v-if="isShowMoreOption === true">
             <div class="list show d_flex align_items_center mt_2">
-              <div class="item d_flex align_items_center" @click="isShowImage = true">
+              <div class="item d_flex align_items_center" :class="isActiveImage === true ? 'aqua_hidden' : ''" @click="showOptionPostImages">
                 <label for="upload">
                   <icon-base
                     class="ic--search"
@@ -248,7 +283,7 @@
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
                 </form>
               </div>
-              <div class="item d_flex align_items_center" @click="isShowCheckIn = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
                   class="ic--search"
                   icon-name="location"
@@ -262,7 +297,7 @@
               </div>
             </div>
             <div class="list show d_flex align_items_center mt_1">
-              <div class="item d_flex align_items_center" @click="isShowTag = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
                   class="ic--search"
                   icon-name="user"
@@ -274,7 +309,7 @@
                 </icon-base>
                 <span>Bạn bè</span>
               </div>
-              <div class="item d_flex align_items_center" @click="isShowActivity = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
                   class="ic--search"
                   icon-name="feelings"
@@ -310,9 +345,8 @@
       <!--End: Show share link user used content -->
 
       <!--Start: if array link content dont undefined-->
-      <div>
-        <div v-if="linkContent.length === 0"></div>
-        <div v-else class="item mb_4">
+      <div v-if="linkContent">
+        <div v-if="linkContent.length > 0" class="item mb_4">
           <span>Link chia sẻ</span>
           <div class="mt_2">Bạn chỉ có thể sử dụng 1 link chia sẻ trong bài viết, hãy cân nhắc trước khi lựa chọn. </div>
           <div class="wrap p_2 mt_2">
@@ -334,206 +368,15 @@
 </template>
 
 
-<script>
-import ColorPost from "./color";
-import ImagePost from "./images";
-import TagPost from "./tag";
-import CheckinPost from "./checkin";
-import ActivityPost from "./activity";
+<script src="./index.script.js">
 
-import StringFunction from "@/utils/functions/string";
-
-let typingTimer;
-
-export default {
-  components: {
-    ColorPost,
-    ImagePost,
-    TagPost,
-    CheckinPost,
-    ActivityPost
-  },
-  data() {
-    return {
-      statusContentEditable: true,
-      statusNoHTML: false,
-      name: "",
-      linkContent: [],
-      contentColor: "",
-      openContentColor: false,
-      bgColorActive: "background-color: #ff0000",
-      listCategories: [],
-      file: "",
-      photo: null,
-      isShowColorControl: false,
-      isShowColor: false,
-      isShowImage: false,
-      isShowTag: false,
-      isShowCheckIn: false,
-      isShowActivity: false,
-      isShowMoreOption: false
-    };
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    //Get background from Facebook
-    colorFb() {
-      return this.$store.getters.colorFb;
-    },
-    // Get Post by Id
-    post() {
-      if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
-      return this.$store.getters.post;
-    },
-    //Get Categories
-    categories() {
-      if(Object.entries(this.$store.getters.categories).length === 0 && this.$store.getters.categories.constructor === Object) return;
-      return this.$store.getters.categories;
-    },
-    //Get friend Facebook
-    friendFb() {
-      if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
-      return this.$store.getters.allFriend;
-    },
-    // Get 12 first item from more color
-    randomColor() {
-      return this.colorFb[2].textFormats.slice(0, 11);
-    },
-    // Get name friend from uid item tags of post
-    nameFriend(){
-      let result = this.post.tags;
-      if( result === undefined || result === "" ) {
-        return result = [];
-      } else {
-        const results = [];
-        let arrOther = this.friendFb;
-        result.map( uid => {
-          return arrOther.map( item => {
-            if( item.uid == uid ) results.push( item.text );
-          } );
-        } );
-        return results;
-      }
-    },
-    // Get friend from item 1 to end
-    moreFriend(){
-      return this.nameFriend.slice(1);
-    },
-    /*listIconActivity() {
-      if ( this.$store.getters.listActivity === undefined ) return;
-      return this.$store.getters.listActivity;
-    },
-    iconActivity() {
-      let result = this.post.activity.id;
-      let arrIcon = this.listIconActivity;
-      if (arrIcon === undefined) {
-        return;
-      } else {
-        let arr =  arrIcon.navigation(item => {
-          if( item.uid == result ) return item.photo;
-        });
-        return arr[0].photo;
-      }
-    },*/
-    // Get name item activity
-    activityFeelName() {
-      let result = this.post.activity.typeActivity;
-      let newStr = result.slice( 4 );
-      let str = newStr.split(".");
-      return str[0];
-    }
-  },
-  watch: {
-    "post.content"( value ) {
-      //check scrape
-      this.linkContent = StringFunction.detectUrl(value);
-      // this.$store.dispatch( "updatePost", this.post  );
-      // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
-        this.isShowColor = false;
-        this.post.color = "";
-        this.$store.dispatch( "updatePost", this.post );
-      } else {
-      }
-    },
-    contentColor( value ) {
-      if ( value.length >= 200 ) {
-        this.openContentColor = false;
-        this.content = this.contentColor;
-        this.post.color = "";
-        this.$store.dispatch( "updatePost", this.post );
-      }
-    }
-  },
-  async created() {
-    await this.$store.dispatch( "getColorFromFb" );
-  },
-
-  methods: {
-    chooseLinkContent( val ){
-      this.post.scrape = val;
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    // Update categories post
-    updateCate( value ) {
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    updateTitlePost( value ){
-      clearTimeout( typingTimer );
-      typingTimer = setTimeout(this.updateTitle( value ), 8000);
-    },
-    clear(){
-      clearTimeout( typingTimer );
-    },
-    // Update title post
-    updateTitle( value ){
-      this.$store.dispatch( "updatePost", value );
-    },
-    showOptionColor() {
-      this.isShowColor = true;
-      this.isShowMoreOption = true;
-    },
-    changeContentDefault() {
-      this.openContentColor = false;
-      this.content = this.contentColor;
-    },
-    // Change background when choose background from component colors
-    changeBgColor ( ev ) {
-      this.bgColorActive = ev;
-    },
-    // Update post when click button Save
-    savePost(){
-      this.$store.dispatch( "updatePost", this.post );
-    },
-    // Select file images
-    selectFile( id ) {
-      this.file = this.$refs.file.files;
-      this.sendFile( id );
-    },
-    // Update file images to post
-    sendFile() {
-      const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
-      });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
-      } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
-      }
-    }
-  }
-};
 </script>
 
 <style lang="scss" scoped>
 @import "./index.style";
+.aqua_hidden {
+  opacity: .5;
+}
 .emoji {
   min-width: 0;
   max-width: 25px;

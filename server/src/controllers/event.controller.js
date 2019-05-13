@@ -47,6 +47,9 @@ module.exports = {
 
     // Check when user get one
     if ( req.query._id ) {
+      if ( dataResponse.length === 0 ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+      }
       dataResponse = dataResponse[ 0 ];
     }
 
@@ -91,6 +94,7 @@ module.exports = {
 
     // Check status of campaign to create status for event
     req.body.status = findCampaign.status;
+    req.body._account = userId;
     // eslint-disable-next-line one-var
     const newEvent = await new Event( req.body );
 

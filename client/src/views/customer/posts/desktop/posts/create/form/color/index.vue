@@ -86,6 +86,7 @@ export default {
       this.post.color = color;
       delete this.post.attachments;
       this.$store.dispatch( "updatePost", this.post );
+      console.log("done");
       this.changeBgColorDefault();
     }
   }

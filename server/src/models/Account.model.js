@@ -19,6 +19,7 @@ const rcrypt = require( "../secures" ),
     "status": Boolean,
     "code": String,
     "expireDate": Date,
+    "keywords": Array,
     "maxAccountFb": {
       "type": Number,
       "default": 2

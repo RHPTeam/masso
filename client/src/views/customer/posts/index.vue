@@ -13,7 +13,7 @@
 
         <!-- End: Filter -->
         <transition name="slide-fade">
-          <router-view />
+          <router-view :key="$route.path" />
         </transition>
       </div>
       <!-- End: Content -->
