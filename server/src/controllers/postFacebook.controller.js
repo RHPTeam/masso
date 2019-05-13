@@ -37,11 +37,11 @@ module.exports = {
     if ( req.query._id ) {
       dataResponse = await PostFacebook.find( { "_id": req.query._id } ).populate( { "path": "_account", "select": "_id name" } ).lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await PostFacebook.find( {} ).populate( { "path": "_account", "select": "_id name" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = ( await PostFacebook.find( {} ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).populate( { "path": "_account", "select": "_id name" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await PostFacebook.find( {} ).populate( { "path": "_account", "select": "_id name" } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = ( await PostFacebook.find( {} ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).populate( { "path": "_account", "select": "_id name" } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostFacebook.find( req.query ).populate( { "path": "_account", "select": "_id name" } ).lean();
+      dataResponse = await PostFacebook.find( req.query ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).populate( { "path": "_account", "select": "_id name" } ).lean();
     }
 
     if ( req.query._size ) {

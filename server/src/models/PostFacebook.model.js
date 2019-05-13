@@ -4,6 +4,7 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   PostFacebookSchema = new Schema( {
+    "title": String,
     "content": String,
     "color": String,
     "attachments": [ {
