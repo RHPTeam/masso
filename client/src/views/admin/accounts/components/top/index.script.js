@@ -1,9 +1,11 @@
+import ActivePopup from "../popup/active";
 import convertUnicode from "@/utils/functions/string.js";
 export default {
   props: [ "isGrid" ],
   data() {
     return {
       search: "",
+      isActivePopup: false,
       isshowStatusFilter: false,
       statusOptions: [ "Tất cả", "Hoạt động", "Đã ngừng" ],
       statusFilter: "Tất cả"
@@ -101,5 +103,6 @@ export default {
     }
   },
   components: {
+    ActivePopup
   }
 };

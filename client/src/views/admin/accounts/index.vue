@@ -2,6 +2,9 @@
   <div class="account text_left px_4 py_4">
     <div class="account--title mb_4">Quản lý tài khoản</div>
     <div class="account--content card card_body p_4">
+      <div class="alert alert_success" v-if="$store.getters.status === 'success'">
+        Kích hoạt tài khoản với mã kích hoạt thành công!
+      </div>
       <app-top
         :isGrid="isGrid"
         @changeLayout="isGrid = $event"

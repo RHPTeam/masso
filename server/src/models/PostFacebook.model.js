@@ -5,10 +5,19 @@ const mongoose = require( "mongoose" ),
 
   PostFacebookSchema = new Schema( {
     "content": String,
+    "color": String,
     "attachments": [ {
       "link": String,
       "typeAttachment": Number
     } ],
+    "place": String,
+    "scrape": String,
+    "tags": Array,
+    "activity": {
+      "typeActivity": String,
+      "id": String,
+      "text": String
+    },
     "like": Number,
     "share": Number,
     "vote": Number,
@@ -17,7 +26,6 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
-    
     "created_at": {
       "type": Date,
       "default": Date.now()

@@ -258,6 +258,11 @@ const actions = {
     const result = await AccountServices.upload( payload );
 
     commit( "user_set", result.data.data );
+  },
+  activeAccount: async ( { commit }, payload ) => {
+    commit( "auth_request" );
+    await AccountServices.active( payload );
+    commit( "auth_request_success" );
   }
 };
 

@@ -46,6 +46,7 @@ router
   .patch( AccountController.update )
   .put( AccountController.deleteUser );
 router.route( "/admin" ).patch( AccountController.updateExpire );
+router.route( "/active" ).post( AccountController.active );
 router.route( "/change-password" ).patch( AccountController.changePassword );
 
 module.exports = router;

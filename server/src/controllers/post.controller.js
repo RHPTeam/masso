@@ -28,13 +28,13 @@ module.exports = {
     if ( req.query._id ) {
       dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     } else if ( req.query._categoryId ) {
-      dataResponse = await Post.find( { "_categories": req.query._categoryId } ).lean();
+      dataResponse = await Post.find( { "_categories": req.query._categoryId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Post.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = ( await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await Post.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = ( await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Post.find( { "_account": userId } ).lean();
+      dataResponse = await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     }
 
     if ( req.query._size ) {
@@ -115,7 +115,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật bài viết thành công!", await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await Post.findByIdAndUpdate( req.query._postId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Post
