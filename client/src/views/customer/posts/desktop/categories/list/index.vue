@@ -13,7 +13,7 @@
         <div class="col col--action px_4">Hành động</div>
       </div>
 
-      <div class="loading--block"
+      <div class="loading--block mt_3"
            v-if="this.$store.getters.statusCategories === 'loading'"
       >
         <loading-component></loading-component>
@@ -29,7 +29,7 @@
             v-for="(item, index) in filterCategories"
             :key="index"
             :item="item"
-            @update="changeUpdate($event)"
+            @updateCategory="updateCategory($event)"
             @showDeletePopup="showDeletePopup($event)"
           ></item-categories>
         </div>

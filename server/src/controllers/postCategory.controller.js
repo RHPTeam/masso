@@ -116,7 +116,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho danh mục này!" } );
     }
 
-    res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._pcId, { "$set": req.body }, { "new": true } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._categoryId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
    * Delete Post Category

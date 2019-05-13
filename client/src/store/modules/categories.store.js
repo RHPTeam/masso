@@ -2,7 +2,7 @@ import CategoriesServices from "@/services/modules/categories.services";
 
 const state = {
   allCategories: [],
-  categoriesById: {},
+  categoryById: {},
   categoriesPage: [],
   categoriesPageSize: 1,
   statusCategories: "",
@@ -10,7 +10,7 @@ const state = {
 };
 const getters = {
   allCategories: ( state ) => state.allCategories,
-  categoriesById: ( state ) => state.categoriesById,
+  categoryById: ( state ) => state.categoryById,
   categoriesPage: ( state ) => state.categoriesPage,
   categoriesPageSize: ( state ) => state.categoriesPageSize,
   statusCategories: ( state ) => state.statusCategories,
@@ -29,8 +29,8 @@ const mutations = {
   setAllCategories: ( state, payload ) => {
     state.allCategories = payload;
   },
-  setCategoriesById: ( state, payload ) => {
-    state.categoriesById = payload;
+  setCategoryById: ( state, payload ) => {
+    state.categoryById = payload;
   },
   setCategoriesPage: ( state, payload ) => {
     state.categoriesPage = payload
@@ -46,10 +46,10 @@ const actions = {
     commit( "setAllCategories", resultCategories.data.data );
     commit( "cate_success" );
   },
-  getCategoriesById: async ( { commit }, payload ) => {
+  getCategoryById: async ( { commit }, payload ) => {
     commit( "cate_request" );
-    const resultCategories = await CategoriesServices.show( payload );
-    commit( "setCategoriesById", resultCategories.data.data );
+    const res = await CategoriesServices.show( payload );
+    commit( "setCategoryById", res.data.data );
     commit( "cate_success" );
   },
   getCategoriesByPage: async (  { commit }, payload ) => {
@@ -61,13 +61,15 @@ const actions = {
 
     commit( "cate_success"  );
   },
-  createCategories: async ( { commit }, payload ) => {
+  createCategory: async ( { commit }, payload ) => {
     try {
       commit( "cate_request" );
-      await CategoriesServices.create( payload );
-      const resultCategories = await CategoriesServices.index();
+      await CategoriesServices.create( payload.category );
 
-      commit( "setCategories", resultCategories.data.data );
+      const res = await CategoriesServices.getByPage( payload.size, payload.page );
+      commit( "setCategoriesPage", res.data.data.results );
+      commit( "setCategoriesPageSize", res.data.data.page );
+
       commit( "cate_success" );
     } catch (e) {
       if( e.response.status === 403 ) {
@@ -75,31 +77,26 @@ const actions = {
       }
     }
   },
-  updateCategories: async ( { commit }, payload ) => {
-    const objSender = {
-      title: payload.title,
-      description: payload.description
-    };
+  updateCategory: async ( { commit }, payload ) => {
+    await CategoriesServices.updateCategory( payload.id, payload.category );
 
-    await CategoriesServices.updateCategories( payload._id, objSender );
-    // commit( "setCategories", resultUpdate.data.data );
-    const resultCategories = await CategoriesServices.index();
-
-    commit( "setCategories", resultCategories.data.data );
+    const res = await CategoriesServices.getByPage( payload.size, payload.page );
+    commit( "setCategoriesPage", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
   },
   deleteCategory: async ( { commit }, payload ) => {
-    const categories = state.categories.filter( ( category ) => {
+    const categories = state.allCategories.filter( ( category ) => {
       return category._id !== payload;
     } );
 
     let res;
 
-    commit( "setCategories", categories );
+    commit( "setAllCategories", categories );
 
     await CategoriesServices.deleteCategory( payload );
 
     res = await CategoriesServices.index();
-    commit( "setCategories", res.data.data );
+    commit( "setAllCategories", res.data.data );
   }
 };
 

@@ -4,8 +4,11 @@
       <div class="r">
         <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5 pl_0">
           <!-- Start: Category Form -->
-          <app-form 
-            :isUpdateCategories="isUpdateCategories" 
+          <app-form
+            :currentPage="currentPage"
+            :filterShowSelected="filterShowSelected"
+            :isUpdateCategory="isUpdateCategory"
+            @cancelUpdateCategory="isUpdateCategory = $event"
           />
           <!-- End: Category Form -->
         </div>
@@ -22,7 +25,7 @@
             :currentPage="currentPage"
             :filterShowSelected="filterShowSelected"
             :search="search"
-            @changeUpdate="isUpdateCategories = $event"
+            @updateCategory="updateCategory( $event )"
             @updateCurrentPage="currentPage = $event"
           />
           <!-- End: Data List -->
@@ -47,14 +50,18 @@ export default {
     return {
       currentPage: 1,
       filterShowSelected: { id: 25, name: "Hiển thị 25" },
-      isUpdateCategories: false,
-      search: "",
+      isUpdateCategory: false,
+      search: ""
     };
   },
   async created() {
     await this.$store.dispatch( "getAllCategories" );
   },
   methods: {
+    updateCategory( category ) {
+      this.isUpdateCategory = true;
+      this.$store.dispatch( "getCategoryById", category._id );
+    },
     updateFilterShowSelected( val ) {
       this.filterShowSelected = val;
       this.currentPage = 1;

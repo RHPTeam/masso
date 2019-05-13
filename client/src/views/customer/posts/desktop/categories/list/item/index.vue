@@ -12,21 +12,42 @@
         {{ item.description }}
       </div>
     </div>
-    <div class="col col--action px_4 text_center">
-      <span class="mx_1" @click="showCategories">
-        <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
-          <icon-edit />
-        </icon-base>
+    <div class="col col--action px_4 text_center"
+         :class="[ item.title === 'Chưa phân loại' ? 'action--disabled' : null ]"
+    >
+      <span v-if="item.title === 'Chưa phân loại'">
+        <span class="mx_1">
+          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+            <icon-edit />
+          </icon-base>
+        </span>
+        <span class="mx_1">
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </span>
       </span>
-      <span class="mx_1" @click="showDeletePopup">
-        <icon-base
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 15 15"
-        >
-          <icon-remove />
-        </icon-base>
+      <span v-else>
+        <span class="mx_1" @click="updateCategory">
+          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+            <icon-edit />
+          </icon-base>
+        </span>
+        <span class="mx_1" @click="showDeletePopup">
+          <icon-base
+            icon-name="remove"
+            width="20"
+            height="20"
+            viewBox="0 0 15 15"
+          >
+            <icon-remove />
+          </icon-base>
+        </span>
       </span>
     </div>
   </div>
@@ -36,9 +57,8 @@
 export default {
   props: [ "item" ],
   methods: {
-    async showCategories() {
-      await this.$store.dispatch( "getCategoriesById", this.item._id );
-      this.$emit( "update", true );
+    updateCategory() {
+      this.$emit( "updateCategory", this.item );
     },
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
@@ -49,4 +69,16 @@ export default {
 
 <style lang="scss" scoped>
 @import "../index.style";
+.action--disabled {
+  span {
+    svg {
+      color: #999 !important;
+      cursor: not-allowed !important;
+      opacity: .5 !important;
+      &:hover {
+        color: #999 !important;
+      }
+    }
+  }
+}
 </style>

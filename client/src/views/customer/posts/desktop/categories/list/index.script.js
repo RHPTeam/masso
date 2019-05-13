@@ -39,8 +39,8 @@ export default {
     await this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
-    changeUpdate( ev ) {
-      this.$emit( "changeUpdate", ev );
+    updateCategory( val ) {
+      this.$emit( "updateCategory", val );
     },
     showDeletePopup( category ) {
       this.categoryDelete = category;

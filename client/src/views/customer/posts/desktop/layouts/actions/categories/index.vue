@@ -43,7 +43,7 @@ export default {
   data() {
     return {
       filterShowList: [
-        { id: 25, name: "Hiển thị 25" },
+        { id: 4, name: "Hiển thị 25" },
         { id: 50, name: "Hiển thị 50" },
         { id: 100, name: "Hiển thị 100" }
       ],
