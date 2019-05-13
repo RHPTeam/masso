@@ -31,7 +31,7 @@
           <!--Start: Create and show content-->
           <div class="content position_relative">
             <!--Start: Content Default-->
-            <div v-if="openContentColor === false" class="p_2">
+            <div v-if="post.color === undefined || post.color === ''" class="p_2">
               <contenteditable
                 tag="div"
                 class="description"
@@ -93,8 +93,8 @@
 
             <!--Start: Content Choose Color-->
             <div
-              v-if="openContentColor === true"
-              :style="bgColorActive"
+              v-else
+              :style="post.color"
               id="content--special"
             >
               <div class="content--special d_flex align_items_center justify_content_center p_4 position_relative">
@@ -115,7 +115,7 @@
                   tag="div"
                   class="description"
                   :contenteditable="true"
-                  v-model="contentColor"
+                  v-model="post.content"
                   placeholder="Cập nhật nội dung bài viết color"
                 />
 
@@ -131,9 +131,46 @@
               </div>
               <!--End: Choose color text-->
               <!--Start: Show tag and check in-->
-              <div class="d_flex align_items_center mb_1 p_2">
-                <div class="result">_ với <span>Ai đó</span></div>
-                <div class="result">_ tại <span>đâu đó</span></div>
+              <div class="d_flex align_items_center pb_3">
+                <span> — </span>
+                <!--Start: Show activity -->
+                <div class="ml_1">
+                  <div v-if="post.activity === undefined || post.activity === ''"></div>
+                  <div v-else class="d_flex align_items_center">
+                    Đang <div class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></div> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                  </div>
+                </div>
+                <!--End: Show activity -->
+                <!--Start: Show tag friend-->
+                <div class="ml_1">
+                  <div v-if="nameFriend.length === 0"></div>
+                  <div v-else>
+                    <!--Start:  If tag 1 friend-->
+                    <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
+                    <!--End: If tag 1 friend-->
+                    <!--Start: If tags over 1 friend-->
+                    <div v-else class="result d_flex align_items_center">
+                      <div>với <span>{{ nameFriend[0] }}</span></div>
+                      <div class="more--other position_relative ml_1">
+                        và <span> {{ nameFriend.length - 1 }} người khác</span>
+                        <div class="more--friend position_absolute">
+                          <div class="more--wrap">
+                            <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--End: If tags over 1 friend-->
+                  </div>
+                </div>
+                <!--End: Show tag friend-->
+
+                <!--Start: Show check in -->
+                <div class="ml_1">
+                  <div v-if="post.place === '' || post.place === undefined"></div>
+                  <div v-else class="result">tại <span>{{ post.place }}</span></div>
+                </div>
+                <!--End: Show check in -->
               </div>
               <!--End: Show tag and check in-->
             </div>
@@ -144,7 +181,7 @@
               <color-post
                 class="px_2 py_1"
                 @turnOff="isShowColor = $event"
-                @openContentColor="openContentColor = $event"
+                @openContentColor="changeResultContentColor($event)"
                 :randomColor="randomColor"
                 :colorFb="colorFb"
                 :post="post"
@@ -178,7 +215,7 @@
             class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2"
             v-if="isShowMoreOption === false"
           >
-            <li class="item d_flex align_items_center" @click="isShowImage = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostImages">
               <label for="upload--images">
                 <icon-base
                   class="ic--search"
@@ -195,7 +232,7 @@
                 <input id="upload--images" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
               </form>
             </li>
-            <li class="item d_flex align_items_center" @click="isShowCheckIn = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
                 class="ic--search"
                 icon-name="location"
@@ -207,7 +244,7 @@
               </icon-base>
               <span>Địa điểm</span>
             </li>
-            <li class="item d_flex align_items_center" @click="isShowTag = true">
+            <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
                 class="ic--search"
                 icon-name="user"
@@ -219,7 +256,7 @@
               </icon-base>
               <span>Bạn bè</span>
             </li>
-            <li class="item more d_flex align_items_center" @click="showOptionColor">
+            <li class="item more d_flex align_items_center justify_content_between" @click="isShowMoreOption = true">
               <div class="d_flex align_items_center">
                 <div class="dots"></div>
                 <div class="dots"></div>
@@ -231,7 +268,7 @@
           <!--Start: Show option when click-->
           <div v-if="isShowMoreOption === true">
             <div class="list show d_flex align_items_center mt_2">
-              <div class="item d_flex align_items_center" @click="isShowImage = true">
+              <div class="item d_flex align_items_center" :class="isActiveImage === true ? 'aqua_hidden' : ''" @click="showOptionPostImages">
                 <label for="upload">
                   <icon-base
                     class="ic--search"
@@ -248,7 +285,7 @@
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
                 </form>
               </div>
-              <div class="item d_flex align_items_center" @click="isShowCheckIn = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
                   class="ic--search"
                   icon-name="location"
@@ -262,7 +299,7 @@
               </div>
             </div>
             <div class="list show d_flex align_items_center mt_1">
-              <div class="item d_flex align_items_center" @click="isShowTag = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
                   class="ic--search"
                   icon-name="user"
@@ -274,7 +311,7 @@
                 </icon-base>
                 <span>Bạn bè</span>
               </div>
-              <div class="item d_flex align_items_center" @click="isShowActivity = true">
+              <div class="item d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
                   class="ic--search"
                   icon-name="feelings"
@@ -371,7 +408,8 @@ export default {
       isShowTag: false,
       isShowCheckIn: false,
       isShowActivity: false,
-      isShowMoreOption: false
+      isShowMoreOption: false,
+      isActiveImage: false
     };
   },
   computed: {
@@ -446,6 +484,10 @@ export default {
     }
   },
   watch: {
+    /**
+     * check contetn of post using StringFunction get urls have in content
+     * If length content > 200 character delete color of post
+     */
     "post.content"( value ) {
       //check scrape
       this.linkContent = StringFunction.detectUrl(value);
@@ -453,16 +495,9 @@ export default {
       // this.post.content = StringFunction.urlify(value);
       if( value.length >= 200 ) {
         this.isShowColor = false;
-        this.post.color = "";
+        delete this.post.color;
         this.$store.dispatch( "updatePost", this.post );
       } else {
-      }
-    },
-    contentColor( value ) {
-      if ( value.length >= 200 ) {
-        this.openContentColor = false;
-        this.content = this.contentColor;
-        this.post.color = "";
         this.$store.dispatch( "updatePost", this.post );
       }
     }
@@ -472,6 +507,14 @@ export default {
   },
 
   methods: {
+    /**
+     * [changeResultContentColor description]
+     * @param  {[Boolean]} val [true]
+     * @description attach content to contetn color and open modules content color then hidden choose option images for post.
+     */
+    changeResultContentColor( val ){
+      this.isActiveImage = val;
+    },
     chooseLinkContent( val ){
       this.post.scrape = val;
       this.$store.dispatch( "updatePost", this.post );
@@ -493,11 +536,34 @@ export default {
     },
     showOptionColor() {
       this.isShowColor = true;
-      this.isShowMoreOption = true;
+    },
+    showOptionPostCheckin(){
+      this.isShowTag = false;
+      this.isShowActivity = false;
+      this.isShowCheckIn = true;
+    },
+    showOptionPostTagsFriend(){
+      this.isShowActivity = false;
+      this.isShowCheckIn = false;
+      this.isShowTag = true;
+    },
+    /**
+     * [showOptionPostActivity description]
+     * @return {[type]} [description]
+     */
+    showOptionPostActivity(){
+      this.isShowTag = false;
+      this.isShowCheckIn = false;
+      this.isShowActivity = true;
     },
     changeContentDefault() {
       this.openContentColor = false;
       this.content = this.contentColor;
+    },
+    showOptionPostImages(){
+      this.isShowColor = false;
+      delete this.post.color;
+      this.isShowImage = true;
     },
     // Change background when choose background from component colors
     changeBgColor ( ev ) {
@@ -534,6 +600,9 @@ export default {
 
 <style lang="scss" scoped>
 @import "./index.style";
+.aqua_hidden {
+  opacity: .5;
+}
 .emoji {
   min-width: 0;
   max-width: 25px;
