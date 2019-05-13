@@ -72,9 +72,10 @@ socket.on( "connect", async () => {
   } );
 
   console.log( "connected to http://45.119.83.116:8288/" );
-  socket.on( "clientEvent", function ( data ) {
+  socket.on( "dataRes", function ( data ) {
     console.log( "message from the server:", data );
   } );
+
 } );
 
 // listen a port
