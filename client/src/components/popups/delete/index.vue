@@ -8,8 +8,10 @@
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
             Toàn bộ dữ liệu liên quan đến {{ typeName }}
-            <span class="campaign--name">{{ targetName }}</span> sẽ bị xóa hoàn toàn. Nhập
-            <span class="text--delete">DELETE</span> để tiếp tục.
+            <span class="text--bold">{{ targetName }}</span> sẽ bị xóa hoàn toàn.
+            <span v-if="description !== '' ">{{ description }}</span>
+            Để tiếp tục, nhập
+            <span class="text--delete">DELETE</span> vào ô bên dưới.
           </div>
           <input
             class="modal--body-input mt_3"
@@ -37,6 +39,10 @@
 <script>
 export default {
   props: {
+    description: {
+      type: String,
+      default: ""
+    },
     multiple: {
       type: Boolean,
       default: false

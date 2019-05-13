@@ -20,7 +20,7 @@ export default {
   updateCategories( cateId, content ) {
     return Api().patch( `post-categories?_categoryId=${cateId}`, content );
   },
-  deleteCagories( cateId ) {
+  deleteCategory( cateId ) {
     return Api().delete( `post-categories?_categoryId=${cateId}` );
   }
 };

@@ -1,6 +1,5 @@
 <template>
     <div class="item--body d_flex align_items_center px_3 py_2">
-      <!-- <div v-if="StringFunction.convertUnicode( item.title ).toLowerCase().trim() === 'chua phan loai'"></div> -->
       <div>
         <div class="col col--checkbox px_2">
         <label class="custom--checkbox mb_0">
@@ -21,7 +20,7 @@
             <icon-edit />
           </icon-base>
         </span>
-        <span class="mx_1" @click="deleteCagories">
+        <span class="mx_1" @click="showDeletePopup">
           <icon-base
             icon-name="remove"
             width="20"
@@ -37,23 +36,19 @@
 
 <script>
 export default {
-  props: {
-    item: {
-      type: Object
-    }
-  },
+  props: [ "item" ],
   methods: {
-    async showCategories () {
+    async showCategories() {
       await this.$store.dispatch( "getCategoriesById", this.item._id );
       this.$emit( "update", true );
     },
-    deleteCagories () {
-      this.$store.dispatch( "deleteCategories", this.item._id );
+    showDeletePopup() {
+      this.$emit( "showDeletePopup", this.item );
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  @import "../index.style";
+@import "../index.style";
 </style>

@@ -2,7 +2,7 @@
   <div class="category--wrap">
     <div class="ct_f">
       <div class="r">
-        <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5">
+        <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5 pl_0">
           <!-- Start: Category Form -->
           <app-form 
             :isUpdateCategories="isUpdateCategories" 
@@ -11,7 +11,9 @@
         </div>
         <div class="c_12 c_lg_12 c_xl_8">
           <!-- Start: Action -->
-          <app-action />
+          <app-action
+            :filterShowSelected="filterShowSelected"
+          />
           <!-- End: Action -->
           <!-- Start: Data List -->
           <app-list 
@@ -40,6 +42,7 @@ export default {
   },
   data() {
     return {
+      filterShowSelected: { id: 25, name: "Hiển thị 25" },
       isUpdateCategories: false
     };
   },

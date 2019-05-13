@@ -138,11 +138,16 @@ module.exports = {
 
     // When delete category which all of post of that category will deleted
     if ( findPost.length > 0 ) {
-      Promise.all( findPost.map( async ( post ) => {
+      // add to un_ categories
+      const unCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );
+
+      await Promise.all( findPost.map( async ( post ) => {
         post._categories.pull( req.query._categoryId );
+        post._categories.push( unCategory._id );
         await post.save();
       } ) );
     }
+
 
     await PostCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

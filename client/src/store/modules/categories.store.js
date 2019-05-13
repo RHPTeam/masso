@@ -92,13 +92,19 @@ const actions = {
 
     commit( "setCategories", resultCategories.data.data );
   },
-  deleteCategories: async ( { commit }, payload ) => {
-    commit( "cate_request" );
-    await CategoriesServices.deleteCagories( payload );
-    const resultCategories = await CategoriesServices.index();
+  deleteCategory: async ( { commit }, payload ) => {
+    const categories = state.categories.filter( ( category ) => {
+      return category._id !== payload;
+    } );
 
-    commit( "setCategories", resultCategories.data.data );
-    commit( "cate_success" );
+    let res;
+
+    commit( "setCategories", categories );
+
+    await CategoriesServices.deleteCategory( payload );
+
+    res = await CategoriesServices.index();
+    commit( "setCategories", res.data.data );
   }
 };
 
