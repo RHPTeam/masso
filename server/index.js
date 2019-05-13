@@ -63,16 +63,23 @@ const Account = require( "./src/models/Account.model" );
 
 
 socket.on( "connect", async () => {
-  const foundAccount = await Account.find( {} ).select( "keywords" );
+  console.log( "connected to http://45.119.83.116:8288/" );
 
-  Promise.all( foundAccount.map( async ( account ) => {
-    return account.keywords;
-  } ) ).then( async ( item ) => {
-    socket.emit( "crawl", item.toString().split( "," ) );
+  socket.on( "getKey", async (data) => {
+    console.log(data)
+    // Get keyword from database
+    const foundAccount = await Account.find( {} ).select( "keywords" );
+    Promise.all( foundAccount.map( async ( account ) => {
+      return account.keywords;
+    } ) ).then( async ( item ) => {
+      // Create event to send keyword search post
+      socket.emit( "crawl", item.toString().split( "," ) );
+    } );
   } );
 
-  console.log( "connected to http://45.119.83.116:8288/" );
+  // Listen data response and process
   socket.on( "dataRes", function ( data ) {
+    // handling
     console.log( "message from the server:", data );
   } );
 
