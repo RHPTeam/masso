@@ -11,9 +11,6 @@ export default {
   getByPage(size, page) {
     return Api().get(`post-categories?_size=${size}&_page=${page}`);
   },
-  getBySize(size) {
-    return Api().get(`post-categories?_size=${size}`);
-  },
   show( pcId ) {
     return Api().get( `post-categories?_id=${pcId}` );
   },

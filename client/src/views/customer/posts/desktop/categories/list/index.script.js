@@ -1,0 +1,53 @@
+import DeletePopup from  "@/components/popups/delete";
+import CategoryPaginate from "./paginate";
+import ItemCategories from "./item";
+
+export default {
+  components: {
+    DeletePopup,
+    CategoryPaginate,
+    ItemCategories
+  },
+  props: [ "currentPage", "filterShowSelected", "search" ],
+  data() {
+    return {
+      isShowDeletePopup: false,
+      categoryDelete: {}
+    }
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    categories() {
+      return this.$store.getters.categoriesPage;
+    },
+    filterCategories() {
+      return this.categories.filter( ( category ) => {
+        return category.title.toString()
+          .toLowerCase()
+          .includes( this.search.toString().toLowerCase() );
+      } );
+    }
+  },
+  async created() {
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getCategoriesByPage", dataSender );
+  },
+  methods: {
+    changeUpdate( ev ) {
+      this.$emit( "changeUpdate", ev );
+    },
+    showDeletePopup( category ) {
+      this.categoryDelete = category;
+      this.isShowDeletePopup = true;
+    },
+    updateCurrentPage( val ) {
+      this.$emit( "updateCurrentPage", val );
+    }
+  }
+};

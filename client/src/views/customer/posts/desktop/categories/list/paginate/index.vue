@@ -1,50 +1,59 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
-    <div class="post--info-show">Hiển thị {{ perPage }} trong số  {{ totalCate }}</div>
+    <div class="post--info-show">
+      Hiển thị {{ categoriesPage.length }} trong số  {{ allCategories.length }}
+    </div>
     <paginate
-      :pageCount="sizePageCategories"
+      :pageCount="categoriesPageSize"
       :clickHandler="goToPage"
-      :prev-text="'&#8249;'"
-      :next-text="'&#x203A;'"
+      :prev-text="prevText"
+      :next-text="nextText"
       :container-class="'pagination'"
       :page-class="'page-item'"
+      @input="updateCurrentPage($event)"
     ></paginate>
   </div>
 </template>
 
 <script>
-
-import CategoriesServices from "@/services/modules/categories.services";
-
 export default {
+  props: [ "currentPage", "filterShowSelected" ],
   data() {
     return {
-      currentPage: 1,
-      perPage: 10,
-      totalCount: null,
-      totalCate: ""
+      nextText: "&#x203A;",
+      prevText: "&#8249;"
     }
   },
   computed: {
-    sizePageCategories() {
-      return this.$store.getters.sizePageCategories;
-    }
+    allCategories() {
+      return this.$store.getters.allCategories;
+    },
+    categoriesPage() {
+      return this.$store.getters.categoriesPage;
+    },
+    categoriesPageSize() {
+      return this.$store.getters.categoriesPageSize;
+    },
   },
   async created() {
-    await this.$store.dispatch("getCategoriesBySize", this.perPage);
-    let result = await CategoriesServices.index();
-    this.totalCate = result.data.data.length;
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
-    onPageChange(page) {
-      this.currentPage = page;
-    },
-    goToPage(page) {
+    goToPage( page ) {
       const dataSender = {
-        size: this.perPage,
+        size: this.filterShowSelected.id,
         page: page
       };
-      this.$store.dispatch("getCategoriesByPage", dataSender);
+
+      this.$store.dispatch( "getCategoriesByPage", dataSender );
+    },
+    updateCurrentPage( val ) {
+      this.$emit( "updateCurrentPage", val );
     }
   },
 };

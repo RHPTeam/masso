@@ -17,16 +17,14 @@
     width: calc(20px + 1rem);
   }
   .col--category {
-    width: 25%;
+    width: calc(25% + 20px + 1rem );
   }
-
   .col--posts {
     width: 15%;
   }
   .col--description {
     width: calc(60% - 95px - 4rem);
   }
-
   .col--action {
     width: calc(75px + 3rem);
     svg {
@@ -37,6 +35,9 @@
         color: #ffb94a;
       }
     }
+  }
+  .data--empty {
+    color: #999999 !important;
   }
 }
 .custom--checkbox {
@@ -73,9 +74,8 @@
 @media only screen and (max-width: 1366px) {
   .category--data {
     .col--category {
-      width: calc(100% - 220px - 3rem);
+      width: calc(100% - 200px - 2rem);
     }
-
     .col--posts {
       width: 125px;
     }
@@ -91,7 +91,7 @@
 @media only screen and (max-width: 1200px) {
   .category--data {
     .col--category {
-      width: 25%;
+      width: calc( 25% + 20px + 1rem );
     }
     .col--posts {
       width: 105px;
@@ -109,7 +109,7 @@
 @media only screen and (max-width: 1024px) {
   .category--data {
     .col--category {
-      width: calc(100% - 190px - 2rem);
+      width: calc(100% - 170px - 1rem);
     }
 
     .col--posts {

@@ -13,16 +13,19 @@
           <!-- Start: Action -->
           <app-action
             :filterShowSelected="filterShowSelected"
+            @updateFilterShowSelected="updateFilterShowSelected($event)"
+            @updateSearch="search = $event"
           />
           <!-- End: Action -->
           <!-- Start: Data List -->
-          <app-list 
-            @changeUpdate="isUpdateCategories = $event" 
+          <app-list
+            :currentPage="currentPage"
+            :filterShowSelected="filterShowSelected"
+            :search="search"
+            @changeUpdate="isUpdateCategories = $event"
+            @updateCurrentPage="currentPage = $event"
           />
           <!-- End: Data List -->
-          <!-- Start: Info -->
-          <!-- <app-info /> -->
-          <!-- Start: Info -->
         </div>
       </div>
     </div>
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import AppAction from "../layouts/categoriesaction";
+import AppAction from "../layouts/actions/categories";
 import AppForm from "./form";
 import AppList from "./list";
 
@@ -42,13 +45,28 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       filterShowSelected: { id: 25, name: "Hiển thị 25" },
-      isUpdateCategories: false
+      isUpdateCategories: false,
+      search: "",
     };
   },
   async created() {
     await this.$store.dispatch( "getAllCategories" );
   },
+  methods: {
+    updateFilterShowSelected( val ) {
+      this.filterShowSelected = val;
+      this.currentPage = 1;
+
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+
+      this.$store.dispatch( "getCategoriesByPage", dataSender );
+    }
+  }
 };
 </script>
 

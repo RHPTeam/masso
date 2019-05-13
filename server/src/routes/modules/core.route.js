@@ -1,8 +1,8 @@
 const router = require( "express-promise-router" )();
 const core = require( "../../controllers/core.controller" );
 
-router.route( "/postsaction-type-loader" ).get( core.getAllActionTypeLoader );
-router.route( "/postsaction-type-loader/:id" ).get( core.getAllItemActionTypeLoader );
+router.route( "/posts-type-loader" ).get( core.getAllActionTypeLoader );
+router.route( "/posts-type-loader/:id" ).get( core.getAllItemActionTypeLoader );
 router.route( "/friends" ).get( core.getAllFriends );
 router.route( "/groups" ).get( core.getAllGroups );
 router.route( "/info" ).get( core.getUserInfo );

@@ -525,7 +525,7 @@ module.exports = {
     }
     res
       .status( 405 )
-      .json( jsonResponse( "Only Admin and SuperAdmin do postsaction!!", null ) );
+      .json( jsonResponse( "Only Admin and SuperAdmin do posts!!", null ) );
   },
   /** *
    * Change password for user

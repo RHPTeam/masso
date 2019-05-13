@@ -1,24 +1,20 @@
-/* eslint-disable no-console */
-/* eslint-disable arrow-parens */
-/* eslint-disable one-var */
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
 import CategoriesServices from "@/services/modules/categories.services";
 
 const state = {
-  categories: [],
-  categoriesById: [],
+  allCategories: [],
+  categoriesById: {},
+  categoriesPage: [],
+  categoriesPageSize: 1,
   statusCategories: "",
-  statusError: "",
-  sizePageCategories: 1
+  statusError: ""
 };
 const getters = {
-  categories: ( state ) => state.categories,
-  statusCategories: ( state ) => state.statusCategories,
-  statusError: ( state ) => state.statusError,
+  allCategories: ( state ) => state.allCategories,
   categoriesById: ( state ) => state.categoriesById,
-  sizePageCategories: ( state ) => state.sizePageCategories
+  categoriesPage: ( state ) => state.categoriesPage,
+  categoriesPageSize: ( state ) => state.categoriesPageSize,
+  statusCategories: ( state ) => state.statusCategories,
+  statusError: ( state ) => state.statusError
 };
 const mutations = {
   cate_request: ( state ) => {
@@ -30,21 +26,24 @@ const mutations = {
   createCateError: ( state, payload ) => {
     state.statusError = payload
   },
-  setCategories: ( state, payload ) => {
-    state.categories = payload;
+  setAllCategories: ( state, payload ) => {
+    state.allCategories = payload;
   },
   setCategoriesById: ( state, payload ) => {
     state.categoriesById = payload;
   },
-  setSizePageCategories: ( state, payload ) => {
-    state.sizePageCategories = payload;
+  setCategoriesPage: ( state, payload ) => {
+    state.categoriesPage = payload
+  },
+  setCategoriesPageSize: ( state, payload ) => {
+    state.categoriesPageSize = payload;
   }
 };
 const actions = {
   getAllCategories: async ( { commit } ) => {
     commit( "cate_request" );
     const resultCategories = await CategoriesServices.index();
-    commit( "setCategories", resultCategories.data.data );
+    commit( "setAllCategories", resultCategories.data.data );
     commit( "cate_success" );
   },
   getCategoriesById: async ( { commit }, payload ) => {
@@ -55,16 +54,12 @@ const actions = {
   },
   getCategoriesByPage: async (  { commit }, payload ) => {
     commit( "cate_request"  );
-    const result = await CategoriesServices.getByPage( payload.size, payload.page );
-    commit( "setCategories", result.data.data  );
+
+    const res = await CategoriesServices.getByPage( payload.size, payload.page );
+    commit( "setCategoriesPage", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
+
     commit( "cate_success"  );
-  },
-  getCategoriesBySize: async (  { commit }, payload ) => {
-    commit(  "cate_request" );
-    const result = await CategoriesServices.getBySize(  payload  );
-    commit( "setCategories", result.data.data  );
-    commit(  "setSizePageCategories", result.data.data.page );
-    commit(  "cate_success" );
   },
   createCategories: async ( { commit }, payload ) => {
     try {
