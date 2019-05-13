@@ -1,0 +1,154 @@
+
+
+.title--home{
+  font-size: 30px;
+  margin-bottom: 1.5rem;
+  color: $color-dark-2;
+}
+.wrap--home-help{
+  ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
+  .pd{
+    padding: 30px 0;
+  }
+  .question{
+    .choose{
+      ul{
+        li{
+          margin-bottom: 10px;
+        }
+        a{
+          background: $mainBrandColor;
+          color: $color-dark;
+          padding: 5px 25px;
+          display: inline-block;
+          border-radius: 15px;
+          &:hover{
+            background: #ef9f20;
+          }
+        }
+      }
+    }
+    .descri--img{
+      background-size: cover;
+      background-position: 0 0;
+    }
+  }
+
+  .page--peronal, .page, .message, .notification{
+    border: 1px solid $border-color-light;
+    border-right: 0;
+    cursor: pointer;
+    .img--position{
+      margin: 0 auto;
+      height: 180px;
+      width: 180px;
+      display: inline-block;
+      background-size: auto;
+      background-repeat: no-repeat;
+      margin-top: 20px;
+    }
+    .intro{
+      text-align: left;
+      font-size: 13px;
+      color: $color-dark-1;
+      margin: 10px;
+    }
+    .title{
+      text-align: left;
+      color: $color-light;
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .content{
+      text-align: left;
+      color: $color-dark-3;
+      font-size: 14px;
+      margin-top: 20px;
+    }
+    &:hover{
+      background: rgba(29, 33, 41, .04);
+    }
+  }
+  .page--peronal{
+    .img--position{
+      background-position: -181px -932px;
+    }
+  }
+  .page{
+    .img--position{
+      background-position: 0 -751px;
+    }
+  }
+  .message{
+    .img--position{
+      background-position: -181px -570px;
+    }
+  }
+  .notification{
+    border: 1px solid $border-color-light;
+    .img--position{
+      background-position: 0 -570px;
+    }
+  }
+
+
+  .search--other{
+    .pd-lr{
+      margin: 0 auto;
+    }
+    .description{
+      font-size: 15px;
+      margin-bottom: 15px;
+    }
+    .img{
+      width: 244px;
+      height: 244px;
+      background-position: -245px -325px;
+      margin: 0 auto;
+    }
+    .advertise{
+      background-position: 0 -325px;
+    }
+    .access--public{
+      border: 1px solid $mainBrandColor;
+      padding: 10px 15px;
+      display: inline-block;
+      background: $mainBrandColor;
+      color: $color-dark;
+      &:hover{
+        background: $secondaryFocus;
+        color: $color-light;
+      }
+      svg{
+        transform: rotate(-180deg);
+        margin-top: -7px;
+        margin-right: 5px;
+      }
+    }
+    .des--content{
+      font-size: 14px;
+      margin: 0;
+      padding: 10px;
+    }
+
+  }
+
+
+}
+
+
+// Dark
+.wrapper[data-theme="dark"] {
+  color: #ccc;
+  background-color: #2f3136;
+
+}
+
