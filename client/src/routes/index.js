@@ -10,6 +10,8 @@ import customerSigninRouter from "./modules/customer/signin";
 import customerSignupRouter from "./modules/customer/signup";
 import customerWelcomeRouter from "./modules/customer/welcome";
 
+import guideGeneralRouter from "./modules/guide";
+
 Vue.use( Router );
 
 export default new Router( {
@@ -20,6 +22,7 @@ export default new Router( {
     customerResetPassword,
     customerSigninRouter,
     customerSignupRouter,
-    customerWelcomeRouter
+    customerWelcomeRouter,
+    guideGeneralRouter
   ]
 } );

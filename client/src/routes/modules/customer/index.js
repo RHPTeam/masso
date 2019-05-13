@@ -18,7 +18,7 @@ const generalRouter = {
         .default
     },
     {
-      path: "/posts/:id",
+      path: ":id/update",
       name: "update_post",
       component: require( "@/views/customer/posts/desktop/posts/create" )
         .default
