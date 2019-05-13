@@ -15,6 +15,7 @@
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body Autopost -->
+        <div v-if="!eventDedault"></div>
         <div class="modal--event-body" v-if="eventDetail.type_event === 0">
           <div
             class="body--autopost d_flex align_items_center justify_content_center"
@@ -37,7 +38,7 @@
           v-if="eventDetail.type_event === 1"
         >
           <event-modal-body-custom
-            :eventDedault="eventDedault"
+            :eventDetail="eventDetail"
           />
         </VuePerfectScrollbar>
         <!-- End: Modal Body Custom -->
@@ -83,8 +84,12 @@ export default {
     },
     eventDetail() {
       if(Object.entries(this.$store.getters.eventDetail).length === 0 && this.$store.getters.eventDetail.constructor === Object) return;
+      console.log(this.$store.getters.eventDetail);
       return this.$store.getters.eventDetail;
     }
+  },
+  async created(){
+    await this.$store.dispatch( "getAllCategories" );
   },
   methods: {
     closePopup( data ) {

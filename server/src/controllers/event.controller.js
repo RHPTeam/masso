@@ -24,7 +24,7 @@ module.exports = {
       userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "target_custom", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id name" } ).lean();
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await Event.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {

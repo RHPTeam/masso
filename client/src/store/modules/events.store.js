@@ -52,10 +52,12 @@ const state = {
       await  commit( "setEventDetail", res.data.data );
     },
     updateEvent: async ( { commit }, payload ) => {
-      const res = await EventsServices.updateEvent( payload );
+      console.log(payload);
+      console.log(payload.content._id);
+      const res = await EventsServices.updateEvent( payload.content._id, payload.content );
       await  commit( "setEventDetail", res.data.data );
       //update campaign detail
-       const campaignDetail = await CampaignsServices.getCampaignById( payload.campId );
+      const campaignDetail = await CampaignsServices.getCampaignById( payload.campId );
       await commit( "setCampaignDetail", campaignDetail.data.data );
     }
   };

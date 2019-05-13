@@ -21,26 +21,34 @@
             class="time--datepicker"
             @selected="updateDate"
             :disabledDates="disabledDates"
+            v-model="eventDetail.started_at"
           />
         </div>
       </div>
       <div class="post--time-item d_flex align_items_center">
         <div class="item--label mr_3">Thời gian chờ giữa các lần gửi:</div>
         <div class="item--input d_flex align_items_center mr_2">
-          <input class="input--time" type="number" min="5" v-model="timeNumberDefault" />
+          <input class="input--time" type="number" min="5" v-model="eventDetail.break_point" />
         </div>
         <div class="item--input d_flex align_items_center">
           <input class="input--time" type="text" v-model="timeDescDefault" readonly />
         </div>
       </div>
     </div>
+    {{changeTime}}
   </div>
 </template>
 
 <script>
-
+import DateFunction from "@/utils/functions/date";
+const currentTimeStamp = new Date();
 export default {
   components: {
+  },
+  props: {
+    eventDetail: {
+      type: Object
+    }
   },
   data() {
     return {
@@ -61,7 +69,46 @@ export default {
         year: null
       }
     }
-  }
+  },
+  computed: {
+    // changeTime(){
+    //   let dateCustom = new Date(this.eventDetail.started_at);
+    //   let date = dateCustom.getHours();
+    //   let min = dateCustom.getMinutes();
+    //   this.yourTimeValue.HH = date;
+    //   this.yourTimeValue.mm = min + '0';
+    // },
+  },
+  watch: {
+    "eventDetail.break_point"( val ){
+      if( val.length > 0 ) {
+        const dataSender = {
+          campId: this.$route.params.campaignId,
+          content: this.eventDetail
+        };
+        this.$store.dispatch( "updateEvent", dataSender);
+      }
+    }
+  },
+  methods: {
+    updateTime(val) {
+      this.newDate.hour = val.HH;
+      this.newDate.minute = val.mm
+    },
+    updateDate(val){
+      const time = DateFunction.getObjectDate(val);
+      this.newDate.date = time.date;
+      this.newDate.month = time.month;
+      this.newDate.year = time.year;
+      const result = new Date( this.newDate.year, this.newDate.month, this.newDate.date, this.newDate.hour, this.newDate.minute, 0 );
+      this.eventDetail.started_at = result;
+      const dataSender = {
+        campId: this.$route.params.campaignId,
+        content: this.eventDetail
+      };
+      this.$store.dispatch( "updateEvent", dataSender );
+    }
+  },
 }
 </script>
 
