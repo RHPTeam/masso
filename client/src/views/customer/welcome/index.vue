@@ -13,16 +13,16 @@
             <div
               v-if="avatar"
               class="avatar--wrap avatar--img position_relative d_block"
-              :style="{ backgroundImage: 'url(' + avatar + ')' }"
+              :style="{ backgroundImage: 'url(' + user.avatar + ')' }"
             ></div>
             <div
               v-else
               class="avatar--wrap avatar--default position_relative d_block"
             >
-              <span class="position_absolute">Y</span>
+              <span class="position_absolute">{{user.name | getFirstLetter}}</span>
             </div>
           </div>
-          <div class="header--profile-name ml_2 mr_2">Đặng Yến</div>
+          <div class="header--profile-name ml_2 mr_2">{{user.name}}</div>
           <icon-base
             icon-name="arrow-down"
             width="10"
@@ -41,22 +41,20 @@
             <div
               class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2"
             >
-              <div class="avatar--wrap">
-                <div
-                  v-if="avatar"
-                  class="avatar--wrap avatar--img position_relative d_block"
-                  :style="{ backgroundImage: 'url(' + avatar + ')' }"
-                ></div>
-                <div
-                  v-else
-                  class="avatar--wrap avatar--default position_relative d_block"
-                >
-                  <span class="position_absolute">Y</span>
-                </div>
+              <div
+                v-if="user.avatar"
+                class="avatar--wrap avatar--img position_relative d_block"
+                :style="{ backgroundImage: 'url(' + user.avatar + ')' }"
+              ></div>
+              <div
+                v-else
+                class="avatar--wrap avatar--default position_relative d_block"
+              >
+                <span class="position_absolute">{{user.name | getFirstLetter}}</span>
               </div>
               <div class="ml_2">
-                <h4 class="mb_0">Đặng Yến</h4>
-                <p class="mb_0">dangyen@gmail.com</p>
+                <h4 class="mb_0">{{user.name}}</h4>
+                <p class="mb_0">{{user.email}}</p>
               </div>
             </div>
             <router-link class="dropdown--item" :to="{ name: 'account' }">
@@ -71,7 +69,7 @@
             </router-link>
 
             <div class="dropdown--divider"></div>
-            <a class="dropdown--item" href="javascript:void(0)">
+            <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
               <icon-base
                 icon-name="logout"
                 width="20"
@@ -87,10 +85,9 @@
       <div
         class="wellcome--content d_flex justify_content_center align_items_center flex_column text_center"
       >
-        <div class="content--title mb_4">Xin chào Đặng Yến !</div>
+        <div class="content--title mb_4">Xin chào {{user.name}} !</div>
         <div class="content--desc mb_5">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          Chào mừng bạn đến với hệ thống Marketting Online của Zinbee.
         </div>
         <div class="d_flex justify_content_center align_items_center">
           <div class="tool">

@@ -31,13 +31,18 @@
 </template>
 <script>
 export default {
+  props: {
+    user: {
+      type: Object
+    },
+  },
   methods: {
     closePopup() {
       this.$emit( "closePopup", false );
     },
     updateInfo() {
-      this.$store.dispatch( "updateUser", this.$store.getters.userInfo );
-      this.closePopupChangeInfo();
+      this.$store.dispatch( "updateUser", this.user );
+      this.closePopup();
     }
   }
 };

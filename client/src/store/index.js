@@ -14,6 +14,7 @@ import GroupFacebook from "./modules/groupfacebook.store";
 import PageFacebook from "./modules/pagefacebook.store";
 import PostStore from "./modules/post.store";
 import PostGroupStore from "./modules/postgroup.store";
+import PostAdminLibraries from "./modules/postlibraries.store";
 
 Vue.use( Vuex );
 
@@ -30,6 +31,7 @@ export default new Vuex.Store( {
     GroupFacebook,
     PageFacebook,
     PostStore,
-    PostGroupStore
+    PostGroupStore,
+    PostAdminLibraries
   }
 } );

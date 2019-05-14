@@ -8,19 +8,28 @@
       </div>
     </div>
     <div class="wrapper--content">
-      <taggle class="taggle" />
+      <taggle class="taggle" v-model="user.keywords" @input="updateKey" placeholder="Nhập từ khóa của bạn ..." />
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    user: {
+      type: Object
+    }
+  },
   data() {
     return {
-      content: "",
-      contentOther: "",
-      keywordsArr: [ "Du lịch", "Mỹ phẩm" ]
+
     };
+  },
+  methods: {
+    updateKey( val ){
+      this.user.keywords = val;
+      this.$store.dispatch( "updateUser", this.user );
+    }
   }
 };
 </script>

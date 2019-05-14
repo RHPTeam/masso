@@ -9,6 +9,7 @@
             :filterShowSelected="filterShowSelected"
             :isUpdateCategory="isUpdateCategory"
             @cancelUpdateCategory="isUpdateCategory = $event"
+            @comebackDefault="isUpdateCategory = $event"
           />
           <!-- End: Category Form -->
         </div>

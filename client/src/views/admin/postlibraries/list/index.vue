@@ -1,17 +1,14 @@
 <template>
   <div class="content">
     <div class="content--header">
-      <div class="d_flex justify_content_between mb_3">
+      <div class="d_flex mb_3">
         <div class="left">
           <div class="d_flex">
-            <button class="btn btn_success">Viết bài đăng mới</button>
+            <button class="btn btn_success" @click="createNewPost">Viết bài đăng mới</button>
             <form class="ml_3" role="search-post">
               <input class="form_control" type="text" placeholder="Tìm kiếm">
             </form>
           </div>
-        </div>
-        <div class="right">
-          <multiselect v-model="isFilterTime" />
         </div>
       </div>
     </div>
@@ -20,23 +17,14 @@
         <div class="flex-table header" role="rowgroup">
           <div class="flex-row first" role="columnheader">Nội dung</div>
           <div class="flex-row" role="columnheader">Hình ảnh</div>
-          <div class="flex-row" role="columnheader">Ngày tạo</div>
+          <div class="flex-row" role="columnheader">Người tạo</div>
           <div class="flex-row" role="columnheader">Hành động</div>
         </div>
-        <div class="flex-table row" role="rowgroup">
-          <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-          <div class="flex-row" role="cell">
-            <div class="d_flex">
-              <span>Không có ảnh</span>
-            </div>
-          </div>
-          <div class="flex-row" role="cell">23 Sep, 1:30p.m.</div>
-          <div class="flex-row" role="cell">
-            <div class="d_flex justify_content_center">
-              <button class="btn btn_warning">Sửa</button>
-              <button class="btn btn_danger ml_3">Xóa</button>
-            </div>
-          </div>
+        <div v-if="this.$store.getters.statusLib === 'loading'">
+          <loading-component />
+        </div>
+        <div v-else v-for="(item, index) in allPostLibraries" :key="index">
+          <item :item="item" />
         </div>
       </div>
     </div>
@@ -44,10 +32,32 @@
 </template>
 
 <script>
+import Item from "./item";
 export default {
+  components: {
+    Item
+  },
   data () {
     return {
       isFilterTime: "Không sắp xếp"
+    }
+  },
+  computed: {
+    newPostLibraries(){
+      return this.$store.getters.newPostLibraries;
+    },
+    allPostLibraries() {
+      return this.$store.getters.allPostLibraries;
+    }
+  },
+  methods: {
+    async createNewPost() {
+      const dataSender = {};
+      await this.$store.dispatch( "createNewPostLibraries", dataSender );
+      this.$router.push( {
+        name: "post_libraries_details",
+        params: { id: this.newPostLibraries._id }
+      } );
     }
   }
 }

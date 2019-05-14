@@ -14,6 +14,6 @@ export default {
     return Api().get( "facebook/posts-type-loader" );
   },
   getListItemActivity( itemId ) {
-    return Api().get( `facebook/action-type-loader/${itemId}` );
+    return Api().get( `facebook/posts-type-loader/${itemId}` );
   }
 }

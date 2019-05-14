@@ -37,7 +37,9 @@
           <div class="image--bg"
                v-if="image.typeAttachment === 1"
                :style="{ backgroundImage: 'url(' + image.link + ')'}"
-          ></div>
+          >
+            <img :src="image.link">
+          </div>
         </div>
         <div class="image--wrap position_relative"
               v-if="item.attachments.length > 3"

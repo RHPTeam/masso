@@ -5,67 +5,19 @@
   >
     <div class="modal--content p_4">
       <VuePerfectScrollbar class="detail--scroll">
-        <p>🔥LIVESTREAM 20h TỐI NAY ON SÓNG #Hàng_mới_về🔥</p>
-
-        <p>
-          🎈OMG nhân dịp NHIỀU CỰC PHẨM #Hàng_mới_về xinh yêu quá nên tối nay
-          20h FRI quyết định sẽ LIVESTREAM để UP DATE cho các nàng những mẫu NEW
-          ARRIVAL để các nàng tha hồ lựa chọn nhaaaa🎊🎊
-        </p>
-
-        <p>
-          💯Rất nhiều mẫu áo phông hot hít, baby doll, áo ren, áo trễ vai, váy
-          đang làm mưa làm gió ở Friday sẽ được khui hết trong live đó nhaaa
-        </p>
-
-        <p>
-          ⚠️VÀ ĐẶC BIỆT SẼ CÓ MỘT MÓN QUÀ VÔ CÙNG BẤT NGỜ dành cho 1 bạn may mắn
-          nhất.⚠️
-          <br />💪CÙNG ĐÓN ĐỢI XEM MÓN QUÀ MAY MẮN NÀY LÀ GÌ VÀO TỐI NAY NHÉ
-        </p>
-
-        <p>
-          ✌Hãy “.” Để chúng mình xem những cánh tay nào đang hóng Livestream
-          tối nay nhà FRI nào các bạn ơi!!!
-        </p>
-
-        <p>
-          🛵🛵🛵
-          <br />Friday ship COD toàn quốc <br />📌 Nội thành HN: đồng giá 20k
-          <br />📌 Ship COD ngoại thành và tỉnh: đồng giá 30k ( 25k chuyển khoản
-          trước) <br />📌 Ưu đãi phí ship khi đặt hàng trên shopee
-        </p>
-        🐰Facebook: http://m.me/fridayshophn <br />🐰Shopee: friday.official
-        <br />🐰Instagram: fridayshop.official
+        <div v-html="item.content"></div>
       </VuePerfectScrollbar>
       <div
         class="gallery d_flex justify_content_start align_items_center flex_wrap"
       >
-        <div class="gallery--block position_relative">
+        <div class="gallery--block position_relative" v-for="(gallery, index) in item.attachments.slice(0,3)" :key="`i-${index}`">
           <div class="image--wrap position_relative">
             <img
-              src="https://images.costco-static.com/ImageDelivery/imageService?profileId=12026540&imageId=1279387-847__1&recipeName=350"
-              alt
+              :src="gallery.link"
             />
           </div>
         </div>
-        <div class="gallery--block position_relative">
-          <div class="image--wrap position_relative">
-            <img
-              src="https://pbs.twimg.com/profile_images/883859744498176000/pjEHfbdn_400x400.jpg"
-              alt
-            />
-          </div>
-        </div>
-        <div class="gallery--block position_relative">
-          <div class="image--wrap position_relative">
-            <img
-              src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
-              alt
-            />
-          </div>
-        </div>
-        <div class="gallery--block position_relative">
+        <div class="gallery--block position_relative" v-if="item.attachments.length > 4">
           <div class="image--wrap position_relative">
             <img
               src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
@@ -75,7 +27,7 @@
           <div
             class="gallery--block-more d_flex align_items_center justify_content_center position_absolute"
           >
-            +2
+            + {{ item.attachments.length - 4 }}
           </div>
         </div>
       </div>
@@ -123,6 +75,11 @@
 
 <script>
 export default {
+  props: {
+    item: {
+      type: Object
+    },
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -175,6 +132,7 @@ export default {
     }
   }
   .image--wrap {
+    cursor: pointer;
     width: 100%;
     &:before {
       content: "";
@@ -183,7 +141,7 @@ export default {
     }
 
     img {
-      height: auto;
+      height: 100%;
       left: 50%;
       max-width: none;
       position: absolute;
@@ -238,16 +196,11 @@ export default {
 }
 
 /*Transition popup*/
-.popup-enter {
-  transform: translateY(-100%);
+.popup-enter-active, .popup-leave-active {
+  transition: opacity 1.5s;
 }
-.popup-enter-to {
-  transition: transform 0.75s;
-  transform: translateY(0);
-}
-.popup-leave-to {
-  transition: transform 0.75s;
-  transform: translateY(-100%);
+.popup-enter, .popup-leave-to {
+  opacity: 0;
 }
 // CHANGE COLOR THEME
 
