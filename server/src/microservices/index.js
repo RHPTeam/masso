@@ -1,8 +1,11 @@
 // eslint-disable-next-line camelcase
 const { agent } = require( "../configs/crawl" ),
+  // eslint-disable-next-line camelcase
   { port_socket } = require( "../configs/server" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
+  // eslint-disable-next-line no-unused-vars
   CronJob = require( "cron" ).CronJob,
+  // eslint-disable-next-line no-unused-vars
   GLOBAL = require( "../databases/variables.global" ),
   express = require( "express" ),
   app = express(),
