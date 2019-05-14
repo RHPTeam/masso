@@ -18,8 +18,8 @@
                 </icon-base>
                 </span>
               </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
+              <div class="number">{{ allAnalysis }}</div>
+              <div class="name">Chiến dịch</div>
               <div class="percent d_inline_flex">
                 <p>
                   <icon-base
@@ -166,8 +166,7 @@
               <div class="d_flex">
                 <span v-if="item.attachments.length === 0">Không có ảnh</span>
                 <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
-<!--                  <div :style="{backgroundImage: 'url('+ img.link +')'}" class="bgImg"></div>-->
-                  <img :src="img.link" alt="">
+                  <img :src="img.link">
                 </div>
               </div>
             </div>
@@ -373,10 +372,15 @@ export default{
     },
     fivePost(){
       return this.allPost.slice(0,5);
+    },
+    allAnalysis(){
+      console.log(this.$store.getters.allAnalysis);
+      return this.$store.getters.allAnalysis;
     }
   },
   async created() {
     await this.$store.dispatch("getAllPost");
+    this.$store.dispatch("getAllAnalysis");
   },
   methods: {
     goToThisPost( id ){
