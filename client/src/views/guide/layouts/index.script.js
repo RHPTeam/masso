@@ -1,4 +1,5 @@
 import AppHeader from "@/views/guide/layouts/desktop/header";
+import AppFooter from "@/views/guide/layouts/desktop/footer";
 
 export default {
   data() {
@@ -11,6 +12,7 @@ export default {
     }
   },
   components: {
-    AppHeader
+    AppHeader,
+    AppFooter
   }
 };

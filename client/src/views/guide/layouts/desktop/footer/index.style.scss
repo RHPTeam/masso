@@ -1,0 +1,28 @@
+.wrap--footer{
+  .icon--logo{
+    color: $mainBrandColor;
+  }
+  .language{
+    margin-top: 5px;
+    margin-left: 10px;
+    p{
+      margin: 0;
+      color: $color-light;
+    }
+    button{
+      background: none;
+      border: 0;
+      outline: none;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    .this--language{
+      .icon{
+        margin-top: 7px;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+

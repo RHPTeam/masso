@@ -8,6 +8,11 @@ const generalRouter = {
       path: "",
       name: "guide_home",
       component: require( "@/views/guide/home" ).default
+    },
+    {
+      path: ":id",
+      name: "guide_detail",
+      component: require("@/views/guide/detail").default
     }
   ]
 };

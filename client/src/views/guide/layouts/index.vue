@@ -1,12 +1,15 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
-    <div class="wrap--content d_none d_md_flex">
+    <div class="wrap--content d_none d_md_block">
       <div class="wrap--content-header">
         <app-header />
       </div>
       <div class="wrap--content-main">
         <router-view />
+      </div>
+      <div class="wrap--content-footer">
+        <app-footer />
       </div>
     </div>
     <!-- End: Desktop Component-->

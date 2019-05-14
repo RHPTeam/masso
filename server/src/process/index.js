@@ -107,7 +107,7 @@ const fs = require( "fs" ),
       const groupInfo = await GroupFacebook.find( { "groupId": input } );
 
       feed = defineFeedFacebook( postSelected[ 0 ], { "id": input }, 2 );
-      facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );
+      facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );cdm
     } else if ( type === 2 ) {
       const pageInfo = await PageFacebook.find( { "pageId": input } );
 
