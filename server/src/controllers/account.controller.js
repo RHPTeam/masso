@@ -102,7 +102,7 @@ module.exports = {
     const newUser = await new Account( objDefine );
     const sessionToken = await signToken( newUser );
 
-    // Create defaul post category for user
+    // Create defaul post auto for user
     const defaultPostCategory = await new PostCategory( { "title": dictionary.DEFAULT_POSTCATEGORY, "_account": newUser._id } );
 
     await defaultPostCategory.save();

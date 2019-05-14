@@ -56,9 +56,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../index.default";
-.text--bold {
-  font-weight: 600;
-}
+@import "./index.style";
 </style>
 

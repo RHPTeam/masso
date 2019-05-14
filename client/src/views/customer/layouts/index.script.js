@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import AppHeader from "@/views/customer/layouts/desktop/header";
 import AppSidebar from "@/views/customer/layouts/desktop/sidebar";
 import AppNotification from "@/views/customer/layouts/desktop/notification";
@@ -8,6 +7,7 @@ import CookieFunction from "@/utils/functions/cookie";
 export default {
   data() {
     return {
+      statusNetwork: true,
       timer: "",
       interval: null
     };
@@ -61,9 +61,10 @@ export default {
   },
   sockets: {
     async statusAccount(value) {
-      console.log( value );
-      if (value === false) {
+      if (value === 405) {
         this.$store.dispatch("getAllAccountFb");
+      } else if (value === 404) {
+        this.statusNetwork = false;
       }
     }
   },

@@ -1,17 +1,16 @@
 // eslint-disable-next-line camelcase
-const { agent } = require( "../configs/crawl" ),
-  { port_socket } = require( "../configs/server" ),
+const { port_socket } = require( "../configs/server" ),
+  { agent } = require( "../configs/crawl" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
-  CronJob = require( "cron" ).CronJob,
-  GLOBAL = require( "../databases/variables.global" ),
   express = require( "express" ),
   app = express(),
   // eslint-disable-next-line new-cap
   http = require( "http" ).Server( app ),
   io = require( "socket.io" )( http ),
   socketThread = {},
-  errorsLogin = [],
   Facebook = require( "../models/Facebook.model" );
+
+let errorsLogin = [];
 
 http.listen( port_socket );
 
@@ -33,15 +32,18 @@ io.on( "connection", async ( socket ) => {
       const statusLogin = await checkLogin( { "cookie": facebook.cookie, agent } );
 
       // Check error not same 200
-      if ( statusLogin.error.code !== 200 ) {
+      if ( statusLogin.error.code === 405 ) {
         facebook.status = 0;
         await facebook.save();
-        errorsLogin.push( facebook );
+        errorsLogin.push( statusLogin.error.code );
+      } else if ( statusLogin.error.code === 404 ) {
+        errorsLogin.push( statusLogin.error.code );
       }
     } ) );
 
     if ( errorsLogin.length > 0 ) {
-      socketThread[ threadId ].emit( "statusAccount", false );
+      socketThread[ threadId ].emit( "statusAccount", errorsLogin[ 0 ] );
+      errorsLogin = [];
     }
   } );
 } );
