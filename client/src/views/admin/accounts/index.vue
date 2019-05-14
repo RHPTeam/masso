@@ -1,5 +1,5 @@
 <template>
-  <div class="account text_left px_4 py_4">
+  <div class="account text_left px_4 py_4" :data-theme="currentTheme">
     <div class="account--title mb_4">Quản lý tài khoản</div>
     <div class="account--content card card_body p_4">
       <div class="alert alert_success" v-if="$store.getters.status === 'success'">
@@ -38,6 +38,9 @@ export default {
     };
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   async created() {
     await this.$store.dispatch( "getUsers" );
@@ -50,15 +53,32 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .account {
-    .account--title {
-      color: #666;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .account--content {
-      border: 0;
-      border-radius: 8px;
-    }
+.account {
+  .account--title {
+    font-size: 1.125rem;
+    font-weight: bold;
   }
+  .account--content {
+    border: 0;
+    border-radius: 8px;
+  }
+}
+
+/* Theme Color */
+.account[data-theme="light"] {
+  .account--title {
+    color: #666;
+  }
+  .account--content {
+    background-color: #fff;
+  }
+}
+.account[data-theme="dark"] {
+  .account--title {
+    color: #ccc;
+  }
+  .account--content {
+    background-color: #27292D;
+  }
+}
 </style>

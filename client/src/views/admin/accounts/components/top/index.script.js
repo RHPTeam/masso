@@ -1,4 +1,4 @@
-import ActivePopup from "../popup/active";
+import ActivePopup from "../popups/active";
 import convertUnicode from "@/utils/functions/string.js";
 export default {
   props: [ "isGrid" ],
@@ -41,6 +41,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     users() {
       return this.$store.getters.users;
     },
