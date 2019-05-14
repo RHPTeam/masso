@@ -91,7 +91,7 @@
         </div>
       </div>
       <div class="c_6 order" style="max-height: 405px;">
-        <h3 class="title--overview">Order History</h3>
+        <h3 class="title--overview">Bài viết gần đây</h3>
         <div class="table-container" role="table" aria-label="Destinations">
           <div class="flex-table header" role="rowgroup">
             <div class="flex-row first" role="columnheader">Tiêu đề</div>
@@ -152,7 +152,6 @@ export default{
   },
   computed: {
     allPost(){
-      // console.log(this.$store.getters.allPost);
       return this.$store.getters.allPost;
     },
     fivePost(){
@@ -168,7 +167,7 @@ export default{
       });
 
       return [{
-        name: 'ChienDich',
+        name: 'Chiến dịch',
         data: mapArrCampaign
       }];
     },
@@ -196,6 +195,16 @@ export default{
       const timeCampaign = this.$store.getters.getAllStaticCampaign.map( (date) => {
         return date.date;
       });
+
+      let arrCampaign = [];
+      this.$store.getters.getAllStaticCampaign.map( (amount) => {
+        arrCampaign.push(amount.amount);
+      });
+      let maxCampaign = Math.max.apply(null, arrCampaign);
+      // if(maxCampaign === 0){
+      //   maxCampaign += 5;
+      // }
+      // console.log(maxCampaign);
       return {
         chart: {
           type: 'line',
@@ -263,7 +272,7 @@ export default{
           }
         },
         title: {
-          text: "Title Chart Apex",
+          text: "Thống kê chiến dịch",
           align: 'left',
           margin: 0,
           offsetX: 0,
@@ -280,6 +289,12 @@ export default{
       const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( (date) => {
         return date.date.slice(0,10);
       });
+      let maxCompaign = [];
+      this.$store.getters.getAllSttPost.map( (amount) => {
+        maxCompaign.push(amount.recommend);
+        maxCompaign.push(amount.amount);
+      });
+      const maxChart = Math.max.apply(null, maxCompaign) * 1.5;
       return {
         chart: {
           shadow: {
@@ -322,6 +337,13 @@ export default{
             // text: 'Month'
           }
         },
+        yaxis: {
+          title: {
+            // text: ''
+          },
+          min: 0,
+          max: maxChart
+        },
         legend: {
           position: 'top',
           horizontalAlign: 'right',
@@ -330,7 +352,7 @@ export default{
           offsetX: -5
         },
         title: {
-          text: "Number Post A Day",
+          text: "Tỉ lệ bài viết",
           align: 'left',
           margin: 0,
           offsetX: 0,
