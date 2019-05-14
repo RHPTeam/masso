@@ -55,5 +55,43 @@ module.exports = {
     }
 
     res.status( 200 ).json( jsonResponse( "success", statisticList ) );
+  },
+  "statisticPost": async ( req, res ) => {
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      statisticList = [];
+
+    for ( let i = 0; i <= 4; i++ ) {
+      const start = new Date( ( new Date() ).setDate( ( new Date() ).getDate() - i ) ),
+        end = new Date( ( new Date() ).setDate( ( new Date() ).getDate() - i ) );
+
+      start.setHours( 0, 0, 0, 0 );
+      end.setHours( 23, 59, 59, 999 );
+
+      // eslint-disable-next-line one-var
+      const postList = await Post.find( { "_account": userId, "created_at": {
+        "$gte": start,
+        "$lte": end
+      } } );
+
+      statisticList.push( {
+        "date": start,
+        "amount": postList.length,
+        "recommend": Math.floor( Math.random() * 10 ) + 7
+      } );
+    }
+
+    for ( let i = 1; i <= 2; i++ ) {
+      const start = new Date( ( new Date() ).setDate( ( new Date() ).getDate() + i ) );
+
+      start.setHours( 0, 0, 0, 0 );
+      statisticList.unshift( {
+        "date": start,
+        "amount": 0,
+        "recommend": Math.floor( Math.random() * 10 ) + 6
+      } );
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", statisticList.reverse() ) );
   }
 };
