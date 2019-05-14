@@ -2,7 +2,7 @@
 const router = require( "express" ).Router();
 const auth = require( "../helpers/middleware/authenticate.middleware" );
 
-router.use( "/ads", require( "./modules/ads.route" ) );
+router.use( "/me", require( "./modules/ads.route" ) );
 router.use( "/core", require( "./modules/core.route" ) );
 router.use( "/signup", require( "./modules/signup.route" ) );
 router.use( "/signin", require( "./modules/signin.route" ) );
