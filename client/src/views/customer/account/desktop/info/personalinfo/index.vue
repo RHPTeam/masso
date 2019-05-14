@@ -104,8 +104,8 @@
       <popup-info-change
         v-if="showPopupInfoChange === true"
         :data-theme="currentTheme"
-        @closePopup="showPopupInfoChange = $event"
-      />
+        :user="user"
+        @closePopup="showPopupInfoChange = $event"></popup-info-change>
       <!-- End: Popup info change -->
     </transition>
     <!-- Start: Popup password change -->
@@ -114,8 +114,7 @@
         v-if="showPopupPasswordChange === true"
         :data-theme="currentTheme"
         :reset="reset"
-        @closePopup="closeModalPassword($event)"
-      />
+        @closePopup="closeModalPassword($event)"></popup-password-change>
       <!-- End: Popup password change -->
     </transition>
   </div>

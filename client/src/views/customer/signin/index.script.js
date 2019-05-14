@@ -62,6 +62,7 @@ export default {
         ) {
           return;
         }
+        this.$store.dispatch("getUserInfo" );
         this.$router.push( "/welcome" );
       } else if (
         parseInt(

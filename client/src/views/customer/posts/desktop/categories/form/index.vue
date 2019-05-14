@@ -85,8 +85,8 @@ export default {
         page: this.currentPage,
         size: this.filterShowSelected.id
       };
-
       this.$store.dispatch( "updateCategory", dataSender );
+      this.$emit( "comebackDefault", false );
     }
   }
 };

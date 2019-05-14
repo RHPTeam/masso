@@ -93,6 +93,7 @@ export default {
       if ( resData === false ) {
         return;
       }
+      this.$store.dispatch("getUserInfo" );
       this.$router.push( "/welcome" );
     }
   },

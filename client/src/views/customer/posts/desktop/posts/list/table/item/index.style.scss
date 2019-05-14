@@ -77,10 +77,12 @@
     overflow: hidden;
     width: 40px;
     .image--bg {
-      background-position: center;
-      background-size: cover;
       height: 100%;
       width: 100%;
+      img {
+        height: 100%;
+        width: 100%;
+      }
     }
     &-more {
       background-color: #e4e4e4;

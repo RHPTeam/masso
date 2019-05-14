@@ -3,9 +3,10 @@
     <div class="list--header">
       <h5 class="list--header-title mb_3">Bài viết mẫu nhiều tương tác</h5>
       <span class="list--header-description"
-        >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris.</span
+        >
+        Bài viết mẫu được gợi ý dựa trên các từ khóa bạn sử dụng trong thông tin cá nhân,
+        hoặc bạn có thể trực tiếp tìm kiếm bài viết cụ thể khác bằng từ khóa trên thanh tìm kiếm.
+      </span
       >
     </div>
     <div class="list--content">
@@ -28,11 +29,7 @@
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
-          <span class="list--keywork-item py_1 m_1">keywork1</span>
-          <span class="list--keywork-item py_1 m_1">keywork2</span>
-          <span class="list--keywork-item py_1 m_1">keywork3</span>
-          <span class="list--keywork-item py_1 m_1">keywork4</span>
-          <span class="list--keywork-item py_1 m_1">keywork5</span>
+          <span class="list--keywork-item py_1 m_1" v-for="(item, index) in keyPopular" :key="index">{{ item }}</span>
         </div>
       </div>
       <app-list />
@@ -49,6 +46,13 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    user(){
+      return this.$store.getters.userInfo;
+    },
+    keyPopular(){
+      if(this.user === undefined) return;
+      return this.user.keywords.slice(0,5);
     }
   }
 };

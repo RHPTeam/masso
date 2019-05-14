@@ -30,7 +30,19 @@ export default {
     IconAccount,
     IconLogout
   },
+  computed: {
+    user() {
+      return this.$store.getters.userInfo;
+    }
+  },
+  async created() {
+    await this.$store.dispatch( "getUserInfo" );
+  },
   methods: {
+    async logOut() {
+      await this.$store.dispatch( "logOut" );
+      this.$router.push( "/signin" );
+    },
     gotoHomePost() {
       this.$router.push( "/" );
     },
@@ -39,6 +51,14 @@ export default {
     },
     closeDropdownUser() {
       this.showdropdown = false;
+    }
+  },
+  filters: {
+    getFirstLetter( string ) {
+      if ( string === undefined ) {
+        return;
+      }
+      return string.charAt( 0 ).toUpperCase();
     }
   }
 };

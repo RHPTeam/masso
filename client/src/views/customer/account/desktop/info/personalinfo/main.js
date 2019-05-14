@@ -16,8 +16,6 @@ export default {
       isSwitchSuggest: false,
       isSwitchTutorial: false,
       isSwitchTheme: false,
-      // imageLight: require( "@/assets/images/theme-light-setting.png" ),
-      // imageDark: require( "@/assets/images/theme-dark-setting.png" ),
       oldPassword: "",
       reset: {
         newPassword: "",
