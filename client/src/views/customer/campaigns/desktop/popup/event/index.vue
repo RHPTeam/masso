@@ -7,8 +7,10 @@
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <div class="body">
-          <app-auto v-if="isTypeEvent === true" />
-          <app-custom v-if="isTypeEvent === false" />
+          <vue-perfect-scrollbar>
+            <app-auto v-if="isTypeEvent === true" />
+            <app-custom v-if="isTypeEvent === false" />
+          </vue-perfect-scrollbar>
         </div>
         <!-- End: Modal Body -->
       </div>

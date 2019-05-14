@@ -46,7 +46,9 @@
 			<create-campaign-popup
         v-if="isShowCreatCampaignPopup === true"
         @closePopup="isShowCreatCampaignPopup = $event"
-      />
+        @closeCreateCamppaign="isShowCreatCampaignPopup = $event"
+      >
+      </create-campaign-popup>
 		</transition>
 		<!--	End: Create Campaign Popup	-->
   </div>
@@ -54,9 +56,11 @@
 
 <script>
 import AppFilter from "./filter/index";
+import CreateCampaignPopup from "../../popup/campaigns";
 export default {
   components: {
-    AppFilter
+    AppFilter,
+    CreateCampaignPopup
   },
   props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {

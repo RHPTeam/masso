@@ -33,6 +33,9 @@ export default {
       return this.$store.getters.allPostLibraries;
     }
   },
+  async created(){
+    await this.$store.dispatch( "getAllPostLibraries" );
+  },
   methods: {
   }
 };
