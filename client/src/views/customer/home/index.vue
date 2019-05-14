@@ -154,77 +154,31 @@
         <h3 class="title--overview">Order History</h3>
         <div class="table-container" role="table" aria-label="Destinations">
           <div class="flex-table header" role="rowgroup">
-            <div class="flex-row first" role="columnheader">Nội dung</div>
+            <div class="flex-row first" role="columnheader">Tiêu đề</div>
             <div class="flex-row" role="columnheader">Hình ảnh</div>
             <div class="flex-row" role="columnheader">Hành động</div>
           </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
+          <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
+            <div class="flex-row first"  role="cell">
+              {{ item.title }}
+            </div>
             <div class="flex-row" role="cell">
               <div class="d_flex">
-                <span>Không có ảnh</span>
+                <span v-if="item.attachments.length === 0">Không có ảnh</span>
+                <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
+<!--                  <div :style="{backgroundImage: 'url('+ img.link +')'}" class="bgImg"></div>-->
+                  <img :src="img.link" alt="">
+                </div>
               </div>
             </div>
             <div class="flex-row" role="cell">
               <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
+                <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
               </div>
             </div>
           </div>
         </div>
-        <a href="" class="view--all-post">
+        <button class="view--all-post" @click="goToFullPost">
           <span>
             <icon-base
               icon-name="IconSortDown"
@@ -238,7 +192,7 @@
           <span>
             Xem tất cả các bài viết
           </span>
-        </a>
+        </button>
       </div>
     </div>
     <!--    End Order History-->
@@ -248,11 +202,10 @@
 <script>
 import VueApexCharts from 'vue-apexcharts';
 export default{
-  name: "app",
   components: {
     apexchart: VueApexCharts,
   },
-  data: function () {
+  data () {
     return {
       seriesLine: [{
         name: 'ChienDich',
@@ -412,6 +365,25 @@ export default{
           },
         }
       }
+    }
+  },
+  computed: {
+    allPost(){
+      return this.$store.getters.allPost;
+    },
+    fivePost(){
+      return this.allPost.slice(0,5);
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getAllPost");
+  },
+  methods: {
+    goToThisPost( id ){
+      return this.$router.push({params: { id }, name: "update_post"})
+    },
+    goToFullPost(){
+      return this.$router.push({ name: "posts" })
     }
   }
 }
