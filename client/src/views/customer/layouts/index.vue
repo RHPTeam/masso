@@ -13,7 +13,7 @@
     <!-- End: Desktop Component-->
 
     <!-- Start: Notification for check login facebook account-->
-    <app-notification />
+    <app-notification :statusNetwork="statusNetwork" />
     <!-- End: Notification for check login facebook account-->
   </div>
 </template>

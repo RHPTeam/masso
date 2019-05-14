@@ -16,10 +16,11 @@ $font_family_1: sans-serif;
     box-sizing: border-box;
   }
   input.display-time {
-    border: 1px solid #d2d2d2;
+    border: none;
+    border-radius: 10px;
     width: 10em;
-    height: 2.2em;
-    padding: 0.3em 0.5em;
+    height: 38px;
+    padding: 0.3em 1.5em;
     font-size: 1em;
   }
   .clear-btn {

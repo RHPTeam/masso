@@ -88,10 +88,9 @@
       <!-- End: Header Action -->
       <!--	Start: Create Campaign Popup	-->
       <transition name="popup">
-        <create-new-event
+        <app-event
           v-if="isShowCreateEvent === true"
-          :campaignsId="campaignDetail._id"
-          @closePopup="isShowCreateEvent = $event"
+          @close="isShowCreateEvent = $event"
         />
       </transition>
       <!--	End: Create Campaign Popup	-->
@@ -100,13 +99,14 @@
 </template>
 
 <script>
+import AppEvent from "@/views/customer/campaigns/desktop/popup/event";
 
-import CreateNewEvent from "../../popup/created/";
 let typingTimer;
+
 
 export default {
   components: {
-    CreateNewEvent
+    AppEvent
   },
   props: [ "view" ],
   data() {

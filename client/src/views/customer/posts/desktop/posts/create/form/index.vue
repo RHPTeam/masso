@@ -124,8 +124,7 @@
                   class="px_2 py_1"
                   :randomColor="randomColor"
                   :colorFb="colorFb"
-                  @changeBgColor="changeBgColor($event)"
-                />
+                  @changeBgColor="changeBgColor($event)"></color-post>
               </div>
               <!--End: Choose color text-->
               <!--Start: Show tag and check in-->
@@ -183,8 +182,7 @@
                 :randomColor="randomColor"
                 :colorFb="colorFb"
                 :post="post"
-                @changeBgColor="changeBgColor($event)"
-              />
+                @changeBgColor="changeBgColor($event)"></color-post>
             </div>
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
@@ -203,10 +201,10 @@
           <activity-post v-if="isShowActivity === true" :post="post" @sendPhoto="photo = $event"></activity-post>
           <!--End: Activity -->
           <!-- Start: Tag-->
-          <tag-post v-if="isShowTag === true" :post="post"/>
+          <tag-post v-if="isShowTag === true" :post="post"></tag-post>
           <!--End: Tag-->
           <!-- Start: Checkin-->
-          <checkin-post v-if="isShowCheckIn === true" :post="post"/>
+          <checkin-post v-if="isShowCheckIn === true" :post="post"></checkin-post>
           <!-- End: Checkin-->
           <!--Start: Show option-->
           <ul

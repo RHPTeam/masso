@@ -7,8 +7,7 @@
         </div>
       </div>
       <div class="col col--image px_3">
-        <div v-if="item.attachments.length === 0">Không có hình ảnh</div>
-        <div v-else class="d_flex align_items_center">
+        <div v-if="item.attachments && item.attachments.length > 0" class="d_flex align_items_center">
           <div class="image--wrap mr_2" v-for="(gallery, index) in item.attachments.slice(0,3)" :key="`i-${index}`">
             <img :src="gallery.link">
           </div>
@@ -20,8 +19,9 @@
             </div>
           </div>
         </div>
+        <div v-else>Không có hình ảnh</div>
       </div>
-      <div class="col col--like px_3">1902</div>
+      <div class="col col--like px_3">102</div>
       <div class="col col--share px_3">128</div>
 
       <div class="col col--action px_3 text_center">

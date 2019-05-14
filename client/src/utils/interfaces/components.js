@@ -113,4 +113,5 @@ Vue.component("DNotification", () =>
 /**
  * Assign Global Vue Directives
  */
-Vue.use( () => import("@/directives/click-outside") );
+import VClickOutside from "@/directives/click-outside"
+Vue.use( VClickOutside );

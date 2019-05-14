@@ -15,7 +15,7 @@ const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
   /**
-   * Get post category (query or not)
+   * Get post auto (query or not)
    * @param req
    * @param res
    * @returns {Promise<*|Promise<any>>}
@@ -35,7 +35,7 @@ module.exports = {
       dataResponse = await PostCategory.find( { "_account": userId } ).lean();
     }
 
-    // Check ammout post of category
+    // Check ammout post of auto
     dataResponse = dataResponse.map( async ( item ) => {
       if ( item._account.toString() === userId ) {
         const findPost = await Post.find( { "_account": userId } );
@@ -136,7 +136,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Danh mục mặc định không thể bị xóa!" } );
     }
 
-    // When delete category which all of post of that category will deleted
+    // When delete auto which all of post of that auto will deleted
     if ( findPost.length > 0 ) {
       // add to un_ categories
       const unCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } );

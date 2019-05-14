@@ -18,8 +18,8 @@
     <transition name="popup">
       <event-popup
         v-if="isOpenEventPopup"
-        @closePopup="isOpenEventPopup = $event"
-      />
+        @closePopup="isOpenEventPopup = $event">
+      </event-popup>
     </transition>
     <!-- End: Event Popup -->
   </div>
@@ -27,11 +27,9 @@
 
 <script>
 import AppHeader from "./header";
-import EventPopup from "../popup/update";
 export default {
   components: {
     AppHeader,
-    EventPopup
   },
   data() {
     return {
@@ -45,9 +43,6 @@ export default {
     },
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    eventDetail() {
-      return this.$store.getters.eventDetail;
     }
   },
   async created() {

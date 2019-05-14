@@ -1,4 +1,4 @@
-import directive from './handle'
+import directive from "./handle"
 
 const plugin = {
   install(Vue) {

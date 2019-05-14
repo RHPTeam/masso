@@ -8,7 +8,13 @@ const generalRouter = {
   meta: {
     requiredAuth: true
   },
-  children: [ {
+  children: [
+    {
+      path: "",
+      name: "dashboard",
+      component: require("@/views/customer/home").default
+    },
+    {
     path: "/posts",
     component: require( "@/views/customer/posts" ).default,
     children: [ {
