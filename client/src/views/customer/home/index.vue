@@ -18,23 +18,8 @@
                 </icon-base>
                 </span>
               </div>
-              <div class="number">{{ allAnalysis }}</div>
+              <div class="number">{{ allAnalysis.campaign }}</div>
               <div class="name">Chiến dịch</div>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
             </div>
           </div>
           <div class="c_6 text_center">
@@ -51,23 +36,8 @@
                 </icon-base>
                 </span>
               </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
+              <p class="number">{{ allAnalysis.group }}</p>
+              <p class="name">Nhóm</p>
             </div>
           </div>
           <div class="c_6 text_center">
@@ -84,23 +54,8 @@
                 </icon-base>
                 </span>
               </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
+              <p class="number">{{ allAnalysis.page }}</p>
+              <p class="name">Trang</p>
             </div>
           </div>
           <div class="c_6 text_center">
@@ -117,29 +72,14 @@
                 </icon-base>
                 </span>
               </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
+              <p class="number">{{ allAnalysis.post }}</p>
+              <p class="name">Bài đăng</p>
             </div>
           </div>
         </div>
       </div>
       <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
-        <apexchart type=line height=350 :options="chartOptionsLine" :series="seriesLine" />
+        <apexchart type=line height=350 :options="chartOptionsLine" :series="allStaticCompaign" />
       </div>
     </div>
     <!--    End total-->
@@ -147,7 +87,7 @@
     <div class="r order--server-history">
       <div class="c_6 server" style="max-height: 405px;">
         <div class="view--post-day">
-          <apexchart type=line height=350 :options="chartOptions" :series="series" />
+          <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
         </div>
       </div>
       <div class="c_6 order" style="max-height: 405px;">
@@ -158,24 +98,27 @@
             <div class="flex-row" role="columnheader">Hình ảnh</div>
             <div class="flex-row" role="columnheader">Hành động</div>
           </div>
-          <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
-            <div class="flex-row first"  role="cell">
-              {{ item.title }}
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span v-if="item.attachments.length === 0">Không có ảnh</span>
-                <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
-                  <img :src="img.link">
+          <div v-if="allPost.length > 0">
+            <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
+              <div class="flex-row first"  role="cell">
+                {{ item.title }}
+              </div>
+              <div class="flex-row" role="cell">
+                <div class="d_flex">
+                  <span v-if="item.attachments.length === 0">Không có ảnh</span>
+                  <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
+                    <img :src="img.link">
+                  </div>
+                </div>
+              </div>
+              <div class="flex-row" role="cell">
+                <div class="d_flex justify_content_center">
+                  <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
                 </div>
               </div>
             </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
-              </div>
-            </div>
           </div>
+          <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
         </div>
         <button class="view--all-post" @click="goToFullPost">
           <span>
@@ -205,12 +148,55 @@ export default{
     apexchart: VueApexCharts,
   },
   data () {
-    return {
-      seriesLine: [{
+    return{};
+  },
+  computed: {
+    allPost(){
+      // console.log(this.$store.getters.allPost);
+      return this.$store.getters.allPost;
+    },
+    fivePost(){
+      if(Object.entries(this.allPost).length === 0 && this.allPost.constructor === Object) return;
+      return this.allPost.slice(0,5);
+    },
+    allAnalysis(){
+      return this.$store.getters.allAnalysis;
+    },
+    allStaticCompaign(){
+      const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
+        return campaign.amount;
+      });
+
+      return [{
         name: 'ChienDich',
-        data: [4, 3, 10, 9, 29, 19, 22]
-      }],
-      chartOptionsLine: {
+        data: mapArrCampaign
+      }];
+    },
+    allSttPost(){
+      const campaingRecommend = [], campaignCurrent = [];
+
+
+      this.$store.getters.getAllSttPost.map( (current) => {
+        campaingRecommend.push(current.amount);
+        campaignCurrent.push(current.recommend);
+      });
+
+      return [
+        {
+          name: "Số bài viết bạn nên có",
+          data: campaingRecommend
+        },
+        {
+          name: "Số bài viết của bạn",
+          data: campaignCurrent
+        }
+      ];
+    },
+    chartOptionsLine() {
+      const timeCampaign = this.$store.getters.getAllStaticCampaign.map( (date) => {
+        return date.date;
+      });
+      return {
         chart: {
           type: 'line',
           shadow: {
@@ -243,8 +229,7 @@ export default{
 
         xaxis: {
           type: 'datetime',
-          categories: ['5/8/2000', '5/9/2000', '5/10/2000', '5/11/2000', '5/12/2000', '5/13/2000', '5/14/2000'
-          ],
+          categories: timeCampaign
         },
         title: {
           text: 'Social Media',
@@ -289,20 +274,13 @@ export default{
             color:  '#333'
           },
         }
-      },
-
-      series: [
-        {
-          name: "Số bài viết bạn nên có",
-          data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-          name: "Số bài viết của bạn",
-          data: [12, 11, 14, 18, 17, 13, 13]
-        }
-      ],
-
-      chartOptions: {
+      }
+    },
+    chartOptions() {
+      const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( (date) => {
+        return date.date.slice(0,10);
+      });
+      return {
         chart: {
           shadow: {
             enabled: true,
@@ -339,7 +317,7 @@ export default{
           size: 6
         },
         xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          categories: dayRecommandCampaign,
           title: {
             // text: 'Month'
           }
@@ -366,21 +344,11 @@ export default{
       }
     }
   },
-  computed: {
-    allPost(){
-      return this.$store.getters.allPost;
-    },
-    fivePost(){
-      return this.allPost.slice(0,5);
-    },
-    allAnalysis(){
-      console.log(this.$store.getters.allAnalysis);
-      return this.$store.getters.allAnalysis;
-    }
-  },
   async created() {
     await this.$store.dispatch("getAllPost");
-    this.$store.dispatch("getAllAnalysis");
+    await this.$store.dispatch("getAllAnalysis");
+    await this.$store.dispatch("getAllStaticCampagin") ;
+    this.$store.dispatch("getAllSttPost");
   },
   methods: {
     goToThisPost( id ){

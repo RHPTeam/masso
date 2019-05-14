@@ -15,7 +15,7 @@ import PageFacebook from "./modules/pagefacebook.store";
 import PostStore from "./modules/post.store";
 import PostGroupStore from "./modules/postgroup.store";
 import PostAdminLibraries from "./modules/postlibraries.store";
-import AnalysisStore from "./modules/adstatic.store";
+import AnalysisStore from "./modules/analytic.store";
 
 Vue.use( Vuex );
 
