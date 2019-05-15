@@ -65,10 +65,11 @@ const Account = require( "./src/models/Account.model" );
 socket.on( "connect", async () => {
   console.log( "connected to http://45.119.83.116:8288/" );
 
-  socket.on( "getKey", async (data) => {
-    console.log(data)
+  socket.on( "getKey", async ( data ) => {
+    console.log( data );
     // Get keyword from database
     const foundAccount = await Account.find( {} ).select( "keywords" );
+
     Promise.all( foundAccount.map( async ( account ) => {
       return account.keywords;
     } ) ).then( async ( item ) => {
