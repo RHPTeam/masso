@@ -88,46 +88,6 @@
           </icon-base>
         </span>
       </div>
-			<div class="col col--finish px_2">
-        <span
-          class="sort"
-          @click="sortCampaignsByProperty(isSort[2], 2)"
-          :class="[
-            isSort[2].asc === true || isSort[2].desc === true ? 'active' : ''
-          ]"
-        >Kết thúc
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-            v-if="isSort[2].asc === false && isSort[2].desc === false"
-          >
-            <icon-arrow-down />
-          </icon-base>
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-            v-if="isSort[2].asc"
-          >
-            <icon-arrow-down />
-          </icon-base>
-          <icon-base
-            class="icon--arrow-down descending ml_1"
-            icon-name="icon-arrow-up"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-            v-if="isSort[2].desc"
-          >
-            <icon-arrow-down />
-          </icon-base>
-        </span>
-      </div>
 			<div class="col col--status px_2">
         <span
           class="sort"
@@ -202,9 +162,6 @@
 				</div>
 				<div class="col col--start px_2">
 					{{ formatDate(campaign.started_at) }}
-				</div>
-				<div class="col col--finish px_2">
-					{{ formatDate(campaign.finished_at) }}
 				</div>
 				<div class="col col--status px_2">
 					<div class="status--content d_flex align_items_center">

@@ -1,12 +1,21 @@
 <template>
-  <div class="overview">
-    <!--    Start total-->
-    <div class="r total">
-      <div class="c_5 content" style="maxHeight: 367px">
-        <div class="r pd15">
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+  <div class="main">
+    <!-- Start: Desktop Component-->
+    <div class="d_none d_md_block">
+      <breadcrumb
+        nameBread="Bảng điều khiển"
+        subBread="Giúp bạn quản lý nhanh các thông tin trên hệ thống."
+      />
+      <!-- Start: Content -->
+      <div class="main--content">
+        <div class="overview">
+          <!--    Start total-->
+          <div class="r total">
+            <div class="c_5 content" style="maxHeight: 367px">
+              <div class="r pd15">
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -17,29 +26,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <div class="number">{{ allAnalysis.campaign }}</div>
+                    <div class="name">Chiến dịch</div>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -50,29 +44,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <p class="number">{{ allAnalysis.group }}</p>
+                    <p class="name">Nhóm</p>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -83,29 +62,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <p class="number">{{ allAnalysis.page }}</p>
+                    <p class="name">Trang</p>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -116,115 +80,56 @@
                   <icon-user />
                 </icon-base>
                 </span>
+                    </div>
+                    <p class="number">{{ allAnalysis.post }}</p>
+                    <p class="name">Bài đăng</p>
+                  </div>
+                </div>
               </div>
-              <p class="number">21.1k</p>
-              <p class="name">Total Followers</p>
-              <div class="percent d_inline_flex">
-                <p>
-                  <icon-base
-                    icon-name="sortDown"
-                    width="10"
-                    height="10"
-                    viewBox="0 0 10 10"
-                  >
-                    <icon-sort-down />
-                  </icon-base>
-                </p>
-                <p>
-                  12.01%
-                </p>
-              </div>
+            </div>
+            <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
+              <apexchart type=line height=350 :options="chartOptionsLine" :series="allStaticCompaign" />
             </div>
           </div>
-        </div>
-      </div>
-      <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
-        <apexchart type=line height=350 :options="chartOptionsLine" :series="seriesLine" />
-      </div>
-    </div>
-    <!--    End total-->
-    <!--    Start Order History-->
-    <div class="r order--server-history">
-      <div class="c_6 server" style="max-height: 405px;">
-        <div class="view--post-day">
-          <apexchart type=line height=350 :options="chartOptions" :series="series" />
-        </div>
-      </div>
-      <div class="c_6 order" style="max-height: 405px;">
-        <h3 class="title--overview">Order History</h3>
-        <div class="table-container" role="table" aria-label="Destinations">
-          <div class="flex-table header" role="rowgroup">
-            <div class="flex-row first" role="columnheader">Nội dung</div>
-            <div class="flex-row" role="columnheader">Hình ảnh</div>
-            <div class="flex-row" role="columnheader">Hành động</div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
+          <!--    End total-->
+          <!--    Start Order History-->
+          <div class="r order--server-history">
+            <div class="c_6 server" style="max-height: 405px;">
+              <div class="view--post-day">
+                <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
               </div>
             </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
+            <div class="c_6 order" style="max-height: 405px;">
+              <h3 class="title--overview">Bài viết gần đây</h3>
+              <div class="table-container" role="table" aria-label="Destinations">
+                <div class="flex-table header" role="rowgroup">
+                  <div class="flex-row first" role="columnheader">Tiêu đề</div>
+                  <div class="flex-row" role="columnheader">Hình ảnh</div>
+                  <div class="flex-row" role="columnheader">Hành động</div>
+                </div>
+                <div v-if="allPost.length > 0">
+                  <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
+                    <div class="flex-row first"  role="cell">
+                      {{ item.title }}
+                    </div>
+                    <div class="flex-row" role="cell">
+                      <div class="d_flex">
+                        <span v-if="item.attachments.length === 0">Không có ảnh</span>
+                        <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
+                          <img :src="img.link">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-row" role="cell">
+                      <div class="d_flex justify_content_center">
+                        <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
               </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-          <div class="flex-table row" role="rowgroup">
-            <div class="flex-row first"  role="cell">Lorem ipsum dolor sit amet, perferendis rerum similique</div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex">
-                <span>Không có ảnh</span>
-              </div>
-            </div>
-            <div class="flex-row" role="cell">
-              <div class="d_flex justify_content_center">
-                <button class="btn btn_warning">Đi tới</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a href="" class="view--all-post">
+              <button class="view--all-post" @click="goToFullPost">
           <span>
             <icon-base
               icon-name="IconSortDown"
@@ -235,30 +140,83 @@
             <icon-sort-down />
           </icon-base>
           </span>
-          <span>
+                <span>
             Xem tất cả các bài viết
           </span>
-        </a>
+              </button>
+            </div>
+          </div>
+          <!--    End Order History-->
+        </div>
       </div>
+      <!-- End: Content -->
     </div>
-    <!--    End Order History-->
+    <!-- End: Desktop Component-->
   </div>
+
 </template>
 
 <script>
 import VueApexCharts from 'vue-apexcharts';
 export default{
-  name: "app",
   components: {
     apexchart: VueApexCharts,
   },
-  data: function () {
-    return {
-      seriesLine: [{
-        name: 'ChienDich',
-        data: [4, 3, 10, 9, 29, 19, 22]
-      }],
-      chartOptionsLine: {
+  data () {
+    return{};
+  },
+  computed: {
+    allPost(){
+      return this.$store.getters.allPost;
+    },
+    fivePost(){
+      if(Object.entries(this.allPost).length === 0 && this.allPost.constructor === Object) return;
+      return this.allPost.slice(0,5);
+    },
+    allAnalysis(){
+      return this.$store.getters.allAnalysis;
+    },
+    allStaticCompaign(){
+      const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
+        return campaign.amount;
+      });
+
+      return [{
+        name: 'Chiến dịch',
+        data: mapArrCampaign
+      }];
+    },
+    allSttPost(){
+      const campaingRecommend = [], campaignCurrent = [];
+
+
+      this.$store.getters.getAllSttPost.map( (current) => {
+        campaingRecommend.push(current.amount);
+        campaignCurrent.push(current.recommend);
+      });
+
+      return [
+        {
+          name: "Số bài viết bạn nên có",
+          data: campaingRecommend
+        },
+        {
+          name: "Số bài viết của bạn",
+          data: campaignCurrent
+        }
+      ];
+    },
+    chartOptionsLine() {
+      const timeCampaign = this.$store.getters.getAllStaticCampaign.map( (date) => {
+        return date.date;
+      });
+
+      let arrCampaign = [];
+      this.$store.getters.getAllStaticCampaign.map( (amount) => {
+        arrCampaign.push(amount.amount);
+      });
+      let maxCampaign = Math.max.apply(null, arrCampaign);
+      return {
         chart: {
           type: 'line',
           shadow: {
@@ -291,8 +249,7 @@ export default{
 
         xaxis: {
           type: 'datetime',
-          categories: ['1/11/2000', '2/11/2000', '3/11/2000', '4/11/2000', '5/11/2000', '6/11/2000', '7/11/2000'
-          ],
+          categories: timeCampaign
         },
         title: {
           text: 'Social Media',
@@ -326,7 +283,7 @@ export default{
           }
         },
         title: {
-          text: "Title Chart Apex",
+          text: "Thống kê chiến dịch",
           align: 'left',
           margin: 0,
           offsetX: 0,
@@ -337,20 +294,19 @@ export default{
             color:  '#333'
           },
         }
-      },
-
-      series: [
-        {
-          name: "Số bài viết bạn nên có",
-          data: [28, 29, 33, 36, 32, 32, 33]
-        },
-        {
-          name: "Số bài viết của bạn",
-          data: [12, 11, 14, 18, 17, 13, 13]
-        }
-      ],
-
-      chartOptions: {
+      }
+    },
+    chartOptions() {
+      const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( (date) => {
+        return `${(new Date( date.date )).getDate()}/${(new Date( date.date )).getMonth()}`;
+      });
+      let maxCompaign = [];
+      this.$store.getters.getAllSttPost.map( (amount) => {
+        maxCompaign.push(amount.recommend);
+        maxCompaign.push(amount.amount);
+      });
+      const maxChart = Math.max.apply(null, maxCompaign) * 1.5;
+      return {
         chart: {
           shadow: {
             enabled: true,
@@ -387,10 +343,17 @@ export default{
           size: 6
         },
         xaxis: {
-          categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+          categories: dayRecommandCampaign,
           title: {
             // text: 'Month'
           }
+        },
+        yaxis: {
+          title: {
+            // text: ''
+          },
+          min: 0,
+          max: maxChart
         },
         legend: {
           position: 'top',
@@ -400,7 +363,7 @@ export default{
           offsetX: -5
         },
         title: {
-          text: "Number Post A Day",
+          text: "Tỉ lệ bài viết",
           align: 'left',
           margin: 0,
           offsetX: 0,
@@ -412,6 +375,20 @@ export default{
           },
         }
       }
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getAllPost");
+    await this.$store.dispatch("getAllAnalysis");
+    await this.$store.dispatch("getAllStaticCampagin") ;
+    this.$store.dispatch("getAllSttPost");
+  },
+  methods: {
+    goToThisPost( id ){
+      return this.$router.push({params: { id }, name: "update_post"})
+    },
+    goToFullPost(){
+      return this.$router.push({ name: "posts" })
     }
   }
 }
