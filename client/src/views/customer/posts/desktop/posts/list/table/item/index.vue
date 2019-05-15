@@ -1,7 +1,7 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
     <!--<div class="col col--checkbox px_2">
-      <label class="custom--checkbox mb_0">
+      <label class="detail--checkbox mb_0">
         <input type="checkbox" checked />
       </label>
     </div>-->

@@ -14,20 +14,22 @@
         </icon-base>
         <span>Nơi đăng</span>
       </div>
-      <div class="desc">
-        <div class="group" v-if="isShowOptionGroup === true">
+      <div class="desc" v-if="isShowOptionPostGroup === true">
+        <div class="group">
           <span class="title py_1 px_2 mr_3">Đăng tới nhóm cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = false">Thay đổi</span>
+          <span class="change" @click="isShowOptionTarget = true">Thay đổi</span>
         </div>
-        <div class="page d_none" v-if="isShowOptionTarget === 'custom'">
+      </div>
+      <div class="desc" v-if="isShowOptionPostCustom === true">
+        <div class="page">
           <span class="title px_2 py_1 mr_3">Đăng tới nhóm, trang cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = false">Thay đổi</span>
+          <span class="change" @click="isShowOptionTarget = true">Thay đổi</span>
         </div>
       </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="isShowOptionTarget === false">
+    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="isShowOptionTarget === true">
       <div class="card mr_2" @click="showOptionPostGroup">
         <div class="card_body">
           <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
@@ -44,11 +46,11 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-if="isShowOptionGroup === true" />
+    <target-group v-if="isShowOptionPostGroup === true" />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
-    <target-custom v-if="isShowOptionCustom === true" />
+    <target-custom v-if="isShowOptionPostCustom === true" />
     <!-- End: Show Option Page -->
 
     <!-- Start: Option Timer -->
@@ -61,6 +63,9 @@
 import TargetGroup from "./category";
 import TargetCustom from "./custom";
 import TimerPost from "../time";
+
+import FunctionLocalStorage from "@/utils/functions/localStorage";
+
 export default {
   components: {
     TargetGroup,
@@ -69,19 +74,22 @@ export default {
   },
   data() {
     return {
-      isShowOptionTarget: false,
-      isShowOptionGroup: false,
-      isShowOptionCustom: false
+      isShowOptionTarget: true,
+      isShowOptionPostGroup: false,
+      isShowOptionPostCustom: false,
     }
+  },
+  mounted(){
+    
   },
   methods: {
     showOptionPostGroup() {
-      this.isShowOptionTarget = true;
-      this.isShowOptionGroup = true;
+      this.isShowOptionTarget = false;
+      this.isShowOptionPostGroup = true;
     },
     showOptionPostCustom() {
-      this.isShowOptionTarget = true;
-      this.isShowOptionCustom = true;
+      this.isShowOptionTarget = false;
+      this.isShowOptionPostCustom = true;
     }
   },
 }

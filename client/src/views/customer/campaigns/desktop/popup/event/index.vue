@@ -1,7 +1,8 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center">
-      <div class="modal--content" v-click-outside="close">
+      <div class="modal--content">
+<!--        v-click-outside="close"-->
         <!-- Start: Modal Header -->
         <app-header :status="isTypeEvent" @change="isTypeEvent = $event" />
         <!-- End: Modal Header -->

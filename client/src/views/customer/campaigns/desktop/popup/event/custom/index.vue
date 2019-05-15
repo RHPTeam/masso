@@ -41,17 +41,22 @@
       </div>
     </div>
     <!-- Start: Show option category -->
-    <category-post v-show="isShowOption === 'category'" @closeCate="isShowOption = $event" />
+    <category-post
+      v-show="isShowOption === 'category'"
+      @closeCate="isShowOption = $event"
+    />
     <!-- End: Show option category -->
-    <!-- Start: Show option custom -->
-    <custom-post v-show="isShowOption === 'custom'" />
-    <!-- End: Show option custom -->
+    <!-- Start: Show option detail -->
+    <custom-post
+      v-show="isShowOption === 'custom'"
+    />
+    <!-- End: Show option detail -->
   </div>
 </template>
 
 <script>
-import CategoryPost from "./category"
-import CustomPost from "./custom"
+import CategoryPost from "./category";
+import CustomPost from "./detail";
 export default {
   components: {
     CategoryPost,
