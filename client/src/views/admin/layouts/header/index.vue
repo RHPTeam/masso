@@ -1,5 +1,5 @@
 <template>
-  <div class="header d_flex justify_content_between align_items_center">
+  <div class="header d_flex justify_content_between align_items_center" :data-theme="currentTheme">
     <!-- <div class="header--icon" @click="toogleSidebar">
       <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
         <icon-menu/>
@@ -44,7 +44,7 @@
           <span class="bg--maincolor"></span>
         </span>
         <div
-          class="d_flex align_items_center px_3 py_2 bg--maincolor border--custom text_white"
+          class="d_flex align_items_center px_3 py_2 bg--orange border--custom text_white"
         >
           <div class="avatar--wrap">
             <div
@@ -103,6 +103,9 @@ export default {
   computed: {
     collapseSidebar() {
       return this.$store.getters.collapseSidebar;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     },
     user() {
       return this.$store.getters.userInfo;

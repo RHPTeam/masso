@@ -1,33 +1,30 @@
 <template>
-  <div class="ct wrap--footer">
+  <div class="ct wrap--footer py_4">
     <div class="m_0 text_center content">
       <div class="d_inline_flex">
-        <div>
-<!--          <icon-base-->
-<!--            icon-name="logo"-->
-<!--            width="210.21"-->
-<!--            height="78.65"-->
-<!--            viewBox="0 0 250.446 93.703"-->
-<!--          >-->
-<!--            <icon-logo />-->
-<!--          </icon-base>-->
-          <h1 class="icon--logo">Z</h1>
+        <div class="copyright d_flex align_items_center mr_3">
+          <icon-base
+            icon-name="logo"
+            width="20"
+            height="20"
+            viewBox="0 0 220 220"
+          >
+            <icon-logo-icon/>
+          </icon-base>
+          <div class="ml_1">Zinbee © 2019</div>
         </div>
-        <div class="language text_left">
-          <p>Facebook © 2019</p>
-          <button class="d_inline_flex this--language">
-            <div>Tiếng Việt</div>
-            <div class="icon">
-              <icon-base
-                icon-name="edit"
-                width="25"
-                height="25"
-                viewBox="0 0 50 50"
-              >
-                <icon-edit />
-              </icon-base>
-            </div>
-          </button>
+        <div class="language d_flex align_items_center">
+          <div class="text">Tiếng Việt</div>
+          <div class="icon--edit ml_1">
+            <icon-base
+              icon-name="edit"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+            >
+              <icon-edit />
+            </icon-base>
+          </div>
         </div>
       </div>
     </div>
@@ -35,5 +32,21 @@
 </template>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+.wrap--footer{
+  color: #666666;
+  font-size: .875rem;
+  .language{
+    color: #666;
+    cursor: pointer;
+    .icon--edit{
+      margin: 0;
+      color: #999999;
+    }
+    .text {
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
 </style>

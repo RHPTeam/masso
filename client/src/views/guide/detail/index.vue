@@ -1,19 +1,19 @@
 <template>
-  <div class="ct">
+  <div class="ct mt_0 mb_5">
     <div class="wrap--name-expect">
       <div class="r m_0">
-        <div class="c_3 list--problem">
-          <nav>
+        <div class="c_3 list--problem px_0 pt_5">
+          <nav class="navigation">
             <ul>
-              <li>Đăng nhập và mật khẩu</li>
-              <li>Trang cá nhân và cài đặt của bạn</li>
-              <li>Tên trên Facebook</li>
-              <li>Giữ an toàn cho tài khoản của bạn</li>
-              <li>Thông báo</li>
+              <li class="navigation--item">Đăng nhập và mật khẩu</li>
+              <li class="navigation--item">Trang cá nhân và cài đặt của bạn</li>
+              <li class="navigation--item">Tên trên Facebook</li>
+              <li class="navigation--item">Giữ an toàn cho tài khoản của bạn</li>
+              <li class="navigation--item">Thông báo</li>
             </ul>
           </nav>
         </div>
-        <div class="c_9 content">
+        <div class="c_9 content px_4 pt_5">
           <h2 class="title--question">Tên nào được phép trên Facebook?</h2>
           <div class="text">
             Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.

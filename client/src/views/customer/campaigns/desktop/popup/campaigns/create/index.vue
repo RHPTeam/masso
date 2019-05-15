@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content px_3 py_4" v-click-outside="close">
+      <div class="modal--content px_3 py_4">
         <div class="modal--header">
           <div class="title">Tạo mới chiến dịch</div>
         </div>
@@ -40,7 +40,9 @@ export default {
     return {
       newCampaign: {
         title: "",
-        description: ""
+        description: "",
+        startedAt: new Date(),
+        finishedAt: new Date()
       }
     };
   },
@@ -50,9 +52,6 @@ export default {
     }
   },
   methods: {
-    close(){
-      this.$emit( "closeCreateCamppaign", false );
-    },
     closePopup() {
       this.$emit( "closePopup", false );
     },
@@ -67,8 +66,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
-  textarea.modal--body-input {
-    resize: none;
-  }
+@import "../index.style";
+
+textarea.modal--body-input {
+  resize: none;
+}
 </style>
