@@ -24,13 +24,15 @@ const state = {
   actions = {
     getFacebookPages: async ( { commit } ) => {
       commit( "setFacebookPagesStatus", "loading" );
-      await PageFacebookServices.update();
 
       const res = await PageFacebookServices.index();
 
       await commit( "setFacebookPages", res.data.data );
       commit( "setFacebookPagesStatus", "success" );
 
+    },
+    updateFacebookPages: () => {
+      PageFacebookServices.update();
     }
   };
 
