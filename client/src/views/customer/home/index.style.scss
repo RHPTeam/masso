@@ -73,6 +73,7 @@
     flex-flow: row wrap;
     border-left: solid 1px $table-border;
     transition: 0.5s;
+    color: $color-dark-2;
     &:first-of-type {
       border-top: solid 1px $table-header-border;
       border-left: solid 1px $table-header-border;
@@ -80,7 +81,7 @@
     }
     &:first-of-type .flex-row {
       background: $table-header;
-      color: white;
+      color: $color-dark-2;
       border-color: $table-header-border;
     }
     &.row:nth-child(odd) .flex-row {
@@ -136,6 +137,10 @@
 
 }
 
+
+// Theme dark
+
+
 .wrapper[data-theme="dark"]{
   .total{
     .content{
@@ -161,10 +166,19 @@
     .order, .view--post-day{
       background: #ccc;
     }
-    .flex-table {
-      &:first-of-type .flex-row{
-        background: #94928d;
-      }
-    }
+    //.flex-table {
+    //  &:first-of-type .flex-row{
+    //    background: #f4f2f1;
+    //  }
+    //}
+  }
+}
+
+
+// responsive
+
+@media screen and (max-width: 1199px) {
+  .server{
+    background: #fff;
   }
 }

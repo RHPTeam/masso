@@ -11,7 +11,7 @@
         <div class="overview">
           <!--    Start total-->
           <div class="r total">
-            <div class="c_5 content" style="maxHeight: 367px">
+            <div class="c_xl_5 c_lg_12 c_md_12 c_sm_12 c_12 content">
               <div class="r pd15">
                 <div class="c_6 text_center">
                   <div class="wrap">
@@ -87,19 +87,19 @@
                 </div>
               </div>
             </div>
-            <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
+            <div class="c_xl_7 c_lg_12 c_md_12 c_sm_12 c_12 line--chart" style="maxHeight: 367px; padding-top: 10px">
               <apexchart type=line height=350 :options="chartOptionsLine" :series="allStaticCompaign" />
             </div>
           </div>
           <!--    End total-->
           <!--    Start Order History-->
           <div class="r order--server-history">
-            <div class="c_6 server" style="max-height: 405px;">
+            <div class="c_xl_6 c_lg_12 c_md_12 c_sm_12 c_12 server mb_3" style="max-height: 405px;">
               <div class="view--post-day">
                 <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
               </div>
             </div>
-            <div class="c_6 order" style="max-height: 405px;">
+            <div class="c_xl_6 c_lg_12 c_md_12 c_sm_12 c_12 order mb_3" style="max-height: 405px;">
               <h3 class="title--overview">Bài viết gần đây</h3>
               <div class="table-container" role="table" aria-label="Destinations">
                 <div class="flex-table header" role="rowgroup">
