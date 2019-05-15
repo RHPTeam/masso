@@ -66,6 +66,8 @@ Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadIm
 
 // Icon Logo
 Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
+Vue.component( "IconLogoIcon", () => import( "@/components/icons/IconLogoIcon" ) );
+Vue.component( "IconLogoIconWhite", () => import( "@/components/icons/IconLogoIconWhite" ) );
 Vue.component( "IconLocation", () => import( "@/components/icons/IconLocation" ) );
 Vue.component( "IconLogoShort", () =>
   import( "@/components/icons/IconLogoShort" )

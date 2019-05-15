@@ -1,23 +1,20 @@
 <template>
   <div class="content--header-help">
     <div class="ct">
-      <div class="r m_0">
+      <div class="r mx_0 mb_3">
         <!-- Start header logo help   -->
         <div class="c_md_3">
-          <div class="logo d_inline_flex">
-<!--            <icon-base-->
-<!--              icon-name="logo"-->
-<!--              width="160"-->
-<!--              height="59.86"-->
-<!--              viewBox="0 0 250.446 93.703"-->
-<!--            >-->
-<!--              <icon-logo />-->
-<!--            </icon-base>-->
-            <div class="icon">
-              <h1>Z</h1>
-            </div>
-            <div class="center--support">
-              <p>Trung tâm trợ giúp</p>
+          <div class="logo d_flex align_items_center">
+            <icon-base
+              icon-name="logo"
+              width="40px"
+              height="40px"
+              viewBox="0 0 200 200"
+            >
+              <icon-logo-icon-white/>
+            </icon-base>
+            <div class="center--support ml_2">
+              Trung tâm trợ giúp
             </div>
           </div>
         </div>
@@ -28,9 +25,9 @@
             <div class="search">
               <icon-base
                 icon-name="search"
-                width="20"
-                height="20"
-                viewBox="0 0 25 25"
+                width="26"
+                height="24"
+                viewBox="0 0 24 24"
               >
                 <icon-input-search />
               </icon-base>
@@ -40,17 +37,23 @@
         </div>
         <!-- End search help   -->
         <!-- Start back facebook   -->
-        <div class="c_md_3">
+        <div class="c_md_3 d_flex align_items_center">
           <div class="content--back">
-            <p><icon-base
-              icon-name="back"
-              width="25"
-              height="25"
-              viewBox="0 0 25 25"
-            >
-              <icon-logout />
-            </icon-base></p>
-            <p>Quay lại facebook</p>
+            <div class="icon">
+              <icon-base
+                icon-name="back"
+                width="25"
+                height="22"
+                viewBox="0 0 25 25"
+              >
+                <icon-logout />
+              </icon-base>
+            </div>
+            <router-link to="/">
+              <div class="text">
+                Quay lại Zinbee
+              </div>
+            </router-link>
           </div>
         </div>
         <!-- End back facebook   -->
@@ -60,69 +63,69 @@
       <div class="wrap--nav">
         <nav>
           <ul class="menu--help d_inline_flex">
-            <li class="flex_fill home">
+            <li class="menu--help-item flex_fill item--active">
               <a href="">Trang chủ</a>
             </li>
-            <li class="flex_fill">
+            <li class="menu--help-item flex_fill">
               Sử dụng facebook
-              <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+              <ul class="dropdown--menu">
+                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
+                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
+                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
+                <li class="dropdown--menu-item"><a href="">Video</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang</a></li>
               </ul>
             </li>
-            <li class="flex_fill">
+            <li class="menu--help-item flex_fill">
               Quản lý tài khoản
-              <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+              <ul class="dropdown--menu">
+                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
+                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
+                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
+                <li class="dropdown--menu-item"><a href="">Video</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang</a></li>
               </ul>
             </li>
-            <li class="flex_fill">Quyền riêng tư và an toàn
-              <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+            <li class="menu--help-item flex_fill">Quyền riêng tư và an toàn
+              <ul class="dropdown--menu">
+                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
+                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
+                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
+                <li class="dropdown--menu-item"><a href="">Video</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang</a></li>
               </ul>
             </li>
-            <li class="flex_fill">Chính sách và báo cáo
-              <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+            <li class="menu--help-item flex_fill">Chính sách và báo cáo
+              <ul class="dropdown--menu">
+                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
+                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
+                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
+                <li class="dropdown--menu-item"><a href="">Video</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang</a></li>
               </ul>
             </li>
-            <li class="flex_fill">
+            <li class="menu--help-item flex_fill">
               <a href="">
                 <div class="mail--help d_flex">
-                  <p class="icon--envelop-help">
+                  <div class="icon--envelope mr_1">
                     <icon-base
                       icon-name="mail"
-                      width="25"
-                      height="25"
-                      viewBox="0 0 25 25"
+                      width="22"
+                      height="20"
+                      viewBox="0 0 22 22"
                     >
-                      <icon-mail />
+                      <icon-envelope />
                     </icon-base>
-                  </p>
-                  <p>Hộp thư hỗ trợ</p>
+                  </div>
+                  <div>Hộp thư hỗ trợ</div>
                 </div>
               </a>
             </li>

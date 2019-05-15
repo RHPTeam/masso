@@ -54,9 +54,12 @@
 
 <script>
 import AppFilter from "./filter/index";
+import CreateCampaignPopup from "../../popup/campaigns/create";
+
 export default {
   components: {
-    AppFilter
+    AppFilter,
+    CreateCampaignPopup
   },
   props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {
