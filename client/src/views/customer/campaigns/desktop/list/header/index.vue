@@ -46,7 +46,9 @@
 			<create-campaign-popup
         v-if="isShowCreatCampaignPopup === true"
         @closePopup="isShowCreatCampaignPopup = $event"
-      />
+        @closeCreateCamppaign="isShowCreatCampaignPopup = $event"
+      >
+      </create-campaign-popup>
 		</transition>
 		<!--	End: Create Campaign Popup	-->
   </div>
