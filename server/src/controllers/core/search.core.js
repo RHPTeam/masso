@@ -1,57 +1,179 @@
 /* eslint-disable strict */
-const cheerio = require( "cheerio" ),
+const fs = require( "fs" ),
+  cheerio = require( "cheerio" ),
   request = require( "request" ),
-  { postsSearch } = require( "../../configs/crawl" ),
-  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
+  { post, postsSearch } = require( "../../configs/crawl" ),
+  { getDtsgAg } = require( "../../helpers/utils/dtsgfb.util" ),
   { findSubString } = require( "../../helpers/utils/functions.util" ),
-  getAllPostBySearch = ( { cookie, agent, url, token } ) => {
+  getPost = ( { cookie, agent, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
-        "method": "POST",
-        "url": url,
+        "method": "GET",
+        "url": post( id ),
         "headers": {
           "User-Agent": agent,
-          "Cookie": cookie,
-          "Accept": "/"
-        },
-        "form": {
-          "__user": findSubString( cookie, "c_user=", ";" ),
-          "fb_dtsg": token
+          "Cookie": cookie
         }
       };
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
-          let $ = cheerio.load( body ), results = [], linkcallback = $( "div#see_more_pager" ).find( "a" ).attr( "href" );
+          let $ = cheerio.load( body ),
+            pageCase = $( "div.permalinkPost" ).find( "div.userContentWrapper" ),
+            photos = [];
 
-          $( "div#BrowseResultsContainer" )
-            .find( "div.bt.bu" )
+          // other
+          if ( pageCase.length > 0 ) {
+            $( "div.permalinkPost" )
+              .find( "div.userContentWrapper" )
+              .find( "a[rel*='theater']" )
+              .each( function() {
+                photos.push( $( this ).attr( "data-ploi" ) );
+              } );
+            
+            resolve( {
+              "error": {
+                "code": 200,
+                "text": null
+              },
+              "results": {
+                "markup": $( "div.permalinkPost" )
+                  .find( "div.userContentWrapper" )
+                  .find( "div.userContent" )
+                  .html(),
+                "photos": photos.filter( ( photo ) => photo !== undefined )
+              }
+            } );
+          }
+          
+          // profile
+          $( "div.hidden_elem" )
+            .find( "code" )
             .each( function() {
-              // Check id two type: Profile and Group
-              const linkID = $( this ).find( "span[id*='like_']" ).attr( "id" );
+              let tempDOM = $( this ).html(),
+                tempText = findSubString( tempDOM, "<!--", "-->" );
 
-              if ( linkID === undefined ) {
-                return resolve( {
-                  "error": {
-                    "code": 404,
-                    "text": "Class chứa link id bài viết tìm kiếm bị hỏng hoặc đã bị thay thế!"
-                  },
-                  "results": []
-                } );
+              if ( tempText.includes( 'role="feed"' ) ) {
+                $ = cheerio.load( tempText, { "decodeEntities": false } );
+                $( "div" )
+                  .find( "div.userContentWrapper" )
+                  .find( "a[rel*='theater']" )
+                  .each( function() {
+                    photos.push( $( this ).attr( "data-ploi" ) );
+                  } );
+              }
+            } );
+
+          resolve( {
+            "error": {
+              "code": 200,
+              "text": null
+            },
+            "results": {
+              "markup": $( "div" )
+                .find( "div.userContent" )
+                .html(),
+              "photos": photos.filter( ( photo ) => photo !== undefined )
+            }
+          } );
+
+        }
+
+        resolve( {
+          "error": {
+            "code": 404,
+            "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+          },
+          "results": []
+        } );
+      } );
+    } );
+  },
+  getAllPostBySearch = ( { cookie, agent, url } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "GET",
+        "url": url,
+        "headers": {
+          "User-Agent": agent,
+          "Cookie": cookie
+        }
+      };
+
+      request( option, async ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          let $ = cheerio.load( body ),
+            results = [];
+
+          $( "div[data-module-result-type='story']" )
+            .children( "div" )
+            .each( async function() {
+              let postID = null,
+                like = 0,
+                share = 0,
+                postInfo = null,
+                pointID = $( this )
+                  .find( "a[data-sigil='feed-ufi-trigger']" )
+                  .attr( "href" );
+
+              // ID
+              if ( pointID !== undefined ) {
+                postID = findSubString( pointID, "&id=", "&" );
+
+                if ( pointID.includes( "story_fbid=" ) ) {
+                  postID = findSubString( pointID, "story_fbid=", "&" );
+                } else if ( pointID.includes( "?fbid=" ) ) {
+                  postID = findSubString( pointID, "?fbid=", "&" );
+                }
+              }
+
+              // Like
+              like = $( this )
+                .find(
+                  "div[data-sigil='reactions-sentence-container'] > div:nth-child(2)"
+                )
+                .text();
+              
+              // Comment
+              share = $( this ).find( "span[data-sigil='comments-token']" ).next().text();
+
+              if ( share === undefined ) {
+                share = "0";
               }
 
               results.push( {
-                "postID": findSubString( $( this ).find( "span[id*='like_']" ).attr( "id" ), "like_" )
+                "postID": postID,
+                "like": like,
+                "share": share
               } );
 
-              return resolve( {
-                "postscurrent": results,
-                "linkcallback": linkcallback
-              } );
-
+              if ( postID === null || like === undefined ) {
+                results.pop();
+              }
             } );
+          
+          results = await Promise.all( results.map( async ( result ) => {
+            postInfo = await getPost( { cookie, agent, "id": result.postID } );
+
+            return {
+              "postID": result.postID,
+              "like": result.like,
+              "share": result.share,
+              "markup": postInfo.results.markup,
+              "photos": postInfo.results.photos
+            };
+          } ) );
+
+          resolve( {
+            "error": {
+              "code": 200,
+              "text": null
+            },
+            "results": results
+          } );
         }
-        return resolve( {
+
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -64,9 +186,9 @@ const cheerio = require( "cheerio" ),
 
 module.exports = {
   "searchPost": async ( { keyword, number, cookie, agent } ) => {
-    let url = postsSearch( keyword ),
-      token = await getDtsgFB( { cookie, agent } ),
-      results = [];
+    let token = await getDtsgAg( { cookie, agent } ),
+      results = [],
+      page = 0;
 
     if ( token === false ) {
       return {
@@ -78,25 +200,21 @@ module.exports = {
       };
     }
 
-    for ( let i = 1; i <= Math.ceil( number / 12 ); i++ ) {
-      const data = await getAllPostBySearch( { cookie, agent, url, token } );
-
-      url = data.linkcallback;
-      if ( i === Math.ceil( number / 12 ) ) {
-        let range = number - 12 * ( i - 1 );
-
-        if ( number < 12 ) {
-          range = number;
-        }
-        if ( range > 0 ) {
-          results = results.concat( data.postscurrent.slice( 0, range ) );
-        } else {
-          results = results.concat( data.postscurrent );
-        }
-      } else {
-        results = results.concat( data.postscurrent );
-      }
+    // Check number to generate page to post facebook
+    if ( number % 12 === 0 ) {
+      page = number / 12;
+    } else {
+      page = parseInt( number / 12 + 1 );
     }
+
+    // Get post by page with size = 12
+    for ( let i = 1; i <= page; i++ ) {
+      const url = postsSearch( keyword, token, i ),
+        data = await getAllPostBySearch( { cookie, agent, url } );
+
+      results = results.concat( data.results );
+    }
+
     return results;
   }
 };
