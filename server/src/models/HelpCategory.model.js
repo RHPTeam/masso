@@ -1,7 +1,7 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
-  CategoryHelpSchema = new Schema( {
+  HelpCategorySchema = new Schema( {
     "title": String,
     "level": Number, // 1 2 3
     "parent": String,
@@ -15,6 +15,6 @@ const mongoose = require( "mongoose" ),
     }
   } ),
 
-  CategoryHelp = mongoose.model( "CategoryHelp", CategoryHelpSchema );
+  HelpCategory = mongoose.model( "HelpCategory", HelpCategorySchema );
 
-module.exports = CategoryHelp;
+module.exports = HelpCategory;
