@@ -13,6 +13,7 @@ const cookieParser = require( "cookie-parser" );
 const mongoose = require( "mongoose" );
 const passport = require( "passport" );
 const Role = require( "./src/models/Role.model" );
+const Help = require( "./src/models/Help.model" );
 
 const io = require( "socket.io-client" ),
   socket = io.connect( "http://45.119.83.116:8288/", { "reconnection": true } );
@@ -59,6 +60,20 @@ roleDefault = async () => {
 };
 
 roleDefault();
+
+// Create help when not have
+helpDefault = async () => {
+  const foundHelp = await Help.find( {} );
+
+  if ( foundHelp.length === undefined || foundHelp.length === 0 ) {
+    const defaultHelp = await new Help( {} );
+
+    await defaultHelp.save();
+  }
+};
+
+helpDefault();
+
 const Account = require( "./src/models/Account.model" );
 
 

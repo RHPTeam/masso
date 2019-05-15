@@ -13,4 +13,7 @@ router
   .patch( BlogHelpController.update )
   .post( BlogHelpController.create )
   .delete( BlogHelpController.delete );
+router
+  .route( "/search" )
+  .post( BlogHelpController.searchBlog );
 module.exports = router;

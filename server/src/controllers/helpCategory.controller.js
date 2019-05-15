@@ -9,10 +9,10 @@
 
 const BlogHelp = require( "../models/BlogHelp.model" );
 const HelpCategory = require( "../models/HelpCategory.model" );
+const Account = require( "../models/Account.model" );
 
 const jsonResponse = require( "../configs/res" );
 const secure = require( "../helpers/utils/secure.util" );
-const dictionary = require( "../configs/dictionaries" );
 
 module.exports = {
   /**
@@ -83,9 +83,8 @@ module.exports = {
     } else if ( findHelpCategory._account.toString() !== userId ) {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho danh mục này!" } );
     }
-    if ( req.body.blogHelp ) {
-      findHelpCategory._blogHelp.push( req.body.blogHelp );
-      await findHelpCategory.save();
+    if ( req.body._blogHelp ) {
+      req.body.vote = req.body._blogHelp.concat( findHelpCategory._blogHelp );
     }
 
     res.status( 201 ).json( jsonResponse( "success", await HelpCategory.findByIdAndUpdate( req.query._categoryId, { "$set": req.body }, { "new": true } ) ) );
@@ -100,21 +99,22 @@ module.exports = {
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
       findHelpCategory = await HelpCategory.findById( req.query._categoryId ),
-      findBlogHelp = await BlogHelp.find( { "_account": userId, "_categories": req.query._categoryId } );
-
+      findAccount = await Account.findOne( { "_id": userId } );
     // Check ctach when delete help categories
+
     if ( !findHelpCategory ) {
       return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
     }
-
-    // When delete auto which all of post of that auto will deleted
-    if ( findBlogHelp.length > 0 ) {
-      await Promise.all( findBlogHelp.map( async ( blog ) => {
-        await blog.remove();
-      } ) );
+    if ( !findAccount ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
 
+    // When delete auto which all of help of that auto will deleted
+    await Promise.all( findHelpCategory._blogHelp.map( async ( blogHelp ) => {
+      let findBlogHelp = await BlogHelp.findOne( { "_id": blogHelp } );
 
+      await findBlogHelp.remove();
+    } ) );
     await HelpCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   }
