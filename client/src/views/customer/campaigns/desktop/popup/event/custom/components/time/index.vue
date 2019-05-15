@@ -21,11 +21,13 @@
         <div class="desc mr_3">Thời gian bắt đầu sự kiện:</div>
         <time-picker
           v-model="yourTimeValue"
+          @change="changeTimeSetup"
         />
         <date-picker 
           class="ml_3"
-          @selected="updateDate"
+          @selected="changeDateSetup"
           :disabledDates="disabledDates"
+          v-model="currrentDefault"
         />
       </div>
       <div class="break d_flex align_items_center">
@@ -55,12 +57,37 @@ export default {
         mm: "00"
       },
       timeNumberDefault: 15,
-      timeDescDefault: "Phút"
+      timeDescDefault: "Phút",
+      currrentDefault: new Date()
+    }
+  },
+  watch: {
+    "timeNumberDefault"( val ) {
+      localStorage.setItem( "breakPoin", val );
     }
   },
   methods: {
-    updateDate( val ) {
-      console.log("hola");
+    changeTimeSetup( val ) {
+      const setTime = {
+        year: this.currrentDefault.getFullYear(),
+        month: this.currrentDefault.getMonth(),
+        date: this.currrentDefault.getDate(),
+        hour: parseInt( val.HH ),
+        minute: parseInt( val.mm )
+      };
+      const result = new Date( setTime.year, setTime.month, setTime.date, setTime.hour, setTime.minute );
+      localStorage.setItem( "startAt", result );
+    },
+    changeDateSetup( val ) {
+      const setTime = {
+        year: val.getFullYear(),
+        month: val.getMonth(),
+        date: val.getDate(),
+        hour: parseInt( this.yourTimeValue.HH ),
+        minute: parseInt( this.yourTimeValue.mm )
+      };
+      const result = new Date( setTime.year, setTime.month, setTime.date, setTime.hour, setTime.minute );
+      localStorage.setItem( "startAt", result );
     }
   },
 }

@@ -2,9 +2,9 @@
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center">
       <div class="modal--content">
-<!--        v-click-outside="close"-->
+        <!-- v-click-outside="close"-->
         <!-- Start: Modal Header -->
-        <app-header :status="isTypeEvent" @change="isTypeEvent = $event" />
+        <app-header :status="isTypeEvent" @change="isTypeEvent = $event" @closeNow="close($event)" />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <div class="body">
@@ -41,9 +41,16 @@ export default {
       return this.$store.getters.themeName;
     }
   },
+  async created(){
+    await this.$store.dispatch( "getAllCategories" );
+    await this.$store.dispatch( "getAllPostGroups" );
+    await this.$store.dispatch( "getAllPost" );
+    await this.$store.dispatch( "getFacebookGroups" );
+    this.$store.dispatch( "getFacebookPages" );
+  },
   methods: {
-    close() {
-      this.$emit("close", false);
+    close(val) {
+      this.$emit("close", val);
     }
   }
 }

@@ -49,6 +49,7 @@
     <!-- Start: Show option detail -->
     <custom-post
       v-show="isShowOption === 'custom'"
+      @closeCustom="isShowOption = $event"
     />
     <!-- End: Show option detail -->
   </div>

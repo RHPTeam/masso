@@ -12,7 +12,7 @@
         />
       </div>
       <div class="right d_flex align_items_center">
-        <div class="button copy mr_2">
+        <div class="button copy mr_2" @click="closeNow">
           <icon-base
             class="ic--copy"
             icon-name="ic--copy"
@@ -119,17 +119,60 @@ export default {
       }
     }
   },
+  watch: {
+    "event.title"( val ){
+      localStorage.setItem( "title", val );
+    }
+  },
   methods: {
+    closeNow(){
+      this.$emit( "closeNow", false );
+    },
     closeColorGrid() {
       this.isShowColorDropdown = false;
     },
+    changeColor( val ){
+      localStorage.setItem( "color", val );
+    },
     changeStatus(status) {
       this.$emit( "change", status );
+      if( status === true) {
+        localStorage.setItem( "typeEvent", 0 );
+      } else {
+        localStorage.setItem( "typeEvent", 1 );
+      }
     },
     createEvent() {
       if ( this.event.title.length === 0 ) {
         this.error = true;
         return;
+      } else {
+        const newArr = JSON.parse(localStorage.getItem("postCustom"));
+        if(newArr){
+          const art = newArr.map(item => {
+            return item._id;
+          });
+        }
+        const dataSender = {
+          break_poin: localStorage.getItem( "breakPoin" ),
+          color: localStorage.getItem( "color" ),
+          post_category: localStorage.getItem( "postCategory" ),
+          // post_custom: art,
+          target_category: localStorage.getItem( "targetCategory" ),
+          target_custom: JSON.parse(localStorage.getItem( "targetCustom" )),
+          title: localStorage.getItem( "title" ),
+          type_event: localStorage.getItem( "typeEvent" ),
+          started_at: localStorage.getItem( "startAt")
+        };
+        console.log( dataSender );
+        const objSender = {
+          campaignsId: this.$route.params.campaignId,
+          content: dataSender
+        };
+        console.log(objSender);
+        this.$store.dispatch( "createdNewEvent", objSender);
+        localStorage.clear();
+        console.log("done");
       }
     }
   }

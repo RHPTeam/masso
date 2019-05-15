@@ -30,6 +30,8 @@
         <div class="option">
           <multiselect
             label="title"
+            :options="categories"
+            @input="selectCategories"
             placeholder="Chọn danh mục đăng bài "
           />
         </div>
@@ -48,9 +50,19 @@ export default {
   components: {
     GlobalOption
   },
+  computed: {
+    categories(){
+      return this.$store.getters.allCategories;
+    }
+  },
   methods: {
     closeOptionCategory() {
       this.$emit( "closeCate", "none");
+    },
+    selectCategories( val ){
+      console.log( val );
+      localStorage.removeItem("postCustom");
+      localStorage.setItem("postCategory", val._id);
     }
   },
 }

@@ -14,22 +14,22 @@
         </icon-base>
         <span>Nơi đăng</span>
       </div>
-      <div class="desc" v-if="isShowOptionPostGroup === true">
+      <div class="desc" v-if="isShowOptionTarget === 'group'">
         <div class="group">
           <span class="title py_1 px_2 mr_3">Đăng tới nhóm cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = true">Thay đổi</span>
+          <span class="change" @click="backDefaultPostOption">Thay đổi</span>
         </div>
       </div>
-      <div class="desc" v-if="isShowOptionPostCustom === true">
+      <div class="desc" v-if="isShowOptionTarget === 'page'">
         <div class="page">
           <span class="title px_2 py_1 mr_3">Đăng tới nhóm, trang cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = true">Thay đổi</span>
+          <span class="change" @click="backDefaultPostOption">Thay đổi</span>
         </div>
       </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="isShowOptionTarget === true">
+    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="isShowOptionTarget === 'none'">
       <div class="card mr_2" @click="showOptionPostGroup">
         <div class="card_body">
           <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
@@ -46,11 +46,11 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-if="isShowOptionPostGroup === true" />
+    <target-group v-if="isShowOptionTarget === 'group'" />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
-    <target-custom v-if="isShowOptionPostCustom === true" />
+    <target-custom v-if="isShowOptionTarget === 'page'" />
     <!-- End: Show Option Page -->
 
     <!-- Start: Option Timer -->
@@ -74,22 +74,32 @@ export default {
   },
   data() {
     return {
-      isShowOptionTarget: true,
-      isShowOptionPostGroup: false,
-      isShowOptionPostCustom: false,
+      isShowOptionTarget: "none"
     }
   },
-  mounted(){
-    
-  },
   methods: {
+    attachVaribaleLocalStorage(){
+      if(localStorage.YourVariables) {
+        this.isShowOptionTarget = FunctionLocalStorage.getLocalStorage("YourVariables");
+      }
+    },
+    backDefaultPostOption(){
+      FunctionLocalStorage.setLocaStorage("none");
+      this.attachVaribaleLocalStorage();
+    },
     showOptionPostGroup() {
-      this.isShowOptionTarget = false;
-      this.isShowOptionPostGroup = true;
+      if(localStorage.targetCustom){
+        localStorage.removeItem("targetCustom");
+      }
+      FunctionLocalStorage.setLocaStorage("group");
+      this.attachVaribaleLocalStorage();
     },
     showOptionPostCustom() {
-      this.isShowOptionTarget = false;
-      this.isShowOptionPostCustom = true;
+      if(localStorage.targetCategory){
+        localStorage.removeItem("targetCategory");
+      }
+      FunctionLocalStorage.setLocaStorage("page");
+      this.attachVaribaleLocalStorage();
     }
   },
 }

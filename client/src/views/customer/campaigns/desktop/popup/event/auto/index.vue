@@ -22,6 +22,11 @@ export default {
     return {
       dateNow: new Date()
     }
+  },
+  watch: {
+    dateNow(val){
+      localStorage.setItem( "startAt", val );
+    }
   }
 }
 </script>

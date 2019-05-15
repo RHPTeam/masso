@@ -5,6 +5,8 @@
       <div class="main">
         <multiselect
           label="title"
+          :options="groupPost"
+          @input="selectGroupPost"
         />
       </div>
       <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
@@ -14,7 +16,21 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      cats: []
+    }
+  },
+  computed: {
+    groupPost(){
+      return this.$store.getters.postGroups;
+    }
+  },
+  methods: {
+    selectGroupPost( val ) {
+      localStorage.setItem('targetCategory', val._id);
+    }
+  },
 }
 </script>
 
