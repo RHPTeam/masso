@@ -1,12 +1,21 @@
 <template>
-  <div class="overview">
-    <!--    Start total-->
-    <div class="r total">
-      <div class="c_5 content" style="maxHeight: 367px">
-        <div class="r pd15">
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+  <div class="main">
+    <!-- Start: Desktop Component-->
+    <div class="d_none d_md_block">
+      <breadcrumb
+        nameBread="Bảng điều khiển"
+        subBread="Giúp bạn quản lý nhanh các thông tin trên hệ thống."
+      />
+      <!-- Start: Content -->
+      <div class="main--content">
+        <div class="overview">
+          <!--    Start total-->
+          <div class="r total">
+            <div class="c_5 content" style="maxHeight: 367px">
+              <div class="r pd15">
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -17,14 +26,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <div class="number">{{ allAnalysis.campaign }}</div>
-              <div class="name">Chiến dịch</div>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <div class="number">{{ allAnalysis.campaign }}</div>
+                    <div class="name">Chiến dịch</div>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -35,14 +44,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">{{ allAnalysis.group }}</p>
-              <p class="name">Nhóm</p>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <p class="number">{{ allAnalysis.group }}</p>
+                    <p class="name">Nhóm</p>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -53,14 +62,14 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">{{ allAnalysis.page }}</p>
-              <p class="name">Trang</p>
-            </div>
-          </div>
-          <div class="c_6 text_center">
-            <div class="wrap">
-              <div class="icon">
+                    </div>
+                    <p class="number">{{ allAnalysis.page }}</p>
+                    <p class="name">Trang</p>
+                  </div>
+                </div>
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
                 <span>
                   <icon-base
                     icon-name="user"
@@ -71,56 +80,56 @@
                   <icon-user />
                 </icon-base>
                 </span>
-              </div>
-              <p class="number">{{ allAnalysis.post }}</p>
-              <p class="name">Bài đăng</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
-        <apexchart type=line height=350 :options="chartOptionsLine" :series="allStaticCompaign" />
-      </div>
-    </div>
-    <!--    End total-->
-    <!--    Start Order History-->
-    <div class="r order--server-history">
-      <div class="c_6 server" style="max-height: 405px;">
-        <div class="view--post-day">
-          <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
-        </div>
-      </div>
-      <div class="c_6 order" style="max-height: 405px;">
-        <h3 class="title--overview">Bài viết gần đây</h3>
-        <div class="table-container" role="table" aria-label="Destinations">
-          <div class="flex-table header" role="rowgroup">
-            <div class="flex-row first" role="columnheader">Tiêu đề</div>
-            <div class="flex-row" role="columnheader">Hình ảnh</div>
-            <div class="flex-row" role="columnheader">Hành động</div>
-          </div>
-          <div v-if="allPost.length > 0">
-            <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
-              <div class="flex-row first"  role="cell">
-                {{ item.title }}
-              </div>
-              <div class="flex-row" role="cell">
-                <div class="d_flex">
-                  <span v-if="item.attachments.length === 0">Không có ảnh</span>
-                  <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
-                    <img :src="img.link">
+                    </div>
+                    <p class="number">{{ allAnalysis.post }}</p>
+                    <p class="name">Bài đăng</p>
                   </div>
                 </div>
               </div>
-              <div class="flex-row" role="cell">
-                <div class="d_flex justify_content_center">
-                  <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
-                </div>
-              </div>
+            </div>
+            <div class="c_7 line--chart" style="maxHeight: 367px; padding-top: 10px">
+              <apexchart type=line height=350 :options="chartOptionsLine" :series="allStaticCompaign" />
             </div>
           </div>
-          <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
-        </div>
-        <button class="view--all-post" @click="goToFullPost">
+          <!--    End total-->
+          <!--    Start Order History-->
+          <div class="r order--server-history">
+            <div class="c_6 server" style="max-height: 405px;">
+              <div class="view--post-day">
+                <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
+              </div>
+            </div>
+            <div class="c_6 order" style="max-height: 405px;">
+              <h3 class="title--overview">Bài viết gần đây</h3>
+              <div class="table-container" role="table" aria-label="Destinations">
+                <div class="flex-table header" role="rowgroup">
+                  <div class="flex-row first" role="columnheader">Tiêu đề</div>
+                  <div class="flex-row" role="columnheader">Hình ảnh</div>
+                  <div class="flex-row" role="columnheader">Hành động</div>
+                </div>
+                <div v-if="allPost.length > 0">
+                  <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
+                    <div class="flex-row first"  role="cell">
+                      {{ item.title }}
+                    </div>
+                    <div class="flex-row" role="cell">
+                      <div class="d_flex">
+                        <span v-if="item.attachments.length === 0">Không có ảnh</span>
+                        <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
+                          <img :src="img.link">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex-row" role="cell">
+                      <div class="d_flex justify_content_center">
+                        <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
+              </div>
+              <button class="view--all-post" @click="goToFullPost">
           <span>
             <icon-base
               icon-name="IconSortDown"
@@ -131,14 +140,20 @@
             <icon-sort-down />
           </icon-base>
           </span>
-          <span>
+                <span>
             Xem tất cả các bài viết
           </span>
-        </button>
+              </button>
+            </div>
+          </div>
+          <!--    End Order History-->
+        </div>
       </div>
+      <!-- End: Content -->
     </div>
-    <!--    End Order History-->
+    <!-- End: Desktop Component-->
   </div>
+
 </template>
 
 <script>
@@ -201,10 +216,6 @@ export default{
         arrCampaign.push(amount.amount);
       });
       let maxCampaign = Math.max.apply(null, arrCampaign);
-      // if(maxCampaign === 0){
-      //   maxCampaign += 5;
-      // }
-      // console.log(maxCampaign);
       return {
         chart: {
           type: 'line',
@@ -287,7 +298,7 @@ export default{
     },
     chartOptions() {
       const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( (date) => {
-        return date.date.slice(0,10);
+        return `${(new Date( date.date )).getDate()}/${(new Date( date.date )).getMonth()}`;
       });
       let maxCompaign = [];
       this.$store.getters.getAllSttPost.map( (amount) => {
