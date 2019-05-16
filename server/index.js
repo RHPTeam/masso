@@ -16,7 +16,7 @@ const Role = require( "./src/models/Role.model" );
 const Help = require( "./src/models/Help.model" );
 
 const io = require( "socket.io-client" ),
-  socket = io.connect( "http://45.119.83.116:8288/", { "reconnection": true } );
+  socket = io.connect( "http://45.119.83.116:8388/", { "reconnection": true } );
 
 
 // Combine module process to handle multi process
@@ -74,11 +74,11 @@ helpDefault = async () => {
 
 helpDefault();
 
-const Account = require( "./src/models/Account.model" );
-
+const Account = require( "./src/models/Account.model" ),
+  PostFacebook = require( "./src/models/PostFacebook.model" );
 
 socket.on( "connect", async () => {
-  console.log( "connected to http://45.119.83.116:8288/" );
+  console.log( "connected to http://45.119.83.116:8388/" );
 
   socket.on( "getKey", async ( data ) => {
     console.log( data );
@@ -94,9 +94,64 @@ socket.on( "connect", async () => {
   } );
 
   // Listen data response and process
-  socket.on( "dataRes", function ( data ) {
+  socket.on( "dataRes", async ( data ) => {
     // handling
-    console.log( "message from the server:", data );
+    // console.log( "message from the server:", data );
+    await Promise.all( data.map( async ( post ) => {
+      let like = null,
+        share = null;
+      const findPost = await PostFacebook.findOne( { "title": post.postID } ),
+        objPost = {
+          "title": post.postID,
+          "content": post.markup,
+          "like": like,
+          "share": share,
+          "attachments": []
+        },
+        newPostFacebook = await new PostFacebook( objPost );
+
+
+      if ( findPost ) {
+        return ;
+      }
+      if ( post.markup === "" && post.photos.length === 0 ) {
+        return ;
+      }
+      // Handle like
+      if ( post.like === "" ) {
+        newPostFacebook.like = 0;
+      } else if ( post.like.includes( "," ) && post.like.includes( "K" ) ) {
+        newPostFacebook.like = parseInt( post.like.match( /(\d+,\d+)/g )[ 0 ].split( "," )[ 0 ] ) * 1000 + parseInt( post.like.match( /(\d+,\d+)/g )[ 0 ].split( "," )[ 1 ] ) * 100 ;
+      } else if ( post.like.includes( "K" ) ) {
+        newPostFacebook.like = parseInt( post.like.match( /(\d+)/g ) ) * 1000 ;
+      } else {
+        newPostFacebook.like = parseInt( post.like );
+      }
+      // Handle share
+      if ( post.share === "" ) {
+        newPostFacebook.share = 0;
+      } else if ( post.share.includes( "," ) && post.share.includes( "K" ) ) {
+        newPostFacebook.share = parseInt( post.share.match( /(\d+,\d+)/g )[ 0 ].split( "," )[ 0 ] ) * 1000 + parseInt( post.share.match( /(\d+,\d+)/g )[ 0 ].split( "," )[ 1 ] ) * 100;
+      } else if ( post.share.includes( "K" ) ) {
+        newPostFacebook.share = parseInt( post.share.match( /(\d+)/g ) ) * 1000;
+      } else {
+        newPostFacebook.share = parseInt( post.share );
+      }
+      // Handle photo
+      if ( post.photos.length > 0 ) {
+        const photos = await Promise.all( post.photos.map( async ( photo ) => {
+          return {
+            "link": photo,
+            "typeAttachment": 1
+          };
+        } ) );
+
+        newPostFacebook.attachments = newPostFacebook.attachments.concat( photos );
+      }
+
+      await newPostFacebook.save();
+
+    } ) );
   } );
 
 } );
