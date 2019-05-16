@@ -146,7 +146,7 @@ export default {
       }
     },
     createEvent() {
-      if ( this.event.title.length === 0 ) {
+      if ( this.title.length === 0 ) {
         this.error = true;
         return;
       } else {
