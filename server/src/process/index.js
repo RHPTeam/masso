@@ -68,7 +68,7 @@ const fs = require( "fs" ),
   handleManyTarget = async ( input, data, point ) => {
     await Promise.all( data.map( async ( target ) => {
       GLOBAL.set( target._id, new CronJob( `* ${point} * * * *`, async function () {
-        // Handle custom post event choose custom
+        // Handle detail post event choose detail
         let facebook = {},
           postSelected = getRandom( input, 1 ),
           feed = defineFeedFacebook( postSelected[ 0 ], target, 1 );
@@ -107,7 +107,7 @@ const fs = require( "fs" ),
       const groupInfo = await GroupFacebook.find( { "groupId": input } );
 
       feed = defineFeedFacebook( postSelected[ 0 ], { "id": input }, 2 );
-      facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );cdm
+      facebook = await Facebook.findOne( { "_id": groupInfo[ 0 ]._facebook } );
     } else if ( type === 2 ) {
       const pageInfo = await PageFacebook.find( { "pageId": input } );
 

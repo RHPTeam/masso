@@ -35,7 +35,7 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_6 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn btn--orange" @click="isShowCreateEvent = true"
+          <button class="btn btn--orange" @click="openPopupCreateEvent"
           >Thêm sự kiện</button>
 
         </div>
@@ -111,7 +111,8 @@ export default {
   props: [ "view" ],
   data() {
     return {
-      isShowCreateEvent: false
+      isShowCreateEvent: false,
+      event: 1
     }
   },
   computed: {
@@ -154,8 +155,11 @@ export default {
           title: this.campaignDetail.title
         }
       };
-
       this.$store.dispatch( "updateCampaignDetail", objSender );
+    },
+    openPopupCreateEvent(){
+      this.isShowCreateEvent = true;
+      localStorage.setItem("typeEvent", this.event);
     }
   }
 };

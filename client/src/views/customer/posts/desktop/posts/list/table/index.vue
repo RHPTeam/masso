@@ -2,7 +2,7 @@
   <div class="post--data my_3" :data-theme="currentTheme">
     <div class="item--header d_flex align_items_center px_3 py_2">
       <!--<div class="col col--checkbox px_2">
-        <label class="custom--checkbox mb_0">
+        <label class="detail--checkbox mb_0">
           <input type="checkbox" />
         </label>
       </div>-->

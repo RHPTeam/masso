@@ -104,9 +104,9 @@ module.exports = {
         errors.push( event.title );
       }
     } ) );
-    if ( errors.length > 0 ) {
-      return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
-    }
+    // if ( errors.length > 0 ) {
+    //   return res.status( 404 ).json( { "status": "error", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
+    // }
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );

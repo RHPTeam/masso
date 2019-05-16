@@ -8,7 +8,7 @@
         <div class="c_12">
           <div class="section--content">
             <label class="mb_3"><b>Ngày áp dụng:</b></label>
-            <date-picker class="time" role="date" v-model="dateNow" />
+            <date-picker class="time" role="date" v-model="eventDetail.started_at" />
           </div>
         </div>
       </div>
@@ -18,9 +18,19 @@
 
 <script>
 export default {
+  props: {
+    eventDetail: {
+      type: Object
+    },
+  },
   data() {
     return {
       dateNow: new Date()
+    }
+  },
+  watch: {
+    "eventDetail.started_at"(val){
+      localStorage.setItem( "startAt", val );
     }
   }
 }

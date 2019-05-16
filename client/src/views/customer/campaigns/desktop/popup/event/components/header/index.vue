@@ -7,12 +7,12 @@
       <div class="left mr_3">
         <input
           type="text"
-          v-model="event.title"
+          v-model="title"
           placeholder="Nhập tên sự kiện"
         />
       </div>
       <div class="right d_flex align_items_center">
-        <div class="button copy mr_2">
+        <div class="button copy mr_2" @click="closeNow">
           <icon-base
             class="ic--copy"
             icon-name="ic--copy"
@@ -34,8 +34,11 @@
             <icon-remove />
           </icon-base>
         </div>
-        <div class="button save" @click.prevent="createEvent">
+        <div v-if="statusControlButtonEvent === false" class="button save" @click.prevent="createEvent">
           TẠO MỚI
+        </div>
+        <div v-if="statusControlButtonEvent === true" class="button save" @click.prevent="updateEventById">
+          CẬP NHẬT
         </div>
       </div>
     </div>
@@ -107,30 +110,94 @@
 <script>
 export default {
   props: {
-    status: Boolean
+    statusControlButtonEvent: Boolean,
+    status: Boolean,
   },
   data() {
     return {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ],
       isShowColorDropdown: false,
       error: false,
-      event: {
-        title: ""
-      }
+      title: ""
+    }
+  },
+  watch: {
+    "title"( val ){
+      localStorage.setItem( "title", val );
     }
   },
   methods: {
+    closeNow(){
+      this.$emit( "closeNow", false );
+    },
     closeColorGrid() {
       this.isShowColorDropdown = false;
     },
+    changeColor( val ){
+      localStorage.setItem( "color", val );
+    },
     changeStatus(status) {
+      console.log(status);
       this.$emit( "change", status );
+      if( status === true) {
+        localStorage.setItem( "typeEvent", 0 );
+      } else {
+        localStorage.setItem( "typeEvent", 1 );
+      }
     },
     createEvent() {
       if ( this.event.title.length === 0 ) {
         this.error = true;
         return;
+      } else {
+        if(localStorage.postCustom) {
+          const newArr = JSON.parse(localStorage.getItem("postCustom"));
+          const art = newArr.map(item => {
+            return item._id;
+          });
+          const dataSender = {
+            break_point: localStorage.getItem( "breakPoint" ),
+            color: localStorage.getItem( "color" ),
+            post_category: localStorage.getItem( "postCategory" ),
+            post_custom: art,
+            target_category: localStorage.getItem( "targetCategory" ),
+            target_custom: JSON.parse(localStorage.getItem( "targetCustom" )),
+            title: localStorage.getItem( "title" ),
+            type_event: localStorage.getItem( "typeEvent" ),
+            started_at: localStorage.getItem( "startAt")
+          };
+          const objSender = {
+            campaignsId: this.$route.params.campaignId,
+            content: dataSender
+          };
+          console.log(objSender);
+          this.$store.dispatch( "createdNewEvent", objSender);
+          localStorage.clear();
+        } else {
+          const dataSender = {
+            break_point: localStorage.getItem( "breakPoint" ),
+            color: localStorage.getItem( "color" ),
+            post_category: localStorage.getItem( "postCategory" ),
+            post_custom: JSON.parse(localStorage.getItem( "postCustom" )),
+            target_category: localStorage.getItem( "targetCategory" ),
+            target_custom: JSON.parse(localStorage.getItem( "targetCustom" )),
+            title: localStorage.getItem( "title" ),
+            type_event: localStorage.getItem( "typeEvent" ),
+            started_at: localStorage.getItem( "startAt")
+          };
+          const objSender = {
+            campaignsId: this.$route.params.campaignId,
+            content: dataSender
+          };
+          console.log(objSender);
+          this.$store.dispatch( "createdNewEvent", objSender);
+          localStorage.clear();
+        }
+        this.closeNow();
       }
+    },
+    updateEventById(){
+      console.log("hello");
     }
   }
 }
