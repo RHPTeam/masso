@@ -1,9 +1,12 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
-  CategoryHelpSchema = new Schema( {
+  HelpCategorySchema = new Schema( {
     "title": String,
-    "level": Number, // 1 2 3
+    "level": {
+      "type": Number,
+      "default": 1
+    }, // 1 2 3
     "parent": String,
     "_blogHelp": [ {
       "type": Schema.Types.ObjectId,
@@ -15,6 +18,6 @@ const mongoose = require( "mongoose" ),
     }
   } ),
 
-  CategoryHelp = mongoose.model( "CategoryHelp", CategoryHelpSchema );
+  HelpCategory = mongoose.model( "HelpCategory", HelpCategorySchema );
 
-module.exports = CategoryHelp;
+module.exports = HelpCategory;

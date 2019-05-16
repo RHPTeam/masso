@@ -9,7 +9,7 @@ const mongoose = require( "mongoose" ),
     "color": String,
     "attachments": [ {
       "link": String,
-      "typeAttachment": Number
+      "typeAttachment": Number // 0 video 1 image
     } ],
     "place": String,
     "scrape": String,
@@ -22,7 +22,7 @@ const mongoose = require( "mongoose" ),
     "like": Number,
     "share": Number,
     "vote": Number,
-    "generate": Boolean,
+    "generate": Boolean, // 1 crawl, 0 user, admin
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
