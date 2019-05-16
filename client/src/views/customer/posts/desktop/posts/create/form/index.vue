@@ -42,48 +42,48 @@
               />
 
               <!--Start: Show tag and check in-->
-              <div class="mb_1 p_2">
-                <div class="d_flex align_items_center" v-if="nameFriend.length > 0">
+              <div class="tagger--summary mb_1 p_2">
+                <span class="" v-if="nameFriend.length > 0">
                   <span> — </span>
                   <!--Start: Show activity -->
-                  <div class="ml_1">
-                    <div v-if="post.activity === undefined || post.activity === ''"></div>
-                    <div v-else class="d_flex align_items_center">
-                      Đang <div class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></div> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
-                    </div>
-                  </div>
+                  <span class="pl_1">
+                    <span v-if="post.activity === undefined || post.activity === ''"></span>
+                    <span v-else class="">
+                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                    </span>
+                  </span>
                   <!--End: Show activity -->
                   <!--Start: Show tag friend-->
-                  <div class="ml_1">
-                    <div v-if="post.tags.length === 0"></div>
-                    <div v-else>
+                  <span class="pl_1">
+                    <span v-if="post.tags.length === 0"></span>
+                    <span v-else>
                         <!--Start:  If tag 1 friend-->
-                        <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
+                        <span class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></span>
                         <!--End: If tag 1 friend-->
                         <!--Start: If tags over 1 friend-->
-                        <div v-else class="result d_flex align_items_center">
-                          <div>với <span>{{ nameFriend[0] }}</span></div>
-                          <div class="more--other position_relative ml_1">
-                            và <span> {{ nameFriend.length - 1 }} người khác</span>
+                        <span v-else class="result">
+                          <span>với <span class="text--orange">{{ nameFriend[0] }}</span></span>
+                          <span class="more--other position_relative ml_1">
+                            và <span class="text--orange"> {{ nameFriend.length - 1 }} người khác</span>
                             <div class="more--friend position_absolute">
                               <div class="more--wrap">
                                 <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </span>
+                        </span>
                         <!--End: If tags over 1 friend-->
-                    </div>
-                  </div>
+                    </span>
+                  </span>
                   <!--End: Show tag friend-->
 
                   <!--Start: Show check in -->
-                  <div class="ml_1">
-                    <div v-if="post.place === '' || post.place === undefined"></div>
-                    <div v-else class="result">tại <span>{{ post.place }}</span></div>
-                  </div>
+                  <span class="ml_1">
+                    <span v-if="post.place === '' || post.place === undefined"></span>
+                    <span v-else class="result">tại <span class="text--orange">{{ post.place }}</span></span>
+                  </span>
                   <!--End: Show check in -->
-                </div>
+                </span>
               </div>
               <!--End: Show tag and check in-->
             </div>
@@ -368,55 +368,8 @@
   </div>
 </template>
 
-
-<script src="./index.script.js">
-
-</script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
 @import "./index.style";
-.aqua_hidden {
-  opacity: .5;
-}
-.emoji {
-  min-width: 0;
-  max-width: 25px;
-  height: 25px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 0 4px;
-}
-.result {
-  span {
-    color: $orange !important;
-    cursor: pointer;
-  }
-  .more--other {
-    color: #000;
-    &:hover, &:focus, &:active, &:visited {
-      >.more--friend {
-        display: block;
-      }
-    }
-  }
-  .more--friend {
-    background-color: $blackLight;
-    border: 1px solid $border-color;
-    border-radius: 6px;
-    color: $grayLight;
-    display: none;
-    top: 100%;
-    right: 0;
-    width: 150px;
-    z-index: 99;
-    .more--item {
-      padding: 4px 8px;
-    }
-  }
-}
-#content--special {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
 </style>

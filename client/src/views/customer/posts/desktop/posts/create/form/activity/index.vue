@@ -1,5 +1,5 @@
 <template>
-  <div class="activity">
+  <div class="activity" :data-theme="currentTheme">
     <!--Start: show option activity-->
     <div v-if="isShowActivityDefault === false" class="activity--default position_relative">
       <input type="text"
@@ -75,6 +75,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     activity() {
       return this.$store.getters.activity;
     },
