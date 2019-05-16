@@ -13,78 +13,82 @@
           <div class="r total">
             <div class="c_xl_5 c_lg_12 c_md_12 c_sm_12 c_12 content">
               <div class="r pd15">
+                <!-- Start: Posts -->
                 <div class="c_6 text_center">
                   <div class="wrap">
                     <div class="icon">
-                <span>
-                  <icon-base
-                    icon-name="user"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 17 17"
-                  >
-                  <icon-user />
-                </icon-base>
-                </span>
+                      <icon-base
+                        class="icon--post"
+                        icon-name="user"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 580 580"
+                      >
+                        <icon-post/>
+                      </icon-base>
+                    </div>
+                    <div class="number">{{ allAnalysis.post }}</div>
+                    <div class="name">Bài đăng</div>
+                  </div>
+                </div>
+                <!-- End: Posts -->
+                <!-- Start: Campaigns -->
+                <div class="c_6 text_center">
+                  <div class="wrap">
+                    <div class="icon">
+                      <icon-base
+                        class="icon--broadcast"
+                        icon-name="user"
+                        width="20"
+                        height="18"
+                        viewBox="0 0 22 22"
+                      >
+                        <icon-broadcast/>
+                      </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.campaign }}</div>
                     <div class="name">Chiến dịch</div>
                   </div>
                 </div>
+                <!-- End: Campaigns -->
+                <!-- Start: Groups -->
                 <div class="c_6 text_center">
                   <div class="wrap">
                     <div class="icon">
-                <span>
-                  <icon-base
-                    icon-name="user"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 17 17"
-                  >
-                  <icon-user />
-                </icon-base>
-                </span>
+                      <icon-base
+                        class="icon--group"
+                        icon-name="user"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 500 500"
+                      >
+                        <icon-group/>
+                      </icon-base>
                     </div>
-                    <p class="number">{{ allAnalysis.group }}</p>
-                    <p class="name">Nhóm</p>
+                    <div class="number">{{ allAnalysis.group }}</div>
+                    <div class="name">Nhóm</div>
                   </div>
                 </div>
+                <!-- End: Groups -->
+                <!-- Start: Pages -->
                 <div class="c_6 text_center">
                   <div class="wrap">
                     <div class="icon">
-                <span>
-                  <icon-base
-                    icon-name="user"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 17 17"
-                  >
-                  <icon-user />
-                </icon-base>
-                </span>
+                      <icon-base
+                        class="icon--page"
+                        icon-name="user"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 480 500"
+                      >
+                        <icon-page/>
+                      </icon-base>
                     </div>
-                    <p class="number">{{ allAnalysis.page }}</p>
-                    <p class="name">Trang</p>
+                    <div class="number">{{ allAnalysis.page }}</div>
+                    <div class="name">Trang</div>
                   </div>
                 </div>
-                <div class="c_6 text_center">
-                  <div class="wrap">
-                    <div class="icon">
-                <span>
-                  <icon-base
-                    icon-name="user"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 17 17"
-                  >
-                  <icon-user />
-                </icon-base>
-                </span>
-                    </div>
-                    <p class="number">{{ allAnalysis.post }}</p>
-                    <p class="name">Bài đăng</p>
-                  </div>
-                </div>
+                <!-- End: Pages -->
               </div>
             </div>
             <div class="c_xl_7 c_lg_12 c_md_12 c_sm_12 c_12 line--chart" style="maxHeight: 367px; padding-top: 10px">
@@ -96,7 +100,12 @@
           <div class="r order--server-history">
             <div class="c_xl_6 c_lg_12 c_md_12 c_sm_12 c_12 server mb_3" style="max-height: 405px;">
               <div class="view--post-day">
-                <apexchart type=line height=350 :options="chartOptions" :series="allSttPost" />
+                <VueApexCharts
+                  type="line"
+                  height="350"
+                  :options="chartOptions"
+                  :series="allSttPost"
+                ></VueApexCharts>
               </div>
             </div>
             <div class="c_xl_6 c_lg_12 c_md_12 c_sm_12 c_12 order mb_3" style="max-height: 405px;">
@@ -104,56 +113,51 @@
               <div class="table-container" role="table" aria-label="Destinations">
                 <div class="flex-table header" role="rowgroup">
                   <div class="flex-row first" role="columnheader">Tiêu đề</div>
+                  <div class="flex-row" role="columnheader">Danh mục</div>
                   <div class="flex-row" role="columnheader">Hình ảnh</div>
-                  <div class="flex-row" role="columnheader">Hành động</div>
                 </div>
                 <div v-if="allPost.length > 0">
-                  <div class="flex-table row" role="rowgroup" v-for="(item, index) in fivePost" :key="index">
-                    <div class="flex-row first"  role="cell">
-                      {{ item.title }}
+                  <div
+                    class="flex-table row"
+                    role="rowgroup"
+                    v-for="(item, index) in fivePost"
+                    :key="index"
+                    @click="goToThisPost(item._id)"
+                  >
+                    <div class="flex-row first" role="cell">{{ item.title }}</div>
+                    <div class="flex-row" role="cell">
+                      <span
+                        v-for="(category, index) in item._categories"
+                        :key="`c-${index}`"
+                      >{{ category.title + [ index === item._categories.length - 1 ? '' : ', ' ] }}</span>
                     </div>
                     <div class="flex-row" role="cell">
                       <div class="d_flex">
                         <span v-if="item.attachments.length === 0">Không có ảnh</span>
-                        <div v-else v-for="(img, index) in item.attachments" :key="`i-${index}`" class="img--select">
-                          <img :src="img.link">
+                        <div
+                          v-else
+                          v-for="(img, index) in item.attachments.slice(0, 3)"
+                          :key="`i-${index}`"
+                          class="img--select"
+                        >
+                          <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link">
                         </div>
-                      </div>
-                    </div>
-                    <div class="flex-row" role="cell">
-                      <div class="d_flex justify_content_center">
-                        <button class="btn btn_warning" @click="goToThisPost(item._id)">Đi tới</button>
                       </div>
                     </div>
                   </div>
                 </div>
                 <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
               </div>
-              <button class="view--all-post" @click="goToFullPost">
-          <span>
-            <icon-base
-              icon-name="IconSortDown"
-              width="18"
-              height="18"
-              viewBox="0 0 17 17"
-            >
-            <icon-sort-down />
-          </icon-base>
-          </span>
-                <span>
-            Xem tất cả các bài viết
-          </span>
-              </button>
             </div>
+            <!-- End: Content -->
           </div>
-          <!--    End Order History-->
+          <!-- End: Post Analytics -->
         </div>
       </div>
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
   </div>
-
 </template>
 
 <script>
@@ -395,6 +399,6 @@ export default{
 </script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "./index.style";
 </style>
 

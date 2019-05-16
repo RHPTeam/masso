@@ -1,5 +1,5 @@
 <template>
-  <div class="top d_flex justify_content_between align_items_center mb_4">
+  <div class="top d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
     <div class="top--search d_flex">
       <div class="input--wrap position_relative">
         <input type="text" placeholder="Tìm kiếm" v-model="search" />
@@ -15,7 +15,7 @@
         </div>
       </div>
 
-      <div class="btn btn_outline_warning ml_3" @click="isActivePopup = true">Kích hoạt bằng mã</div>
+      <div class="btn btn--active ml_3" @click="isActivePopup = true">Kích hoạt bằng mã</div>
     </div>
     <!-- <div class="d_none">{{ filteredSearch }}</div> -->
     <div class="d_flex justify_content_end align_items_center">

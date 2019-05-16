@@ -45,7 +45,6 @@ export default {
   },
   methods: {
     getParent(val){
-      console.log(val);
       this.cateparent.parent = val._id;
     },
     createNewCateAdmin(){

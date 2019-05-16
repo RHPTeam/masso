@@ -31,6 +31,7 @@ Vue.component( "IconFilter", () => import( "@/components/icons/IconFilter" ) );
 Vue.component( "IconFriend", () => import( "@/components/icons/IconFriend" ) );
 Vue.component( "IconGrid", () => import( "@/components/icons/IconGrid" ) );
 Vue.component( "IconGridLayout", () => import( "@/components/icons/IconGridLayout" ) );
+Vue.component( "IconGroup", () => import( "@/components/icons/IconGroup" ) );
 Vue.component( "IconHome", () => import( "@/components/icons/IconHome" ) );
 Vue.component( "IconHourglass", () => import( "@/components/icons/IconHourglass" ) );
 Vue.component( "IconInfo", () => import( "@/components/icons/IconInfinity" ) );
@@ -50,10 +51,12 @@ Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCoo
 Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
 Vue.component( "IconThreeDotsVerti", () => import( "@/components/icons/IconThreeDotsVerti" ) );
 Vue.component( "IconLogout", () => import( "@/components/icons/IconLogout" ) );
+Vue.component( "IconPage", () => import( "@/components/icons/IconPage" ) );
 Vue.component( "IconPhone", () => import( "@/components/icons/IconPhone" ) );
 Vue.component( "IconPhoneInfo", () => import( "@/components/icons/IconPhoneInfo" ) );
 Vue.component( "IconPlay", () => import( "@/components/icons/IconPlay" ) );
 Vue.component( "IconPlus", () => import( "@/components/icons/IconPlus" ) );
+Vue.component( "IconPost", () => import( "@/components/icons/IconPost" ) );
 Vue.component( "IconRemove", () => import( "@/components/icons/IconRemove" ) );
 Vue.component( "IconRole", () => import( "@/components/icons/IconRole" ) );
 Vue.component( "IconScript", () => import( "@/components/icons/IconScript" ) );
@@ -66,6 +69,8 @@ Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadIm
 
 // Icon Logo
 Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );
+Vue.component( "IconLogoIcon", () => import( "@/components/icons/IconLogoIcon" ) );
+Vue.component( "IconLogoIconWhite", () => import( "@/components/icons/IconLogoIconWhite" ) );
 Vue.component( "IconLocation", () => import( "@/components/icons/IconLocation" ) );
 Vue.component( "IconLogoShort", () =>
   import( "@/components/icons/IconLogoShort" )

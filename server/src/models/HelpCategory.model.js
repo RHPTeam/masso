@@ -3,7 +3,10 @@ const mongoose = require( "mongoose" ),
 
   HelpCategorySchema = new Schema( {
     "title": String,
-    "level": Number, // 1 2 3
+    "level": {
+      "type": Number,
+      "default": 1
+    }, // 1 2 3
     "parent": String,
     "_blogHelp": [ {
       "type": Schema.Types.ObjectId,

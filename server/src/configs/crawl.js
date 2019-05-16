@@ -37,11 +37,11 @@ module.exports = {
   "mpost": ( id ) => {
     return `https://m.facebook.com/${id}`;
   },
-  "pages": "https://www.facebook.com/bookmarks/pages",
-  "postsSearch": ( keyword ) => {
+  "pages": "https://www.facebook.com/unified_nav/pages_menu_items",
+  "postsSearch": ( keyword, token, page ) => {
     return `https://m.facebook.com/graphsearch/str/${encodeURI(
       keyword
-    )}/stories-keyword/stories-feed?tsid&source=pivot&pn=5`;
+    )}/stories-keyword/stories-feed?fb_dtsg_ag=${encodeURI( token )}&pn=${page}`;
   },
   "post": ( id ) => {
     return `https://www.facebook.com/${id}`;

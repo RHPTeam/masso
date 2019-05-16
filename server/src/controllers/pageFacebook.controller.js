@@ -59,9 +59,13 @@ module.exports = {
 
       // Handle code when fix add other item
       const pageListFixed = pageList.results.map( ( page ) => {
-        page._account = userId;
-        page._facebook = facebook._id;
-        return page;
+        return {
+          "pageId": page.page_id,
+          "name": page.page_display_name,
+          "profile_picture": page.page_image_src,
+          "_account": userId,
+          "_facebook": facebook._id
+        };
       } );
       // Delete all page facebook
       const findPageFacebook = await PageFacebook.find( { "_facebook": facebook._id } );

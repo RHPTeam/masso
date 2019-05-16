@@ -19,22 +19,6 @@
             </div>
           </div>
         </li>
-        <li>
-          <div>
-            <h3 class="parent">Parents</h3>
-            <div class="pl_3">
-              <h3 class="children">Children</h3>
-            </div>
-          </div>
-        </li>
-        <li>
-          <div>
-            <h3 class="parent">Parents</h3>
-            <div class="pl_3">
-              <h3 class="children">Children</h3>
-            </div>
-          </div>
-        </li>
       </ol>
     </div>
   </div>

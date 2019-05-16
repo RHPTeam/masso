@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" :data-theme="currentTheme">
+  <div class="wrapper">
     <!-- Start: Desktop Component-->
     <div class="wrap--content d_none d_md_block">
       <div class="wrap--content-header">
@@ -19,27 +19,20 @@
 
 <style lang="scss" scoped>
   .wrapper {
+    color: #666;
+    background-color: #fff;
     min-height: 100vh;
     .wrap--content-main {
       width: 100%;
-      padding: 30px 60px 60px 0;
+    }
+    .wrap--content-mobile {
+      background-color: #fff;
+    }
+    .wrap--content-footer {
+      background-color: #f7f7f7;
     }
     .mobile-scroll {
       height: calc(100vh - 110px);
     }
-  }
-
-  .wrapper[data-theme="light"] {
-    color: #666;
-    background-color: #f7f7f7;
-    .wrap--content-mobile {
-      background-color: #fff;
-    }
-    // background-color: #ddd;
-  }
-
-  .wrapper[data-theme="dark"] {
-    color: #ccc;
-    background-color: #2f3136;
   }
 </style>
