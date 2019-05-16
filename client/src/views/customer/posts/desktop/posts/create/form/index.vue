@@ -42,48 +42,48 @@
               />
 
               <!--Start: Show tag and check in-->
-              <div class="mb_1 p_2">
-                <div class="d_flex align_items_center" v-if="nameFriend.length > 0">
+              <div class="tagger--summary mb_1 p_2">
+                <span class="" v-if="nameFriend.length > 0">
                   <span> — </span>
                   <!--Start: Show activity -->
-                  <div class="ml_1">
-                    <div v-if="post.activity === undefined || post.activity === ''"></div>
-                    <div v-else class="d_flex align_items_center">
-                      Đang <div class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></div> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
-                    </div>
-                  </div>
+                  <span class="pl_1">
+                    <span v-if="post.activity === undefined || post.activity === ''"></span>
+                    <span v-else class="">
+                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                    </span>
+                  </span>
                   <!--End: Show activity -->
                   <!--Start: Show tag friend-->
-                  <div class="ml_1">
-                    <div v-if="post.tags.length === 0"></div>
-                    <div v-else>
+                  <span class="pl_1">
+                    <span v-if="post.tags.length === 0"></span>
+                    <span v-else>
                         <!--Start:  If tag 1 friend-->
-                        <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
+                        <span class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></span>
                         <!--End: If tag 1 friend-->
                         <!--Start: If tags over 1 friend-->
-                        <div v-else class="result d_flex align_items_center">
-                          <div>với <span>{{ nameFriend[0] }}</span></div>
-                          <div class="more--other position_relative ml_1">
-                            và <span> {{ nameFriend.length - 1 }} người khác</span>
+                        <span v-else class="result">
+                          <span>với <span class="text--orange">{{ nameFriend[0] }}</span></span>
+                          <span class="more--other position_relative ml_1">
+                            và <span class="text--orange"> {{ nameFriend.length - 1 }} người khác</span>
                             <div class="more--friend position_absolute">
                               <div class="more--wrap">
                                 <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </span>
+                        </span>
                         <!--End: If tags over 1 friend-->
-                    </div>
-                  </div>
+                    </span>
+                  </span>
                   <!--End: Show tag friend-->
 
                   <!--Start: Show check in -->
-                  <div class="ml_1">
-                    <div v-if="post.place === '' || post.place === undefined"></div>
-                    <div v-else class="result">tại <span>{{ post.place }}</span></div>
-                  </div>
+                  <span class="ml_1">
+                    <span v-if="post.place === '' || post.place === undefined"></span>
+                    <span v-else class="result">tại <span class="text--orange">{{ post.place }}</span></span>
+                  </span>
                   <!--End: Show check in -->
-                </div>
+                </span>
               </div>
               <!--End: Show tag and check in-->
             </div>
@@ -208,21 +208,21 @@
           <!-- End: Checkin-->
           <!--Start: Show option-->
           <ul
-            class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2"
+            class="list d_flex align_items_center justify_content_between mb_0 pl_0 m_1"
             v-if="isShowMoreOption === false"
           >
             <li class="item d_flex align_items_center" @click="showOptionPostImages">
               <label for="upload--images">
                 <icon-base
-                  class="ic--search"
-                  icon-name="upload-image"
-                  width="20"
-                  height="20"
+                  class="icon--image"
+                  icon-name="image"
+                  width="18"
+                  height="18"
                   viewBox="0 0 21 21"
                 >
-                  <icon-upload-image/>
+                  <icon-image/>
                 </icon-base>
-                <span>Đăng ảnh</span>
+                <span>Hình ảnh</span>
               </label>
               <form enctype="multipart/form-data" @submit.prevent="sendFile">
                 <input id="upload--images" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
@@ -230,10 +230,10 @@
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
-                class="ic--search"
+                class="icon--location"
                 icon-name="location"
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 60 60"
               >
                 <icon-location/>
@@ -242,18 +242,18 @@
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
-                class="ic--search"
+                class="icon--friend-tag"
                 icon-name="user"
                 width="20"
                 height="20"
-                viewBox="0 0 23 23"
+                viewBox="0 0 530 530"
               >
-                <icon-user/>
+                <icon-friend-tag/>
               </icon-base>
-              <span>Bạn bè</span>
+              <span>Gắn thẻ bạn bè</span>
             </li>
             <li class="item more d_flex align_items_center justify_content_between" @click="isShowMoreOption = true">
-              <div class="d_flex align_items_center">
+              <div class="d_flex align_items_center justify_content_center mx_auto">
                 <div class="dots"></div>
                 <div class="dots"></div>
                 <div class="dots"></div>
@@ -262,20 +262,23 @@
           </ul>
           <!-- End: show option-->
           <!--Start: Show option when click-->
-          <div v-if="isShowMoreOption === true">
-            <div class="list show d_flex align_items_center mt_2">
-              <div class="item d_flex align_items_center" :class="isActiveImage === true ? 'aqua_hidden' : ''" @click="showOptionPostImages">
+          <div v-if="isShowMoreOption === true" class="m_1">
+            <div class="list show d_flex align_items_center">
+              <div class="item d_flex align_items_center"
+                   :class="isActiveImage === true ? 'aqua_hidden' : ''"
+                   @click="showOptionPostImages"
+              >
                 <label for="upload">
                   <icon-base
-                    class="ic--search"
-                    icon-name="upload-image"
-                    width="20"
-                    height="20"
+                    class="icon--image"
+                    icon-name="image"
+                    width="18"
+                    height="18"
                     viewBox="0 0 21 21"
                   >
-                    <icon-upload-image/>
+                    <icon-image/>
                   </icon-base>
-                  <span>Đăng ảnh</span>
+                  <span>Hình ảnh</span>
                 </label>
                 <form enctype="multipart/form-data" @submit.prevent="sendFile">
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
@@ -283,10 +286,10 @@
               </div>
               <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
-                  class="ic--search"
+                  class="icon--location"
                   icon-name="location"
-                  width="20"
-                  height="20"
+                  width="18"
+                  height="18"
                   viewBox="0 0 60 60"
                 >
                   <icon-location/>
@@ -294,22 +297,22 @@
                 <span>Địa điểm</span>
               </div>
             </div>
-            <div class="list show d_flex align_items_center mt_1">
+            <div class="list show d_flex align_items_center">
               <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
-                  class="ic--search"
+                  class="icon--friend-tag"
                   icon-name="user"
                   width="20"
                   height="20"
-                  viewBox="0 0 23 23"
+                  viewBox="0 0 530 530"
                 >
-                  <icon-user/>
+                  <icon-friend-tag/>
                 </icon-base>
-                <span>Bạn bè</span>
+                <span>Gắn thẻ bạn bè</span>
               </div>
               <div class="item d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
-                  class="ic--search"
+                  class="icon--smile"
                   icon-name="feelings"
                   width="20"
                   height="20"
@@ -317,7 +320,7 @@
                 >
                   <icon-smile/>
                 </icon-base>
-                <span>Cảm xúc</span>
+                <span>Cảm xúc/Hoạt động</span>
               </div>
             </div>
           </div>
@@ -365,55 +368,8 @@
   </div>
 </template>
 
-
-<script src="./index.script.js">
-
-</script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
 @import "./index.style";
-.aqua_hidden {
-  opacity: .5;
-}
-.emoji {
-  min-width: 0;
-  max-width: 25px;
-  height: 25px;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  margin: 0 4px;
-}
-.result {
-  span {
-    color: $orange !important;
-    cursor: pointer;
-  }
-  .more--other {
-    color: #000;
-    &:hover, &:focus, &:active, &:visited {
-      >.more--friend {
-        display: block;
-      }
-    }
-  }
-  .more--friend {
-    background-color: $blackLight;
-    border: 1px solid $border-color;
-    border-radius: 6px;
-    color: $grayLight;
-    display: none;
-    top: 100%;
-    right: 0;
-    width: 150px;
-    z-index: 99;
-    .more--item {
-      padding: 4px 8px;
-    }
-  }
-}
-#content--special {
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-}
 </style>

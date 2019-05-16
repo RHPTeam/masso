@@ -1,8 +1,14 @@
 <template>
-  <div class="tag d_flex align_items_center">
+  <div class="tag d_flex align_items_center" :data-theme="currentTheme">
     <div class="fixed d_flex align_items_center justify_content_center">Với</div>
     <div class="right">
-      <multiselect class="tag--multi" :options="friendFb" label="text" multiple @input="update">
+      <multiselect
+        class="tag--multi"
+        :options="friendFb"
+        label="text" multiple
+        placeholder="Cùng với ai?"
+        @input="update"
+      >
         <template slot="option" slot-scope="option">
           <div class="d_flex align_items_center">
             <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.photo + ')' }"></div>
@@ -32,6 +38,9 @@ export default {
     };
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     friendFb(){
       return this.$store.getters.allFriend;
     }
@@ -62,15 +71,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../index.style";
+@import "../index.style";
+.right {
+  width: 100%;
+}
+.tag--multi .vs__dropdown-toggle {
+    border: none !important;
+}
+.tag--multi .vs__dropdown-toggle .vs__actions {
+    display: none;
+}
+/* Theme Color */
+.tag[data-theme="light"] {
   .right {
-    width: 100%;
     background-color: #fff;
   }
-  .tag--multi .vs__dropdown-toggle {
-      border: none !important;
+}
+.tag[data-theme="dark"] {
+  .right {
+    background-color: #27292c;
+    .tag--multi {
+
+    }
   }
-  .tag--multi .vs__dropdown-toggle .vs__actions {
-      display: none;
-  }
+}
 </style>
