@@ -34,6 +34,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     users() {
       return this.$store.getters.usersFilter;
     },

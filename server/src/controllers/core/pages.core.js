@@ -1,28 +1,26 @@
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable strict */
-const cheerio = require( "cheerio" ),
-  request = require( "request" ),
+const request = require( "request" ),
+  { findSubString } = require( "../../helpers/utils/functions.util" ),
+  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
   { pages } = require( "../../configs/crawl" ),
-  findData = ( str, start, end ) => {
-    return str.substring(
-      str.indexOf( start ) + 2,
-      str.indexOf( end, str.indexOf( start ) ) + 1
-    );
-  },
-  handle = ( { cookie, agent } ) => {
+  handle = ( { cookie, agent, token } ) => {
     return new Promise( ( resolve ) => {
       const option = {
-        "method": "GET",
+        "method": "POST",
         "url": pages,
         "headers": {
           "Cookie": cookie,
           "User-Agent": agent
+        },
+        "form": {
+          "__user": findSubString( cookie, "c_user=", ";" ),
+          "__a": "1",
+          "fb_dtsg": token
         }
       };
 
       request( option, function( _err, _res, body ) {
-        const $ = cheerio.load( body );
-
         if ( body.includes( "https://www.facebook.com/login" ) ) {
           resolve( {
             "error": {
@@ -32,40 +30,33 @@ const cheerio = require( "cheerio" ),
             "results": []
           } );
         } else {
-          const results = [],
-            dataFilter = $(
-              "script:contains('BookmarkSeeAllEntsSectionController')"
-            ).contents()[ "0" ].data,
-            data = findData( dataFilter, ",[{id:", "}]]]]" ),
-            findBy = ( str, index ) => {
-              let start = str.indexOf( 'id:"', index );
+          let bodyJson = JSON.parse( findSubString( body, "for (;;);" ) );
 
-              if ( start > 0 ) {
-                let end = str.indexOf( ",count:", start );
-
-                results.push( {
-                  "pageId": str
-                    .slice( start, end )
-                    .split( "," )[ 0 ]
-                    .replace( 'id:"', "" )
-                    .replace( '"', "" ),
-                  "name": str
-                    .slice( start, end )
-                    .split( "," )[ 1 ]
-                    .replace( 'name:"', "" )
-                    .replace( '"', "" )
-                } );
-                return findBy( str, end );
-              }
-              return results;
-            };
-
-          resolve( { "results": findBy( data, 0 ) } );
+          resolve( {
+            "error": {
+              "code": 200,
+              "text": null
+            },
+            "results": bodyJson.payload.items[ 0 ].sections
+          } );
         }
       } );
     } );
   };
 
 module.exports = async ( { cookie, agent } ) => {
-  return await handle( { cookie, agent } );
+  // Get token which can next do anymonre
+  const token = await getDtsgFB( { cookie, agent } );
+
+  // Check conditional request
+  if ( token === false ) {
+    return {
+      "error": {
+        "code": 405,
+        "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
+      },
+      "results": []
+    };
+  }
+  return await handle( { cookie, agent, token } );
 };

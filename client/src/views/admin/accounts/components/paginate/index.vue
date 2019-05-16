@@ -1,5 +1,5 @@
 <template>
-  <div class="paginate d_flex justify_content_between align_items_center mt_2">
+  <div class="paginate d_flex justify_content_between align_items_center mt_2" :data-theme="currentTheme">
     <div class="paginate--info">Hiển thị 25 trong số 100</div>
     <div
       class="paginate--content d_flex justify_content_end align_items_center"
@@ -20,12 +20,17 @@
 </template>
 
 <script>
-export default {};
+export default {
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  }
+};
 </script>
 
 <style scoped lang="scss">
 .paginate {
-  color: #999999;
   font-size: 12px;
   .paginate--content {
     a {
@@ -39,20 +44,37 @@ export default {};
     }
   }
   .paginate--button {
+    &.disabled {
+      pointer-events: none;
+    }
+  }
+  .paginate--page {
+    margin: 0 2px;
+  }
+  .paginate--dot {
+    margin: 0 15px;
+  }
+}
+
+/* Theme Color */
+/* Light */
+.paginate[data-theme="light"] {
+  color: #999999;
+  .paginate--content {
+    a {
+    }
+  }
+  .paginate--button {
     border: 1px solid transparent;
     &:hover {
       border-color: #ffb94a;
       color: #ffb94a;
-    }
-    &.disabled {
-      pointer-events: none;
     }
   }
   .paginate--page {
     background-color: #f7f7f7;
     border: 1px solid #f7f7f7;
     color: #666666;
-    margin: 0 2px;
     &.current,
     &:hover {
       background-color: #ffb94a;
@@ -60,8 +82,31 @@ export default {};
       color: #fff;
     }
   }
-  .paginate--dot {
-    margin: 0 15px;
+}
+/* Dark */
+.paginate[data-theme="dark"] {
+  color: #999999;
+  .paginate--content {
+    a {
+    }
+  }
+  .paginate--button {
+    border: 1px solid transparent;
+    &:hover {
+      border-color: #ffb94a;
+      color: #ffb94a;
+    }
+  }
+  .paginate--page {
+    background-color: #2f3136;
+    border: 1px solid #2f3136;
+    color: #ccc;
+    &.current,
+    &:hover {
+      background-color: #ffb94a;
+      border-color: #ffb94a;
+      color: #fff;
+    }
   }
 }
 </style>

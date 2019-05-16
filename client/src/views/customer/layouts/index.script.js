@@ -18,6 +18,10 @@ export default {
 
     // Check Login
     this.setCheckLogin();
+
+    // Update FB Pages & Group
+    this.$store.dispatch( "updateFacebookGroups" );
+    this.$store.dispatch( "updateFacebookPages" );
   },
   beforeDestroy() {
     this.stopUpdateTimer();

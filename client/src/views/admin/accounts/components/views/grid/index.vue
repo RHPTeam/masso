@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :data-theme="currentTheme">
     <div class="grid">
       <div
         class="grid--header d_flex align_items_center mb_1"
@@ -83,7 +83,7 @@
                 </div>
                 <div class="d_flex justify_content_between align_items_center data--wrap">
                   <div class="user--data">
-                    <div class="user--data-desc">Hoạt động</div>
+                    <div class="user--data-desc">Ngày hết hạn</div>
                     <div class="user--data-number mt_1 mb_1">
                       {{ user.expireDate | formatDate }}
                     </div>

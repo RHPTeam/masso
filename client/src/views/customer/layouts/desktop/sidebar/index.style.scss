@@ -95,6 +95,12 @@
             }
         }
     }
+  .menu--item.active {
+    a {
+      color: #f7f7f7;
+      font-weight: 600;
+    }
+  }
 }
 
 // Extra small devices (portrait phones, less than 576px)

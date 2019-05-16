@@ -18,16 +18,16 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: ""
+        to: "dashboard"
       },
       {
         text: "Bài đăng",
         icon: {
           iconName: "script",
-          tagName: "icon-script",
+          tagName: "icon-post",
           width: 20,
           height: 20,
-          viewBox: "0 0 24 24"
+          viewBox: "0 0 540 540"
         },
         to: "posts"
       },
