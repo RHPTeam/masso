@@ -59,6 +59,13 @@ module.exports = {
 
     // Save mongodb
     await newHelpCategory.save();
+    if ( req.body.parent ) {
+      const findHelpCategory = await HelpCategory.findOne( { "_id": req.body.parent } );
+
+      newHelpCategory.parent = req.body.parent;
+      newHelpCategory.level = findHelpCategory.level + 1;
+      await newHelpCategory.save();
+    }
 
     res.status( 200 ).json( jsonResponse( "success", newHelpCategory ) );
   },
@@ -82,6 +89,13 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Danh mục help không tồn tại!" } );
     } else if ( findHelpCategory._account.toString() !== userId ) {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho danh mục này!" } );
+    }
+    if ( req.body.parent ) {
+      const findParentHelpCategory = await HelpCategory.findOne( { "_id": req.body.parent } );
+
+      findHelpCategory.parent = req.body.parent;
+      findHelpCategory.level = findParentHelpCategory.level + 1;
+      await findHelpCategory.save();
     }
     if ( req.body._blogHelp ) {
       req.body.vote = req.body._blogHelp.concat( findHelpCategory._blogHelp );
