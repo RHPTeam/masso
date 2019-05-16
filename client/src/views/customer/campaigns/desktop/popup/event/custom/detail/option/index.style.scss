@@ -94,6 +94,11 @@
         cursor: pointer;
         width: 108px;
         padding: .35rem .5rem;
+        &.checked {
+          background-color: transparent;
+          color: $mainDarkLight;
+          cursor: default;
+        }
       }
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <div class="category">
-      <div class="top d_flex align_items_center py_3 px_3 mb_2" @click="closeOptionCategory">
+      <div class="top d_flex align_items_center py_3 px_3 mb_2" @click="resetPostType">
         <div class="icon">
           <icon-base
             class="icon--arrow-left"
@@ -28,10 +28,12 @@
           Vui lòng chọn một danh mục bài viết
         </div>
         <div class="option">
+
           <multiselect
             label="title"
+            :clearable="false"
             :options="categories"
-            @input="selectCategories"
+            @input="selectCategory"
             placeholder="Chọn danh mục đăng bài "
           />
         </div>
@@ -50,19 +52,30 @@ export default {
   components: {
     GlobalOption
   },
+  props: {
+    event: Object
+  },
   computed: {
     categories(){
       return this.$store.getters.allCategories;
     }
   },
   methods: {
-    closeOptionCategory() {
-      this.$emit( "closeCate", "none");
+    resetPostType() {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "target",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 0
+      } );
     },
-    selectCategories( val ){
-      console.log( val );
-      localStorage.removeItem("postCustom");
-      localStorage.setItem("postCategory", val._id);
+    selectCategory( category ){
+      this.$store.dispatch( "setEvent", {
+        key: "post_category",
+        value: category._id
+      } );
     }
   },
 }

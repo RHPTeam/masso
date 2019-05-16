@@ -1,7 +1,7 @@
 <template>
   <div class="wrap">
-    <div class="custom" v-if="isShowAllPostOptionDetail === false">
-      <div class="top d_flex align_items_center py_3 px_3 mb_2" @click="closeOptionCategory">
+    <div class="custom" v-if="caseEvent.libraries === 0">
+      <div class="top d_flex align_items_center py_3 px_3 mb_2" @click="resetPostType">
         <div class="icon">
           <icon-base
             class="icon--arrow-left"
@@ -19,10 +19,10 @@
         <!--Start: Results Option Post detail -->
         <div class="wrapper">
           <div class="desc d_flex align_items_center justify_content_between mb_2">
-            <div class="left text_center" @click="isShowAllPostOptionDetail = true">
-              Chọn
+            <div class="left text_center" @click="selectFromLibraries">
+              Chọn từ kho nội dung
             </div>
-            <div v-if="isShowAllPostOptionDetail === false">Đã chọn 5 trong số 20 bài viết</div>
+            <div>Đã chọn {{ event.post_custom.length }} trong số 20 bài viết</div>
           </div>
           <div class="item--header d_flex align_items_center px_3 py_2">
             <div class="col col--name px_2">Tên bài viết</div>
@@ -35,19 +35,19 @@
             </div>
           </div>
           <div>
-            <div v-if="!data" class="text_center py_2">Chưa có bài viết nào được chọn</div>
-            <div v-else class="item--body d_flex align_items_center px_3 py_2" v-for="(item, index) in data" :key="`d-${index}`">
+            <div class="text_center py_2" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
+            <div v-else class="item--body d_flex align_items_center px_3 py_2" v-for="(post, index) in event.post_custom" :key="`d-${index}`">
               <div class="col col--name px_2">
                 <div class="col col--name-text">
-                  {{item.title}}
+                  {{post.title}}
                 </div>
               </div>
               <div class="col col--category px_2">
-                <span v-for="(cate,index) in item._categories" :key="`c-${index}`">{{cate.title + ', '}}</span>
+                <span v-for="(cate,index) in post._categories" :key="`c-${index}`">{{cate.title + ', '}}</span>
               </div>
               <div class="col col--content px_2">
                 <div class="col--content-text">
-                  {{item.content}}
+                  {{post.content}}
                 </div>
               </div>
               <div class="col col--checkbox px_2" @click="removePostSelect(index)">
@@ -68,9 +68,7 @@
     </div>
     <!--Start: Show Option Post detail -->
     <custom-option
-      v-if="isShowAllPostOptionDetail === true"
-      @backOption="isShowAllPostOptionDetail = $event"
-      @listSelecOption="data = $event"
+      v-if="caseEvent.libraries === 1"
     />
     <!--End: Show Option Post detail -->
   </div>
@@ -84,26 +82,32 @@ export default {
     CustomOption,
     GlobalOption
   },
-  data() {
-    return {
-      isShowAllPostOptionDetail: false,
-      data: null
-    }
-  },
   computed: {
-    allPosts(){
-      return this.$store.getters.allPost;
+    caseEvent() {
+      return this.$store.getters.caseEvent;
+    },
+    event() {
+      return this.$store.getters.event;
     }
   },
   methods: {
-    closeOptionCategory() {
-      this.$emit( "closeCustom", "none");
+    resetPostType() {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "target",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 0
+      } );
     },
-    removePostSelect( val ) {
-      this.data.splice(val, 1);
-      localStorage.setItem( "postCustom", JSON.stringify(this.data) );
+    selectFromLibraries() {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "libraries",
+        value: 1
+      } );
     }
-  },
+  }
 }
 </script>
 
@@ -131,7 +135,7 @@ export default {
         cursor: pointer;
         height: 30px;
         line-height: 30px;
-        width: 80px;
+        width: 160px;
       }
     }
     .item--header {
