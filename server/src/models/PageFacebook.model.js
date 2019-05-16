@@ -1,15 +1,12 @@
 /* eslint-disable one-var */
 /* eslint-disable camelcase */
-const { url } = require( "../configs/server" ), mongoose = require( "mongoose" ),
+const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   PageFacebookSchema = new Schema( {
     "pageId": String,
     "name": String,
-    "profile_picture": {
-      "type": String,
-      "default": `${url}/uploads/defaults/pageicon.png`
-    },
+    "profile_picture": String,
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

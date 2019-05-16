@@ -1,16 +1,19 @@
 .wrap--name-expect{
   .list--problem{
-    li{
-      padding: 5px 10px;
-      cursor: pointer;
-      &:hover{
-        background: #27292c21;
+    .navigation {
+      ul{
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        .navigation--item {
+          cursor: pointer;
+          font-size: .875rem;
+          padding: .5rem .75rem;
+          &:hover{
+            background: #f7f7f7;
+          }
+        }
       }
-    }
-    ul{
-      list-style: none;
-      padding: 0;
-      margin: 0;
     }
   }
   .content{
@@ -20,7 +23,7 @@
       font-size: 25px;
       font-weight: bold;
       color: $color-light;
-      border-bottom: 1px solid $border-color-light;
+      border-bottom: 1px solid #e4e4e4;
     }
     .infor--useful{
       padding: 25px;
@@ -40,7 +43,7 @@
       h4{
         font-size: 15px;
         font-weight: bold;
-        border-bottom: 1px solid $border-color-light;
+        border-bottom: 1px solid #e4e4e4;
         margin-bottom: 10px;
         padding-bottom: 20px;
         color: $color-light;

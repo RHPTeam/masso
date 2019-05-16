@@ -89,6 +89,10 @@
   }
 }
 
+.text--bold {
+  font-weight: 600;
+}
+
 /*Transition popup*/
 .popup-enter-active, .popup-leave-active {
   transition: opacity 1s;
