@@ -112,7 +112,7 @@ export default {
   data() {
     return {
       isShowCreateEvent: false,
-      event: []
+      event: 1
     }
   },
   computed: {
@@ -155,12 +155,11 @@ export default {
           title: this.campaignDetail.title
         }
       };
-
       this.$store.dispatch( "updateCampaignDetail", objSender );
     },
     openPopupCreateEvent(){
       this.isShowCreateEvent = true;
-      localStorage.setItem("event", this.event);
+      localStorage.setItem("typeEvent", this.event);
     }
   }
 };

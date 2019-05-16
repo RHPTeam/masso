@@ -18,6 +18,7 @@
     <transition name="popup">
       <event-popup
         v-if="isOpenEventPopup"
+        :statusUpdateEvent="statusUpdateEvent"
         @closePopup="isOpenEventPopup = $event">
       </event-popup>
     </transition>
@@ -27,14 +28,17 @@
 
 <script>
 import AppHeader from "./header";
+import EventPopup from "@/views/customer/campaigns/desktop/popup/event";
 export default {
   components: {
     AppHeader,
+    EventPopup
   },
   data() {
     return {
       calendarView: "month",
-      isOpenEventPopup: false
+      isOpenEventPopup: false,
+      statusUpdateEvent: false
     };
   },
   computed: {
@@ -50,9 +54,10 @@ export default {
     await this.$store.dispatch( "getCampaignDetail", campaignId );
   },
   methods: {
-    openEventPopup( data ) {
-      this.$store.dispatch( "getEventById", data._id );
+    openEventPopup( val ) {
+      this.$store.dispatch( "getEventById", val._id );
       this.isOpenEventPopup = true;
+      this.statusUpdateEvent = true;
     }
   }
 };
