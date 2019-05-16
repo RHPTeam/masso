@@ -109,7 +109,7 @@
       }
     }
     .block--bg {
-      background-color: rgba(0, 0, 0, .5);
+      background-color: rgba(0, 0, 0, .4);
       height: 100%;
       left: 0;
       opacity: 0;
@@ -121,8 +121,8 @@
       .icon--remove {
         cursor: pointer;
         color: #cccccc;
-        stroke: #ccc;
-        stroke-width: .3;
+        stroke: #cccccc;
+        stroke-width: .5;
         transition: all .4s ease;
         &:hover {
           color: #ffffff;
@@ -201,8 +201,6 @@
     background-color: #efefef;
     border-bottom: 1px solid $border-color;
     font-size: .825rem;
-    //height: 36px;
-    //line-height: 36px;
     .fixed {
       background-color: #efefef;
       font-weight: 600;
@@ -213,13 +211,16 @@
       width: calc(100% - 46px);
       input {
         border: 0;
-        height: 36px;
-        line-height: 36px;
+        height: 40px;
+        line-height: 40px;
         width: 100%;
         padding-left: .75rem;
         &:hover, &:focus, &:active, &:visited {
           box-shadow: none;
           outline: 0;
+        }
+        &::placeholder {
+          color: #ccc;
         }
       }
     }
@@ -239,7 +240,7 @@
       text-overflow: ellipsis;
       transition: background-color .4s ease;
       white-space: nowrap;
-      width: calc(100% / 4);
+      width: 30%;
       svg {
         margin-bottom: -5px;
       }
@@ -251,18 +252,18 @@
         cursor: pointer;
         margin: 0;
       }
-    }
-    .more {
-      padding: 15.5px 0;
-      >div {
-        margin: 0 auto;
-        width: 30px;
-        .dots {
-          height: 5px;
-          width: 5px;
-          border-radius: 50%;
-          background-color: #999999;
-          margin: 0 2px;
+      &.more {
+        padding: 16px 0;
+        width: 10%;
+        div {
+          width: 30px;
+          .dots {
+            height: 4px;
+            width: 4px;
+            border-radius: 50%;
+            background-color: #999999;
+            margin: 0 1.5px;
+          }
         }
       }
     }

@@ -88,6 +88,7 @@ export default {
     background-color: $mainDefault;
     border: 1px solid $border-color;
     border-radius: 0 0 .5rem .5rem;
+    box-shadow: 0 0 10px rgba( 0, 0, 0, .1);
     left: -1px;
     padding-bottom: .375rem;
     width: calc( 100% + 2px );

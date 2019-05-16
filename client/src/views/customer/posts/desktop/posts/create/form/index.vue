@@ -250,10 +250,10 @@
               >
                 <icon-friend-tag/>
               </icon-base>
-              <span>Bạn bè</span>
+              <span>Gắn thẻ bạn bè</span>
             </li>
             <li class="item more d_flex align_items_center justify_content_between" @click="isShowMoreOption = true">
-              <div class="d_flex align_items_center">
+              <div class="d_flex align_items_center justify_content_center mx_auto">
                 <div class="dots"></div>
                 <div class="dots"></div>
                 <div class="dots"></div>
@@ -308,7 +308,7 @@
                 >
                   <icon-friend-tag/>
                 </icon-base>
-                <span>Bạn bè</span>
+                <span>Gắn thẻ bạn bè</span>
               </div>
               <div class="item d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
@@ -320,7 +320,7 @@
                 >
                   <icon-smile/>
                 </icon-base>
-                <span>Cảm xúc</span>
+                <span>Cảm xúc/Hoạt động</span>
               </div>
             </div>
           </div>
