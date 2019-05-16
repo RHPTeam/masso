@@ -2,7 +2,20 @@
   <div class="px_2">
     <VuePerfectScrollbar class="gallery justify_content_start align_items_center flex_wrap m_n1">
     <div class="gallery--block position_relative m_1" v-for="(item, index) in post.attachments" :key="index">
-      <img :src="item.link" alt>
+      <div class="block--img">
+        <img :src="item.link" alt>
+      </div>
+      <div class="block--bg position_absolute d_flex align_items_center justify_content_center">
+        <icon-base
+          class="icon--remove"
+          icon-name="remove"
+          width="20px"
+          heigh="20px"
+          viewBox="0 0 16 16"
+        >
+          <icon-remove/>
+        </icon-base>
+      </div>
     </div>
     <div class="gallery--block position_relative m_1">
       <label

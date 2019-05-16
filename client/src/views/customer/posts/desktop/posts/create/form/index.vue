@@ -208,19 +208,19 @@
           <!-- End: Checkin-->
           <!--Start: Show option-->
           <ul
-            class="list d_flex align_items_center justify_content_between mb_0 pl_0 mt_2"
+            class="list d_flex align_items_center justify_content_between mb_0 pl_0 m_1"
             v-if="isShowMoreOption === false"
           >
             <li class="item d_flex align_items_center" @click="showOptionPostImages">
               <label for="upload--images">
                 <icon-base
-                  class="icon--upload-image"
-                  icon-name="upload-image"
-                  width="20"
-                  height="20"
+                  class="icon--image"
+                  icon-name="image"
+                  width="18"
+                  height="18"
                   viewBox="0 0 21 21"
                 >
-                  <icon-upload-image/>
+                  <icon-image/>
                 </icon-base>
                 <span>Hình ảnh</span>
               </label>
@@ -232,8 +232,8 @@
               <icon-base
                 class="icon--location"
                 icon-name="location"
-                width="20"
-                height="20"
+                width="18"
+                height="18"
                 viewBox="0 0 60 60"
               >
                 <icon-location/>
@@ -242,13 +242,13 @@
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
-                class="icon--user"
+                class="icon--friend-tag"
                 icon-name="user"
                 width="20"
                 height="20"
-                viewBox="0 0 23 23"
+                viewBox="0 0 530 530"
               >
-                <icon-user/>
+                <icon-friend-tag/>
               </icon-base>
               <span>Bạn bè</span>
             </li>
@@ -262,18 +262,21 @@
           </ul>
           <!-- End: show option-->
           <!--Start: Show option when click-->
-          <div v-if="isShowMoreOption === true">
-            <div class="list show d_flex align_items_center mt_2">
-              <div class="item d_flex align_items_center" :class="isActiveImage === true ? 'aqua_hidden' : ''" @click="showOptionPostImages">
+          <div v-if="isShowMoreOption === true" class="m_1">
+            <div class="list show d_flex align_items_center">
+              <div class="item d_flex align_items_center"
+                   :class="isActiveImage === true ? 'aqua_hidden' : ''"
+                   @click="showOptionPostImages"
+              >
                 <label for="upload">
                   <icon-base
-                    class="ic--search"
-                    icon-name="upload-image"
-                    width="20"
-                    height="20"
+                    class="icon--image"
+                    icon-name="image"
+                    width="18"
+                    height="18"
                     viewBox="0 0 21 21"
                   >
-                    <icon-upload-image/>
+                    <icon-image/>
                   </icon-base>
                   <span>Hình ảnh</span>
                 </label>
@@ -283,10 +286,10 @@
               </div>
               <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
-                  class="ic--search"
+                  class="icon--location"
                   icon-name="location"
-                  width="20"
-                  height="20"
+                  width="18"
+                  height="18"
                   viewBox="0 0 60 60"
                 >
                   <icon-location/>
@@ -294,22 +297,22 @@
                 <span>Địa điểm</span>
               </div>
             </div>
-            <div class="list show d_flex align_items_center mt_1">
+            <div class="list show d_flex align_items_center">
               <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
-                  class="ic--search"
+                  class="icon--friend-tag"
                   icon-name="user"
                   width="20"
                   height="20"
-                  viewBox="0 0 23 23"
+                  viewBox="0 0 530 530"
                 >
-                  <icon-user/>
+                  <icon-friend-tag/>
                 </icon-base>
                 <span>Bạn bè</span>
               </div>
               <div class="item d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
-                  class="ic--search"
+                  class="icon--smile"
                   icon-name="feelings"
                   width="20"
                   height="20"
