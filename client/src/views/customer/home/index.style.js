@@ -15,7 +15,7 @@ export default {
     },
     fivePost() {
       if(Object.entries(this.allPost).length === 0 && this.allPost.constructor === Object) return;
-      return this.allPost.slice( 0, 5 );
+      return this.allPost.slice( -5 ).reverse();
     },
     allAnalysis() {
       return this.$store.getters.allAnalysis;
