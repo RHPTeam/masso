@@ -7,19 +7,19 @@
           <p class="title--home">Câu hỏi bạn có thể có</p>
           <ul>
             <li>
-              <a href="">Tên nào được phép trên Facebook?</a>
+              <div class="mb_2 ques" @click="goToQuestionsHelp">Tên nào được phép trên Facebook?</div>
             </li>
             <li>
-              <a href="">Làm cách nào để chọn nội dung thông báo tôi sẽ nhận trên Facebook?</a>
+              <div class="mb_2 ques">Làm cách nào để chọn nội dung thông báo tôi sẽ nhận trên Facebook?</div>
             </li>
             <li>
-              <a href="">Tôi có thể tìm thấy cài đặt trên Facebook của mình ở đâu?</a>
+              <div class="mb_2 ques">Tôi có thể tìm thấy cài đặt trên Facebook của mình ở đâu?</div>
             </li>
             <li>
-              <a href="">Làm cách nào để thay đổi hoặc đặt lại mật khẩu Facebook?</a>
+              <div class="mb_2 ques">Làm cách nào để thay đổi hoặc đặt lại mật khẩu Facebook?</div>
             </li>
             <li>
-              <a href="">Tại sao tôi nhận được thông báo lỗi cho biết tôi không thể trả lời cuộc trò chuyện trên Facebook?</a>
+              <div class="mb_2 ques">Tại sao tôi nhận được thông báo lỗi cho biết tôi không thể trả lời cuộc trò chuyện trên Facebook?</div>
             </li>
           </ul>
         </div>
@@ -116,6 +116,7 @@
 </template>
 <script>
 export default {
+  props: ['goToQuestionsHelp'],
   data() {
     return {
       srcDefault: require("@/assets/images/home-help.png")

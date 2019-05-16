@@ -21,15 +21,13 @@
   .question{
     .choose{
       ul{
-        li{
-          margin-bottom: 10px;
-        }
-        a{
+        .ques{
           background: $mainBrandColor;
           color: $color-dark;
           padding: 5px 25px;
           display: inline-block;
           border-radius: 15px;
+          cursor: pointer;
           &:hover{
             background: #ef9f20;
           }

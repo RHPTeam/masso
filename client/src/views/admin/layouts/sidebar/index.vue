@@ -71,6 +71,24 @@
             <span class="menu--item-text">Thư viện bài đăng</span>
           </a>
         </router-link>
+        <router-link
+          class="menu--item d_flex align_items_center"
+          tag="li"
+          :to="{ name: 'catagory' }"
+          active-class="active"
+        >
+          <a class="account">
+            <icon-base
+              icon-name="help"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <icon-info />
+            </icon-base>
+            <span class="menu--item-text">Help</span>
+          </a>
+        </router-link>
       </ul>
     </div>
   </div>
@@ -80,6 +98,7 @@
 
 import IconDashboard from "@/components/icons/IconDashboard";
 import IconManageAccount from "@/components/icons/IconManageAccount";
+
 export default {
   components: {
     IconDashboard,

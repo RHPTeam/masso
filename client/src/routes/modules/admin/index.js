@@ -32,6 +32,27 @@ const generalRouter = {
       path: "users",
       name: "admin_users",
       component: require( "@/views/admin/accounts" ).default
+    },
+    {
+      path: "help",
+      name: "admin_help",
+      component: require( "@/views/admin/help" ).default,
+      children: [
+        {
+          path: "",
+          name: "catagory",
+          component: require( "@/views/admin/help/listcatagory" ).default,
+        },
+        {
+          path: "add-post",
+          name: "add_post",
+          component: require( "@/views/admin/help/addpost" ).default,
+        },{
+          path: "add-catagory",
+          name: "add_catagory",
+          component: require( "@/views/admin/help/addcatagory" ).default,
+        }
+      ]
     }
   ]
 };

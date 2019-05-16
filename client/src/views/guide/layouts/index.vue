@@ -3,10 +3,10 @@
     <!-- Start: Desktop Component-->
     <div class="wrap--content d_none d_md_block">
       <div class="wrap--content-header">
-        <app-header />
+        <app-header :goToHomeHelp="goToHomeHelp"/>
       </div>
       <div class="wrap--content-main">
-        <router-view />
+        <router-view :goToQuestionsHelp="goToQuestionsHelp"/>
       </div>
       <div class="wrap--content-footer">
         <app-footer />

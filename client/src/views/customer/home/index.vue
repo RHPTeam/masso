@@ -385,10 +385,10 @@ export default{
   },
   methods: {
     goToThisPost( id ){
-      return this.$router.push({params: { id }, name: "update_post"})
+      this.$router.push({params: { id }, name: "update_post"})
     },
     goToFullPost(){
-      return this.$router.push({ name: "posts" })
+      this.$router.push({ name: "posts" })
     }
   }
 }

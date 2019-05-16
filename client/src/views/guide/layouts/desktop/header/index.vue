@@ -60,8 +60,8 @@
       <div class="wrap--nav">
         <nav>
           <ul class="menu--help d_inline_flex">
-            <li class="flex_fill home">
-              <a href="">Trang chủ</a>
+            <li class="flex_fill home" @click="goToHomeHelp">
+              <div>Trang chủ</div>
             </li>
             <li class="flex_fill">
               Sử dụng facebook
@@ -73,40 +73,47 @@
                 <li><a href="">Ảnh</a></li>
                 <li><a href="">Video</a></li>
                 <li><a href="">Trang</a></li>
+                <li><a href="">Nhóm</a></li>
+                <li><a href="">Sự kiện</a></li>
+                <li><a href="">Thanh toán</a></li>
+                <li><a href="">Marketplace</a></li>
+                <li><a href="">Ứng dụng và trò chơi</a></li>
+                <li><a href="">Ứng dụng Facebook trên di động và máy tính</a></li>
+                <li><a href="">Trợ năng</a></li>
               </ul>
             </li>
             <li class="flex_fill">
               Quản lý tài khoản
               <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+                <li><a href="">Đăng nhập và mật khẩu</a></li>
+                <li><a href="">Trang cá nhân và cài đặt của bạn</a></li>
+                <li><a href="">Tên trên Facebook</a></li>
+                <li><a href="">Giữ an toàn cho tài khoản của bạn</a></li>
+                <li><a href="">Thông báo</a></li>
+                <li><a href="">Tùy chọn quảng cáo</a></li>
+                <li><a href="">Truy cập & Tải thông tin xuống</a></li>
+                <li><a href="">Vô hiệu hóa hoặc xóa tài khoản của bạn</a></li>
               </ul>
             </li>
             <li class="flex_fill">Quyền riêng tư và an toàn
               <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+                <li><a href="">Quyền riêng tư của bạn</a></li>
+                <li><a href="">Giữ an toàn</a></li>
+                <li><a href="">Giữ an toàn cho tài khoản của bạn</a></li>
+                <li><a href="">Hủy kết bạn hoặc chặn ai đó</a></li>
+                <li><a href="">Tài khoản bị hack và giả mạo</a></li>
               </ul>
             </li>
             <li class="flex_fill">Chính sách và báo cáo
               <ul>
-                <li><a href="">Tạo Tài khoản</a></li>
-                <li><a href="">Kết bạn</a></li>
-                <li><a href="">Trang chủ của bạn</a></li>
-                <li><a href="">Nhắn tin</a></li>
-                <li><a href="">Ảnh</a></li>
-                <li><a href="">Video</a></li>
-                <li><a href="">Trang</a></li>
+                <li><a href="">Báo cáo lạm dụng</a></li>
+                <li><a href="">Báo cáo sự cố về Facebook</a></li>
+                <li><a href="">Báo cáo vi phạm quyền riêng tư</a></li>
+                <li><a href="">Tài khoản bị hack và giả mạo</a></li>
+                <li><a href="">Quản lý tài khoản của người đã qua đời</a></li>
+                <li><a href="">Tải lên giấy tờ tùy thân của bạn</a></li>
+                <li><a href="">Quyền sở hữu trí tuệ</a></li>
+                <li><a href="">Giới thiệu về chính sách của chúng tôi</a></li>
               </ul>
             </li>
             <li class="flex_fill">
@@ -133,7 +140,11 @@
   </div>
 
 </template>
-
+<script>
+export default {
+  props: [ "goToHomeHelp" ]
+}
+</script>
 <style lang="scss" scoped>
   @import "./index.style";
 </style>
