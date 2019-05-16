@@ -214,7 +214,7 @@
             <li class="item d_flex align_items_center" @click="showOptionPostImages">
               <label for="upload--images">
                 <icon-base
-                  class="ic--search"
+                  class="icon--upload-image"
                   icon-name="upload-image"
                   width="20"
                   height="20"
@@ -222,7 +222,7 @@
                 >
                   <icon-upload-image/>
                 </icon-base>
-                <span>Đăng ảnh</span>
+                <span>Hình ảnh</span>
               </label>
               <form enctype="multipart/form-data" @submit.prevent="sendFile">
                 <input id="upload--images" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
@@ -230,7 +230,7 @@
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
-                class="ic--search"
+                class="icon--location"
                 icon-name="location"
                 width="20"
                 height="20"
@@ -242,7 +242,7 @@
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
-                class="ic--search"
+                class="icon--user"
                 icon-name="user"
                 width="20"
                 height="20"
@@ -275,7 +275,7 @@
                   >
                     <icon-upload-image/>
                   </icon-base>
-                  <span>Đăng ảnh</span>
+                  <span>Hình ảnh</span>
                 </label>
                 <form enctype="multipart/form-data" @submit.prevent="sendFile">
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
