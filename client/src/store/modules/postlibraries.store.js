@@ -4,12 +4,14 @@ const state = {
   allPostLibraries: [],
   newPostLibraries: [],
   postLibraries: [],
+  postSearch: [],
   statusLib: ""
 };
 const getters = {
   allPostLibraries: state => state.allPostLibraries,
   newPostLibraries: state => state.newPostLibraries,
   postLibraries: state => state.postLibraries,
+  postSearch: state => state.postSearch,
   statusLib: state => state.statusLib
 };
 const mutations = {
@@ -27,6 +29,9 @@ const mutations = {
   },
   setPostLibraries: (state, payload) => {
     state.postLibraries = payload;
+  },
+  setPostSearchFromLibraries: (state, payload) => {
+    state.postSearch = state.postSearch.concat(payload);
   }
 };
 const actions = {
@@ -34,6 +39,8 @@ const actions = {
     commit( "lib_request" );
     const result = await PostLibrariesServices.create( payload );
     commit( "setNewPostLibraries", result.data.data );
+    const resultUpdate = await PostLibrariesServices.index();
+    commit ( "setAllPostLibraries", resultUpdate.data.data);
     commit( "lib_success" );
   },
   getAllPostLibraries: async ( { commit } ) => {
@@ -50,8 +57,8 @@ const actions = {
   },
   updatePostLibraries: async ( { commit }, payload ) => {
     commit( "post_request" );
-    await PostLibrariesServices.updatePost( payload._id, payload );
-    const result = await PostLibrariesServices.getById( payload._id );
+    await PostLibrariesServices.updatePost( payload.postId, payload.content );
+    const result = await PostLibrariesServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
     const resultUpdate = await PostLibrariesServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
@@ -61,11 +68,32 @@ const actions = {
     await PostLibrariesServices.updateAttachmentPost( payload.id, payload.formData );
     const result = await PostLibrariesServices.getById( payload.id );
     commit( "setPostLibraries", result.data.data );
+    const resultUpdate = await PostLibrariesServices.index();
+    commit ( "setAllPostLibraries", resultUpdate.data.data);
   },
   deletePostLibrariesFacebook: async ( { commit }, payload ) => {
     await PostLibrariesServices.deletePostFacebook(payload);
     const result = await PostLibrariesServices.index();
     commit( "setAllPostLibraries", result.data.data );
+  },
+  deleteItemAttachmentLibraries: async ( { commit }, payload ) => {
+    await PostLibrariesServices.deleteItemAttachment( payload.postId, payload.attachmentId );
+    const result = await PostLibrariesServices.getById( payload.postId );
+    commit( "setPostLibraries", result.data.data );
+    const results = await PostLibrariesServices.index();
+    commit( "setAllPostLibraries", results.data.data );
+  },
+  searchPostFromLibrariesByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const result = await PostLibrariesServices.searchPostFromLibararies( payload.key, payload.size );
+    commit( "setPostSearchFromLibraries", result.data.data );
+    commit( "post_success" );
+  },
+  searchPostFromLibrariesByPage: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const result = await PostLibrariesServices.searchPostLibrariesByPage( payload.key, payload.size, payload.page );
+    commit( "setPostSearchFromLibraries", result.data.data.results );
+    commit( "post_success" );
   }
 };
 

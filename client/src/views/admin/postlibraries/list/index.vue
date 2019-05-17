@@ -47,8 +47,12 @@ export default {
       return this.$store.getters.newPostLibraries;
     },
     allPostLibraries() {
-      return this.$store.getters.allPostLibraries;
+      const resutl = this.$store.getters.allPostLibraries;
+      return resutl.reverse();
     }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllPostLibraries" );
   },
   methods: {
     async createNewPost() {

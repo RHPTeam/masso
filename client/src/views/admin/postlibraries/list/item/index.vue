@@ -4,15 +4,24 @@
       <loading-component />
     </div>
     <div v-else class="flex-table row" role="rowgroup">
-      <div v-if="item.content && item.content.length > 0" class="flex-row first"  role="cell">
+      <div
+        v-if="item.content && item.content.length > 0"
+        class="flex-row first"  role="cell"
+      >
         <div v-html="item.content.slice(0,38)"></div>
       </div>
       <div v-else class="flex-row first"  role="cell">
         <div v-html="`Chưa cập nhật nội dung`"></div>
       </div>
       <div class="flex-row" role="cell">
-          <div v-if="item.attachments && item.attachments.length > 0" class="d_flex align_items_center">
-            <div v-for="(img, index) in item.attachments.slice(0,5)" :key="index">
+          <div
+            v-if="item.attachments && item.attachments.length > 0"
+            class="d_flex align_items_center"
+          >
+            <div
+              v-for="(img, index) in item.attachments.slice(0,5)"
+              :key="index"
+            >
               <div class="images">
                 <img :src="img.link">
               </div>

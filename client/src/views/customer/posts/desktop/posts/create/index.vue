@@ -40,14 +40,17 @@ export default {
     };
   },
   computed: {
-    currentTheme() {
+    currentTheme(){
       return this.$store.getters.themeName;
     }
   },
-  async created (){
-    await this.$store.dispatch( "getAllFriendFb" );
-    await this.$store.dispatch( "getPlaceFromFb" );
-    await this.$store.dispatch( "getAllCategories" );
+  created (){
+    this.$store.dispatch( "getAllFriendFb" );
+    this.$store.dispatch( "getPlaceFromFb" );
+    this.$store.dispatch( "getAllCategories" );
+    this.$store.dispatch( "getAllPostLibraries" );
+    this.$store.dispatch( "getActivityFb" );
+    this.$store.dispatch( "getColorFromFb" );
   }
 };
 </script>

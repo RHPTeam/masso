@@ -73,6 +73,7 @@ export default {
       delete this.post.attachments;
       this.$store.dispatch( "updatePost", this.post );
       this.isShowSuggestDefault = false;
+      this.$emit( "closeCheckin", false );
     },
     close(){
       this.isShowSuggestDefault = false

@@ -2,7 +2,7 @@
 .vs__selected {
   display: flex;
   align-items: center;
-  background-color: $vs-selected-bg;
+  background-color: #cccccc;
   border: 0;
   border-radius: .3rem;
   color: map_get($vs-colors, 'dark');
@@ -22,7 +22,7 @@
   border: 0;
   cursor: pointer;
   background: none;
-  fill: $vs-controls-color;
+  fill: #444444;
   text-shadow: $vs-controls-deselect-text-shadow;
 }
 
