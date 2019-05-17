@@ -133,7 +133,7 @@ const fs = require( "fs" ),
         return false;
       }
       // Auto
-      if ( event.type_event === 0 ) {
+      if ( event.type_event === 1 ) {
         // Handle auto post event choose auto
         const postList = await Post.find( { "_account": event._account } ),
           postSelected = getRandom( postList, 1 ),
