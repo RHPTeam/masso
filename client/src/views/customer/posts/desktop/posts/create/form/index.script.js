@@ -129,7 +129,6 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getPostById", this.$route.params.id );
-    this.$store.dispatch( "getColorFromFb" );
   },
   methods: {
     /**
@@ -182,8 +181,8 @@ export default {
       this.isShowActivity = true;
     },
     changeContentDefault() {
-      this.openContentColor = false;
-      this.content = this.contentColor;
+      this.post.color = "";
+      this.$store.dispatch( "updatePost", this.post );
     },
     showOptionPostImages(){
       this.isShowColor = false;

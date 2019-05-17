@@ -187,19 +187,19 @@ module.exports = {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
 
-    let page = null, dataResponse = null;
+    let page = null, dataResponse = null, data = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() );
 
     if ( req.query._size && req.query._page ) {
-      dataResponse = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = data.slice( 0, Number( req.query._size ) );
     }
 
     if ( req.query._size ) {
-      if ( dataResponse.length % req.query._size === 0 ) {
-        page = Math.floor( dataResponse.length / req.query._size );
+      if ( data.length % req.query._size === 0 ) {
+        page = Math.floor( data.length / req.query._size );
       } else {
-        page = Math.floor( dataResponse.length / req.query._size ) + 1;
+        page = Math.floor( data.length / req.query._size ) + 1;
       }
     }
 

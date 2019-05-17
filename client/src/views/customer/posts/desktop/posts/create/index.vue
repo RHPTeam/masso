@@ -1,10 +1,10 @@
 <template>
-  <div class="section">
+  <div class="section" :data-theme="currentTheme">
     <div
       class="section--header d_flex justify_content_start align_items_center"
     >
-      <h5 class="mb_0">Viết bài mới</h5>
-      <span class="space"></span>
+      <!--<h5 class="mb_0">Viết bài mới</h5>
+      <span class="space"></span>-->
       <router-link
         class="mr_3"
         tag="a"
@@ -39,37 +39,70 @@ export default {
     return {
     };
   },
+  computed: {
+    currentTheme(){
+      return this.$store.getters.themeName;
+    }
+  },
   created (){
     this.$store.dispatch( "getAllFriendFb" );
     this.$store.dispatch( "getPlaceFromFb" );
     this.$store.dispatch( "getAllCategories" );
     this.$store.dispatch( "getAllPostLibraries" );
+    this.$store.dispatch( "getActivityFb" );
+    this.$store.dispatch( "getColorFromFb" );
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.section--header {
-  color: #666;
-  margin-bottom: 2rem;
-  > h5 {
-    font-size: 18px;
-    font-weight: 600;
-  }
+.section {
+  .section--header {
+    margin-bottom: 2rem;
+    > h5 {
+      font-size: 18px;
+      font-weight: 600;
+    }
 
-  span.space {
-    background-color: #666;
-    height: 1rem;
-    margin: 0 0.75rem 0 1rem;
-    width: 1px;
+    span.space {
+      height: 1rem;
+      margin: 0 0.75rem 0 1rem;
+      width: 1px;
+    }
+    > a {
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.4s ease;
+    }
   }
-  > a {
+}
+
+/* Theme color */
+.section[data-theme="light"] {
+  .section--header {
     color: #666;
-    font-size: 14px;
-    text-decoration: none;
-    transition: all 0.4s ease;
-    &:hover {
-      color: #ffb94a;
+    span.space {
+      background-color: #666;
+    }
+    > a {
+      color: #666;
+      &:hover {
+        color: #ffb94a;
+      }
+    }
+  }
+}
+.section[data-theme="dark"] {
+  .section--header {
+    color: #999999;
+    span.space {
+      background-color: #999999;
+    }
+    > a {
+      color: #999999;
+      &:hover {
+        color: #ffb94a;
+      }
     }
   }
 }

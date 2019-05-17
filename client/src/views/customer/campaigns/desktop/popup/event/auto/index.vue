@@ -8,7 +8,8 @@
         <div class="c_12">
           <div class="section--content">
             <label class="mb_3"><b>Ngày áp dụng:</b></label>
-            <date-picker class="time" role="date" v-model="eventDetail.started_at" />
+            <date-picker class="time" role="date" v-model="event.started_at" @selected="updateStartedDate" />
+            <div class="space"></div>
           </div>
         </div>
       </div>
@@ -19,18 +20,14 @@
 <script>
 export default {
   props: {
-    eventDetail: {
-      type: Object
-    },
+    event: Object,
   },
-  data() {
-    return {
-      dateNow: new Date()
-    }
-  },
-  watch: {
-    "eventDetail.started_at"(val){
-      localStorage.setItem( "startAt", val );
+  methods: {
+    updateStartedDate( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: value
+      } )
     }
   }
 }
@@ -43,6 +40,9 @@ export default {
     }
     .time[role=date] {
       border: 1px solid $mainDark;
+    }
+    .space {
+      height: 300px;
     }
   }
 </style>

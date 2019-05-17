@@ -8,12 +8,22 @@
         <div class="col col--share px_3">Chia sẻ</div>
         <div class="col col--action px_3">Hành động</div>
       </div>
-      <div v-if="this.$store.getters.statusLib === 'loading'">
-        <loading-component/>
+      <div v-show="showResult === false">
+        <div v-if="this.$store.getters.statusLib === 'loading'">
+          <loading-component/>
+        </div>
+        <div v-else v-for="(item, index) in allPostLibararies" :key="index">
+          <item-detail :item="item" />
+        </div>
       </div>
-      <div v-else v-for="(item, index) in allPostLibararies" :key="index">
-        <item-detail :item="item" />
-      </div>
+      <vue-perfect-scrollbar v-show="showResult === true" class="wrap--post" ref="text" @ps-scroll-down="onScroll">
+        <div v-if="this.$store.getters.statusLib === 'loading'">
+          <loading-component/>
+        </div>
+        <div v-else v-for="(item, index) in resultPostSearch" :key="`s-${index}`">
+          <item-detail :item="item" />
+        </div>
+      </vue-perfect-scrollbar>
     </div>
   </div>
 </template>
@@ -25,17 +35,44 @@ export default {
   components: {
     ItemDetail
   },
+  props: {
+    keyword: String,
+    showResult: Boolean,
+    count: Number
+  },
+  data() {
+    return {
+      progress: 0
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     allPostLibararies(){
-      return this.$store.getters.allPostLibraries;
+      const result =  this.$store.getters.allPostLibraries;
+      return result.reverse().splice(-8);
+    },
+    resultPostSearch() {
+      return this.$store.getters.postSearch;
     }
   },
   async created(){
   },
   methods: {
+    onScroll() {
+      const progress = this.$refs.text.$el.scrollTop / (this.$refs.text.$el.scrollHeight - this.$refs.text.$el.clientHeight);
+      if( progress === 1){
+        const dataSender = {
+          key: this.keyword,
+          size: 8,
+          page: this.count++
+        };
+        console.log(dataSender);
+        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+        this.showResult = true;
+      }
+    }
   }
 };
 </script>
@@ -50,6 +87,11 @@ export default {
     color: #666666;
     font-weight: 600;
     height: 48px;
+  }
+  .wrap--post {
+    max-height: 328px;
+    overflow-x: hidden;
+    overflow-y: auto;
   }
   .item--body {
     background-color: #fafafa;

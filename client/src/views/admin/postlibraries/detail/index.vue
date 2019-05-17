@@ -5,17 +5,20 @@
       <div>
         <div class="form_group">
           <label>Nội dung</label>
-          <div v-if="postLibraries.content === undefined">
-            <contenteditable
-              tag="div"
-              class="description px_3 py_2"
-              :contenteditable="true"
-              :noHTML="false"
-              v-model="content"
-              placeholder="Cập nhật nội dung bài viết"
-            />
-          </div>
-          <div v-else>
+<!--          <div v-if="postLibraries.content === undefined">-->
+<!--            <div class="py_3 px_2" v-if="showOptionUpdateContent === false" @click="showOptionUpdateContent = true">Bài viết chưa có nội dung</div>-->
+<!--            <div v-if="showOptionUpdateContent === true">-->
+<!--              <contenteditable-->
+<!--                tag="div"-->
+<!--                class="description px_3 py_2"-->
+<!--                :contenteditable="true"-->
+<!--                :noHTML="false"-->
+<!--                v-model="content"-->
+<!--                placeholder="Cập nhật nội dung bài viết"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+          <div>
             <contenteditable
               tag="div"
               class="description px_3 py_2"
@@ -65,9 +68,10 @@
 export default {
   data() {
     return {
-      content: "Chưa có nội dung bài viết",
       isShowAlert: false,
-      files: ""
+      showOptionUpdateContent: false,
+      files: "",
+      content: ""
     }
   },
   computed: {
@@ -76,8 +80,8 @@ export default {
       return this.$store.getters.postLibraries;
     }
   },
-  watch: {
-    "postLibraries.content"( val ) {
+  watch:{
+    "postLibraries.content"( val ){
       const dataSender = {
         postId: this.$route.params.id,
         content: this.postLibraries
@@ -90,7 +94,7 @@ export default {
       const objSender = {
         postId: this.$route.params.id,
         attachmentId: val
-      }
+      };
       this.$store.dispatch( "deleteItemAttachmentLibraries", objSender );
     },
     updatePostLibraries(){
@@ -99,8 +103,8 @@ export default {
         content: this.postLibraries
       };
       this.$store.dispatch( "updatePostLibraries", dataSender );
-      this.postLibraries.content = "";
-      this.file = "";
+      // this.content = "";
+      // this.files = "";
       this.$router.push( "/admin/post-libraries" );
     },
     // Select file images
@@ -115,7 +119,7 @@ export default {
         formData.append( "attachments", f )
       });
       const objSender = {
-        id: this.postLibraries._id,
+        id: this.$route.params.id,
         formData: formData
       };
       this.$store.dispatch( "updateAttachmentPostLibraries", objSender );

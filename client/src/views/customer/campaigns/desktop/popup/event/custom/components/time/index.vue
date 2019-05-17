@@ -20,14 +20,14 @@
       <div class="date d_flex align_items_center mb_3">
         <div class="desc mr_3">Thời gian bắt đầu sự kiện:</div>
         <time-picker
-          v-model="yourTimeValue"
+          :value.sync="time"
           @change="changeTimeSetup"
         />
         <date-picker 
           class="ml_3"
           @selected="changeDateSetup"
           :disabledDates="disabledDates"
-          v-model="currrentDefault"
+          :value="event.started_at"
         />
       </div>
       <div class="break d_flex align_items_center">
@@ -52,42 +52,40 @@ export default {
       disabledDates: {
         to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
       },
-      yourTimeValue: {
-        HH: "07",
-        mm: "00"
-      },
       timeNumberDefault: 15,
       timeDescDefault: "Phút",
       currrentDefault: new Date()
     }
   },
-  watch: {
-    "timeNumberDefault"( val ) {
-      localStorage.setItem( "breakPoin", val );
+  computed: {
+    event() {
+      return this.$store.getters.event;
+    },
+    time() {
+      return {
+        HH: ( new Date( this.event.started_at ) ).getHours(),
+        mm: ( new Date( this.event.started_at ) ).getMinutes()
+      }
     }
   },
   methods: {
-    changeTimeSetup( val ) {
-      const setTime = {
-        year: this.currrentDefault.getFullYear(),
-        month: this.currrentDefault.getMonth(),
-        date: this.currrentDefault.getDate(),
-        hour: parseInt( val.HH ),
-        minute: parseInt( val.mm )
-      };
-      const result = new Date( setTime.year, setTime.month, setTime.date, setTime.hour, setTime.minute );
-      localStorage.setItem( "startAt", result );
+    changeTimeSetup( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: new Date( ( new Date( this.event.started_at ) ).getFullYear(), ( new Date( this.event.started_at ) ).getMonth(), ( new Date( this.event.started_at ) ).getDate(), value.HH, value.mm, 0 )
+      } )
     },
-    changeDateSetup( val ) {
-      const setTime = {
-        year: val.getFullYear(),
-        month: val.getMonth(),
-        date: val.getDate(),
-        hour: parseInt( this.yourTimeValue.HH ),
-        minute: parseInt( this.yourTimeValue.mm )
-      };
-      const result = new Date( setTime.year, setTime.month, setTime.date, setTime.hour, setTime.minute );
-      localStorage.setItem( "startAt", result );
+    changeDateSetup( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: new Date(
+          ( new Date( value ) ).getFullYear(),
+          ( new Date( value ) ).getMonth(),
+          ( new Date( value ) ).getDate(),
+          ( new Date( this.event.started_at ) ).getHours(),
+          ( new Date( this.event.started_at ) ).getMinutes(),
+          0 )
+      } )
     }
   },
 }

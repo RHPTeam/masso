@@ -2,23 +2,22 @@
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center">
       <div class="modal--content">
-        <!-- v-click-outside="close"-->
         <!-- Start: Modal Header -->
         <app-header
-          :status="isTypeEvent"
-          :statusControlButtonEvent="statusUpdateEvent"
-          @change="isTypeEvent = $event"
-          @closeNow="close($event)"
+          :event="event"
+          @close="$emit( 'close', $event )"
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <div class="body">
+        <div class="body" v-if="event">
           <vue-perfect-scrollbar>
             <app-auto
-              v-if="isTypeEvent === true"
+              v-if="event.type_event === 1"
+              :event="event"
             />
             <app-custom
-              v-if="isTypeEvent === false"
+              v-if="event.type_event === 0"
+              :event="event"
             />
           </vue-perfect-scrollbar>
         </div>
@@ -40,109 +39,33 @@ export default {
     AppAuto,
     AppCustom
   },
-  props: {
-    statusUpdateEvent: {
-      type: Boolean
-    }
-  },
   data () {
     return {
       isTypeEvent: false,
-      eventDefault: {}
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    event() {
+      return this.$store.getters.event;
     }
   },
   mounted(){
-    if (localStorage.getItem('title')) {
-      try {
-        this.eventDefault.title = localStorage.getItem('title');
-      } catch(e) {
-        localStorage.removeItem('title');
-      }
-    }
-    if (localStorage.getItem('breakPoint')) {
-      try {
-        this.eventDefault.break_point = localStorage.getItem('breakPoint');
-      } catch(e) {
-        localStorage.removeItem('breakPoint');
-      }
-    }
-    if (localStorage.getItem('color')) {
-      try {
-        this.eventDefault.color = localStorage.getItem('color');
-      } catch(e) {
-        localStorage.removeItem('color');
-      }
-    }
-    if (localStorage.getItem('postCategory')) {
-      try {
-        this.eventDefault.post_category = JSON.parse(localStorage.getItem('postCategory'));
-      } catch(e) {
-        localStorage.removeItem('postCategory');
-      }
-    }
-    if (localStorage.getItem('postCustom')) {
-      try {
-        this.eventDefault.post_custom = JSON.parse(localStorage.getItem('postCustom'));
-      } catch(e) {
-        localStorage.removeItem('postCustom');
-      }
-    }
-    if (localStorage.getItem('targetCategory')) {
-      try {
-        this.eventDefault.target_category = JSON.parse(localStorage.getItem('targetCategory'));
-      } catch(e) {
-        localStorage.removeItem('targetCategory');
-      }
-    }
-    if (localStorage.getItem('targetCustom')) {
-      try {
-        this.eventDefault.target_custom = JSON.parse(localStorage.getItem('targetCustom'));
-      } catch(e) {
-        localStorage.removeItem('targetCustom');
-      }
-    }
-    if (localStorage.getItem('typeEvent')) {
-      try {
-        this.eventDefault.type_event = localStorage.getItem('typeEvent');
-      } catch(e) {
-        localStorage.removeItem('typeEvent');
-      }
-    }
-    if (localStorage.getItem('startAt')) {
-      try {
-        this.eventDefault.target_category = localStorage.getItem('startAt');
-      } catch(e) {
-        localStorage.removeItem('startAt');
-      }
-    }
-  },
-  async created(){
-    await this.$store.dispatch( "getAllCategories" );
-    await this.$store.dispatch( "getAllPostGroups" );
-    await this.$store.dispatch( "getAllPost" );
-    await this.$store.dispatch( "getFacebookGroups" );
-    await this.$store.dispatch( "getFacebookPages" );
 
-    const data = this.$store.getters.eventDetail;
-    console.log(data);
-    localStorage.setItem("breakPoint", data.break_point);
-    localStorage.setItem("color", data.color);
-    localStorage.setItem("postCategory", JSON.stringify(data.post_category));
-    localStorage.setItem("postCustom", JSON.stringify(data.post_custom));
-    localStorage.setItem("targetCategory", JSON.stringify(data.target_category));
-    localStorage.setItem("targeCustom", JSON.stringify(data.target_custom));
-    localStorage.setItem("startAt", data.started_at);
-    localStorage.setItem("typeEvent", data.type_event);
-    localStorage.setItem("title", data.title);
+  },
+  created(){
+    this.$store.dispatch( "getAllCategories" );
+    this.$store.dispatch( "getAllPostGroups" );
+    this.$store.dispatch( "getAllPost" );
+    this.$store.dispatch( "getFacebookGroups" );
+    this.$store.dispatch( "getFacebookPages" );
   },
   methods: {
-    close(val) {
-      this.$emit("close", val);
+    close() {
+      console.log( "cak" );
+      this.$emit("close", false);
     }
   }
 }

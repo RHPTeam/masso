@@ -1,6 +1,6 @@
 <template>
   <div class="detail mt_2">
-    <div class="back text_center mb_2" @click="comeBackOption">Quay lại</div>
+    <div class="back text_center mb_2" @click="back">Quay lại</div>
     <div class="header d_flex align_items_center justify_content_between">
       <div class="left position_relative">
         <div class="icon position_absolute">
@@ -53,11 +53,11 @@
           Hành động
         </div>
       </div>
-      <div v-if="!allPosts"></div>
-      <div v-else>
+      <div v-if="allPosts">
         <div v-if="this.$store.getters.statusPost === 'loading'">
           <loading-component />
         </div>
+        <div class="result--item d_flex align_items_center px_3 py_2 justify_content_center" v-if="allPosts.length === 0">Không tìm thấy bài đăng</div>
         <div class="result--item d_flex align_items_center px_3 py_2" v-for="(post, index) in allPosts" :key="`p-${index}`">
           <div class="name text_left">{{post.title}}</div>
           <div class="categories text_left">
@@ -65,7 +65,8 @@
           </div>
           <div class="content text_left">{{post.content}}</div>
           <div class="action">
-            <div class="btn--choose text_center m_auto" @click="selectPost(post)">Chọn</div>
+            <div class="btn--choose checked text_center m_auto" v-if="event.post_custom.filter(function(e) { return e._id === post._id; }).length > 0">Đã chọn</div>
+            <div class="btn--choose text_center m_auto" @click="selectPost(post)" v-else>Chọn</div>
           </div>
         </div>
       </div>
@@ -82,21 +83,22 @@ export default {
     }
   },
   computed: {
+    allPosts(){
+      return this.$store.getters.allPost;
+    },
     categories(){
       return this.$store.getters.allCategories;
     },
-    allPosts(){
-      return this.$store.getters.allPost;
-    }
-  },
-  mounted(){
-    if (localStorage.listSelectOption) {
-      this.listOption = JSON.parse(localStorage.getItem('listSelectOption'));
+    event() {
+      return this.$store.getters.event;
     }
   },
   methods: {
-    comeBackOption(){
-      this.$emit( "backOption", false );
+    back(){
+      this.$store.dispatch( "setCaseEvent", {
+        key: "libraries",
+        value: 0
+      } );
     },
     close() {
       this.isShowSuggest = false;
@@ -104,11 +106,11 @@ export default {
     filterPostByCategories( val ){
       this.$store.dispatch( "getPostByCategories", val );
     },
-    selectPost( val ) {
-      this.listOption.push( val );
-      localStorage.removeItem( "postCategory" );
-      localStorage.setItem( "postCustom", JSON.stringify(this.listOption) );
-      this.$emit( "listSelecOption", this.listOption );
+    selectPost( value ) {
+      this.$store.dispatch( "setEventPush", {
+        key: "post_custom",
+        value: value
+      } )
     }
   },
 }

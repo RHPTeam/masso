@@ -7,7 +7,7 @@
           multiple
           label="name"
           :options="faceGroupPost"
-          @input="selectFaceGroupPost"
+          @input="selectGroupFacebook"
         />
       </div>
       <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
@@ -19,7 +19,7 @@
           multiple
           label="name"
           :options="facePagePost"
-          @input="selectFacePagePost"
+          @input="selectPageFacebook"
         />
       </div>
       <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
@@ -43,27 +43,31 @@ export default {
     }
   },
   methods: {
-    selectFaceGroupPost( val ) {
-      val.map( item => {
-        const data = {
+    selectGroupFacebook( value ) {
+      const groupListSelect = value.map( group => {
+        return {
           typeTarget: 0,
-          id: item.groupId
+          id: group.groupId
         };
-        this.custom.push(data);
-        // this.custom = [... new Set(this.custom)];
-        localStorage.setItem("targetCustom", JSON.stringify(this.custom));
-      })
+      } );
+
+      this.$store.dispatch( "setEventSpecial", {
+        key: "target_custom",
+        value: groupListSelect
+      } )
     },
-    selectFacePagePost( val ) {
-      val.map( item => {
-        const data = {
+    selectPageFacebook( value ) {
+      const pageListSelect = value.map( page => {
+        return {
           typeTarget: 1,
-          id: item.pageId
+          id: page.pageId
         };
-        this.custom.push(data);
-        // this.custom = [... new Set(this.custom)];
-        localStorage.setItem("targetCustom", JSON.stringify(this.custom));
-      })
+      } );
+
+      this.$store.dispatch( "setEventSpecial", {
+        key: "target_custom",
+        value: pageListSelect
+      } );
     }
   },
 }

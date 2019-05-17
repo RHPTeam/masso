@@ -112,8 +112,8 @@ const actions = {
     commit( "post_request" );
     await PostServices.updatePost( payload._id, payload );
 
-    const resultPost = await PostServices.getById( payload._id );
-    commit( "setPost", resultPost.data.data );
+    const resultPost = await PostServices.index();
+    commit( "setAllPost", resultPost.data.data );
 
     commit( "post_success" );
   },
