@@ -11,7 +11,7 @@
       <div v-if="this.$store.getters.statusLib === 'loading'">
         <loading-component/>
       </div>
-      <div v-else v-for="(item, index) in listPostLibararies" :key="index">
+      <div v-else v-for="(item, index) in allPostLibararies" :key="index">
         <item-detail :item="item" />
       </div>
     </div>
@@ -29,12 +29,11 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    listPostLibararies(){
+    allPostLibararies(){
       return this.$store.getters.allPostLibraries;
     }
   },
   async created(){
-    await this.$store.dispatch( "getAllPostLibraries" );
   },
   methods: {
   }

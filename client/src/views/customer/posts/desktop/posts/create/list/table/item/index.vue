@@ -56,11 +56,7 @@ export default {
   components: {
     PopupDetail
   },
-  props: {
-    item: {
-      type: Object
-    },
-  },
+  props: [ "item" ],
   data() {
     return {
       showDetail: false

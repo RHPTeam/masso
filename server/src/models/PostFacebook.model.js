@@ -47,7 +47,9 @@ PostFacebookSchema.pre( "save", function( next ) {
 const PostFacebook = mongoose.model( "PostFacebook", PostFacebookSchema );
 
 PostFacebook.on( "index", function( error ) {
-  console.log( error.message );
+  if ( error ) {
+    console.log( error.message );
+  }
 } );
 
 module.exports = PostFacebook;

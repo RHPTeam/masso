@@ -5,24 +5,48 @@
       <div>
         <div class="form_group">
           <label>Nội dung</label>
-          <contenteditable
-            tag="div"
-            class="description px_3 py_2"
-            :contenteditable="true"
-            :noHTML="false"
-            v-model="postLibraries.content"
-            placeholder="Cập nhật nội dung bài viết"
-          />
+          <div v-if="postLibraries.content === undefined">
+            <contenteditable
+              tag="div"
+              class="description px_3 py_2"
+              :contenteditable="true"
+              :noHTML="false"
+              v-model="content"
+              placeholder="Cập nhật nội dung bài viết"
+            />
+          </div>
+          <div v-else>
+            <contenteditable
+              tag="div"
+              class="description px_3 py_2"
+              :contenteditable="true"
+              :noHTML="false"
+              v-model="postLibraries.content"
+              placeholder="Cập nhật nội dung bài viết"
+            />
+          </div>
         </div>
         <div v-if="postLibraries.attachments && postLibraries.attachments.length > 0" class="gallery-wrap">
           <vue-perfect-scrollbar class="gallery d_flex align_items_center">
             <div v-for="(item, index) in postLibraries.attachments" :key="`i-${index}`">
-              <div class="item">
+              <div class="item position_relative">
                 <img :src="item.link">
+                <div class="icon--delete d_flex align_items_center justify_content_center position_absolute" @click="deleteItemAttachments(item._id)">
+                  <icon-base
+                    class="ic--remove"
+                    icon-name="remove"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 16 16"
+                  >
+                    <icon-remove />
+                  </icon-base>
+                </div>
               </div>
             </div>
           </vue-perfect-scrollbar>
         </div>
+        <div v-else></div>
         <form class="form_group" role="create-post" enctype="multipart/form-data" @submit.prevent="sendFile">
           <label>Hình ảnh</label>
           <div class="action">
@@ -41,6 +65,7 @@
 export default {
   data() {
     return {
+      content: "Chưa có nội dung bài viết",
       isShowAlert: false,
       files: ""
     }
@@ -51,10 +76,31 @@ export default {
       return this.$store.getters.postLibraries;
     }
   },
+  watch: {
+    "postLibraries.content"( val ) {
+      const dataSender = {
+        postId: this.$route.params.id,
+        content: this.postLibraries
+      };
+      this.$store.dispatch( "updatePostLibraries", dataSender );
+    }
+  },
   methods: {
+    deleteItemAttachments( val ){
+      const objSender = {
+        postId: this.$route.params.id,
+        attachmentId: val
+      }
+      this.$store.dispatch( "deleteItemAttachmentLibraries", objSender );
+    },
     updatePostLibraries(){
-      console.log( this.postLibraries);
-      this.$store.dispatch( "updatePostLibraries", this.postLibraries );
+      const dataSender = {
+        postId: this.$route.params.id,
+        content: this.postLibraries
+      };
+      this.$store.dispatch( "updatePostLibraries", dataSender );
+      this.postLibraries.content = "";
+      this.file = "";
       this.$router.push( "/admin/post-libraries" );
     },
     // Select file images
@@ -102,10 +148,29 @@ export default {
     margin: 0 .25rem;
     height: 100px;
     width: 100px;
+    &:hover, &:focus, &:active, &:visited {
+      >.icon--delete {
+        opacity: 1;
+        transition: opacity .5s;
+      }
+    }
     img {
       border-radius: 10px;
       height: 100%;
       width: 100%;
+    }
+    .icon--delete {
+      border-radius: 50%;
+      background-color: #fafafa;
+      opacity: 0;
+      width: 25px;
+      height: 25px;
+      top: 0;
+      right: 0;
+      z-index: 99;
+      svg {
+        margin-bottom: 2px;
+      }
     }
   }
 }

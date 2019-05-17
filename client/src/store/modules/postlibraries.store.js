@@ -39,6 +39,7 @@ const actions = {
   getAllPostLibraries: async ( { commit } ) => {
     commit( "lib_request" );
     const result = await PostLibrariesServices.index();
+    console.log(result.data.data);
     commit( "setAllPostLibraries", result.data.data );
     commit( "lib_success" );
   },
@@ -50,9 +51,7 @@ const actions = {
   },
   updatePostLibraries: async ( { commit }, payload ) => {
     commit( "post_request" );
-    await PostLibrariesServices.updatePost( payload._id, payload );
-    const result = await PostLibrariesServices.getById( payload._id );
-    commit( "setPostLibraries", result.data.data );
+    await PostLibrariesServices.updatePost( payload.postId, payload.content );
     const resultUpdate = await PostLibrariesServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
     commit( "post_success" );
@@ -66,6 +65,20 @@ const actions = {
     await PostLibrariesServices.deletePostFacebook(payload);
     const result = await PostLibrariesServices.index();
     commit( "setAllPostLibraries", result.data.data );
+  },
+  deleteItemAttachmentLibraries: async ( { commit }, payload ) => {
+    await PostLibrariesServices.deleteItemAttachment( payload.postId, payload.attachmentId );
+    const result = await PostLibrariesServices.getById( payload.postId );
+    commit( "setPostLibraries", result.data.data );
+    const results = await PostLibrariesServices.index();
+    commit( "setAllPostLibraries", results.data.data );
+  },
+  searchPostFromLibrariesByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const result = await PostLibrariesServices.searchPostFromLibararies( payload.key, payload.size );
+    console.log(result.data.data.results);
+    commit( "setAllPostLibraries", result.data.data.results );
+    commit( "post_success" );
   }
 };
 

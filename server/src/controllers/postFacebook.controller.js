@@ -146,14 +146,14 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
     }
     const role = req.headers.cfr,
-      findPost = await PostFacebook.findById( req.query._postFacebookId );
+      findPostFacebook = await PostFacebook.findById( req.query._postFacebookId );
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     // Check catch when delete campaign
-    if ( !findPost ) {
+    if ( !findPostFacebook ) {
       return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
     }
 
@@ -172,8 +172,8 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    // Remove post
-    await _postFacebookId.findOneAndRemove( { "_id": req.query._postFacebookId } );
+    // Remove postFacebook
+    await findPostFacebook.remove();
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   /**
