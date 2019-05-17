@@ -7,34 +7,18 @@
       </div>
       <div class="r">
         <div class="c_6">
-          <div class="section--content">
-            <div class="d_flex flex_column">
-              <div class="card mb_3" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
-                <div class="card_body">
-                  <h5 class="card-title">Tùy chọn đăng bài viết từ danh mục</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-              </div>
-              <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">
-                <div class="card_body">
-                  <h5 class="card-title">Tùy chọn đăng bài viết từ các nhóm cụ thể</h5>
-                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                </div>
-              </div>
+          <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
+            <div class="card_body">
+              <h3 class="h5">Tùy chọn đăng bài viết từ danh mục</h3>
+              <p class="card-text">Hệ thống sẽ lấy ngẫu nhiên các bài viết trong danh mục để đăng lên nơi bạn thiết lập.</p>
             </div>
           </div>
         </div>
         <div class="c_6">
-          <div class="card" role="type">
+          <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">
             <div class="card_body">
-              <h5 class="card_title">Điều bạn cần biết?</h5>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
-              <div class="card_text">Hello mother fucker</div>
+              <h3 class="h5">Tùy chọn đăng bài viết từ các nhóm cụ thể</h3>
+              <p class="card-text">Bạn có thể tùy chỉnh các bài viết mà bạn muốn, và thiết lập các thông tin nâng cao và chi tiết hơn.</p>
             </div>
           </div>
         </div>

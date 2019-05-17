@@ -16,7 +16,7 @@ const { port_socket, pfx_url, pfx_pass } = require( "../configs/server" ),
 
 let errorsLogin = [];
 
-https.listen( port_socket );
+server.listen( port_socket );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );

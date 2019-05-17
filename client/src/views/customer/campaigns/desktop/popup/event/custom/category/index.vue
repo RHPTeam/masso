@@ -31,6 +31,7 @@
 
           <multiselect
             label="title"
+            :value="event.post_category"
             :clearable="false"
             :options="categories"
             @input="selectCategory"
@@ -70,6 +71,8 @@ export default {
         key: "post",
         value: 0
       } );
+      // Remove post_category
+      this.$store.dispatch( "setEventRemove", "post_category" );
     },
     selectCategory( category ){
       this.$store.dispatch( "setEvent", {

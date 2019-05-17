@@ -84,12 +84,25 @@ export default {
   },
   methods: {
     resetTargetType() {
+      this.$store.dispatch( "setEvent", {
+        key: "target_custom",
+        value: []
+      } );
+      this.$store.dispatch( "setEventRemove", "target_category" );
       this.$store.dispatch( "setCaseEvent", {
         key: "target",
         value: 0
       } );
     },
     selectTargetType( value ) {
+      if ( value === 0 ) {
+        this.$store.dispatch( "setEvent", {
+          key: "target_custom",
+          value: []
+        } );
+      } else if ( value === 1 ) {
+        this.$store.dispatch( "setEventRemove", "target_category" );
+      }
       this.$store.dispatch( "setCaseEvent", {
         key: "target",
         value: value

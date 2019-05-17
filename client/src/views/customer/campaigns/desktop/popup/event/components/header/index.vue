@@ -2,6 +2,7 @@
   <div
     v-if="event"
     class="box p_3"
+    :style="{ backgroundColor: event.color }"
   >
     <!-- Start: Row -->
     <div class="r mx_0">
@@ -35,12 +36,13 @@
             <icon-remove />
           </icon-base>
         </div>
-        <div class="button save" @click.prevent="createEvent">
+        <div class="button save mr_2" @click.prevent="close">HUỶ</div>
+        <div class="button save" v-if="event._id" @click.prevent="updateEvent">
+          CẬP NHẬT
+        </div>
+        <div v-else class="button save" @click.prevent="createEvent">
           TẠO MỚI
         </div>
-<!--        <div class="button save" @click.prevent="updateEventById">-->
-<!--          CẬP NHẬT-->
-<!--        </div>-->
       </div>
     </div>
     <!-- End: Row -->
@@ -105,6 +107,11 @@
       </div>
     </div>
     <!-- End: Row -->
+    <!-- Start: Row -->
+    <div class="errors" v-if="errorData.length > 0" v-for="error in errorData" :key="error">
+      <div class="text_danger mt_3" v-text="error"></div>
+    </div>
+    <!-- End: Row -->
   </div>
 </template>
 
@@ -117,34 +124,176 @@ export default {
     return {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ],
       isShowColorDropdown: false,
-      error: false
+      error: false,
+      errorData: []
     }
   },
   methods: {
     close(){
-      this.$emit( "close", false );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: false
+      } );
+      this.$store.dispatch( "setEventReset" );
     },
     closeColorGrid() {
       this.isShowColorDropdown = false;
     },
-    changeColor( val ){
-      localStorage.setItem( "color", val );
+    changeColor( value ){
+      this.$store.dispatch( "setEvent", {
+        key: "color",
+        value: value
+      } )
     },
     changeStatus(status) {
+      this.$store.dispatch( "setEvent", {
+        key: "type_event",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "target",
+        value: 0
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "break_point",
+        value: 15
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "post_custom",
+        value: []
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "target_custom",
+        value: []
+      } );
+
       this.$store.dispatch( "setEvent", {
         key: "type_event",
         value: status === true ? 1 : 0
       } );
     },
-    createEvent() {
+    async createEvent() {
+      this.error = false;
+      this.errorData = [];
       // Check validator
       if ( this.event.title.length === 0 ) {
         this.error = true;
         return false;
       }
 
-      // Check info before send to server
+      if ( this.event.type_event === 1 ) {
+        this.$store.dispatch( "setEventRemove", "break_point" );
+        this.$store.dispatch( "setEventRemove", "post_custom" );
+        this.$store.dispatch( "setEventRemove", "target_custom" );
+      } else if ( this.event.type_event === 0 ) {
+        if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
+          this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
+          return false;
+        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+          this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
+          return false;
+        }
+      }
+
+      // Close popup
       this.close();
+
+      await this.$store.dispatch( "createEvent", {
+        campaignId: this.$route.params.campaignId,
+        event: this.event
+      } );
+
+      // Return popup start
+      this.$store.dispatch( "setEvent", {
+        key: "title",
+        value: ""
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "type_event",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 0
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "break_point",
+        value: 15
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "post_custom",
+        value: []
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "target_custom",
+        value: []
+      } );
+
+    },
+    async updateEvent() {
+      this.error = false;
+      this.errorData = [];
+      // Check validator
+      if ( this.event.title.length === 0 ) {
+        this.error = true;
+        return false;
+      }
+
+      if ( this.event.type_event === 1 ) {
+        this.$store.dispatch( "setEventRemove", "break_point" );
+        this.$store.dispatch( "setEventRemove", "post_custom" );
+        this.$store.dispatch( "setEventRemove", "target_custom" );
+      } else if ( this.event.type_event === 0 ) {
+        if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
+          this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
+          return false;
+        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+          this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
+          return false;
+        }
+      }
+
+      // Close popup
+      this.close();
+
+      console.log( "cak");
+
+      await this.$store.dispatch( "updateEvent", {
+        campaignId: this.$route.params.campaignId,
+        event: this.event
+      } );
+
+      console.log( " cak 02" )
+
+      // Return popup start
+      this.$store.dispatch( "setEvent", {
+        key: "title",
+        value: ""
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "type_event",
+        value: 0
+      } );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 0
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "break_point",
+        value: 15
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "post_custom",
+        value: []
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "target_custom",
+        value: []
+      } );
     }
   }
 }

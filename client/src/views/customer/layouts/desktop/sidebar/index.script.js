@@ -21,7 +21,7 @@ export default {
         to: "dashboard"
       },
       {
-        text: "Bài đăng",
+        text: "Kho nội dung",
         icon: {
           iconName: "script",
           tagName: "icon-post",

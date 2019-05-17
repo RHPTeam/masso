@@ -6,11 +6,12 @@
         <multiselect
           multiple
           label="name"
+          :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
           :options="faceGroupPost"
           @input="selectGroupFacebook"
         />
       </div>
-      <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
+      <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm đã sử dụng</div>
     </div>
     <div class="item ml_2">
       <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
@@ -18,11 +19,12 @@
         <multiselect
           multiple
           label="name"
+          :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
           :options="facePagePost"
           @input="selectPageFacebook"
         />
       </div>
-      <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
+      <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} nhóm đã sử dụng</div>
     </div>
   </div>
 </template>
@@ -35,6 +37,9 @@ export default {
     }
   },
   computed: {
+    event () {
+      return this.$store.getters.event;
+    },
     faceGroupPost(){
       return this.$store.getters.facebookGroups;
     },
@@ -47,7 +52,10 @@ export default {
       const groupListSelect = value.map( group => {
         return {
           typeTarget: 0,
-          id: group.groupId
+          target: {
+            groupId: group.groupId,
+            name: group.name
+          }
         };
       } );
 
@@ -57,10 +65,14 @@ export default {
       } )
     },
     selectPageFacebook( value ) {
+      console.log( value );
       const pageListSelect = value.map( page => {
         return {
           typeTarget: 1,
-          id: page.pageId
+          target: {
+            pageId: page.pageId,
+            name: page.name
+          }
         };
       } );
 
