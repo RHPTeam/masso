@@ -8,7 +8,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      infoIP: null,
       confirmPassword: "",
       errorText: {
         name: "",
@@ -49,16 +48,6 @@ export default {
     AppAlert,
     AppIntroVideo
   },
-  async created() {
-    axios
-      .get( "http://ip-api.com/json" )
-      .then( ( response ) => {
-        this.infoIP = response.data;
-      } )
-      .catch( ( error ) => {
-        this.infoIP = "";
-      } );
-  },
   methods: {
     async submit() {
       if ( this.confirmPassword !== this.user.password ) {
@@ -75,8 +64,7 @@ export default {
           name: this.user.name,
           email: this.user.email,
           password: this.user.password,
-          phone: this.user.phone,
-          ip: this.infoIP
+          phone: this.user.phone
         };
       } else {
         dataSender = {
@@ -84,8 +72,7 @@ export default {
           email: this.user.email,
           password: this.user.password,
           phone: this.user.phone,
-          presenter: this.user.presenter,
-          ip: this.infoIP
+          presenter: this.user.presenter
         };
       }
       const resData = await this.$store.dispatch( "signUp", dataSender );
