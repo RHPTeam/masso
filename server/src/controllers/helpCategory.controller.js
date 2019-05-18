@@ -93,6 +93,9 @@ module.exports = {
     if ( req.body.parent ) {
       const findParentHelpCategory = await HelpCategory.findOne( { "_id": req.body.parent } );
 
+      if ( findHelpCategory.level < findParentHelpCategory.level ) {
+        return res.status( 403 ).json( { "status": "fail", "data": { "title": "Bạn không thể cập nhật danh mục nhỏ cấp hơn!" } } );
+      }
       findHelpCategory.parent = req.body.parent;
       findHelpCategory.level = findParentHelpCategory.level + 1;
       await findHelpCategory.save();
