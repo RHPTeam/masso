@@ -80,6 +80,7 @@ const Account = require( "./src/models/Account.model" ),
 socket.on( "connect", async () => {
   console.log( "connected to http://45.119.83.116:8388/" );
 
+  // Listen keyword user send and move to crawl server
   socket.on( "getKey", async ( data ) => {
     console.log( data );
     // Get keyword from database
