@@ -1,0 +1,87 @@
+<template>
+  <div>
+    <div class="add--catagory">
+      <router-link
+        class="mr_3 add--catagory p_2 mr_2"
+        tag="span"
+        :to="{ name: 'add_catagory' }"
+        active-class="active"
+        exact
+      >Thêm danh mục</router-link>
+    </div>
+    <div class="card card_body mt_2">
+        <app-tree :tree-data="getCategoryTable" />
+    </div>
+  </div>
+</template>
+
+<script>
+import AppTree from "./components/tree";
+export default {
+  components: {
+    AppTree
+  },
+  data() {
+    return{
+      treeCategories: [],
+    }
+  },
+  computed: {
+    getCategoryTable(){
+      this.handleMegaCategories(this.$store.getters.getCateAdmin);
+      return this.treeCategories;
+    },
+  },
+  methods: {
+
+    handleMegaCategories( categories, parent = undefined ){
+      categories.map( (category, index) => {
+        if( category.parent == parent ){
+          this.treeCategories.push( {
+            _id: category._id,
+            title: category.title,
+            children: []
+          } );
+
+          categories.splice( index, 1 );
+          this.handleMegaCategories( categories, category.parent );
+        } else{
+
+          this.treeCategories.map( (categoriesParent, i) => {
+            if( categoriesParent._id == category.parent ){
+              categoriesParent.children.push({
+                _id: category._id,
+                title: category.title,
+                children: []
+              });
+              categories.splice( i, 1);
+              this.handleMegaCategories( categories, categoriesParent.parent );
+            }
+          });
+
+        }
+
+      });
+
+    }
+
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  .add--catagory {
+    border-radius: 20px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    background: $mainBrandColor;
+    color: $color-dark;
+  }
+  .parent{
+    font-size: 16px;
+  }
+  .children{
+    font-size: 14px;
+  }
+</style>

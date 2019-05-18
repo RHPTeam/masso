@@ -14,27 +14,29 @@
         </icon-base>
         <span>Nơi đăng</span>
       </div>
-      <div class="desc">
-        <div class="group" v-if="isShowOptionGroup === true">
+      <div class="desc" v-if="caseEvent.target === 1">
+        <div class="group">
           <span class="title py_1 px_2 mr_3">Đăng tới nhóm cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = false">Thay đổi</span>
+          <span class="change" @click="resetTargetType">Thay đổi</span>
         </div>
-        <div class="page d_none" v-if="isShowOptionTarget === 'custom'">
+      </div>
+      <div class="desc" v-if="caseEvent.target === 2">
+        <div class="page">
           <span class="title px_2 py_1 mr_3">Đăng tới nhóm, trang cụ thể</span>
-          <span class="change" @click="isShowOptionTarget = false">Thay đổi</span>
+          <span class="change" @click="resetTargetType">Thay đổi</span>
         </div>
       </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="isShowOptionTarget === false">
-      <div class="card mr_2" @click="showOptionPostGroup">
+    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="caseEvent.target === 0">
+      <div class="card mr_2" @click="selectTargetType( 1 )">
         <div class="card_body">
           <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
           <div>Tùy chọn tới nhóm mà bạn đã tạo trong danh mục nhóm và trang</div>
         </div>
       </div>
-      <div class="card ml_2" @click="showOptionPostCustom">
+      <div class="card ml_2" @click="selectTargetType( 2 )">
         <div class="card_body">
           <h5 class="mb_1">Đăng tới nơi tùy chỉnh</h5>
           <div>Tùy chọn tới nhóm và trang mà bạn tham gia trên facebook</div>
@@ -44,11 +46,11 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-if="isShowOptionGroup === true" />
+    <target-group v-else-if="caseEvent.target === 1" />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
-    <target-custom v-if="isShowOptionCustom === true" />
+    <target-custom v-else-if="caseEvent.target === 2" />
     <!-- End: Show Option Page -->
 
     <!-- Start: Option Timer -->
@@ -61,6 +63,9 @@
 import TargetGroup from "./category";
 import TargetCustom from "./custom";
 import TimerPost from "../time";
+
+import FunctionLocalStorage from "@/utils/functions/localStorage";
+
 export default {
   components: {
     TargetGroup,
@@ -69,19 +74,26 @@ export default {
   },
   data() {
     return {
-      isShowOptionTarget: false,
-      isShowOptionGroup: false,
-      isShowOptionCustom: false
+      isShowOptionTarget: "none"
+    }
+  },
+  computed: {
+    caseEvent() {
+      return this.$store.getters.caseEvent;
     }
   },
   methods: {
-    showOptionPostGroup() {
-      this.isShowOptionTarget = true;
-      this.isShowOptionGroup = true;
+    resetTargetType() {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "target",
+        value: 0
+      } );
     },
-    showOptionPostCustom() {
-      this.isShowOptionTarget = true;
-      this.isShowOptionCustom = true;
+    selectTargetType( value ) {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "target",
+        value: value
+      } );
     }
   },
 }

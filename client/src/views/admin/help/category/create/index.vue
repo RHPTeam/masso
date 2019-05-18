@@ -38,7 +38,8 @@ export default {
   computed: {
     getCateAdmin(){
       return this.$store.getters.getCateAdmin;
-    }
+    },
+
   },
   created() {
 
@@ -48,12 +49,21 @@ export default {
       this.cateparent.parent = val._id;
     },
     createNewCateAdmin(){
-      if(this.cateparent.parent === ""){
-        this.$store.dispatch( "NoParent" , this.cateparent.name);
-      }else{
-        this.$store.dispatch( "HaveParent", this.cateparent );
+      if(this.cateparent.name.length > 0){
+        // this.isShowAlert = false;
+        if(this.cateparent.parent === ""){
+          this.$store.dispatch( "NoParent" , this.cateparent.name);
+        }else{
+          this.$store.dispatch( "HaveParent", this.cateparent );
+        }
+        this.$router.push( "/admin/help");
       }
-
+      else{
+        this.isShowAlert = true
+      }
+    },
+    updateTitleById(title, id){
+      this.$store.dispatch( "getTitleIdToUpdate" );
     }
   },
 }

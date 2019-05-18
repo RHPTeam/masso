@@ -20,12 +20,14 @@
       <div class="date d_flex align_items_center mb_3">
         <div class="desc mr_3">Thời gian bắt đầu sự kiện:</div>
         <time-picker
-          v-model="yourTimeValue"
+          :value.sync="time"
+          @change="changeTimeSetup"
         />
         <date-picker 
           class="ml_3"
-          @selected="updateDate"
+          @selected="changeDateSetup"
           :disabledDates="disabledDates"
+          :value="event.started_at"
         />
       </div>
       <div class="break d_flex align_items_center">
@@ -50,17 +52,40 @@ export default {
       disabledDates: {
         to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
       },
-      yourTimeValue: {
-        HH: "07",
-        mm: "00"
-      },
       timeNumberDefault: 15,
-      timeDescDefault: "Phút"
+      timeDescDefault: "Phút",
+      currrentDefault: new Date()
+    }
+  },
+  computed: {
+    event() {
+      return this.$store.getters.event;
+    },
+    time() {
+      return {
+        HH: ( new Date( this.event.started_at ) ).getHours(),
+        mm: ( new Date( this.event.started_at ) ).getMinutes()
+      }
     }
   },
   methods: {
-    updateDate( val ) {
-      console.log("hola");
+    changeTimeSetup( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: new Date( ( new Date( this.event.started_at ) ).getFullYear(), ( new Date( this.event.started_at ) ).getMonth(), ( new Date( this.event.started_at ) ).getDate(), value.HH, value.mm, 0 )
+      } )
+    },
+    changeDateSetup( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: new Date(
+          ( new Date( value ) ).getFullYear(),
+          ( new Date( value ) ).getMonth(),
+          ( new Date( value ) ).getDate(),
+          ( new Date( this.event.started_at ) ).getHours(),
+          ( new Date( this.event.started_at ) ).getMinutes(),
+          0 )
+      } )
     }
   },
 }

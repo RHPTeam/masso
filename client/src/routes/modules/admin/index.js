@@ -41,16 +41,20 @@ const generalRouter = {
         {
           path: "",
           name: "catagory",
-          component: require( "@/views/admin/help/listcatagory" ).default,
+          component: require( "@/views/admin/help/category/list" ).default,
         },
         {
           path: "add-post",
           name: "add_post",
-          component: require( "@/views/admin/help/addpost" ).default,
+          component: require( "@/views/admin/help/post/create" ).default,
         },{
           path: "add-catagory",
           name: "add_catagory",
-          component: require( "@/views/admin/help/addcatagory" ).default,
+          component: require( "@/views/admin/help/category/create" ).default,
+        },{
+          path: ":id",
+          name: "update_catagory",
+          component: require( "@/views/admin/help/category/update" ).default,
         }
       ]
     }

@@ -12,6 +12,6 @@ module.exports = {
   "JWT_SECRET": "adminzinbeechat",
   "gmail_email": "kythuatchatbee@gmail.com",
   "gmail_password": "$chatbee@123$",
-  "pfx": "./zinbee.pfx",
-  "passphrase": "198586367"
+  "pfx_url": "./zinbee.pfx",
+  "pfx_pass": "198586367"
 };

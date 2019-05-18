@@ -44,4 +44,8 @@ router
   .post( PostFacebookController.create )
   .patch( upload.array( "attachments", 20 ), PostFacebookController.update )
   .delete( PostFacebookController.delete );
+
+router
+  .route( "/search" )
+  .post( PostFacebookController.search );
 module.exports = router;

@@ -9,5 +9,8 @@ export default {
   },
   getAllCategories() {
     return Api().get( "help-categories" );
+  },
+  getCateById( id ) {
+    return Api().get( `help-categories?_id=${id}` )
   }
 }

@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="event"
     class="box p_3"
   >
     <!-- Start: Row -->
@@ -37,6 +38,9 @@
         <div class="button save" @click.prevent="createEvent">
           TẠO MỚI
         </div>
+<!--        <div class="button save" @click.prevent="updateEventById">-->
+<!--          CẬP NHẬT-->
+<!--        </div>-->
       </div>
     </div>
     <!-- End: Row -->
@@ -47,7 +51,7 @@
         <div class="d_flex">
           <toggle-switch
             class="mr_2"
-            :value="status"
+            :value="event.type_event === 0 ? false : true"
             @change="changeStatus($event.value)"
             :sync="true"
             :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
@@ -107,143 +111,45 @@
 <script>
 export default {
   props: {
-    status: Boolean
+    event: Object
   },
   data() {
     return {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ],
       isShowColorDropdown: false,
-      error: false,
-      event: {
-        title: ""
-      }
+      error: false
     }
   },
   methods: {
+    close(){
+      this.$emit( "close", false );
+    },
     closeColorGrid() {
       this.isShowColorDropdown = false;
     },
+    changeColor( val ){
+      localStorage.setItem( "color", val );
+    },
     changeStatus(status) {
-      this.$emit( "change", status );
+      this.$store.dispatch( "setEvent", {
+        key: "type_event",
+        value: status === true ? 1 : 0
+      } );
     },
     createEvent() {
+      // Check validator
       if ( this.event.title.length === 0 ) {
         this.error = true;
-        return;
+        return false;
       }
+
+      // Check info before send to server
+      this.close();
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .box {
-    background-color: #85CFFF;
-    border-top-left-radius: 0.625rem;
-    border-top-right-radius: 0.625rem;
-    height: auto;
-    transition: all 1s ease;
-    .r {
-      font-size: 0.875rem;
-    }
-    input[type=text] {
-      border: 0;
-      border-radius: 0.625rem;
-      background-color: #fff;
-      color: #444;
-      height: 40px;
-      line-height: 40px;
-      padding-left: 0.75rem;
-      padding-right: 0.75rem;
-      width: 100%;
-      &:active,
-      &:focus {
-        outline: 0;
-        box-shadow: none;
-      }
-      &::placeholder {
-        color: #ccc;
-      }
-    }
-    .left {
-      flex: 1;
-    }
-    .right {
-      .action div[role=color] {
-        position: relative;
-        span {
-          cursor: pointer;
-          font-style: italic;
-          opacity: .8;
-          text-decoration: underline;
-          &:hover {
-            opacity: 1;
-          }
-        }
-      }
-      .button {
-        color: #fff;
-        cursor: pointer;
-        transition: all .4s ease;
-
-        &.copy:hover, &.remove:hover {
-          svg {
-            stroke: #fff;
-            stroke-opacity: .8;
-          }
-        }
-        &.copy:hover svg {
-          stroke-width: 10;
-        }
-        &.remove:hover svg {
-          stroke-width: .3;
-        }
-        &.save {
-          border: 1px solid #fff;
-          border-radius: 0.625rem;
-          height: 40px;
-          line-height: 40px;
-          text-align: center;
-          transition: all .4s ease;
-          width: 76px;
-
-          &:hover {
-            box-shadow: 0 0 5px rgba(255, 255, 255, 1);
-            font-weight: 600;
-          }
-        }
-      }
-    }
-  }
-
-  .dropdown--menu {
-    background-color: #fff;
-    border-radius: .625rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    margin-top: 2px;
-    padding: .375rem .5rem;
-    position: absolute;
-    right: 0;
-    z-index: 99;
-    .dropdown--menu-item {
-      align-items: center;
-      display: flex;
-      justify-content: center;
-      height: 30px;
-      width: 30px;
-      .grid {
-        border-radius: .3rem;
-        cursor: pointer;
-        height: 20px;
-        opacity: .8;
-        transition: all .4s ease;
-        width: 20px;
-        &:hover {
-          height: 22px;
-          opacity: 1;
-          width: 22px;
-        }
-      }
-    }
-  }
+@import "./index.style";
 </style>

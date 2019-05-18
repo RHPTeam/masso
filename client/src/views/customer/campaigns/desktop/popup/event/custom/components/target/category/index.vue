@@ -5,16 +5,30 @@
       <div class="main">
         <multiselect
           label="title"
+          :clearable="false"
+          :options="groupPost"
+          @input="selectGroupPost"
         />
       </div>
-      <div class="desc text_right mt_2">Bao gồm 0 nhóm đã sử dụng</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  computed: {
+    groupPost(){
+      return this.$store.getters.postGroups;
+    }
+  },
+  methods: {
+    selectGroupPost( value ) {
+      this.$store.dispatch( "setEvent", {
+        key: "target_category",
+        value: value._id
+      } );
+    }
+  },
 }
 </script>
 

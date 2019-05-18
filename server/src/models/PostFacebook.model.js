@@ -34,11 +34,22 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+PostFacebookSchema.index( {
+  "title": "text",
+  "content": "text"
+} );
+
 PostFacebookSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const PostFacebook = mongoose.model( "PostFacebook", PostFacebookSchema );
+
+PostFacebook.on( "index", function( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = PostFacebook;
