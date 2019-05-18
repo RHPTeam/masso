@@ -9,20 +9,21 @@
         <div class="col col--action px_3">Hành động</div>
       </div>
       <div v-show="showResult === false">
-        <div v-if="this.$store.getters.statusLib === 'loading'">
-          <loading-component/>
-        </div>
-        <div v-else v-for="(item, index) in allPostLibararies" :key="index">
-          <item-detail :item="item" />
-        </div>
+          <div v-if="this.$store.getters.statusLib === 'loading'">
+            <loading-component/>
+          </div>
+          <div v-else v-for="(item, index) in allPostLibararies" :key="index">
+            <item-detail :item="item" />
+          </div>
       </div>
-      <vue-perfect-scrollbar v-show="showResult === true" class="wrap--post" ref="text" @ps-scroll-down="onScroll">
+      <vue-perfect-scrollbar v-show="showResult === true" class="wrap--post" ref="text">
         <div v-if="this.$store.getters.statusLib === 'loading'">
           <loading-component/>
         </div>
         <div v-else v-for="(item, index) in resultPostSearch" :key="`s-${index}`">
           <item-detail :item="item" />
         </div>
+        <observer @intersect="intersected" />
       </vue-perfect-scrollbar>
     </div>
   </div>
@@ -31,18 +32,23 @@
 <script>
 
 import ItemDetail from "./item";
+import Observer from "./observer";
+
 export default {
   components: {
-    ItemDetail
+    ItemDetail,
+    Observer
   },
   props: {
     keyword: String,
-    showResult: Boolean,
-    count: Number
+    showResult: Boolean
   },
   data() {
     return {
-      progress: 0
+      items: [],
+      progress: 0,
+      limit: 12,
+      count: 1
     }
   },
   computed: {
@@ -63,15 +69,31 @@ export default {
     onScroll() {
       const progress = this.$refs.text.$el.scrollTop / (this.$refs.text.$el.scrollHeight - this.$refs.text.$el.clientHeight);
       if( progress === 1){
+        if(this.count < this.resultPostSearch.page) {
+          this.count++;
+        }
         const dataSender = {
           key: this.keyword,
-          size: 8,
-          page: this.count++
+          size: this.limit,
+          page: this.count
         };
         console.log(dataSender);
         this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
         this.showResult = true;
       }
+    },
+    intersected(){
+      // if(this.count < this.resultPostSearch.page) {
+      //   this.count++;
+      // };
+      const dataSender = {
+        key: this.keyword,
+        size: this.limit,
+        page: this.count++
+      };
+      console.log(dataSender);
+      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+      this.showResult = true;
     }
   }
 };

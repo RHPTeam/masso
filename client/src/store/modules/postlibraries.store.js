@@ -31,43 +31,60 @@ const mutations = {
     state.postLibraries = payload;
   },
   setPostSearchFromLibraries: (state, payload) => {
-    state.postSearch = state.postSearch.concat(payload);
+    state.postSearch = payload;
   }
 };
 const actions = {
   createNewPostLibraries: async ( {commit}, payload ) => {
     commit( "lib_request" );
+
     const result = await PostLibrariesServices.create( payload );
     commit( "setNewPostLibraries", result.data.data );
+
     const resultUpdate = await PostLibrariesServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
+
     commit( "lib_success" );
   },
   getAllPostLibraries: async ( { commit } ) => {
     commit( "lib_request" );
+
     const result = await PostLibrariesServices.index();
     commit( "setAllPostLibraries", result.data.data );
+
     commit( "lib_success" );
   },
   getPostLibrariesById: async ( { commit }, payload ) => {
     commit( "post_request" );
+
     const result = await PostLibrariesServices.getById( payload );
     commit( "setPostLibraries", result.data.data );
+
     commit( "post_success" );
   },
   updatePostLibraries: async ( { commit }, payload ) => {
     commit( "post_request" );
-    await PostLibrariesServices.updatePost( payload.postId, payload.content );
+    await PostLibrariesServices.updatePost(
+      payload.postId,
+      payload.content
+    );
     const result = await PostLibrariesServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
+
     const resultUpdate = await PostLibrariesServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
+
     commit( "post_success" );
   },
   updateAttachmentPostLibraries: async ( { commit }, payload ) => {
-    await PostLibrariesServices.updateAttachmentPost( payload.id, payload.formData );
+    await PostLibrariesServices.updateAttachmentPost(
+      payload.id,
+      payload.formData
+    );
+
     const result = await PostLibrariesServices.getById( payload.id );
     commit( "setPostLibraries", result.data.data );
+
     const resultUpdate = await PostLibrariesServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
   },
@@ -77,21 +94,33 @@ const actions = {
     commit( "setAllPostLibraries", result.data.data );
   },
   deleteItemAttachmentLibraries: async ( { commit }, payload ) => {
-    await PostLibrariesServices.deleteItemAttachment( payload.postId, payload.attachmentId );
+    await PostLibrariesServices.deleteItemAttachment(
+      payload.postId,
+      payload.attachmentId
+    );
     const result = await PostLibrariesServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
+
     const results = await PostLibrariesServices.index();
     commit( "setAllPostLibraries", results.data.data );
   },
   searchPostFromLibrariesByKey: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const result = await PostLibrariesServices.searchPostFromLibararies( payload.key, payload.size );
-    commit( "setPostSearchFromLibraries", result.data.data );
+    const result = await PostLibrariesServices.searchPostFromLibararies(
+      payload.key,
+      payload.size
+    );
+    commit( "setAllPostLibraries", result.data.data.results );
     commit( "post_success" );
   },
   searchPostFromLibrariesByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const result = await PostLibrariesServices.searchPostLibrariesByPage( payload.key, payload.size, payload.page );
+    const arr = [];
+    const result = await PostLibrariesServices.searchPostLibrariesByPage(
+      payload.key,
+      payload.size,
+      payload.page
+    );
     commit( "setPostSearchFromLibraries", result.data.data.results );
     commit( "post_success" );
   }
