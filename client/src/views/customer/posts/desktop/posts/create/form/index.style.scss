@@ -56,6 +56,11 @@
       }
     }
   }
+  #content--special {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .disable {
     cursor: not-allowed;
     opacity: 0.6;
@@ -83,7 +88,7 @@
       .content--special {
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
-        min-height: 200px;
+        min-height: 300px;
         .close {
           height: 20px;
           top: .5rem;

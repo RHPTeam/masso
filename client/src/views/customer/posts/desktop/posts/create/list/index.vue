@@ -40,7 +40,7 @@
           </span>
         </div>
       </div>
-      <app-list :keyword="keyword" :showResult="isShowResultsSearch" :count="count" />
+      <app-list :keyword="keyword" :showResult="isShowResultsSearch" />
     </div>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
     return {
       isShowResultsSearch: false,
       keyword: "",
-      count: 1
+      limit: 12
     }
   },
   computed: {
@@ -75,14 +75,18 @@ export default {
   },
   methods: {
     searchPostByKey( val ) {
-      this.keyword = val;
+      const dataSender = {
+        key: val,
+        size: this.limit
+      };
+      this.$store.dispatch( "searchPostFromLibrariesByKey", dataSender );
     },
     searchPostByKeyword(){
       if( this.keyword.length > 0 ) {
         const dataSender = {
           key: this.keyword,
-          size: 8,
-          page: this.count
+          size: this.limit,
+          page: 1
         };
         this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
         this.isShowResultsSearch = true;
