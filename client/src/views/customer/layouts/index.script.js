@@ -12,9 +12,9 @@ export default {
       interval: null
     };
   },
-  async created() {
+  created() {
     this.startUpdateTimer();
-    await this.$store.dispatch( "getUserInfo" );
+    this.$store.dispatch( "getUserInfo" );
 
     // Check Login
     this.setCheckLogin();

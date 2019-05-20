@@ -61,7 +61,6 @@ export default {
           let uid = item.uid.toString();
           this.post.tags.push( uid );
           this.post.tags = [...new Set(this.post.tags)];
-
           this.$store.dispatch( "updatePost", this.post )
         });
       }

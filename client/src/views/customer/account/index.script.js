@@ -8,9 +8,6 @@ export default {
     return {
     };
   },
-  async created() {
-    await this.$store.dispatch( "getUserInfo" );
-  },
   computed: {
     user() {
       if ( this.$store.getters.userInfo === undefined ) {

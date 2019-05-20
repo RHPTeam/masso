@@ -5,6 +5,7 @@
       <div class="main">
         <multiselect
           label="title"
+          :value="event.target_category"
           :clearable="false"
           :options="groupPost"
           @input="selectGroupPost"
@@ -17,6 +18,9 @@
 <script>
 export default {
   computed: {
+    event() {
+      return this.$store.getters.event;
+    },
     groupPost(){
       return this.$store.getters.postGroups;
     }

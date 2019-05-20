@@ -16,7 +16,11 @@ const { port_socket, pfx_url, pfx_pass } = require( "../configs/server" ),
 
 let errorsLogin = [];
 
+<<<<<<< HEAD
 https.listen( port_socket );
+=======
+server.listen( port_socket );
+>>>>>>> dev-toantr-vue
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );

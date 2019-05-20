@@ -54,10 +54,12 @@ export default {
     await this.$store.dispatch( "getCampaignDetail", campaignId );
   },
   methods: {
-    openEventPopup( val ) {
-      this.$store.dispatch( "getEventById", val._id );
-      this.isOpenEventPopup = true;
-      this.statusUpdateEvent = true;
+    async openEventPopup( event ) {
+      await this.$store.dispatch( "getEventById", event._id );
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: true
+      } );
     }
   }
 };

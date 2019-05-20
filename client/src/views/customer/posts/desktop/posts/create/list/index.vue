@@ -24,15 +24,23 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" />
+          <input type="text" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchPostByKeyword" />
         </div>
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
-          <span v-show="keyPopular && keyPopular.length > 0" class="list--keywork-item py_1 m_1" v-for="(item, index) in keyPopular" :key="index">{{ item }}</span>
+          <span
+            v-show="keyPopular && keyPopular.length > 0"
+            class="list--keywork-item py_1 m_1"
+            v-for="(item, index) in keyPopular"
+            :key="index"
+            @click="searchPostByKey(item)"
+          >
+            {{ item }}
+          </span>
         </div>
       </div>
-      <app-list />
+      <app-list :keyword="keyword" :showResult="isShowResultsSearch" :count="count" />
     </div>
   </div>
 </template>
@@ -42,6 +50,13 @@ import AppList from "./table/index";
 export default {
   components: {
     AppList
+  },
+  data() {
+    return {
+      isShowResultsSearch: false,
+      keyword: "",
+      count: 1
+    }
   },
   computed: {
     currentTheme() {
@@ -57,7 +72,25 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getUserInfo" );
-  }
+  },
+  methods: {
+    searchPostByKey( val ) {
+      this.keyword = val;
+    },
+    searchPostByKeyword(){
+      if( this.keyword.length > 0 ) {
+        const dataSender = {
+          key: this.keyword,
+          size: 8,
+          page: this.count
+        };
+        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+        this.isShowResultsSearch = true;
+      } else {
+        this.$store.dispatch( "getAllPostLibraries" );
+      }
+    }
+  },
 };
 </script>
 

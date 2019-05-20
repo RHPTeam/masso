@@ -146,14 +146,14 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
     }
     const role = req.headers.cfr,
-      findPost = await PostFacebook.findById( req.query._postFacebookId );
+      findPostFacebook = await PostFacebook.findById( req.query._postFacebookId );
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     // Check catch when delete campaign
-    if ( !findPost ) {
+    if ( !findPostFacebook ) {
       return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
     }
 
@@ -172,8 +172,8 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    // Remove post
-    await _postFacebookId.findOneAndRemove( { "_id": req.query._postFacebookId } );
+    // Remove postFacebook
+    await findPostFacebook.remove();
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   /**
@@ -187,19 +187,20 @@ module.exports = {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
 
-    let page = null, dataResponse = null;
+
+    let page = null, dataResponse = null, data = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() );
 
     if ( req.query._size && req.query._page ) {
-      dataResponse = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = data.slice( 0, Number( req.query._size ) );
     }
 
     if ( req.query._size ) {
-      if ( dataResponse.length % req.query._size === 0 ) {
-        page = Math.floor( dataResponse.length / req.query._size );
+      if ( data.length % req.query._size === 0 ) {
+        page = Math.floor( data.length / req.query._size );
       } else {
-        page = Math.floor( dataResponse.length / req.query._size ) + 1;
+        page = Math.floor( data.length / req.query._size ) + 1;
       }
     }
 

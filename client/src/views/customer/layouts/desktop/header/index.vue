@@ -63,9 +63,9 @@
       >
         <div class="profile--image">
           <div
-            v-if="user.avatar"
+            v-if="user.imageAvatar"
             class="avatar--wrap avatar--img position_relative d_block"
-            :style="{ backgroundImage: 'url(' + user.avatar + ')' }"
+            :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
           ></div>
           <div
             v-else
@@ -99,9 +99,9 @@
             class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2"
           >
             <div
-              v-if="user.avatar"
+              v-if="user.imageAvatar"
               class="avatar--wrap avatar--img position_relative d_block"
-              :style="{ backgroundImage: 'url(' + user.avatar + ')' }"
+              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
             ></div>
             <div
               v-else

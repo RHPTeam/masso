@@ -1,6 +1,9 @@
 export default {
-  removeDuplicateObject(arr, comp) {
-    const unique = arr.map(e => e[comp]).map((e, i, final) => final.indexOf(e) === i && i).filter(e => arr[e]).map(e => arr[e]);
-    return unique;
+  removeDuplicateObject(arr, nest, key ) {
+    const result = arr.map( e => e[nest][key] )
+      .map((e, i, final) => final.indexOf(e) === i && i)
+      .filter(e => arr[e])
+      .map(e => arr[e]);
+    return result;
   }
 }

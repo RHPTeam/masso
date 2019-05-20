@@ -34,9 +34,9 @@ export default {
       }
     }
   },
-  async created() {
+  created() {
     this.startUpdateTimer();
-    await this.$store.dispatch( "getUserInfo" );
+    this.$store.dispatch( "getUserInfo" );
   },
   beforeDestroy() {
     this.stopUpdateTimer();

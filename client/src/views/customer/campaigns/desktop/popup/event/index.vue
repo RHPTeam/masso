@@ -39,11 +39,11 @@ export default {
     AppAuto,
     AppCustom
   },
-  data () {
-    return {
-      isTypeEvent: false,
-    }
-  },
+  // data () {
+  //   return {
+  //     isTypeEvent: false,
+  //   }
+  // },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -55,6 +55,7 @@ export default {
   mounted(){
 
   },
+
   created(){
     this.$store.dispatch( "getAllCategories" );
     this.$store.dispatch( "getAllPostGroups" );
@@ -62,12 +63,12 @@ export default {
     this.$store.dispatch( "getFacebookGroups" );
     this.$store.dispatch( "getFacebookPages" );
   },
-  methods: {
-    close() {
-      console.log( "cak" );
-      this.$emit("close", false);
-    }
-  }
+  // methods: {
+  //   close() {
+  //     console.log( "cak" );
+  //     this.$emit("close", false);
+  //   }
+  // }
 }
 </script>
 

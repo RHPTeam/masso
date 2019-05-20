@@ -18,5 +18,14 @@ export default {
   },
   deletePostFacebook( postId ){
     return Api().delete( `post-facebook?_postFacebookId=${postId}`);
+  },
+  deleteItemAttachment( postId, attachmentId ) {
+    return Api().delete( `post-facebook?_postFacebookId=${postId}&_attachmentId=${attachmentId}` );
+  },
+  searchPostFromLibararies( keyword, size) {
+    return Api().post( `post-facebook/search?keyword=${keyword}&_size=${size}` );
+  },
+  searchPostLibrariesByPage( keyword, size, page ){
+    return Api().get( `post-facebook?search?keyword=${keyword}&_size=${size}&_page=${page}` );
   }
 }

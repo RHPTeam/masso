@@ -89,8 +89,8 @@
       <!--	Start: Create Campaign Popup	-->
       <transition name="popup">
         <app-event
-          v-if="isShowCreateEvent === true"
-          @close="isShowCreateEvent = $event"
+          v-if="caseEvent.popup === true"
+          @close="close( $event )"
         />
       </transition>
       <!--	End: Create Campaign Popup	-->
@@ -109,23 +109,32 @@ export default {
     AppEvent
   },
   props: [ "view" ],
-  data() {
-    return {
-      isShowCreateEvent: false,
-      event: 1
-    }
-  },
+  // data() {
+  //   return {
+  //     isShowCreateEvent: false,
+  //     event: 1
+  //   }
+  // },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
     },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    caseEvent() {
+      return this.$store.getters.caseEvent;
     }
   },
   methods: {
     clearTypingTimer() {
       clearTimeout( typingTimer );
+    },
+    close( value ) {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: value
+      } );
     },
     formatDate( d ) {
       const dateTime = new Date(d),
@@ -134,6 +143,12 @@ export default {
             year = dateTime.getFullYear();
       
       return `${date}/${month}/${year}`;
+    },
+    openPopupCreateEvent() {
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: true
+      } );
     },
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );

@@ -7,6 +7,8 @@
  */
 const Campaign = require( "../models/Campaign.model" );
 const Event = require( "../models/Event.model" );
+const GroupFacebook = require( "../models/GroupFacebook.model" );
+const PageFacebook = require( "../models/PageFacebook.model" );
 
 const jsonResponse = require( "../configs/res" ),
   secure = require( "../helpers/utils/secure.util" );
@@ -24,7 +26,23 @@ module.exports = {
       userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "target_custom", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id name" } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      // eslint-disable-next-line camelcase
+      dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
+        if ( target.typeTarget === 0 ) {
+          return {
+            "_id": target._id,
+            "typeTarget": target.typeTarget,
+            "target": await GroupFacebook.findOne( { "groupId": target.id } ).select( "-_id groupId name" ).lean()
+          };
+        } else if ( target.typeTarget === 1 ) {
+          return {
+            "_id": target._id,
+            "typeTarget": target.typeTarget,
+            "target": await PageFacebook.findOne( { "pageId": target.id } ).select( "-_id pageId name" ).lean()
+          };
+        }
+      } ) );
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await Event.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
@@ -70,7 +88,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
     } else if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
-    } else if ( req.body.type_event === 1 ) {
+    } else if ( req.body.type_event === 0 ) {
       if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
       } else if ( req.body.break_point < 5 ) {
@@ -126,9 +144,9 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( !req.body.type_event ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
-    } else if ( req.body.type_event === 1 ) {
+    } else if ( req.body.type_event === undefined ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Custom, 1: Auto]" } } );
+    } else if ( req.body.type_event === 0 ) {
       if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
       } else if ( req.body.break_point < 5 ) {

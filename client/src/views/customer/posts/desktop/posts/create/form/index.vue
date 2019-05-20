@@ -121,53 +121,59 @@
               <!--Start: Choose color text-->
               <div class="color">
                 <color-post
-                  class="px_2 py_1"
+                  @turnOff="isShowColor = $event"
+                  @openContentColor="changeResultContentColor($event)"
                   :randomColor="randomColor"
                   :colorFb="colorFb"
-                  @changeBgColor="changeBgColor($event)"></color-post>
+                  :post="post"
+                  @changeBgColor="changeBgColor($event)"
+                >
+                </color-post>
               </div>
               <!--End: Choose color text-->
               <!--Start: Show tag and check in-->
-              <div class="d_flex align_items_center pb_3">
-                <span> — </span>
-                <!--Start: Show activity -->
-                <div class="ml_1">
-                  <div v-if="post.activity === undefined || post.activity === ''"></div>
-                  <div v-else class="d_flex align_items_center">
-                    Đang <div class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></div> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
-                  </div>
-                </div>
-                <!--End: Show activity -->
-                <!--Start: Show tag friend-->
-                <div class="ml_1" v-if="nameFriend.length > 0">
-                  <div v-if="nameFriend.length === 0"></div>
-                  <div v-else>
-                    <!--Start:  If tag 1 friend-->
-                    <div class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></div>
-                    <!--End: If tag 1 friend-->
-                    <!--Start: If tags over 1 friend-->
-                    <div v-else class="result d_flex align_items_center">
-                      <div>với <span>{{ nameFriend[0] }}</span></div>
-                      <div class="more--other position_relative ml_1">
-                        và <span> {{ nameFriend.length - 1 }} người khác</span>
-                        <div class="more--friend position_absolute">
-                          <div class="more--wrap">
-                            <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <!--End: If tags over 1 friend-->
-                  </div>
-                </div>
-                <!--End: Show tag friend-->
+              <div class="tagger--summary mb_1 p_2">
+                <span class="" v-if="nameFriend.length > 0">
+                  <span> — </span>
+                  <!--Start: Show activity -->
+                  <span class="pl_1">
+                    <span v-if="post.activity === undefined || post.activity === ''"></span>
+                    <span v-else class="">
+                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                    </span>
+                  </span>
+                  <!--End: Show activity -->
+                  <!--Start: Show tag friend-->
+                  <span class="pl_1">
+                    <span v-if="post.tags.length === 0"></span>
+                    <span v-else>
+                        <!--Start:  If tag 1 friend-->
+                        <span class="result" v-if="nameFriend.length === 1">với <span>{{ nameFriend[0] }}</span></span>
+                      <!--End: If tag 1 friend-->
+                      <!--Start: If tags over 1 friend-->
+                        <span v-else class="result">
+                          <span>với <span class="text--orange">{{ nameFriend[0] }}</span></span>
+                          <span class="more--other position_relative ml_1">
+                            và <span class="text--orange"> {{ nameFriend.length - 1 }} người khác</span>
+                            <div class="more--friend position_absolute">
+                              <div class="more--wrap">
+                                <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item }} </div>
+                              </div>
+                            </div>
+                          </span>
+                        </span>
+                      <!--End: If tags over 1 friend-->
+                    </span>
+                  </span>
+                  <!--End: Show tag friend-->
 
-                <!--Start: Show check in -->
-                <div class="ml_1">
-                  <div v-if="post.place === '' || post.place === undefined"></div>
-                  <div v-else class="result">tại <span>{{ post.place }}</span></div>
-                </div>
-                <!--End: Show check in -->
+                  <!--Start: Show check in -->
+                  <span class="ml_1">
+                    <span v-if="post.place === '' || post.place === undefined"></span>
+                    <span v-else class="result">tại <span class="text--orange">{{ post.place }}</span></span>
+                  </span>
+                  <!--End: Show check in -->
+                </span>
               </div>
               <!--End: Show tag and check in-->
             </div>
@@ -182,7 +188,9 @@
                 :randomColor="randomColor"
                 :colorFb="colorFb"
                 :post="post"
-                @changeBgColor="changeBgColor($event)"></color-post>
+                @changeBgColor="changeBgColor($event)"
+              >
+              </color-post>
             </div>
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
@@ -191,27 +199,31 @@
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
               <div v-else>
-                <image-post :post="post"/>
+                <image-post :post="post"></image-post>
               </div>
             </div>
             <!--End:  show image when add-->
           </div>
           <!-- End: Create and show content-->
           <!-- Start: Activity -->
-          <activity-post v-if="isShowActivity === true" :post="post" @sendPhoto="photo = $event"></activity-post>
+          <activity-post v-if="isShowActivity === true" :post="post" @sendPhoto="photo = $event" @closeActivity="isShowActivity = $event"></activity-post>
           <!--End: Activity -->
           <!-- Start: Tag-->
           <tag-post v-if="isShowTag === true" :post="post"></tag-post>
           <!--End: Tag-->
           <!-- Start: Checkin-->
-          <checkin-post v-if="isShowCheckIn === true" :post="post"></checkin-post>
+          <checkin-post v-if="isShowCheckIn === true" :post="post" @closeCheckin="isShowCheckIn = $event"></checkin-post>
           <!-- End: Checkin-->
           <!--Start: Show option-->
           <ul
             class="list d_flex align_items_center justify_content_between mb_0 pl_0 m_1"
             v-if="isShowMoreOption === false"
           >
-            <li class="item d_flex align_items_center" @click="showOptionPostImages">
+            <li
+              :class="post.color === undefined|| post.color === '' ? '' : 'disable'"
+              class="item d_flex align_items_center"
+              @click="showOptionPostImages"
+            >
               <label for="upload--images">
                 <icon-base
                   class="icon--image"

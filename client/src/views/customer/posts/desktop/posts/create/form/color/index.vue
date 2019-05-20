@@ -15,7 +15,7 @@
           <icon-arrow-left/>
         </icon-base>
       </div>
-<!--      Get random 15 first item more object 0-14 -->
+      <!--Get random 15 first item more object 0-14 -->
       <div v-for="(colors, index) in randomColor" :key="index">
         <div
           class="color--item"
@@ -36,10 +36,25 @@
             </div>
             <div class="body">
               <VuePerfectScrollbar class="show">
-                <div class="more--item p_2" v-for="(item, index) in colorFb" :key="`i-${index}`">
+                <div v-if="!colorFb">Đang tải về kết quả, vui lòng chờ ít giây.</div>
+                <div
+                  v-else
+                  class="more--item p_2"
+                  v-for="(item, index) in colorFb"
+                  :key="`i-${index}`"
+                >
                   <div class="header">{{ item.categoryName }}</div>
-                  <div class="wrap--item" v-for="(color, index) in  item.textFormats" :key="`c-${index}`">
-                    <div class="option" :style="color.bodyStyle" @click="hiddeOptionColor(color.bodyStyle)"></div>
+                  <div
+                    class="wrap--item"
+                    v-for="(color, index) in  item.textFormats"
+                    :key="`c-${index}`"
+                  >
+                    <div
+                      class="option"
+                      :style="color.bodyStyle"
+                      @click="hiddeOptionColor(color.bodyStyle)"
+                    >
+                    </div>
                   </div>
                 </div>
               </VuePerfectScrollbar>
@@ -86,7 +101,6 @@ export default {
       this.post.color = color;
       delete this.post.attachments;
       this.$store.dispatch( "updatePost", this.post );
-      console.log("done");
       this.changeBgColorDefault();
     }
   }

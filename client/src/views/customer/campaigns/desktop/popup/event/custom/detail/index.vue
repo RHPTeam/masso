@@ -100,6 +100,11 @@ export default {
         key: "post",
         value: 0
       } );
+      // Assign post_custom with empty array
+      this.$store.dispatch( "setEvent", {
+        key: "post_custom",
+        value: []
+      } );
     },
     selectFromLibraries() {
       this.$store.dispatch( "setCaseEvent", {

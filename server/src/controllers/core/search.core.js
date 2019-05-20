@@ -1,4 +1,5 @@
 /* eslint-disable strict */
+// eslint-disable-next-line no-unused-vars
 const fs = require( "fs" ),
   cheerio = require( "cheerio" ),
   request = require( "request" ),
@@ -111,6 +112,7 @@ const fs = require( "fs" ),
               let postID = null,
                 like = 0,
                 share = 0,
+                // eslint-disable-next-line no-unused-vars
                 postInfo = null,
                 pointID = $( this )
                   .find( "a[data-sigil='feed-ufi-trigger']" )
