@@ -109,8 +109,12 @@ const actions = {
     const resAllBlog = await AdminHelp.getAllBlogAdmin();
     commit("setAllBlog", resAllBlog.data.data);
     console.log(resAllBlog.data.data);
-  }
+  },
   // update
+  updateBlogHelp: async ( { commit }, payload ) => {
+
+    // const rsUpdateBlog = await
+  },
   // delete
   // ======= end blog help
 };

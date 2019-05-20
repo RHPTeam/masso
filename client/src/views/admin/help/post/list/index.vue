@@ -21,10 +21,10 @@
             <tr v-for="blog in allBlog" :key="blog">
               <td>{{ blog.title }}</td>
               <td>{{ blog.content }}</td>
-              <td>asdadasd</td>
+              <td>Name Cate</td>
               <td>
-                <button class="btn btn_warning mb_2 mt_2">Update</button>
-                <button class="btn btn_danger mb_2">Delete</button>
+                <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin">Update</button>
+                <button class="btn btn_danger my_2">Delete</button>
               </td>
             </tr>
 <!--            <tr v-else></tr>-->
@@ -45,7 +45,10 @@ export default {
     allBlog() {
       return this.$store.getters.getAllBlog;
     },
-
+    updateBlogHelpAdmin() {
+      // return this.$store.
+      return 0;
+    }
   },
   created(){
     this.$store.dispatch("getAllBlogAdmin");

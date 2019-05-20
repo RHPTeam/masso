@@ -27,6 +27,9 @@ export default {
   },
   getAllBlogAdmin(){
     return Api().get( "help-blogs");
+  },
+  updateBlogHelp(id, content){
+    return Api().patch( `help-blogs?_helpId=${id}`, content);
   }
 
 }
