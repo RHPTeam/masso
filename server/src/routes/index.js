@@ -18,6 +18,7 @@ router.use( "/group-facebook", auth, require( "./modules/groupFacebook.route" ) 
 router.use( "/page-facebook", auth, require( "./modules/pageFacebook.route" ) );
 router.use( "/post-facebook", auth, require( "./modules/postFacebook.route" ) );
 router.use( "/help", auth, require( "./modules/help.route" ) );
+router.use( "/roles", auth, require( "./modules/role.route" ) );
 router.use( "/help-blogs", auth, require( "./modules/blogHelp.route" ) );
 router.use( "/help-categories", auth, require( "./modules/helpCategory.route" ) );
 
