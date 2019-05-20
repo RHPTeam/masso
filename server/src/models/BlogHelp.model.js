@@ -10,6 +10,10 @@ const mongoose = require( "mongoose" ),
         "contentVote": String
       }
     ],
+    "_helpCategory": {
+      "type": Schema.Types.ObjectId,
+      "ref": "HelpCategory"
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

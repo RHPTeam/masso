@@ -59,12 +59,20 @@ module.exports = {
     const userId = secure( res, req.headers.authorization ), objSave = {
         "title": req.body.title,
         "content": req.body.content,
+        "_helpCategory": req.body._helpCategory ? req.body._helpCategory : "",
         "_account": userId
       },
       newBlogHelp = await new BlogHelp( objSave );
 
     // Save mongodb
     await newBlogHelp.save();
+
+    if ( req.body._helpCategory ) {
+      const findHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
+
+      findHelpCategory._blogHelp.push( newBlogHelp._id );
+      await findHelpCategory.save();
+    }
 
     res.status( 200 ).json( jsonResponse( "success", newBlogHelp ) );
   },
@@ -94,6 +102,18 @@ module.exports = {
         delete vote._id;
       } ) );
       req.body.vote = req.body.vote.concat( findBlogHelp.vote );
+    }
+    if ( req.body._helpCategory ) {
+      const findNewHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
+
+      if ( findBlogHelp._helpCategory !== "" ) {
+        const findHelpCategory = await HelpCategory.findOne( { "_id": findBlogHelp._helpCategory } );
+
+        findHelpCategory._blogHelp.pull( findBlogHelp._id );
+        await findHelpCategory.save();
+      }
+      findNewHelpCategory._blogHelp.push( findBlogHelp._id );
+      await findNewHelpCategory.save();
     }
     res.status( 201 ).json( jsonResponse( "success", await BlogHelp.findByIdAndUpdate( req.query._helpId, { "$set": req.body }, { "new": true } ) ) );
 
