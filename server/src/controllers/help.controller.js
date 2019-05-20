@@ -9,6 +9,7 @@
 
 const Help = require( "../models/Help.model" );
 const BlogHelp = require( "../models/BlogHelp.model" );
+// eslint-disable-next-line no-unused-vars
 const HelpCategory = require( "../models/HelpCategory.model" );
 const Account = require( "../models/Account.model" );
 

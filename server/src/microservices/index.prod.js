@@ -1,5 +1,6 @@
 // eslint-disable-next-line camelcase
-const { port_socket, pfx_url, pfx_pass } = require( "../configs/server" ),
+const fs = require( "fs" ),
+  { port_socket, pfx_url, pfx_pass } = require( "../configs/server" ),
   { agent } = require( "../configs/crawl" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
   express = require( "express" ),

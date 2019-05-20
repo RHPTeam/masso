@@ -12,7 +12,6 @@ import axios from "axios";
 export default {
   data() {
     return {
-      infoIP: null,
       errorText: {
         email: "",
         password: ""
@@ -33,22 +32,11 @@ export default {
       }
     };
   },
-  async created() {
-    axios
-      .get( "http://ip-api.com/json" )
-      .then( ( response ) => {
-        this.infoIP = response.data;
-      } )
-      .catch( ( error ) => {
-        this.infoIP = "";
-      } );
-  },
   methods: {
     async signIn() {
       const dataSender = {
         email: this.user.email,
-        password: this.user.password,
-        ip: this.infoIP
+        password: this.user.password
       };
 
       await this.$store.dispatch( "signIn", dataSender );

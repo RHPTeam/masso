@@ -8,6 +8,7 @@ const { port_socket } = require( "../configs/server" ),
   http = require( "http" ).Server( app ),
   io = require( "socket.io" )( http ),
   socketThread = {},
+  Account = require( "../models/Account.model" ),
   Facebook = require( "../models/Facebook.model" );
 
 let errorsLogin = [];
@@ -16,7 +17,13 @@ http.listen( port_socket );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );
-  const threadId = socket.id;
+  // Check server have one more account
+  const threadId = socket.id,
+    accountTest = await Account.find( {} ).limit( 1 ).lean();
+
+  if ( accountTest.length === 0 ) {
+    return false;
+  }
 
   socketThread[ threadId ] = socket;
 
