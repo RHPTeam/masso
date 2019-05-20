@@ -14,7 +14,7 @@
           <router-link
             class="mr_3 post p_2 mr_2"
             tag="button"
-            :to="{ name: 'add_post' }"
+            :to="{ name: 'help_blogs' }"
             active-class="active"
             exact
           >Bài viết</router-link>

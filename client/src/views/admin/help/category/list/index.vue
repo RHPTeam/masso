@@ -2,14 +2,15 @@
   <div>
     <div class="add--catagory">
       <router-link
-        class="mr_3 add--catagory p_2 mr_2"
-        tag="span"
+        class="add--catagory btn btn_warning"
+        tag="button"
         :to="{ name: 'add_catagory' }"
         active-class="active"
         exact
       >Thêm danh mục</router-link>
     </div>
     <div class="card card_body mt_2">
+        <div>List Categories</div>
         <app-tree :tree-data="getCategoryTable" />
     </div>
   </div>
@@ -75,8 +76,7 @@ export default {
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
-    background: $mainBrandColor;
-    color: $color-dark;
+    color: #fff;
   }
   .parent{
     font-size: 16px;

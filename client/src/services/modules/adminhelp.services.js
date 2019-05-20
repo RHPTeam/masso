@@ -21,4 +21,12 @@ export default {
     return Api().delete( `help-categories?_categoryId=${id}` );
   },
 
+  // =================== Start Bolg Help
+  createBlogHelpAdmin( blog ){
+    return Api().post( "help-blogs", blog );
+  },
+  getAllBlogAdmin(){
+    return Api().get( "help-blogs");
+  }
+
 }

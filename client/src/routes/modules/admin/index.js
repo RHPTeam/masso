@@ -42,19 +42,22 @@ const generalRouter = {
           path: "",
           name: "catagory",
           component: require( "@/views/admin/help/category/list" ).default,
-        },
-        {
-          path: "add-post",
-          name: "add_post",
-          component: require( "@/views/admin/help/post/create" ).default,
         },{
-          path: "add-catagory",
+          path: "category/add-catagory",
           name: "add_catagory",
           component: require( "@/views/admin/help/category/create" ).default,
         },{
-          path: ":id",
+          path: "category/update/:id",
           name: "update_catagory",
           component: require( "@/views/admin/help/category/update" ).default,
+        },{
+          path: "help-blogs",
+          name: "help_blogs",
+          component: require( "@/views/admin/help/post/list" ).default,
+        },{
+          path: "blog/create",
+          name: "create_blog",
+          component: require( "@/views/admin/help/post/create" ).default,
         }
       ]
     }

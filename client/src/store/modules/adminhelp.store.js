@@ -5,15 +5,24 @@ const state = {
   getNoParent: [],
   categoriesById: [],
   getCategories: [],
-  getCategoriesDelete: []
+  getCategoriesDelete: [],
+  getAllBlog: [],
+  createAllBlog: []
 };
 
 const getters = {
+  // Start Category
   getCateAdmin: state => state.getCateAdmin,
   getNoParent: state => state.getNoParent,
   categoriesById: state => state.categoriesById,
   getCategories: state => state.getCategories,
-  getCategoriesDelete: state => state.getCategoriesDelete
+  getCategoriesDelete: state => state.getCategoriesDelete,
+  // End Category
+
+  // Start Blog help
+  getAllBlog: state => state.getAllBlog,
+  createAllBlog: state => state.createAllBlog
+  // End Blog Help
 };
 
 const mutations = {
@@ -28,10 +37,23 @@ const mutations = {
   },
   setCategories: (state, payload) => {
     state.getCategories = payload;
-  }
+  },
+
+  // Start Blog Help
+
+  setCreateBlogHelp: (state, payload) => {
+    state.createAllBlog = payload;
+  },
+  // get
+  setAllBlog: (state, padload) => {
+    state.getAllBlog = padload;
+  },
+  // End Blog Help
 };
 
 const actions = {
+
+  // ============= Start Category
 
   getAllCategoriesAdmin: async ( {commit } ) => {
     const rsGetAllCateAdmin = await AdminHelp.getNewCategory();
@@ -71,7 +93,26 @@ const actions = {
     await AdminHelp.deleteCategoryAdmin( payload );
     const rsdeleteCategory = await AdminHelp.getNewCategory();
     commit("setAllCateAdmin", rsdeleteCategory);
+  },
+
+  // ============= End Category
+
+  // ======= Start blog help
+
+  // create
+  createBlogHelpAdmin: async ( { commit }, payload ) => {
+      const res = await AdminHelp.createBlogHelpAdmin( payload );
+      commit("setCreateBlogHelp", res.data.data);
+  },
+  // get all
+  getAllBlogAdmin: async ( { commit } ) => {
+    const resAllBlog = await AdminHelp.getAllBlogAdmin();
+    commit("setAllBlog", resAllBlog.data.data);
+    console.log(resAllBlog.data.data);
   }
+  // update
+  // delete
+  // ======= end blog help
 };
 
 export default {

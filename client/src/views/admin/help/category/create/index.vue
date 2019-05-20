@@ -61,9 +61,6 @@ export default {
       else{
         this.isShowAlert = true
       }
-    },
-    updateTitleById(title, id){
-      this.$store.dispatch( "getTitleIdToUpdate" );
     }
   },
 }
