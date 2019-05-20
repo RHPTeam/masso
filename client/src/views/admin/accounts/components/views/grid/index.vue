@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
     <div class="grid">
+      <!-- Start: Grid Header -->
       <div
         class="grid--header d_flex align_items_center mb_1"
       >
@@ -30,11 +31,15 @@
           Đã chọn <span class="font_weight_bold">{{ selected.length }}</span> tài khoản
         </div>
       </div>
+      <!-- End: Grid Header -->
+      <!-- Start: Grid Content -->
       <div class="grid--content">
         <div class="ct_f p_0">
+          <!-- Start: User Data -->
           <div class="r" v-if="users.length > 0">
             <div class="c_md_3 mt_4" v-for="user in users" :key="user._id">
               <div class="user">
+                <!-- Start: Checkbox -->
                 <div class="user--action d_flex">
                   <input
                     type="checkbox"
@@ -44,6 +49,8 @@
                     :value="user._id"
                   />
                 </div>
+                <!-- End: Checkbox -->
+                <!-- Start: Status -->
                 <div class="d_flex justify_content_center align_items_center text_center">
                   <div class="user--name">{{ user.name }}</div>
                   <div
@@ -60,8 +67,14 @@
                     </icon-base>
                   </div>
                 </div>
+                <!-- End: Status -->
+                <!-- Start: Email -->
                 <div class="user--mail text_center">{{ user.email }}</div>
+                <!-- End: Email -->
+                <!-- Start: Phone -->
                 <div class="user--phone mb_3 text_center">{{ user.phone }}</div>
+                <!-- End: Phone -->
+                <!-- Start: Avatar -->
                 <div class="user--avatar mt_2 mb_3 d_flex justify_content_center">
                   <div
                     v-if="user.imageAvatar"
@@ -81,6 +94,8 @@
                     }}</span>
                   </div>
                 </div>
+                <!-- End: Avatar -->
+                <!-- Start: ExpireDate & Limited Accounts -->
                 <div class="d_flex justify_content_between align_items_center data--wrap">
                   <div class="user--data">
                     <div class="user--data-desc">Ngày hết hạn</div>
@@ -95,6 +110,8 @@
                     </div>
                   </div>
                 </div>
+                <!-- End: ExpireDate & Limited Accounts -->
+                <!-- Start: Edit Btn -->
                 <div class="user--edit text_center">
                   <div class="btn--edit" @click="openPopupEdit(user)">
                     <span class="mr_2">Chỉnh sửa</span>
@@ -108,14 +125,19 @@
                     </icon-base>
                   </div>
                 </div>
+                <!-- End: Edit Btn -->
               </div>
             </div>
           </div>
+          <!-- Start: User Data -->
+          <!-- Start: Empty Data -->
           <div class="data--empty text_center pt_4" v-else>
             Không có dữ liệu.
           </div>
+          <!-- End: Empty Data -->
         </div>
       </div>
+      <!-- End: Grid Content -->
     </div>
 
     <!-- ************** POPUP ************** -->

@@ -1,8 +1,3 @@
-/* eslint-disable arrow-parens */
-/* eslint-disable one-var */
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
 import AccountServices from "@/services/modules/account.services";
 
 import CookieFunction from "@/utils/functions/cookie";
@@ -18,7 +13,8 @@ const state = {
   textAuth: "",
   users: [],
   usersFilter: [],
-  fileAvatar: ""
+  fileAvatar: "",
+  roles: [],
 };
 
 const getters = {
@@ -31,7 +27,8 @@ const getters = {
   textAuth: ( state ) => state.textAuth,
   users: ( state ) => state.users,
   usersFilter: ( state ) => state.usersFilter,
-  fileAvatar: ( state ) => state.fileAvatar
+  fileAvatar: ( state ) => state.fileAvatar,
+  roles: ( state ) => state.roles
 };
 
 const mutations = {
@@ -79,6 +76,9 @@ const mutations = {
   },
   setFileAvatar: ( state, payload ) => {
     state.fileAvatar = payload;
+  },
+  setRoles: ( state, payload ) => {
+    state.roles = payload;
   }
 };
 
@@ -252,6 +252,11 @@ const actions = {
   },
   getUsersFilter: async ( { commit }, payload ) => {
     await commit( "getUsersFilter", payload );
+  },
+  getRoles: async ( { commit } ) => {
+    const res = await AccountServices.getRoles();
+
+    await commit( "setRoles", res.data.data );
   },
   sendFile: async ( { commit }, payload ) => {
     commit( "setFileAvatar", payload );

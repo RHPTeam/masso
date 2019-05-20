@@ -6,6 +6,7 @@
       <div class="modal--header pl_4 pr_4 pt_3 pb_3">Cấu hình tài khoản</div>
       <div class="modal--body pt_3 pb_0 pl_4 pr_4">
         <div class="user d_flex justify_content_start align_items_center mb_4">
+          <div>{{roles}}</div>
           <div class="user--avatar mr_4">
             <div
               v-if="user.imageAvatar"
