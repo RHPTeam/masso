@@ -59,7 +59,6 @@ module.exports = {
     const userId = secure( res, req.headers.authorization ), objSave = {
         "title": req.body.title,
         "content": req.body.content,
-        "_helpCategory": req.body._helpCategory ? req.body._helpCategory : "",
         "_account": userId
       },
       newBlogHelp = await new BlogHelp( objSave );
@@ -70,6 +69,8 @@ module.exports = {
     if ( req.body._helpCategory ) {
       const findHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
 
+      newBlogHelp._helpCategory = req.body._helpCategory;
+      await newBlogHelp.save();
       findHelpCategory._blogHelp.push( newBlogHelp._id );
       await findHelpCategory.save();
     }
@@ -106,7 +107,7 @@ module.exports = {
     if ( req.body._helpCategory ) {
       const findNewHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
 
-      if ( findBlogHelp._helpCategory !== "" ) {
+      if ( findBlogHelp._helpCategory ) {
         const findHelpCategory = await HelpCategory.findOne( { "_id": findBlogHelp._helpCategory } );
 
         findHelpCategory._blogHelp.pull( findBlogHelp._id );
