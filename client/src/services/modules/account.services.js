@@ -63,6 +63,6 @@ export default {
     return Api().post( "users/active", user );
   },
   getRoles() {
-    return Api().get( "role" );
+    return Api().get( "roles" );
   }
 };

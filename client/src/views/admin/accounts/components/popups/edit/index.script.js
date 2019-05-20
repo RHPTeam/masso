@@ -43,7 +43,19 @@ export default {
     closeAddEdit() {
       this.$emit( "closeAddEdit", false );
     },
-    updateStatus: function() {
+    formatDate( date) {
+      const dateTime = new Date( date ),
+        yyyy = dateTime.getFullYear(),
+        mm = String( dateTime.getMonth() + 1 ).padStart( 2, 0 ),
+        dd = String( dateTime.getDate() ).padStart( 2, 0 );
+
+      return `${dd}/${mm}/${yyyy}`;
+    },
+    updateExpireDate( date ) {
+      console.log(date);
+      this.user.expireDate = date;
+    },
+    updateStatus() {
       this.user.status = !this.user.status;
     },
     updateAccount() {

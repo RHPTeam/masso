@@ -214,22 +214,23 @@
   .time--tick-icon {
     color: #747474;
     pointer-events: none;
-    right: 16px;
-    top: 6px;
+    right: 10px;
+    top: 11px;
+    svg {
+      color: #999;
+    }
   }
 }
 
 .edit--time {
   .time--tick {
-    input {
-      border-radius: 10px;
-      border: solid 1px #e4e4e4;
-      color: #444;
-      cursor: pointer;
-      font-size: 14px;
-      height: 40px;
-      padding: 0 16px;
-    }
+    border-radius: 10px;
+    border: solid 1px #e4e4e4;
+    color: #444;
+    cursor: pointer;
+    font-size: .875rem;
+    height: 42px;
+    padding: 0;
   }
   .picker-wrap {
     border-top-left-radius: 10px;

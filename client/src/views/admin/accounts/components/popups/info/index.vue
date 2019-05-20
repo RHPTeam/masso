@@ -23,7 +23,7 @@
             </div>
           </div>
           <div class="user--info">
-            <div class="d_flex justify_content_start align_items_center mb_2">
+            <div class="d_flex justify_content_start align_items_center">
               <div class="user--info-name">{{ user.name }}</div>
               <div class="user--info-status ml_2">
                 <icon-base
@@ -38,7 +38,10 @@
               </div>
             </div>
             <div class="user--info-time">
-              Ngày hoạt động: {{ user.created_at | formatDate }}
+              Ngày hết hạn: {{ user.expireDate | formatDate }}
+            </div>
+            <div class="user--info-time">
+              Mã giới thiệu: {{ user.presenter }}
             </div>
           </div>
         </div>
@@ -130,12 +133,10 @@ export default {
     formatDate( d ) {
       const newDate = new Date( d ),
             year = newDate.getFullYear(),
-            month = newDate.getMonth() + 1,
-            date = newDate.getDate(),
-            hour = newDate.getHours(),
-            minutes = newDate.getMinutes();
+            month = String(newDate.getMonth() + 1 ).padStart( 2, 0),
+            date = String(  newDate.getDate() ).padStart( 2, 0 );
 
-      return `${hour}:${minutes}, ${date}-${month}-${year}`;
+      return `${date}/${month}/${year}`;
     },
     getFirstLetter( string ) {
       return string.charAt( 0 ).toUpperCase();
