@@ -41,7 +41,7 @@
               Ngày hết hạn: {{ user.expireDate | formatDate }}
             </div>
             <div class="user--info-time">
-              Mã giới thiệu: {{ user.presenter }}
+              Mã kích hoạt: {{ user.presenter }}
             </div>
           </div>
         </div>

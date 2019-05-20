@@ -79,7 +79,11 @@
     </div>
 
     <!--Start: Active Popup-->
-    <active-popup v-if="isActivePopup === true" @close="isActivePopup = $event" />
+    <active-popup
+      v-if="isActivePopup === true"
+      @close="isActivePopup = $event"
+      @updateStatusFilter="statusFilter = $event"
+    ></active-popup>
     <!--End: Active Popup-->
   </div>
 </template>

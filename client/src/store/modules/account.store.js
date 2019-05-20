@@ -15,6 +15,7 @@ const state = {
   usersFilter: [],
   fileAvatar: "",
   roles: [],
+  activeAccountError: "",
 };
 
 const getters = {
@@ -28,7 +29,8 @@ const getters = {
   users: ( state ) => state.users,
   usersFilter: ( state ) => state.usersFilter,
   fileAvatar: ( state ) => state.fileAvatar,
-  roles: ( state ) => state.roles
+  roles: ( state ) => state.roles,
+  activeAccountError: ( state ) => state.activeAccountError
 };
 
 const mutations = {
@@ -73,6 +75,9 @@ const mutations = {
   },
   getUsersFilter: ( state, payload ) => {
     state.usersFilter = payload;
+  },
+  setActiveAccount: ( state, payload ) => {
+    state.activeAccountError = payload;
   },
   setFileAvatar: ( state, payload ) => {
     state.fileAvatar = payload;
@@ -265,9 +270,25 @@ const actions = {
     commit( "user_set", result.data.data );
   },
   activeAccount: async ( { commit }, payload ) => {
-    commit( "auth_request" );
-    await AccountServices.active( payload );
-    commit( "auth_request_success" );
+    commit( "setActiveAccount", "" );
+    try {
+      commit( "auth_request" );
+      await AccountServices.active( payload );
+      commit( "auth_request_success" );
+
+      const users = await AccountServices.index();
+      await commit( "getUsersFilter", users.data.data );
+    }
+    catch ( e ) {
+    if ( e.response.status === 404 ) {
+      commit(
+        "setActiveAccount",
+        "Mã kích hoạt không tồn tại!"
+      );
+    }
+  }
+
+
   }
 };
 
