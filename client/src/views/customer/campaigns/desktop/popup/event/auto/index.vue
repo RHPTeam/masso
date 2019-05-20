@@ -8,7 +8,7 @@
         <div class="c_12">
           <div class="section--content">
             <label class="mb_3"><b>Ngày áp dụng:</b></label>
-            <date-picker class="time" role="date" v-model="event.started_at" @selected="updateStartedDate" :disabledDates="disabledDates" />
+            <date-picker class="time" role="date" v-model="event.started_at" @change="updateStartedDate" />
             <div class="space"></div>
           </div>
         </div>
@@ -18,17 +18,12 @@
 </template>
 
 <script>
-const currentTimeStamp = new Date();
+const dateDisable = new Date();
+dateDisable.setDate(dateDisable.getDate() - 1);
+
 export default {
   props: {
     event: Object,
-  },
-  data() {
-    return {
-      disabledDates: {
-        to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
-      }
-    }
   },
   methods: {
     updateStartedDate( value ) {

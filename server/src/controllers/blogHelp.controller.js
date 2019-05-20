@@ -50,11 +50,14 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" || !req.body.title ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề blog không được bỏ trống!" } } );
+    } else if ( req.body.content ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung blog không được bỏ trống!" } } );
     }
 
     // Handle create with mongodb
     const userId = secure( res, req.headers.authorization ), objSave = {
         "title": req.body.title,
+        "content": req.body.content,
         "_account": userId
       },
       newBlogHelp = await new BlogHelp( objSave );
