@@ -158,7 +158,7 @@ module.exports = {
 
     // When delete auto which all of help category of that auto will deleted
     if ( findHelpCategory.length > 0 ) {
-      if ( findHelpCategory._blogHelp.indexOf( req.query._helpId ) > -1 && findHelpCategory._blogHelp !== undefined ) {
+      if ( findHelpCategory._blogHelp !== undefined && findHelpCategory._blogHelp.indexOf( req.query._helpId ) > -1 ) {
         findHelpCategory._blogHelp.pull( req.query()._helpId );
         await findHelpCategory.save();
       }
