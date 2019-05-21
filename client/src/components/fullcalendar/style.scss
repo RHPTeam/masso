@@ -649,6 +649,137 @@ Docs & License: https://rfullcalendar.io/
 }
 
 
+// ==============================================================
+/* ============== Card Hover  =============== */
+.rc {
+  .rc--card-hover {
+    border-radius: .5rem;
+    font-size: .825rem;
+    padding: 1rem;
+    position: absolute;
+    width: 360px;
+    z-index: 10;
+    .card--hover-item {
+      display: flex;
+      align-items: center;
+      margin-top: 1rem;
+      &.card--hover--title {
+        margin-bottom: 1rem;
+        margin-top: 0;
+        align-items: start;
+      }
+      .item--left {
+        margin-right: 1rem;
+        .card--hover-icon {
+          height: 20px;
+          width: 20px;
+          &.icon--autopost {
+            align-items: center;
+            border-radius: .3rem;
+            display: flex;
+            font-weight: 600;
+            justify-content: center;
+            height: 17px;
+            width: 17px;
+          }
+          &.icon--event-color {
+            border-radius: .3rem;
+            margin-top: 3px;
+          }
+          &.icon--group {
+            svg {
+              stroke-width: 12;
+            }
+          }
+        }
+      }
+      .item--right {
+        .title--content {
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+/* Light Theme Color */
+.rc[data-theme="light"] {
+  .rc--card-hover {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    .card--hover-item {
+      &.card--hover--title {
+      }
+      .item--left {
+        .card--hover-icon {
+          svg {
+            color: #999;
+          }
+          &.icon--autopost {
+            border: 1.5px solid #b7b7b7;
+            color: #999;
+          }
+          &.icon--event-color {
+          }
+          &.icon--page {
+          }
+          &.icon--group {
+            svg {
+              stroke: #999;
+            }
+          }
+        }
+      }
+      .item--right {
+        .title--content {
+        }
+        .start--time {
+          color: #999;
+        }
+      }
+    }
+  }
+}
+/* Dark Theme Color */
+.rc[data-theme="dark"] {
+  .rc--card-hover {
+    background-color: #27292c;
+    box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+    color: #f7f7f7;
+    .card--hover-item {
+      &.card--hover--title {
+      }
+      .item--left {
+        .card--hover-icon {
+          svg {
+            color: #ccc;
+          }
+          &.icon--autopost {
+            border: 1.5px solid #999;
+            color: #ccc;
+          }
+          &.icon--event-color {
+          }
+          &.icon--page {
+          }
+          &.icon--group {
+            svg {
+              stroke: #ccc;
+            }
+          }
+        }
+      }
+      .item--right {
+        .title--content {
+        }
+        .start--time {
+          color: #999;
+        }
+      }
+    }
+  }
+}
+
+
 // ===========================================================
 /*================= Transition ==================*/
 .fade-enter-active,
