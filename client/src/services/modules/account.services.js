@@ -61,5 +61,8 @@ export default {
   },
   active( user ) {
     return Api().post( "users/active", user );
+  },
+  getRoles() {
+    return Api().get( "roles" );
   }
 };

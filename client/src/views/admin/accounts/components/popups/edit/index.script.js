@@ -43,7 +43,7 @@ export default {
     closeAddEdit() {
       this.$emit( "closeAddEdit", false );
     },
-    updateStatus: function() {
+    updateStatus() {
       this.user.status = !this.user.status;
     },
     updateAccount() {

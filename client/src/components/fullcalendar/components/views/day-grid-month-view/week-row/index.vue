@@ -57,6 +57,8 @@
                 :style="{ backgroundColor: eventOfDay(monthDays[rowIndex * 7 + j ].time)[i].color }"
                 v-if=" eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i] "
                 @click="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
+                @mouseover="eventHover(j, eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
+                @mouseleave="closeCardHover"
               >
                 <div class="rc--content">
                   <span class="rc--title">

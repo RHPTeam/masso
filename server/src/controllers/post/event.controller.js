@@ -44,7 +44,23 @@ module.exports = {
         }
       } ) );
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Event.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      // eslint-disable-next-line camelcase
+      dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
+        if ( target.typeTarget === 0 ) {
+          return {
+            "_id": target._id,
+            "typeTarget": target.typeTarget,
+            "target": await GroupFacebook.findOne( { "groupId": target.id } ).select( "-_id groupId name" ).lean()
+          };
+        } else if ( target.typeTarget === 1 ) {
+          return {
+            "_id": target._id,
+            "typeTarget": target.typeTarget,
+            "target": await PageFacebook.findOne( { "pageId": target.id } ).select( "-_id pageId name" ).lean()
+          };
+        }
+      } ) );
     } else if ( req.query._size ) {
       dataResponse = ( await Event.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {

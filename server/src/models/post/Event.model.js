@@ -25,7 +25,7 @@ const mongoose = require( "mongoose" ),
       "ref": "PostGroups"
     },
     "target_custom": [ {
-      "typeTarget": Number,
+      "typeTarget": Number, // Page is 1, Group is 0
       "id": String
     } ],
     "break_point": {

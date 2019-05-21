@@ -5,6 +5,7 @@
     <div class="modal--content">
       <div class="modal--header pl_4 pr_4 pt_3 pb_3">Cấu hình tài khoản</div>
       <div class="modal--body pt_3 pb_0 pl_4 pr_4">
+        <!-- Start: User General Info -->
         <div class="user d_flex justify_content_start align_items_center mb_4">
           <div class="user--avatar mr_4">
             <div
@@ -26,7 +27,37 @@
             <div class="user--info-mail">{{ user.email }}</div>
           </div>
         </div>
+        <!-- End: User General Info -->
+        <!-- Start: User Edit -->
         <div class="edit">
+          <!-- Start: Expire Date -->
+          <div
+            class="edit--time d_flex justify_content_between align_items_center mb_3"
+          >
+            <div class="edit--desc d_flex align_items_center">
+              <icon-base
+                icon-name="hourglass"
+                class="mr_3"
+                width="15.333"
+                height="20"
+                viewBox="0 0 15.333 20"
+              >
+                <icon-hourglass /> </icon-base
+              >Ngày hết hạn:
+            </div>
+            <div class="">
+              <datepicker
+                class="date--input"
+                placeholder="Chọn ngày gia hạn"
+                role="date"
+                format="DD/MM/YYYY"
+                :default-value="new Date(user.expireDate)"
+                v-model="user.expireDate"
+              ></datepicker>
+            </div>
+          </div>
+          <!-- End: Expire Date -->
+          <!-- Start: Status -->
           <div
             class="edit--status d_flex justify_content_between align_items_center mb_3"
           >
@@ -52,6 +83,8 @@
               <label for="check-active"></label>
             </div>
           </div>
+          <!-- End: Status -->
+          <!-- Start: Accounts Qty -->
           <div
             class="edit--account d_flex justify_content_between align_items_center mb_3"
           >
@@ -70,6 +103,8 @@
               <input type="number" v-model="user.maxAccountFb" size="10" />
             </div>
           </div>
+          <!-- End: Accounts Qty -->
+          <!-- Start: Account Type -->
           <div
             class="edit--type d_flex justify_content_between align_items_center mb_3"
           >
@@ -98,41 +133,9 @@
               </div>
             </div>
           </div>
-          <div
-            class="edit--time d_flex justify_content_between align_items_center mb_3"
-          >
-            <div class="edit--desc d_flex align_items_center">
-              <icon-base
-                icon-name="hourglass"
-                class="mr_3"
-                width="15.333"
-                height="20"
-                viewBox="0 0 15.333 20"
-              >
-                <icon-hourglass /> </icon-base
-              >Ngày hết hạn:
-            </div>
-            <div class="time--tick position_relative">
-              <datepicker
-                :readonly="true"
-                format="D-M-YYYY"
-                name="date-edit"
-                :value="formatDateCreate"
-                v-model="formatDateCreate"
-              ></datepicker>
-              <div class="time--tick-icon position_absolute">
-                <icon-base
-                  icon-name="calendar"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 12 12"
-                >
-                  <icon-calendar />
-                </icon-base>
-              </div>
-            </div>
-          </div>
+          <!-- End: Account Type -->
         </div>
+        <!-- End: User Edit -->
       </div>
       <div
         class="modal--footer d_flex justify_content_end align_items_center pl_4 pr_4 pb_4 pt_2"
