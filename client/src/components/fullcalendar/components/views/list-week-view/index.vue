@@ -31,6 +31,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -62,6 +71,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -93,6 +111,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -124,6 +151,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -155,6 +191,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -186,6 +231,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
 
@@ -217,6 +271,15 @@
             </td>
             <td class="rc--list-item-title rc--widget-content">
               <a>{{ event.title }}</a>
+              <transition name="fade">
+                <rc-card-hover
+                  class="rc--card-hover-control"
+                  :eventData="event"
+                  :leftVal="null"
+                  :rightVal="0"
+                  :topVal="0"
+                ></rc-card-hover>
+              </transition>
             </td>
           </tr>
         </tbody>
@@ -225,11 +288,27 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Popover -->
+    <transition name="fade">
+      <rc-card-hover
+        v-if="isShowCardHover"
+        :eventData="eventHoverData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      ></rc-card-hover>
+    </transition>
   </div>
 </template>
 
 <script>
+import RcCardHover from "../../popover/cardhover";
+
 export default {
+  components: {
+    RcCardHover
+  },
   props: [ "eventsOfWeek", "dayFullName", "monthName", "weekDays" ],
   methods: {
     eventClick( data ) {
