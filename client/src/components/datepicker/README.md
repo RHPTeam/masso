@@ -1,278 +1,155 @@
-# Datepicker
-
-> A module library of RHP Team about datepicker. If u want use libraries, please contact us before using it.
-
-``` javascript
-import Datepicker from '@/components/datepicker';
-
-export default {
-  // ...
-  components: {
-    Datepicker
-  }
-  // ...
-}
-```
+# vue2-datepicker
 
 ## Usage
 
-``` html
-<datepicker></datepicker>
-```
-
-*value* prop if passed should be a Date object
-
-``` html
+```html
 <script>
-var state = {
-  date: new Date(2016, 9,  16)
-}
-</script>
-<datepicker :value="state.date"></datepicker>
-```
-support name attribute for normal html form submission
-``` html
-<datepicker :value="state.date" name="uniquename"></datepicker>
-```
-Using `v-model`
-``` html
-<datepicker v-model="state.date" name="uniquename"></datepicker>
-```
-Emits events
-``` html
-<datepicker @selected="doSomethingInParentComponentFunction" @opened="datepickerOpenedFunction" @closed="datepickerClosedFunction">
-```
-Inline always open version
-``` html
-<datepicker :inline="true"></datepicker>
-```
-## Available props
+import DatePicker from 'vue2-datepicker'
 
-| Prop                          | Type            | Default     | Description                              |
-|-------------------------------|-----------------|-------------|------------------------------------------|
-| value                         | Date\|String    |             | Date value of the datepicker             |
-| name                          | String          |             | Input name property                      |
-| id                            | String          |             | Input id                                 |
-| format                        | String\|Function| dd MMM yyyy | Date formatting string or function       |
-| full-month-name               | Boolean         | false       | To show the full month name              |
-| language                      | Object          | en          | Translation for days and months          |
-| disabled-dates                | Object          |             | See below for configuration              |
-| placeholder                   | String          |             | Input placeholder text                   |
-| inline                        | Boolean         |             | To show the datepicker always open       |
-| calendar-class                | String\|Object  |             | CSS class applied to the calendar el     |
-| input-class                   | String\|Object  |             | CSS class applied to the input el        |
-| wrapper-class                 | String\|Object  |             | CSS class applied to the outer div       |
-| monday-first                  | Boolean         | false       | To start the week on Monday              |
-| clear-button                  | Boolean         | false       | Show an icon for clearing the date       |
-| clear-button-icon             | String          |             | Use icon for button (ex: fa fa-times)    |
-| calendar-button               | Boolean         | false       | Show an icon that that can be clicked    |
-| calendar-button-icon          | String          |             | Use icon for button (ex: fa fa-calendar) |
-| calendar-button-icon-content  | String          |             | Use for material-icons (ex: event)       |
-| day-cell-content              | Function        |             | Use to render custom content in day cell |
-| bootstrap-styling             | Boolean         | false       | Output bootstrap v4 styling classes.     |
-| initial-view                  | String          | minimumView | If set, open on that view                |
-| disabled                      | Boolean         | false       | If true, disable Datepicker on screen    |
-| required                      | Boolean         | false       | Sets html required attribute on input    |
-| typeable                      | Boolean         | false       | If true, allow the user to type the date |
-| use-utc                       | Boolean         | false       | use UTC for time calculations            |
-| open-date                     | Date\|String    |             | If set, open on that date                |
-| minimum-view                  | String          | 'day'       | If set, lower-level views won't show     |
-| maximum-view                  | String          | 'year'      | If set, higher-level views won't show    |
-
-
-## Events
-
-These events are emitted on actions in the datepicker
-
-| Event             | Output     | Description                          |
-|-------------------|------------|--------------------------------------|
-| opened            |            | The picker is opened                 |
-| closed            |            | The picker is closed                 |
-| selected          | Date\|null | A date has been selected             |
-| selectedDisabled  | Object     | A disabled date has been selected    |
-| input             | Date\|null | Input value has been modified        |
-| cleared           |            | Selected date has been cleared       |
-| changedMonth      | Object     | Month page has been changed          |
-| changedYear       | Object     | Year page has been changed           |
-| changedDecade     | Object     | Decade page has been changed         |
-
-
-## Date formatting
-
-#### String formatter
-
-NB. This is not very robust at all - use at your own risk! Needs a better implementation.
-
-| Token | Desc                   | Example     |
-|-------|------------------------|-------------|
-| d     | day                    | 1           |
-| dd    | 0 prefixed day         | 01          |
-| D     | abbr day               | Mon         |
-| su    | date suffix            | st, nd, rd  |
-| M     | month number (1 based) | 1 (for Jan) |
-| MM    | 0 prefixed month       | 01          |
-| MMM   | abbreviated month name | Jan         |
-| MMMM  | month name             | January     |
-| yy    | two digit year         | 16          |
-| yyyy  | four digit year        | 2016        |
-
-#### Function formatter
-
-Delegates date formatting to provided function.
-Function will be called with date and it has to return formated date as a string.
-This allow us to use moment, date-fns, globalize or any other library to format date.
-
-``` html
-<script>
-  methods: {
-    customFormatter(date) {
-      return moment(date).format('MMMM Do YYYY, h:mm:ss a');
-    }
-  }
-</script>
-<datepicker :format="customFormatter"></datepicker>
-```
-
-## Disabled Dates
-Dates can be disabled in a number of ways.
-
-``` html
-<script>
-var state = {
-  disabledDates: {
-    to: new Date(2016, 0, 5), // Disable all dates up to specific date
-    from: new Date(2016, 0, 26), // Disable all dates after specific date
-    days: [6, 0], // Disable Saturday's and Sunday's
-    daysOfMonth: [29, 30, 31], // Disable 29th, 30th and 31st of each month
-    dates: [ // Disable an array of dates
-      new Date(2016, 9, 16),
-      new Date(2016, 9, 17),
-      new Date(2016, 9, 18)
-    ],
-    ranges: [{ // Disable dates in given ranges (exclusive).
-      from: new Date(2016, 11, 25),
-      to: new Date(2016, 11, 30)
-    }, {
-      from: new Date(2017, 1, 12),
-      to: new Date(2017, 2, 25)
-    }],
-    // a custom function that returns true if the date is disabled
-    // this can be used for wiring you own logic to disable a date if none
-    // of the above conditions serve your purpose
-    // this function should accept a date and return true if is disabled
-    customPredictor: function(date) {
-      // disables the date if it is a multiple of 5
-      if(date.getDate() % 5 == 0){
-        return true
-      }
-    }
-  }
-}
-</script>
-<datepicker :disabledDates="state.disabledDates"></datepicker>
-```
-
-## Highlighted Dates
-Dates can be highlighted (e.g. for marking an appointment) in a number of ways. Important:
-By default disabled dates are ignored, to highlight disabled dates set the `includeDisabled`
-property to `true`. Note: Both `to` and `from` properties are required to define a range of
-dates to highlight.
-
-``` html
-<script>
-var state = {
-  highlighted: {
-    to: new Date(2016, 0, 5), // Highlight all dates up to specific date
-    from: new Date(2016, 0, 26), // Highlight all dates after specific date
-    days: [6, 0], // Highlight Saturday's and Sunday's
-    daysOfMonth: [15, 20, 31], // Highlight 15th, 20th and 31st of each month
-    dates: [ // Highlight an array of dates
-      new Date(2016, 9, 16),
-      new Date(2016, 9, 17),
-      new Date(2016, 9, 18)
-    ],
-    // a custom function that returns true of the date is highlighted
-    // this can be used for wiring you own logic to highlight a date if none
-    // of the above conditions serve your purpose
-    // this function should accept a date and return true if is highlighted
-    customPredictor: function(date) {
-      // highlights the date if it is a multiple of 4
-      if(date.getDate() % 4 == 0){
-        return true
-      }
-    },
-    includeDisabled: true // Highlight disabled dates
-  }
-}
-</script>
-<datepicker :highlighted="state.highlighted"></datepicker>
-```
-## Slots
-
-Slots will help you customize content.  .
-
-#### beforeCalendarHeader
-
-Sometimes you need to show custom content before the calendar header. For such cases you can use the named slot `beforeCalendarHeader`.
-
-An example would be to use bootstrap's `input-group-prepend` and `input-group-append`
-to show some custom text:
-``` html
-<datepicker :bootstrap-styling="true">
-  <div slot="beforeCalendarHeader" class="calender-header">
-    Choose a Date
-  </div>
-</datepicker>
-```
-
-#### afterDateInput
-
-To implement some custom styling (for instance to add an animated placeholder) on DateInput, you might need to add elements as DateInput siblings. Slot named
-`afterDateInput` allows you to do that:
-
-``` html
-<datepicker>
-  <span slot="afterDateInput" class="animated-placeholder">
-    Choose a Date
-  </span>
-</datepicker>
-```
-
-
-## Translations
-
-Contributing guide - please use appropriate code from this [list](http://www.iana.org/assignments/language-subtag-registry/language-subtag-registry) as the translation property.
-
-- Add your language as a module in the `src/locale/translations` dir.
-- Import and export it in the `src/locale/index` file
-- Add the Language to the available languages in the readme file.
-- Run `npm run lint` to make sure your code formatting is in line with the required code style.
-
-### How to apply language
-
-Below script tag in component.
-```javascript
-import {en, vi} from '@/components/datepicker/locale/index.locale'
-```
-
-In component data.
-```javascript
-data () {
+export default {
+  components: { DatePicker },
+  data() {
     return {
-      en: en,
-      vi: vi
+      time1: '',
+      time2: '',
+      time3: '',
+      // custom lang
+      lang: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+        placeholder: {
+          date: 'Select Date',
+          dateRange: 'Select Date Range'
+        }
+      },
+      // custom range shortcuts
+      shortcuts: [
+        {
+          text: 'Today',
+          onClick: () => {
+            this.time3 = [ new Date(), new Date() ]
+          }
+        }
+      ],
+      timePickerOptions:{
+        start: '00:00',
+        step: '00:30',
+        end: '23:30'
+      }
     }
+  }
 }
+</script>
+
+<template>
+  <div>
+    <date-picker v-model="time1" valueType="format" :first-day-of-week="1"></date-picker>
+    <date-picker v-model="time2" type="datetime" :time-picker-options="timePickerOptions"></date-picker>
+    <date-picker v-model="time3" range :shortcuts="shortcuts"></date-picker>
+    <date-picker v-model="value" :lang="lang"></date-picker>
+  </div>
+</template>
 ```
+### Props
 
-html.
-```javascript
-<datepicker :language="vi"></datepicker>
+| Prop | Description  | Type  | Default |
+|------|--------------|-------|---------|
+| type | select date type  | 'date' \| 'datetime' \| 'year' \| 'month' \| 'time' | 'date' |
+| range | if true, the type is daterange or datetimerange | `boolean` | false |
+| format | format the Date. The parsing tokens are similar to the moment.js | [token](https://github.com/taylorhakes/fecha#formatting-tokens) \| [`object`](https://github.com/mengxiong10/vue2-datepicker/issues/232#issuecomment-458558141) | 'YYYY-MM-DD' |
+| value-type | type of binding value. If not specified, the binding value will be a Date object | [value-type](#value-type) | 'date' |
+| lang | Translation | [lang](#lang) | 'zh' |
+| clearable | if false, don't show the clear icon | `boolean` | true |
+| confirm | if true, need click the button to change the value | `boolean` | false |
+| editable | if false, user cann't type it | `boolean` | true |
+| disabled | Disable the component | `boolean` | false |
+| placeholder | input placeholder text | `string` | — |
+| width  | input size  | `string`\|`number` | 210 |
+| append-to-body | append the popup to body | `boolean` | false |
+| default-value | default date of the calendar | `Date` | new Date() |
+| popupStyle | popup style(override the top, left style) | `object` | — |
+| not-before | Disable all dates before new Date(not-before) | `string`\|`Date` | ''|
+| not-after | Disable all dates after new Date(not-after) | `string`\|`Date`| '' |
+| disabled-days | Disable Days | `(date) => boolean` | - |
+| shortcuts | the shortcuts for the range picker | [shortcuts](#shortcuts) | true |
+| time-picker-options | custom time-picker | [time-picker-options](#time-picker-options) | null |
+| minute-step | if > 0 don't show the second picker | 0 - 60 | 0 |
+| first-day-of-week | set the first day of week | 1 - 7  | 7 |
+| input-class | the input class name | `string` | 'mx-input' |
+| input-attr | the input attr(eg: { required: true, id: 'input'}) | `object` | — |
+| confirm-text | the default text to display on confirm button | `string` | 'OK' |
+| range-separator | the range separator text | `string` | '~' |
+| date-format | format the time header and tooltip | `string` | '' |
+
+#### value-type
+set the format of binding value
+
+| Value           | Description                               |
+|-----------------|-------------------------------------------|
+| date            | binding value will be a Date object       |
+| timestamp       | binding value will be a timestamp number  |
+| format          | binding value will be the format string   |
+
+Advanced: You can also customize objects to implement two functions.
+```js
+{
+  value2date: (value: any) => Date,  // transform the binding value to calendar Date Object
+  date2value: (date: Date) => any   // transform the calendar Date Object to binding value
+}
+
 ```
+#### lang
 
-Available languages
+| Type |
+|------|
+| 'en'\|'zh'\|'es'\|'pt-br'\|'fr'\|'ru'\|'de'\|'it'\|'cs' |
+| { days: string[]; months: string[]; picker: string[]; placeholder: { date: string; dateRange: string  } } |
 
-| Abbr        | Language         |          |
-| ----------- |------------------|----------|
-| en          | English          |          |
-| vi          | Vietnamese       | *Default*|
+#### shortcuts
+the shortcuts for the range picker
+
+| Value           | Description |
+|-----------------|-------------|
+| true            | show the default shortcuts |
+| false           | hide the defaualt shortcuts  |
+| [{text: string, onClick: () => any }] | custom shortcuts |
+
+#### time-picker-options
+custom time-picker
+
+| Type |
+|------|
+| {start: '00:00', step:'00:30' , end: '23:30'} |
+| () => Array<{ label: string; values: { hours: number; minutes: number } }> |
+
+### Events
+| Name            | Description                                            |  Callback Arguments    |
+|-----------------|--------------------------------------------------------|------------------------|
+| input           | When the value change(v-model event)                   | the currentValue       |
+| change          | When the value change(same as input)                   | the currentValue       |
+| confirm         | When click 'confirm' button                            | the currentValue       |
+| clear           | When click 'clear' button                              |                        |
+| input-error     | When user type a invalid Date                          | the input text         |
+| panel-change    | When change the panel view(eg: from year to month view)| [panel](#panel), [oldPanel](#panel) |
+| calendar-change | When calendar view year or month change                | now(Date), oldNow(Date)|
+| focus           | When input focus                                       |                        |
+| blur            | When input blur                                        |                        |
+
+#### panel
+
+| Value | Description          |
+|-------|----------------------|
+| NONE  | when panel is closed |
+| DATE  | when panel is date   |
+| YEAR  | when panel is year   |
+| MONTH | when panel is month  |
+| TIME  | when panel is time   |
+
+### Slots
+
+| Name            | Description              |
+|-----------------|--------------------------|
+| calendar-icon   | custom the calender icon |
+| header          | popup header             |
+| footer          | popup footer             |
