@@ -15,6 +15,9 @@ Vue.use(
     connection: SocketIO( `http://localhost:8889` )
   })
 );
+import VueQuillEditor from "vue-quill-editor";
+Vue.use(VueQuillEditor /* { default global options } */);
+
 
 new Vue( {
   sockets: {

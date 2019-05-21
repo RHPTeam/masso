@@ -14,13 +14,11 @@
           <table class="table--list">
             <tr>
               <th>Title</th>
-              <th>Content</th>
               <th>Category</th>
               <th></th>
             </tr>
             <tr v-for="(blog, index) in allBlogAdmin" :key="index">
               <td>{{ blog.title }}</td>
-              <td>{{ blog.content }}</td>
               <td> {{ blog._helpCategory === undefined ? "" : blog._helpCategory.title }}</td>
               <td class="text_center">
                 <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin( blog._id )">Update</button>

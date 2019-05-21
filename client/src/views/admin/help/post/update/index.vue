@@ -10,23 +10,33 @@
               :options="getCateAdmin"
               v-model="getAllToUpdate._helpCategory"
             />
+            <label for="" v-if="isShowErrorCategory === true" class="errBlogHelp ml_2">Can't to Category empty</label>
           </div>
           <div class="form_group mb_2">
             <label for="">Title Post</label>
             <input type="text" placeholder="Title post" class="px_2 py_1 ml_2 form_control" v-model="getAllToUpdate.title">
+            <label for="" v-if="isShowErrorTitle === true" class="errBlogHelp ml_2">Title can't empty</label>
           </div>
           <div class="from_group mb_2">
             <label for="">Content Post</label>
-            <textarea name="descriptionPost" id="" placeholder="Content Post" class="px_2 py_1 ml_2 form_control" style="max-height: 450px" v-model="getAllToUpdate.content"></textarea>
+            <quill-editor
+              v-model="getAllToUpdate.content"
+              ref="myQuillEditor"
+              class="px_2 py_1 ml_2"
+            >
+            </quill-editor>
+            <label for="" v-if="isShowErrorContent === true" class="errBlogHelp ml_2">Content can't empty</label>
           </div>
           <button class="btn btn_success" @click="updateBlogById">Save</button>
-          <div> {{ getAllToUpdate }} </div>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 export default {
   data(){
     return{
@@ -34,7 +44,10 @@ export default {
         title: "",
         content: "",
         _helpCategory: ""
-      }
+      },
+      isShowErrorTitle: false,
+      isShowErrorContent: false,
+      isShowErrorCategory: false,
     }
   },
   computed: {

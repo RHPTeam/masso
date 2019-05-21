@@ -19,7 +19,12 @@
       </div>
       <div class="from_group mb_2">
         <label for="">Content Post</label>
-        <textarea name="descriptionPost" id="" v-model="allBlog.content" placeholder="Content Post" class="px_2 py_1 ml_2 form_control" style="max-height: 450px"></textarea>
+        <quill-editor
+          v-model="allBlog.content"
+          ref="myQuillEditor"
+          class="px_2 py_1 ml_2"
+        >
+        </quill-editor>
         <label for="" v-if="isShowErrorContent === true" class="errBlogHelp ml_2">Content can't empty</label>
       </div>
       <button @click="createBlogHelpAdmin" class="btn btn_success">Save</button>
@@ -29,6 +34,10 @@
 </template>
 
 <script>
+
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
+import "quill/dist/quill.bubble.css";
 export default {
   data(){
     return{
@@ -39,16 +48,19 @@ export default {
       },
       isShowErrorTitle: false,
       isShowErrorContent: false,
-      isShowErrorCategory: false
+      isShowErrorCategory: false,
     }
   },
   computed: {
     getCateAdmin(){
       return this.$store.getters.getCateAdmin;
+    },
+    rmCateByBlog(){
+
     }
   },
-  async created() {
-    await this.$store.dispatch("getAllCategoriesAdmin");
+  created() {
+    this.$store.dispatch("getAllCategoriesAdmin");
     this.$store.dispatch( "getIdBlogHelpAdmin" );
   },
   methods: {
