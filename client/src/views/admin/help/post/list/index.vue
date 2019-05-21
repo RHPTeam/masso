@@ -18,10 +18,10 @@
               <th>Category</th>
               <th></th>
             </tr>
-            <tr v-for="blog in allBlog" :key="blog">
+            <tr v-for="(blog, index) in allBlogAdmin" :key="index">
               <td>{{ blog.title }}</td>
               <td>{{ blog.content }}</td>
-              <td>Name Cate</td>
+              <td> {{ blog._helpCategory }}</td>
               <td>
                 <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin">Update</button>
                 <button class="btn btn_danger my_2">Delete</button>
@@ -42,16 +42,24 @@ export default {
     }
   },
   computed: {
-    allBlog() {
+    allBlogAdmin() {
       return this.$store.getters.getAllBlog;
     },
-    updateBlogHelpAdmin() {
-      // return this.$store.
-      return 0;
+    getIdBlogHelp(){
+      return this.$store.getters.getIdBlogHelp;
     }
   },
   created(){
     this.$store.dispatch("getAllBlogAdmin");
+  },
+  methods: {
+    updateBlogHelpAdmin( id ) {
+      this.$store.dispatch( "updateBlogHelpAdmin", this.getIdBlogHelp );
+      this.$router.push( {
+        name: "update_blog",
+        params: { id: id}
+      } );
+    }
   }
 }
 </script>

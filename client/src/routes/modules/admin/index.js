@@ -58,7 +58,12 @@ const generalRouter = {
           path: "blog/create",
           name: "create_blog",
           component: require( "@/views/admin/help/post/create" ).default,
+        },{
+          path: "blog/update/:id",
+          name: "update_blog",
+          component: require( "@/views/admin/help/post/update" ).default,
         }
+
       ]
     }
   ]

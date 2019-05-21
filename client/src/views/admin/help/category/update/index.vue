@@ -19,7 +19,7 @@
         v-model="cateById.parent"
       />
     </div>
-    <button class="btn btn_info mt_3" @click="updateCategories()">Save</button>
+    <button class="btn btn_info mt_3" @click="updateCategories">Save</button>
   </div>
 </template>
 
@@ -29,10 +29,11 @@ export default {
   },
   computed: {
     categories(){
-      console.log(this.$store.getters.getCateAdmin);
+      // console.log(this.$store.getters.getCateAdmin);
       return this.$store.getters.getCateAdmin;
     },
     cateById(){
+      // console.log(this.$store.getters.categoriesById);
       return this.$store.getters.categoriesById;
     }
   },
