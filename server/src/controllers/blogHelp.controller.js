@@ -30,10 +30,10 @@ module.exports = {
 
     // Handle get all group from mongodb
     if ( req.query._id ) {
-      dataResponse = await BlogHelp.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await BlogHelp.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_helpCategory", "select": "_id title" } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await BlogHelp.find( { "_account": userId } ).lean();
+      dataResponse = await BlogHelp.find( { "_account": userId } ).populate( { "path": "_helpCategory", "select": "_id title" } ).lean();
     }
 
     res
