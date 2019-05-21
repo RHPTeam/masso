@@ -28,6 +28,11 @@ const {
   download = require( "download" ),
   randomstring = require( "randomstring" ),
   generateObjectVariablesFacebook = ( { cookie, feed } ) => {
+    if ( feed.color === undefined ) {
+      delete feed.color;
+    }
+    console.log( "=======================" );
+    console.log( feed );
     const variables = {
       "client_mutation_id": "825c85ea-68e2-436e-9f7c-ed4b514fec3a",
       "actor_id": findSubString( cookie, "c_user=", ";" ),
@@ -76,7 +81,7 @@ const {
     }
 
     // Check if feed use photo
-    if ( feed.photos ) {
+    if ( feed.photos && feed.photos.length > 0 ) {
       variables.input.attachments = feed.photos.map( ( photo ) => {
         return {
           "photo": {
@@ -163,7 +168,7 @@ const {
         {
           "taggable_activity_id": feed.activity.type,
           "object_id": feed.activity.id,
-          "object_text": feed.activity.text
+          "object_text": ""
         }
       ];
     }
@@ -249,6 +254,8 @@ module.exports = {
           "__a": "1"
         }
       };
+
+      console.log( option );
 
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {

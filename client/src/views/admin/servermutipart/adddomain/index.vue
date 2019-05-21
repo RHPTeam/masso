@@ -5,11 +5,12 @@
         <!-- Start: Modal Body -->
         <VuePerfectScrollbar class="wrap">
           <div class="body mb_2 px_4 py_3">
-            <form>
+            <div v-if="!domainInfo"></div>
+            <form v-else>
 
               <div class="form_group">
                 <label>Tên Domain</label>
-                <input type="text" placeholder="Nhập tên domain ..." class="form_control" v-model="defaultInfo.name" />
+                <input type="text" placeholder="Nhập tên domain ..." class="form_control" v-model="domainInfo.title" />
               </div>
 
               <div class="info">
@@ -20,12 +21,12 @@
 
                   <div class="square form_group">
                     <label>Thông tin Domain</label>
-                    <input type="text" placeholder="Nhập thông tin domain ..." class="form_control" v-model="defaultInfo.info.domain" />
+                    <input type="text" placeholder="Nhập thông tin domain ..." class="form_control" v-model="domainInfo.info.domain" />
                   </div>
 
                   <div class="square form_group">
                     <label>Thông tin IP</label>
-                    <input type="text" placeholder="Nhập thông tin ip ..." class="form_control" v-model="defaultInfo.info.ip" />
+                    <input type="text" placeholder="Nhập thông tin ip ..." class="form_control" v-model="domainInfo.info.ip" />
                   </div>
 
                 </div>
@@ -33,12 +34,12 @@
 
                   <div class="square form_group">
                     <label>Thông tin CPU</label>
-                    <input type="text" placeholder="Nhập thông tin cpu ..." class="form_control" v-model="defaultInfo.info.cpu" />
+                    <input type="text" placeholder="Nhập thông tin cpu ..." class="form_control" v-model="domainInfo.info.cpu" />
                   </div>
 
                   <div class="square form_group">
                     <label>Thông tin RAM</label>
-                    <input type="text" placeholder="Nhập thông tin ram ..." class="form_control" v-model="defaultInfo.info.ram" />
+                    <input type="text" placeholder="Nhập thông tin ram ..." class="form_control" v-model="domainInfo.info.ram" />
                   </div>
 
                 </div>
@@ -47,13 +48,14 @@
 
                   <div class="square form_group">
                     <label>Thông tin Card</label>
-                    <input type="text" placeholder="Nhập thông tin card ..." class="form_control" v-model="defaultInfo.info.card" />
+                    <input type="text" placeholder="Nhập thông tin card ..." class="form_control" v-model="domainInfo.info.card" />
                   </div>
 
                   <div class="square form_group">
-                    <label>Hết hạn</label>
+                    <div class="title">Hết hạn</div>
                     <date-picker
-                      class="ml_3"
+                      class="mt_2"
+                      v-model="domainInfo.info.expire"
                     />
                   </div>
 
@@ -63,44 +65,50 @@
 
                   <div class="square form_group">
                     <label>Thông tin nhà cung cấp</label>
-                    <input type="text" placeholder="Nhập thông tin nhà cung cấp ..." class="form_control" v-model="defaultInfo.info.supplier" />
+                    <input type="text" placeholder="Nhập tên nhà cung cấp ..." class="form_control" v-model="domainInfo.info.supplier.name" />
                   </div>
 
+                  <div class="square form_group">
+                    <label></label>
+                    <input type="text" placeholder="Thông tin website nhà cung cấp ..." class="form_control" v-model="domainInfo.info.supplier.url" />
+                  </div>
                 </div>
 
               </div>
 
               <div class="form_group">
                 <label>Cụm máy chủ</label>
-                <select class="form_control"  v-model="defaultInfo.region">
-                  <option value="1">0</option>
-                  <option value="2">1</option>
-                  <option value="3">2</option>
+                <select class="form_control" v-model="domainInfo.region">
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
                 </select>
               </div>
 
-              <div class="form_group">
-                <label>Số lượng người dùng</label>
-                <input type="text" placeholder="Nhập số lượng người dùng ..." class="form_control" v-model="defaultInfo.userAmount" />
+              <div class="form_group" v-if="domainInfo.userAmount && domainInfo.userAmount.length > 0">
+                <label>Số lượng người dùng hiện tại : {{domainInfo.userAmount.length}}</label>
               </div>
+              <div v-else></div>
 
               <div class="form_group">
                 <label>Số lượng người dùng lớn nhất</label>
-                <input type="text" placeholder="Nhập số lượng người dùng max ..." class="form_control" v-model="defaultInfo.amountMax" />
+                <input type="text" placeholder="Nhập số lượng người dùng max ..." class="form_control" v-model="domainInfo.amountMax" />
               </div>
 
               <div class="form_group">
                 <label>Trạng thái hoạt động</label>
-                <select class="form_control" v-model="defaultInfo.status">
-                  <option value="1">true</option>
-                  <option value="2">false</option>
+                <select class="form_control" v-model="domainInfo.status">
+                  <option>true</option>
+                  <option>false</option>
                 </select>
               </div>
 
-              <div class="form_group">
-                <button class="form_control" @click="createNewDomain">Tạo mới</button>
-              </div>
             </form>
+            <div class="form_group">
+              <button v-if="status === false" class="form_control" @click="createNewDomain">Tạo mới</button>
+              <button v-if="status === true" class="form_control" @click="updateDomain">Cập nhật</button>
+            </div>
+
           </div>
         </VuePerfectScrollbar>
         <!-- End: Modal Body -->
@@ -116,26 +124,16 @@ export default {
     VuePerfectScrollbar
   },
   props: {
-    currentTheme: String
+    currentTheme: String,
+    status: Boolean
   },
   data() {
     return {
-      defaultInfo: {
-        name: "",
-        info: {
-          domain: "",
-          ip: "",
-          cpu: "",
-          ram: "",
-          card: "",
-          supplier: {},
-          expire: ""
-        },
-        region: "",
-        userAmount: null,
-        amountMax: "",
-        status: null
-      }
+    }
+  },
+  computed: {
+    domainInfo(){
+      return this.$store.getters.domainInfo;
     }
   },
   methods: {
@@ -143,8 +141,12 @@ export default {
       this.$emit( "closePopUpAddNewDomain", false );
     },
     createNewDomain() {
-      console.log(this.defaultInfo);
-      this.$store.dispatch( "createNewDomain", this.defaultInfo );
+      this.$store.dispatch( "createNewDomain", this.domainInfo );
+      this.close();
+    },
+    updateDomain(){
+      this.$store.dispatch( "updateDomain", this.domainInfo );
+      this.close();
     }
   }
 }

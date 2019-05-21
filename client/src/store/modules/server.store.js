@@ -2,10 +2,12 @@ import ServerServices from "@/services/modules/server.services"
 
 const state = {
   allDomain: [],
+  domainInfo: [],
   serverStatus: ""
 };
 const getters = {
   allDomain: state => state.allDomain,
+  domainInfo: state => state.domainInfo,
   serverStatus: state => state.serverStatus
 };
 const mutations = {
@@ -17,6 +19,9 @@ const mutations = {
   },
   setAllDomain: ( state, payload ) => {
     state.allDomain = payload;
+  },
+  setInfoDomainDefault: ( state, payload ) => {
+    state.domainInfo = payload;
   }
 };
 const actions = {
@@ -32,6 +37,46 @@ const actions = {
     const result = await ServerServices.index();
     commit( "setAllDomain", result.data.data );
     commit( "server_success" );
+  },
+  getDomainById: async ( { commit }, payload ) => {
+    commit( "server_request" );
+    const result = await ServerServices.getVpsById( payload );
+    commit( "setInfoDomainDefault", result.data.data );
+    commit( "server_success" );
+  },
+  deleteDomain: async  ( { commit }, payload ) => {
+    commit( "server_request" );
+    await ServerServices.deleteVps( payload );
+    const result = await ServerServices.index();
+    commit( "setAllDomain", result.data.data );
+    commit( "server_success" );
+  },
+  updateDomain: async  ( { commit }, payload ) => {
+    commit( "server_request" );
+    await ServerServices.updateVps( payload._id, payload );
+    const result = await ServerServices.index();
+    commit( "setAllDomain", result.data.data );
+    commit( "server_success" );
+  },
+  setDomainDefault: async ( { commit } ) => {
+    commit( "setInfoDomainDefault", {
+      title: "",
+      info: {
+        domain: "",
+        ip: "",
+        cpu: "",
+        ram: null,
+        card: "",
+        supplier: {
+          name: "",
+          url: ""
+        },
+        expire: ""
+      },
+      region: null,
+      amountMax: null,
+      status: null
+    } );
   }
 };
 

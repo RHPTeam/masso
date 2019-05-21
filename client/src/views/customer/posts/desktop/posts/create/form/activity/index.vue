@@ -144,7 +144,7 @@ export default {
     },
     showOptionActivity(val) {
       this.isShowActivityDefault = true;
-      this.activityDefault.typeActivity = val.text;
+      this.activityDefault.typeActivity = val.uid;
       this.$store.dispatch( "getListActivityFb", val.uid );
     },
     showSuggestOptionActivityFb(){

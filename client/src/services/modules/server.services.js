@@ -10,8 +10,8 @@ export default {
   getVpsById( id ) {
     return Api().get( `vps?_id=${id}` );
   },
-  updateVps( serverId ){
-    return Api().patch( `vps?_serverId=${serverId}` );
+  updateVps( serverId, content ){
+    return Api().patch( `vps?_serverId=${serverId}`, content );
   },
   deleteVps( serverId ){
     return Api().delete( `vps?_serverId=${serverId}` );

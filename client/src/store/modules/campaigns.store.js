@@ -89,8 +89,10 @@ const state = {
     },
     updateCampaignStatus: async ( { commit }, payload ) => {
       const res = await CampaignsServices.updateStatus( payload );
-
       await commit( "setCampaignDetail", res.data.data );
+
+      const result = await CampaignsServices.index();
+      await commit( "setAllCampaigns", result.data.data );
     }
   };
 
