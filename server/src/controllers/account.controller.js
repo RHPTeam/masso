@@ -13,12 +13,11 @@ const JWT = require( "jsonwebtoken" );
 const nodemailer = require( "nodemailer" ),
   CronJob = require( "cron" ).CronJob;
 const randomString = require( "randomstring" );
-const CONFIG = require( "../configs/server" );
 const dictionary = require( "../configs/dictionaries" );
 
 const Account = require( "../models/Account.model" );
 const Role = require( "../models/Role.model" );
-const PostCategory = require( "../models/PostCategory.model" );
+const PostCategory = require( "../models/post/PostCategory.model" );
 
 const jsonResponse = require( "../configs/res" );
 const checkPhone = require( "../helpers/utils/checkPhone.util" );
@@ -41,7 +40,7 @@ const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
         "iat": new Date().getTime(), // current time
         "exp": new Date().setDate( new Date().getDate() + 1 ) // current time + 1 day ahead
       },
-      CONFIG.JWT_SECRET
+      process.env.APP_KEY
     );
   };
 
@@ -616,8 +615,8 @@ module.exports = {
     const transporter = await nodemailer.createTransport( {
       "service": "Gmail",
       "auth": {
-        "user": CONFIG.gmail_email,
-        "pass": CONFIG.gmail_password
+        "user": process.env.MAIL_USERNAME,
+        "pass": process.env.MAIL_PASSWORD
       }
     } );
 
@@ -630,7 +629,7 @@ module.exports = {
 
     await transporter.sendMail(
       {
-        "from": CONFIG.gmail_email,
+        "from": process.env.MAIL_USERNAME,
         "to": req.body.email,
         "subject": "Confirm reset password",
         "html": html
@@ -747,7 +746,7 @@ module.exports = {
         .status( 403 )
         .json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    foundUser.imageAvatar = `${CONFIG.url}/${ req.file.path.replace( /\\/gi, "/" )}`;
+    foundUser.imageAvatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${ req.file.path.replace( /\\/gi, "/" )}`;
     await Account.findByIdAndUpdate(
       userId,
       { "$set": { "imageAvatar": foundUser.imageAvatar } },
@@ -790,7 +789,11 @@ module.exports = {
         user.status = 1;
         user.expireDate = req.body.expireDate;
 
-        await user.save();
+        await Account.findByIdAndUpdate(
+          user._id,
+          { "$set": user },
+          { "new": true }
+        );
       } ) );
     }
 

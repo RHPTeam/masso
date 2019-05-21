@@ -2,7 +2,6 @@ const jwt = require( "jsonwebtoken" );
 
 const jsonResponse = require( "../../configs/res" );
 const Account = require( "../../models/Account.model" );
-const config = require( "../../configs/server" );
 
 /**
  *  The Auth Checker middleware function.
@@ -16,7 +15,7 @@ module.exports = ( req, res, next ) => {
   }
   const token = req.headers.authorization;
 
-  return jwt.verify( token, config.JWT_SECRET, ( err, decoded ) => {
+  return jwt.verify( token, process.env.APP_KEY, ( err, decoded ) => {
     if ( err ) {
       return res.status( 401 ).end();
     }

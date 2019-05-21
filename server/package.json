@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon index.js",
+    "serve": "nodemon -r dotenv/config index.js",
     "lint": "./node_modules/.bin/eslint **/*.js",
     "lint:fix": "./node_modules/.bin/eslint **/*.js --fix"
   },
@@ -304,6 +304,7 @@
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "download": "^7.1.0",
     "eslint": "^5.16.0",
     "express": "^4.16.4",

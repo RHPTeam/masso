@@ -1,9 +1,9 @@
 // Import Model
-const Event = require( "../models/Event.model" );
+const Event = require( "../models/post/Event.model" );
 const Facebook = require( "../models/Facebook.model" );
-const GroupFacebook = require( "../models/GroupFacebook.model" );
-const PageFacebook = require( "../models/PageFacebook.model" );
-const Post = require( "../models/Post.model" );
+const GroupFacebook = require( "../models/post/GroupFacebook.model" );
+const PageFacebook = require( "../models/post/PageFacebook.model" );
+const Post = require( "../models/post/Post.model" );
 
 const fs = require( "fs" ),
   { createPost } = require( "../controllers/core/posts.core" ),
