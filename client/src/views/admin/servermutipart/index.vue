@@ -39,6 +39,7 @@
     <add-domain
       v-if="isShowAddDomain === true"
       :currentTheme="currentTheme"
+      @closePopUpAddNewDomain="isShowAddDomain = $event"
     />
     <!-- End : add new domain -->
   </div>

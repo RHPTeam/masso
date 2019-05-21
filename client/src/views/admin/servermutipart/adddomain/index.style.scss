@@ -20,7 +20,11 @@
       border-radius: .625rem;
       max-height: calc( 100vh - 10% );
       width: 50%;
-      .header {}
+      .wrap {
+        max-height: 550px;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
       .body {
         .form_group {
           label, .title {
