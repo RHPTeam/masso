@@ -45,22 +45,15 @@
                 <icon-hourglass /> </icon-base
               >Ngày hết hạn:
             </div>
-            <div class="time--tick position_relative">
+            <div class="">
               <datepicker
-                :format="formatDate"
-                :value="user.expireDate"
-                @input="updateExpireDate($event)"
+                class="date--input"
+                placeholder="Chọn ngày gia hạn"
+                role="date"
+                format="DD/MM/YYYY"
+                :default-value="new Date(user.expireDate)"
+                v-model="user.expireDate"
               ></datepicker>
-              <div class="time--tick-icon position_absolute">
-                <icon-base
-                  icon-name="calendar"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 30 30"
-                >
-                  <icon-calendar />
-                </icon-base>
-              </div>
             </div>
           </div>
           <!-- End: Expire Date -->

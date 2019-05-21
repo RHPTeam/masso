@@ -1,5 +1,5 @@
 $default-color: #73879c;
-$primary-color: #1284e7;
+$primary-color: #ffb94a;
 
 .mx-datepicker {
   position: relative;
@@ -24,9 +24,10 @@ $primary-color: #1284e7;
   position: absolute;
   margin-top: 1px;
   margin-bottom: 1px;
-  border: 1px solid #d9d9d9;
+  border: 1px solid #e4e4e4;
   background-color: #fff;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: .5rem;
   z-index: 1000;
 }
 
@@ -48,16 +49,14 @@ $primary-color: #1284e7;
 .mx-input {
   display: inline-block;
   width: 100%;
-  height: 34px;
-  padding: 6px 30px;
-  padding-left: 10px;
   font-size: 14px;
-  line-height: 1.4;
-  color: #555;
+  padding: 0 .75rem;
+  height: 40px;
+  line-height: 40px;
+  color: #444;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  border: 1px solid #e4e4e4;
+  border-radius: .625rem;
   &:disabled,
   &.disabled {
     opacity: 0.7;
@@ -65,9 +64,13 @@ $primary-color: #1284e7;
   }
   &:focus {
     outline: none;
+    border: 1px solid #FFB94A;
   }
   &::-ms-clear {
     display: none;
+  }
+  &::placeholder {
+    color: #ccc;
   }
 }
 
@@ -168,12 +171,12 @@ $primary-color: #1284e7;
   border: 1px solid rgba(0, 0, 0, 0.1);
   color: #73879c;
   &:hover {
-    color: #1284e7;
-    border-color: #1284e7;
+    color: #ffb94a;
+    border-color: #ffb94a;
   }
 }
 
-/* 日历组件 */
+
 .mx-calendar {
   float: left;
   color: $default-color;
@@ -228,14 +231,14 @@ $primary-color: #1284e7;
     vertical-align: middle;
     cursor: pointer;
     &:hover {
-      background-color: #eaf8fe;
+      background-color: rgba(255, 185, 74, 0.15);
     }
     &.actived {
       color: #fff;
       background-color: $primary-color;
     }
     &.inrange {
-      background-color: #eaf8fe;
+      background-color: rgba(255, 185, 74, 0.15);
     }
     &.disabled {
       cursor: not-allowed;
@@ -319,7 +322,7 @@ $primary-color: #1284e7;
     height: 30px;
     line-height: 30px;
   }
-  /* 滚动条滑块 */
+
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;

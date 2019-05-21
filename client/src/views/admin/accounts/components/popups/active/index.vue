@@ -23,12 +23,15 @@
             </div>
             <div class="form_group">
               <label><b>Ngày gia hạn:</b></label>
-              <date-picker
-                class="date--input"
-                placeholder="Chọn ngày gia hạn"
-                :format="formatDate"
-                v-model="user.expireDate"
-              />
+              <div>
+                <date-picker
+                  class="date--input"
+                  placeholder="Chọn ngày gia hạn"
+                  role="date"
+                  format="DD/MM/YYYY"
+                  v-model="user.expireDate"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -76,14 +79,6 @@ export default {
     },
     closePopup() {
       this.$emit( "close", false );
-    },
-    formatDate( date) {
-      const dateTime = new Date( date ),
-            yyyy = dateTime.getFullYear(),
-            mm = String( dateTime.getMonth() + 1 ).padStart( 2, 0 ),
-            dd = String( dateTime.getDate() ).padStart( 2, 0 );
-
-      return `${dd}/${mm}/${yyyy}`;
     }
   }
 };
