@@ -83,6 +83,9 @@
         :rightVal="rightVal"
         :topVal="topVal"
       />
+    </transition>
+    <!-- Card Hover -->
+    <transition name="fade">
       <rc-card-hover
         v-if="showCardHover"
         :eventData="eventHoverData"

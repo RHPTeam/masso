@@ -79,7 +79,7 @@
                             </div>
                           </div>
                           <div class="rc--more"
-                               v-if="filterEventsByTime(i).length > 2"
+                               v-if="filterEventsByTime(i).length > 3"
                                @click="showMorePopover(i, filterEventsByTime(i))"
                           >
                             +{{ filterEventsByTime(i).length - 3 }} sự kiện
@@ -111,6 +111,9 @@
         :rightVal="rightVal"
         :topVal="topVal"
       ></rc-more-popover>
+    </transition>
+    <!-- Card Hover -->
+    <transition name="fade">
       <rc-card-hover
         v-if="isShowCardHover"
         :eventData="eventHoverData"

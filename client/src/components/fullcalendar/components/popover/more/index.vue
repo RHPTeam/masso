@@ -26,6 +26,15 @@
           <div class="rc--content">
             <span class="rc--title">{{ showEventContent(event) }}</span>
           </div>
+          <transition name="fade">
+            <rc-card-hover
+              class="rc--card-hover-control"
+              :eventData="event"
+              :leftVal="null"
+              :rightVal="200"
+              :topVal="0"
+            ></rc-card-hover>
+          </transition>
         </div>
       </div>
     </div>
@@ -33,7 +42,12 @@
 </template>
 
 <script>
+import RcCardHover from "../cardhover";
+
 export default {
+  components: {
+    RcCardHover
+  },
   props: [ "eventsPopupData", "leftVal", "rightVal", "topVal" ],
   methods: {
     closeMorePopover() {
