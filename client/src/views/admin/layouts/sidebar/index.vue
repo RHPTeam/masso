@@ -71,6 +71,24 @@
             <span class="menu--item-text">Thư viện bài đăng</span>
           </a>
         </router-link>
+        <router-link
+          class="menu--item d_flex align_items_center"
+          tag="li"
+          :to="{ name: 'admin_server' }"
+          active-class="active"
+        >
+          <a class="account">
+            <icon-base
+              icon-name="autopost"
+              width="24"
+              height="24"
+              viewBox="0 0 65 65"
+            >
+              <icon-location />
+            </icon-base>
+            <span class="menu--item-text">Quản lý server</span>
+          </a>
+        </router-link>
       </ul>
     </div>
   </div>

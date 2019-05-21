@@ -55,7 +55,9 @@
                   :eventsOfWeek="eventsOfWeek(i)"
                   :monthDays="monthDays"
                   :rowIndex="i"
+                  @closeCardHover="showCardHover = $event"
                   @eventClick="eventClick($event)"
+                  @eventHover="eventHover($event)"
                   @getEvents="eventsPopupData = $event"
                   @setLeftVal="leftVal = $event"
                   @setRightVal="rightVal = $event"
@@ -81,16 +83,25 @@
         :rightVal="rightVal"
         :topVal="topVal"
       />
+      <rc-card-hover
+        v-if="showCardHover"
+        :eventData="eventHoverData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      />
     </transition>
   </div>
 </template>
 
 <script>
+import RcCardHover from "../../popover/cardhover";
 import RcMorePopover from "../../popover/more/index";
 import RcWeekRow from "./week-row/index";
 
 export default {
   components: {
+    RcCardHover,
     RcMorePopover,
     RcWeekRow
   },
@@ -98,7 +109,9 @@ export default {
   data() {
     return {
       eventsPopupData: [],
+      eventHoverData: {},
       showMorePopover: false,
+      showCardHover: false,
       leftVal: null,
       rightVal: null,
       topVal: null
@@ -110,6 +123,10 @@ export default {
   methods: {
     eventClick( data ) {
       this.$emit( "eventClick", data );
+    },
+    eventHover( data ) {
+      this.showCardHover = true;
+      this.eventHoverData = data;
     },
     eventsOfWeek( i ) {
       let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ).setHours( 0, 0, 0),

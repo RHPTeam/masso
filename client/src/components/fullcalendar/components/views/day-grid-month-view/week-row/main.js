@@ -20,6 +20,9 @@ export default {
   },
   computed: {},
   methods: {
+    closeCardHover() {
+      this.$emit( "closeCardHover", false );
+    },
     compareDate( d1, d2 ) {
       const d1Time = new Date( d1 ),
             d1Date = d1Time.getDate(),
@@ -35,6 +38,41 @@ export default {
     },
     eventClick( data) {
       this.$emit( "eventClick", data );
+    },
+    eventHover( colIndex, eventData ) {
+      const dayGridMonthHeight = 779;
+
+      // set top and left popover style
+      let cardHoverHeight,
+        topVal = 32 + this.rowIndex * 124 + 1,
+        leftVal = this.eventContainerWidth * colIndex;
+
+      // card hover height
+      eventData.type_event === 1 ? cardHoverHeight = 124 : cardHoverHeight = 200;
+
+      if ( this.rowIndex !== 0 ) {
+        topVal = topVal + 1;
+      }
+
+      if ( colIndex !== 0 ) {
+        leftVal = leftVal + 1;
+      }
+
+      if ( topVal + cardHoverHeight >= dayGridMonthHeight ) {
+        topVal = topVal - cardHoverHeight + 124;
+      }
+
+      // emit data
+      if ( colIndex < 4 ) {
+        this.$emit( "setTopVal", topVal );
+        this.$emit( "setLeftVal", leftVal + this.eventContainerWidth );
+        this.$emit( "setRightVal", null );
+      } else {
+        this.$emit( "setTopVal", topVal );
+        this.$emit( "setLeftVal", leftVal - 392 );
+        this.$emit( "setRightVal", null );
+      }
+      this.$emit( "eventHover", eventData );
     },
     eventOfDay( day ) {
       return this.eventsOfWeek.filter( ( event ) => {

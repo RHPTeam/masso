@@ -101,12 +101,12 @@ export default {
       }
     },*/
     // Get name item activity
-    activityFeelName() {
-      let result = this.post.activity.typeActivity;
-      let newStr = result.slice( 4 );
-      let str = newStr.split(".");
-      return str[0];
-    }
+    // activityFeelName() {
+    //   let result = this.post.activity.typeActivity;
+    //   let newStr = result.slice( 4 );
+    //   let str = newStr.split(".");
+    //   return str[0];
+    // }
   },
   watch: {
     /**

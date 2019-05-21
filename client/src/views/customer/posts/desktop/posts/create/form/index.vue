@@ -48,8 +48,9 @@
                   <!--Start: Show activity -->
                   <span class="pl_1">
                     <span v-if="post.activity === undefined || post.activity === ''"></span>
+<!--                    {{activityFeelName}}-->
                     <span v-else class="">
-                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span>   <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
                     </span>
                   </span>
                   <!--End: Show activity -->
@@ -138,8 +139,9 @@
                   <!--Start: Show activity -->
                   <span class="pl_1">
                     <span v-if="post.activity === undefined || post.activity === ''"></span>
+<!--                    {{activityFeelName}}-->
                     <span v-else class="">
-                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span> {{activityFeelName}}  <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ photo +')'}"></span>   <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
                     </span>
                   </span>
                   <!--End: Show activity -->

@@ -1,44 +1,15 @@
 import ActivePopup from "../popups/active";
-import convertUnicode from "@/utils/functions/string.js";
+
 export default {
   props: [ "isGrid" ],
   data() {
     return {
       search: "",
       isActivePopup: false,
-      isshowStatusFilter: false,
+      isShowStatusFilter: false,
       statusOptions: [ "Tất cả", "Hoạt động", "Đã ngừng" ],
       statusFilter: "Tất cả"
     };
-  },
-  watch: {
-    search() {
-      if ( this.search === "" ) {
-        if ( this.statusFilter === "Tất cả" ) {
-          const data = this.users;
-
-          this.$store.dispatch( "getUsersFilter", data );
-        } else if ( this.statusFilter === "Hoạt động" ) {
-          let newList = this.users.filter( ( user ) => {
-            return user.status === true;
-          } );
-
-          this.$store.dispatch( "getUsersFilter", newList );
-        } else if ( this.statusFilter === "Đã ngừng" ) {
-          let newList = this.users.filter( ( user ) => {
-            return user.status === false;
-          } );
-
-          this.$store.dispatch( "getUsersFilter", newList );
-        }
-      } else {
-        let newList = this.usersFilter.filter( ( user ) => {
-          return this.searchStr( user.email, this.search );
-        } );
-
-        this.$store.dispatch( "getUsersFilter", newList );
-      }
-    }
   },
   computed: {
     currentTheme() {
@@ -56,53 +27,36 @@ export default {
       this.$emit( "changeLayout", !this.isGrid );
     },
     showStatusFilter() {
-      this.isshowStatusFilter = !this.isshowStatusFilter;
+      this.isShowStatusFilter = !this.isShowStatusFilter;
     },
     filterByStatus( val ) {
       this.statusFilter = val;
-      if ( this.search === "" ) {
-        if ( val === "Tất cả" ) {
-          const data = this.users;
-
-          this.$store.dispatch( "getUsersFilter", data );
-        } else if ( val === "Hoạt động" ) {
-          let newList = this.users.filter( ( user ) => {
-            return user.status === true;
-          } );
-
-          this.$store.dispatch( "getUsersFilter", newList );
-        } else if ( val === "Đã ngừng" ) {
-          let newList = this.users.filter( ( user ) => {
-            return user.status === false;
-          } );
-
-          this.$store.dispatch( "getUsersFilter", newList );
-        }
-      } else if ( val === "Tất cả" ) {
-        let data = this.users.filter( ( user ) => {
-          return this.searchStr( user.email, this.search );
-        } );
-
-        this.$store.dispatch( "getUsersFilter", data );
-      } else if ( val === "Hoạt động" ) {
-        let newList = this.users.filter( ( user ) => {
-          return user.status === true && this.searchStr( user.email, this.search );
-        } );
-
-        this.$store.dispatch( "getUsersFilter", newList );
-      } else if ( val === "Đã ngừng" ) {
-        let newList = this.users.filter( ( user ) => {
-          return user.status === false && this.searchStr( user.email, this.search );
-        } );
-
-        this.$store.dispatch( "getUsersFilter", newList );
-      }
+      this.searchUsers();
     },
-    searchStr( s1, s2 ) {
-      const s1Convert = convertUnicode.convertUnicode( s1 ).toLowerCase(),
-        s2Convert = convertUnicode.convertUnicode( s2 ).toLowerCase();
+    searchUsers() {
+      let arr;
 
-      return s1Convert.includes( s2Convert );
+      if ( this.statusFilter === "Tất cả" ) {
+        arr = this.users.filter( ( user ) => {
+          return user.email.toString()
+            .toLowerCase()
+            .includes( this.search.toString().toLowerCase() );
+        } );
+      } else if ( this.statusFilter === "Hoạt động" ) {
+        arr = this.users.filter( ( user ) => {
+          return user.email.toString()
+            .toLowerCase()
+            .includes( this.search.toString().toLowerCase() ) && user.status === true;
+        } );
+      } else if ( this.statusFilter === "Đã ngừng" ) {
+        arr = this.users.filter( ( user ) => {
+          return user.email.toString()
+            .toLowerCase()
+            .includes( this.search.toString().toLowerCase() ) && user.status === false;
+        } );
+      }
+
+      this.$store.dispatch( "getUsersFilter", arr );
     }
   },
   components: {

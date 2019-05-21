@@ -2,7 +2,11 @@
   <div class="top d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
     <div class="top--search d_flex">
       <div class="input--wrap position_relative">
-        <input type="text" placeholder="Tìm kiếm" v-model="search" />
+        <input type="text"
+               placeholder="Tìm kiếm"
+               v-model="search"
+               @input="searchUsers"
+        />
         <div class="search--icon position_absolute">
           <icon-base
             icon-name="input-search"
@@ -36,7 +40,7 @@
           </div>
           <div class="selected">{{ statusFilter }}</div>
           <div class="options position_absolute m_0"
-                v-if="isshowStatusFilter === true">
+                v-if="isShowStatusFilter === true">
             <div
               class="option"
               v-for="(item, index) in statusOptions"
@@ -75,7 +79,11 @@
     </div>
 
     <!--Start: Active Popup-->
-    <active-popup v-if="isActivePopup === true" @close="isActivePopup = $event" />
+    <active-popup
+      v-if="isActivePopup === true"
+      @close="isActivePopup = $event"
+      @updateStatusFilter="statusFilter = $event"
+    ></active-popup>
     <!--End: Active Popup-->
   </div>
 </template>

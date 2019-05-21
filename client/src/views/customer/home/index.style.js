@@ -1,12 +1,17 @@
 import VueApexCharts from 'vue-apexcharts';
+import AddKeyWord from "./addkeyword";
 export default {
   components: {
+    AddKeyWord,
     VueApexCharts
   },
   data () {
     return {};
   },
   computed: {
+    user(){
+      return this.$store.getters.userInfo;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },

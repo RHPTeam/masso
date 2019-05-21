@@ -246,6 +246,14 @@
       </div>
       <!-- End: Main Form -->
     </div>
+    <!-- Start: Popup choose server user use -->
+    <server-mutipart
+      v-if="isShowServerMutipart === true"
+      :currentTheme="currentTheme"
+      @closePopupServerMutipart="isShowServerMutipart = $event"
+    >
+    </server-mutipart>
+    <!-- End: Popup choose server user use -->
   </div>
 </template>
 

@@ -73,6 +73,8 @@
                         @click="
                         eventClick( filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )
                       "
+                        @mouseover="eventHover(i, j, filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )"
+                        @mouseleave="isShowCardHover = false"
                       >
                         <div class="rc--content">
                           <div class="rc--title">
@@ -120,6 +122,13 @@
         :rightVal="rightVal"
         :topVal="topVal"
       ></rc-more-popover>
+      <rc-card-hover
+        v-if="isShowCardHover"
+        :eventData="eventHoverData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      ></rc-card-hover>
     </transition>
   </div>
 </template>

@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
+import RcCardHover from "../../../popover/cardhover";
 import RcMorePopover from "../../../popover/more/index";
+
 export default {
   props: [ "eventsOfWeek", "timePoint", "weekDays" ],
   data() {
     return {
       eventContainer: {},
       eventContainerWidth: 0,
+      eventHoverData: {},
       eventsPopupData: [],
       isShowMorePopover: false,
+      isShowCardHover: false,
       leftVal: null,
       rightVal: null,
       topVal: null
@@ -40,6 +44,33 @@ export default {
     },
     eventClick( data) {
       this.$emit( "eventClick", data );
+    },
+    eventHover( colIndex, timePoint, eventData ) {
+      const timeGridContainerHeight = 1392;
+
+      // set top and left popover style
+      let cardHoverHeight,
+        topVal = timePoint * 2 * 29,
+        leftVal = 50 + ( this.eventContainerWidth + 0.5 ) * colIndex;
+
+      // card hover height
+      eventData.type_event === 1 ? cardHoverHeight = 124 : cardHoverHeight = 200;
+
+      if ( topVal + cardHoverHeight >= timeGridContainerHeight ) {
+        topVal = topVal - cardHoverHeight + 57;
+      }
+
+      if ( colIndex < 4 ) {
+        this.topVal = topVal;
+        this.leftVal = leftVal + this.eventContainerWidth;
+        this.rightVal = null;
+      } else {
+        this.topVal = topVal;
+        this.leftVal = leftVal - 395;
+        this.rightVal = null;
+      }
+      this.isShowCardHover = true;
+      this.eventHoverData = eventData;
     },
     filterEventsByDay( day ) {
       return this.eventsOfWeek.filter( ( event ) => {
@@ -101,6 +132,7 @@ export default {
     window.removeEventListener( "resize", this.getEventContainerWidth );
   },
   components: {
+    RcCardHover,
     RcMorePopover
   }
 };

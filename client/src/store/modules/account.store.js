@@ -1,8 +1,3 @@
-/* eslint-disable arrow-parens */
-/* eslint-disable one-var */
-/* eslint-disable camelcase */
-/* eslint-disable no-shadow */
-/* eslint-disable no-unused-vars */
 import AccountServices from "@/services/modules/account.services";
 
 import CookieFunction from "@/utils/functions/cookie";
@@ -18,7 +13,9 @@ const state = {
   textAuth: "",
   users: [],
   usersFilter: [],
-  fileAvatar: ""
+  fileAvatar: "",
+  roles: [],
+  activeAccountError: "",
 };
 
 const getters = {
@@ -31,7 +28,9 @@ const getters = {
   textAuth: ( state ) => state.textAuth,
   users: ( state ) => state.users,
   usersFilter: ( state ) => state.usersFilter,
-  fileAvatar: ( state ) => state.fileAvatar
+  fileAvatar: ( state ) => state.fileAvatar,
+  roles: ( state ) => state.roles,
+  activeAccountError: ( state ) => state.activeAccountError
 };
 
 const mutations = {
@@ -77,8 +76,14 @@ const mutations = {
   getUsersFilter: ( state, payload ) => {
     state.usersFilter = payload;
   },
+  setActiveAccount: ( state, payload ) => {
+    state.activeAccountError = payload;
+  },
   setFileAvatar: ( state, payload ) => {
     state.fileAvatar = payload;
+  },
+  setRoles: ( state, payload ) => {
+    state.roles = payload;
   }
 };
 
@@ -253,6 +258,11 @@ const actions = {
   getUsersFilter: async ( { commit }, payload ) => {
     await commit( "getUsersFilter", payload );
   },
+  getRoles: async ( { commit } ) => {
+    const res = await AccountServices.getRoles();
+
+    await commit( "setRoles", res.data.data );
+  },
   sendFile: async ( { commit }, payload ) => {
     commit( "setFileAvatar", payload );
     const result = await AccountServices.upload( payload );
@@ -260,9 +270,25 @@ const actions = {
     commit( "user_set", result.data.data );
   },
   activeAccount: async ( { commit }, payload ) => {
-    commit( "auth_request" );
-    await AccountServices.active( payload );
-    commit( "auth_request_success" );
+    commit( "setActiveAccount", "" );
+    try {
+      commit( "auth_request" );
+      await AccountServices.active( payload );
+      commit( "auth_request_success" );
+
+      const users = await AccountServices.index();
+      await commit( "getUsersFilter", users.data.data );
+    }
+    catch ( e ) {
+    if ( e.response.status === 404 ) {
+      commit(
+        "setActiveAccount",
+        "Mã kích hoạt không tồn tại!"
+      );
+    }
+  }
+
+
   }
 };
 

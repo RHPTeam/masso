@@ -1,7 +1,7 @@
 <template>
   <div class="main p_3 position_relative" v-if="caseEvent">
     <div class="section" v-if="caseEvent.post === 0" >
-      <div class="alert alert_success">
+      <div class="alert alert_success d_none">
         Chế độ tự động đăng bài vào khung giờ vàng, giúp việc tự động hóa tài khoản facebook của bạn một cách dễ dàng.
         Hệ thống sẽ dựa vào thuật toán của facebook để tính toán ra các khung giờ vàng và đăng các bài viết được random ngẫu nhiên lên trang cá nhân của bạn.
       </div>
@@ -9,16 +9,14 @@
         <div class="c_6">
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
             <div class="card_body">
-              <h3 class="h5">Tùy chọn đăng bài viết từ danh mục</h3>
-              <p class="card-text">Hệ thống sẽ lấy ngẫu nhiên các bài viết trong danh mục để đăng lên nơi bạn thiết lập.</p>
+              <h3 class="h5">Tùy chọn đăng bài viết đến danh mục</h3>
             </div>
           </div>
         </div>
         <div class="c_6">
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">
             <div class="card_body">
-              <h3 class="h5">Tùy chọn đăng bài viết từ các nhóm cụ thể</h3>
-              <p class="card-text">Bạn có thể tùy chỉnh các bài viết mà bạn muốn, và thiết lập các thông tin nâng cao và chi tiết hơn.</p>
+              <h3 class="h5">Tùy chọn đăng bài viết cụ thể đến nhóm và trang</h3>
             </div>
           </div>
         </div>

@@ -22,12 +22,10 @@ export default {
     formatDate( d ) {
       const newDate = new Date( d ),
         year = newDate.getFullYear(),
-        month = newDate.getMonth() + 1,
-        date = newDate.getDate(),
-        hour = newDate.getHours(),
-        minutes = newDate.getMinutes();
+        month = String(newDate.getMonth() + 1 ).padStart( 2, 0),
+        date = String(  newDate.getDate() ).padStart( 2, 0 );
 
-      return `${hour}:${minutes}, ${date}-${month}-${year}`;
+      return `${date}/${month}/${year}`;
     },
     getFirstLetter( string ) {
       return string.charAt( 0 ).toUpperCase();
