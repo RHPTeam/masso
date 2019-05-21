@@ -3,21 +3,24 @@
   <div class="create--blog-admin card card_body">
     <div class="form_group">
       <div class="form_group">
-        <label for="">Chon danh muc de tao bai viet</label>
+        <label for="">Choose category to create a post</label>
         <multiselect
           label="title"
-          placeholder="Lựa chọn danh mục de tao bai viet"
+          placeholder="Choose category to create a post"
           :options="getCateAdmin"
           @input="getIdCategory"
         />
+        <label for="" v-if="isShowErrorCategory === true" class="errBlogHelp ml_2">Can't to Category empty</label>
       </div>
       <div class="form_group mb_2">
         <label for="">Title Post</label>
         <input type="text" placeholder="Title post" class="px_2 py_1 ml_2 form_control" v-model="allBlog.title">
+        <label for="" v-if="isShowErrorTitle === true" class="errBlogHelp ml_2">Title can't empty</label>
       </div>
       <div class="from_group mb_2">
         <label for="">Content Post</label>
         <textarea name="descriptionPost" id="" v-model="allBlog.content" placeholder="Content Post" class="px_2 py_1 ml_2 form_control" style="max-height: 450px"></textarea>
+        <label for="" v-if="isShowErrorContent === true" class="errBlogHelp ml_2">Content can't empty</label>
       </div>
       <button @click="createBlogHelpAdmin" class="btn btn_success">Save</button>
     </div>
@@ -33,7 +36,10 @@ export default {
         title: "",
         content: "",
         _helpCategory: ""
-      }
+      },
+      isShowErrorTitle: false,
+      isShowErrorContent: false,
+      isShowErrorCategory: false
     }
   },
   computed: {
@@ -46,14 +52,26 @@ export default {
     this.$store.dispatch( "getIdBlogHelpAdmin" );
   },
   methods: {
-    createBlogHelpAdmin() {
-      const createBlog = {
-        title: this.allBlog.title,
-        content: this.allBlog.content,
-        _helpCategory: this.allBlog._helpCategory
-      };
-      this.$store.dispatch("createBlogHelpAdmin", createBlog);
-      this.$router.push("/admin/help/help-blogs");
+    async createBlogHelpAdmin() {
+      if(this.allBlog._helpCategory.length === 0){
+        this.isShowErrorCategory = true;
+      }else if(this.allBlog.title.length === 0){
+        this.isShowErrorTitle = true;
+      } else if(this.allBlog.content.length === 0) {
+        this.isShowErrorContent = true;
+      } else {
+        this.isShowErrorCategory = false;
+        this.isShowErrorTitle = false;
+        this.isShowErrorContent = false;
+        const createBlog = {
+          title: this.allBlog.title,
+          content: this.allBlog.content,
+          _helpCategory: this.allBlog._helpCategory
+        };
+        await this.$store.dispatch("createBlogHelpAdmin", createBlog);
+        this.$router.push("/admin/help/help-blogs");
+      }
+
     },
     getIdCategory( value ){
       this.allBlog._helpCategory = value._id;
@@ -62,6 +80,9 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+ .errBlogHelp{
+   font-size: 14px;
+   color: #c81a17;
+ }
 </style>
