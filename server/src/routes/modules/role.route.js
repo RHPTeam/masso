@@ -5,9 +5,9 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const PostCategoryController = require( "../../controllers/role.controller" );
+const RoleController = require( "../../controllers/role.controller" );
 
 router
   .route( "/" )
-  .get( PostCategoryController.index );
+  .get( RoleController.index );
 module.exports = router;
