@@ -1,8 +1,7 @@
 const jwt = require( "jsonwebtoken" );
-const config = require( "../../configs/server" );
 
 module.exports = ( res, authorization ) => {
-  return jwt.verify( authorization, config.JWT_SECRET, ( err, decoded ) => {
+  return jwt.verify( authorization, process.env.APP_KEY, ( err, decoded ) => {
     if ( err ) {
       return res.status( 401 ).end();
     }

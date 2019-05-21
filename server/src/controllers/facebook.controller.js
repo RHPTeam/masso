@@ -6,8 +6,8 @@
  * team: BE-RHP
  */
 const Facebook = require( "../models/Facebook.model" );
-const PageFacebook = require( "../models/PageFacebook.model" );
-const GroupFacebook = require( "../models/GroupFacebook.model" );
+const PageFacebook = require( "../models/post/PageFacebook.model" );
+const GroupFacebook = require( "../models/post/GroupFacebook.model" );
 
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions.util" );
