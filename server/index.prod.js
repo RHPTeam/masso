@@ -1,14 +1,13 @@
 const bodyParser = require( "body-parser" );
 const fs = require( "fs" );
-const config = require( "./src/configs/server" );
 const cors = require( "cors" );
 const https = require( "https" );
 const express = require( "express" ),
   app = express(),
   logger = require( "morgan" ),
   options = {
-    "pfx": fs.readFileSync( config.pfx_url ),
-    "passphrase": config.pfx_pass
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
+    "passphrase": process.env.HTTPS_PASSWORD
   },
   server = https.createServer( options, app );
 
@@ -19,7 +18,7 @@ const cookieParser = require( "cookie-parser" );
 const mongoose = require( "mongoose" );
 const passport = require( "passport" );
 const Role = require( "./src/models/Role.model" );
-const Help = require( "./src/models/Help.model" );
+const Help = require( "./src/models/help/Help.model" );
 
 const io = require( "socket.io-client" ),
   socket = io.connect( "http://45.119.83.116:8388/", { "reconnection": true } );
@@ -30,13 +29,13 @@ require( "./src/process" );
 require( "./src/microservices" );
 
 // connect to mongoose NoSQL DB
-mongoose.connect( `${config.db}/postv2`, {
+mongoose.connect( `${process.env.DB_CONNECTION}://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, {
   "useCreateIndex": true,
   "useNewUrlParser": true
 } );
 mongoose.set( "useFindAndModify", false );
 
-app.set( "port", config.port );
+app.set( "port", process.env.PORT_BASE );
 
 app.use( cors() );
 app.use( bodyParser.json( { "limit": "500MB", "extended": true } ) );
@@ -46,7 +45,7 @@ app.use( passport.session() );
 app.use( logger( "tiny" ) );
 // file image local
 app.use( "/uploads", express.static( "uploads" ) );
-app.use( cookieParser( config.JWT_SECRET ) );
+app.use( cookieParser( process.env.APP_KEY ) );
 app.use( "/api/v1", api );
 app.use( "/", ( req, res ) => res.send( "API running!" ) );
 
@@ -81,7 +80,7 @@ helpDefault = async () => {
 helpDefault();
 
 const Account = require( "./src/models/Account.model" ),
-  PostFacebook = require( "./src/models/PostFacebook.model" );
+  PostFacebook = require( "./src/models/post/PostFacebook.model" );
 
 socket.on( "connect", async () => {
   console.log( "connected to http://45.119.83.116:8288/" );
@@ -116,8 +115,8 @@ socket.on( "connect", async () => {
 } );
 
 // listen a port
-server.listen( config.port, () => {
-  console.log( `Api server running on ${config.url}` );
+server.listen( process.env.PORT_BASE, () => {
+  console.log( `Api server running on ${process.env.APP_URL}` );
 } );
 
 module.exports = app;

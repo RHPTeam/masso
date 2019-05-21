@@ -1,6 +1,5 @@
 // eslint-disable-next-line camelcase
-const { port_socket } = require( "../configs/server" ),
-  { agent } = require( "../configs/crawl" ),
+const { agent } = require( "../configs/crawl" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
   express = require( "express" ),
   app = express(),
@@ -13,7 +12,7 @@ const { port_socket } = require( "../configs/server" ),
 
 let errorsLogin = [];
 
-http.listen( port_socket );
+http.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );

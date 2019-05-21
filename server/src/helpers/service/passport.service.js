@@ -3,7 +3,6 @@ const passport = require( "passport" ),
   JwtStrategy = require( "passport-jwt" ).Strategy;
 const { ExtractJwt } = require( "passport-jwt" ),
   LocalStrategy = require( "passport-local" ).Strategy;
-const CONFIG = require( "../../configs/server" );
 const Account = require( "../../models/Account.model" );
 
 // JSON WEB TOKENS STRATEGY
@@ -11,7 +10,7 @@ passport.use(
   new JwtStrategy(
     {
       "jwtFromRequest": ExtractJwt.fromHeader( "authorization" ),
-      "secretOrKey": CONFIG.JWT_SECRET
+      "secretOrKey": process.env.APP_KEY
     },
     async ( payload, done ) => {
       try {
