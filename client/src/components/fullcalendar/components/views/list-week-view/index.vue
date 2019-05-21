@@ -288,17 +288,6 @@
         </tbody>
       </table>
     </div>
-
-    <!-- Popover -->
-    <transition name="fade">
-      <rc-card-hover
-        v-if="isShowCardHover"
-        :eventData="eventHoverData"
-        :leftVal="leftVal"
-        :rightVal="rightVal"
-        :topVal="topVal"
-      ></rc-card-hover>
-    </transition>
   </div>
 </template>
 
