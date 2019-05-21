@@ -595,6 +595,17 @@ Docs & License: https://rfullcalendar.io/
           line-height: 24px;
           padding: 0 3px;
         }
+        .rc--day-grid-event {
+          position: relative;
+          &:hover {
+            .rc--card-hover-control {
+              display: block;
+            }
+          }
+          .rc--card-hover-control {
+            display: none;
+          }
+        }
       }
       .rc--header {
         .rc--title {
@@ -658,7 +669,7 @@ Docs & License: https://rfullcalendar.io/
     padding: 1rem;
     position: absolute;
     width: 360px;
-    z-index: 10;
+    z-index: 11;
     .card--hover-item {
       display: flex;
       align-items: center;
@@ -1188,6 +1199,17 @@ Docs & License: https://rfullcalendar.io/
         &-time {
           white-space: nowrap;
           width: 1px;
+        }
+        .rc--list-item-title {
+          position: relative;
+          &:hover {
+            .rc--card-hover-control {
+              display: block;
+            }
+          }
+          .rc--card-hover-control {
+            display: none;
+          }
         }
       }
       .rc--widget-header {

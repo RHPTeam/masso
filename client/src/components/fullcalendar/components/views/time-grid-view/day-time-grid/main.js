@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
+import RcCardHover from "../../../popover/cardhover";
 import RcMorePopover from "../../../popover/more/index";
+
 export default {
   props: [ "activeDay", "eventOfDay", "timePoint", ],
   data() {
     return {
       eventContent: {},
       eventContentWidth: 0,
+      eventHoverData: {},
       eventsPopupData: [],
       isShowMorePopover: false,
+      isShowCardHover: false,
       leftVal: null,
       rightVal: 0,
       topVal: null
@@ -16,6 +20,23 @@ export default {
   methods: {
     eventClick( data) {
       this.$emit( "eventClick", data );
+    },
+    eventHover( timePoint, eventData ) {
+      const timeGridContainerHeight = 1392, // 29*48
+        // calculate height of more popover element
+        eventCount = 6, // number of events
+        popoverHeight = 50 + eventCount * 26;
+
+      // set top and left popover style
+      let topVal = timePoint * 2 * 29;
+
+      if ( topVal + popoverHeight >= timeGridContainerHeight ) {
+        topVal = topVal - popoverHeight + 57;
+      }
+
+      this.topVal = topVal + 29;
+      this.isShowCardHover = true;
+      this.eventHoverData = eventData;
     },
     filterEventsByTime( hour) {
       return this.eventOfDay.filter( ( event ) => {
@@ -65,6 +86,7 @@ export default {
     }
   },
   components: {
+    RcCardHover,
     RcMorePopover
   }
 };

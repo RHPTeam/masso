@@ -122,6 +122,9 @@
         :rightVal="rightVal"
         :topVal="topVal"
       ></rc-more-popover>
+    </transition>
+    <!-- Card Hover -->
+    <transition name="fade">
       <rc-card-hover
         v-if="isShowCardHover"
         :eventData="eventHoverData"
