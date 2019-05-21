@@ -72,6 +72,8 @@
                             <div
                               class="rc--title"
                               @click="eventClick(event)"
+                              @mouseover="eventHover(i, event )"
+                              @mouseleave="isShowCardHover = false"
                             >
                               {{ showEventContent(event) }}
                             </div>
@@ -110,6 +112,13 @@
         :topVal="topVal"
       ></rc-more-popover>
     </transition>
+    <rc-card-hover
+      v-if="isShowCardHover"
+      :eventData="eventHoverData"
+      :leftVal="leftVal"
+      :rightVal="rightVal"
+      :topVal="topVal"
+    ></rc-card-hover>
   </div>
 </template>
 
