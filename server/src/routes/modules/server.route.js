@@ -11,6 +11,8 @@ const ServerController = require( "../../controllers/server.controller" );
 router
   .route( "/" )
   .get( ServerController.index )
-  .post( ServerController.create );
+  .post( ServerController.create )
+  .patch( ServerController.update )
+  .delete( ServerController.delete );
 
 module.exports = router;
