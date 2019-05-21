@@ -21,10 +21,10 @@
             <tr v-for="(blog, index) in allBlogAdmin" :key="index">
               <td>{{ blog.title }}</td>
               <td>{{ blog.content }}</td>
-              <td> {{ blog._helpCategory }}</td>
-              <td>
-                <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin">Update</button>
-                <button class="btn btn_danger my_2">Delete</button>
+              <td> {{ blog._helpCategory === undefined ? "" : blog._helpCategory.title }}</td>
+              <td class="text_center">
+                <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin( blog._id )">Update</button>
+                <button class="btn btn_danger my_2" @click="deleteBlogHelp( blog._id )">Delete</button>
               </td>
             </tr>
 <!--            <tr v-else></tr>-->
@@ -44,9 +44,6 @@ export default {
   computed: {
     allBlogAdmin() {
       return this.$store.getters.getAllBlog;
-    },
-    getIdBlogHelp(){
-      return this.$store.getters.getIdBlogHelp;
     }
   },
   created(){
@@ -54,11 +51,14 @@ export default {
   },
   methods: {
     updateBlogHelpAdmin( id ) {
-      this.$store.dispatch( "updateBlogHelpAdmin", this.getIdBlogHelp );
+      this.$store.dispatch( "getIdBlogHelpAdmin",  id );
       this.$router.push( {
         name: "update_blog",
         params: { id: id}
       } );
+    },
+    deleteBlogHelp( id ){
+      this.$store.dispatch( "deleteBlogById", id );
     }
   }
 }

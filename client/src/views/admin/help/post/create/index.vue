@@ -8,7 +8,7 @@
           label="title"
           placeholder="Lựa chọn danh mục de tao bai viet"
           :options="getCateAdmin"
-          @input="getTitleParent"
+          @input="getIdCategory"
         />
       </div>
       <div class="form_group mb_2">
@@ -43,6 +43,7 @@ export default {
   },
   async created() {
     await this.$store.dispatch("getAllCategoriesAdmin");
+    this.$store.dispatch( "getIdBlogHelpAdmin" );
   },
   methods: {
     createBlogHelpAdmin() {
@@ -54,9 +55,9 @@ export default {
       this.$store.dispatch("createBlogHelpAdmin", createBlog);
       this.$router.push("/admin/help/help-blogs");
     },
-    getTitleParent(val){
-      this.allBlog._helpCategory = val._id;
-    },
+    getIdCategory( value ){
+      this.allBlog._helpCategory = value._id;
+    }
   }
 }
 </script>

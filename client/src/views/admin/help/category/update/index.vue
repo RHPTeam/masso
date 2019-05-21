@@ -29,18 +29,15 @@ export default {
   },
   computed: {
     categories(){
-      // console.log(this.$store.getters.getCateAdmin);
       return this.$store.getters.getCateAdmin;
     },
     cateById(){
-      // console.log(this.$store.getters.categoriesById);
       return this.$store.getters.categoriesById;
     }
   },
   methods: {
-
-    updateCategories(){
-      this.$store.dispatch( "updateCategoriesById", this.cateById );
+    async updateCategories(){
+      await this.$store.dispatch( "updateCategoriesById", this.cateById );
       this.$router.push( "/admin/help" );
     }
   },

@@ -9,7 +9,8 @@ const state = {
   getAllBlog: [],
   createAllBlog: [],
   getBlogUpdate: [],
-  getBlogHelpById: []
+  getBlogHelpById: [],
+  getIdToDeleteBlogAdmin: []
 };
 
 const getters = {
@@ -25,7 +26,8 @@ const getters = {
   getAllBlog: state => state.getAllBlog,
   createAllBlog: state => state.createAllBlog,
   getBlogUpdate: state => state.getBlogUpdate,
-  getBlogHelpById: state => state.getBlogHelpById
+  getBlogHelpById: state => state.getBlogHelpById,
+  getIdToDeleteBlogAdmin: state => state.getIdToDeleteBlogAdmin
   // End Blog Help
 };
 
@@ -58,6 +60,10 @@ const mutations = {
   },
   setBlogHelpById: (state, payload) => {
     state.getBlogHelpById = payload;
+  },
+  // delete
+  setDeleteBlogHelp: (state, payload) => {
+    state.getIdToDeleteBlogAdmin = payload;
   }
   // End Blog Help
 };
@@ -100,7 +106,6 @@ const actions = {
   },
   // delete
   deleteCategoryById: async ({ commit }, payload) => {
-    console.log( payload );
     await AdminHelp.deleteCategoryAdmin( payload );
     const rsdeleteCategory = await AdminHelp.getNewCategory();
     commit("setAllCateAdmin", rsdeleteCategory);
@@ -125,14 +130,17 @@ const actions = {
 
     const rsUpdateBlog = await AdminHelp.updateBlogHelp( payload._id, payload);
     commit("setUpdateBlog", rsUpdateBlog.data.data);
-    // console.log(rsUpdateBlog.data.data);
   },
-  getIdBlogHelp: async ( {commit}, payload ) => {
+  getIdBlogHelpAdmin: async ( {commit}, payload ) => {
     const rsGetIdBlog = await AdminHelp.getIdBlogHelp( payload );
     commit("setBlogHelpById", rsGetIdBlog.data.data);
-    console.log(rsGetIdBlog.data.data);
-  }
+  },
   // delete
+  deleteBlogById: async ( { commit }, payload ) => {
+    await AdminHelp.deleteBlogHelpAdmin( payload );
+    const rsDeleteBlogHelp = await AdminHelp.getAllBlogAdmin();
+    commit("setAllBlog", rsDeleteBlogHelp.data.data);
+  }
   // ======= end blog help
 };
 

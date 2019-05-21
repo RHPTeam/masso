@@ -35,6 +35,9 @@ export default {
   },
   updateBlogHelp(id, content){
     return Api().patch( `help-blogs?_helpId=${id}`, content);
+  },
+  deleteBlogHelpAdmin( id ){
+    return Api().delete( `help-blogs?_helpId=${id}` );
   }
 
 }

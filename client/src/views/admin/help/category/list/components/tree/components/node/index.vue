@@ -31,8 +31,8 @@ export default {
         params: { id: id}
       } );
     },
-    deleteCategory( id ){
-      this.$store.dispatch( "deleteCategoryById", id );
+    async deleteCategory( id ){
+      await this.$store.dispatch( "deleteCategoryById", id );
     }
   }
 };
