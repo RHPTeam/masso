@@ -26,21 +26,38 @@
           <span class="change" @click="resetTargetType">Thay đổi</span>
         </div>
       </div>
+      <div class="desc" v-if="caseEvent.target === 3">
+        <div class="page">
+          <span class="title px_2 py_1 mr_3">Đăng tới trang cá nhân</span>
+          <span class="change" @click="resetTargetType">Thay đổi</span>
+        </div>
+      </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body d_flex align_items_center justify_content_between mb_2" v-if="caseEvent.target === 0">
-      <div class="card mr_2" @click="selectTargetType( 1 )">
-        <div class="card_body">
-          <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
-          <div>Tùy chọn tới nhóm mà bạn đã tạo trong danh mục nhóm và trang</div>
+    <div class="body mb_2" v-if="caseEvent.target === 0">
+      <div class="d_flex align_items_center justify_content_between">
+        <div class="card mr_2" @click="selectTargetType( 1 )">
+          <div class="card_body">
+            <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
+            <div>Tùy chọn tới nhóm mà bạn đã tạo trong danh mục bao gồm nhóm và trang</div>
+          </div>
+        </div>
+        <div class="card ml_2" @click="selectTargetType( 2 )">
+          <div class="card_body">
+            <h5 class="mb_1">Đăng tới nơi tùy chỉnh</h5>
+            <div>Tùy chọn tới nhóm và trang mà bạn tham gia trên facebook</div>
+          </div>
         </div>
       </div>
-      <div class="card ml_2" @click="selectTargetType( 2 )">
-        <div class="card_body">
-          <h5 class="mb_1">Đăng tới nơi tùy chỉnh</h5>
-          <div>Tùy chọn tới nhóm và trang mà bạn tham gia trên facebook</div>
+      <div class="d_flex align_items_center justify_content_between mt_2">
+        <div class="card mr_2" @click="selectTargetType( 3 )">
+          <div class="card_body">
+            <h5 class="mb_1">Đăng tới trang cá nhân</h5>
+            <div>Tùy chọn đăng bài tới trang cá nhân của bạn với các tùy chỉnh riêng tư trên facebook</div>
+          </div>
         </div>
+        <div class="card empty ml_2"></div>
       </div>
     </div>
     <!-- End: Option Post detail -->
@@ -53,6 +70,10 @@
     <target-custom v-else-if="caseEvent.target === 2" />
     <!-- End: Show Option Page -->
 
+    <!-- Start: Show Option Newfeed -->
+
+    <!-- End: Show Option Newfeed -->
+    <target-new-feed v-else-if="caseEvent.target === 3" />
     <!-- Start: Option Timer -->
       <timer-post/>
     <!-- End: Option Timer -->
@@ -62,6 +83,7 @@
 <script>
 import TargetGroup from "./category";
 import TargetCustom from "./custom";
+import TargetNewFeed from "./newfeed";
 import TimerPost from "../time";
 
 import FunctionLocalStorage from "@/utils/functions/localStorage";
@@ -70,6 +92,7 @@ export default {
   components: {
     TargetGroup,
     TargetCustom,
+    TargetNewFeed,
     TimerPost
   },
   data() {
@@ -144,6 +167,9 @@ export default {
       h5 {
         font-weight: 600;
       }
+    }
+    .empty {
+      border: none !important;
     }
   }
 }

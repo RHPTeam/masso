@@ -3,9 +3,16 @@
 /* eslint-disable global-require */
 import AppIntroVideo from "@/components/shared/layouts/introvideo";
 import AppAlert from "@/components/shared/layouts/alert";
+import ServerMutipart from "./servermutipart";
+
 import axios from "axios";
 
 export default {
+  components: {
+    AppAlert,
+    AppIntroVideo,
+    ServerMutipart
+  },
   data() {
     return {
       confirmPassword: "",
@@ -41,12 +48,14 @@ export default {
         password: "",
         phone: "",
         presenter: ""
-      }
+      },
+      isShowServerMutipart: false
     };
   },
-  components: {
-    AppAlert,
-    AppIntroVideo
+  computed: {
+    currentTheme(){
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     async submit() {
@@ -80,8 +89,9 @@ export default {
       if ( resData === false ) {
         return;
       }
-      this.$store.dispatch("getUserInfo" );
-      this.$router.push( "/welcome" );
+      // this.$store.dispatch("getUserInfo" );
+      this.isShowServerMutipart = true;
+      // this.$router.push( "/welcome" );
     }
   },
   watch: {

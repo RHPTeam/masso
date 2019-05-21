@@ -1,31 +1,40 @@
 <template>
-  <div class="page d_flex align_items_center">
-    <div class="item mr_2">
-      <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
-      <div class="main">
-        <multiselect
-          multiple
-          label="name"
-          :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
-          :options="faceGroupPost"
-          @input="selectGroupFacebook"
-        />
+  <div class="page mb_2">
+    <div class="body d_flex align_items_center">
+      <div class="item mr_2">
+        <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
+        <div class="main">
+          <multiselect
+            multiple
+            label="name"
+            :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
+            :options="faceGroupPost"
+            @input="selectGroupFacebook"
+          />
+        </div>
+        <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm đã sử dụng</div>
       </div>
-      <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm đã sử dụng</div>
-    </div>
-    <div class="item ml_2">
-      <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
-      <div class="main">
-        <multiselect
-          multiple
-          label="name"
-          :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
-          :options="facePagePost"
-          @input="selectPageFacebook"
-        />
+      <div class="item ml_2">
+        <div class="title mb_2">Chọn trang bạn muốn đăng</div>
+        <div class="main">
+          <multiselect
+            multiple
+            label="name"
+            :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
+            :options="facePagePost"
+            @input="selectPageFacebook"
+          />
+        </div>
+        <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang đã sử dụng</div>
       </div>
-      <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} nhóm đã sử dụng</div>
     </div>
+
+      <div class="bottom d_flex align_items_center mt_2">
+        <label class="custom--checkbox mr_2">
+          <input type="checkbox" />
+        </label>
+        <span>Chọn đăng lên trang cá nhân của bạn</span>
+      </div>
   </div>
 </template>
 
@@ -92,6 +101,37 @@ export default {
     .main {
       border: 1px solid $border-color;
       border-radius: calc(.5rem + 2px);
+    }
+  }
+  .bottom {
+    .custom--checkbox {
+      input[type="checkbox"] {
+        border-radius: 6px;
+        border: solid 1.5px #cccccc;
+        cursor: pointer;
+        height: 20px;
+        outline: none;
+        width: 20px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        &:checked {
+          background-color: #ffb94a;
+          border: solid 1px #ffb94a;
+
+          &:before {
+            border-bottom: 2px solid #fff;
+            border-right: 2px solid #fff;
+            content: "";
+            display: block;
+            height: 10px;
+            position: relative;
+            left: 50%;
+            top: 42%;
+            transform: translate(-50%, -50%) rotate(45deg);
+            width: 7px;
+          }
+        }
+      }
     }
   }
 }

@@ -20,7 +20,7 @@
         <div v-if="this.$store.getters.statusLib === 'loading'">
           <loading-component/>
         </div>
-        <div v-else v-for="(item, index) in resultPostSearch" :key="`s-${index}`">
+        <div v-else v-for="(item, index) in resultPostSearch.results" :key="`s-${index}`">
           <item-detail :item="item" />
         </div>
         <observer @intersect="intersected" />
@@ -61,39 +61,36 @@ export default {
     },
     resultPostSearch() {
       return this.$store.getters.postSearch;
+      // const arr = this.$store.getters.postSearch;
+      // console.log(arr);
+      // if(arr.length === 0) {
+      //   return;
+      // } else {
+      //   arr.results.map(item => {
+      //     this.items.push(item);
+      //   });
+      // }
+      // return arr;
     }
   },
   async created(){
   },
   methods: {
-    onScroll() {
-      const progress = this.$refs.text.$el.scrollTop / (this.$refs.text.$el.scrollHeight - this.$refs.text.$el.clientHeight);
-      if( progress === 1){
-        if(this.count < this.resultPostSearch.page) {
-          this.count++;
-        }
-        const dataSender = {
-          key: this.keyword,
-          size: this.limit,
-          page: this.count
-        };
-        console.log(dataSender);
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-        this.showResult = true;
-      }
-    },
     intersected(){
-      // if(this.count < this.resultPostSearch.page) {
-      //   this.count++;
-      // };
+      if(this.resultPostSearch && this.count < this.resultPostSearch.page) {
+        this.count++;
+      } else if (this.resultPostSearch && this.count == this.resultPostSearch.page) {
+        return;
+      }
       const dataSender = {
         key: this.keyword,
         size: this.limit,
-        page: this.count++
+        page: this.count
       };
       console.log(dataSender);
       this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
       this.showResult = true;
+      this.convertPostSearch();
     }
   }
 };
