@@ -51,6 +51,11 @@ const generalRouter = {
       component: require( "@/views/customer/campaigns/desktop/list" )
         .default
     },
+      {
+        path: "history",
+        name: "history",
+        component: require( "@/views/customer/campaigns/desktop/history" ).default
+      },
     {
       path: ":campaignId",
       name: "campaigns/detail",
