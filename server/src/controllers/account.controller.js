@@ -789,7 +789,11 @@ module.exports = {
         user.status = 1;
         user.expireDate = req.body.expireDate;
 
-        await user.save();
+        await Account.findByIdAndUpdate(
+          user._id,
+          { "$set": user },
+          { "new": true }
+        );
       } ) );
     }
 
