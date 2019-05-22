@@ -120,7 +120,9 @@ Vue.component("DNotification", () =>
 );
 
 /**
- * Assign Global Vue Directives
+ * Assign Global Vue Directives or Other Libraries
  */
+import VueQuillEditor from "vue-quill-editor";
 import VClickOutside from "@/directives/click-outside"
 Vue.use( VClickOutside );
+Vue.use(VueQuillEditor);

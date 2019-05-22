@@ -2,22 +2,19 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-import adminGeneralRouter from "./modules/admin";
+import customerGeneralRouter from "./modules/user";
+import customerResetPassword from "./modules/user/password";
+import customerSigninRouter from "./modules/user/signin";
+import customerSignupRouter from "./modules/user/signup";
+import customerWelcomeRouter from "./modules/user/welcome";
 
-import customerGeneralRouter from "./modules/customer";
-import customerResetPassword from "./modules/customer/resetpassword";
-import customerSigninRouter from "./modules/customer/signin";
-import customerSignupRouter from "./modules/customer/signup";
-import customerWelcomeRouter from "./modules/customer/welcome";
-
-import guideGeneralRouter from "./modules/guide";
+import guideGeneralRouter from "./modules/help";
 
 Vue.use( Router );
 
 export default new Router( {
   base: process.env.BASE_URL,
   routes: [
-    adminGeneralRouter,
     customerGeneralRouter,
     customerResetPassword,
     customerSigninRouter,

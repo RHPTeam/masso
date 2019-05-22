@@ -1,4 +1,4 @@
-import AccountFacebookService from "@/services/modules/accountfacebook.services";
+import AccountFacebookService from "@/services/modules/facebook.services";
 
 const state = {
   addAccountError: "",
