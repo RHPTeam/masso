@@ -36,28 +36,70 @@
     </div>
     <!-- Start: Option Post detail -->
     <div class="body mb_2" v-if="caseEvent.target === 0">
-      <div class="d_flex align_items_center justify_content_between">
-        <div class="card mr_2" @click="selectTargetType( 1 )">
-          <div class="card_body">
-            <h5 class="mb_1">Đăng tới nhóm cụ thể</h5>
-            <div>Tùy chọn tới nhóm mà bạn đã tạo trong danh mục bao gồm nhóm và trang</div>
+      <div class="r">
+        <div class="c_md_4">
+          <div class="card" @click="selectTargetType( 1 )">
+            <div class="card_body d_flex align_items_center">
+              <div class="card--icon d_flex align_items_center justify_content_center mr_2"
+                   :style="{ backgroundColor: event.color }"
+              >
+                <icon-base
+                  class="icon--group"
+                  height="22px"
+                  width="22px"
+                  viewBox="0 0 500 500"
+                >
+                  <icon-group></icon-group>
+                </icon-base>
+              </div>
+              <div class="card--content">
+                <div class="title mb_1">Đăng tới nhóm cụ thể</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card ml_2" @click="selectTargetType( 2 )">
-          <div class="card_body">
-            <h5 class="mb_1">Đăng tới nơi tùy chỉnh</h5>
-            <div>Tùy chọn tới nhóm và trang mà bạn tham gia trên facebook</div>
+        <div class="c_md_4">
+          <div class="card" @click="selectTargetType( 2 )">
+            <div class="card_body d_flex align_items_center">
+              <div class="card--icon d_flex align_items_center justify_content_center mr_2"
+                   :style="{ backgroundColor: event.color }"
+              >
+                <icon-base
+                  class="icon--group"
+                  height="22px"
+                  width="22px"
+                  viewBox="0 0 500 500"
+                >
+                  <icon-group></icon-group>
+                </icon-base>
+              </div>
+              <div class="card--content">
+                <div class="title mb_1">Đăng tới nơi tùy chỉnh</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="d_flex align_items_center justify_content_between mt_2">
-        <div class="card mr_2" @click="selectTargetType( 3 )">
-          <div class="card_body">
-            <h5 class="mb_1">Đăng tới trang cá nhân</h5>
-            <div>Tùy chọn đăng bài tới trang cá nhân của bạn với các tùy chỉnh riêng tư trên facebook</div>
+        <div class="c_md_4">
+          <div class="card" @click="selectTargetType( 3 )">
+            <div class="card_body d_flex align_items_center">
+              <div class="card--icon d_flex align_items_center justify_content_center mr_2"
+                   :style="{ backgroundColor: event.color }"
+              >
+                <icon-base
+                  class="icon--group"
+                  height="22px"
+                  width="22px"
+                  viewBox="0 0 500 500"
+                >
+                  <icon-group></icon-group>
+                </icon-base>
+              </div>
+              <div class="card--content">
+                <div class="title mb_1">Đăng tới trang cá nhân</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="card empty ml_2"></div>
       </div>
     </div>
     <!-- End: Option Post detail -->
@@ -103,6 +145,9 @@ export default {
   computed: {
     caseEvent() {
       return this.$store.getters.caseEvent;
+    },
+    event() {
+      return this.$store.getters.event;
     }
   },
   methods: {
@@ -162,10 +207,38 @@ export default {
   }
   .body {
     .card {
+      border: 0;
+      border-radius: .5rem;
       cursor: pointer;
-      width: 50%;
-      h5 {
-        font-weight: 600;
+      height: 100%;
+      transition: all .4s ease;
+      &:hover {
+        box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+      }
+      .card_body {
+        padding: .75rem;
+        .card--icon {
+          border-radius: 100%;
+          height: 36px;
+          width: 36px;
+          transition: all 1s ease;
+          svg {
+            color: #fff;
+            stroke: #fff;
+            opacity: .75;
+            &.icon--group {
+            }
+          }
+        }
+        .card--content {
+          h5 {
+            font-weight: 600;
+          }
+          .card--text {
+            color: #999;
+            font-size: .825rem;
+          }
+        }
       }
     }
     .empty {

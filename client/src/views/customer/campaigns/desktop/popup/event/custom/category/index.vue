@@ -86,7 +86,7 @@ export default {
 
 <style lang="scss" scoped>
 .category {
-  background-color: #fafafa;
+  background-color: #f7f7f7;
   color: $mainDarkLight;
   .top {
     background-color: #cccccc;

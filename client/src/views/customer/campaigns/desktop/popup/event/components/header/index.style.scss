@@ -2,6 +2,7 @@
   background-color: #85CFFF;
   border-top-left-radius: 0.625rem;
   border-top-right-radius: 0.625rem;
+  color: #f7f7f7;
   height: auto;
   transition: all 1s ease;
   .r {
@@ -46,7 +47,6 @@
       color: #fff;
       cursor: pointer;
       transition: all .4s ease;
-
       &.copy:hover, &.remove:hover {
         svg {
           stroke: #fff;

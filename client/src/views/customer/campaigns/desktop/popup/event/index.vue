@@ -10,7 +10,7 @@
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <div class="body" v-if="event">
-          <vue-perfect-scrollbar class="">
+          <vue-perfect-scrollbar class="modal--scroll">
             <app-auto
               v-if="event.type_event === 1"
               :event="event"
