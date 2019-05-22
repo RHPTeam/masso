@@ -69,7 +69,7 @@ export default {
   methods: {
     attachPlacesName( item ) {
       this.placesName = item.title;
-      this.post.place = item.title;
+      this.post.place = item.uniqueID;
       delete this.post.attachments;
       this.$store.dispatch( "updatePost", this.post );
       this.isShowSuggestDefault = false;

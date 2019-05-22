@@ -16,6 +16,7 @@ import PostStore from "./modules/post.store";
 import PostGroupStore from "./modules/postgroup.store";
 import PostAdminLibraries from "./modules/postlibraries.store";
 import AnalysisStore from "./modules/analytic.store";
+import ServerStore from "./modules/server.store";
 
 Vue.use( Vuex );
 
@@ -34,6 +35,7 @@ export default new Vuex.Store( {
     PostStore,
     PostGroupStore,
     PostAdminLibraries,
-    AnalysisStore
+    AnalysisStore,
+    ServerStore
   }
 } );

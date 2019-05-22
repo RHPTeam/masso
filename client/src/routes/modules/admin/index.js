@@ -32,6 +32,11 @@ const generalRouter = {
       path: "users",
       name: "admin_users",
       component: require( "@/views/admin/accounts" ).default
+    },
+    {
+      path: "server",
+      name: "admin_server",
+      component: require( "@/views/admin/servermutipart" ).default
     }
   ]
 };

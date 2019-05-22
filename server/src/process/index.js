@@ -26,12 +26,12 @@ const fs = require( "fs" ),
         "value": target.id
       },
       "content": data.content,
-      "photos": data.attachments,
+      "photos": data.attachments.length > 0 ? data.attachments : [],
       "scrape": data.scrape,
-      "tags": data.tags,
+      "tags": data.tags.length > 0 ? data.tags : [],
       "place": data.place,
       "activity": {
-        "type": data.typeActivity,
+        "type": data.activity.typeActivity,
         "id": data.activity.id,
         "text": data.activity.text
       }
@@ -55,6 +55,9 @@ const fs = require( "fs" ),
     // Pages
     if ( type === 3 ) {
       feed.location.type = 2;
+    }
+    if ( feed.scrape === undefined ) {
+      delete feed.scrape;
     }
     return feed;
   },
@@ -115,8 +118,10 @@ const fs = require( "fs" ),
       facebook = await Facebook.findOne( { "_id": pageInfo[ 0 ]._facebook } );
     }
 
+
     // Create new feed
     createPost( { "cookie": facebook.cookie, agent, feed } );
+
   };
 
 
@@ -155,7 +160,9 @@ const fs = require( "fs" ),
       }
 
       // Custom
-      GLOBAL.set( event._id, new CronJob( new Date( event.started_at ), async function () {
+      console.log( "custom" );
+      // GLOBAL.set( event._id, new CronJob( new Date( event.started_at ), async function () {
+      GLOBAL.set( event._id, new CronJob( new Date(), async function () {
         if ( event.target_custom.length > 0 ) {
           if ( event.post_custom.length > 0 ) {
             await handleManyTarget( event.post_custom, event.target_custom, event.break_point );
@@ -184,8 +191,16 @@ const fs = require( "fs" ),
 
           // Groups
           if ( event.target_category._groups.length > 0 ) {
-            event.target._groups.map( ( group ) => {
-              GLOBAL.set( group.groupId, new CronJob( `* ${event.break_point} * * * *`, async function () {
+            event.target_category._groups.map( ( group ) => {
+              return false;
+              // Check exists object cron
+              // eslint-disable-next-line no-unreachable
+              if ( GLOBAL.object_key_exists( group ) === true ) {
+                return false;
+              }
+              GLOBAL.set( group, new CronJob( "*/5 * * * * *", async function () {
+                return false;
+                // eslint-disable-next-line no-unreachable
                 if ( event.post_custom.length > 0 ) {
                   await handleManyTargetCategory( group, event.post_custom, 1 );
                 } else if ( event.post_category ) {
@@ -194,7 +209,7 @@ const fs = require( "fs" ),
                   await handleManyTargetCategory( group, postListByCategory, 1 );
                 }
               }, function () {
-                GLOBAL.get( group.groupId ).stop();
+                GLOBAL.get( group ).stop();
               }. true, "Asia/Ho_Chi_Minh" ) );
             } );
           }

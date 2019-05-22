@@ -115,13 +115,13 @@ const actions = {
   },
   searchPostFromLibrariesByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const arr = [];
     const result = await PostLibrariesServices.searchPostLibrariesByPage(
       payload.key,
       payload.size,
       payload.page
     );
-    commit( "setPostSearchFromLibraries", result.data.data.results );
+    console.log(result.data.data.results);
+    commit( "setPostSearchFromLibraries", result.data.data );
     commit( "post_success" );
   }
 };

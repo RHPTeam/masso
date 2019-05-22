@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- Start: Desktop Component-->
-    <div class="d_none d_md_block">
+    <div class="d_none d_md_block position_relative">
       <breadcrumb
         nameBread="Bảng điều khiển"
         subBread="Giúp bạn quản lý nhanh các thông tin trên hệ thống."
@@ -163,6 +163,16 @@
         </div>
       </div>
       <!-- End: Content -->
+
+      <!-- Start: Notification for check key word account-->
+      <add-key-word
+        v-if="user.keywords && user.keywords.length === 0"
+        :user="user"
+        :currentTheme="currentTheme"
+      >
+      </add-key-word>
+      <!-- End: Notification for check key word account-->
+
     </div>
     <!-- End: Desktop Component-->
   </div>
