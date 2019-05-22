@@ -26,6 +26,7 @@
         <date-picker
           v-model="event.started_at"
           class="ml_3"
+          format="DD/MM/YYYY"
           @change="changeDateSetup"
         />
       </div>

@@ -99,8 +99,11 @@ export default {
   }
 
   .card[role=type] {
+    border: 0;
+    border-radius: .5rem;
     cursor: pointer;
     color: $mainDarkLight;
+    height: 100%;
     transition: all .4s ease;
     &:hover {
       box-shadow: 0 0 8px rgba(0, 0, 0, .1);

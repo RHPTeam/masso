@@ -8,7 +8,12 @@
         <div class="c_12">
           <div class="section--content">
             <label class="mb_3"><b>Ngày áp dụng:</b></label>
-            <date-picker class="time" role="date" v-model="event.started_at" @change="updateStartedDate" />
+            <date-picker
+              class="time"
+              role="date"
+              format="DD/MM/YYYY"
+              v-model="event.started_at"
+              @change="updateStartedDate" />
             <div class="space"></div>
           </div>
         </div>
