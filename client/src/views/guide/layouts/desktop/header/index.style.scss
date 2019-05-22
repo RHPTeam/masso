@@ -71,18 +71,24 @@
     margin-right: 5px;
     transform: rotate(-180deg);
     stroke: #fff;
+
     stroke-width: 1;
   }
   &:hover{
+
     opacity: 1;
   }
 }
+
 
 a{
   text-decoration: none;
   color: inherit;
 }
-// menu
+
+
+
+// --------------------- MENU
 .menu--help{
   .item--active {
     border-bottom: 2px solid #fff;
@@ -112,7 +118,7 @@ a{
       left: 0;
       background: $mainDefault;
       color: $color-dark-2;
-      min-width: 220px;
+      width: 320px;
       z-index: 100;
       display: none;
       &-item{

@@ -16,6 +16,7 @@ const fs = require( "fs" ),
 
 let errorsLogin = [];
 
+server.listen( port_socket );
 server.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {

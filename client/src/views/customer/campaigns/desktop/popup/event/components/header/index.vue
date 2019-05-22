@@ -43,6 +43,9 @@
         <div v-else class="button save" @click.prevent="createEvent">
           TẠO MỚI
         </div>
+<!--        <div class="button save" @click.prevent="updateEventById">-->
+<!--          CẬP NHẬT-->
+<!--        </div>-->
       </div>
     </div>
     <!-- End: Row -->
@@ -299,6 +302,7 @@ export default {
 }
 </script>
 
+>>>>>>> dev-toantr-vue
 <style lang="scss" scoped>
 @import "./index.style";
 </style>

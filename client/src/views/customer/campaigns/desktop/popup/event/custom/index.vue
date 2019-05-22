@@ -3,6 +3,21 @@
     <div class="section" v-if="caseEvent.post === 0" >
       <div class="r">
         <div class="c_6">
+<!--<<<<<<< HEAD-->
+<!--          <div class="section&#45;&#45;content">-->
+<!--            <div class="d_flex flex_column">-->
+<!--              <div class="card mb_3" role="type" aria-label="Type Post" @click="selectPostType( 1 )">-->
+<!--                <div class="card_body">-->
+<!--                  <h5 class="card-title">Tùy chọn đăng bài viết từ danh mục</h5>-->
+<!--                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">-->
+<!--                <div class="card_body">-->
+<!--                  <h5 class="card-title">Tùy chọn đăng bài viết từ các nhóm cụ thể</h5>-->
+<!--                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
+<!--                </div>-->
+<!--              </div>-->
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
             <div class="card_body text_center">
               <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"

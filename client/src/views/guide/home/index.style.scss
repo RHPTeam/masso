@@ -16,33 +16,28 @@
   .pd{
     padding: 30px 0;
   }
-  .question--wrapper {
-    background-color: rgba(255, 185, 74, 0.1);
-    .question{
-      .choose{
-        ul{
-          li{
-            margin-bottom: 10px;
-          }
-          a{
-            background: $mainBrandColor;
-            color: $color-dark;
-            padding: .5rem 1rem;
-            display: inline-block;
-            border-radius: .75rem;
-            transition: background-color .4s ease;
-            &:hover{
-              background: #ffab29;
-            }
+  .question{
+    .choose{
+      ul{
+        .ques{
+          background: $mainBrandColor;
+          color: $color-dark;
+          padding: 5px 25px;
+          display: inline-block;
+          border-radius: 15px;
+          cursor: pointer;
+          &:hover{
+            background: #ef9f20;
           }
         }
       }
-      .descri--img{
-        background-size: cover;
-        background-position: 0 0;
-      }
     }
+  .descri--img{
+    background-position: 0 0;
+    height: 350px;
+    background-size: cover;
   }
+}
   .popular--topics {
     .topic--card{
       padding-left: 0;

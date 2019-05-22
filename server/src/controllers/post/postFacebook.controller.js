@@ -186,6 +186,7 @@ module.exports = {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
 
+
     let page = null, dataResponse = null, data = ( await PostFacebook.find( { "$text": { "$search": req.query.keyword, "$language": "none" } } ).sort( { "share": "desc", "vote": "desc", "like": "desc" } ).lean() );
 
     if ( req.query._size && req.query._page ) {

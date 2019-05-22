@@ -74,17 +74,36 @@
         <router-link
           class="menu--item d_flex align_items_center"
           tag="li"
+          :to="{ name: 'popular_create' }"
+          active-class="active"
+        >
+          <a class="account">
+            <icon-base
+              icon-name="help"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <icon-info />
+            </icon-base>
+            <span class="menu--item-text">Help</span>
+          </a>
+        </router-link>
+
+        <router-link
+          class="menu--item d_flex align_items_center"
+          tag="li"
           :to="{ name: 'admin_server' }"
           active-class="active"
         >
           <a class="account">
             <icon-base
-              icon-name="autopost"
+              icon-name="help"
               width="24"
               height="24"
-              viewBox="0 0 65 65"
+              viewBox="0 0 24 24"
             >
-              <icon-location />
+              <icon-info />
             </icon-base>
             <span class="menu--item-text">Quản lý server</span>
           </a>
@@ -98,6 +117,7 @@
 
 import IconDashboard from "@/components/icons/IconDashboard";
 import IconManageAccount from "@/components/icons/IconManageAccount";
+
 export default {
   components: {
     IconDashboard,

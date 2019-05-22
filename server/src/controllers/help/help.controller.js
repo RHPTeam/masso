@@ -36,10 +36,10 @@ module.exports = {
 
     // Handle get all group from mongodb
     if ( req.query._id ) {
-      dataResponse = await Help.find( { "_id": req.query._id } ).lean();
+      dataResponse = await Help.find( { "_id": req.query._id } ).populate( { "path": "popular_blog", "select": "_id title" } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Help.find( {} ).lean();
+      dataResponse = await Help.find( {} ).populate( { "path": "popular_blog", "select": "_id title" } ).populate( { "path": "popular_section", "select": "_id title" } ).lean();
     }
 
     res
@@ -54,28 +54,36 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
-      findHelp = await Help.find( {} )[ 0 ],
+      findHelp = await Help.findOne( { "_id": req.query._id } ),
       findAccount = await Account.findOne( { "_id": userId } );
+      console.log(findHelp)
 
     if ( !findAccount ) {
       return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
-    if ( req.body.popular_blog && req.body.popular_blog.length <= 5 ) {
-      if ( findHelp.popular_blog.length + req.body.popular_blog.length > 5 ) {
-        const temp = findHelp.popular_blog.length + req.body.popular_blog.length - 5;
-
-        for ( let i = findHelp.popular_blog.length; i > 5 - temp; i-- ) {
-          findHelp.popular_blog.pull( findHelp.popular_blog[ i ] );
-        }
-        await findHelp.save();
-
-      }
-      await Promise.all( findHelp.vote.map( ( vote ) => {
-        delete vote._id;
-      } ) );
-      req.body.vote = req.body.vote.concat( findBlogHelp.vote );
+    if ( findHelp.popular_blog.length > 5 ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Qua so luong bai viet, hay xoa nhung bai viet da ton tai de them" } );
     }
-    res.status( 201 ).json( jsonResponse( "success", await BlogHelp.findByIdAndUpdate( req.query._helpId, { "$set": req.body }, { "new": true } ) ) );
+    
+    if ( req.body.popular_blog && req.body.popular_blog.length <= 5 ) {
+      findHelp.popular_blog = [];
+      await findHelp.save();
+      req.body.popular_blog.map( async ( blog ) => {
+        await findHelp.popular_blog.push( blog );
+      } );
+      await findHelp.save();
+     } 
+     if ( req.body.popular_section && req.body.popular_section.length <= 5 ) {
+      findHelp.popular_section = [];
+      await findHelp.save();
+      req.body.popular_section.map( async ( blog ) => {
+        findHelp.popular_section.push( blog );
+      } );
+      await findHelp.save();
+
+     } 
+
+     res.status( 201 ).json( jsonResponse( "success", findHelp ) );
 
   }
 };

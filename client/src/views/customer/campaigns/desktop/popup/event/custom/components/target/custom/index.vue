@@ -46,6 +46,7 @@ export default {
     }
   },
   computed: {
+
     event () {
       return this.$store.getters.event;
     },

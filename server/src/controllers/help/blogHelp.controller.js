@@ -30,10 +30,10 @@ module.exports = {
 
     // Handle get all group from mongodb
     if ( req.query._id ) {
-      dataResponse = await BlogHelp.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await BlogHelp.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_helpCategory", "select": "_id title" } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await BlogHelp.find( { "_account": userId } ).lean();
+      dataResponse = await BlogHelp.find( { "_account": userId } ).populate( { "path": "_helpCategory", "select": "_id title" } ).lean();
     }
 
     res
@@ -50,7 +50,7 @@ module.exports = {
     // Check validator
     if ( req.body.title === "" || !req.body.title ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề blog không được bỏ trống!" } } );
-    } else if ( req.body.content ) {
+    } else if ( req.body.content === undefined || req.body.content.length === 0 ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung blog không được bỏ trống!" } } );
     }
 
@@ -64,6 +64,15 @@ module.exports = {
 
     // Save mongodb
     await newBlogHelp.save();
+
+    if ( req.body._helpCategory ) {
+      const findHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
+
+      newBlogHelp._helpCategory = req.body._helpCategory;
+      await newBlogHelp.save();
+      findHelpCategory._blogHelp.push( newBlogHelp._id );
+      await findHelpCategory.save();
+    }
 
     res.status( 200 ).json( jsonResponse( "success", newBlogHelp ) );
   },
@@ -93,6 +102,18 @@ module.exports = {
         delete vote._id;
       } ) );
       req.body.vote = req.body.vote.concat( findBlogHelp.vote );
+    }
+    if ( req.body._helpCategory ) {
+      const findNewHelpCategory = await HelpCategory.findOne( { "_id": req.body._helpCategory } );
+
+      if ( findBlogHelp._helpCategory ) {
+        const findHelpCategory = await HelpCategory.findOne( { "_id": findBlogHelp._helpCategory } );
+
+        findHelpCategory._blogHelp.pull( findBlogHelp._id );
+        await findHelpCategory.save();
+      }
+      findNewHelpCategory._blogHelp.push( findBlogHelp._id );
+      await findNewHelpCategory.save();
     }
     res.status( 201 ).json( jsonResponse( "success", await BlogHelp.findByIdAndUpdate( req.query._helpId, { "$set": req.body }, { "new": true } ) ) );
 
@@ -136,7 +157,7 @@ module.exports = {
 
     // When delete auto which all of help category of that auto will deleted
     if ( findHelpCategory.length > 0 ) {
-      if ( findHelpCategory._blogHelp.index( req.query._helpId ) > -1 ) {
+      if ( findHelpCategory._blogHelp !== undefined && findHelpCategory._blogHelp.indexOf( req.query._helpId ) > -1 ) {
         findHelpCategory._blogHelp.pull( req.query()._helpId );
         await findHelpCategory.save();
       }

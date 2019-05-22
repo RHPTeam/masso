@@ -17,6 +17,8 @@ import PostGroupStore from "./modules/postgroup.store";
 import PostAdminLibraries from "./modules/postlibraries.store";
 import AnalysisStore from "./modules/analytic.store";
 import ServerStore from "./modules/server.store";
+import HelpFacebook from "./modules/help.store";
+import AdminHelp from "./modules/adminhelp.store";
 
 Vue.use( Vuex );
 
@@ -36,6 +38,8 @@ export default new Vuex.Store( {
     PostGroupStore,
     PostAdminLibraries,
     AnalysisStore,
-    ServerStore
+    ServerStore,
+    HelpFacebook,
+    AdminHelp
   }
 } );

@@ -63,10 +63,9 @@
       <div class="wrap--nav">
         <nav>
           <ul class="menu--help d_inline_flex">
-            <li class="menu--help-item flex_fill item--active">
-              <a href="">Trang chủ</a>
-            </li>
-            <li class="menu--help-item flex_fill">
+            <li class="flex_fill home menu--help-item" @click="goToHomeHelp">Trang chủ</li>
+            <li class="flex_fill menu--help-item" v-for="(category, index) in allCategories" :key="index"> {{ category.title }} </li>
+            <!-- <li class="menu--help-item flex_fill">
               Sử dụng facebook
               <ul class="dropdown--menu">
                 <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
@@ -76,42 +75,51 @@
                 <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
                 <li class="dropdown--menu-item"><a href="">Video</a></li>
                 <li class="dropdown--menu-item"><a href="">Trang</a></li>
+                <li class="dropdown--menu-item"><a href="">Nhóm</a></li>
+                <li class="dropdown--menu-item"><a href="">Sự kiện</a></li>
+                <li class="dropdown--menu-item"><a href="">Thanh toán</a></li>
+                <li class="dropdown--menu-item"><a href="">Marketplace</a></li>
+                <li class="dropdown--menu-item"><a href="">Ứng dụng và trò chơi</a></li>
+                <li class="dropdown--menu-item"><a href="">Ứng dụng Facebook trên di động và máy tính</a></li>
+                <li class="dropdown--menu-item"><a href="">Trợ năng</a></li>
               </ul>
             </li>
             <li class="menu--help-item flex_fill">
               Quản lý tài khoản
               <ul class="dropdown--menu">
-                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
-                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
-                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
-                <li class="dropdown--menu-item"><a href="">Video</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang</a></li>
+                <li class="dropdown--menu-item"><a href="">Đăng nhập và mật khẩu</a></li>
+                <li class="dropdown--menu-item"><a href="">Trang cá nhân và cài đặt của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Tên trên Facebook</a></li>
+                <li class="dropdown--menu-item"><a href="">Giữ an toàn cho tài khoản của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Thông báo</a></li>
+                <li class="dropdown--menu-item"><a href="">Tùy chọn quảng cáo</a></li>
+                <li class="dropdown--menu-item"><a href="">Truy cập & Tải thông tin xuống</a></li>
+                <li class="dropdown--menu-item"><a href="">Vô hiệu hóa hoặc xóa tài khoản của bạn</a></li>
               </ul>
             </li>
-            <li class="menu--help-item flex_fill">Quyền riêng tư và an toàn
+            <li class="menu--help-item flex_fill">
+              Quyền riêng tư và an toàn
               <ul class="dropdown--menu">
-                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
-                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
-                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
-                <li class="dropdown--menu-item"><a href="">Video</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang</a></li>
+                <li class="dropdown--menu-item"><a href="">Quyền riêng tư của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Giữ an toàn</a></li>
+                <li class="dropdown--menu-item"><a href="">Giữ an toàn cho tài khoản của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Hủy kết bạn hoặc chặn ai đó</a></li>
+                <li class="dropdown--menu-item"><a href="">Tài khoản bị hack và giả mạo</a></li>
               </ul>
             </li>
-            <li class="menu--help-item flex_fill">Chính sách và báo cáo
+            <li class="menu--help-item flex_fill">
+              Chính sách và báo cáo
               <ul class="dropdown--menu">
-                <li class="dropdown--menu-item"><a href="">Tạo Tài khoản</a></li>
-                <li class="dropdown--menu-item"><a href="">Kết bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang chủ của bạn</a></li>
-                <li class="dropdown--menu-item"><a href="">Nhắn tin</a></li>
-                <li class="dropdown--menu-item"><a href="">Ảnh</a></li>
-                <li class="dropdown--menu-item"><a href="">Video</a></li>
-                <li class="dropdown--menu-item"><a href="">Trang</a></li>
+                <li class="dropdown--menu-item"><a href="">Báo cáo lạm dụng</a></li>
+                <li class="dropdown--menu-item"><a href="">Báo cáo sự cố về Facebook</a></li>
+                <li class="dropdown--menu-item"><a href="">Báo cáo vi phạm quyền riêng tư</a></li>
+                <li class="dropdown--menu-item"><a href="">Tài khoản bị hack và giả mạo</a></li>
+                <li class="dropdown--menu-item"><a href="">Quản lý tài khoản của người đã qua đời</a></li>
+                <li class="dropdown--menu-item"><a href="">Tải lên giấy tờ tùy thân của bạn</a></li>
+                <li class="dropdown--menu-item"><a href="">Quyền sở hữu trí tuệ</a></li>
+                <li class="dropdown--menu-item"><a href="">Giới thiệu về chính sách của chúng tôi</a></li>
               </ul>
-            </li>
+            </li> -->
             <li class="menu--help-item flex_fill">
               <a href="">
                 <div class="mail--help d_flex">
@@ -136,7 +144,25 @@
   </div>
 
 </template>
-
+<script>
+export default {
+  props: [ "goToHomeHelp" ],
+  computed: {
+    allCategories(){
+      const arrCateHelpMenu = [];
+      this.$store.getters.getCateAdmin.map( item => {
+        if( item.level === 1){
+          arrCateHelpMenu.push( item );
+        }
+      } );
+      return arrCateHelpMenu;
+    }
+  },
+  created() {
+    this.$store.dispatch( "getAllCategoriesAdmin" );
+  },
+}
+</script>
 <style lang="scss" scoped>
   @import "./index.style";
 </style>

@@ -109,6 +109,12 @@ export default {
     AppEvent
   },
   props: [ "view" ],
+  // data() {
+  //   return {
+  //     isShowCreateEvent: false,
+  //     event: 1
+  //   }
+  // },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
@@ -165,6 +171,10 @@ export default {
         }
       };
       this.$store.dispatch( "updateCampaignDetail", objSender );
+    },
+    openPopupCreateEvent(){
+      this.isShowCreateEvent = true;
+      localStorage.setItem("typeEvent", this.event);
     }
   }
 };

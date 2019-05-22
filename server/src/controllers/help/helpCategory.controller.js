@@ -130,7 +130,9 @@ module.exports = {
     await Promise.all( findHelpCategory._blogHelp.map( async ( blogHelp ) => {
       let findBlogHelp = await BlogHelp.findOne( { "_id": blogHelp } );
 
-      await findBlogHelp.remove();
+      if ( findBlogHelp ) {
+        await findBlogHelp.remove();
+      }
     } ) );
     await HelpCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
