@@ -1,24 +1,48 @@
 <template>
   <div class="main p_3 position_relative" v-if="caseEvent">
     <div class="section" v-if="caseEvent.post === 0" >
-      <div class="alert alert_success">
-        Chế độ tự động đăng bài vào khung giờ vàng, giúp việc tự động hóa tài khoản facebook của bạn một cách dễ dàng.
-        Hệ thống sẽ dựa vào thuật toán của facebook để tính toán ra các khung giờ vàng và đăng các bài viết được random ngẫu nhiên lên trang cá nhân của bạn.
-      </div>
       <div class="r">
         <div class="c_6">
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
-            <div class="card_body">
-              <h3 class="h5">Tùy chọn đăng bài viết từ danh mục</h3>
-              <p class="card-text">Hệ thống sẽ lấy ngẫu nhiên các bài viết trong danh mục để đăng lên nơi bạn thiết lập.</p>
+            <div class="card_body text_center">
+              <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"
+                   :style="{backgroundColor: event.color}"
+              >
+                <icon-base
+                  class="icon--categories"
+                  height="52px"
+                  width="54px"
+                  viewBox="0 0 460 460"
+                >
+                  <icon-categories></icon-categories>
+                </icon-base>
+              </div>
+              <div class="card--content">
+                <h3 class="h5">Đăng bài viết từ danh mục</h3>
+                <div class="card--text">Hệ thống sẽ lấy ngẫu nhiên các bài viết trong danh mục để đăng lên nơi bạn thiết lập.</div>
+              </div>
             </div>
           </div>
         </div>
         <div class="c_6">
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">
-            <div class="card_body">
-              <h3 class="h5">Tùy chọn đăng bài viết từ các nhóm cụ thể</h3>
-              <p class="card-text">Bạn có thể tùy chỉnh các bài viết mà bạn muốn, và thiết lập các thông tin nâng cao và chi tiết hơn.</p>
+            <div class="card_body text_center">
+              <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"
+                   :style="{backgroundColor: event.color}"
+              >
+                <icon-base
+                  class="icon--reply-post"
+                  height="56px"
+                  width="50px"
+                  viewBox="0 0 500 500"
+                >
+                  <icon-reply-post></icon-reply-post>
+                </icon-base>
+              </div>
+              <div class="card--content">
+                <h3 class="h5">Tùy chọn đăng bài viết cụ thể</h3>
+                <div class="card--text">Bạn có thể tùy chỉnh các bài viết mà bạn muốn, và thiết lập các thông tin nâng cao và chi tiết hơn.</div>
+              </div>
             </div>
           </div>
         </div>
@@ -66,17 +90,47 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .section {
-    label {
-      color: $mainDark;
-    }
-    .time[role=date] {
-      border: 1px solid $mainDark;
-    }
+.section {
+  label {
+    color: $mainDark;
+  }
+  .time[role=date] {
+    border: 1px solid $mainDark;
+  }
 
-    .card[role=type] {
-      cursor: pointer;
-      color: $mainDarkLight;
+  .card[role=type] {
+    cursor: pointer;
+    color: $mainDarkLight;
+    transition: all .4s ease;
+    &:hover {
+      box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+    }
+    .card_body {
+      .card--icon {
+        border-radius: 100%;
+        height: 100px;
+        opacity: .75;
+        transition: background-color 1s ease;
+        width: 100px;
+        svg {
+          color: #fff;
+          stroke: #fff;
+          stroke-width: 1;
+          &.icon--reply-post {
+            margin-left: 4px;
+          }
+          &.icon--categories {
+            stroke-width: 6;
+          }
+        }
+      }
+      .card--content {
+        .card--text {
+          color: #999;
+          font-size: .825rem;
+        }
+      }
     }
   }
+}
 </style>
