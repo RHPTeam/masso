@@ -1,6 +1,5 @@
 // eslint-disable-next-line camelcase
 const fs = require( "fs" ),
-  { port_socket, pfx_url, pfx_pass } = require( "../configs/server" ),
   { agent } = require( "../configs/crawl" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
   express = require( "express" ),
@@ -8,20 +7,17 @@ const fs = require( "fs" ),
   // eslint-disable-next-line new-cap
   https = require( "https" ),
   options = {
-    "pfx": fs.readFileSync( pfx_url ),
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
     // eslint-disable-next-line camelcase
-    "passphrase": pfx_pass
+    "passphrase": process.env.HTTPS_PASSWORD
   }, server = https.createServer( options, app ), io = require( "socket.io" )( server ),
   socketThread = {},
   Facebook = require( "../models/Facebook.model" );
 
 let errorsLogin = [];
 
-<<<<<<< HEAD
-https.listen( port_socket );
-=======
 server.listen( port_socket );
->>>>>>> dev-toantr-vue
+server.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );

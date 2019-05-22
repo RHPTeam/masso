@@ -10,7 +10,9 @@ const state = {
   createAllBlog: [],
   getBlogUpdate: [],
   getBlogHelpById: [],
-  getIdToDeleteBlogAdmin: []
+  getIdToDeleteBlogAdmin: [],
+  getCreateQuestionHelp: [],
+  help: []
 };
 
 const getters = {
@@ -27,8 +29,12 @@ const getters = {
   createAllBlog: state => state.createAllBlog,
   getBlogUpdate: state => state.getBlogUpdate,
   getBlogHelpById: state => state.getBlogHelpById,
-  getIdToDeleteBlogAdmin: state => state.getIdToDeleteBlogAdmin
+  getIdToDeleteBlogAdmin: state => state.getIdToDeleteBlogAdmin,
   // End Blog Help
+
+  // Start question help
+  getCreateQuestionHelp: state => state.getCreateQuestionHelp,
+  help: state => state.help
 };
 
 const mutations = {
@@ -64,8 +70,21 @@ const mutations = {
   // delete
   setDeleteBlogHelp: (state, payload) => {
     state.getIdToDeleteBlogAdmin = payload;
-  }
+  },
   // End Blog Help
+
+  // Start Question Help
+  setCreateQuestion: (state, payload) => {
+    state.getCreateQuestionHelp = payload;
+  },
+  setHelp: (state, payload ) => {
+    state.help = payload;
+  },
+
+
+  set_help: (state, payload) => {
+    state.help[payload.key] = payload.value;
+  }
 };
 
 const actions = {
@@ -101,6 +120,8 @@ const actions = {
   },
   // update
   updateCategoriesById: async ( { commit }, payload) => {
+    console.log("payload ne");
+    console.log(payload);
     const rsupdateCategoriesById = await AdminHelp.updateCateById( payload._id, payload );
     commit("setCategories", rsupdateCategoriesById.data.data);
   },
@@ -140,8 +161,25 @@ const actions = {
     await AdminHelp.deleteBlogHelpAdmin( payload );
     const rsDeleteBlogHelp = await AdminHelp.getAllBlogAdmin();
     commit("setAllBlog", rsDeleteBlogHelp.data.data);
-  }
+  },
   // ======= end blog help
+
+
+  // Start Question Help
+  updatePopularHelp: async ( { commit }, payload ) => {
+    /// Remove list object, change to list id popular blog and category
+    console.log(payload);
+    const rsCreateQuestion = await AdminHelp.updateQuestion( payload._id, payload );
+    commit("setCreateQuestion", rsCreateQuestion.data.data);
+  },
+  getHelp: async ( { commit } ) => {
+    const rsGetAllQuestion = await AdminHelp.getHelp();
+    commit("setHelp", rsGetAllQuestion.data.data[0]);
+  },
+
+  setHelp: async( { commit }, payload ) => {
+    commit( "set_help", payload );
+  }
 };
 
 export default {

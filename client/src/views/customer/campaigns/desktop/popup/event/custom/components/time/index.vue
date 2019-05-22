@@ -23,11 +23,10 @@
           :value.sync="time"
           @change="changeTimeSetup"
         />
-        <date-picker 
+        <date-picker
+          v-model="event.started_at"
           class="ml_3"
-          @selected="changeDateSetup"
-          :disabledDates="disabledDates"
-          :value="event.started_at"
+          @change="changeDateSetup"
         />
       </div>
       <div class="break d_flex align_items_center">

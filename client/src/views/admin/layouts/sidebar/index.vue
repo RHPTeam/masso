@@ -74,7 +74,7 @@
         <router-link
           class="menu--item d_flex align_items_center"
           tag="li"
-          :to="{ name: 'catagory' }"
+          :to="{ name: 'popular_create' }"
           active-class="active"
         >
           <a class="account">

@@ -1,5 +1,5 @@
 <template>
-  <div class="add--catagory card_body card mt_2">
+  <div class="update--catagory card_body card mt_2" :data-theme="currentTheme">
     <div class="form_group">
       <label>Tên danh mục</label>
       <input
@@ -11,7 +11,7 @@
     </div>
     <div class="my_2">Danh mục cha</div>
     <span class="text_danger">Nếu không lựa chọn trong danh mục này thì mặc định danh mục được tạo ở trên là danh mục cha</span>
-    <div class="add--chilren">
+    <div class="update--chilren">
       <multiselect
         label="title"
         :options="categories"
@@ -33,6 +33,9 @@ export default {
     },
     cateById(){
       return this.$store.getters.categoriesById;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   methods: {
@@ -44,6 +47,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .update--catagory[data-theme="dark"]{
+    background: #27292d;
+  }
 </style>

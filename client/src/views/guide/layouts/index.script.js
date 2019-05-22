@@ -25,12 +25,11 @@ export default {
     goToHomeHelp(){
       this.$router.push("/help");
     },
-    goToQuestionsHelp(){
-      console.log("b");
-      this.$router.push("/help/detail");
+    goToQuestionsHelp( id ){
+      this.$router.push( {
+        name: "guide_detail",
+        params: { id: id}
+      } );
     }
-  },
-  props: {
-    // nameExpect:
   }
 };

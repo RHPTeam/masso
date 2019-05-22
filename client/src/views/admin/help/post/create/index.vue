@@ -1,6 +1,6 @@
 <template>
   <!--  Start: Create nwe post category-->
-  <div class="create--blog-admin card card_body">
+  <div class="create--blog-admin card card_body" :data-theme="currentTheme">
     <div class="form_group">
       <div class="form_group">
         <label for="">Choose category to create a post</label>
@@ -55,8 +55,8 @@ export default {
     getCateAdmin(){
       return this.$store.getters.getCateAdmin;
     },
-    rmCateByBlog(){
-
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   created() {
@@ -65,7 +65,7 @@ export default {
   },
   methods: {
     async createBlogHelpAdmin() {
-      if(this.allBlog._helpCategory.length === 0){
+      if(this.allBlog._helpCategory.length === 0 || this.allBlog._helpCategory.length === null || this.allBlog._helpCategory.length === undefined){
         this.isShowErrorCategory = true;
       }else if(this.allBlog.title.length === 0){
         this.isShowErrorTitle = true;
@@ -96,5 +96,13 @@ export default {
  .errBlogHelp{
    font-size: 14px;
    color: #c81a17;
+ }
+ .create--blog-admin[data-theme="dark"]{
+   background: #909090;
+   color: #fff;
+   .ql-toolbar.ql-snow .ql-formats button, .ql-toolbar.ql-snow .ql-formats span{
+     color: #fff;
+     background: #fff!important;
+   }
  }
 </style>

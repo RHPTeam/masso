@@ -5,6 +5,13 @@
       <div class="main--content p_4">
         <div class="d_inline_flex mb_2">
           <router-link
+            class="mr_3 popular p_2 mr_2"
+            tag="button"
+            :to="{ name: 'popular_create' }"
+            active-class="active"
+            exact
+          >Popular Blog</router-link>
+          <router-link
             class="mr_3 catagory p_2 mr_2"
             tag="button"
             :to="{ name: 'catagory' }"
@@ -44,7 +51,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .catagory, .post{
+  .catagory, .post, .popular{
     border: 1px solid #00c853;
     background: none;
     color: #666;

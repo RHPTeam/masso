@@ -38,6 +38,16 @@ export default {
   },
   deleteBlogHelpAdmin( id ){
     return Api().delete( `help-blogs?_helpId=${id}` );
+  },
+
+
+  // ==============  Start quesntion help
+  updateQuestion( id, content ){
+    return Api().patch( `help?_id=${id}`, content);
+  },
+
+  getHelp(){
+    return Api().get( "help" );
   }
 
 }

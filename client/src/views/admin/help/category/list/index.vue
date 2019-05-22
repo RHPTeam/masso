@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="list--category" :data-theme="currentTheme">
     <div class="add--catagory">
       <router-link
         class="add--catagory btn btn_warning"
@@ -9,8 +9,8 @@
         exact
       >Thêm danh mục</router-link>
     </div>
-    <div class="card card_body mt_2">
-        <div>List Categories</div>
+    <div class="card card_body mt_2 list--card-category">
+        <div class="title--list">List Categories</div>
         <app-tree :tree-data="getCategoryTable" />
     </div>
   </div>
@@ -32,6 +32,9 @@ export default {
       this.handleMegaCategories(this.$store.getters.getCateAdmin);
       return this.treeCategories;
     },
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
 
@@ -83,5 +86,10 @@ export default {
   }
   .children{
     font-size: 14px;
+  }  
+  .list--category[data-theme="dark"]{
+    .list--card-category{
+      background: #27292d;
+    }
   }
 </style>

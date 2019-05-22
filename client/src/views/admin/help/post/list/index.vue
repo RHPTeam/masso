@@ -1,5 +1,5 @@
 <template>
-  <div class="blog--help-admin">
+  <div class="blog--help-admin" :data-theme="currentTheme">
     <router-link
       class="mb_2 create--new btn btn_warning"
       tag="button"
@@ -7,8 +7,8 @@
       active-class="active"
       exact
     >Create new Blog</router-link>
-    <div class="card card_body">
-      <div>List Blog</div>
+    <div class="card card_body list--blog">
+      <div class="mb_2">List Blog</div>
       <div class="list">
         <div class="card_group ml_2">
           <table class="table--list">
@@ -19,13 +19,12 @@
             </tr>
             <tr v-for="(blog, index) in allBlogAdmin" :key="index">
               <td>{{ blog.title }}</td>
-              <td> {{ blog._helpCategory === undefined ? "" : blog._helpCategory.title }}</td>
+              <td> {{ blog._helpCategory.title }}</td>
               <td class="text_center">
                 <button class="btn btn_warning my_2 mr_2" @click="updateBlogHelpAdmin( blog._id )">Update</button>
                 <button class="btn btn_danger my_2" @click="deleteBlogHelp( blog._id )">Delete</button>
               </td>
             </tr>
-<!--            <tr v-else></tr>-->
           </table>
         </div>
       </div>
@@ -42,6 +41,9 @@ export default {
   computed: {
     allBlogAdmin() {
       return this.$store.getters.getAllBlog;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   created(){
@@ -80,6 +82,11 @@ export default {
     th{
       text-align: center;
       padding-left: 0;
+    }
+  }
+  .blog--help-admin[data-theme="dark"]{
+    .list--blog{
+      background: #27292d;
     }
   }
 </style>

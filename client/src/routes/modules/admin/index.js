@@ -39,7 +39,7 @@ const generalRouter = {
       component: require( "@/views/admin/help" ).default,
       children: [
         {
-          path: "",
+          path: "category",
           name: "catagory",
           component: require( "@/views/admin/help/category/list" ).default,
         },{
@@ -62,8 +62,11 @@ const generalRouter = {
           path: "blog/update/:id",
           name: "update_blog",
           component: require( "@/views/admin/help/post/update" ).default,
+        },{
+          path: "",
+          name: "popular_create",
+          component: require("@/views/admin/help/popularquestion").default
         }
-
       ]
     }
   ]

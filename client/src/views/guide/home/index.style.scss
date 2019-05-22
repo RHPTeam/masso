@@ -31,12 +31,13 @@
           }
         }
       }
-      .descri--img{
-        background-size: cover;
-        background-position: 0 0;
-      }
     }
+  .descri--img{
+    background-position: 0 0;
+    height: 350px;
+    background-size: cover;
   }
+}
   .popular--topics {
     .topic--card{
       padding-left: 0;
