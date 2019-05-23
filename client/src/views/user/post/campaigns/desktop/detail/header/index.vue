@@ -171,10 +171,6 @@ export default {
         }
       };
       this.$store.dispatch( "updateCampaignDetail", objSender );
-    },
-    openPopupCreateEvent(){
-      this.isShowCreateEvent = true;
-      localStorage.setItem("typeEvent", this.event);
     }
   }
 };
