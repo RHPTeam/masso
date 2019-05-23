@@ -582,7 +582,7 @@ export default {
             return
           }
         }
-        this.$emit('input-error', value)
+        this.$emit('input-errors', value)
       }
     }
   }

@@ -70,7 +70,7 @@ module.exports = {
       "profileUrl": userInfoCore.results.profileUrl
     } } );
 
-    // Check error
+    // Check errors
     if ( userInfoCore.error.code !== 200 ) {
       return res.status( 404 ).json( { "status": "error", "message": userInfoCore.error.text } );
     }
@@ -111,7 +111,7 @@ module.exports = {
       },
       dataResponse = null;
 
-    // Check error
+    // Check errors
     if ( userInfoCore.error.code !== 200 ) {
       return res.status( 404 ).json( { "status": "error", "message": userInfoCore.error.text } );
     } else if ( findSubString( req.body.cookie, "c_user=", ";" ) !== findFacebook.userInfo.id ) {

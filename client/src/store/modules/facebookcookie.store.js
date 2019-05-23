@@ -48,7 +48,7 @@ const actions = {
       await commit( "addNewAccountFacebook", result.data.data );
       commit( "fb_success" );
     } catch ( e ) {
-      // if ( e.response.status === 403 ) commit( "addAccountError", "error" );
+      // if ( e.response.status === 403 ) commit( "addAccountError", "errors" );
       // commit( "fb_success" );
     }
   },
