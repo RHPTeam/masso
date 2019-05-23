@@ -48,7 +48,6 @@ export default {
     this.$store.dispatch( "getAllFriendFb" );
     this.$store.dispatch( "getPlaceFromFb" );
     this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getAllPostLibraries" );
     this.$store.dispatch( "getActivityFb" );
     this.$store.dispatch( "getColorFromFb" );
   }
