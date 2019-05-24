@@ -149,7 +149,7 @@ export default {
     },
     viewCampaignDetail( id ) {
       this.$store.dispatch( "getCampaignDetail", id );
-      this.$router.push( { name: "campaigns/detail",
+      this.$router.push( { name: "post_campaigns_detail",
         params: { campaignId: id } } );
     }
   },

@@ -3,15 +3,6 @@
     <div class="header d_flex align_items_center mb_3">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
-        <icon-base
-            class="icon--sort-down"
-            icon="icon--sort-down"
-            width="14px"
-            heigh="5px"
-            viewBox="0 0 14 14"
-        >
-          <icon-sort-down></icon-sort-down>
-        </icon-base>
         <span>Nơi đăng</span>
       </div>
       <div class="target--selected" v-if="caseEvent.target === 3">
@@ -41,7 +32,7 @@
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body mb_3" v-if="caseEvent.target === 0">
+    <div class="body" v-if="caseEvent.target === 0">
       <div class="r">
         <!-- Start: FB Profile -->
         <div class="c_md_4">

@@ -5,7 +5,7 @@
     :class="{ collapseMenu: collapseMenu }"
   >
     <div class="sidebar--logo d_inline_block text_center">
-      <router-link to="/">
+      <router-link :to="{ name: 'post_dashboard' }">
         <div class="sidebar--logo-icon">
           <icon-base
             icon-name="logo-short"

@@ -84,7 +84,7 @@ export default {
 
       await this.$store.dispatch( "createNewPost", dataSender );
       this.$router.push( {
-        name: "update_post",
+        name: "post_update_post",
         params: { id: this.newPost._id }
       } );
     }

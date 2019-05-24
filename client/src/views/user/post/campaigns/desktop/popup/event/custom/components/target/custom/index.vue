@@ -1,38 +1,64 @@
 <template>
-  <div class="page mb_2">
-    <div class="body d_flex align_items_center">
-      <div class="item mr_2">
-        <!--<div class="title mb_2">Chọn nhóm bạn muốn đăng</div>-->
-        <div class="main">
-          <multiselect
-            multiple
-            label="name"
-            placeholder="Chọn nhóm muốn đăng"
-            :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
-            :options="faceGroupPost"
-            @input="selectGroupFacebook"
-          />
+  <div class="page">
+    <div class="body">
+      <!-- Start: Pages Selected -->
+      <div class="item d_flex mb_3">
+        <div class="icon mr_2">
+          <icon-base
+            class="icon--page"
+            height="20px"
+            width="20px"
+            viewBox="0 0 500 500"
+          >
+            <icon-page></icon-page>
+          </icon-base>
         </div>
-        <div class="desc px_2 mt_1">Bao gồm
-          <span>{{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm</span> được chọn.
-        </div>
-      </div>
-      <div class="item ml_2">
-        <!--<div class="title mb_2">Chọn trang bạn muốn đăng</div>-->
-        <div class="main">
-          <multiselect
-            multiple
-            label="name"
-            placeholder="Chọn trang muốn đăng"
-            :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
-            :options="facePagePost"
-            @input="selectPageFacebook"
-          />
-        </div>
-        <div class="desc px_2 mt_1">Bao gồm
-          <span>{{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span> được chọn.
+        <div class="content">
+          <div class="main">
+            <multiselect
+              multiple
+              label="name"
+              placeholder="Chọn trang muốn đăng"
+              :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
+              :options="facePagePost"
+              @input="selectPageFacebook"
+            />
+          </div>
+          <div class="desc px_2 mt_1">Bao gồm
+            <span>{{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span> được chọn.
+          </div>
         </div>
       </div>
+      <!-- End: Pages Selected -->
+      <!-- Start: Groups Selected -->
+      <div class="item d_flex ">
+        <div class="icon mr_2">
+          <icon-base
+            class="icon--group"
+            height="22px"
+            width="22px"
+            viewBox="0 0 500 500"
+          >
+            <icon-group></icon-group>
+          </icon-base>
+        </div>
+        <div class="content">
+          <div class="main">
+            <multiselect
+              multiple
+              label="name"
+              placeholder="Chọn nhóm muốn đăng"
+              :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
+              :options="faceGroupPost"
+              @input="selectGroupFacebook"
+            />
+          </div>
+          <div class="desc px_2 mt_1">Bao gồm
+            <span>{{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm</span> được chọn.
+          </div>
+        </div>
+      </div>
+      <!-- End: Groups Selected -->
     </div>
   </div>
 </template>
@@ -74,7 +100,6 @@ export default {
       } )
     },
     selectPageFacebook( value ) {
-      console.log( value );
       const pageListSelect = value.map( page => {
         return {
           typeTarget: 1,
@@ -97,17 +122,34 @@ export default {
 <style lang="scss" scoped>
 .page {
   .item {
-    width: 50%;
-    .main {
-      border: 1px solid $border-color;
-      border-radius: calc(.5rem + 2px);
+    .content {
+      flex: 1;
+      .main {
+        border: 1px solid $border-color;
+        border-radius: calc(.5rem + 2px);
+      }
+      .desc {
+        color: #999;
+        font-size: .825rem;
+        span {
+          color: #666;
+          font-weight: 600;
+        }
+      }
     }
-    .desc {
-      color: #999;
-      font-size: .825rem;
-      span {
+    .icon {
+      width: 22px;
+      svg {
+        margin-top: 10px;
+      }
+      .icon--group {
         color: #666;
-        font-weight: 600;
+        stroke: #666;
+        stroke-width: 8;
+      }
+      .icon--page {
+        color: #6e6e6e;
+        margin-left: 4px;
       }
     }
   }
