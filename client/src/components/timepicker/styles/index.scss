@@ -9,7 +9,7 @@ $font_family_1: sans-serif;
   display: inline-block;
   position: relative;
   font-size: 1em;
-  width: 10em;
+  width: 100px;
   font-family: $font_family_1;
   vertical-align: middle;
   * {
@@ -18,9 +18,9 @@ $font_family_1: sans-serif;
   input.display-time {
     border: none;
     border-radius: 10px;
-    width: 10em;
-    height: 38px;
-    padding: 0.3em 1.5em;
+    width: 100px;
+    height: 40px;
+    text-align: center;
     font-size: 1em;
   }
   .clear-btn {
@@ -64,15 +64,18 @@ $font_family_1: sans-serif;
     left: 0;
     background: #fff;
     box-shadow: 0 1px 6px rgba(0,0,0,0.15);
-    width: 10em;
+    width: 100px;
     font-weight: normal;
     .select-list {
-      width: 10em;
+      width: 100px;
       overflow: hidden;
       display: flex;
       flex-flow: row nowrap;
       align-items: stretch;
       justify-content: space-between;
+      .scroll {
+        max-height: 120px;
+      }
     }
     select {
       padding: 0;

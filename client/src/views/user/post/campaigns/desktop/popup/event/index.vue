@@ -13,7 +13,6 @@
           <vue-perfect-scrollbar class="modal--scroll">
             <app-auto
               v-if="event.type_event === 1"
-              :event="event"
             />
             <app-custom
               v-if="event.type_event === 0"
