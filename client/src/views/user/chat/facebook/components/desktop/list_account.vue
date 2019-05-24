@@ -6,12 +6,10 @@
       với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
     </div>
     <div class="list r">
-      <div class="addItem c_md_6 c_lg_4 c_xl_3 ">
+      <div class="addItem c_md_6 c_lg_4 c_xl_3">
         <div class="card" @click="showPopup" :class="disabledClass()">
-          <div
-            class="card_body d_flex align_items_center justify_content_center"
-          >
-            <div class="item--content">
+          <div class="card_body d_flex align_items_center justify_content_center">
+            <div class="item--content text_center">
               <icon-base
                 class="icon--add"
                 icon-name="plus"
@@ -19,7 +17,7 @@
                 height="60"
                 viewBox="0 0 60 60"
               >
-                <icon-plus />
+                <icon-plus/>
               </icon-base>
 
               <p>Kết nối với Facebook</p>
@@ -27,43 +25,66 @@
           </div>
         </div>
       </div>
-      <div
-        v-for="(item, index) in accountsFB"
-        :key="index"
-        class="item c_md_6 c_lg_4 c_xl_3"
-      >
+      <!-- Start account -->
+      <div class="addItem c_md_6 c_lg_4 c_xl_3 users">
+        <div class="card">
+          <div class="card_body d_flex align_items_center justify_content_center position_relative">
+            <div class="item--content text_center">
+              <div class="position_absolute icon--delete">
+                <icon-base
+                  class="icon--delete"
+                  icon-name="delete"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 15 15"
+                >
+                  <icon-remove/>
+                </icon-base>
+              </div>
+              <div class="mb_2 img--users position_relative">
+                <img src="@/assets/images/broadcast_null.png" alt="" height="70" width="70">
+                <div class="position_absolute status--user"></div>
+              </div>
+              <div class="name--user mb_2">I need Food</div>
+              <div class="status--active-true">Dang hoat dong</div>
+              <div class="status--active-false">Ngung hoat dong</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End account -->
+      <div v-for="(item, index) in accountsFB" :key="index" class="item c_md_6 c_lg_4 c_xl_3">
         <item-account :item="item"/>
       </div>
       <div
-        v-if="this.$store.getters.faceBStatus === 'loading'"
+        v-if="this.$store.getters.facebookStatus === 'loading'"
         class="item c_md_6 c_lg_4 c_xl_3"
       >
         <div class="card">
-          <div
-            class="card_body text_center d_flex align_items_center justify_content_center"
-          >
-            <loading-component />
+          <div class="card_body d_flex align_items_center justify_content_center">
+            <loading-component/>
           </div>
         </div>
       </div>
     </div>
     <transition name="popup">
       <upgrade-pro-popup
-        v-if="showUpgradePro === true"
+        v-if="showUpgradePro == true"
         :data-theme="currentTheme"
         :showUpgradePro="showUpgradePro"
         @closeAddPopup="showUpgradePro = $event"
       />
 
       <add-cookie
-        v-if="showModal === true"
+        v-if="showModal == true"
         :popupData="showModal"
         @closeAddPopup="showModal = $event"
         :nameBread="nameBread"
-        :subBread="subBread"></add-cookie>
+        :subBread="subBread"
+      />
 
       <existed-account-popup
-        v-if="this.$store.getters.addAccountError === 'error'"
+        v-if="this.$store.getters.addAccountError == 'error'"
         :data-theme="currentTheme"
       />
     </transition>
@@ -71,15 +92,10 @@
 </template>
 
 <script>
-import ExistedAccountPopup from "./popup/alert/index";
-import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
-import ItemAccount from "./item/index";
+import ExistedAccountPopup from "./popup/existed_account";
+import UpgradeProPopup from "@/components/shared/upgradepro";
+import ItemAccount from "./item_account";
 export default {
-  components: {
-    ExistedAccountPopup,
-    UpgradeProPopup,
-    ItemAccount
-  },
   props: ["accountsFB"],
 
   data() {
@@ -119,10 +135,15 @@ export default {
         };
       }
     }
+  },
+  components: {
+    ExistedAccountPopup,
+    UpgradeProPopup,
+    ItemAccount
   }
 };
 </script>
 
 <style scoped lang="scss">
-  @import "index.style";
+@import "list_account";
 </style>

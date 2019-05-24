@@ -103,45 +103,42 @@
           </div>
         </div>
       </div>
-      <!--Start: Regions Scripts Body-->
-      <!-- <div class="script--body">
-        <div v-for="(item, index) in block.contents" :key="index"> -->
+      <!-- Start: Regions Scripts Body-->
+      <div class="script--body">
+        <div>
           <!--Start: Add text-->
-          <!-- <div v-if="item.typeContent === 'text'">
-            <add-text :item="item" :block="block" />
-          </div> -->
+          <div>
+            <add-text />
+          </div>
           <!--End: Add text-->
           <!--Start: add images-->
-          <!-- <div v-if="item.typeContent === 'image'">
-            <add-image :item="item" :block="block" />
-          </div> -->
+          <div>
+            <add-image />
+          </div>
           <!-- End: add images-->
           <!--Start: add timer-->
-          <!-- <add-timer :item="item" :block="block" /> -->
+          <add-timer />
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <!-- <div v-if="item.typeContent === 'tag'">
-            <add-tag :item="item" :content="block" />
-          </div> -->
+          <div>
+            <add-tag />
+          </div>
           <!--End: Add Tag-->
           <!--Start: Subscribe-->
-          <!-- <div v-if="item.typeContent === 'subscribe'">
+          <div>
             <subcrible
-              :item="item"
-              :content="block"
-              @updateItemFromMiddleComponent="block.contents[index] = $event"
             />
-          </div> -->
+          </div>
           <!--End: Subscribe-->
           <!--Start: Unsubcrible-->
-          <!-- <div v-if="item.typeContent === 'unsubscribe'">
-            <un-subcrible :item="item" :content="block" />
-          </div> -->
+          <div>
+            <un-subcrible />
+          </div>
           <!--End: Unsubcrible-->
-        <!-- </div>
-      </div> -->
+        </div>
+      </div>
       <!--Regions Script Footer-->
-      <!-- <div class="script--footer">
+      <div class="script--footer">
         <div class="script--footer-addelm">
           <div class="title">Thêm phần tử</div>
           <div class="gr-addelm d_flex align_items_center">
@@ -217,10 +214,10 @@
             placeholder="Nhập các cụm từ tại đây"
           ></textarea>
         </div>
-      </div> -->
+      </div>
     </div>
     <!--Popup filter Attribute-->
-    <!-- <transition name="popup">
+    <transition name="popup">
       <popup-plugins
         v-if="showPopupPlugins == true"
         :content="block._id"
@@ -232,7 +229,7 @@
         @showUnSubcrible="showUnSubcrible = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
       />
-    </transition> -->
+    </transition>
     <!--Delete popup-->
     <!-- <delete-popup
       v-if="isDeletePopup === true"

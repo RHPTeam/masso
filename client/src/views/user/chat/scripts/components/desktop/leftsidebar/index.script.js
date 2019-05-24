@@ -11,7 +11,9 @@ export default {
       showOptionSequence: false,
       showCopyScripts: false,
       showOptionsScripts: false,
-      showCopySequenceScripts: false
+      showCopySequenceScripts: false,
+      showAfterDay: false,
+      showOptionsDay: false
     };
   },
   computed: {
@@ -47,6 +49,12 @@ export default {
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
+    },
+    closeShowAfterDay(){
+      this.showAfterDay = false;
+    },
+    closeShowOptionsDay(){
+      this.showOptionsDay = false;
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;

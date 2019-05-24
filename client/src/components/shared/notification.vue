@@ -3,13 +3,19 @@
     class="notification d_flex align_items_center popup-enter"
   >
     <div class="notification--text">
-      Bạn đã đăng xuất tài khoản facebook <span> item.userInfo.name }}</span
+      Bạn đã đăng xuất tài khoản facebook <span> Ahihi </span
       >. Hãy đăng nhập lại và cập nhật lại cookie!.
-      <button class="btn--update ml_4">
+      <button class="btn--update ml_4" @click="showModal = true">
         Cập nhật ngay
       </button>
     </div>
-    <update-cookie v-if="false"
+    <update-cookie
+      v-if="showModal == true"
+      :item="item"
+      :popupData="showModal"
+      @closeAddPopup="showModal = $event"
+      :nameBread="nameBread"
+      :subBread="subBread"
     />
   </div>
 </template>
@@ -65,6 +71,7 @@ export default {
       }
     }
   }
+
   &--close {
     cursor: pointer;
   }

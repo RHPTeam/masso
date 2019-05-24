@@ -107,14 +107,14 @@
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <delete-item
+    <!-- <delete-item
       v-if="isDeleteItemSchedule === true"
       desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
       :block="schedule._id"
       :content="item._id"
       target="itemschedule"
       @close="isDeleteItemSchedule = $event"
-    />
+    /> -->
     <!--End: Delete Item Popup-->
   </div>
 </template>

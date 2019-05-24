@@ -19,29 +19,18 @@
               <div class="block--body">
                 <div
                   class="block--body-item"
-                  v-for="(item, index) in syntax.content"
-                  :key="index"
                 >
                   <contenteditable
-                    v-if="item.typeContent === 'text'"
                     class="editable"
                     tag="div"
                     placeholder="Nhập văn bản..."
                     :contenteditable="true"
-                    v-model="item.valueContent"
-                    @keyup="upTypingText('itemsyntax', item)"
-                    @keydown="clear"
                   />
-                  <multi
-                    v-if="item.typeContent === 'block'"
-                    :arrValue="item.valueContent"
-                    :content="groupBlock"
-                    :contentOther="sequences"
-                    @update="item.valueContent = $event"
+                  <!-- <multi
                     placeholder="Chọn nhóm..."
                     type="itemSyntax"
-                  ></multi>
-                  <span class="action" @click.prevent="removeItem(index)">
+                  ></multi> -->
+                  <span class="action">
                     <icon-base
                       class="icon--remove"
                       icon-name="remove"
@@ -170,6 +159,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../../index.style";
+
+// Answer group or text
+.auto--answer{
+
+}
 .block {
   &--body,
   &--footer {

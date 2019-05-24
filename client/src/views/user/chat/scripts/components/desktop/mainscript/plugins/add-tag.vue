@@ -12,7 +12,7 @@
         </icon-base>
       </span>
       <span>Thuộc tính người dùng</span>
-      <div class="ml_auto" @click="isDeleteItemBlock = true">
+      <div class="ml_auto">
         <icon-base
           icon-name="remove"
           width="18"
@@ -34,13 +34,12 @@
         <span>Tên thẻ</span>
         <span>Giá trị</span>
       </div>
-      <div v-for="(itemAttr, index) in listAttr" :key="index">
-        <item-tag :item="itemAttr" :block="content" :content="item" />
+      <div >
+        <item-tag />
       </div>
       <div class="script--body-tag-footer">
         <div
           class="script--body-tag-add"
-          @click="addAttributeInItemBlock(item._id)"
         >
           <span>
             <icon-base
@@ -58,14 +57,14 @@
       </div>
     </div>
     <!--Delete Item Popup-->
-    <delete-item
+    <!-- <delete-item
       v-if="isDeleteItemBlock === true"
       desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
       :content="item._id"
       :block="content._id"
       target="itemblock"
       @close="isDeleteItemBlock = $event"
-    />
+    /> -->
   </div>
 </template>
 <script>

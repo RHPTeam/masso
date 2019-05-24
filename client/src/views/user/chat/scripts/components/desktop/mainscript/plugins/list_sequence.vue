@@ -4,16 +4,12 @@
       <li class="d_flex">
         <div
           class="left"
-          v-if="sequence.valueText === 'undefined' || sequence.valueText === ''"
         ></div>
         <div
-          v-else
           class="right item d_flex align_items_center position_relative"
-          v-for="(item, index) in nameGroupSequence"
-          :key="`a-${index}`"
         >
-          {{ item }}
-          <div class="remove position_absolute" @click="removeItem(index)">
+          Sequence
+          <div class="remove position_absolute">
             <icon-base
               icon-name="remove"
               width="16"
@@ -39,11 +35,8 @@
         >
           <div
             class="item--suggest"
-            v-for="(item, index) in listSenquence"
-            :key="`s-${index}`"
-            @click="addNameSequence(item)"
           >
-            {{ item.name }}
+             Sequence
           </div>
         </div>
       </li>

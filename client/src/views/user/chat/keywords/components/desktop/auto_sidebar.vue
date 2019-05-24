@@ -16,6 +16,9 @@
         </div>
       </div>
       <div class="c_md_6 c_xl_6 text_center mb_2">
+        <div class="syntax">Syntax 0</div>
+      </div>
+      <div class="c_md_6 c_xl_6 text_center mb_2">
         <div
           class="auto--list-item auto--list-plus"
           @click.prevent="createSyntax"

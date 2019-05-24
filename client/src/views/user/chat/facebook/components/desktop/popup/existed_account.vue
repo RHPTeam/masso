@@ -40,29 +40,29 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../index.style";
+@import "../list_account";
 
-  .modal--wrapper {
-    .btn--close {
-      cursor: pointer;
-      right: 5px;
-      top: 15px;
+.modal--wrapper {
+  .btn--close {
+    cursor: pointer;
+    right: 5px;
+    top: 15px;
+  }
+}
+
+.modal--wrapper[data-theme="light"] {
+  .btn--close {
+    svg {
+      color: #ccc;
     }
   }
+}
 
-  .modal--wrapper[data-theme="light"] {
-    .btn--close {
-      svg {
-        color: #ccc;
-      }
+.modal--wrapper[data-theme="dark"] {
+  .btn--close {
+    svg {
+      color: #666;
     }
   }
-
-  .modal--wrapper[data-theme="dark"] {
-    .btn--close {
-      svg {
-        color: #666;
-      }
-    }
-  }
+}
 </style>

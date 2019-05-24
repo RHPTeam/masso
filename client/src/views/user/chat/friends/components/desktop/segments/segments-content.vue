@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SegmentsContentTop from "./cp-segments-content/top/top";
+import SegmentsContentTop from "./cp-segments-content/top";
 import SegmentsContentUsersTable from "./cp-segments-content/users-table/users-table";
 
 export default {

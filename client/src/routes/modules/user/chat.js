@@ -10,6 +10,11 @@ const generalChatRouter = {
     },
     children: [
       {
+        path: "",
+        name: "account",
+        component: require("@/views/user/chat/account").default
+      },
+      {
         path: "scripts",
         name: "scripts",
         component: require("@/views/user/chat/scripts").default
@@ -26,13 +31,25 @@ const generalChatRouter = {
       },
       {
         path: "broadcasts",
-        name: "broadcasts",
-        component: require("@/views/user/chat/broadcasts").default
+        component: require("@/views/user/chat/broadcasts").default,
+        children: [
+          {
+            path: "",
+            name: "broadcasts",
+            component: require("@/views/user/chat/broadcasts/desktop/components/main/default").default,
+          },
+          {
+            path: "/schedule/id123123",
+            name: "broadcast_schedule",
+            component: require("@/views/user/chat/broadcasts/desktop/components/main/schedule")
+              .default
+          }
+        ]
       },
       {
-        path: "account",
-        name: "account",
-        component: require("@/views/user/chat/account").default
+        path: "facebook",
+        name: "facebook",
+        component: require("@/views/user/chat/facebook").default
       }
     ]
   };

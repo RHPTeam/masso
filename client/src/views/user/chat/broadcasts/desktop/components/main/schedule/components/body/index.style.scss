@@ -170,3 +170,9 @@ div[data-theme="dark"] .footer {
         color: #ffffff;
     }
 }
+.text[data-theme="dark"]{
+  .text-edit{
+    background: #27292d;
+    border: 10px solid #444;
+  }
+}

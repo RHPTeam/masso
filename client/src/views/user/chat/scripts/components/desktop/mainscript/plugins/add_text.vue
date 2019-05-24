@@ -1,6 +1,6 @@
 <template>
   <div class="script--body-text mt_3">
-    <div class="script--body-delete" @click="isDeleteItemBlock = true">
+    <div class="script--body-delete">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
         <icon-remove />
       </icon-base>
@@ -10,51 +10,38 @@
         <icon-move />
       </icon-base>
     </div>
-    <div class="script--body-text-edit position_relative">
-      <contenteditable
-        class="script--header-title"
-        tag="div"
+    <div class="script--body-text-edit position_relative" contenteditable="true">
+      <!-- <contenteditable
         :contenteditable="true"
-        v-model="item.valueText"
-        @keyup="upTypingText('updateitem', item)"
-        @keydown="clear"
-        v-click-outside="closeSuggestAttributeInItem"
-      />
+      /> -->
       <div
-        class="list--suggest position_absolute"
-        v-if="showSuggestAttribute === true"
+        class="list--suggest position_absolute d_none"
       >
         <VuePerfectScrollbar class="suggest">
           <div
             class="suggest--item"
-            v-for="(list, index) in resultFilterAttr"
-            :key="`l-${index}`"
-            @click="attachValue(list, item)"
           >
             <span class="custom custom--item">
-              {{ list.name }}
+              list.name }}
             </span>
           </div>
           <div
             class="suggest--item"
-            v-for="(fixed, index) in dataFixed"
-            :key="`f-${index}`"
-            @click="attachValueFixed(fixed, item)"
           >
-            <span class="custom custom--fixed">{{ fixed.value }}</span>
+            <span class="custom custom--fixed">fixed.value }}</span>
           </div>
         </VuePerfectScrollbar>
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <delete-item
+    <!-- <delete-item
       v-if="isDeleteItemBlock === true"
       desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
       :content="item._id"
       :block="block._id"
       target="itemblock"
       @close="isDeleteItemBlock = $event"
-    />
+    /> -->
     <!--End: Delete Item Popup-->
   </div>
 </template>
@@ -156,5 +143,8 @@ export default {
 }
 .custom--fixed {
   background-color: #906d60;
+}
+.script--body-text-edit{
+  color: #fff;
 }
 </style>

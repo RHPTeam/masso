@@ -78,7 +78,7 @@
                 .infor{ 
                     top: 40px;
                     right: -90px;
-                    z-index: 1;
+                    z-index: 11;
                     ul{
                         list-style: none;
                         padding: 0;
@@ -169,12 +169,17 @@
                     color: #fff;
                     transition: background-color .5s;
                 }
+                .icon-more{
+                    display: block;
+                    color: #fff;
+                    cursor: pointer;
+                }
             }
             .infor{ 
                 cursor: pointer;
                 top: 40px;
                 right: -90px;
-                z-index: 1;
+                z-index: 11;
                 ul{
                     list-style: none;
                     padding: 0;
@@ -195,21 +200,63 @@
                 }
             }
         }
-        .after--day{
-            padding: 10px 5px;
-        }
         .content--item{
             background: #27292d;
+            padding: 10px 5px;
             color: #ccc;
             border-radius: .5rem;
             text-align: center;
             transition: background-color .5s;
-            margin: 0 5px;
+            margin: 0 3px;
         }
         .icon-more{
+            display: none;
             top: 15px;
             right: 1px;
             z-index: 1;
+        }
+    }
+    .show--after-day{
+        top: 100%;
+        background: #fff;
+        font-size: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        z-index: 5;
+        padding: 6px;
+        width: 170px;
+        color: #262626;
+        .number--day{
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px 0;
+            width: 60px;
+            margin-right: 5px;
+        }
+        .day{
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 5px;
+            width: 90px;
+        }
+        .follow{
+            font-size: 13px;
+        }
+        .options--day{
+            right: -90px;
+            top: 0px;
+            font-size: 14px;
+            ul{
+                background: #fff;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                border-radius: 5px;
+                width: 90px;
+                li:hover{
+                    background: #ffb94a;
+                }
+            }
         }
     }
 }
@@ -648,4 +695,23 @@ div[data-theme="dark"] {
             }
         }
     }
+}
+
+
+
+
+
+
+
+
+// *********************** CHANGE THEME ******************************
+
+//  LIGHT
+.sidebar-scripts[data-theme="light"]{
+    
+}
+
+// DARK
+.sidebar-scripts[data-theme="dark"]{
+    
 }

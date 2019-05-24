@@ -39,6 +39,10 @@
       </div>
     </div>
 
+    <div class="segments--list-item mr_2 mb_2 position_relative">
+      <div class="name--group">Name Group</div>
+    </div>
+
     <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">
       <icon-base
         class="icon--add mr_2"

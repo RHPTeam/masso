@@ -1,6 +1,6 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <div class="sidebar-scripts group py_3">
+  <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
 
     <!-- Start Group Scripts -->
     <div class="group--scripts mb_3 mt_2">
@@ -79,7 +79,7 @@
                   <icon-more />
                 </icon-base>
               </div>
-              <div class="infor position_absolute">
+              <div class="infor position_absolute d_none">
                 <ul>
                   <li>Sao chép</li>
                   <li>Di chuyển</li>
@@ -110,7 +110,7 @@
 
     <!-- Start sequence scripts  -->
     <div class="sequences--scripts">
-      <div class="title d_inline_flex">
+      <div class="title d_inline_flex mb_2">
         <div>
           <icon-base
             class="icon--sort-down"
@@ -147,8 +147,8 @@
         </div>
       </div>
       <div class="content">
-        <div class="r m_0 group--items mb_3 position_relative">
-          <div class="p_0 c_lg_4 c_xl_4 c_md_12 c_12">
+        <div class="r m_0 group--items mb_3">
+          <div class="c_lg_4 c_xl_4 c_md_12 p_0">
             <div class="content--item">
               <div class="after--day">
                 <span>Sau </span>
@@ -157,32 +157,78 @@
               </div>
             </div>
           </div>
-          <div class="p_0 c_lg_8 c_xl_8 c_md_12 c_12">
-            <div class="content--item position_relative">
+          <div class="c_lg_8 c_xl_8 c_md_12 p_0 position_relative">
+            <div class="content--item">
               <div class="text_center">Kịch bản 1</div>
             </div>
+            <div class="position_absolute icon-more">
+              <icon-base
+                class="icon--more"
+                icon-name="IconMore"
+                width="22"
+                height="22"
+                viewBox="0 0 760 760"
+              >
+                <icon-more />
+              </icon-base>
+            </div>
+            <div class="infor position_absolute d_none">
+              <ul>
+                <li>Sao chép</li>
+                <li>Di chuyển</li>
+                <li>Xóa</li>
+              </ul>
+            </div>
           </div>
-          <div class="position_absolute icon-more">
-            <icon-base
-              class="icon--more"
-              icon-name="IconMore"
-              width="22"
-              height="22"
-              viewBox="0 0 760 760"
-            >
-              <icon-more />
-            </icon-base>
+        </div>
+        <div class="r m_0 group--items mb_3">
+          <div class="c_lg_4 c_xl_4 c_md_12 p_0">
+            <div class="content--item position_relative">
+              <div class="after--day" @click="showAfterDay = ! showAfterDay" v-click-outside="closeShowAfterDay">
+                <span>Sau </span>
+                <span>1</span>
+                <span> Ngày</span>
+              </div>
+              <div class="show--after-day position_absolute text_left" v-show="showAfterDay">
+                <div>Send after {{ showOptionsDay }}</div>
+                <div class="d_inline_flex hours--day position_relative my_1">
+                  <div class="text_center number--day" contenteditable="true">12</div>
+                  <div class="day" @click="showOptionsDay = ! showOptionsDay" v-click-outside="closeShowOptionsDay">Day</div>
+                  <div class="position_absolute options--day" v-show="showOptionsDay">
+                    <ul>
+                      <li class="py_1 pl_1 py_2">Send now</li>
+                      <li class="py_1 pl_1 py_2">Seconds</li>
+                      <li class="py_1 pl_1 py_2">Minute</li>
+                      <li class="py_1 pl_1 py_2">Hours</li>
+                      <li class="py_1 pl_1 py_2">Day</li>
+                      <li class="py_1 pl_1 py_2">Off</li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="follow">Broadcasts Follow</div>
+                <div class="follow">Other Follow</div>
+              </div>
+            </div>
           </div>
-          <div class="infor position_absolute">
-            <ul>
-              <li>Sao chép</li>
-              <li>Di chuyển</li>
-              <li>Xóa</li>
-            </ul>
+          <div class="c_lg_8 c_xl_8 c_md_12 p_0 position_relative">
+            <div class="content--item">
+              <div class="text_center">Kịch bản 1</div>
+            </div>
+            <div class="position_absolute icon-more">
+              <icon-base
+                class="icon--more"
+                icon-name="IconMore"
+                width="22"
+                height="22"
+                viewBox="0 0 760 760"
+              >
+                <icon-more />
+              </icon-base>
+            </div>
           </div>
         </div>
         <div class="r m_0 group--items mb_3 position_relative">
-          <div class="c_lg_12 c_xl_12 c_md_12 c_12">
+          <div class="c_lg_12 c_xl_12 c_md_12 p_0">
             <div class="content--item">
               <div class="text_center">
                 <icon-base

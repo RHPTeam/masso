@@ -13,7 +13,7 @@
           <icon-copy />
         </icon-base>
       </div>
-      <div class="action--item live" @click.prevent="changeStatusBroadcast" :class="schedule.status === true ? 'bg_danger' : ''">
+      <div class="action--item live">
         <icon-base
           icon-name="icon-copy"
           width="14"
@@ -22,10 +22,10 @@
         >
           <icon-play-button />
         </icon-base>
-        <span class="ml_2">{{ schedule.status === true ? 'Hủy bỏ' : 'Bắt đầu' }}</span>
+        <span class="ml_2">Bat dau</span>
       </div>
     </div>
-    <div class="action--r ml_auto" @click="isDeletePopup = !isDeletePopup">
+    <div class="action--r ml_auto">
       <icon-base
         class="icon"
         icon-name="remove"
@@ -36,13 +36,13 @@
         <icon-remove />
       </icon-base>
     </div>
-    <delete-popup
+    <!-- <delete-popup
       v-if="isDeletePopup === true"
       @close="isDeletePopup = $event"
       desc="Bạn có thực sự muốn xóa chiến dịch này không?"
       :content="this.$route.params.scheduleId"
       target="schedule"
-    />
+    /> -->
   </div>
 </template>
 

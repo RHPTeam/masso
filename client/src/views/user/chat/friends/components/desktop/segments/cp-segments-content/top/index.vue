@@ -1,56 +1,43 @@
 <template>
-  <div class="top d_flex">
+  <div class="top d_flex" :data-theme="currentTheme">
     <!--Start: Top Left Component-->
     <div class="top--left d_flex">
-      <div class="segment--name mr_1">
+      <!-- <div class="segment--name mr_1">
         <contenteditable
           class="editable"
           tag="div"
           placeholder="Nhập tên..."
         />
-      </div>
+      </div>-->
       <div class="segment--total">
-        <span class="font_weight_bold">selectedUIDs.length }} trong số</span>
-          users.length }} người
+        <span class="font_weight_bold">x trong số</span>
+        xx người
       </div>
       <div class="segment--search ml_3">
-        <input
-          type="text"
-          placeholder="Tìm kiếm bạn bè..."
-        />
+        <input type="text" placeholder="Tìm kiếm bạn bè...">
       </div>
     </div>
     <!--End: Top Left Component-->
     <!--Start: Top Right Component-->
     <div class="top--right d_flex">
       <!--Start: Add Member to Group Component-->
-      <div
-        class="action mr_2"
-      >
-        Thêm vào nhóm
-      </div>
+      <div class="action mr_2">Thêm vào nhóm</div>
       <!--End: Add Member to Group Component-->
       <!--Start: Delete Member in Group Component-->
-      <div
-        class="action mr_2"
-      >
-        Xóa
-      </div>
+      <div class="action mr_2">Xóa</div>
       <!--End: Delete Member in Group Component-->
       <!--Start: Export Data Component-->
       <div class="action export disabled position_relative mr_2">
         Xuất dữ liệu
         <div class="action--tooltip">
-          <app-tooltip />
+          <app-tooltip/>
         </div>
       </div>
       <!--End: Export Data Component-->
       <!--Start: Filter Friend By Account Component-->
       <div class="action sequence--menu mr_2">
-        <div
-          class="btn--sequence"
-        >
-           accountSelected.name }}
+        <div class="btn--sequence" @click="showUsers = !showUsers" v-click-outside="closeShowUsers">
+          All HiHi
           <icon-base
             class="ml_1"
             icon-name="icon-arrow-down"
@@ -58,20 +45,12 @@
             height="14"
             viewBox="0 0 160 160"
           >
-            <icon-arrow-down />
+            <icon-arrow-down/>
           </icon-base>
         </div>
-        <div class="dropdown text_left">
-          <div
-            class="dropdown--item px_3"
-          >
-            Tất cả
-          </div>
-          <div
-            class="dropdown--item px_3"
-          >
-            account.userInfo.name }}
-          </div>
+        <div class="dropdown text_left" v-show="showUsers">
+          <div class="dropdown--item px_3">Tất cả</div>
+          <div class="dropdown--item px_3">No All HaHa</div>
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->
@@ -117,12 +96,12 @@
         :isShowDeleteFrPopup="isShowAddtoGrPopup"
         @closeAddPopup="isShowAddtoGrPopup = $event"
       ></addto-group-popup>
-    </transition> -->
+    </transition>-->
   </div>
 </template>
 
-<script src="./top.script.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./top.style";
+@import "./index.style";
 </style>

@@ -4,16 +4,12 @@
       <li class="d_flex">
         <div
           class="left"
-          v-if="sequence.valueText === 'undefined' || sequence.valueText === ''"
         ></div>
         <div
-          v-else
           class="right item d_flex align_items_center position_relative"
-          v-for="(item, index) in nameGroupSequence"
-          :key="`a-${index}`"
         >
-          {{ item }}
-          <div class="remove position_absolute" @click="removeItem(index)">
+          itrem
+          <div class="remove position_absolute">
             <icon-base
               icon-name="remove"
               width="16"
@@ -28,22 +24,16 @@
       <li class="position_relative">
         <div
           class="item--input"
-          @click="openSuggestNameSequence"
-          v-click-outside="closesSuggetsNameSequence"
         >
           <span>Nhấn để chọn nhóm</span>
         </div>
         <div
           class="suggest--sequence position_absolute"
-          v-if="showSuggetsNameSequence === true"
         >
           <div
             class="item--suggest"
-            v-for="(item, index) in listSenquence"
-            :key="`s-${index}`"
-            @click="addNameSequence(item)"
           >
-            {{ item.name }}
+            item
           </div>
         </div>
       </li>
@@ -52,10 +42,10 @@
 </template>
 
 <script>
-import SequenceService from "@/services/modules/sequence.service";
+import SequenceService from "@/services/modules/chat/sequence.service";
 
-import BroadcastService from "@/services/modules/broadcast.service";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 
 export default {
   props: {
@@ -76,107 +66,107 @@ export default {
       return this.$store.getters.themeName;
     },
     // Show name sequence from id
-    nameGroupSequence() {
-      let result = this.sequence.valueText;
-      if (result === undefined || result === "") {
-        return (result = []);
-      } else {
-        const results = [];
-        const arr = result.split(",");
-        if (Object.entries(this.listGroupSequence).length === 0) return;
-        let arrOther = this.listGroupSequence;
-        arr.map(id => {
-          return arrOther.map(item => {
-            if (item._id === id) results.push(item.name);
-          });
-        });
-        return results;
-      }
-    },
+    // nameGroupSequence() {
+    //   let result = this.sequence.valueText;
+    //   if (result === undefined || result === "") {
+    //     return (result = []);
+    //   } else {
+    //     const results = [];
+    //     const arr = result.split(",");
+    //     if (Object.entries(this.listGroupSequence).length === 0) return;
+    //     let arrOther = this.listGroupSequence;
+    //     arr.map(id => {
+    //       return arrOther.map(item => {
+    //         if (item._id === id) results.push(item.name);
+    //       });
+    //     });
+    //     return results;
+    //   }
+    // },
     //get name group sequence
     listGroupSequence() {
       return this.$store.getters.groupSqc;
     }
   },
-  methods: {
-    // attach name sequence item to array
-    async addNameSequence(item) {
-      let other = this.sequence.valueText.split(",");
-      other.push(item._id);
-      if (this.sequence.valueText.length === 0) {
-        this.sequence.valueText += item._id;
-      } else {
-        this.sequence.valueText += `,${item._id}`;
-      }
-      let otherChecked = other.toString();
-      const objectReStructure = {
-        _id: this.sequence._id,
-        typeContent: this.sequence.typeContent,
-        valueText: otherChecked
-      };
-      if (otherChecked.charAt(0) === ",") {
-        otherChecked = otherChecked.substr(1);
-        objectReStructure.valueText = otherChecked;
-        // console.log(objectReStructure);
-        this.$emit("update", objectReStructure);
-      } else {
-        // console.log(objectReStructure);
-        this.$emit("update", objectReStructure);
-      }
-      // get id broadcast have type Thiet lap bo hen
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
+  // methods: {
+  //   // attach name sequence item to array
+  //   // async addNameSequence(item) {
+  //   //   let other = this.sequence.valueText.split(",");
+  //   //   other.push(item._id);
+  //   //   if (this.sequence.valueText.length === 0) {
+  //   //     this.sequence.valueText += item._id;
+  //   //   } else {
+  //   //     this.sequence.valueText += `,${item._id}`;
+  //   //   }
+  //   //   let otherChecked = other.toString();
+  //   //   const objectReStructure = {
+  //   //     _id: this.sequence._id,
+  //   //     typeContent: this.sequence.typeContent,
+  //   //     valueText: otherChecked
+  //   //   };
+  //   //   if (otherChecked.charAt(0) === ",") {
+  //   //     otherChecked = otherChecked.substr(1);
+  //   //     objectReStructure.valueText = otherChecked;
+  //   //     // console.log(objectReStructure);
+  //   //     this.$emit("update", objectReStructure);
+  //   //   } else {
+  //   //     // console.log(objectReStructure);
+  //   //     this.$emit("update", objectReStructure);
+  //   //   }
+  //   //   // get id broadcast have type Thiet lap bo hen
+  //   //   let result = await BroadcastService.index();
+  //   //   result = result.data.data.filter(
+  //   //     item =>
+  //   //       StringFunction.convertUnicode(item.typeBroadCast)
+  //   //         .toLowerCase()
+  //   //         .trim() === "thiet lap bo hen"
+  //   //   );
 
-      const dataSender = {
-        value: [item._id],
-        contentId: this.sequence._id,
-        blockId: this.$route.params.scheduleId,
-        bcId: result[0]._id
-      };
-      // console.log(dataSender);
-      this.$store.dispatch("updateItemSchedule", dataSender);
-    },
-    // Delete item sequence
-    async removeItem(index) {
-      // get id broadcast have type Thiet lap bo hen
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      // Get id follow index
-      const sequencesID = this.sequence.valueText.split(",");
-      // console.log(sequencesID);
-      // console.log(index);
-      // remove item follow index
-      const dataSender = {
-        sqcId: sequencesID[index], // value
-        contentId: this.sequence._id, // content
-        blockId: this.$route.params.scheduleId, //blockId
-        bcId: result[0]._id // broadcast id
-      };
-      this.$store.dispatch("deleteItemSubcribeScheduleBroadcasts", dataSender);
-      sequencesID.splice(index, 1);
-      this.sequence.valueText = sequencesID.toString();
-    },
-    // open suggest name sequence when click on input
-    async openSuggestNameSequence() {
-      this.showSuggetsNameSequence = true;
-      const resultSequence = await SequenceService.index();
-      this.listSenquence = resultSequence.data.data;
-    },
-    // close list suggest name sequence
-    closesSuggetsNameSequence() {
-      this.showSuggetsNameSequence = false;
-    }
-  }
+  //   //   const dataSender = {
+  //   //     value: [item._id],
+  //   //     contentId: this.sequence._id,
+  //   //     blockId: this.$route.params.scheduleId,
+  //   //     bcId: result[0]._id
+  //   //   };
+  //   //   // console.log(dataSender);
+  //   //   this.$store.dispatch("updateItemSchedule", dataSender);
+  //   // },
+  //   // // Delete item sequence
+  //   // async removeItem(index) {
+  //   //   // get id broadcast have type Thiet lap bo hen
+  //   //   let result = await BroadcastService.index();
+  //   //   result = result.data.data.filter(
+  //   //     item =>
+  //   //       StringFunction.convertUnicode(item.typeBroadCast)
+  //   //         .toLowerCase()
+  //   //         .trim() === "thiet lap bo hen"
+  //   //   );
+  //   //   // Get id follow index
+  //   //   const sequencesID = this.sequence.valueText.split(",");
+  //   //   // console.log(sequencesID);
+  //   //   // console.log(index);
+  //   //   // remove item follow index
+  //   //   const dataSender = {
+  //   //     sqcId: sequencesID[index], // value
+  //   //     contentId: this.sequence._id, // content
+  //   //     blockId: this.$route.params.scheduleId, //blockId
+  //   //     bcId: result[0]._id // broadcast id
+  //   //   };
+  //   //   this.$store.dispatch("deleteItemSubcribeScheduleBroadcasts", dataSender);
+  //   //   sequencesID.splice(index, 1);
+  //   //   this.sequence.valueText = sequencesID.toString();
+  //   // },
+  //   // // open suggest name sequence when click on input
+  //   // async openSuggestNameSequence() {
+  //   //   this.showSuggetsNameSequence = true;
+  //   //   const resultSequence = await SequenceService.index();
+  //   //   this.listSenquence = resultSequence.data.data;
+  //   // },
+  //   // // close list suggest name sequence
+  //   // closesSuggetsNameSequence() {
+  //   //   this.showSuggetsNameSequence = false;
+  //   // }
+  // }
 };
 </script>
 

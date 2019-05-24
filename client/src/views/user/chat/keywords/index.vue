@@ -60,6 +60,12 @@ import AutoReplyMain from "./components/desktop/autocontent/main";
 // import AppAutoMobile from "./mobile/index_mobile";
 let typingTimer;
 export default {
+  components: {
+    AppBreadCrumb,
+    AutoSidebar,
+    AutoReplyMain,
+    // AppAutoMobile
+  },
   data() {
     return {
       isDeletePopup: false
@@ -91,12 +97,6 @@ export default {
     updateSyntax() {
       this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
     }
-  },
-  components: {
-    AppBreadCrumb,
-    AutoSidebar,
-    AutoReplyMain,
-    // AppAutoMobile
   }
 };
 </script>
