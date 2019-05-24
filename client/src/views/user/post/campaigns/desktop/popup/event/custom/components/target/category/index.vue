@@ -1,21 +1,20 @@
 <template>
-  <div class="group mb_2">
+  <div class="group">
     <div class="body">
-      <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
+      <!--<div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>-->
       <div class="main">
         <multiselect
           label="title"
+          placeholder="Chọn nhóm muốn đăng"
           :value="event.target_category"
           :clearable="false"
           :options="groupPost"
           @input="selectGroupPost"
         />
       </div>
-      <div class="bottom d_flex align_items_center mt_2">
-        <label class="custom--checkbox mr_2">
-          <input type="checkbox" />
-        </label>
-        <span>Chọn đăng lên trang cá nhân của bạn</span>
+      <div class="desc mt_1 px_2">Bao gồm
+        <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
+        <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
       </div>
     </div>
   </div>
@@ -23,6 +22,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      selectedGroups: {}
+    }
+  },
   computed: {
     event() {
       return this.$store.getters.event;
@@ -33,9 +37,10 @@ export default {
   },
   methods: {
     selectGroupPost( value ) {
+      this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",
-        value: value._id
+        value: value
       } );
     }
   },
@@ -46,12 +51,21 @@ export default {
   .group {
     .body {
       width: 50%;
-      .title  {}
+      .title  {
+        color: #666;
+      }
       .main {
         border: 1px solid $border-color;
         border-radius: calc(.5rem + 2px);
       }
-      .desc {}
+      .desc {
+        color: #999;
+        font-size: .825rem;
+        span {
+          color: #666;
+          font-weight: 600;
+        }
+      }
     }
     .bottom {
       .custom--checkbox {

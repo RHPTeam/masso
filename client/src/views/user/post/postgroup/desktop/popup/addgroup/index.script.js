@@ -28,7 +28,11 @@ export default {
 
         this.$store.dispatch( "addToPostGroup" , dataSender );
       } );
+
       this.$emit( "closePopup", false );
+
+      this.$store.dispatch( "postGroupGroupsSelected", [] );
+      this.$store.dispatch( "postGroupPagesSelected", [] );
     },
     closePopup() {
       this.$emit( "closePopup", false );
