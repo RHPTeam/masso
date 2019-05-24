@@ -44,13 +44,18 @@ export default {
       this.$router.push( "/signin" );
     },
     gotoHomePost() {
-      this.$router.push( "/" );
+      this.$router.push( "/post" );
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
     },
     closeDropdownUser() {
       this.showdropdown = false;
+    },
+
+    // go to home chat
+    gotoHomeChat(){
+      this.$router.push( "/chat" );
     }
   },
   filters: {

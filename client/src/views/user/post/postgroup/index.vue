@@ -51,6 +51,10 @@ export default {
       groupSelected: false,
       typeFilterSelected: "Tất cả"
     }
+  },
+  created() {
+    this.$store.dispatch( "postGroupGroupsSelected", [] );
+    this.$store.dispatch( "postGroupPagesSelected", [] );
   }
 };
 </script>

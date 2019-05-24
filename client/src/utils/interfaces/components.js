@@ -70,6 +70,8 @@ Vue.component( "IconSmile", () => import( "@/components/icons/IconSmile" ) );
 Vue.component( "IconStop", () => import( "@/components/icons/IconStop" ) );
 Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadImage" ) );
+Vue.component( "IconMore", () => import( "@/components/icons/IconMore" ) );
+
 
 // Icon Logo
 Vue.component( "IconLogo", () => import( "@/components/icons/IconLogo" ) );

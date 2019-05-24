@@ -12,7 +12,7 @@
     <router-link
       class="mr_3"
       tag="button"
-      :to="{ name: 'categories' }"
+      :to="{ name: 'posts-categories' }"
       active-class="active"
       >Danh mục</router-link
     >

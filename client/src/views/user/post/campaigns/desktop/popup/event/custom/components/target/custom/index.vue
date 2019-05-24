@@ -2,39 +2,38 @@
   <div class="page mb_2">
     <div class="body d_flex align_items_center">
       <div class="item mr_2">
-        <div class="title mb_2">Chọn nhóm bạn muốn đăng</div>
+        <!--<div class="title mb_2">Chọn nhóm bạn muốn đăng</div>-->
         <div class="main">
           <multiselect
             multiple
             label="name"
+            placeholder="Chọn nhóm muốn đăng"
             :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
             :options="faceGroupPost"
             @input="selectGroupFacebook"
           />
         </div>
-        <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm đã sử dụng</div>
+        <div class="desc px_2 mt_1">Bao gồm
+          <span>{{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm</span> được chọn.
+        </div>
       </div>
       <div class="item ml_2">
-        <div class="title mb_2">Chọn trang bạn muốn đăng</div>
+        <!--<div class="title mb_2">Chọn trang bạn muốn đăng</div>-->
         <div class="main">
           <multiselect
             multiple
             label="name"
+            placeholder="Chọn trang muốn đăng"
             :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
             :options="facePagePost"
             @input="selectPageFacebook"
           />
         </div>
-        <div class="desc text_right mt_2">Bao gồm {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang đã sử dụng</div>
+        <div class="desc px_2 mt_1">Bao gồm
+          <span>{{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span> được chọn.
+        </div>
       </div>
     </div>
-
-      <div class="bottom d_flex align_items_center mt_2">
-        <label class="custom--checkbox mr_2">
-          <input type="checkbox" />
-        </label>
-        <span>Chọn đăng lên trang cá nhân của bạn</span>
-      </div>
   </div>
 </template>
 
@@ -102,6 +101,14 @@ export default {
     .main {
       border: 1px solid $border-color;
       border-radius: calc(.5rem + 2px);
+    }
+    .desc {
+      color: #999;
+      font-size: .825rem;
+      span {
+        color: #666;
+        font-weight: 600;
+      }
     }
   }
   .bottom {

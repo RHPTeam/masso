@@ -3,21 +3,6 @@
     <div class="section" v-if="caseEvent.post === 0" >
       <div class="r">
         <div class="c_6">
-<!--<<<<<<< HEAD-->
-<!--          <div class="section&#45;&#45;content">-->
-<!--            <div class="d_flex flex_column">-->
-<!--              <div class="card mb_3" role="type" aria-label="Type Post" @click="selectPostType( 1 )">-->
-<!--                <div class="card_body">-->
-<!--                  <h5 class="card-title">Tùy chọn đăng bài viết từ danh mục</h5>-->
-<!--                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">-->
-<!--                <div class="card_body">-->
-<!--                  <h5 class="card-title">Tùy chọn đăng bài viết từ các nhóm cụ thể</h5>-->
-<!--                  <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>-->
-<!--                </div>-->
-<!--              </div>-->
           <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
             <div class="card_body text_center">
               <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"
@@ -34,7 +19,7 @@
               </div>
               <div class="card--content">
                 <h3 class="h5">Đăng bài viết từ danh mục</h3>
-                <div class="card--text">Hệ thống sẽ lấy ngẫu nhiên các bài viết trong danh mục để đăng lên nơi bạn thiết lập.</div>
+                <div class="card--text">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
               </div>
             </div>
           </div>
@@ -56,7 +41,7 @@
               </div>
               <div class="card--content">
                 <h3 class="h5">Tùy chọn đăng bài viết cụ thể</h3>
-                <div class="card--text">Bạn có thể tùy chỉnh các bài viết mà bạn muốn, và thiết lập các thông tin nâng cao và chi tiết hơn.</div>
+                <div class="card--text">Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
               </div>
             </div>
           </div>
@@ -80,6 +65,7 @@
 <script>
 import CategoryPost from "./category/index";
 import CustomPost from "./detail/index";
+
 export default {
   components: {
     CategoryPost,

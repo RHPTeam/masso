@@ -1,5 +1,5 @@
 <template>
-  <div class="target">
+  <div class="target p_3 mb_2">
     <div class="header d_flex align_items_center mb_3">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
@@ -14,31 +14,40 @@
         </icon-base>
         <span>Nơi đăng</span>
       </div>
-      <div class="desc" v-if="caseEvent.target === 1">
-        <div class="group">
-          <span class="title py_1 px_2 mr_3">Đăng tới nhóm cụ thể</span>
-          <span class="change" @click="resetTargetType">Thay đổi</span>
-        </div>
+      <div class="target--selected" v-if="caseEvent.target === 3">
+        <span class="title px_1 py_0 mr_2"
+              :style="[ { borderColor: event.color }, { color: event.color } ]"
+        >
+          Trang cá nhân
+        </span>
+        <span class="change" @click="resetTargetType">Thay đổi</span>
       </div>
-      <div class="desc" v-if="caseEvent.target === 2">
-        <div class="page">
-          <span class="title px_2 py_1 mr_3">Đăng tới nhóm, trang cụ thể</span>
-          <span class="change" @click="resetTargetType">Thay đổi</span>
-        </div>
+      <div class="target--selected" v-if="caseEvent.target === 1">
+        <span class="title px_1 py_0 mr_2"
+              :style="[ { borderColor: event.color }, { color: event.color } ]"
+        >
+          Nhóm đã lưu
+        </span>
+        <span class="change" @click="resetTargetType">Thay đổi</span>
       </div>
-      <div class="desc" v-if="caseEvent.target === 3">
-        <div class="page">
-          <span class="title px_2 py_1 mr_3">Đăng tới trang cá nhân</span>
-          <span class="change" @click="resetTargetType">Thay đổi</span>
-        </div>
+      <div class="target--selected" v-if="caseEvent.target === 2">
+        <span class="title px_1 py_0 mr_2"
+              :style="[ { borderColor: event.color }, { color: event.color } ]"
+        >
+          Tùy chọn nơi đăng
+        </span>
+        <span class="change" @click="resetTargetType">Thay đổi</span>
       </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body mb_2" v-if="caseEvent.target === 0">
+    <div class="body mb_3" v-if="caseEvent.target === 0">
       <div class="r">
+        <!-- Start: FB Profile -->
         <div class="c_md_4">
-          <div class="card" @click="selectTargetType( 1 )">
+          <div class="card"
+               @click="selectTargetType( 3 )"
+          >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
                    :style="{ backgroundColor: event.color }"
@@ -53,13 +62,17 @@
                 </icon-base>
               </div>
               <div class="card--content">
-                <div class="title mb_1">Đăng tới nhóm cụ thể</div>
+                <div class="title mb_1">Trang cá nhân</div>
               </div>
             </div>
           </div>
         </div>
+        <!-- Start: FB Profile -->
+        <!-- Start: Target Group -->
         <div class="c_md_4">
-          <div class="card" @click="selectTargetType( 2 )">
+          <div class="card"
+               @click="selectTargetType( 1 )"
+          >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
                    :style="{ backgroundColor: event.color }"
@@ -74,13 +87,17 @@
                 </icon-base>
               </div>
               <div class="card--content">
-                <div class="title mb_1">Đăng tới nơi tùy chỉnh</div>
+                <div class="title mb_1">Nhóm đã lưu</div>
               </div>
             </div>
           </div>
         </div>
+        <!-- End: Target Group -->
+        <!-- Start: Target Custom -->
         <div class="c_md_4">
-          <div class="card" @click="selectTargetType( 3 )">
+          <div class="card"
+               @click="selectTargetType( 2 )"
+          >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
                    :style="{ backgroundColor: event.color }"
@@ -95,11 +112,12 @@
                 </icon-base>
               </div>
               <div class="card--content">
-                <div class="title mb_1">Đăng tới trang cá nhân</div>
+                <div class="title mb_1">Tùy chọn nơi đăng</div>
               </div>
             </div>
           </div>
         </div>
+        <!-- End: Target Custom -->
       </div>
     </div>
     <!-- End: Option Post detail -->
@@ -113,12 +131,8 @@
     <!-- End: Show Option Page -->
 
     <!-- Start: Show Option Newfeed -->
-
-    <!-- End: Show Option Newfeed -->
     <target-new-feed v-else-if="caseEvent.target === 3" />
-    <!-- Start: Option Timer -->
-      <timer-post/>
-    <!-- End: Option Timer -->
+    <!-- End: Show Option Newfeed -->
   </div>
 </template>
 
@@ -126,14 +140,12 @@
 import TargetGroup from "./category/index";
 import TargetCustom from "./custom/index";
 import TargetNewFeed from "./newfeed/index";
-import TimerPost from "../time/index";
 
 export default {
   components: {
     TargetGroup,
     TargetCustom,
-    TargetNewFeed,
-    TimerPost
+    TargetNewFeed
   },
   data() {
     return {
@@ -180,32 +192,35 @@ export default {
 
 <style lang="scss" scoped>
 .target {
-    .icon {
-      svg {
-        margin-bottom: -10px;
-      }
-      span {
-        font-weight: 600;
-      }
+  background-color: #fff;
+  border-radius: .625rem;
+  .icon {
+    color: #666;
+    svg {
+      margin-bottom: -10px;
     }
-  .desc {
-    .group, .page {
-      span.title {
-        border: 1px solid $border-color;
-        border-radius: .5rem;
-      }
-      span.change {
-        cursor: pointer;
-        &:hover, &:focus, &:active, &:visited {
-          color: #ffb94a;
-          text-decoration: underline;
-        }
+    span {
+      font-weight: 600;
+    }
+  }
+  .target--selected {
+    font-size: .825rem;
+    .title {
+      border: 1px solid;
+      border-radius: .375rem;
+    }
+    .change {
+      color: #999;
+      cursor: pointer;
+      font-style: italic;
+      &:hover, &:focus, &:active, &:visited {
+        text-decoration: underline;
       }
     }
   }
   .body {
     .card {
-      border: 0;
+      border: 1px solid #e4e4e4;
       border-radius: .5rem;
       cursor: pointer;
       height: 100%;
@@ -219,11 +234,11 @@ export default {
           border-radius: 100%;
           height: 36px;
           width: 36px;
+          opacity: .75;
           transition: all 1s ease;
           svg {
             color: #fff;
             stroke: #fff;
-            opacity: .75;
             &.icon--group {
             }
           }

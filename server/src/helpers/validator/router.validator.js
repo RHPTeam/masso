@@ -27,7 +27,7 @@ module.exports = {
       if ( result.error ) {
         return res
           .status( 405 )
-          .json( jsonResponse( "Validator is error!", result.error ) );
+          .json( jsonResponse( "Validator is errors!", result.error ) );
       }
       if ( !req.value ) {
         req.value = {};

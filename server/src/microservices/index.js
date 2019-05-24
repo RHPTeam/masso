@@ -1,18 +1,31 @@
 // eslint-disable-next-line camelcase
 const { agent } = require( "../configs/crawl" ),
   { checkLogin } = require( "../controllers/core/facebook.core" ),
+  fs = require( "fs" ),
+  http = require( "http" ),
+  https = require( "https" ),
   express = require( "express" ),
   app = express(),
-  // eslint-disable-next-line new-cap
-  http = require( "http" ).Server( app ),
-  io = require( "socket.io" )( http ),
   socketThread = {},
   Account = require( "../models/Account.model" ),
   Facebook = require( "../models/Facebook.model" );
 
-let errorsLogin = [];
+let server = null, io = null, errorsLogin = [];
 
-http.listen( process.env.PORT_SOCKET );
+if ( process.env.APP_ENV === "production" ) {
+  const option = {
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
+    "passphrase": process.env.HTTPS_PASSWORD
+  };
+
+  server = https.createServer( option, app );
+} else {
+  server = http.createServer( app );
+}
+
+io = require( "socket.io" )( server );
+
+server.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );
@@ -37,7 +50,7 @@ io.on( "connection", async ( socket ) => {
       // Check by crawl to facebook.com
       const statusLogin = await checkLogin( { "cookie": facebook.cookie, agent } );
 
-      // Check error not same 200
+      // Check errors not same 200
       if ( statusLogin.error.code === 405 ) {
         facebook.status = 0;
         await facebook.save();

@@ -1,0 +1,93 @@
+.main {
+  width: 100%;
+  min-height: 100vh;
+  .r {
+    width: 100%;
+    @media (min-width: 768px) {
+      height: auto;
+    }
+    .main--left {
+      width: 100%;
+      @media(min-width: 768px) {
+        min-height: 100vh;
+        position: relative;
+        background-color: #000000;
+      }
+      .left--wrapper  {
+        height: 100%;
+        color: #000;
+        @media (min-width: 768px) {
+          color: #fff;
+        }
+        .wrapper--content {
+          padding: 0 1.5rem;
+          @media (min-width: 768px) {
+            padding: 0 2rem;
+          }
+          button {
+            background: #ffb94a;
+            border: #ffb94a;
+            border-radius: .625rem;
+            font-size: .95rem;
+            font-weight: 600;
+            padding: .5rem 1rem;
+            text-transform: uppercase;
+            transition: background-color .4s ease;
+            @media(min-width: 768px) {
+              font-size: 1rem;
+            }
+            &:hover {
+              background-color: #FF9E4A;
+            }
+          }
+          h1 {
+            font-size: 3rem;
+            @media (min-width: 768px) {
+              font-size: 7rem;
+            }
+            @media (min-width: 1200px) {
+              font-size: 10rem;
+            }
+          }
+          .desc {
+            font-size: .95rem;
+            @media (min-width: 768px) {
+              font-size: 1.5rem;
+            }
+            @media (min-width: 1200px) {
+              font-size: 1.5rem;
+            }
+          }
+          .desc--small {
+            font-size: .825rem;
+            color: #999;
+            @media (min-width: 768px) {
+              font-size: 1rem;
+              color: #ccc;
+            }
+            @media (min-width: 1200px) {
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+.bg_svg {
+  height: 100%;
+}
+
+.d_lg_block {
+  margin-top: 30px;
+  @media (min-width: 768px) {
+    margin-top: 0;
+  }
+
+  img {
+    width: 22%;
+    @media (min-width: 768px) {
+      width: 45%;
+    }
+  }
+}

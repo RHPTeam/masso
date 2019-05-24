@@ -6,9 +6,9 @@ import store from '../../store'
 /** ******************* SECURED ROUTER ************************/
 router.beforeEach( ( to, from, next ) => {
   if ( CookieFunction.getCookie( "sid" ) && to.path === "/signin" ) {
-    next( "/" );
+    next( "/welcome" );
   } else if ( CookieFunction.getCookie( "sid" ) && to.path === "/signup" ) {
-    next( "/" );
+    next( "/welcome" );
   } else if ( to.matched.some( ( record ) => record.meta.requiredAuth ) ) {
     if ( store.getters.isLoggedIn || CookieFunction.getCookie( "sid" ) ) {
       next();
@@ -26,7 +26,7 @@ router.beforeEach( ( to, from, next ) => {
       next();
       return;
     }
-    next( "/" );
+    next( "/welcome" );
   } else if (
     store.getters.mailSender === "" && to.path === "/reset-password/step-2"
   ) {
