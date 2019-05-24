@@ -2,7 +2,7 @@
 /* eslint-disable global-require */
 /** When your routing table is too long, you can split it into small modules**/
 
-const generalRouter = {
+const generalPostRouter = {
   path: "/post",
   component: require( "@/views/user/post/layouts" ).default,
   meta: {
@@ -83,4 +83,4 @@ const generalRouter = {
   ]
 };
 
-export default generalRouter;
+export default generalPostRouter;

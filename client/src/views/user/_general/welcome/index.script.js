@@ -51,6 +51,11 @@ export default {
     },
     closeDropdownUser() {
       this.showdropdown = false;
+    },
+
+    // go to home chat
+    gotoHomeChat(){
+      this.$router.push( "/chat" );
     }
   },
   filters: {

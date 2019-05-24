@@ -94,6 +94,7 @@
             <div
               class="tool--icon"
               :style="{ backgroundImage: 'url(' + imageChat + ')' }"
+              @click="gotoHomeChat"
             ></div>
             <div class="tool--name">Zinbee Chat</div>
           </div>

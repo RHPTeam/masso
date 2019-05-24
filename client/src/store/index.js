@@ -8,7 +8,8 @@ import CategoriesStore from "./modules/categories.store";
 import DashBoard from "./modules/dashboard.store";
 import EventsStore from "./modules/events.store";
 import FacebookStore from "./modules/facebook.store";
-import FacebookCookie from "./modules/facebookcookie.store";
+// import FacebookCookie from "./modules/facebookcookie.store";
+import FacebookCookie from "./modules/chat/facebookCookie.store";
 import FacebookFriend from "./modules/facebookfriend.store";
 import GroupFacebook from "./modules/groupfacebook.store";
 import PageFacebook from "./modules/pagefacebook.store";
@@ -19,6 +20,9 @@ import AnalysisStore from "./modules/analytic.store";
 import ServerStore from "./modules/server.store";
 import HelpFacebook from "./modules/help.store";
 import AdminHelp from "./modules/adminhelp.store";
+import SequenceFaceBook from "./modules/chat/sequence.store";
+import Block from "./modules/chat/block.store";
+import Syntax from "./modules/chat/syntax.store";
 
 Vue.use( Vuex );
 
@@ -40,6 +44,9 @@ export default new Vuex.Store( {
     AnalysisStore,
     ServerStore,
     HelpFacebook,
-    AdminHelp
+    AdminHelp,
+    SequenceFaceBook,
+    Block,
+    Syntax
   }
 } );
