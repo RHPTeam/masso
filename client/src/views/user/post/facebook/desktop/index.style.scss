@@ -219,20 +219,6 @@
 
 /*Transition popup*/
 
-//.popup-enter {
-//  transform: translateY(-100%);
-//}
-//
-//.popup-enter-to {
-//  transition: transform 0.75s;
-//  transform: translateY(0);
-//}
-//
-//.popup-leave-to {
-//  transition: transform 0.75s;
-//  transform: translateY(-100%);
-//}
-
 .popup-enter-active, .popup-leave-active {
   transition: opacity .5s;
 }

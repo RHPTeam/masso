@@ -1,5 +1,5 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
@@ -41,21 +41,23 @@
 <script>
 
 export default {
-  props: ["showModal"],
-
   data() {
     return {
       cookie: ""
     };
   },
-
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+      this.$emit( "closeAddPopup", false );
     },
-    addCookie() {
-      this.$store.dispatch("addCookie", this.cookie);
-      this.$emit("closeAddPopup", false);
+    async addCookie() {
+      await this.$emit( "closeAddPopup", false );
+      await this.$store.dispatch( "createAccountFb", this.cookie );
     }
   }
 };

@@ -472,7 +472,7 @@ export default {
   },
   methods: {
     goToThisPost( id ) {
-      return this.$router.push({ params: { id }, name: "update_post" } );
+      return this.$router.push({ params: { id }, name: "post_update_post" } );
     }
   }
 }

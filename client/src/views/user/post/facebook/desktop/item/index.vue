@@ -44,6 +44,9 @@
 <script>
 import DeletePopup from "@/components/shared/layouts/popupdelete/deleteAccountFb";
 export default {
+  components: {
+    DeletePopup
+  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -55,9 +58,6 @@ export default {
       if (minutes < 10) minutes = minutes + "0";
       return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
-  },
-  components: {
-    DeletePopup
   },
   props: ["item"],
   data() {
