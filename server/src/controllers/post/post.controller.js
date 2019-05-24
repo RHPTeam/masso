@@ -8,8 +8,8 @@
 const Post = require( "../../models/post/Post.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
@@ -86,9 +86,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     } else if ( findPost._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho bài đăng này!" } );
     }
 
     // Check update post if user upload file
@@ -133,9 +133,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     } else if ( findPost._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho bài đăng này!" } );
     }
 
     // Remove a file attachments in post
@@ -143,11 +143,11 @@ module.exports = {
       const findPostOfAttachment = await Post.findOne( { "attachments._id": req.query._attachmentId } );
 
       if ( !findPostOfAttachment ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Ảnh không tồn tại trong bài đăng này!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Ảnh không tồn tại trong bài đăng này!" } );
       }
       Post.updateOne( { "_id": req.query._postId }, { "$pull": { "attachments": { "_id": req.query._attachmentId } } }, ( err ) => {
         if ( err ) {
-          return res.status( 500 ).json( { "status": "error", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
+          return res.status( 500 ).json( { "status": "errors.js", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
         }
       } );
       return res.status( 200 ).json( jsonResponse( "success", null ) );

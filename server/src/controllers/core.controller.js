@@ -1,5 +1,5 @@
 const { agent } = require( "../configs/crawl" );
-const { categorizedTextFormatPresets } = require( "../configs/facebook.data" );
+const { categorizedTextFormatPresets } = require( "../databases/cache/facebook" );
 const pagesCore = require( "./core/pages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );

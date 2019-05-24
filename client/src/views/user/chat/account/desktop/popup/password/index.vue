@@ -14,7 +14,7 @@
         <div class="modal--body mb_3">
           <div
             class="alert alert_danger"
-            v-if="this.$store.getters.authStatus === 'error'"
+            v-if="this.$store.getters.authStatus === 'errors.js'"
           >
             {{ this.$store.getters.textAuth }}
           </div>

@@ -1,6 +1,6 @@
 
-import EventsServices from "@/services/modules/events.services";
-import CampaignsServices from "@/services/modules/campaigns.services";
+import EventsServices from "@/synchronize/modules/events.synchronize";
+import CampaignsServices from "@/synchronize/modules/campaigns.synchronize";
 
 import ArrayFunction from "@/utils/functions/array";
 

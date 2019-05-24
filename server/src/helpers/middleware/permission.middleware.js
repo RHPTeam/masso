@@ -1,4 +1,4 @@
-const jsonResponse = require( "../../configs/res" );
+const jsonResponse = require( "../../configs/response" );
 
 export default function permit( ...allowed ) {
   const isAllowed = ( role ) => allowed.indexOf( role ) > -1;

@@ -61,7 +61,7 @@
       ></add-account-popup>
 
       <existed-account-popup
-        v-if="this.$store.getters.addAccountError === 'error'"
+        v-if="this.$store.getters.addAccountError === 'errors.js'"
         :data-theme="currentTheme"
       />
     </transition>

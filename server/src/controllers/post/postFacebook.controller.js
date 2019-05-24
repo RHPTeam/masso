@@ -8,10 +8,10 @@
  */
 const PostFacebook = require( "../../models/post/PostFacebook.model" );
 
-const jsonResponse = require( "../../configs/res" );
+const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" );
-const secure = require( "../../helpers/utils/secure.util" );
-const decodeRole = require( "../../helpers/utils/decodeRole.util" );
+const secure = require( "../../helpers/utils/secures/jwt" );
+const decodeRole = require( "../../helpers/utils/secures/role" );
 
 module.exports = {
   /**
@@ -22,7 +22,7 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
 
     let page = null, dataResponse = null;
@@ -31,7 +31,7 @@ module.exports = {
       userId = secure( res, authorization );
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     if ( req.query._id ) {
@@ -64,7 +64,7 @@ module.exports = {
     res
       .status( 200 )
       .json( jsonResponse( "success", dataResponse ) );
-  
+
   },
   /**
    * Add new post
@@ -74,14 +74,14 @@ module.exports = {
    */
   "create": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
 
     const userId = secure( res, req.headers.authorization ),
       role = req.headers.cfr;
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
     // eslint-disable-next-line one-var
     const newPostFacebook = new PostFacebook( { "title": dictionary.DEFAULT_NAMEPOST, "_account": userId } );
@@ -98,18 +98,18 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
     const role = req.headers.cfr,
       findPost = await PostFacebook.findById( req.query._postFacebookId );
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     // Check catch
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Check update post if user upload file
@@ -142,18 +142,18 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "_postFacebookId": "Vui lòng cung cấp query _postFacebookId!" } );
     }
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
     const role = req.headers.cfr,
       findPostFacebook = await PostFacebook.findById( req.query._postFacebookId );
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     // Check catch when delete campaign
     if ( !findPostFacebook ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Remove a file attachments in post
@@ -161,11 +161,11 @@ module.exports = {
       const findPostOfAttachment = await PostFacebook.findOne( { "attachments._id": req.query._attachmentId } );
 
       if ( !findPostOfAttachment ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Ảnh không tồn tại trong bài đăng này!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Ảnh không tồn tại trong bài đăng này!" } );
       }
       PostFacebook.updateOne( { "_id": req.query._postFacebookId }, { "$pull": { "attachments": { "_id": req.query._attachmentId } } }, ( err ) => {
         if ( err ) {
-          return res.status( 500 ).json( { "status": "error", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
+          return res.status( 500 ).json( { "status": "errors.js", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
         }
       } );
       return res.status( 200 ).json( jsonResponse( "success", null ) );

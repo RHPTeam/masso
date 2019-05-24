@@ -6,7 +6,7 @@ import AddTag from "./plugins/add-tag";
 import AddText from "./plugins/add_text";
 import AddImage from "./plugins/add_images";
 
-import BlockService from "@/services/modules/chat/block.service";
+import BlockService from "@/synchronize/modules/chat/block.services";
 
 let typingTimer;
 

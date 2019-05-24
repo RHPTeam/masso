@@ -8,8 +8,8 @@
  */
 const Server = require( "../models/Server.model" );
 
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
-const jsonResponse = require( "../configs/res" );
+const decodeRole = require( "../helpers/utils/secures/role" );
+const jsonResponse = require( "../configs/response" );
 
 module.exports = {
   /**
@@ -20,13 +20,13 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
 
     let dataResponse = null, role = req.headers.cfr;
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     if ( req.query._id ) {
@@ -45,13 +45,13 @@ module.exports = {
    */
   "create": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     }
 
     let role = req.headers.cfr;
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     if ( req.body.title.length === 0 ) {
@@ -78,7 +78,7 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     } else if ( req.query._serverId === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "_serverId": "Vui lòng cung cấp server để cập nhật!" } );
     }
@@ -86,13 +86,13 @@ module.exports = {
     const findServer = await Server.findOne( { "_id": req.query._serverId } );
 
     if ( !findServer ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Server này không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Server này không tồn tại!" } );
     }
 
     let role = req.headers.cfr;
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     if ( req.body.title.length === 0 ) {
@@ -115,7 +115,7 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     if ( req.headers.cfr === undefined ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Không thể xác thực được quyền của bạn!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Không thể xác thực được quyền của bạn!" } );
     } else if ( req.query._serverId === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "_serverId": "Vui lòng cung cấp server để xóa!" } );
     }
@@ -123,13 +123,13 @@ module.exports = {
     const findServer = await Server.findOne( { "_id": req.query._serverId } );
 
     if ( !findServer ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Server này không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Server này không tồn tại!" } );
     }
 
     let role = req.headers.cfr;
 
     if ( decodeRole( role, 10 ) !== 1 && decodeRole( role, 10 ) !== 2 ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chức năng này!" } );
     }
 
     await findServer.remove();

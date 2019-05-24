@@ -9,7 +9,7 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema;
 
-const rcrypt = require( "../helpers/secures" ),
+const rcrypt = require( "../helpers/secures/rcrypt" ),
 
   AccountSchema = new Schema( {
     "name": String,

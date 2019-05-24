@@ -1,4 +1,4 @@
-import HelpHome from "@/services/modules/help.services";
+import HelpHome from "@/synchronize/modules/help.synchronize";
 
 const state = {
   stateHelpHome: '',

@@ -25,7 +25,7 @@ if ( process.env.APP_ENV === "production" ) {
 }
 
 // Multi
-require( "./src/helpers/service/passport.service" );
+require( "./src/helpers/services/passport.service" );
 require( "./src/process" );
 require( "./src/microservices" );
 

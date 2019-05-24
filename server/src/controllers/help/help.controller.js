@@ -12,8 +12,8 @@ const Help = require( "../../models/help/Help.model" );
 const Account = require( "../../models/Account.model" );
 
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -29,7 +29,7 @@ module.exports = {
       findAccount = await Account.findOne( { "_id": userId } );
 
     if ( !findAccount ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
 
     // Handle get all group from mongodb
@@ -57,10 +57,10 @@ module.exports = {
 
 
     if ( !findAccount ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
     if ( findHelp.popular_blog.length > 5 ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Qua so luong bai viet, hay xoa nhung bai viet da ton tai de them" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Qua so luong bai viet, hay xoa nhung bai viet da ton tai de them" } );
     }
 
     if ( req.body.popular_blog && req.body.popular_blog.length <= 5 ) {

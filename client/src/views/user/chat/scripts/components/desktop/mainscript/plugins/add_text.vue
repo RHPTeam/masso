@@ -59,7 +59,7 @@
   </div>
 </template>
 <script>
-import AttributeService from "@/services/modules/attributes.service";
+import AttributeService from "@/synchronize/modules/attributes.services";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 

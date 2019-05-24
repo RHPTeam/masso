@@ -11,8 +11,8 @@
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -88,9 +88,9 @@ module.exports = {
 
     // Check catch when update campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
     } else if ( findPostGroup._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
     }
 
     // check exists in database
@@ -113,9 +113,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
     } else if ( findPostGroup._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
     }
 
     await PostGroup.findByIdAndDelete( req.query._postGroupId );

@@ -1,5 +1,5 @@
-import SequenceService from "@/services/modules/chat/sequence.service";
-import BlockServices from "@/services/modules/chat/block.service";
+import SequenceService from "@/synchronize/modules/chat/sequence.services";
+import BlockServices from "@/synchronize/modules/chat/block.services";
 
 const state = {
   statusSqc: "",
@@ -22,7 +22,7 @@ const mutations = {
     state.statusSqc = "success";
   },
   sequence_error: state => {
-    state.statusSqc = "error";
+    state.statusSqc = "errors.js";
   },
   /******************** CHECK STATUS ITEM SEQUENCE *********************/
   sequenceItem_request: state => {
@@ -32,7 +32,7 @@ const mutations = {
     state.statusItemSqc = "success";
   },
   sequenceItem_error: state => {
-    state.statusItemSqc = "error";
+    state.statusItemSqc = "errors.js";
   },
   /******************** SEQUENCE *********************/
   setSequence: (state, payload) => {

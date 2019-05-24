@@ -1,4 +1,4 @@
-import PostServices from "@/services/modules/post.services";
+import PostServices from "@/synchronize/modules/post.synchronize";
 
 const state = {
   allPost: [],
@@ -105,7 +105,7 @@ const actions = {
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );
-    commit( "setError", 'error' );
+    commit( "setError", 'errors.js' );
     // commit( "post_success" );
   },
   updatePost: async ( { commit }, payload ) => {

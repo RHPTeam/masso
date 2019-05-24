@@ -5,14 +5,14 @@ const cheerio = require( "cheerio" ),
   fs = require( "fs" ),
   request = require( "request" ),
   { post, mpost } = require( "../../configs/crawl" ),
-  { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
+  { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   {
     createNewFeed,
     getPreviewScrape,
     handleImageUpload,
     uploadImage
-  } = require( "../../helpers/utils/facebook.util" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
+  } = require( "../../helpers/utils/facebook/facebook" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
   getPost = ( { cookie, agent, url, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -150,11 +150,11 @@ module.exports = {
         const path = await handleImageUpload( image );
 
         // Check download fail
-        if ( path.error.code === 1023 ) {
+        if ( path.errors.code === 1023 ) {
           return;
         }
         // Check write file issues
-        if ( path.error.code === 1024 ) {
+        if ( path.errors.code === 1024 ) {
           return;
         }
 

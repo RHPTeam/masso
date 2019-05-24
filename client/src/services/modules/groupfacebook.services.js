@@ -1,5 +1,5 @@
 /* eslint-disable new-cap */
-import Api from "@/services";
+import Api from "@/synchronize";
 
 export default {
   index() {

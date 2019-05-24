@@ -1,6 +1,6 @@
-import AccountFacebookService from "@/services/modules/accountfacebook.services";
-import GroupFacebookServices from "@/services/modules/groupfacebook.services";
-import PageFacebookServices from "@/services/modules/pagefacebook.services";
+import AccountFacebookService from "@/synchronize/modules/accountfacebook.synchronize";
+import GroupFacebookServices from "@/synchronize/modules/groupfacebook.synchronize";
+import PageFacebookServices from "@/synchronize/modules/pagefacebook.synchronize";
 
 const state = {
   addAccountErrorPost: "",
@@ -82,7 +82,7 @@ const actions = {
       commit( "fb_success" );
 
     } catch (e) {
-      if (e.response.status === 403) commit( "addAccountErrorPost", "error" );
+      if (e.response.status === 403) commit( "addAccountErrorPost", "errors.js" );
       commit( "fb_success" );
     }
   },

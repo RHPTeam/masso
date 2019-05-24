@@ -10,8 +10,8 @@ const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 
-const jsonResponse = require( "../../configs/res" ),
-  secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" ),
+  secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -82,7 +82,7 @@ module.exports = {
     // Check when user get one
     if ( req.query._id ) {
       if ( dataResponse.length === 0 ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
       }
       dataResponse = dataResponse[ 0 ];
     }
@@ -112,7 +112,7 @@ module.exports = {
       } else if ( req.body.started_at === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -121,9 +121,9 @@ module.exports = {
 
     // Check catch when update event
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
     // Check status of campaign to create status for event
@@ -170,7 +170,7 @@ module.exports = {
       } else if ( !req.body.started_at ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -179,9 +179,9 @@ module.exports = {
 
     // Check catch when update event
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
     // Check switch status of event
@@ -206,11 +206,11 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
     // delete event of campain
@@ -227,9 +227,9 @@ module.exports = {
 
     // Check catch when duplicate
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho sự kiện này!" } );
     }
 
     findEvent.title = `${findEvent.title} Copy`;
