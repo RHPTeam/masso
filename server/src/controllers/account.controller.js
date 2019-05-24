@@ -25,6 +25,7 @@ const secure = require( "../helpers/utils/secure.util" );
 const decodeRole = require( "../helpers/utils/decodeRole.util" );
 const convertUnicode = require( "../helpers/utils/convertUnicode.util" );
 const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
+  { update } = require( "../services/account.service" ),
   // set one cookie
   option = {
     "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -256,7 +257,7 @@ module.exports = {
   "update": async ( req, res ) => {
     const { body } = req;
     const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId );
+    const foundUser = await Account.findOne( { "_id": userId } );
 
     if ( !foundUser ) {
       return res
@@ -273,6 +274,8 @@ module.exports = {
         "new": true
       }
     ).select( "-password" );
+
+    update( `${process.env.SERVER_PARENT}/users`, req.headers.authorization, body );
 
     res
       .status( 201 )
