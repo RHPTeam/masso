@@ -32,7 +32,7 @@ const generalPostRouter = {
         },
         {
           path: "categories",
-          name: "categories",
+          name: "posts-categories",
           component: require( "@/views/user/post/posts/desktop/categories" )
             .default
         }

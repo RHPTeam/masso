@@ -6,7 +6,9 @@
           <div class="title">Thêm vào nhóm</div>
         </div>
         <div class="modal--body mt_3">
-          <VuePerfectScrollbar class="scroll" id="groupListScroll">
+          <div v-if="postGroups.length === 0"
+          >Không có nhóm được tạo.</div>
+          <VuePerfectScrollbar v-else class="scroll" id="groupListScroll">
             <div class="group--list px_2">
               <div class="group--list-item d_flex align_items_center"
                    v-for="( item, index ) in postGroups"
@@ -24,7 +26,6 @@
               </div>
             </div>
           </VuePerfectScrollbar>
-
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"

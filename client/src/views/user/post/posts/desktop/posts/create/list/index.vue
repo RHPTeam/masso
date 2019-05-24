@@ -40,7 +40,9 @@
           </span>
         </div>
       </div>
-      <app-list :keyword="keyword" :showResult="isShowResultsSearch" />
+      <app-list
+        :keyword="keyword"
+      />
     </div>
   </div>
 </template>
@@ -53,9 +55,9 @@ export default {
   },
   data() {
     return {
-      isShowResultsSearch: false,
       keyword: "",
-      limit: 12
+      limit: 12,
+      page: 1,
     }
   },
   computed: {
@@ -72,14 +74,25 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getUserInfo" );
+
+    if( this.user.keywords ) {
+      const dataSender = {
+        key: this.user.keywords[0],
+        size: this.limit,
+        page: 1
+      };
+
+      await this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+    }
   },
   methods: {
     searchPostByKey( val ) {
       const dataSender = {
         key: val,
-        size: this.limit
+        size: this.limit,
+        page: 1
       };
-      this.$store.dispatch( "searchPostFromLibrariesByKey", dataSender );
+      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
     },
     searchPostByKeyword(){
       if( this.keyword.length > 0 ) {
@@ -88,10 +101,16 @@ export default {
           size: this.limit,
           page: 1
         };
+
         this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-        this.isShowResultsSearch = true;
       } else {
-        this.$store.dispatch( "getAllPostLibraries" );
+        const dataSender = {
+          key: this.user.keywords[0],
+          size: this.limit,
+          page: 1
+        };
+
+        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
       }
     }
   },

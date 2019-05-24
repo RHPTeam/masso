@@ -37,7 +37,7 @@ io.on( "connection", async ( socket ) => {
       // Check by crawl to facebook.com
       const statusLogin = await checkLogin( { "cookie": facebook.cookie, agent } );
 
-      // Check error not same 200
+      // Check errors not same 200
       if ( statusLogin.error.code === 405 ) {
         facebook.status = 0;
         await facebook.save();

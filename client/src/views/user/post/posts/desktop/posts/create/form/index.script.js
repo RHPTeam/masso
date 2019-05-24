@@ -196,7 +196,7 @@ export default {
     // Update post when click button Save
     savePost(){
       this.$store.dispatch( "updatePost", this.post );
-      this.$router.push( "/posts" );
+      this.$router.push( { name: "posts" } );
     },
     // Select file images
     selectFile( id ) {

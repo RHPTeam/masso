@@ -1,7 +1,16 @@
 <template>
 <span class="time-picker" @keydown="onKeyDown">
-  <input class="display-time" :readonly="!disabled" :disabled="disabled" :value="displayTime" type="text" @focusin.stop="toggleDropdown" />
-  <span class="clear-btn" v-if="!hideClearButton" v-show="!showDropdown && showClearBtn" @click.stop="clearTime">&times;</span>
+  <input class="display-time"
+         :readonly="!disabled"
+         :disabled="disabled"
+         :value="displayTime"
+         type="text"
+         @focusin.stop="toggleDropdown" />
+  <!--<span class="clear-btn"
+        v-if="!hideClearButton"
+        v-show="!showDropdown && showClearBtn"
+        @click.stop="clearTime"
+  >&times;</span>-->
   <div class="time-picker-overlay" v-if="showDropdown" @click.stop="toggleDropdown"></div>
   <div class="dropdown" v-show="showDropdown" @focusout="onLoseFocus">
     <div class="select-list">
@@ -60,7 +69,8 @@ const CONFIG = {
   MINUTE_TOKENS: ['mm', 'm'],
   SECOND_TOKENS: ['ss', 's'],
   APM_TOKENS: ['A', 'a']
-}
+};
+
 export default {
   props: {
     value: {
@@ -107,7 +117,8 @@ export default {
   },
   computed: {
     displayTime () {
-      let formatString = this.format
+      let formatString = this.format;
+
       if (this.value[this.hourType]) {
         formatString = formatString.replace(new RegExp(this.hourType, 'g'), this.value[this.hourType])
       }

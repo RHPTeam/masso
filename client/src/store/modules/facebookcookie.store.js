@@ -1,4 +1,4 @@
-import AccountFacebookService from "@/services/modules/facebook.services";
+import AccountFacebookService from "@/services/modules/accountfacebook.services";
 
 const state = {
   addAccountError: "",
@@ -48,14 +48,14 @@ const actions = {
       await commit( "addNewAccountFacebook", result.data.data );
       commit( "fb_success" );
     } catch ( e ) {
-      // if ( e.response.status === 403 ) commit( "addAccountError", "error" );
+      // if ( e.response.status === 403 ) commit( "addAccountError", "errors" );
       // commit( "fb_success" );
     }
   },
   getAllAccountFb: async ( {commit} ) => {
     commit( "fb_request" );
-    const results = await AccountFacebookService.getAllAccountFb();
-    commit( "setAllAccount", results.data.data );
+    const res = await AccountFacebookService.getAllAccountFb();
+    commit( "setAllAccount", res.data.data );
     commit( "fb_success" );
   },
   getAccountFbById: async ( {commit}, payload ) => {

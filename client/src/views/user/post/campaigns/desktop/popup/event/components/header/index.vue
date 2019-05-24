@@ -9,8 +9,9 @@
       <div class="left mr_3">
         <input
           type="text"
+          :class="[ error ? 'input--error' : null ]"
           v-model="event.title"
-          placeholder="Nhập tên sự kiện"
+          :placeholder="[ error ? 'Tên sự kiện không được bỏ trống!' : 'Nhập tên sự kiên' ]"
         />
       </div>
       <div class="right d_flex align_items_center">
@@ -43,13 +44,9 @@
         <div v-else class="button save" @click.prevent="createEvent">
           TẠO MỚI
         </div>
-<!--        <div class="button save" @click.prevent="updateEventById">-->
-<!--          CẬP NHẬT-->
-<!--        </div>-->
       </div>
     </div>
     <!-- End: Row -->
-    <div class="text_danger mt_2" v-if="error === true"> Tiêu đề của event không được bỏ trống ! </div>
     <!-- Start: Row -->
     <div class="r mx_0 justify_content_between mt_3">
       <div class="left">
@@ -61,12 +58,12 @@
             :sync="true"
             :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
             :switch-color="{
-              checked: '#ffa94b',
+              checked: event.color,
               unchecked: '#e4e4e4'
             }"
           />
           <span>
-            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng.
+            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng
           </span>
         </div>
       </div>
@@ -111,15 +108,27 @@
     </div>
     <!-- End: Row -->
     <!-- Start: Row -->
-    <div class="errors" v-if="errorData.length > 0" v-for="error in errorData" :key="error">
-      <div class="text_danger mt_3" v-text="error"></div>
+    <div class="r mx_0 justify_content_between mt_3">
+      <header-time></header-time>
+    </div>
+    <!-- End: Row -->
+    <!-- Start: Row -->
+    <div v-if="errorData.length > 0">
+      <div class="errors" v-for="error in errorData" :key="error">
+        <div class="text_danger mt_3" v-text="error"></div>
+      </div>
     </div>
     <!-- End: Row -->
   </div>
 </template>
 
 <script>
+import HeaderTime from "./time";
+
 export default {
+  components: {
+    HeaderTime
+  },
   props: {
     event: Object
   },
@@ -263,14 +272,10 @@ export default {
       // Close popup
       this.close();
 
-      console.log( "cak");
-
       await this.$store.dispatch( "updateEvent", {
         campaignId: this.$route.params.campaignId,
         event: this.event
       } );
-
-      console.log( " cak 02" )
 
       // Return popup start
       this.$store.dispatch( "setEvent", {
@@ -302,7 +307,6 @@ export default {
 }
 </script>
 
->>>>>>> dev-toantr-vue
 <style lang="scss" scoped>
 @import "index.style";
 </style>

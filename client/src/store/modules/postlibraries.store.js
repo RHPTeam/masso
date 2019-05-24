@@ -110,6 +110,7 @@ const actions = {
       payload.key,
       payload.size
     );
+    console.log(result);
     commit( "setAllPostLibraries", result.data.data.results );
     commit( "post_success" );
   },
@@ -120,7 +121,6 @@ const actions = {
       payload.size,
       payload.page
     );
-    console.log(result.data.data.results);
     commit( "setPostSearchFromLibraries", result.data.data );
     commit( "post_success" );
   }

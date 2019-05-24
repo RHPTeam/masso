@@ -1,5 +1,5 @@
 import VueApexCharts from 'vue-apexcharts';
-import AddKeyWord from "./addkeyword/index";
+import AddKeyWord from "./addkeyword";
 export default {
   components: {
     AddKeyWord,
