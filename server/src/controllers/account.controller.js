@@ -25,6 +25,7 @@ const secure = require( "../helpers/utils/secure.util" );
 const decodeRole = require( "../helpers/utils/decodeRole.util" );
 const convertUnicode = require( "../helpers/utils/convertUnicode.util" );
 const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
+  { update } = require( "../services/account.service" ),
   // set one cookie
   option = {
     "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -36,7 +37,7 @@ const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
     return JWT.sign(
       {
         "iss": "RHPTeam",
-        "sub": user._id,
+        "sub": user.email,
         "iat": new Date().getTime(), // current time
         "exp": new Date().setDate( new Date().getDate() + 1 ) // current time + 1 day ahead
       },
@@ -255,8 +256,8 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     const { body } = req;
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId );
+    const email = secure( res, req.headers.authorization );
+    const foundUser = await Account.findOne( { "email": email } );
 
     if ( !foundUser ) {
       return res
@@ -265,7 +266,7 @@ module.exports = {
     }
 
     const dataResponse = await Account.findByIdAndUpdate(
-      userId,
+      foundUser._id,
       {
         "$set": body
       },
@@ -273,6 +274,9 @@ module.exports = {
         "new": true
       }
     ).select( "-password" );
+
+    // join property email to data send
+    update( `${process.env.SERVER_PARENT}/users`, req.headers, body );
 
     res
       .status( 201 )
