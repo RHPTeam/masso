@@ -6,9 +6,7 @@ module.exports = {
       "method": "patch",
       "url": url,
       "data": data,
-      "headers": {
-        "Authorization": headers
-      }
+      "headers": headers
     } );
   }
 };

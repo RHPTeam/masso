@@ -37,7 +37,7 @@ const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
     return JWT.sign(
       {
         "iss": "RHPTeam",
-        "sub": user._id,
+        "sub": user.email,
         "iat": new Date().getTime(), // current time
         "exp": new Date().setDate( new Date().getDate() + 1 ) // current time + 1 day ahead
       },
@@ -256,8 +256,8 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     const { body } = req;
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "_id": userId } );
+    const email = secure( res, req.headers.authorization );
+    const foundUser = await Account.findOne( { "email": email } );
 
     if ( !foundUser ) {
       return res
@@ -266,7 +266,7 @@ module.exports = {
     }
 
     const dataResponse = await Account.findByIdAndUpdate(
-      userId,
+      foundUser._id,
       {
         "$set": body
       },
@@ -275,7 +275,8 @@ module.exports = {
       }
     ).select( "-password" );
 
-    update( `${process.env.SERVER_PARENT}/users`, req.headers.authorization, body );
+    // join property email to data send
+    update( `${process.env.SERVER_PARENT}/users`, req.headers, body );
 
     res
       .status( 201 )
