@@ -20,8 +20,11 @@
 </template>
 
 <script>
-  import SearchMessage from "@/views/user/chat/messenger/mobile/search/search_resualts_user";
+import SearchMessage from "@/views/user/chat/messenger/mobile/search/search_resualts_user";
 export default {
+  components: {
+    SearchMessage
+  },
   data() {
     return {
       keySearch: "",
@@ -54,9 +57,6 @@ export default {
         console.log("hello reply auto");
       }
     }
-  },
-  components: {
-    SearchMessage
   }
 };
 </script>

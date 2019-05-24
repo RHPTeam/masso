@@ -76,7 +76,7 @@
   </div>
 </template>
 <script>
-import AppSidebarMobile from "./popup";
+import AppSidebarMobile from "./popup/index";
 import ChangeAccount from "@/views/user/chat/messenger/mobile/change-account";
 import NewMessage from "@/views/user/chat/messenger/mobile/newmessage";
 export default {
@@ -134,5 +134,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "./header";
+@import "header";
 </style>

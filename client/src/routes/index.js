@@ -8,6 +8,7 @@ import customerResetPassword from "./modules/user/password";
 import customerSigninRouter from "./modules/user/signin";
 import customerSignupRouter from "./modules/user/signup";
 import customerWelcomeRouter from "./modules/user/welcome";
+import customerMessengerRouter from "./modules/user/messenger";
 
 import error404Router from "./modules/errors/404";
 import error500Router from  "./modules/errors/500";
@@ -25,6 +26,7 @@ export default new Router( {
     customerSigninRouter,
     customerSignupRouter,
     customerWelcomeRouter,
+    customerMessengerRouter,
     error404Router,
     error500Router,
     guideGeneralRouter,

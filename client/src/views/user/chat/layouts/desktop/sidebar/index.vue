@@ -29,27 +29,6 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
-      <!-- Home -->
-      <!-- <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'c_dashboard' }"
-        active-class="active"
-        exact
-      >
-        <a>
-          <icon-base
-            icon-name="home"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-home />
-          </icon-base>
-          <span class="menu--item-text">Bảng điều khiển</span>
-        </a>
-      </router-link> -->
-
       <!-- Script -->
       <router-link
         class="menu--item d_flex align_items_center"
@@ -151,8 +130,8 @@
   </div>
 </template>
 
-<script src="./sidebar.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
-@import "sidebar.style";
+@import "index.style";
 </style>
