@@ -33,6 +33,11 @@ router.use( "/post-facebook", auth, require( "./modules/post/postFacebook.route"
 router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );
 router.use( "/block", auth, require( "./modules/chat/block.route" ) );
 router.use( "/broadcast", auth, require( "./modules/chat/broadcast.route" ) );
+router.use( "/group-block", auth, require( "./modules/chat/groupBlock.route" ) );
+router.use( "/group-friend", auth, require( "./modules/chat/groupFriend.route" ) );
+router.use( "/sequence", auth, require( "./modules/chat/sequence.route" ) );
+router.use( "/syntax", auth, require( "./modules/chat/syntax.route" ) );
+router.use( "/vocate", auth, require( "./modules/chat/vocate.route" ) );
 
 
 // Server Route
