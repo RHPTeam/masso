@@ -742,8 +742,8 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "upload": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId ).select( "-password" );
+    const email = secure( res, req.headers.authorization );
+    const foundUser = await Account.findOne( { "email": email } ).select( "-password" );
 
     if ( !foundUser ) {
       return res
