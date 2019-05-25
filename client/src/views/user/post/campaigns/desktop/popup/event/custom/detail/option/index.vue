@@ -1,11 +1,21 @@
 <template>
-  <div class="detail mt_2">
-    <div class="back text_center mb_2" @click="back">Quay lại</div>
-    <div class="header d_flex align_items_center justify_content_between">
+  <div class="detail">
+    <!-- Start: Top -->
+    <div class="top d_flex align_items_center justify_content_between mb_3">
+      <div class="top--left"
+           @click="back"
+      >≪ Quay lại</div>
+      <div class="top--right d_flex align_items_center">
+        <div class="content">Kho nội dung</div>
+      </div>
+    </div>
+    <!-- End: Top -->
+    <!-- Start: Action -->
+    <div class="action d_flex align_items_center justify_content_between">
       <div class="left position_relative">
         <div class="icon position_absolute">
           <icon-base
-            icon-name="input-search"
+            class="icon--search"
             width="20"
             height="20"
             viewBox="0 0 20 20"
@@ -13,40 +23,19 @@
             <icon-input-search />
           </icon-base>
         </div>
-        <input type="text" placeholder="Tìm kiếm ..." />
+        <input type="text" placeholder="Tìm kiếm" v-model="search"/>
       </div>
       <div class="right position_relative">
-        <div class="categories d_flex align_items_center" @click="isShowSuggest = true" v-click-outside="close">
-          Danh mục
-          <div class="icon--down ml_2">
-            <icon-base
-              class="icon--sort-down"
-              icon="icon--sort-down"
-              width="14px"
-              heigh="14px"
-              viewBox="0 0 14 14"
-            >
-              <icon-sort-down></icon-sort-down>
-            </icon-base>
-          </div>
-        </div>
-        <div class="suggest position_absolute" v-if="isShowSuggest === true">
-          <div v-if="!categories"></div>
-          <div
-            v-else
-            class="suggest--item"
-            v-for="(item, index) in categories"
-            :key="`c-${index}`"
-            @click="filterPostByCategories(item._id)"
-          >
-            {{ item.title }}
-          </div>
-        </div>
+        <categories-filter
+          :filterList="filterCategoriesList"
+          :filterSelected="filterCategorySelected"
+          @updateFilterSelected="filterCategorySelected = $event"
+        ></categories-filter>
       </div>
     </div>
     <div class="body">
       <div class="result d_flex align_items_center mt_3 px_3 py_2">
-        <div class="name text_left">Tên bài viết</div>
+        <div class="name text_left pr_3">Tên bài viết</div>
         <div class="categories text_left">Danh mục</div>
         <div class="content text_left">Nội dung</div>
         <div class="action text_center">
@@ -57,29 +46,48 @@
         <div v-if="this.$store.getters.statusPost === 'loading'">
           <loading-component />
         </div>
-        <div class="result--item d_flex align_items_center px_3 py_2 justify_content_center" v-if="allPosts.length === 0">Không tìm thấy bài đăng</div>
-        <div class="result--item d_flex align_items_center px_3 py_2" v-for="(post, index) in allPosts" :key="`p-${index}`">
-          <div class="name text_left">{{post.title}}</div>
-          <div class="categories text_left">
-            <span v-for="(item, index) in post._categories" :key="index">{{item.title + ', '}}</span>
+        <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center" v-if="filterPostsByCategories.length === 0">Không có dữ liệu</div>
+        <div class="result--item d_flex align_items_center px_3 py_2" v-for="(post, index) in filterPostsByCategories" :key="`p-${index}`">
+          <div class="name text_left pr_3">
+            <div class="name--text">{{post.title}}</div>
           </div>
-          <div class="content text_left">{{post.content}}</div>
+          <div class="categories text_left pr_3">
+            <span v-for="(cate, index) in post._categories" :key="`c-${index}`">
+                  {{cate.title +  [ index === post._categories.length - 1 ? null : ', ' ] }}
+            </span>
+          </div>
+          <div class="content text_left">
+            <div class="content--text">{{post.content}}</div>
+          </div>
           <div class="action">
-            <div class="btn--choose checked text_center m_auto" v-if="event.post_custom.filter(function(e) { return e._id === post._id; }).length > 0">Đã chọn</div>
-            <div class="btn--choose text_center m_auto" @click="selectPost(post)" v-else>Chọn</div>
+            <div class="btn--choose checked text_center m_auto"
+                 @click="unselectPost(post._id)"
+                 v-if="checkSelectedPost(post._id)"
+            ></div>
+            <div class="btn--choose text_center m_auto"
+                 @click="selectPost(post)"
+                 v-else
+            ></div>
           </div>
         </div>
       </div>
     </div>
+    <!-- End: Body -->
   </div>
 </template>
 
 <script>
+import CategoriesFilter from "../filter";
+
 export default {
+  components: {
+    CategoriesFilter
+  },
   data() {
     return {
-      isShowSuggest: false,
-      listOption: []
+      filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
+      filterCategorySelected: { id: "all", name: "Tất cả" },
+      search: ""
     }
   },
   computed: {
@@ -91,7 +99,36 @@ export default {
     },
     event() {
       return this.$store.getters.event;
+    },
+    filterPostsByCategories() {
+      if ( this.filterCategorySelected.id === "all" ) {
+        return this.allPosts.filter( ( post ) => {
+          return post.title
+            .toString()
+            .toLowerCase()
+            .includes( this.search.toString().toLowerCase() );
+        } );
+      }
+      return this.allPosts.filter( ( post ) => {
+        const checkedArr = post._categories.filter( ( category ) => {
+          return category._id === this.filterCategorySelected.id;
+        } );
+
+        return post.title.toString()
+          .toLowerCase()
+          .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
+      } );
     }
+  },
+  async created() {
+    await this.categories.forEach( ( item ) => {
+      const data = {
+        id: item._id,
+        name: item.title
+      };
+
+      this.filterCategoriesList.push( data );
+    } );
   },
   methods: {
     back(){
@@ -100,22 +137,24 @@ export default {
         value: 0
       } );
     },
-    close() {
-      this.isShowSuggest = false;
-    },
-    filterPostByCategories( val ){
-      this.$store.dispatch( "getPostByCategories", val );
+    checkSelectedPost ( id ) {
+      return this.event.post_custom.filter( ( item ) => {
+        return item._id === id;
+      }).length > 0
     },
     selectPost( value ) {
       this.$store.dispatch( "setEventPush", {
         key: "post_custom",
         value: value
       } )
+    },
+    unselectPost( id ) {
+      this.$store.dispatch( "setEventPostRemove", id );
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "index.style";
+@import "index.style";
 </style>
