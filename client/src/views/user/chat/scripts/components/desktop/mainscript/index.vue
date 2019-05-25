@@ -34,6 +34,7 @@
         </div>
         <div
           class="script--header-delete ml_auto"
+          @click="isDeletePopup = true"
         >
           <icon-base
             icon-name="remove"
@@ -220,13 +221,12 @@
       />
     </transition>
     <!--Delete popup-->
-    <!-- <delete-popup
+    <delete-popup
       v-if="isDeletePopup === true"
       desc="Bạn có thực sự muốn xóa kịch bản này không?"
-      :content="block._id"
       target="block"
       @close="isDeletePopup = $event"
-    /> -->
+    />
   </div>
 </template>
 

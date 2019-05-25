@@ -1,10 +1,10 @@
-import PopupPlugins from "../popup/add_plugins.vue";
+import PopupPlugins from "../popup/add";
 import AddTimer from "@/components/slider/index";
 import Subcrible from "./plugins/subcrible";
 import UnSubcrible from "./plugins/unsubcrible";
-import AddTag from "./plugins/add-tag";
-import AddText from "./plugins/add_text";
-import AddImage from "./plugins/add_images";
+import AddTag from "./plugins/tag";
+import AddText from "./plugins/text";
+import AddImage from "./plugins/images";
 
 // import BlockService from "@/services/modules/chat/block.services";
 

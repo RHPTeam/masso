@@ -50,8 +50,8 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AutoSidebar from "./components/desktop/auto_sidebar";
-import AutoReplyMain from "./components/desktop/autocontent/main";
+import AutoSidebar from "./components/desktop/autosidebar";
+import AutoReplyMain from "./components/desktop/autocontent";
 // import AppAutoMobile from "./mobile/index_mobile";
 let typingTimer;
 export default {
@@ -97,5 +97,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "index.style";
+@import "./index.style";
 </style>

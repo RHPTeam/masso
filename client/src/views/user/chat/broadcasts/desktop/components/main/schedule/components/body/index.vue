@@ -71,10 +71,10 @@
   </div>
 </template>
 <script>
-import AddText from "./plugins/add_text";
-import AddImage from "./plugins/add_images";
+import AddText from "./plugins/text";
+import AddImage from "./plugins/images";
 import Subcribe from "./plugins/subcribe";
-import UnSubscribe from "./plugins/unsubscribe";
+import UnSubscribe from "./plugins/unsubcribe";
 
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";

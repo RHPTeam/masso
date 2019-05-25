@@ -1,8 +1,8 @@
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import Loading from "@/components/shared/loading";
 import AppNotification from "@/components/shared/notification";
-import AppHeader from "@/components/layouts/header";
-import AppSidebar from "@/components/layouts/sidebar";
+import AppHeader from "./layouts/header";
+import AppSidebar from "./layouts/sidebar";
 
 export default {
   data() {
