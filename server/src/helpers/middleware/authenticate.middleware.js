@@ -1,6 +1,6 @@
 const jwt = require( "jsonwebtoken" );
 
-const jsonResponse = require( "../../configs/res" );
+const jsonResponse = require( "../../configs/response" );
 const Account = require( "../../models/Account.model" );
 
 /**
@@ -19,9 +19,9 @@ module.exports = ( req, res, next ) => {
     if ( err ) {
       return res.status( 401 ).end();
     }
-    const userId = decoded.sub;
+    const email = decoded.sub;
 
-    return Account.findById( userId, ( userErr, user ) => {
+    return Account.findOne( { "email": email }, ( userErr, user ) => {
       if ( userErr || !user ) {
         return res.status( 401 ).end();
       }

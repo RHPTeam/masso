@@ -31,7 +31,7 @@ import AppStatusNotification from "@/components/shared/status-notification";
 
 export default {
   async created() {
-    await this.$store.dispatch("getAccountsFB");
+    // await this.$store.dispatch("getAccountsFB");
   },
 
   data() {

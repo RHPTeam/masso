@@ -8,15 +8,7 @@
         <div class="col col--share px_3">Chia sẻ</div>
         <div class="col col--action px_3">Hành động</div>
       </div>
-      <div v-show="showResult === false">
-          <div v-if="this.$store.getters.statusLib === 'loading'">
-            <loading-component/>
-          </div>
-          <div v-else v-for="(item, index) in allPostLibararies" :key="index">
-            <item-detail :item="item" />
-          </div>
-      </div>
-      <vue-perfect-scrollbar v-show="showResult === true" class="wrap--post" ref="text">
+      <vue-perfect-scrollbar class="wrap--post" ref="text">
         <div v-if="this.$store.getters.statusLib === 'loading'">
           <loading-component/>
         </div>
@@ -41,7 +33,6 @@ export default {
   },
   props: {
     keyword: String,
-    showResult: Boolean
   },
   data() {
     return {
@@ -77,20 +68,19 @@ export default {
   },
   methods: {
     intersected(){
-      if(this.resultPostSearch && this.count < this.resultPostSearch.page) {
+      if ( this.resultPostSearch && this.count < this.resultPostSearch.page ) {
         this.count++;
       } else if (this.resultPostSearch && this.count == this.resultPostSearch.page) {
         return;
       }
+
       const dataSender = {
         key: this.keyword,
         size: this.limit,
         page: this.count
       };
-      console.log(dataSender);
+
       this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-      this.showResult = true;
-      this.convertPostSearch();
     }
   }
 };

@@ -19,12 +19,13 @@ const Account = require( "../models/Account.model" );
 const Role = require( "../models/Role.model" );
 const PostCategory = require( "../models/post/PostCategory.model" );
 
-const jsonResponse = require( "../configs/res" );
-const checkPhone = require( "../helpers/utils/checkPhone.util" );
-const secure = require( "../helpers/utils/secure.util" );
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
-const convertUnicode = require( "../helpers/utils/convertUnicode.util" );
-const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
+const jsonResponse = require( "../configs/response" );
+const checkPhone = require( "../helpers/utils/functions/phone" );
+const secure = require( "../helpers/utils/secures/jwt" );
+const decodeRole = require( "../helpers/utils/secures/role" );
+const convertUnicode = require( "../helpers/utils/functions/unicode" );
+const arrayFunction = require( "../helpers/utils/functions/array" ),
+  { update } = require( "../microservices/synchronize/account.service" ),
   // set one cookie
   option = {
     "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
@@ -36,7 +37,7 @@ const arrayFunction = require( "../helpers/utils/arrayFunction.util" ),
     return JWT.sign(
       {
         "iss": "RHPTeam",
-        "sub": user._id,
+        "sub": user.email,
         "iat": new Date().getTime(), // current time
         "exp": new Date().setDate( new Date().getDate() + 1 ) // current time + 1 day ahead
       },
@@ -255,8 +256,8 @@ module.exports = {
    */
   "update": async ( req, res ) => {
     const { body } = req;
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId );
+    const email = secure( res, req.headers.authorization );
+    const foundUser = await Account.findOne( { "email": email } );
 
     if ( !foundUser ) {
       return res
@@ -265,7 +266,7 @@ module.exports = {
     }
 
     const dataResponse = await Account.findByIdAndUpdate(
-      userId,
+      foundUser._id,
       {
         "$set": body
       },
@@ -273,6 +274,9 @@ module.exports = {
         "new": true
       }
     ).select( "-password" );
+
+    // join property email to data send
+    update( `${process.env.SERVER_PARENT}/users`, req.headers, body );
 
     res
       .status( 201 )
@@ -773,7 +777,7 @@ module.exports = {
 
     // Check role and permission
     if ( roleUser.level.toLowerCase() !== "superadmin" && roleUser.level.toLowerCase() !== "admin" ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền để thực hiện chức năng này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền để thực hiện chức năng này!" } );
     }
 
     // Active by key
@@ -782,7 +786,7 @@ module.exports = {
       const userList = await Account.find( { "presenter": req.body.presenter } );
 
       if ( userList.length === 0 ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Mã kích hoạt không tồn tại!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Mã kích hoạt không tồn tại!" } );
       }
 
       await Promise.all( userList.map( async ( user ) => {

@@ -15,7 +15,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("getAccountsFB");
+    // await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {

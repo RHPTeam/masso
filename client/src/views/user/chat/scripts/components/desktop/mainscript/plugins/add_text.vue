@@ -46,7 +46,7 @@
   </div>
 </template>
 <script>
-import AttributeService from "@/services/modules/attributes.service";
+// import AttributeService from "@/services/modules/attributes.services";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
@@ -68,55 +68,55 @@ export default {
     };
   },
   methods: {
-    async upTypingText(type, group) {
-      clearTimeout(typingTimer);
-      if (type === "updateitem") {
-        typingTimer = setTimeout(this.updateItem(group), 2000);
-        if (group.valueText === "{{") {
-          this.showSuggestAttribute = true;
-          // Filter item have name # null
-          const resultAttribute = await AttributeService.index();
-          this.listAttribute = resultAttribute.data.data;
-          this.resultFilterAttr = this.listAttribute.filter(
-            item => item.name !== ""
-          );
-        }
-      }
-    },
-    clear() {
-      clearTimeout(typingTimer);
-    },
-    // Update item in block
-    updateItem(item) {
-      const objSender = {
-        itemId: item._id,
-        valueText: item.valueText,
-        block: this.$store.getters.block
-      };
-      this.$store.dispatch("updateItemBlock", objSender);
-    },
-    closeSuggestAttributeInItem() {
-      this.showSuggestAttribute = false;
-    },
-    attachValue(list, item) {
-      item.valueText = "{{" + list.name + "}}";
-      // item.valueText += '{{' +list.name + '}}' + ' ';
-      const dataSender = {
-        itemId: item._id,
-        valueText: item.valueText,
-        block: this.block
-      };
-      this.$store.dispatch("updateItemBlock", dataSender);
-    },
-    attachValueFixed(fixed, item) {
-      item.valueText = "{{" + fixed.value + "}}";
-      const dataSender = {
-        itemId: item._id,
-        valueText: item.valueText,
-        block: this.block
-      };
-      this.$store.dispatch("updateItemBlock", dataSender);
-    }
+    // async upTypingText(type, group) {
+    //   clearTimeout(typingTimer);
+    //   if (type === "updateitem") {
+    //     typingTimer = setTimeout(this.updateItem(group), 2000);
+    //     if (group.valueText === "{{") {
+    //       this.showSuggestAttribute = true;
+    //       // Filter item have name # null
+    //       const resultAttribute = await AttributeService.index();
+    //       this.listAttribute = resultAttribute.data.data;
+    //       this.resultFilterAttr = this.listAttribute.filter(
+    //         item => item.name !== ""
+    //       );
+    //     }
+    //   }
+    // },
+    // clear() {
+    //   clearTimeout(typingTimer);
+    // },
+    // // Update item in block
+    // updateItem(item) {
+    //   const objSender = {
+    //     itemId: item._id,
+    //     valueText: item.valueText,
+    //     block: this.$store.getters.block
+    //   };
+    //   this.$store.dispatch("updateItemBlock", objSender);
+    // },
+    // closeSuggestAttributeInItem() {
+    //   this.showSuggestAttribute = false;
+    // },
+    // attachValue(list, item) {
+    //   item.valueText = "{{" + list.name + "}}";
+    //   // item.valueText += '{{' +list.name + '}}' + ' ';
+    //   const dataSender = {
+    //     itemId: item._id,
+    //     valueText: item.valueText,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemBlock", dataSender);
+    // },
+    // attachValueFixed(fixed, item) {
+    //   item.valueText = "{{" + fixed.value + "}}";
+    //   const dataSender = {
+    //     itemId: item._id,
+    //     valueText: item.valueText,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemBlock", dataSender);
+    // }
   },
   components: {
     VuePerfectScrollbar

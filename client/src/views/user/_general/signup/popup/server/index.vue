@@ -69,7 +69,8 @@
 <script>
 export default {
   props: {
-    currentTheme: String
+    currentTheme: String,
+    user: Object
   },
   data() {
     return {

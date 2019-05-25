@@ -29,8 +29,8 @@ export default {
   },
   computed: {},
   async created() {
-    await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getSequence");
   },
   components: {
     AppLeftSidebarScript,
@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   font-family: "Open Sans", sans-serif;
-  background: #2f31368a;
+  // background: #2f31368a;
   .main--content {
     border-radius: 10px;
     min-height: calc(100vh - 260px);

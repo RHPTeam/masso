@@ -18,7 +18,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "dashboard"
+        to: "post_dashboard"
       },
       {
         text: "Kho nội dung",
@@ -29,7 +29,7 @@ export default {
           height: 20,
           viewBox: "0 0 540 540"
         },
-        to: "posts"
+        to: "post_posts"
       },
       {
         text: "Chiến dịch",
@@ -40,7 +40,7 @@ export default {
           height: 21,
           viewBox: "0 0 24 24"
         },
-        to: "campaigns"
+        to: "post_campaigns"
       },
       {
         text: "Nhóm & Trang",
@@ -51,7 +51,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "group"
+        to: "post_group"
       },
       {
         text: "Tài khoản Facebook",
@@ -62,7 +62,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "f_account"
+        to: "post_fbaccount"
       }
       ]
     };

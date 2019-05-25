@@ -75,20 +75,20 @@ export default {
     };
   },
   methods: {
-    selectFile(id) {
-      this.file = this.$refs.file.files[0];
-      this.sendFile(id);
-    },
-    sendFile(id) {
-      const formData = new FormData();
-      formData.append("file", this.file);
-      const objSender = {
-        id: id,
-        formData: formData,
-        block: this.block
-      };
-      this.$store.dispatch("updateItemImageBlock", objSender);
-    }
+    // selectFile(id) {
+    //   this.file = this.$refs.file.files[0];
+    //   this.sendFile(id);
+    // },
+    // sendFile(id) {
+    //   const formData = new FormData();
+    //   formData.append("file", this.file);
+    //   const objSender = {
+    //     id: id,
+    //     formData: formData,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemImageBlock", objSender);
+    // }
   }
 };
 </script>

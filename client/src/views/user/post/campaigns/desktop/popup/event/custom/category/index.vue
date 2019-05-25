@@ -1,49 +1,50 @@
 <template>
   <div class="category">
-      <div class="top d_flex align_items_center py_3 px_3 mb_2" @click="resetPostType">
+    <!-- Start: Top -->
+    <div class="top d_flex align_items_center justify_content_between mb_3">
+      <div class="top--left"
+           @click="resetPostType"
+      >≪ Quay lại</div>
+      <div class="top--right d_flex align_items_center">
+        <div class="mr_2">Đăng bài viết từ danh mục</div>
         <div class="icon">
           <icon-base
-            class="icon--arrow-left"
-            icon-name="arrow"
-            width="18"
-            height="22"
-            viewBox="0 0 28 28"
+            class="icon--categories"
+            :style="[ { color: event.color }, { stroke: event.color } ]"
+            height="20px"
+            width="20px"
+            viewBox="0 0 460 460"
           >
-            <icon-arrow-left></icon-arrow-left>
+            <icon-categories></icon-categories>
           </icon-base>
         </div>
-        <div class="text">Tự động đăng bài viết từ danh mục</div>
       </div>
-      <div class="body mb_3">
-        <div class="desc mb_2">
-          <icon-base
-            class="icon--sort-down"
-            icon="icon--sort-down"
-            width="14px"
-            heigh="5px"
-            viewBox="0 0 14 14"
-          >
-            <icon-sort-down></icon-sort-down>
-          </icon-base>
-          Vui lòng chọn một danh mục bài viết
-        </div>
-        <div class="option">
-
-          <multiselect
-            label="title"
-            :value="event.post_category"
-            :clearable="false"
-            :options="categories"
-            @input="selectCategory"
-            placeholder="Chọn danh mục đăng bài "
-          />
-        </div>
+    </div>
+    <!-- End: Top -->
+    <!-- Start: Body -->
+    <div class="body p_3 mb_4">
+      <div class="desc mb_2">
+        <span class="desc--text">Danh mục bài viết</span>
       </div>
-      <div class="bottom">
-        <!--Start: Post detail -->
-        <global-option />
-        <!--End: Post detail -->
+      <div class="option">
+        <multiselect
+          label="title"
+          :value="event.post_category"
+          :clearable="false"
+          :options="categories"
+          @input="selectCategory"
+          placeholder="Chọn danh mục đăng bài "
+        />
       </div>
+    </div>
+    <!-- End: Body -->
+    <!-- Start: Bottom -->
+    <div class="bottom">
+      <!--Start: Post detail -->
+      <global-option />
+      <!--End: Post detail -->
+    </div>
+    <!-- End: Bottom -->
   </div>
 </template>
 
@@ -89,26 +90,40 @@ export default {
   background-color: #f7f7f7;
   color: $mainDarkLight;
   .top {
-    background-color: #cccccc;
-    border-radius: calc(.5rem + 2px);
-    cursor: pointer;
-    .icon {
-      svg {
-        margin-bottom: -6px;
+    font-size: .825rem;
+    .top--left {
+      color: #666;
+      cursor: pointer;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    .top--right {
+      color: #666;
+      .icon {
+        .icon--categories {
+          stroke-width: 5;
+          transition: all 1s ease;
+          vertical-align: middle;
+        }
       }
     }
   }
   .body {
+    background-color: #fff;
+    border-radius: .625rem;
     .desc {
+      color: #666;
+      font-size: .875rem;
+      font-weight: 600;
       svg {
         margin-bottom: -8px;
       }
-      font-weight: 600;
     }
     .option {
-      width: 50%;
-      border: 1px solid $border-color;
+      border: 1px solid #e4e4e4;
       border-radius: calc(.5rem + 2px);
+      width: 50%;
     }
   }
 }

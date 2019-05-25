@@ -68,6 +68,9 @@ export default {
   computed: {
     isLimit: function() {
       return this.limit > 0 && Number( this.limit ) === this.innerTags.length;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   watch: {

@@ -59,7 +59,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getSequence");
   },
   computed: {
     currentTheme() {

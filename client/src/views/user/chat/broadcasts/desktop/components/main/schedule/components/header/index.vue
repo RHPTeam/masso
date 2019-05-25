@@ -25,7 +25,7 @@
         <span class="ml_2">Bat dau</span>
       </div>
     </div>
-    <div class="action--r ml_auto">
+    <div class="action--r ml_auto" @click="isDeletePopup = !isDeletePopup">
       <icon-base
         class="icon"
         icon-name="remove"
@@ -36,13 +36,13 @@
         <icon-remove />
       </icon-base>
     </div>
-    <!-- <delete-popup
+    <delete-popup
       v-if="isDeletePopup === true"
       @close="isDeletePopup = $event"
       desc="Bạn có thực sự muốn xóa chiến dịch này không?"
       :content="this.$route.params.scheduleId"
       target="schedule"
-    /> -->
+    />
   </div>
 </template>
 

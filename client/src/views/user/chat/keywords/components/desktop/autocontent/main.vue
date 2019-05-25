@@ -5,8 +5,6 @@
         <div class="divide--title mb_3">Từ khóa</div>
         <taggle
           placeholder="Nhập từ khóa..."
-          :arrValue="syntax.name"
-          @update="syntax.name = $event"
           type="syntax"
         />
       </div>
@@ -47,8 +45,8 @@
 
               <!-- Start: Footer  Component -->
               <div class="block--footer">
-                Thêm <span @click.prevent="createItem('block')">nhóm</span> hoặc
-                <span @click.prevent="createItem('text')">văn bản</span>
+                Thêm <span>nhóm</span> hoặc
+                <span>văn bản</span>
               </div>
               <!--End: Footer Component-->
             </div>
@@ -61,26 +59,19 @@
         <div class="divide--title mb_3">Tài khoản áp dụng</div>
         <ul
           class="list--user"
-          v-if="!accountFacebookList || accountFacebookList.length === 0"
         >
           <li>Bạn chưa thêm tài khoản facebook nào!</li>
         </ul>
-        <ul v-else class="list--user">
+        <ul class="list--user">
           <!--Selected class-->
           <li
             class="list--user-item"
-            :class="[
-              syntax._facebook.includes(account._id) === true ? 'selected' : ''
-            ]"
-            v-for="(account, index) in accountFacebookList"
-            :key="index"
-            @click.prevent="toggleUser(account._id)"
           >
             <div class="d_flex">
               <div class="images--avatar mr_2">
-                <img :src="account.userInfo.thumbSrc" alt="" />
+                <img alt="" />
               </div>
-              <div>{{ account.userInfo.name }}</div>
+              <div>Ahihi</div>
             </div>
           </li>
         </ul>
@@ -99,61 +90,61 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("getAccountsFB");
-    await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getAccountsFB");
+    // await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getSequence");
   },
   computed: {
-    accountFacebookList() {
-      return this.$store.getters.accountsFB;
-    },
-    groupBlock() {
-      return this.$store.getters.groups;
-    },
-    sequences() {
-      return this.$store.getters.groupSqc;
-    },
-    syntax() {
-      return this.$store.getters.syntax;
-    }
+    // accountFacebookList() {
+    //   return this.$store.getters.accountsFB;
+    // },
+    // groupBlock() {
+    //   return this.$store.getters.groups;
+    // },
+    // sequences() {
+    //   return this.$store.getters.groupSqc;
+    // },
+    // syntax() {
+    //   return this.$store.getters.syntax;
+    // }
   },
   methods: {
-    createItem(type) {
-      this.syntax.content.push({
-        typeContent: type,
-        valueContent: ""
-      });
-      this.$store.dispatch("updateSyntax", this.syntax);
-    },
-    removeItem(index) {
-      this.syntax.content.splice(index, 1);
-      this.$store.dispatch("updateSyntax", this.syntax);
-    },
-    toggleUser(userId) {
-      if (this.syntax._facebook.includes(userId) === true) {
-        this.syntax._facebook = this.syntax._facebook.filter(item => {
-          if (item === userId) return;
-          return true;
-        });
-        this.$store.dispatch("updateSyntax", this.syntax);
-      } else {
-        this.syntax._facebook.push(userId);
+    // createItem(type) {
+    //   this.syntax.content.push({
+    //     typeContent: type,
+    //     valueContent: ""
+    //   });
+    //   this.$store.dispatch("updateSyntax", this.syntax);
+    // },
+    // removeItem(index) {
+    //   this.syntax.content.splice(index, 1);
+    //   this.$store.dispatch("updateSyntax", this.syntax);
+    // },
+    // toggleUser(userId) {
+    //   if (this.syntax._facebook.includes(userId) === true) {
+    //     this.syntax._facebook = this.syntax._facebook.filter(item => {
+    //       if (item === userId) return;
+    //       return true;
+    //     });
+    //     this.$store.dispatch("updateSyntax", this.syntax);
+    //   } else {
+    //     this.syntax._facebook.push(userId);
 
-        this.$store.dispatch("updateSyntax", this.syntax);
-      }
-    },
-    upTypingText(type, group) {
-      clearTimeout(typingTimer);
-      if (type === "itemsyntax") {
-        typingTimer = setTimeout(this.updateSyntax(group), 800);
-      }
-    },
-    clear() {
-      clearTimeout(typingTimer);
-    },
-    updateSyntax() {
-      this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-    }
+    //     this.$store.dispatch("updateSyntax", this.syntax);
+    //   }
+    // },
+    // upTypingText(type, group) {
+    //   clearTimeout(typingTimer);
+    //   if (type === "itemsyntax") {
+    //     typingTimer = setTimeout(this.updateSyntax(group), 800);
+    //   }
+    // },
+    // clear() {
+    //   clearTimeout(typingTimer);
+    // },
+    // updateSyntax() {
+    //   this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+    // }
   }
 };
 </script>

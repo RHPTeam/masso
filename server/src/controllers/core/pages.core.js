@@ -1,8 +1,8 @@
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable strict */
 const request = require( "request" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
-  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
+  { getDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   { pages } = require( "../../configs/crawl" ),
   handle = ( { cookie, agent, token } ) => {
     return new Promise( ( resolve ) => {

@@ -30,10 +30,10 @@
             <!-- Start: Alert -->
             <app-alert
               :type="
-                this.$store.getters.authStatus === 'error' ? 'alert_danger' : ''
+                this.$store.getters.authStatus === 'errors.js' ? 'alert_danger' : ''
               "
               :message="
-                this.$store.getters.authStatus === 'error'
+                this.$store.getters.authStatus === 'errors.js'
                   ? this.$store.getters.textAuth
                   : ''
               "></app-alert>

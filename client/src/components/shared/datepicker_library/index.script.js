@@ -1,4 +1,4 @@
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/services/modules/broadcast.services";
 import StringFunction from "@/utils/functions/string";
 export default {
   props: {

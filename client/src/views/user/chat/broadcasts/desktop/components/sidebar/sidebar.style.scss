@@ -137,7 +137,9 @@ div[data-theme="light"] {
 
 // LIGHT
 .group[data-theme="light"]{
-
+    .group--item{
+        color: #666;
+    }
 }
 
 /******** 02. Theme Dark *********/

@@ -4,8 +4,8 @@ const {
   linkGetAllFriends,
   linkSearchPlaces
 } = require( "../../configs/crawl" );
-const { getDtsgAg } = require( "../../helpers/utils/dtsgfb.util" );
-const { findSubString } = require( "../../helpers/utils/functions.util" );
+const { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const cheerio = require( "cheerio" ),
   request = require( "request" );

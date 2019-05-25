@@ -14,8 +14,8 @@ const PostGroup = require( "../../models/post/PostGroup.model" );
 
 const { agent } = require( "../../configs/crawl" );
 const getAllPages = require( "../core/pages.core" );
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**

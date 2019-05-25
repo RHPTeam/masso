@@ -3,7 +3,7 @@
     <router-link
       class="mr_3"
       tag="button"
-      :to="{ name: 'posts' }"
+      :to="{ name: 'post_posts' }"
       active-class="active"
       exact
       >Tất cả bài viết</router-link
@@ -12,7 +12,7 @@
     <router-link
       class="mr_3"
       tag="button"
-      :to="{ name: 'categories' }"
+      :to="{ name: 'post_postCategories' }"
       active-class="active"
       >Danh mục</router-link
     >

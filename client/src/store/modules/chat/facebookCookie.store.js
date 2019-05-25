@@ -1,4 +1,4 @@
-import AccountFacebookService from "@/services/modules/chat/accountFacebook.service";
+// import AccountFacebookService from "@/services/modules/chat/accountFacebook.services";
 
 const state = {
   addAccountError: "",
@@ -24,7 +24,7 @@ const mutations = {
     state.facebookStatus = "success";
   },
   facebook_error: state => {
-    state.facebookStatus = "error";
+    state.facebookStatus = "errors.js";
   },
   setAccountsFB: (state, payload) => {
     state.accountsFB = payload;
@@ -50,7 +50,7 @@ const actions = {
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
     } catch (e) {
-      if (e.response.status === 403) commit("addAccountError", "error");
+      if (e.response.status === 403) commit("addAccountError", "errors.js");
       commit("facebook_success");
     }
   },
@@ -87,7 +87,7 @@ const actions = {
       commit("facebook_success");
 
     } catch (e) {
-      if (e.response.status === 403) commit("addAccountError", "error");
+      if (e.response.status === 403) commit("addAccountError", "errors.js");
       commit("facebook_success");
     }
   }

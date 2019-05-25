@@ -1,13 +1,13 @@
 const Joi = require( "joi" );
-const jsonResponse = require( "../../configs/res" );
+const jsonResponse = require( "../../configs/response" );
 
 module.exports = {
   "validateParam": ( schema, name ) => {
     return ( req, res, next ) => {
       const result = Joi.validate( { "param": req.params[ name ] }, schema );
 
-      if ( result.error ) {
-        return res.status( 400 ).json( result.error );
+      if ( result.errors ) {
+        return res.status( 400 ).json( result.errors );
       }
       if ( !req.value ) {
         req.value = {};
@@ -17,17 +17,17 @@ module.exports = {
       }
       req.value.params[ name ] = result.value.param;
       next();
-      
+
     };
   },
   "validateBody": ( schema ) => {
     return ( req, res, next ) => {
       const result = Joi.validate( req.body, schema );
 
-      if ( result.error ) {
+      if ( result.errors ) {
         return res
           .status( 405 )
-          .json( jsonResponse( "Validator is error!", result.error ) );
+          .json( jsonResponse( "Validator is errors!", result.errors ) );
       }
       if ( !req.value ) {
         req.value = {};
@@ -37,7 +37,7 @@ module.exports = {
       }
       req.value.body = result.value;
       next();
-      
+
     };
   },
 

@@ -9,6 +9,9 @@ import customerSigninRouter from "./modules/user/signin";
 import customerSignupRouter from "./modules/user/signup";
 import customerWelcomeRouter from "./modules/user/welcome";
 
+import error404Router from "./modules/errors/404";
+import error500Router from  "./modules/errors/500";
+
 import guideGeneralRouter from "./modules/help";
 
 Vue.use( Router );
@@ -22,6 +25,12 @@ export default new Router( {
     customerSigninRouter,
     customerSignupRouter,
     customerWelcomeRouter,
-    guideGeneralRouter
+    error404Router,
+    error500Router,
+    guideGeneralRouter,
+    {
+      path: "*",
+      redirect: "/404"
+    }
   ]
 } );

@@ -1,20 +1,22 @@
-import AccountFacebookService from "@/services/modules/facebook.services";
+import AccountFacebookService from "@/services/modules/accountfacebook.services";
+import GroupFacebookServices from "@/services/modules/groupfacebook.services";
+import PageFacebookServices from "@/services/modules/pagefacebook.services";
 
 const state = {
-  addAccountError: "",
+  addAccountErrorPost: "",
   allAccountFb: [],
   fbStatus: "",
   statusDeleteFb: ""
 };
 const getters = {
   allAccountFb: state => state.allAccountFb,
-  addAccountError: state => state.addAccountError,
+  addAccountErrorPost: state => state.addAccountErrorPost,
   fbStatus: state => state.fbStatus,
   statusDeleteFb: state => state.statusDeleteFb,
 };
 const mutations = {
-  addAccountError: ( state, payload ) => {
-    state.addAccountError = payload;
+  addAccountErrorPost: ( state, payload ) => {
+    state.addAccountErrorPost = payload;
   },
   fb_request: state => {
     state.fbStatus = 'loading';
@@ -37,25 +39,29 @@ const mutations = {
   }
 };
 const actions = {
-  createlAccountFb: async ( {commit}, payload ) => {
+  createAccountFb: async ( {commit}, payload ) => {
     try {
       commit( "fb_request" );
       const dataSender = {
         cookie: payload
       };
       const result = await AccountFacebookService.createAccountFb( dataSender );
-      // FriendsFacebookService.create(result.data.data._id);
       await commit( "addNewAccountFacebook", result.data.data );
+
+      //Update FB Pages and Groups
+      await PageFacebookServices.update();
+      await GroupFacebookServices.update();
+
       commit( "fb_success" );
     } catch ( e ) {
-      // if ( e.response.status === 403 ) commit( "addAccountError", "error" );
-      // commit( "fb_success" );
+      if ( e.response.status === 403 ) commit( "addAccountErrorPost", "errors" );
+      commit( "fb_success" );
     }
   },
-  getAllAccountFb: async ( {commit} ) => {
+  getAllAccountFb: async ( { commit } ) => {
     commit( "fb_request" );
-    const results = await AccountFacebookService.getAllAccountFb();
-    commit( "setAllAccount", results.data.data );
+    const res = await AccountFacebookService.getAllAccountFb();
+    commit( "setAllAccount", res.data.data );
     commit( "fb_success" );
   },
   getAccountFbById: async ( {commit}, payload ) => {
@@ -76,7 +82,7 @@ const actions = {
       commit( "fb_success" );
 
     } catch (e) {
-      if (e.response.status === 403) commit( "addAccountError", "error" );
+      if (e.response.status === 403) commit( "addAccountErrorPost", "errors.js" );
       commit( "fb_success" );
     }
   },

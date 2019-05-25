@@ -105,7 +105,7 @@ const actions = {
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );
-    commit( "setError", 'error' );
+    commit( "setError", 'errors.js' );
     // commit( "post_success" );
   },
   updatePost: async ( { commit }, payload ) => {

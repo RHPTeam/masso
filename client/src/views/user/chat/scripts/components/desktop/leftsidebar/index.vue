@@ -249,13 +249,9 @@
     <!-- End sequence scripts  -->
 
     <!-- Start: Group Component -->
-    <loading-component v-if="this.$store.getters.statusBlocks === 'loading'" />
+    <loading-component/>
     <div
-      v-else
-      v-for="(group, index) in groupBlock"
-      :key="index"
       class="type-script--item group--item"
-      @mouseover="showActionGroupItem(index)"
     >
       <!-- Item Type -->
       <div class="type-script--name d_flex mb_2 align_items_center">
@@ -274,30 +270,23 @@
           class="script--edit-name"
           tag="div"
           :contenteditable="true"
-          v-model="group.name"
-          @keyup="upTypingText('namegroupblock', group)"
-          @keydown="clear"
         />
-        <d-group-script :group="group" type="groupblock" />
+        <!-- <d-group-script type="groupblock" /> -->
       </div>
       <!-- Group Name Scripts -->
       <div class="scripts--group r no_g align_items_center">
         <div
           class="script--item c_xl_6 c_lg_6 c_md_12 mb_3 text_center position_relative"
-          v-for="(block, index) in group.blocks"
-          :key="`b-${index}`"
         >
           <span
             class="script--item-name d_flex flex_row align_items_center position_relative"
-            @click="showBlock(block._id)"
           >
-            <span>{{ block.name }}</span>
+            <span>block.namee</span>
           </span>
-          <d-script class="action--block position_absolute" :block="block" />
+          <!-- <d-script class="action--block position_absolute" /> -->
         </div>
         <div
           class="script--item script--item-add c_xl_6 c_lg_6 c_md_12 mb_3 text-center"
-          @click="createBlock(group._id)"
         >
           <span>
             <icon-base
@@ -315,15 +304,12 @@
     </div>
     <!-- End: Group Component -->
     <!--Start: Sequence Name Scripts -->
-    <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
+    <loading-component />
     <div
-      v-else
       class="type--script--item group--item group--sequence"
-      v-for="(sequence, index) in groupSequence"
-      :key="`s-${index}`"
     >
       <!--Item Type-->
-      <div class="type-script--name d_flex mb_2 align_items_center">
+      <!-- <div class="type-script--name d_flex mb_2 align_items_center">
         <div class="type-script--icon d_flex align_items_center">
           <icon-base
             icon-name="icon-sort-down"
@@ -339,37 +325,28 @@
           class="script--edit-name"
           tag="div"
           :contenteditable="true"
-          v-model="sequence.name"
-          @keyup="upTypingText('namegroupsequence', sequence)"
-          @keydown="clear"
+          placeholder="AAAAAAAAAA"
         />
-        <d-group-script :group="sequence" type="sequence" />
-      </div>
+        <d-group-script type="sequence" />
+      </div> -->
       <!--Group Name Scripts-->
-      <div class="scripts--group r no_g justify_content_between">
+      <!-- <div class="scripts--group r no_g justify_content_between">
         <div
-          v-for="(item, index) in sequence.sequences"
-          :key="index"
           class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
         >
           <p-time
             class="item item--left"
-            :id="sequence._id"
-            :item="item"
-            :data-theme="currentTheme"
           />
           <div
             class="item item--info text_left ml_3 position_relative"
-            @click.prevent="showItemSqc(item._block._id)"
           >
-            {{ item._block.name }}
-          </div>
-          <d-sequence class="remove action--block position_absolute" :item="item" :sequence="sequence"/>
-        </div>
-        <!--Add item block sequences-->
-        <div
+            item._block.name
+          </div> -->
+          <!-- <d-sequence class="remove action--block position_absolute"/> -->
+        <!-- </div> -->
+        <!-- Add item block sequences -->
+        <!-- <div
           class="script--item script--item-add c_xl_12 c_lg_12 c_md_12 mb_3 text-center"
-          @click="createItemSqc(sequence._id)"
         >
           <span>
             <icon-base
@@ -383,7 +360,7 @@
             </icon-base>
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
     <!--End: Sequence Name Scripts-->
 
@@ -413,10 +390,10 @@
           <span class="bg_light"></span>
         </span>
         <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item" @click="createSequence">
+          <div class="dropdown--menu-item">
             Trình tự
           </div>
-          <div class="dropdown--menu-item" @click="createGroup">Nhóm</div>
+          <div class="dropdown--menu-item">Nhóm</div>
         </div>
       </div>
     </div>

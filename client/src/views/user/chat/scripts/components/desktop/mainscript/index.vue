@@ -3,17 +3,14 @@
   <div class="scripts">
     <!--Component Loading-->
     <loading-component
-      v-if="this.$store.getters.statusGroupBlocks === 'loading'"
     />
     <!--Regions Scripts Header-->
-    <div v-else>
+    <div>
       <div class="script--header d_flex align_items_center">
         <contenteditable
           class="script--header-title"
           tag="div"
           :contenteditable="true"
-          @keyup="upTypingText('nameblock', block)"
-          @keydown="clear"
         />
         <div class="script--header-copy-link disabled--icon">
           <icon-base
@@ -37,7 +34,6 @@
         </div>
         <div
           class="script--header-delete ml_auto"
-          @click="isDeletePopup = true"
         >
           <icon-base
             icon-name="remove"
@@ -51,8 +47,6 @@
         <div class="script--header-dropdown d_none ml_auto position_relative">
           <div
             class="icon--dropdown"
-            v-click-outside="closeOptionTablet"
-            @click="showOptionTablet = !showOptionTablet"
           >
             <icon-base
               icon-name="remove"
@@ -64,7 +58,6 @@
             </icon-base>
             <ul
               class="header--dropdown-wrap position_absolute text_left p_0 m_0"
-              v-if="showOptionTablet == true"
             >
               <li class="disabled--icon">
                 <icon-base
@@ -88,7 +81,7 @@
                 </icon-base>
                 <span class="ml_2">Sao chép link</span>
               </li>
-              <li @click="isDeletePopup = true">
+              <li>
                 <icon-base
                   icon-name="remove"
                   width="16"
@@ -144,7 +137,6 @@
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('text', block._id)"
             >
               <icon-base
                 class="icon-text"
@@ -158,7 +150,6 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('image', block._id)"
             >
               <icon-base
                 class="icon-image"
@@ -172,7 +163,6 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('time', block._id)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -186,7 +176,6 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="showPopupPlugins = true"
             >
               <icon-base
                 class="icon--add"

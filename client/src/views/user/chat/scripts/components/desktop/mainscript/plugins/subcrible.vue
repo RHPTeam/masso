@@ -105,14 +105,14 @@
         <list :sequence="item" :block="content" @update="updateToParent($event)" />
       </div>
     </div>
-    <!-- <delete-item
+    <delete-item
       v-if="isDeleteItemBlock === true"
       desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
       :content="item._id"
       :block="content._id"
       target="itemblock"
       @close="isDeleteItemBlock = $event"
-    /> -->
+    />
   </div>
 </template>
 <script>

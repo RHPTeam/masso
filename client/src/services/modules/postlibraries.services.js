@@ -26,6 +26,6 @@ export default {
     return Api().post( `post-facebook/search?keyword=${keyword}&_size=${size}` );
   },
   searchPostLibrariesByPage( keyword, size, page ){
-    return Api().get( `post-facebook?search?keyword=${keyword}&_size=${size}&_page=${page}` );
+    return Api().post( `post-facebook/search?keyword=${keyword}&_size=${size}&_page=${page}` );
   }
 }

@@ -11,20 +11,20 @@
       </div>
     </div>
     <!--Nội dung Mobile-->
-<!--    <div class="d_block d_md_none">-->
-<!--      <transition name="popup">-->
-<!--        <app-status-notification v-if="0" :data-theme="currentTheme" />-->
-<!--      </transition>-->
-<!--      <div class="main&#45;&#45;contentItem">-->
-<!--        <app-list-account-mobile :accountsFB="getAccountsFB" />-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="d_block d_md_none">-->
+    <!--      <transition name="popup">-->
+    <!--        <app-status-notification v-if="0" :data-theme="currentTheme" />-->
+    <!--      </transition>-->
+    <!--      <div class="main&#45;&#45;contentItem">-->
+    <!--        <app-list-account-mobile :accountsFB="getAccountsFB" />-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script>
 import AppBreadCrumb from "@/components/shared/layouts/breadcrumb";
-import AppListAccount from "./desktop/index";
+import AppListAccount from "./desktop";
 
 export default {
   components: {
@@ -48,7 +48,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllAccountFb");
+    await this.$store.dispatch( "getAllAccountFb" );
   },
 
   methods: {

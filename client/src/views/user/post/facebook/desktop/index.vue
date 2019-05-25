@@ -45,16 +45,13 @@
         @closeAddPopup="showUpgradePro = $event"
       />
 
-      <add-cookie
+      <add-account-popup
         v-if="showModal === true"
-        :popupData="showModal"
         @closeAddPopup="showModal = $event"
-        :nameBread="nameBread"
-        :subBread="subBread"
-      ></add-cookie>
+      ></add-account-popup>
 
       <existed-account-popup
-        v-if="this.$store.getters.addAccountError === 'error'"
+        v-if="this.$store.getters.addAccountError === 'errors.js'"
         :data-theme="currentTheme"
       />
     </transition>
@@ -62,11 +59,14 @@
 </template>
 
 <script>
+import AddAccountPopup from  "./popup/addaccount";
 import ExistedAccountPopup from "./popup/alert/index";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 import ItemAccount from "./item/index";
+
 export default {
   components: {
+    AddAccountPopup,
     ExistedAccountPopup,
     UpgradeProPopup,
     ItemAccount

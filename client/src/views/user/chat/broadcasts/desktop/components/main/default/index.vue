@@ -65,7 +65,7 @@ div[data-theme="light"] {
     color: #fff;
   }
   .null--text{
-    color: #fff;
+    color: #666;
   }
 }
 

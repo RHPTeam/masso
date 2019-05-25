@@ -708,7 +708,39 @@ div[data-theme="dark"] {
 
 //  LIGHT
 .sidebar-scripts[data-theme="light"]{
-    
+    .group--scripts .content .group--items .content--item{
+        background: #fff;
+        color: #666;
+        &:hover{
+            background: #ffb94a;
+            color: #fff;
+            & .icon--more{
+                color: #fff;
+            }
+        }
+        .icon--more{
+            color: #ccc;
+        }
+    }
+    .sequences--scripts .content{
+        .content--item{
+            background: #fff;
+            color: #666;
+        }
+        .group--items:hover .content--item{
+            background: #ffb94a;
+            color: #fff;
+        }
+    }
+    .group--scripts .title, .sequences--scripts .title{
+        color: #666;
+        .name--scripts-edit{
+            color: #666;
+        }
+        .icon--more{
+            color: #ccc;
+        }
+    }
 }
 
 // DARK

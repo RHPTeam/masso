@@ -250,5 +250,9 @@ div[data-theme="dark"] .timer {
       }
     }
   }
+  .mx-input{
+    background: #27292d;
+    border: 0;
+  }
 }
 </style>

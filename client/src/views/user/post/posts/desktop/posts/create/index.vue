@@ -8,7 +8,7 @@
       <router-link
         class="mr_3"
         tag="a"
-        :to="{ name: 'posts' }"
+        :to="{ name: 'post_posts' }"
         active-class="active"
         exact
         >Xem tất cả bài viết</router-link
@@ -48,7 +48,6 @@ export default {
     this.$store.dispatch( "getAllFriendFb" );
     this.$store.dispatch( "getPlaceFromFb" );
     this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getAllPostLibraries" );
     this.$store.dispatch( "getActivityFb" );
     this.$store.dispatch( "getColorFromFb" );
   }

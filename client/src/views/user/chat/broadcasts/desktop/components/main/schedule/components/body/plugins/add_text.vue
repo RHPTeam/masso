@@ -114,7 +114,12 @@ export default {
     //   console.log(dataSender);
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
-  }
+  },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   // components: {
   //   VuePerfectScrollbar
   // }

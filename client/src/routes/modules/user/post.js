@@ -11,7 +11,7 @@ const generalPostRouter = {
   children: [
     {
       path: "",
-      name: "dashboard",
+      name: "post_dashboard",
       component: require("@/views/user/post/home").default
     },
     {
@@ -20,19 +20,19 @@ const generalPostRouter = {
       children: [
         {
           path: "",
-          name: "posts",
+          name: "post_posts",
           component: require( "@/views/user/post/posts/desktop/posts/list" )
             .default
         },
         {
           path: ":id/update",
-          name: "update_post",
+          name: "post_update_post",
           component: require( "@/views/user/post/posts/desktop/posts/create" )
             .default
         },
         {
           path: "categories",
-          name: "categories",
+          name: "post_postCategories",
           component: require( "@/views/user/post/posts/desktop/categories" )
             .default
         }
@@ -43,18 +43,18 @@ const generalPostRouter = {
       component: require( "@/views/user/post/campaigns" ).default,
       children: [ {
         path: "",
-        name: "campaigns",
+        name: "post_campaigns",
         component: require( "@/views/user/post/campaigns/desktop/list" )
           .default
       },
         {
           path: "history",
-          name: "history",
+          name: "post_campaign_history",
           component: require( "@/views/user/post/campaigns/desktop/history" ).default
         },
       {
         path: ":campaignId",
-        name: "campaigns/detail",
+        name: "post_campaigns_detail",
         component: require( "@/views/user/post/campaigns/desktop/detail" )
           .default
       }
@@ -62,22 +62,22 @@ const generalPostRouter = {
     },
     {
       path: "account",
-      name: "account",
+      name: "post_account",
       component: require( "@/views/user/post/account" ).default
     },
     {
       path: "group",
-      name: "group",
+      name: "post_group",
       component: require( "@/views/user/post/postgroup" ).default
     },
     {
       path: "f-account",
-      name: "f_account",
+      name: "post_fbaccount",
       component: require( "@/views/user/post/facebook" ).default
     },
     {
       path: "notifications",
-      name: "notifications",
+      name: "post_notifications",
       component: require( "@/views/user/post/notifications" ).default
     }
   ]

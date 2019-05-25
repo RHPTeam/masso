@@ -55,6 +55,7 @@ Vue.component("IconLockCheck", () =>
 Vue.component("IconMail", () => import("@/components/icons/IconMail"));
 Vue.component("IconMenu", () => import("@/components/icons/IconMenu"));
 Vue.component("IconModalCookie", () => import("@/components/icons/IconModalCookie"));
+Vue.component("IconTag", () => import("@/components/icons/IconTag"));
 Vue.component("IconText", () => import("@/components/icons/IconText"));
 Vue.component("IconThreeDotsHoriz", () => import("@/components/icons/IconThreeDotsHoriz"));
 Vue.component("IconThreeDotsVerti", () => import("@/components/icons/IconThreeDotsVerti"));
@@ -134,6 +135,10 @@ Vue.component("SliderSchedule", () =>
 
 /********************* CUSTOM POPUP NEW ADD COMPONENT ****************************/
 Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
+
+/********************* CUSTOM POPUP NEW ADD COMPONENT ****************************/
+Vue.component("DeletePopup", () => import("@/components/popupDelete"));
+Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 
 /**
  * Assign Global Vue Directives or Other Libraries

@@ -6,15 +6,16 @@
  * date to:
  * team: BE-RHP
  */
-
 const Help = require( "../../models/help/Help.model" );
+
 // const BlogHelp = require( "../../models/help/BlogHelp.model" );
+
 // eslint-disable-next-line no-unused-vars
-const HelpCategory = require( "../../models/help/HelpCategory.model" );
+/* eslint camelcase: ["error", {properties: "never"}]*/
 const Account = require( "../../models/Account.model" );
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -32,7 +33,7 @@ module.exports = {
     if ( !findAccount ) {
       return res
         .status( 404 )
-        .json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+        .json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
 
     // Handle get all group from mongodb
@@ -63,18 +64,16 @@ module.exports = {
       findHelp = await Help.findOne( { "_id": req.query._id } ),
       findAccount = await Account.findOne( { "_id": userId } );
 
-    console.log( findHelp );
-
     if ( !findAccount ) {
       return res
         .status( 404 )
-        .json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+        .json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
     if ( findHelp.popular_blog.length > 5 ) {
       return res
         .status( 404 )
         .json( {
-          "status": "error",
+          "status": "errors.js",
           "message":
             "Qua so luong bai viet, hay xoa nhung bai viet da ton tai de them"
         } );
@@ -91,7 +90,9 @@ module.exports = {
     }
     if ( req.body.popular_section && req.body.popular_section.length <= 5 ) {
       // eslint-disable-next-line camelcase
+
       findHelp.popular_section = [];
+
       await findHelp.save();
       req.body.popular_section.map( async ( blog ) => {
         findHelp.popular_section.push( blog );

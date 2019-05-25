@@ -5,7 +5,7 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const secure = require( "../../helpers/utils/secure.util" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 const AccountController = require( "../../controllers/account.controller" );
 
 // Handle save image
