@@ -1,5 +1,4 @@
-
-import PageFacebookServices from "@/services/modules/pagefacebook.services";
+import PageFacebookServices from "@/synchronize/modules/pagefacebook.synchronize";
 
 const state = {
     facebookPages: [],

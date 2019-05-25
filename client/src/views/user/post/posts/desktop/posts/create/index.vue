@@ -8,7 +8,7 @@
       <router-link
         class="mr_3"
         tag="a"
-        :to="{ name: 'posts' }"
+        :to="{ name: 'post_posts' }"
         active-class="active"
         exact
         >Xem tất cả bài viết</router-link

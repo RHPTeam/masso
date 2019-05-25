@@ -1,4 +1,4 @@
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/synchronize/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 
 export default {
@@ -51,4 +51,4 @@ export default {
       }
     }
   }
-}; 
+};

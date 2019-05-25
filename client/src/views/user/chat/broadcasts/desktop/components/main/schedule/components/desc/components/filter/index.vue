@@ -219,7 +219,7 @@
 <script>
 import AppFilter from "@/components/shared/filter";
 import MoreFriend from "./more_friend";
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/synchronize/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {

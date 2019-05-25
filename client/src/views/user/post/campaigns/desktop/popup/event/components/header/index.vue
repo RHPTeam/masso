@@ -15,7 +15,7 @@
         />
       </div>
       <div class="right d_flex align_items_center">
-        <div class="button copy mr_2">
+        <!--<div class="button copy mr_2">
           <icon-base
             class="ic--copy"
             icon-name="ic--copy"
@@ -25,7 +25,7 @@
           >
             <icon-copy />
           </icon-base>
-        </div>
+        </div>-->
         <div class="button remove mr_2">
           <icon-base
             class="ic--remove"

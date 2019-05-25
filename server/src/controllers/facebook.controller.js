@@ -10,10 +10,10 @@ const PageFacebook = require( "../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../models/post/GroupFacebook.model" );
 
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
-const { findSubString } = require( "../helpers/utils/functions.util" );
+const { findSubString } = require( "../helpers/utils/functions/string" );
 const { agent } = require( "../configs/crawl" );
-const jsonResponse = require( "../configs/res" );
-const secure = require( "../helpers/utils/secure.util" );
+const jsonResponse = require( "../configs/response" );
+const secure = require( "../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -71,8 +71,8 @@ module.exports = {
     } } );
 
     // Check errors
-    if ( userInfoCore.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": userInfoCore.error.text } );
+    if ( userInfoCore.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": userInfoCore.errors.text } );
     }
 
     await newFacebook.save();
@@ -112,10 +112,10 @@ module.exports = {
       dataResponse = null;
 
     // Check errors
-    if ( userInfoCore.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": userInfoCore.error.text } );
+    if ( userInfoCore.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": userInfoCore.errors.text } );
     } else if ( findSubString( req.body.cookie, "c_user=", ";" ) !== findFacebook.userInfo.id ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Cookie không phải của tài khoản hiện tại! Vui lòng thử lại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Cookie không phải của tài khoản hiện tại! Vui lòng thử lại!" } );
     }
 
     dataResponse = await Facebook.findByIdAndUpdate( req.query._facebookId, { "$set": newFacebook }, { "new": true } );
@@ -139,9 +139,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findFacebook ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Tài khoản facebook không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Tài khoản facebook không tồn tại!" } );
     } else if ( findFacebook._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho tài khoản facebook này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho tài khoản facebook này!" } );
     }
     // Delete Group and Page of facebook deleted
     await GroupFacebook.remove( { "_facebook": req.query._facebookId } );
@@ -162,8 +162,8 @@ module.exports = {
       findFacebook = await Facebook.find( { "_account": userId } ),
       activityList = await getAllActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent } );
 
-    if ( activityList.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": activityList.error.text } );
+    if ( activityList.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": activityList.errors.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", activityList ) );
@@ -180,8 +180,8 @@ module.exports = {
       findFacebook = await Facebook.find( { "_account": userId } ),
       activityItemList = await getAllItemActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent, "item": req.params.id } );
 
-    if ( activityItemList.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": activityItemList.error.text } );
+    if ( activityItemList.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": activityItemList.errors.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", activityItemList ) );
@@ -198,8 +198,8 @@ module.exports = {
       findFacebook = await Facebook.find( { "_account": userId } ),
       friendsList = await getAllFriends( { "cookie": findFacebook[ 0 ].cookie, agent } );
 
-    if ( friendsList.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": friendsList.error.text } );
+    if ( friendsList.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": friendsList.errors.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", friendsList ) );
@@ -217,8 +217,8 @@ module.exports = {
       placesList = await searchPlaces( { "cookie": findFacebook[ 0 ].cookie, agent, "keyword": req.query.keyword ? req.query.keyword : null,
         "number": req.query.number ? req.query.number : 15 } );
 
-    if ( placesList.error.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "error", "message": placesList.error.text } );
+    if ( placesList.errors.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": placesList.errors.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", placesList ) );

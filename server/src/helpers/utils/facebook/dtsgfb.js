@@ -1,6 +1,6 @@
 /* eslint-disable strict */
 const request = require( "request" ),
-  { findSubString } = require( "./functions.util" );
+  { findSubString } = require( "../functions/string" );
 
 module.exports = {
   "getDtsgFB": ( { cookie, agent } ) => {

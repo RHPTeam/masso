@@ -9,8 +9,8 @@
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 
 module.exports = {
@@ -100,9 +100,9 @@ module.exports = {
 
     // Check catch when update campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch này!" } );
     }
 
     // Check switch status of campaign
@@ -131,9 +131,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
 
     // delete all event in campain
@@ -154,9 +154,9 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
 
     findCampaign.title = `${findCampaign.title} Copy`;
@@ -165,8 +165,8 @@ module.exports = {
     const newCampaign = new Campaign( findCampaign );
 
     await newCampaign.save();
- 
-  
+
+
     // eslint-disable-next-line one-var
     const campaignReturned = await Campaign.findOne( { "_id": newCampaign._id } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account" } ).lean();
 

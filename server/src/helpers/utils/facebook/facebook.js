@@ -6,7 +6,7 @@ const {
     linkUploadFeed,
     formDataPost,
     scrapeSharePost
-  } = require( "../../configs/crawl" ),
+  } = require( "../../../configs/crawl" ),
   {
     callbackGetIdPostSuccess,
     downloadImageFail,
@@ -17,12 +17,12 @@ const {
     requestMissInfo,
     requestNewFeedFail,
     writeFileImageFail
-  } = require( "../../configs/text.res" ),
+  } = require( "../../../configs/errors" ),
   {
     converSourceUnix,
     convertUnicodeToCharacter,
     findSubString
-  } = require( "./functions.util" ),
+  } = require( "../functions/string" ),
   fs = require( "fs" ),
   request = require( "request" ),
   download = require( "download" ),

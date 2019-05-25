@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import SequenceService from "@/services/modules/sequence.service";
+import SequenceService from "@/synchronize/modules/sequence.services";
 
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/synchronize/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 
 export default {

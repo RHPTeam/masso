@@ -122,7 +122,7 @@ import AddImage from "./plugins/add_images";
 import Subcribe from "./plugins/subcribe";
 import UnSubscribe from "./plugins/unsubscribe";
 
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/synchronize/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 
 export default {

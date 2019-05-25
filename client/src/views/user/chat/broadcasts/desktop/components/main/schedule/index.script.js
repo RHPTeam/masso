@@ -2,7 +2,7 @@ import AppHeader from "./components/header";
 import AppDesc from "./components/desc";
 import AppBody from "./components/body";
 
-import BroadcastService from "@/services/modules/broadcast.service";
+import BroadcastService from "@/synchronize/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 export default {
   data() {
