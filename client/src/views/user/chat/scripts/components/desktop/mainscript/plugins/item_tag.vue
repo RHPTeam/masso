@@ -88,7 +88,7 @@
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import AttributeService from "@/synchronize/modules/attributes.services";
+import AttributeService from "@/services/modules/attributes.services";
 let typingTimer;
 export default {
   props: {

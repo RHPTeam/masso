@@ -1,6 +1,6 @@
-import AccountFacebookService from "@/synchronize/modules/accountfacebook.synchronize";
-import GroupFacebookServices from "@/synchronize/modules/groupfacebook.synchronize";
-import PageFacebookServices from "@/synchronize/modules/pagefacebook.synchronize";
+import AccountFacebookService from "@/services/modules/accountfacebook.services";
+import GroupFacebookServices from "@/services/modules/groupfacebook.services";
+import PageFacebookServices from "@/services/modules/pagefacebook.services";
 
 const state = {
   addAccountErrorPost: "",

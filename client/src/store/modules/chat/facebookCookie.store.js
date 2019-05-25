@@ -1,4 +1,4 @@
-import AccountFacebookService from "@/synchronize/modules/chat/accountFacebook.services";
+import AccountFacebookService from "@/services/modules/chat/accountFacebook.services";
 
 const state = {
   addAccountError: "",

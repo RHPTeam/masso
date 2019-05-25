@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import SequenceService from "@/synchronize/modules/chat/sequence.services";
+import SequenceService from "@/services/modules/chat/sequence.services";
 
 export default {
   props: {

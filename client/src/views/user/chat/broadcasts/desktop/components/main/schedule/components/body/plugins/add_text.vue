@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import BroadcastService from "@/synchronize/modules/broadcast.services";
+import BroadcastService from "@/services/modules/broadcast.services";
 import StringFunction from "@/utils/string.util";
 
 // import VuePerfectScrollbar from "vue-perfect-scrollbar";

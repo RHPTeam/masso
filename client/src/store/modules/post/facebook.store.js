@@ -1,4 +1,4 @@
-import FacebookServices from '@/synchronize/modules/facebook.synchronize';
+import FacebookServices from '@/services/modules/facebook.services';
 
 const state = {
   activity: [],

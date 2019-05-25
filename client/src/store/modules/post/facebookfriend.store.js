@@ -1,4 +1,4 @@
-import FacebookFriendServices from "@/synchronize/modules/facebookfriend.synchronize";
+import FacebookFriendServices from "@/services/modules/facebookfriend.services";
 
 const state = {
   allFriend: [],

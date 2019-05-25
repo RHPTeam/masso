@@ -1,4 +1,4 @@
-import PostServices from "@/synchronize/modules/post.synchronize";
+import PostServices from "@/services/modules/post.services";
 
 const state = {
   allPost: [],
