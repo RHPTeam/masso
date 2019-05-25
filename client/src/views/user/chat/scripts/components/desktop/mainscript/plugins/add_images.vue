@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="script--body-image">
-      <div class="script--body-delete" @click="isDeleteItemBlock = true">
+      <div class="script--body-delete">
         <icon-base
           icon-name="remove"
           width="20"
@@ -24,17 +24,15 @@
       <div class="scrip--body-image-link">
         <div
           class="default"
-          v-if="item.valueText === '' || item.valueText === undefined"
           :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
-        <img v-else :src="item.valueText" width="280" height="207" />
+        <!-- <img width="280" height="207" /> -->
       </div>
       <div class="script--body-upload-image">
-        <form enctype="multipart/form-data" @submit.prevent="sendFile">
+        <form enctype="multipart/form-data">
           <input
             type="file"
             ref="file"
-            @change="selectFile(item._id)"
             id="upload_image"
           />
         </form>
@@ -55,14 +53,14 @@
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <delete-item
+    <!-- <delete-item
       v-if="isDeleteItemBlock === true"
       desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
       :content="item._id"
       :block="block._id"
       target="itemblock"
       @close="isDeleteItemBlock = $event"
-    />
+    /> -->
     <!--End: Delete Item Popup-->
   </div>
 </template>
@@ -77,20 +75,20 @@ export default {
     };
   },
   methods: {
-    selectFile(id) {
-      this.file = this.$refs.file.files[0];
-      this.sendFile(id);
-    },
-    sendFile(id) {
-      const formData = new FormData();
-      formData.append("file", this.file);
-      const objSender = {
-        id: id,
-        formData: formData,
-        block: this.block
-      };
-      this.$store.dispatch("updateItemImageBlock", objSender);
-    }
+    // selectFile(id) {
+    //   this.file = this.$refs.file.files[0];
+    //   this.sendFile(id);
+    // },
+    // sendFile(id) {
+    //   const formData = new FormData();
+    //   formData.append("file", this.file);
+    //   const objSender = {
+    //     id: id,
+    //     formData: formData,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemImageBlock", objSender);
+    // }
   }
 };
 </script>

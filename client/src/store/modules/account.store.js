@@ -1,4 +1,4 @@
-import AccountServices from "@/services/modules/account.services";
+import AccountServices from "@/services/modules/account.service";
 
 import CookieFunction from "@/utils/functions/cookie";
 import axios from "axios";

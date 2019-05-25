@@ -6,6 +6,7 @@ export default {
   props: ["groupSelected", "accountSelected"],
   data() {
     return {
+      showUsers: false,
       showSequenceDropdown: false,
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
@@ -14,7 +15,7 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch("getAccountsFB");
+    // await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {
@@ -34,6 +35,9 @@ export default {
     }
   },
   methods: {
+    closeShowUsers(){
+      this.showUsers = false;
+    },
     closeSequenceDropdown() {
       this.showSequenceDropdown = false;
     },

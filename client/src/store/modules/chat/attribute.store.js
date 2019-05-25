@@ -1,4 +1,4 @@
-import AttributeService from "@/services/modules/attributes.services";
+// import AttributeService from "@/services/modules/attributes.services";
 
 const state = {
   attr: [],

@@ -101,6 +101,17 @@
     }
 }
 
+.group--item-body {
+    .content--setup{
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 14px;
+        padding: 7px 0;
+    }
+}
+
 /************* CUSTOM CSS THEME ****************/
 
 
@@ -124,6 +135,12 @@ div[data-theme="light"] {
     }
 }
 
+// LIGHT
+.group[data-theme="light"]{
+    .group--item{
+        color: #666;
+    }
+}
 
 /******** 02. Theme Dark *********/
 
@@ -134,4 +151,14 @@ div[data-theme="dark"] {
             background-color: #27292c;
         }
     }
+}
+
+
+
+
+// DARK
+.group[data-theme="dark"]{
+  .content--setup{
+    background: #27292c;
+  }
 }

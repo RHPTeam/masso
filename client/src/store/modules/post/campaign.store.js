@@ -1,5 +1,5 @@
 
-import CampaignsServices from "@/services/modules/campaigns.services";
+import CampaignsServices from "@/services/modules/post/campaign.service";
 
 const state = {
     allCampaigns: [],

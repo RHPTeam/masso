@@ -1,6 +1,6 @@
 
-import EventsServices from "@/services/modules/events.services";
-import CampaignsServices from "@/services/modules/campaigns.services";
+import EventsServices from "@/services/modules/post/event.service";
+import CampaignsServices from "@/services/modules/post/campaign.service";
 
 import ArrayFunction from "@/utils/functions/array";
 

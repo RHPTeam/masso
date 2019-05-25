@@ -1,4 +1,4 @@
-import PageFacebookServices from "@/services/modules/pagefacebook.services";
+import PageFacebookServices from "@/services/modules/post/pagefacebook.service";
 
 const state = {
     facebookPages: [],

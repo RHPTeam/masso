@@ -52,7 +52,7 @@ app.use( "/", ( req, res ) => res.send( "API running!" ) );
 
 // listen a port
 server.listen( process.env.PORT_BASE, () => {
-  console.log( `Api server running on ${process.env.APP_URL}` );
+  console.log( `Api server running on ${process.env.APP_URL}:${process.env.PORT_BASE}` );
 } );
 
 module.exports = app;

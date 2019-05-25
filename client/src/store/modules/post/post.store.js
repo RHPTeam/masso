@@ -1,4 +1,4 @@
-import PostServices from "@/services/modules/post.services";
+import PostServices from "@/services/modules/post/post.service";
 
 const state = {
   allPost: [],

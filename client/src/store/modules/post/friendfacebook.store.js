@@ -1,4 +1,4 @@
-import FacebookFriendServices from "@/services/modules/facebookfriend.services";
+import FacebookFriendServices from "@/services/modules/chat/friendfacebook.service";
 
 const state = {
   allFriend: [],

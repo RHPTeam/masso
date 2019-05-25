@@ -25,7 +25,7 @@
           >
             <icon-arrow-down />
           </icon-base>
-          <icon-base
+          <!-- <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
             width="12"
@@ -33,7 +33,7 @@
             viewBox="0 0 160 160"
           >
             <icon-arrow-down />
-          </icon-base>
+          </icon-base> -->
           <icon-base
             class="icon--arrow-up ml_1"
             icon-name="icon-arrow-up"
@@ -266,35 +266,34 @@
             <div class="name">
               <div class="name--avatar mr_2">
                 <img
-                  alt="ảnh đại diện"
                   width="32px"
                   height="32px"
                 />
               </div>
               <div class="name--text">
-                <span class="btn--action">user.fullName }}</span>
+                <span class="btn--action">fullName</span>
               </div>
             </div>
             <div class="gender">
-              <span class="btn--action">fzfxfx}</span>
+              <span class="btn--action">Gender ne</span>
             </div>
             <div class="pronoun">
-              <span
+              <!-- <span
                 class="btn--action"
               >
                 user.vocate | upperCaseFirstLetter }}
-              </span>
+              </span> -->
               <span
                 class="btn--action"
               >
                 Chọn để thiết lập
               </span>
             </div>
-            <div class="updated-date d_none">
-              <span class="btn--action">
+            <!-- <div class="updated-date d_none">
+              <span class="btn--action">{{
                 user.updated_at | covertDateUpdatedAt
               }}</span>
-            </div>
+            </div> -->
             <div class="attributes d_none">
               <span class="btn--action">None</span>
             </div>
@@ -327,33 +326,32 @@
         <div class="name">
           <div class="name--avatar mr_2">
             <img
-              alt="ảnh đại diện"
               width="32px"
               height="32px"
             />
           </div>
           <div class="name--text">
-            <span class="btn--action">user.fullName }}</span>
+            <span class="btn--action">FullName</span>
           </div>
         </div>
         <div class="gender">
-          <span class="btn--action">showGender(user.gender) }}</span>
+          <span class="btn--action">Gender</span>
         </div>
         <div class="pronoun">
-          <span
+          <!-- <span
             class="btn--action"
           >
-           user.vocate | upperCaseFirstLetter }}
-          </span>
+           Danh xung ne
+          </span> -->
           <span class="btn--action">
             Chọn để thiết lập
           </span>
         </div>
-        <div class="updated-date d_none">
+        <!-- <div class="updated-date d_none">
           <span class="btn--action">
             user.updated_at | covertDateUpdatedAt
           }}</span>
-        </div>
+        </div> -->
         <div class="attributes d_none">
           <span class="btn--action">None</span>
         </div>

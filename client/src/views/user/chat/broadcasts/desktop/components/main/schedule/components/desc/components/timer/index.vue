@@ -1,17 +1,13 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    <div
+    <!-- <div
       class="option--time-repeat position_relative"
-      v-if="!schedule.timeSetting"
-    ></div>
-    <div class="option--time py_3 d_flex align_items_center mt_4" v-else>
+    ></div> -->
+    <div class="option--time py_3 d_flex align_items_center mt_4">
       <date-picker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
-        v-model="schedule.timeSetting.dateMonth"
-        @selected="updateDate"
-        :disabledDates="disabledDates"
         name="date-setting"
       ></date-picker>
       <div class="option--time-hours mr_4 ml_4">
@@ -19,20 +15,15 @@
           type="text"
           placeholder="12:00"
           class="form_control option--time-item text_center"
-          v-model="schedule.timeSetting.hour"
-          v-debounce.500="updateTimeSchedule"
         />
       </div>
       <div
         class="option--time-repeat position_relative"
-        v-click-outside="closeOptionRepeat"
-        @click="showOptionRepeat = !showOptionRepeat"
       >
         <input
           type="text"
           readonly
           class="form_control option--time-item"
-          :value="'Lặp lại: ' + schedule.timeSetting.repeat.typeRepeat"
         />
         <div class="icon position_absolute">
           <icon-base
@@ -45,40 +36,25 @@
           </icon-base>
         </div>
         <div
-          class="option--repeat position_absolute text_left"
-          v-if="showOptionRepeat === true"
+          class="option--repeat position_absolute text_left d_none"
         >
           <div
             class="option--repeat-item"
-            v-for="(item, index) in repeats"
-            :key="index"
-            @click.prevent="chooseOption(item)"
           >
-            {{ "Lặp lại: " + item.value }}
+            Lặp lại: item.value
           </div>
-          <div class="option--repeat-item" @click="openCustom">
+          <div class="option--repeat-item">
             Lặp lại: Tùy chỉnh
           </div>
         </div>
       </div>
     </div>
-    <div class="option--custom" v-if="showCustom === true">
+    <div class="option--custom d_none">
       <div class="option--custom-wrap d_flex mb_3">
         <div
           class="option--custom-item"
-          @click.prevent="chooseDaysRepeat(item.key)"
-          :class="[
-            selectedOption.includes(item.key) ||
-            schedule.timeSetting.repeat.valueRepeat
-              .split(',')
-              .includes(item.key.toString())
-              ? 'active'
-              : ''
-          ]"
-          v-for="(item, index) in options"
-          :key="index"
         >
-          {{ item.value }}
+          item.value
         </div>
       </div>
     </div>
@@ -86,8 +62,8 @@
   <!--End Section option hours-->
 </template>
 <script>
-import BroadcastService from "@/services/modules/broadcast.services";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 
 const currentTimeStamp = new Date();
 
@@ -126,103 +102,103 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    schedule() {
-      if (this.$store.getters.schedule === undefined) return;
-      return this.$store.getters.schedule;
-    }
+    // schedule() {
+    //   if (this.$store.getters.schedule === undefined) return;
+    //   return this.$store.getters.schedule;
+    // }
   },
   methods: {
-    async chooseDaysRepeat(id) {
-      if (this.selectedOption.includes(id)) {
-        // remove item out ot array
-        this.selectedOption = this.selectedOption.filter(item => item !== id);
-      } else {
-        // add item in array
-        this.selectedOption.push(id);
-      }
-      this.schedule.timeSetting.repeat.valueRepeat = this.selectedOption.toString();
-      const schedules = await this.getSchedules();
-      const objSender = {
-        bc_id: schedules._id,
-        b_id: this.$route.params.scheduleId,
-        type: 5,
-        value: this.schedule.timeSetting.repeat.valueRepeat
-      };
-      this.$store.dispatch("updateSchedule", objSender);
-    },
-    async chooseOption(item) {
-      let type;
-      this.schedule.timeSetting.repeat.typeRepeat = item.value;
-      if (item.key === 0) {
-        this.schedule.timeSetting.repeat.valueRepeat = "";
-        type = 0;
-      } else if (item.key === 1) {
-        this.schedule.timeSetting.repeat.valueRepeat = "0,1,2,3,4,5,6";
-        type = 1;
-      } else if (item.key === 2) {
-        this.schedule.timeSetting.repeat.valueRepeat = "0,6";
-        type = 2;
-      } else if (item.key === 3) {
-        this.schedule.timeSetting.repeat.valueRepeat = "";
-        type = 3;
-      } else if (item.key === 4) {
-        this.schedule.timeSetting.repeat.valueRepeat = "1,2,3,4,5";
-        type = 4;
-      }
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        bc_id: result[0]._id,
-        b_id: this.$route.params.scheduleId,
-        type: type
-      };
-      this.$store.dispatch("updateSchedule", objSender);
-      this.$router.push({
-        name: "f_broadcast_schedule",
-        params: { scheduleId: this.$route.params.scheduleId }
-      });
-    },
-    closeOptionRepeat() {
-      this.showOptionRepeat = false;
-    },
-    async getSchedules() {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      return result[0];
-    },
-    openCustom() {
-      this.showCustom = true;
-      this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
-    },
-    async updateTimeSchedule() {
-      const schedules = await this.getSchedules();
-      const objSender = {
-        bcId: schedules._id,
-        blockId: this.schedule._id,
-        value: this.schedule.timeSetting.hour
-      };
-      console.log(objSender);
-      this.$store.dispatch("updateTimeSchedule", objSender);
-    },
-    async updateDate() {
-      const schedules = await this.getSchedules();
-      const objSender = {
-        bcId: schedules._id,
-        blockId: this.schedule._id,
-        value: this.schedule.timeSetting.dateMonth
-      };
-      this.$store.dispatch("updateDateSchedule", objSender);
-    }
+    // async chooseDaysRepeat(id) {
+    //   if (this.selectedOption.includes(id)) {
+    //     // remove item out ot array
+    //     this.selectedOption = this.selectedOption.filter(item => item !== id);
+    //   } else {
+    //     // add item in array
+    //     this.selectedOption.push(id);
+    //   }
+    //   this.schedule.timeSetting.repeat.valueRepeat = this.selectedOption.toString();
+    //   const schedules = await this.getSchedules();
+    //   const objSender = {
+    //     bc_id: schedules._id,
+    //     b_id: this.$route.params.scheduleId,
+    //     type: 5,
+    //     value: this.schedule.timeSetting.repeat.valueRepeat
+    //   };
+    //   this.$store.dispatch("updateSchedule", objSender);
+    // },
+    // async chooseOption(item) {
+    //   let type;
+    //   this.schedule.timeSetting.repeat.typeRepeat = item.value;
+    //   if (item.key === 0) {
+    //     this.schedule.timeSetting.repeat.valueRepeat = "";
+    //     type = 0;
+    //   } else if (item.key === 1) {
+    //     this.schedule.timeSetting.repeat.valueRepeat = "0,1,2,3,4,5,6";
+    //     type = 1;
+    //   } else if (item.key === 2) {
+    //     this.schedule.timeSetting.repeat.valueRepeat = "0,6";
+    //     type = 2;
+    //   } else if (item.key === 3) {
+    //     this.schedule.timeSetting.repeat.valueRepeat = "";
+    //     type = 3;
+    //   } else if (item.key === 4) {
+    //     this.schedule.timeSetting.repeat.valueRepeat = "1,2,3,4,5";
+    //     type = 4;
+    //   }
+    //   let result = await BroadcastService.index();
+    //   result = result.data.data.filter(
+    //     item =>
+    //       StringFunction.convertUnicode(item.typeBroadCast)
+    //         .toLowerCase()
+    //         .trim() === "thiet lap bo hen"
+    //   );
+    //   const objSender = {
+    //     bc_id: result[0]._id,
+    //     b_id: this.$route.params.scheduleId,
+    //     type: type
+    //   };
+    //   this.$store.dispatch("updateSchedule", objSender);
+    //   this.$router.push({
+    //     name: "f_broadcast_schedule",
+    //     params: { scheduleId: this.$route.params.scheduleId }
+    //   });
+    // },
+    // closeOptionRepeat() {
+    //   this.showOptionRepeat = false;
+    // },
+    // async getSchedules() {
+    //   let result = await BroadcastService.index();
+    //   result = result.data.data.filter(
+    //     item =>
+    //       StringFunction.convertUnicode(item.typeBroadCast)
+    //         .toLowerCase()
+    //         .trim() === "thiet lap bo hen"
+    //   );
+    //   return result[0];
+    // },
+    // openCustom() {
+    //   this.showCustom = true;
+    //   this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
+    // },
+    // async updateTimeSchedule() {
+    //   const schedules = await this.getSchedules();
+    //   const objSender = {
+    //     bcId: schedules._id,
+    //     blockId: this.schedule._id,
+    //     value: this.schedule.timeSetting.hour
+    //   };
+    //   console.log(objSender);
+    //   this.$store.dispatch("updateTimeSchedule", objSender);
+    // },
+    // async updateDate() {
+    //   const schedules = await this.getSchedules();
+    //   const objSender = {
+    //     bcId: schedules._id,
+    //     blockId: this.schedule._id,
+    //     value: this.schedule.timeSetting.dateMonth
+    //   };
+    //   this.$store.dispatch("updateDateSchedule", objSender);
+    // }
   }
 };
 </script>
@@ -273,6 +249,10 @@ div[data-theme="dark"] .timer {
         border-color: #27292d;
       }
     }
+  }
+  .mx-input{
+    background: #27292d;
+    border: 0;
   }
 }
 </style>

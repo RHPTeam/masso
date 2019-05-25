@@ -1,4 +1,4 @@
-import FeedServices from "@/services/modules/feed.services";
+import FeedServices from "@/services/modules/post/feed.service";
 
 const state = {
   allPostLibraries: [],
@@ -120,7 +120,7 @@ const actions = {
       payload.size,
       payload.page
     );
-    
+
     commit( "setPostSearchFromLibraries", result.data.data );
     commit( "post_success" );
   }

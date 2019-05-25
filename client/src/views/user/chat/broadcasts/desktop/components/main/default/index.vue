@@ -49,10 +49,11 @@ export default {
     }
   }
 
-  .null--text {
-    line-height: 2;
-    text-align: left;
-  }
+}
+.null--text {
+  line-height: 2;
+  text-align: left;
+  color: #fff;
 }
 
 /************* CUSTOM CSS THEME ****************/
@@ -61,6 +62,10 @@ export default {
 div[data-theme="light"] {
   .null--container {
     background-color: rgba(225, 225, 225, 0.3);
+    color: #fff;
+  }
+  .null--text{
+    color: #666;
   }
 }
 
@@ -69,6 +74,9 @@ div[data-theme="light"] {
 div[data-theme="dark"] {
   .null--container {
     background-color: #27292c;
+  }
+  .null--text{
+    color: #fff;
   }
 }
 </style>

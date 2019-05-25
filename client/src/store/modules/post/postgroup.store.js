@@ -1,5 +1,5 @@
 
-import PostGroupServices from "@/services/modules/postgroup.services";
+import PostGroupServices from "@/services/modules/post/postgroup.service";
 
 const state = {
     postGroups: [],

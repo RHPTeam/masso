@@ -4,13 +4,12 @@
       <div class="image--link">
         <div
           class="default"
-          v-if="item.valueText === '' || item.valueText === undefined"
           :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
-        <img v-else :src="item.valueText" width="280px" height="207px" />
+        <!-- <img width="280px" height="207px" /> -->
       </div>
       <div class="body--icon ml_2">
-        <div class="icon--delete" @click="isDeleteItemSchedule = true">
+        <div class="icon--delete">
           <icon-base
             icon-name="remove"
             width="20"
@@ -42,11 +41,10 @@
         </div>
       </div>
       <div class="upload--image position_absolute">
-        <form enctype="multipart/form-data" @submit.prevent="sendFile">
+        <form enctype="multipart/form-data">
           <input
             type="file"
             ref="file"
-            @change="selectFile(item._id)"
             id="upload_image"
           />
         </form>
@@ -67,20 +65,20 @@
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <delete-item
+    <!-- <delete-item
       v-if="isDeleteItemSchedule === true"
       desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
       :block="schedule._id"
       :content="item._id"
       target="itemschedule"
       @close="isDeleteItemSchedule = $event"
-    />
+    /> -->
     <!--End: Delete Item Popup-->
   </div>
 </template>
 <script>
-import BroadcastService from "@/services/modules/broadcast.services";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 
 export default {
   props: ["item", "schedule"],

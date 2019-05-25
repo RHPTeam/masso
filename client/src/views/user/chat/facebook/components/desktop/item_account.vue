@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="item">
+  <div class="card">
     <div class="card_body">
       <div class="card--header">
         <delete-popup :content="item" />
@@ -11,7 +11,7 @@
           </span>
         </div>
         <h3 class="name">{{ item.userInfo.name }}</h3>
-        <button class="btn btn--connect" v-if="item.status === true">
+        <button class="btn btn--connect" v-if="item.status == true">
           Đang hoạt động
         </button>
         <!-- if cookie dont use show button-->
@@ -33,17 +33,29 @@
     <transition name="popup">
       <update-cookie
         :item="item"
-        v-if="isModalUpdateCookie === true"
+        v-if="isModalUpdateCookie == true"
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
         :nameBread="nameUpdatePopup"
-        :subBread="descUpdatePopup"></update-cookie>
+        :subBread="descUpdatePopup"
+      />
     </transition>
   </div>
 </template>
 <script>
-import DeletePopup from "@/components/shared/layouts/popupdelete/deleteAccountFb";
+// import DeletePopup from "@/components/popup/p_acfb";
 export default {
+  props: ["item"],
+  data() {
+    return {
+      isModalUpdateCookie: false,
+      nameUpdatePopup: "Cập nhật mã kích hoạt",
+      descUpdatePopup:
+        "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
+    };
+  },
+  methods: {
+  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -57,21 +69,10 @@ export default {
     }
   },
   components: {
-    DeletePopup
-  },
-  props: ["item"],
-  data() {
-    return {
-      isModalUpdateCookie: false,
-      nameUpdatePopup: "Cập nhật mã kích hoạt",
-      descUpdatePopup:
-        "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
-    };
-  },
-  methods: {
+    // DeletePopup
   }
 };
 </script>
 <style lang="scss" scoped>
-  @import "../index.style";
+@import "list_account";
 </style>

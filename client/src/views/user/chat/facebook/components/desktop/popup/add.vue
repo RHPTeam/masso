@@ -54,7 +54,7 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     addCookie() {
-      this.$store.dispatch("addCookie", this.cookie);
+      // this.$store.dispatch("addCookie", this.cookie);
       this.$emit("closeAddPopup", false);
     }
   }
@@ -62,5 +62,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../index.style";
+@import "../list_account";
 </style>

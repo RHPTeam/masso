@@ -1,4 +1,4 @@
-import GroupFacebookServices from "@/services/modules/groupfacebook.services";
+import GroupFacebookServices from "@/services/modules/post/groupfacebook.service";
 
 const state = {
     facebookGroups: [],

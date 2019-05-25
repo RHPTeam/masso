@@ -62,8 +62,8 @@
   </div>
 </template>
 <script>
-import BroadcastService from "@/services/modules/broadcast.services";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 export default {
   props: ["item", "schedule"],
   data() {
