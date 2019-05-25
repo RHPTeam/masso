@@ -9,6 +9,7 @@ import CampaignsStore from "./modules/post/campaign.store";
 import CategoriesStore from "./modules/post/category.store";
 import DashBoard from "./modules/dashboard.store";
 import EventsStore from "./modules/post/event.store";
+import FeedStore from  "./modules/post/feed.store";
 import FacebookCookie from "./modules/chat/facebookCookie.store";
 import FacebookFriend from "./modules/post/facebookfriend.store";
 import FacebookStore from "./modules/post/facebook.store";
@@ -33,6 +34,7 @@ export default new Vuex.Store( {
     FacebookCookie,
     FacebookFriend,
     FacebookStore,
+    FeedStore,
     GroupFacebook,
     PageFacebook,
     PostStore,
