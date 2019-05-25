@@ -114,7 +114,7 @@
   </div>
 </template>
 <script>
-// import List from "./list_sequence";
+import List from "../sequence";
 export default {
   props: {
     arrValue: Array,
@@ -135,7 +135,7 @@ export default {
     }
   },
   components: {
-    // List
+    List
   }
 };
 </script>

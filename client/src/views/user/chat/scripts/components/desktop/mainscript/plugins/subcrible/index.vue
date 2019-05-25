@@ -116,7 +116,7 @@
   </div>
 </template>
 <script>
-// import List from "./list_sequence";
+import List from "../sequence";
 export default {
   props: {
     content: Object,
@@ -141,7 +141,7 @@ export default {
     }
   },
   components: {
-    // List
+    List
   }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="input textarea cf mb_0" :data-theme="currentTheme">
-    <ul class="list">
+    <!-- <ul class="list">
       <li class="d_flex">
         <div
           class="left"
@@ -37,7 +37,14 @@
           </div>
         </div>
       </li>
-    </ul>
+    </ul>-->
+    <multiselect
+      v-model="dataMulti"
+      label="name"
+      multiple
+      @option="dataMulti"
+      placeholder="Chọn danh mục đăng bài "
+    />
   </div>
 </template>
 
@@ -53,6 +60,14 @@ export default {
     return {
       // listSenquence: null,
       // showSuggetsNameSequence: false
+      value: null,
+      dataMulti: [
+        { name: "Vue.js", language: "JavaScript" },
+        { name: "Rails", language: "Ruby" },
+        { name: "Sinatra", language: "Ruby" },
+        { name: "Laravel", language: "PHP", $isDisabled: true },
+        { name: "Phoenix", language: "Elixir" }
+      ]
     };
   },
   async created() {
@@ -61,7 +76,7 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
     // Show name sequence from id
     // nameGroupSequence() {
     //   let result = this.sequence.valueText;
@@ -87,63 +102,62 @@ export default {
   },
   methods: {
     // attach name sequence item to array
-  //   addNameSequence(item) {
-  //     let other = this.sequence.valueText.split(",");
-  //     other.push(item._id);
-  //     if (this.sequence.valueText.length === 0) {
-  //       this.sequence.valueText += item._id;
-  //     } else {
-  //       this.sequence.valueText += `,${item._id}`;
-  //     }
-  //     let otherChecked = other.toString();
-  //     const objectReStructure = {
-  //       _id: this.sequence._id,
-  //       typeContent: this.sequence.typeContent,
-  //       valueText: otherChecked
-  //     };
-  //     if (otherChecked.charAt(0) === ",") {
-  //       otherChecked = otherChecked.substr(1);
-  //       objectReStructure.valueText = otherChecked;
-  //       // console.log(objectReStructure);
-  //       this.$emit("update", objectReStructure);
-  //     } else {
-  //       // console.log(objectReStructure);
-  //       this.$emit("update", objectReStructure);
-  //     }
-
-  //     const dataSender = {
-  //       valueText: [item._id],
-  //       itemId: this.sequence._id,
-  //       block: this.block
-  //     };
-  //     this.$store.dispatch("updateItemBlock", dataSender);
-  //   },
-  //   // Delete item sequence
-  //   removeItem(index) {
-  //     // Get id follow index
-  //     const sequencesID = this.sequence.valueText.split(",");
-  //     // console.log(sequencesID)
-  //     // console.log(index)
-  //     // remove item follow index
-  //     const dataSender = {
-  //       sequenceId: sequencesID[index],
-  //       itemId: this.sequence._id,
-  //       blockId: this.block._id
-  //     };
-  //     this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
-  //     sequencesID.splice(index, 1);
-  //     this.sequence.valueText = sequencesID.toString();
-  //   },
-  //   // open suggest name sequence when click on input
-  //   async openSuggestNameSequence() {
-  //     this.showSuggetsNameSequence = true;
-  //     const resultSequence = await SequenceService.index();
-  //     this.listSenquence = resultSequence.data.data;
-  //   },
-  //   // close list suggest name sequence
-  //   closesSuggetsNameSequence() {
-  //     this.showSuggetsNameSequence = false;
-  //   }
+    //   addNameSequence(item) {
+    //     let other = this.sequence.valueText.split(",");
+    //     other.push(item._id);
+    //     if (this.sequence.valueText.length === 0) {
+    //       this.sequence.valueText += item._id;
+    //     } else {
+    //       this.sequence.valueText += `,${item._id}`;
+    //     }
+    //     let otherChecked = other.toString();
+    //     const objectReStructure = {
+    //       _id: this.sequence._id,
+    //       typeContent: this.sequence.typeContent,
+    //       valueText: otherChecked
+    //     };
+    //     if (otherChecked.charAt(0) === ",") {
+    //       otherChecked = otherChecked.substr(1);
+    //       objectReStructure.valueText = otherChecked;
+    //       // console.log(objectReStructure);
+    //       this.$emit("update", objectReStructure);
+    //     } else {
+    //       // console.log(objectReStructure);
+    //       this.$emit("update", objectReStructure);
+    //     }
+    //     const dataSender = {
+    //       valueText: [item._id],
+    //       itemId: this.sequence._id,
+    //       block: this.block
+    //     };
+    //     this.$store.dispatch("updateItemBlock", dataSender);
+    //   },
+    //   // Delete item sequence
+    //   removeItem(index) {
+    //     // Get id follow index
+    //     const sequencesID = this.sequence.valueText.split(",");
+    //     // console.log(sequencesID)
+    //     // console.log(index)
+    //     // remove item follow index
+    //     const dataSender = {
+    //       sequenceId: sequencesID[index],
+    //       itemId: this.sequence._id,
+    //       blockId: this.block._id
+    //     };
+    //     this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
+    //     sequencesID.splice(index, 1);
+    //     this.sequence.valueText = sequencesID.toString();
+    //   },
+    //   // open suggest name sequence when click on input
+    //   async openSuggestNameSequence() {
+    //     this.showSuggetsNameSequence = true;
+    //     const resultSequence = await SequenceService.index();
+    //     this.listSenquence = resultSequence.data.data;
+    //   },
+    //   // close list suggest name sequence
+    //   closesSuggetsNameSequence() {
+    //     this.showSuggetsNameSequence = false;
+    //   }
   }
 };
 </script>

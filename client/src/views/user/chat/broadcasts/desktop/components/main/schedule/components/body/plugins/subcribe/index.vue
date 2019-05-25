@@ -98,12 +98,12 @@
 <!--          Thêm bộ lọc-->
 <!--        </button>-->
 <!--      </div>-->
-      <div class="subcrible--edit mb_3">
+      <!-- <div class="subcrible--edit mb_3">
         <multiselect         
           label="title"
           v-model="dataMulti"
           placeholder="Chọn danh mục đăng bài "/>
-      </div>
+      </div> -->
     </div>
     <!--Start:Delete Item Popup-->
     <delete-item
