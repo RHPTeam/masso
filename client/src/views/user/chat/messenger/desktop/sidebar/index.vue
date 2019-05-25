@@ -8,72 +8,21 @@
       <app-search />
       <!-- Start: Search Left Sidebar -->
 
+      <!-- Start:Result  Search Left Sidebar -->
+      <div class="d_none">
+        <result-search />
+      </div>
+      <!-- Start:Result Search Left Sidebar -->
+
       <!-- Start: List User Left Sidebar -->
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-      <app-user />
-
-
+      <div>
+        <app-user />
+        <app-user />
+        <app-user />
+        <app-user />
+        <app-user />
+        <app-user />
+      </div>
       <!-- Start: List User Left Sidebar -->
     </vue-perfect-scrollbar>
 
@@ -84,11 +33,13 @@
 import AppHeader from "./header";
 import AppSearch from "./search";
 import AppUser from "./user";
+import ResultSearch from "./friend";
 export default {
   components: {
     AppHeader,
     AppSearch,
-    AppUser
+    AppUser,
+    ResultSearch
   },
   data() {
     return {

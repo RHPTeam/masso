@@ -27,7 +27,7 @@ export default {
 
 <style lang="scss" scoped>
   .search {
-    padding: 18px 20px 8px 20px;
+    padding: 8px 20px 8px 20px;
     font-size: 14px;
     input {
       background-color: #cccccc;

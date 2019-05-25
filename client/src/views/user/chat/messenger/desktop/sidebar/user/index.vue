@@ -1,8 +1,8 @@
 <template>
-  <div class="user d_flex align_items_center justify_content_between mb_2">
-    <div class="left mr_2"></div>
+  <div class="user d_flex align_items_center justify_content_between mb_2 px_2">
+    <div class="left mr_2" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
     <div class="main">
-      <h3>Liu Kang</h3>
+      <h3 class="m_0">Liu Kang</h3>
       <div class="text d_flex align_items_center">
         <div class="desc mr_2">Lorem ipsum dolor sit amet dolor sit dolor sit.</div>
         <div class="time">19:00</div>
@@ -26,13 +26,20 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      srcDefault: "https://us.123rf.com/450wm/3quarks/3quarks1707/3quarks170700113/82864525-stock-illustration-digital-3d-illustration-of-creepy-ghoul.jpg?ver=6"
+    }
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .user {
   .left {
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -40,15 +47,21 @@ export default {
   }
   .main {
     width: calc(100% - 60px - 30px);
+    h3{
+      color: #000000;
+      font-size: 16px;
+    }
     .text {
       .desc {
+        color: #666666;
         max-width: 88%;
+        font-size: 13px;
         text-overflow: ellipsis;
         overflow: hidden;
         white-space: nowrap;
       }
       .time {
-        font-size: 14px;
+        font-size: 12px;
       }
     }
   }

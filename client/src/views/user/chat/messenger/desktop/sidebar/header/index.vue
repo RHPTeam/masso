@@ -1,6 +1,6 @@
 <template>
   <div class="header d_flex align_items_center justify_content_between">
-    <div class="left">
+    <div class="left" :style="{backgroundImage: 'url('+srcDefault+')'}">
     </div>
     <div class="desc">Messenger</div>
     <div class="right d_flex align_items_center">
@@ -9,9 +9,9 @@
           icon-name="menu"
           width="24"
           height="24"
-          viewBox="0 0 24 24"
+          viewBox="0 0 265 265"
         >
-          <icon-chat />
+          <icon-setting />
         </icon-base>
       </div>
       <div class="icon">
@@ -30,7 +30,11 @@
 
 <script>
 export default {
-
+  data() {
+    return {
+      srcDefault: "https://images-na.ssl-images-amazon.com/images/I/81fd-3Fdc5L.jpg"
+    }
+  },
 }
 </script>
 
