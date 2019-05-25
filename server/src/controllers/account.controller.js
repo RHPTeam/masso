@@ -12,12 +12,15 @@
 const JWT = require( "jsonwebtoken" );
 const nodemailer = require( "nodemailer" ),
   CronJob = require( "cron" ).CronJob;
-const randomString = require( "randomstring" );
 const dictionary = require( "../configs/dictionaries" );
 
 const Account = require( "../models/Account.model" );
 const Role = require( "../models/Role.model" );
 const PostCategory = require( "../models/post/PostCategory.model" );
+const Block = require( "../models/chat/Block.model" );
+const GroupBlock = require( "../models/chat/GroupBlock.model" );
+const BroadCast = require( "../models/chat/Broadcast.model" );
+const Sequence = require( "../models/chat/Sequence.model" );
 
 const jsonResponse = require( "../configs/response" );
 const checkPhone = require( "../helpers/utils/functions/phone" );
@@ -30,7 +33,6 @@ const arrayFunction = require( "../helpers/utils/functions/array" ),
   option = {
     "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
     "httpOnly": true, // The cookie only accessible by the web server
-    "signed": true, // Indicates if the cookie should be signed
     "secure": true
   },
   signToken = ( user ) => {
@@ -80,15 +82,9 @@ module.exports = {
 
     // Role for user
     let roleMember;
-    let roleAdmin;
-    let roleSuperAdmin;
     const foundRoleMember = await Role.findOne( { "level": "Member" } );
-    const foundRoleAdmin = await Role.findOne( { "level": "Admin" } );
-    const foundRoleSuperAdmin = await Role.findOne( { "level": "SuperAdmin" } );
 
     roleMember = foundRoleMember._id;
-    roleAdmin = foundRoleAdmin._id;
-    roleSuperAdmin = foundRoleSuperAdmin._id;
 
     const objDefine = {
       "email": req.value.body.email,
@@ -107,8 +103,7 @@ module.exports = {
 
     await defaultPostCategory.save();
 
-    await res.cookie( "sid", sessionToken, option );
-    await res.cookie( "uid", newUser._id, option );
+
     const expireDate = new Date( newUser.created_at );
 
     newUser.expireDate = expireDate.setDate( expireDate.getDate() + 3 );
@@ -119,21 +114,76 @@ module.exports = {
       { "$push": { "ip": req.body.ip } },
       { "new": true }
     ).select( "-password" ) : newUser.ip;
-    newUser._role.toString() === roleMember.toString() ? res.cookie( "c_fr", 0, option ) : newUser._role.toString() === roleAdmin.toString() ? res.cookie( "c_fr", 1, option ) : newUser._role.toString() === roleSuperAdmin.toString() ? res.cookie( "c_fr", 2, option ) : res.status( 405 ).json( jsonResponse( "You are not assign!", null ) );
-    // Add cfr to data storage of browser
-    if ( newUser._role.toString() === roleMember.toString() ) {
-      role = randomString.generate( 10 ) + 0 + randomString.generate( 1997 );
-    } else if ( newUser._role.toString() === roleAdmin.toString() ) {
-      role = randomString.generate( 10 ) + 1 + randomString.generate( 1997 );
-    } else if ( newUser._role.toString() === roleSuperAdmin.toString() ) {
-      role = randomString.generate( 10 ) + 2 + randomString.generate( 1997 );
-    }
+
+    // create group default when signup
+    const defaultGroup = await new GroupBlock();
+
+    defaultGroup.name = "Mặc Định";
+    defaultGroup._account = newUser._id;
+    await defaultGroup.save();
+
+    // create block welcome in default
+    const defaultBlock = await new Block();
+
+    defaultBlock.name = "Welcome";
+    defaultBlock._account = newUser._id;
+    defaultBlock._groupBlock = defaultGroup._id;
+    await defaultBlock.save();
+    defaultGroup.blocks.push( defaultBlock._id );
+    await defaultGroup.save();
+
+    // Create block default in broadcast type schedule, deliver
+    const defaultDel = await new BroadCast();
+    // deliver
+
+    defaultDel.typeBroadCast = "Tin nhắn gửi ngay";
+    defaultDel._account = newUser._id;
+    await defaultDel.save();
+    // schedue
+    const defaultSchedule = await new BroadCast();
+
+    defaultSchedule.typeBroadCast = "Thiết lập bộ hẹn";
+    defaultSchedule._account = newUser._id;
+    await defaultSchedule.save();
+    const date = new Date();
+
+    date.setHours( 12, 0, 0 );
+    date.setDate( date.getDate() + 1 );
+    defaultSchedule.blocks.push( {
+      "timeSetting": {
+        "dateMonth": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+        "hour": date.getHours() + ":0" + date.getMinutes(),
+        "repeat": {
+          "typeRepeat": "Không",
+          "valueRepeat": ""
+        }
+      }
+    } );
+    await defaultSchedule.save();
+
+    // Create default sequence
+    const newSeq = await new Sequence();
+
+    newSeq.name = "Chuỗi kịch bản 0";
+    newSeq._account = newUser._id;
+    await newSeq.save();
+
+    // Set cookie user
+    res.cookie( "sid", sessionToken, option );
+    res.cookie( "uid", newUser._id, option );
+
+    res.cookie( "cfr", foundRoleMember.level, {
+      "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
+      "httpOnly": true, // The cookie only accessible by the web server
+      "signed": true, // Indicates if the cookie should be signed
+      "secure": true
+    } );
     res.status( 200 ).json(
       jsonResponse( "Successfully!", {
         "_id": newUser._id,
         "email": newUser.email,
         "token": sessionToken,
-        "role": role
+        "role": foundRoleMember.level
       } )
     );
   },
@@ -144,11 +194,10 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "signIn": async ( req, res ) => {
-    const foundUser = await Account.findById( req.user._id )
-      .select( "-password" )
-      .lean();
-    // check expire date
+    const foundUser = await Account.findById( req.user._id ).select( "-password" ).lean(),
+      memberRole = await Role.findOne( { "_id": foundUser._role } );
 
+    // check expire date
     if ( Date.now() >= foundUser.expireDate.getTime() ) {
       await Account.findByIdAndUpdate(
         req.user._id,
@@ -197,35 +246,23 @@ module.exports = {
         }
       }
     }
-    // Role for user
-    let roleMember;
-    let roleAdmin;
-    let roleSuperAdmin;
-    const foundRoleMember = await Role.findOne( { "level": "Member" } );
-    const foundRoleAdmin = await Role.findOne( { "level": "Admin" } );
-    const foundRoleSuperAdmin = await Role.findOne( { "level": "SuperAdmin" } );
 
-    roleMember = foundRoleMember._id;
-    roleAdmin = foundRoleAdmin._id;
-    roleSuperAdmin = foundRoleSuperAdmin._id;
     // Generate the token
     const sessionToken = await signToken( req.user );
 
     res.cookie( "sid", sessionToken, option );
     res.cookie( "uid", foundUser._id.toString(), option );
-    foundUser._role.toString() === roleMember.toString() ? res.cookie( "c_fr", 0 ) : foundUser._role.toString() === roleAdmin.toString() ? res.cookie( "c_fr", 1, option ) : foundUser._role.toString() === roleSuperAdmin.toString() ? res.cookie( "c_fr", 2, option ) : res.status( 405 ).json( jsonResponse( "You are not assign!", null ) );
-    if ( foundUser._role.toString() === roleMember.toString() ) {
-      role = randomString.generate( 10 ) + 0 + randomString.generate( 1997 );
-    } else if ( foundUser._role.toString() === roleAdmin.toString() ) {
-      role = randomString.generate( 10 ) + 1 + randomString.generate( 1997 );
-    } else if ( foundUser._role.toString() === roleSuperAdmin.toString() ) {
-      role = randomString.generate( 10 ) + 2 + randomString.generate( 1997 );
-    }
+
+    res.cookie( "cfr", memberRole.level, {
+      "maxAge": 1000 * 60 * 60 * 24, // would expire after 1 days
+      "httpOnly": true, // The cookie only accessible by the web server
+      "secure": true
+    } );
     res.status( 200 ).json(
       jsonResponse( "Successfully!", {
         "token": sessionToken,
         "user": foundUser,
-        "role": role
+        "role": memberRole.level
       } )
     );
   },
@@ -276,7 +313,7 @@ module.exports = {
     ).select( "-password" );
 
     // join property email to data send
-    update( `${process.env.SERVER_PARENT}/users`, req.headers, body );
+    update( `${process.env.SERVER_PARENT_API}/users`, req.headers, body );
 
     res
       .status( 201 )
@@ -742,8 +779,8 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "upload": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId ).select( "-password" );
+    const email = secure( res, req.headers.authorization );
+    const foundUser = await Account.findOne( { "email": email } ).select( "-password" );
 
     if ( !foundUser ) {
       return res
