@@ -39,8 +39,8 @@ passport.serializeUser( ( user, done ) => {
 
 // HANDLE IT WHEN A USER MAKES A REQUEST FOR A SECURED URL
 passport.deserializeUser( ( id, done ) => {
-  let user = Account.find( ( user ) => {
-    return user._id === id;
+  let user = Account.find( ( dataUser ) => {
+    return dataUser._id === id;
   } );
 
   done( null, user );
