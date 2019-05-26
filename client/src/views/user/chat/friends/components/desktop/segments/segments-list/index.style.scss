@@ -41,6 +41,11 @@
         opacity: 1;
         transform: scale(1);
       }
+      .remove--group{
+        opacity: 1;
+        transition: 0.3s;
+        transform: scale(1);
+      }
     }
     .editable {
       overflow: inherit;
@@ -64,6 +69,22 @@
         transition: all 0.5s ease;
         margin-left: 3px;
         margin-top: 3px;
+      }
+    }
+    .remove--group{
+      width: 20px;
+      height: 20px;
+      top: -5px;
+      right: -5px;
+      z-index: 10;
+      transform: scale(0.3);
+      transition: 0.3s;
+      opacity: 0;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      .icon--remove{
+        margin-top: 3px;
+        margin-left: 3px;
       }
     }
   }

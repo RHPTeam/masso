@@ -1,6 +1,6 @@
 <template>
   <div class="input textarea cf mb_0" :data-theme="currentTheme">
-    <ul class="list">
+    <!-- <ul class="list">
       <li class="d_flex">
         <div
           class="left"
@@ -37,7 +37,14 @@
           </div>
         </div>
       </li>
-    </ul>
+    </ul> -->
+    <multiselect
+      v-model="dataMulti"
+      label="name"
+      multiple
+      @option="dataMulti"
+      placeholder="Chọn danh mục đăng bài "
+    />
   </div>
 </template>
 
@@ -55,7 +62,15 @@ export default {
   data() {
     return {
       listSenquence: null,
-      showSuggetsNameSequence: false
+      showSuggetsNameSequence: false,
+      value: null,
+      dataMulti: [
+        { name: "Vue.js", language: "JavaScript" },
+        { name: "Rails", language: "Ruby" },
+        { name: "Sinatra", language: "Ruby" },
+        { name: "Laravel", language: "PHP", $isDisabled: true },
+        { name: "Phoenix", language: "Elixir" }
+      ]
     };
   },
   async created() {

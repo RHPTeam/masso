@@ -69,7 +69,7 @@
             <p class="mb_0">{{ user.email }}</p>
           </div>
         </div>
-        <router-link class="dropdown--item" :to="{ }">
+        <router-link class="dropdown--item" :to="{ name: 'account'}">
           <icon-base
             icon-name="account"
             width="20"
@@ -79,7 +79,7 @@
             <icon-account /> </icon-base
           >Thiết lập tài khoản
         </router-link>
-        <router-link class="dropdown--item friend" :to="{ }">
+        <router-link class="dropdown--item friend" :to="{ name: 'friends'}">
           <icon-base
             icon-name="friend"
             width="22"

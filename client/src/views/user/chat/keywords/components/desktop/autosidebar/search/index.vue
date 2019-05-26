@@ -1,6 +1,6 @@
 <template>
-  <div class="auto--search mb_4">
-    <div class="input--wrap position_relative">
+  <div class="auto--search mb_4 position_relative">
+    <div class="input--wrap">
       <div class="search--icon position_absolute">
         <icon-base
           icon-name="input-search"
@@ -40,4 +40,10 @@ export default {
 
 <style scoped lang="scss">
 @import "../../../../index.style";
+
+.auto--search{
+  .input--wrap{
+    // height: 40px;
+  }
+}
 </style>

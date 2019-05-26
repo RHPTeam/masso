@@ -263,19 +263,19 @@
 
 /*Transition popup*/
 
-.popup-enter {
-    transform: translateY(-100%);
-}
+// .popup-enter {
+//     transform: translateY(-100%);
+// }
 
-.popup-enter-to {
-    transition: transform 0.75s;
-    transform: translateY(0);
-}
+// .popup-enter-to {
+//     transition: transform 0.75s;
+//     transform: translateY(0);
+// }
 
-.popup-leave-to {
-    transition: transform 0.75s;
-    transform: translateY(-100%);
-}
+// .popup-leave-to {
+//     transition: transform 0.75s;
+//     transform: translateY(-100%);
+// }
 
 
 /* ChangeColor */

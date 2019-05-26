@@ -5,7 +5,7 @@
         class="header d_flex align_items_center justify_content_between mb_3"
       >
         <h3 class="title">Đăng ký trình tự</h3>
-        <div class="icon--remove ml_auto" @click="isDeleteItemSchedule = true">
+        <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
             width="18"
@@ -98,27 +98,31 @@
 <!--          Thêm bộ lọc-->
 <!--        </button>-->
 <!--      </div>-->
-      <!-- <div class="subcrible--edit mb_3">
-        <multiselect         
-          label="title"
-          v-model="dataMulti"
-          placeholder="Chọn danh mục đăng bài "/>
-      </div> -->
+      <div class="subcrible--edit mb_3">
+        <list
+          :sequence="item"
+          :block="schedule"
+          @update="updateToParent($event)"
+        />
+      </div>
     </div>
-    <!--Start:Delete Item Popup-->
-    <delete-item
-      v-if="isDeleteItemSchedule === true"
-      desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
-      :block="schedule._id"
-      :content="item._id"
-      target="itemschedule"
-      @close="isDeleteItemSchedule = $event"
-    />
-    <!--End: Delete Item Popup-->
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
-// import List from "./list_sequence";
+import List from "../sequence";
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: {
     schedule: Object,
@@ -129,7 +133,7 @@ export default {
       showFilter: false,
       addFilter: false,
       showCondition: false,
-      isDeleteItemSchedule: false,
+      isDeleteItemBlock: false,
       dataMulti: [{
         title: "A"
       },{
@@ -152,10 +156,33 @@ export default {
     }
   },
   components: {
-    // List
+    List,
+    DeleteCampaignPopup
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../index.style";
+
+.subcrible[data-theme="dark"]{
+  border: 0;
+  .card_body{
+    background: #2f3236;
+    border-radius: 10px;
+  }
+}
+
+.subcrible[data-theme="light"]{
+  border-radius: 10px;
+  transition: 0.3s;
+  &:hover{
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+  }
+}
+
+@media only screen and (max-width: 845px) and (min-width: 768px){
+  .subcrible{
+    width: 280px!important;
+  }
+}
 </style>

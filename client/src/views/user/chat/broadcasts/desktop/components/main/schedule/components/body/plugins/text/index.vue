@@ -1,16 +1,18 @@
 <template>
   <div>
     <div class="text d_flex align_items_center mb_2" :data-theme="currentTheme">
-      <div class="text-edit">
-        <contenteditable
-          class="editable"
-          tag="div"
-          placeholder="Nhập văn bản..."
-          :contenteditable="true"
-        />
+      <div class="p_3 content">
+        <div class="text-edit">
+          <contenteditable
+            class="editable"
+            tag="div"
+            placeholder="Nhập văn bản..."
+            :contenteditable="true"
+          />
+        </div>
       </div>
-      <div class="body--icon ml_2">
-        <div class="icon--delete mb_1">
+      <div class="body--icon ml_2" @click="isDeleteItemBlock = true">
+        <div class="icon--delete">
           <icon-base
             icon-name="remove"
             width="20"
@@ -32,17 +34,24 @@
         </div>
       </div>
     </div>
-    <!--Start:Delete Item Popup-->
-    <!-- <delete-item
-      desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
-      target="itemschedule"
-    /> -->
-    <!--End: Delete Item Popup-->
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 // import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
@@ -52,7 +61,7 @@ export default {
   props: ["item", "schedule"],
   data() {
     return {
-      isDeleteItemSchedule: false
+      isDeleteItemBlock: false
       // showSuggestAttribute: false,
       // listAttribute: null,
       // resultFilterAttr: null,
@@ -120,9 +129,10 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  // components: {
-  //   VuePerfectScrollbar
-  // }
+  components: {
+    // VuePerfectScrollbar,
+    DeleteCampaignPopup
+  }
 };
 </script>
 <style lang="scss" scoped>

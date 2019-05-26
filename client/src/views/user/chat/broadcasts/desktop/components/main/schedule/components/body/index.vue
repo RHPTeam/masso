@@ -49,6 +49,7 @@
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
+          @click="showPopupPlugins = true"
         >
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus/>
@@ -60,7 +61,6 @@
     <transition name="popup">
       <add-plugins
         v-if="showPopupPlugins === true"
-        :schedule="schedule._id"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @closePopupPluginClick="showPopupPlugins = $event"

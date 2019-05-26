@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="script--body-image">
-      <div class="script--body-delete">
+    <div class="card card_body script--body-image p_0">
+      <div class="script--body-delete" @click="isDeleteItemBlock = true">
         <icon-base
           icon-name="remove"
           width="20"
@@ -24,7 +24,6 @@
       <div class="scrip--body-image-link">
         <div
           class="default"
-          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
         <!-- <img width="280" height="207" /> -->
       </div>
@@ -53,18 +52,21 @@
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <!-- <delete-item
-      v-if="isDeleteItemBlock === true"
-      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-      :content="item._id"
-      :block="block._id"
-      target="itemblock"
-      @close="isDeleteItemBlock = $event"
-    /> -->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Image"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteImage"
+          typeName="Image"
+      ></delete-campaign-popup>
+    </transition>
     <!--End: Delete Item Popup-->
   </div>
 </template>
 <script>
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: ["item", "block"],
   data() {
@@ -89,6 +91,14 @@ export default {
     //   };
     //   this.$store.dispatch("updateItemImageBlock", objSender);
     // }
+  },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+  },
+  components:{
+    DeleteCampaignPopup
   }
 };
 </script>
@@ -101,5 +111,8 @@ export default {
   width: 280px;
   height: 207px;
   opacity: 0.3;
+}
+.script--body-delete{
+  line-height: 15;
 }
 </style>

@@ -5,6 +5,7 @@ import UnSubcrible from "./plugins/unsubcrible";
 import AddTag from "./plugins/tag";
 import AddText from "./plugins/text";
 import AddImage from "./plugins/images";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 // import BlockService from "@/services/modules/chat/block.services";
 
@@ -20,6 +21,7 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
+      isDeleteItemBlock: false
     };
   },
   methods: {
@@ -75,5 +77,6 @@ export default {
     AddTag,
     AddText,
     AddImage,
+    DeleteCampaignPopup
   }
 };

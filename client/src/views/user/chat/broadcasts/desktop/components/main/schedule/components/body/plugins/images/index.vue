@@ -1,14 +1,13 @@
 <template>
-  <div>
+  <div class="">
     <div class="images d_flex align_items_center position_relative mb_2">
       <div class="image--link">
         <div
           class="default"
-          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
         <!-- <img width="280px" height="207px" /> -->
       </div>
-      <div class="body--icon ml_2">
+      <div class="body--icon ml_2" @click="isDeleteItemBlock = true">
         <div class="icon--delete">
           <icon-base
             icon-name="remove"
@@ -64,27 +63,30 @@
         </div>
       </div>
     </div>
-    <!--Start:Delete Item Popup-->
-    <!-- <delete-item
-      v-if="isDeleteItemSchedule === true"
-      desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
-      :block="schedule._id"
-      :content="item._id"
-      target="itemschedule"
-      @close="isDeleteItemSchedule = $event"
-    /> -->
-    <!--End: Delete Item Popup-->
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 export default {
   props: ["item", "schedule"],
   data() {
     return {
-      isDeleteItemSchedule: false,
+      isDeleteItemBlock: false,
       file: "",
       srcDefault: require("@/assets/images/message/logo.png")
     };
@@ -116,6 +118,14 @@ export default {
       };
       this.$store.dispatch("updateItemImageSchedule", objSender);
     }
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }    
+  },
+  components: {
+    DeleteCampaignPopup
   }
 };
 </script>
@@ -128,5 +138,10 @@ export default {
   width: 280px;
   height: 207px;
   opacity: 0.3;
+}
+
+.upload--image{
+  background: #fff;
+  color: #000;
 }
 </style>

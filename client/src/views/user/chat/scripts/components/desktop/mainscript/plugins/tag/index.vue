@@ -1,5 +1,5 @@
 <template>
-  <div class="script--body-tag mt_3">
+  <div class="card card_body script--body-tag mt_3">
     <div class="script--body-tag-title">
       <span class="script--body-tag-icon">
         <icon-base class="icon-tag" width="15" height="16" viewBox="0 0 337.7 487.85">
@@ -8,9 +8,11 @@
       </span>
       <span>Thuộc tính người dùng</span>
       <div class="ml_auto">
-        <icon-base icon-name="remove" width="18" height="18" viewBox="0 0 18 18">
-          <icon-remove/>
-        </icon-base>
+        <div @click="isDeleteItemBlock = true">
+          <icon-base icon-name="remove" width="18" height="18" viewBox="0 0 18 18">
+            <icon-remove/>
+          </icon-base>
+        </div>
       </div>
     </div>
     <div class="script--body-tag-description">
@@ -69,19 +71,23 @@
         </div>
       </div>
     </div>
-    <!--Delete Item Popup-->
-    <!-- <delete-item
-      v-if="isDeleteItemBlock === true"
-      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-      :content="item._id"
-      :block="content._id"
-      target="itemblock"
-      @close="isDeleteItemBlock = $event"
-    />-->
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 import ItemTag from "../item";
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: {
     arrValue: Array,
@@ -102,7 +108,10 @@ export default {
     // listAttr() {
     //   // get value text of item
     //   return this.item.valueText.split(",");
-    // }
+    // }   
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     // addAttributeInItemBlock(id) {
@@ -114,10 +123,28 @@ export default {
     // }
   },
   components: {
-    ItemTag
+    ItemTag,
+    DeleteCampaignPopup
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../index.style";
+.script--body-tag{
+  border-radius: 10px;
+  background: #fff;
+  transition: 0.3s;
+  &-title{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    color: #000000ed;
+    svg{
+      cursor: pointer;
+    }
+  }
+  &:hover{
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+  }
+}
 </style>

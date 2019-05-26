@@ -1,19 +1,22 @@
 <template>
-  <div class="script--body-text mt_3">
-    <div class="script--body-delete">
+  <div class="card card_body script--body-text mt_3">
+    <div class="script--body-delete" @click="isShowDeleteTextPopup = true">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
         <icon-remove />
       </icon-base>
     </div>
-    <div class="script--body-move d_none">
+    <div class="script--body-move d_none" >
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
         <icon-move />
       </icon-base>
     </div>
     <div class="script--body-text-edit position_relative" contenteditable="true">
-      <!-- <contenteditable
+      <contenteditable
+        class="editable"
+        tag="div"
+        placeholder="Nhập văn bản..."
         :contenteditable="true"
-      /> -->
+      />
       <div
         class="list--suggest position_absolute d_none"
       >
@@ -22,26 +25,29 @@
             class="suggest--item"
           >
             <span class="custom custom--item">
-              list.name }}
+              list.name
             </span>
           </div>
           <div
             class="suggest--item"
           >
-            <span class="custom custom--fixed">fixed.value }}</span>
+            <span class="custom custom--fixed">fixed.value</span>
           </div>
         </VuePerfectScrollbar>
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <!-- <delete-item
-      v-if="isDeleteItemBlock === true"
-      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-      :content="item._id"
-      :block="block._id"
-      target="itemblock"
-      @close="isDeleteItemBlock = $event"
-    /> -->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isShowDeleteTextPopup === true"
+        :data-theme="currentTheme"
+        title="Delete Text"
+        @closePopup="isShowDeleteTextPopup = $event"
+        storeActionName="deleteText"
+        typeName="TEXT"
+      ></delete-campaign-popup>
+    </transition>
+
     <!--End: Delete Item Popup-->
   </div>
 </template>
@@ -49,6 +55,7 @@
 // import AttributeService from "@/services/modules/attributes.services";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 let typingTimer;
 
@@ -56,6 +63,7 @@ export default {
   props: ["item", "block"],
   data() {
     return {
+      isShowDeleteTextPopup: false,
       isDeleteItemBlock: false,
       showSuggestAttribute: false,
       listAttribute: null,
@@ -118,8 +126,14 @@ export default {
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
   },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+  },
   components: {
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
+    DeleteCampaignPopup
   }
 };
 </script>
@@ -147,4 +161,5 @@ export default {
 .script--body-text-edit{
   color: #fff;
 }
+
 </style>

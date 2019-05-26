@@ -30,7 +30,7 @@
         <div class="card">
           <div class="card_body d_flex align_items_center justify_content_center position_relative">
             <div class="item--content text_center">
-              <div class="position_absolute icon--delete">
+              <div class="position_absolute icon--delete" @click="isDeleteItemBlock = true">
                 <icon-base
                   class="icon--delete"
                   icon-name="delete"
@@ -48,6 +48,20 @@
               <div class="name--user mb_2">I need Food</div>
               <div class="status--active-true">Dang hoat dong</div>
               <div class="status--active-false">Ngung hoat dong</div>
+            </div>
+            <div class="card--header">
+              <!-- Start: Delete Item Popup-->
+              <transition name="popup">
+                <delete-campaign-popup
+                    v-if="isDeleteItemBlock === true"
+                    :data-theme="currentTheme"
+                    title="Delete User"
+                    @closePopup="isDeleteItemBlock = $event"
+                    storeActionName="deleteUser"
+                    typeName="User"
+                ></delete-campaign-popup>
+              </transition>
+              <!-- End: Delete Item Popup -->
             </div>
           </div>
         </div>
@@ -95,11 +109,13 @@
 import ExistedAccountPopup from "../popup/existed_account";
 import UpgradeProPopup from "@/components/shared/upgradepro";
 import ItemAccount from "./item";
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: ["accountsFB"],
 
   data() {
     return {
+      isDeleteItemBlock: false,
       showModal: false,
       showUpgradePro: false,
       nameBread: "Thêm tài khoản Facebook",
@@ -139,7 +155,8 @@ export default {
   components: {
     ExistedAccountPopup,
     UpgradeProPopup,
-    ItemAccount
+    ItemAccount,
+    DeleteCampaignPopup
   }
 };
 </script>

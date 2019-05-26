@@ -1,14 +1,14 @@
 <template>
-  <div class="auto--main-content text_left">
+  <div class="auto--main-content text_left" :data-theme="currentTheme">
     <div class="r mb_4">
-      <div class="c_md_6 c_xl_6">
+      <div class="c_md_12 c_xl_6 mb_2">
         <div class="divide--title mb_3">Từ khóa</div>
         <taggle
           placeholder="Nhập từ khóa..."
           type="syntax"
         />
       </div>
-      <div class="c_md_6 c_xl_6">
+      <div class="c_md_12 c_xl_6">
         <div class="auto--answer">
           <div class="divide--title mb_3">Trả lời</div>
           <div class="auto--answer-add">
@@ -69,7 +69,7 @@
           >
             <div class="d_flex">
               <div class="images--avatar mr_2">
-                <img alt="" />
+                <img src="@/assets/images/register--logo.png" />
               </div>
               <div>Ahihi</div>
             </div>
@@ -109,6 +109,9 @@ export default {
     // }
   },
   methods: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     // createItem(type) {
     //   this.syntax.content.push({
     //     typeContent: type,
@@ -189,6 +192,9 @@ export default {
           color: #ffb94a !important;
         }
       }
+      .editable{
+        padding-right: 30px;
+      }
     }
   }
   &--footer {
@@ -206,6 +212,25 @@ export default {
       cursor: pointer;
       border-bottom: 1px dotted #ffba3c;
     }
+  }
+}
+
+
+// *************** CHANGE THEME **************
+
+// DARK
+.auto--main-content[data-theme="dark"]{
+  .images--avatar{
+    color: #fff;
+  }
+}
+
+
+
+// LIGHT
+.auto--main-content[data-theme="light"]{
+  .images--avatar{
+    color: #666;
   }
 }
 </style>

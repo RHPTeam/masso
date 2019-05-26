@@ -1,10 +1,12 @@
 <template>
-  <div class="subcrible card text_left mb_3" :data-theme="currentTheme">
+  <div class="unsubcrible card text_left mb_3" :data-theme="currentTheme">
     <div class="card_body">
       <div
         class="header d_flex align_items_center justify_content_between mb_3"
       >
-        <h3 class="title">Hủy đăng ký trình tự</h3>
+        <h3 class="title">
+          <img src="@/assets/images/plugins/subscribe.svg" class="" height="30" alt="">
+          Hủy đăng ký trình tự</h3>
         <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
@@ -103,18 +105,23 @@
         <list :sequence="item" :block="content" />
       </div>
     </div>
-    <delete-item
-            v-if="isDeleteItemBlock === true"
-            desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"
-            :content="item._id"
-            :block="content._id"
-            target="itemblock"
-            @close="isDeleteItemBlock = $event"
-    />
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Unsubcrible"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteUnsubcrible"
+          typeName="Unsubcrible"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 import List from "../sequence";
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: {
     arrValue: Array,
@@ -135,10 +142,41 @@ export default {
     }
   },
   components: {
-    List
+    List,
+    DeleteCampaignPopup
   }
 };
 </script>
 <style lang="scss" scoped>
 @import "../../index.style";
+.unsubcrible{
+  border-radius: 10px;
+  background: #fff;
+  transition: 0.3s;
+  .title{
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 30px;
+    color: #000000ed;
+    margin-bottom: 0;
+  }
+  &:hover{
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+  }
+  .icon--remove{
+    svg{
+      cursor: pointer;
+    }
+  }
+}
+.unsubcrible[data-theme="dark"]{
+  border: 0;
+  .card_body{
+    background: #2f3236;
+    border-radius: 10px;
+  }
+  .title, .icon--remove svg{
+    color: #fff;
+  }
+}
 </style>

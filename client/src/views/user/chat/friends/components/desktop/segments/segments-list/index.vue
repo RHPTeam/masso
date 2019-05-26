@@ -41,6 +41,16 @@
 
     <div class="segments--list-item mr_2 mb_2 position_relative">
       <div class="name--group">Name Group</div>
+      <div class="position_absolute remove--group">
+        <icon-base
+          class="icon--remove"
+          icon-name="plus"
+          width="20"
+          height="20"
+          viewBox="0 0 26 26"
+        >
+        <icon-remove /> </icon-base>
+      </div>
     </div>
 
     <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">

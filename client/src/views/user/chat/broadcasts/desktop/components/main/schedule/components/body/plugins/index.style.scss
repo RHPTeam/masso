@@ -97,9 +97,20 @@
     }
   }
 }
+
+// ********************** CHANGE THEME ****************
+
+// LIGHT 
 .subcrible[data-theme="light"] {}
+
+
+
+
+//DARK
+
 .subcrible[data-theme="dark"] {
   border-color: #27292d;
+  color: #fff;
   .card_body {
     background-color: #27292d;
   }
