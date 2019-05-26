@@ -1,5 +1,5 @@
-import SequenceService from "@/synchronize/modules/chat/sequence.services";
-import BlockServices from "@/synchronize/modules/chat/block.services";
+// import SequenceService from "@/services/modules/chat/sequence.service";
+// import BlockServices from "@/services/modules/chat/block.service";
 
 const state = {
   statusSqc: "",

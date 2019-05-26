@@ -1,4 +1,4 @@
-import SyntaxService from "@/synchronize/modules/chat/syntax.services";
+// import SyntaxService from "@/services/modules/chat/syntax.service";
 
 const state = {
   statusSyntaxList: "",

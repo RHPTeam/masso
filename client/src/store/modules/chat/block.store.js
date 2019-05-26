@@ -1,5 +1,5 @@
-import BlockServices from "@/synchronize/modules/chat/block.services";
-import GroupBlockServices from "@/synchronize/modules/chat/groupBlock.services";
+// import BlockServices from "@/services/modules/chat/block.service";
+// import GroupBlockServices from "@/services/modules/chat/groupBlock.service";
 
 const state = {
   statusGroupBlocks: "",

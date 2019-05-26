@@ -2,7 +2,7 @@
   <div class="r my_4">
     <!-- Start: Left Content -->
     <div class="c_sm_12 c_md_12 c_lg_4 or_1">
-      <div class="right--content p_3">
+      <div class="right--content p_3" :data-theme="currentTheme">
         <!-- Start: User Avatar -->
         <user-avatar :user="user" />
         <!-- End: User Avatar -->
@@ -11,7 +11,7 @@
     <!-- End: Left Content -->
     <!-- Start: Right Content -->
     <div class="c_sm_12 c_md_12 c_lg_8 or_2">
-      <div class="left--content p_3">
+      <div class="left--content p_3" :data-theme="currentTheme">
         <!-- Start: User Personal Info -->
         <user-personal-info :user="user" />
         <!-- End: User Personal Info -->
@@ -36,6 +36,27 @@
     height: 100%;
   }
 }
+
+
+
+
+// **************************** CHANGE THEME *********************************
+
+// DARK
+.right--content[data-theme="dark"]{
+  background: #27292d;
+}
+
+.left--content[data-theme="dark"]{
+  background: #27292d;
+}
+
+// LIGHT
+.right--content[data-theme="light"]{
+  background: #f0f0f0;
+}
+
+
 @media screen and (min-width: 768px) and (max-width: 1023.9px) {
   .left--content {
     border-top-right-radius: 0 !important;

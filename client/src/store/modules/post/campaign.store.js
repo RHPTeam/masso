@@ -1,5 +1,5 @@
 
-import CampaignsServices from "@/synchronize/modules/campaigns.synchronize";
+import CampaignsServices from "@/services/modules/post/campaign.service";
 
 const state = {
     allCampaigns: [],

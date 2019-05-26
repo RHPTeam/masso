@@ -29,13 +29,13 @@ export default {
   },
   methods: {
     currentContent() {
-      return this.noHTML ? this.$refs.element.innerText : this.$refs.element.innerHTML;
+      // return this.noHTML ? this.$refs.element.innerText : this.$refs.element.innerHTML;
     },
     updateContent( newcontent ) {
       if ( this.noHTML ) {
-        this.$refs.element.innerText = newcontent;
+        // this.$refs.element.innerText = newcontent;
       } else {
-        this.$refs.element.innerHTML = newcontent;
+        // this.$refs.element.innerHTML = newcontent;
       }
     },
     update() {

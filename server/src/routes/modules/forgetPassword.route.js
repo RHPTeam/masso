@@ -6,11 +6,11 @@
  */
 const router = require( "express-promise-router" )();
 
-const AccountController = require( "../../controllers/account.controller" );
+// const AccountController = require( "../../controllers/account.controller" );
 
-router.route( "/" ).get( AccountController.getInforUserLostPass );
-router.route( "/reset-password" ).post( AccountController.resetPassword );
-router.route( "/check-code" ).post( AccountController.checkCode );
-router.route( "/new-password" ).patch( AccountController.createNewPassword );
+// router.route( "/" ).get( AccountController.getInforUserLostPass );
+// router.route( "/reset-password" ).post( AccountController.resetPassword );
+// router.route( "/check-code" ).post( AccountController.checkCode );
+// router.route( "/new-password" ).patch( AccountController.createNewPassword );
 
 module.exports = router;

@@ -6,14 +6,6 @@
       <!--Start: component filter-->
       <div class="left">
         <app-filter
-          :bcId="broadId"
-          :blockId="this.$route.params.scheduleId"
-          @default="showDefaultFilter($event)"
-          @openDone="showResultFilter($event)"
-          @showSegment="showFriendSegment($event)"
-          @showAttribute="showFriendAttr($event)"
-          @conditionIsNot="showFriendConditionIsNot($event)"
-          @conditionIs="showFriendConditionIs($event)"
         />
       </div>
       <!--End: component filter-->
@@ -48,20 +40,18 @@
     <div v-if="showListUserFilterBefore === true">
       <div v-if="!userFilter"></div>
       <div class="filter--result text_left mt_4" v-else>
-        <div>Tìm thấy {{ userFilter.length }} người khả dụng</div>
+        <div>Tìm thấy X người khả dụng</div>
         <div class="option--user-list d_flex align_items_center mt_3">
-          <div v-for="(item, index) in listUserFilter" :key="index">
+          <div>
             <div
-              :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
               class="option--user-item item d_flex align_items_center justify_content_center mr_2"
             ></div>
           </div>
           <!--        Click show data user in group-->
           <div
             class="option--user-more item text_center"
-            v-if="userFilter.length > 5"
           >
-            + {{ userFilter.length - 5 }}
+            AAAAAA
           </div>
         </div>
       </div>
@@ -69,148 +59,123 @@
     <!--End: Result before filter-->
 
     <!--Start: Result done filter-->
-    <div v-if="showListUserFilterDone === true">
+    <!-- <div> -->
       <!-- Start: show result filter with segment -->
-      <div v-if="showResultFilterSegment === true">
-        <div v-if="!infoGroupFilter"></div>
-        <div class="filter--result text_left mt_4" v-else>
-          <div>Tìm thấy {{ infoGroupFilter.length }} người khả dụng</div>
+      <!-- <div>
+        <div></div>
+        <div class="filter--result text_left mt_4"> -->
+          <!-- <div>Tìm thấy XX người khả dụng</div>
           <div class="option--user-list d_flex align_items_center mt_3">
-            <div v-for="(item, index) in filterMember" :key="index">
+            <div>
               <div
-                :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
-            </div>
+            </div> -->
             <!--        Click show data user in group-->
-            <div
+            <!-- <div
               class="option--user-more item text_center"
-              v-if="infoGroupFilter.length > 5"
-              @click="showMoreFriendFilter = true"
             >
-              + {{ infoGroupFilter.length - 5 }}
+              BBBB
             </div>
           </div>
-        </div>
+        </div> -->
         <!--    Start: popup show more friend-->
-        <transition name="more">
+        <!-- <transition name="more">
           <more-friend
-            v-if="showMoreFriendFilter === true"
-            :infoGroupFilter="infoGroupFilter"
-            @close="showMoreFriendFilter = $event"
           />
-        </transition>
+        </transition> -->
         <!--    End: popup show more friend-->
-      </div>
+      <!-- </div> -->
       <!--      End: show result filter with segment-->
       <!--      Start: show result filter attribute with name -->
-      <div v-if="showResultFilterNameAttr === true">
-        <div v-if="!infoFriendWithNameAttr"></div>
-        <div class="filter--result text_left mt_4" v-else>
-          <div>Tìm thấy {{ infoFriendWithNameAttr.length }} người khả dụng</div>
+      <!-- <div> -->
+        <!-- <div></div>
+        <div class="filter--result text_left mt_4">
+          <div>Tìm thấy XXX người khả dụng</div>
           <div class="option--user-list d_flex align_items_center mt_3">
-            <div v-for="(item, index) in sliceFriendWithNameAttr" :key="index">
+            <div >
               <div
-                :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
-            </div>
+            </div> -->
             <!--        Click show data user in group-->
-            <div
+            <!-- <div
               class="option--user-more item text_center"
-              v-if="infoFriendWithNameAttr.length > 5"
-              @click="showMoreFriendFilter = true"
             >
-              + {{ infoFriendWithNameAttr.length - 5 }}
+              BBBB
             </div>
           </div>
-        </div>
+        </div> -->
         <!--    Start: popup show more friend-->
-        <transition name="more">
+        <!-- <transition name="more">
           <more-friend
-            v-if="showMoreFriendFilter === true"
-            :infoGroupFilter="infoFriendWithNameAttr"
-            @close="showMoreFriendFilter = $event"
           />
-        </transition>
+        </transition> -->
         <!--    End: popup show more friend-->
-      </div>
+      <!-- </div> -->
       <!--      End: show result filter attribute with name-->
       <!--      Start: show result filter attribute with condition is -->
-      <div v-if="showResultFilterWithConditionIs === true">
-        <div v-if="!infoFriendWithConditonIs"></div>
-        <div class="filter--result text_left mt_4" v-else>
+      <!-- <div> -->
+        <!-- <div></div>
+        <div class="filter--result text_left mt_4">
           <div>
-            Tìm thấy {{ infoFriendWithConditonIs.length }} người khả dụng
+            Tìm thấy XXXX người khả dụng
           </div>
           <div class="option--user-list d_flex align_items_center mt_3">
             <div
-              v-for="(item, index) in sliceFriendWithConditionIs"
-              :key="index"
             >
               <div
-                :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
-            </div>
+            </div> -->
             <!--        Click show data user in group-->
-            <div
+            <!-- <div
               class="option--user-more item text_center"
-              v-if="infoFriendWithConditonIs.length > 5"
-              @click="showMoreFriendFilter = true"
             >
-              + {{ infoFriendWithConditonIs.length - 5 }}
-            </div>
-          </div>
-        </div>
+              AAAAA
+            </div> -->
+          <!-- </div>
+        </div> -->
         <!--    Start: popup show more friend-->
-        <transition name="more">
+        <!-- <transition name="more">
           <more-friend
-            v-if="showMoreFriendFilter === true"
-            :infoGroupFilter="infoFriendWithConditonIs"
-            @close="showMoreFriendFilter = $event"
           />
-        </transition>
+        </transition> -->
         <!--    End: popup show more friend-->
-      </div>
+      <!-- </div> -->
       <!--      End: show result filter attribute with condition-->
       <!--      Start: show result filter attribute with condition is not -->
-      <div v-if="showResultFilterWithConditionIsNot === true">
-        <div v-if="!infoFriendWithConditonIsNot"></div>
-        <div class="filter--result text_left mt_4" v-else>
+      <div >
+        <div></div>
+        <div class="filter--result text_left mt_4">
           <div>
-            Tìm thấy {{ infoFriendWithConditonIsNot.length }} người khả dụng
+            Tìm thấy 1 người khả dụng
           </div>
           <div class="option--user-list d_flex align_items_center mt_3">
             <div
-              v-for="(item, index) in sliceFriendWithConditionIsNot"
-              :key="index"
             >
               <div
-                :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
             </div>
             <!--        Click show data user in group-->
             <div
               class="option--user-more item text_center"
-              v-if="infoFriendWithConditonIsNot.length > 5"
-              @click="showMoreFriendFilter = true"
             >
-              + {{ infoFriendWithConditonIsNot.length - 5 }}
+              AAAA
             </div>
           </div>
         </div>
         <!--    Start: popup show more friend-->
-        <transition name="more">
+        <!-- <transition name="more">
           <more-friend
             v-if="showMoreFriendFilter === true"
             :infoGroupFilter="infoFriendWithConditonIsNot"
             @close="showMoreFriendFilter = $event"
           />
-        </transition>
+        </transition> -->
         <!--    End: popup show more friend-->
-      </div>
+      <!-- </div> -->
       <!--      End: show result filter attribute with condition-->
     </div>
     <!--End: Result done filter-->
@@ -219,8 +184,8 @@
 <script>
 import AppFilter from "@/components/shared/filter";
 import MoreFriend from "./more_friend";
-import BroadcastService from "@/synchronize/modules/broadcast.services";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 export default {
   data() {
     return {
@@ -240,99 +205,99 @@ export default {
   },
   // show result before fiter
   async created() {
-    let result = await BroadcastService.index();
-    result = result.data.data.filter(
-      item =>
-        StringFunction.convertUnicode(item.typeBroadCast)
-          .toLowerCase()
-          .trim() === "thiet lap bo hen"
-    );
-    this.broadId = result[0]._id;
-    const dataSender = {
-      broadId: result[0]._id,
-      blockId: this.$route.params.scheduleId
-    };
-    let listUser = await BroadcastService.showSchedule(
-      dataSender.broadId,
-      dataSender.blockId
-    );
-    this.userFilter = listUser.data.data[0]._friends;
-    this.listUserFilter = this.userFilter.slice(0, 5);
+    // let result = await BroadcastService.index();
+    // result = result.data.data.filter(
+    //   item =>
+    //     StringFunction.convertUnicode(item.typeBroadCast)
+    //       .toLowerCase()
+    //       .trim() === "thiet lap bo hen"
+    // );
+    // this.broadId = result[0]._id;
+    // const dataSender = {
+    //   broadId: result[0]._id,
+    //   blockId: this.$route.params.scheduleId
+    // };
+    // let listUser = await BroadcastService.showSchedule(
+    //   dataSender.broadId,
+    //   dataSender.blockId
+    // );
+    // this.userFilter = listUser.data.data[0]._friends;
+    // this.listUserFilter = this.userFilter.slice(0, 5);
   },
   computed: {
     // Get info group friend when choose segment
-    infoGroupFilter() {
-      return this.$store.getters.infoGroupFilter._friends;
-    },
-    // Get info item start 0 to 5 on array group friend
-    filterMember() {
-      return this.infoGroupFilter.slice(0, 5);
-    },
-    // Get info friend when user choose name attribute
-    infoFriendWithNameAttr() {
-      return this.$store.getters.filterFriendAttribute;
-    },
-    // Get info item start 0 to 5 on array group friend
-    sliceFriendWithNameAttr() {
-      return this.infoFriendWithNameAttr.slice(0, 5);
-    },
-    // Get info friend when user choose name attribute with condition is value
-    infoFriendWithConditonIs() {
-      return this.$store.getters.filterFriendCondition;
-    },
-    // Get info item start 0 to 5 on array group friend with condition is
-    sliceFriendWithConditionIs() {
-      return this.infoFriendWithConditonIs.slice(0, 5);
-    },
-    // Get info friend when user choose name attribute with condition is not value
-    infoFriendWithConditonIsNot() {
-      return this.$store.getters.filterFriendConditionIsNot;
-    },
-    // Get info item start 0 to 5 on array group friend with condition is not
-    sliceFriendWithConditionIsNot() {
-      return this.infoFriendWithConditonIsNot.slice(0, 5);
-    }
+    // infoGroupFilter() {
+    //   return this.$store.getters.infoGroupFilter._friends;
+    // },
+    // // Get info item start 0 to 5 on array group friend
+    // filterMember() {
+    //   return this.infoGroupFilter.slice(0, 5);
+    // },
+    // // Get info friend when user choose name attribute
+    // infoFriendWithNameAttr() {
+    //   return this.$store.getters.filterFriendAttribute;
+    // },
+    // // Get info item start 0 to 5 on array group friend
+    // sliceFriendWithNameAttr() {
+    //   return this.infoFriendWithNameAttr.slice(0, 5);
+    // },
+    // // Get info friend when user choose name attribute with condition is value
+    // infoFriendWithConditonIs() {
+    //   return this.$store.getters.filterFriendCondition;
+    // },
+    // // Get info item start 0 to 5 on array group friend with condition is
+    // sliceFriendWithConditionIs() {
+    //   return this.infoFriendWithConditonIs.slice(0, 5);
+    // },
+    // // Get info friend when user choose name attribute with condition is not value
+    // infoFriendWithConditonIsNot() {
+    //   return this.$store.getters.filterFriendConditionIsNot;
+    // },
+    // // Get info item start 0 to 5 on array group friend with condition is not
+    // sliceFriendWithConditionIsNot() {
+    //   return this.infoFriendWithConditonIsNot.slice(0, 5);
+    // }
   },
   methods: {
     //Show result default filter
-    showDefaultFilter(event){
-      this.showListUserFilterBefore = false;
-      this.showListUserFilterDone = event;
-      this.showResultFilterNameAttr = event;
-    },
-    // Show result after filter done and hidden option different
-    showResultFilter(event) {
-      this.showListUserFilterBefore = false;
-      this.showListUserFilterDone = event;
-    },
-    // show result friend when choose segment and hidden option different
-    showFriendSegment(event) {
-      this.showResultFilterSegment = event;
-      this.showResultFilterNameAttr = false;
-      this.showResultFilterWithConditionIsNot = false;
-      this.showResultFilterWithConditionIs = false;
-    },
-    // show result friend when choose name attribute and hidden option different
-    showFriendAttr(event) {
-      this.showResultFilterSegment = false;
-      this.showResultFilterNameAttr = event;
-      this.showResultFilterWithConditionIsNot = false;
-      this.showResultFilterWithConditionIs = false;
-    },
-    // show result friend when choose condition is attribute and hidden option different
-    showFriendConditionIsNot(event) {
-      this.showResultFilterSegment = false;
-      this.showResultFilterNameAttr = false;
-      this.showResultFilterWithConditionIs = false;
-      this.showResultFilterWithConditionIsNot = event;
-    },
-    // show result friend when choose condition is not attribute and hidden option different
-    showFriendConditionIs(event) {
-      this.showResultFilterSegment = false;
-      this.showResultFilterNameAttr = false;
-      this.showResultFilterWithConditionIsNot = false;
-      this.showResultFilterWithConditionIs = event;
-    }
+    // showDefaultFilter(event){
+    //   this.showListUserFilterBefore = false;
+    //   this.showListUserFilterDone = event;
+    //   this.showResultFilterNameAttr = event;
+    // },
+    // // Show result after filter done and hidden option different
+    // showResultFilter(event) {
+    //   this.showListUserFilterBefore = false;
+    //   this.showListUserFilterDone = event;
+    // },
+    // // show result friend when choose segment and hidden option different
+    // showFriendSegment(event) {
+    //   this.showResultFilterSegment = event;
+    //   this.showResultFilterNameAttr = false;
+    //   this.showResultFilterWithConditionIsNot = false;
+    //   this.showResultFilterWithConditionIs = false;
+    // },
+    // // show result friend when choose name attribute and hidden option different
+    // showFriendAttr(event) {
+    //   this.showResultFilterSegment = false;
+    //   this.showResultFilterNameAttr = event;
+    //   this.showResultFilterWithConditionIsNot = false;
+    //   this.showResultFilterWithConditionIs = false;
+    // },
+    // // show result friend when choose condition is attribute and hidden option different
+    // showFriendConditionIsNot(event) {
+    //   this.showResultFilterSegment = false;
+    //   this.showResultFilterNameAttr = false;
+    //   this.showResultFilterWithConditionIs = false;
+    //   this.showResultFilterWithConditionIsNot = event;
+    // },
+    // // show result friend when choose condition is not attribute and hidden option different
+    // showFriendConditionIs(event) {
+    //   this.showResultFilterSegment = false;
+    //   this.showResultFilterNameAttr = false;
+    //   this.showResultFilterWithConditionIsNot = false;
+    //   this.showResultFilterWithConditionIs = event;
+    // }
   },
   watch: {},
   components: {

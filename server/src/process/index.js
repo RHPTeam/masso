@@ -1,25 +1,23 @@
 const Role = require( "../models/Role.model" );
-const Help = require( "../models/help/Help.model" );
+const { roleSync } = require( "../microservices/synchronize/role.service" );
 
 ( async () => {
-  const foundHelp = await Help.find( {} ),
-    foundRole = await Role.find( {} );
+  const roleList = await Role.find( {} );
 
   // Check Role First Time Server running
-  if ( foundRole.length === undefined || foundRole.length === 0 ) {
-    const arr = [
-      { "level": "SuperAdmin" },
-      { "level": "Admin" },
-      { "level": "Member" }
-    ];
+  if ( roleList.length === undefined || roleList.length === 0 ) {
 
-    Role.insertMany( arr );
-  }
+    const resRole = await roleSync( `${process.env.APP_PARENT_URL}/roles/sync` );
 
-  // Check Help First Time Server running
-  if ( foundHelp.length === undefined || foundHelp.length === 0 ) {
-    const defaultHelp = await new Help( {} );
+    // Catch
+    if ( resRole.data.status !== "success" ) {
+      console.log( resRole.data );
+    }
 
-    await defaultHelp.save();
+    Role.insertMany( resRole.data.data, ( error ) => {
+      if ( error ) {
+        console.log( error );
+      }
+    } );
   }
 } )();

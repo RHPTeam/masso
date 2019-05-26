@@ -3,6 +3,7 @@
     <div class="header mb_2">
     </div>
     <div class="body d_flex align_items_center">
+      <div>{{ event.break_point }}</div>
       <div class="date d_flex align_items_center mr_5">
         <div class="desc mr_3">Bắt đầu:</div>
         <time-picker
@@ -22,7 +23,8 @@
           <input class="input--time mr_2"
                  type="number"
                  min="5"
-                 v-model="timeNumberDefault"
+                 v-model="event.break_point"
+                 @input="changeTimeWaitDefault()"
           />
           <span>{{ timeDescDefault }}</span>
         </div>
@@ -39,7 +41,6 @@ export default {
       disabledDates: {
         to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
       },
-      timeNumberDefault: 15,
       timeDescDefault: "phút",
       currrentDefault: new Date()
     }
@@ -73,6 +74,12 @@ export default {
           ( new Date( this.event.started_at ) ).getMinutes(),
           0 )
       } )
+    },
+    changeTimeWaitDefault() {
+      this.$store.dispatch( "setEvent", {
+        key: "break_point",
+        value: this.event.break_point
+      } );
     }
   },
 }

@@ -1,4 +1,4 @@
-import StaticCampaign from "@/synchronize/modules/analytic.synchronize";
+import StaticCampaign from "@/services/modules/post/analytic.service";
 
 const state = {
   sttStaticCampaign: "",

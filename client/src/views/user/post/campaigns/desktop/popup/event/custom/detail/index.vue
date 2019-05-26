@@ -41,10 +41,10 @@
         <!--Start: Results Option Post detail -->
         <div class="wrapper">
           <div class="item--header d_flex align_items_center px_3 py_2">
-            <div class="col col--name px_2">Tên bài viết</div>
-            <div class="col col--category px_2">Danh mục</div>
-            <div class="col col--content px_2">Nội dung</div>
-            <div class="col col--checkbox px_2">
+            <div class="col col--name pr_3">Tên bài viết</div>
+            <div class="col col--category pr_3">Danh mục</div>
+            <div class="col col--content pr_3">Nội dung</div>
+            <!--<div class="col col--checkbox px_2">
               <icon-base
                 class="icon--remove"
                 width="18px"
@@ -53,27 +53,27 @@
               >
                 <icon-remove></icon-remove>
               </icon-base>
-            </div>
+            </div>-->
           </div>
           <div>
             <div class="item--empty text_center pt_3" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
             <div v-else class="item--body d_flex align_items_center px_3 py_2" v-for="(post, index) in event.post_custom" :key="`d-${index}`">
-              <div class="col col--name px_2">
+              <div class="col col--name pr_3">
                 <div class="col col--name-text">
                   {{post.title}}
                 </div>
               </div>
-              <div class="col col--category px_2">
+              <div class="col col--category pr_3">
                 <span v-for="(cate, index) in post._categories" :key="`c-${index}`">
                   {{cate.title +  [ index === post._categories.length - 1 ? null : ', ' ] }}
                 </span>
               </div>
-              <div class="col col--content px_2">
+              <div class="col col--content pr_3">
                 <div class="col--content-text">
                   {{post.content}}
                 </div>
               </div>
-              <div class="col col--checkbox px_2" @click="removePostSelect(index)">
+              <div class="col col--checkbox" @click="removePostSelect(post._id)">
                 <icon-base
                   class="icon--remove"
                   width="18px"
@@ -137,6 +137,9 @@ export default {
         key: "post_custom",
         value: []
       } );
+    },
+    removePostSelect( id ) {
+      this.$store.dispatch( "setEventPostRemove", id );
     },
     selectFromLibraries() {
       this.$store.dispatch( "setCaseEvent", {

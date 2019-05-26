@@ -25,20 +25,20 @@ import AppBreadCrumb from "@/components/breadcrumb";
 import AppSegments from "./components/desktop/segments";
 // import AppMobile from "./mobile/index_mobile";
 export default {
-  created() {
-    // if (this.$store.getters.allFriends.length === 0) {
-    //   this.$store.dispatch("getFriendsBySize", 20);
-    // }
+  components: {
+    AppBreadCrumb,
+    AppSegments,
+    // AppMobile
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
-  components: {
-    AppBreadCrumb,
-    AppSegments,
-    // AppMobile
+  created() {
+    // if (this.$store.getters.allFriends.length === 0) {
+    //   this.$store.dispatch("getFriendsBySize", 20);
+    // }
   }
 };
 </script>

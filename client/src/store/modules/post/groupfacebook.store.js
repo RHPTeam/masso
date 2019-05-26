@@ -1,4 +1,4 @@
-import GroupFacebookServices from "@/synchronize/modules/groupfacebook.synchronize";
+import GroupFacebookServices from "@/services/modules/post/groupfacebook.service";
 
 const state = {
     facebookGroups: [],

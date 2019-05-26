@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper--none">
-    <div class="wrapper">
+    <div class="wrapper" :data-theme="currentTheme">
       <!-- Loading -->
       <loading v-if="false"/>
       <!-- <mobile-loading v-if="status == 'loading'"/> -->
@@ -19,19 +19,6 @@
             <router-view />
           </div>
         </div>
-      </div>
-
-      <!-- Mobile -->
-      <div class="wrap--content-mobile d_block d_md_none position_relative">
-        <header-mobile />
-        <VuePerfectScrollbar class="mobile-scroll">
-          <search-mobile />
-          <!-- Noification -->
-          <!-- <m-notification
-          ></m-notification> -->
-          <router-view />
-        </VuePerfectScrollbar>
-        <footer-mobile />
       </div>
     </div>
   </div>

@@ -16,12 +16,6 @@ const jsonResponse = require( "../configs/response" );
 const secure = require( "../helpers/utils/secures/jwt" );
 
 module.exports = {
-  /**
-   * Get facebook (accept query)
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization,
@@ -49,12 +43,6 @@ module.exports = {
       .status( 200 )
       .json( jsonResponse( "success", dataResponse ) );
   },
-  /**
-   * Add account facebook to acc
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "create": async ( req, res ) => {
     // Check validator
     if ( !req.body.cookie || req.body.cookie === "" ) {
@@ -83,12 +71,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newFacebook ) );
   },
-  /**
-   * Update account Facebook by user
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "update": async ( req, res ) => {
     // Check validator
     if ( !req.body.cookie || req.body.cookie === "" ) {
@@ -127,12 +109,6 @@ module.exports = {
       .status( 200 )
       .json( jsonResponse( "success", dataResponse ) );
   },
-  /**
-   * Delete Account Facebook By User
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "delete": async ( req, res ) => {
     const userId = secure( res, req.headers.authorization ),
       findFacebook = await Facebook.findById( req.query._facebookId );
@@ -150,12 +126,6 @@ module.exports = {
     await Facebook.findByIdAndDelete( req.query._facebookId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
-  /**
-   * Get All Action Type Loader
-   * @param req
-   * @param res
-   * @return {Promise<*|Promise<anyy>>}
-   */
   "getAllActionTypeLoader": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
@@ -168,12 +138,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", activityList ) );
   },
-  /**
-   * Get All Item By Action Type Loader
-   * @param req
-   * @param res
-   * @return {Promise<*|Promise<anyy>>}
-   */
   "showActionTypeLoader": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
@@ -186,12 +150,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", activityItemList ) );
   },
-  /**
-   * Get All Friends By Account
-   * @param req
-   * @param res
-   * @return {Promise<*|Promise<anyy>>}
-   */
   "getAllFriends": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
@@ -204,12 +162,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", friendsList ) );
   },
-  /**
-   * Search Place By keyword
-   * @param req
-   * @param res
-   * @return {Promise<*|Promise<anyy>>}
-   */
   "searchPlaces": async ( req, res ) => {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),

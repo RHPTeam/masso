@@ -1,4 +1,4 @@
-import BroadcastService from "@/synchronize/modules/broadcast.services";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
 
 export default {
@@ -17,61 +17,66 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    schedules() {
-      return this.$store.getters.schedules;
-    }
+    // schedules() {
+    //   return this.$store.getters.schedules;
+    // }
   },
   methods: {
-    addSchedule() {
-      this.$store.dispatch("createSchedule");
-    },
-    async showSchedule(schedule) {
-      const dateNow = Date.now();
-      const scheduleCron =
-        schedule.timeSetting.dateMonth + " " + schedule.timeSetting.hour;
-      const dateUpdated = new Date(scheduleCron.replace(/-/g, "/"));
-      if (Date.parse(dateUpdated) < dateNow) {
-        this.isActive = schedule._id;
-        this.$router.push({
-          name: "f_broadcast_schedule",
-          params: { scheduleId: schedule._id }
-        });
-        let result = await BroadcastService.index();
-        result = result.data.data.filter(
-          item =>
-            StringFunction.convertUnicode(item.typeBroadCast)
-              .toLowerCase()
-              .trim() === "thiet lap bo hen"
-        );
-        const objSender = {
-          broadId: result[0]._id,
-          blockId: schedule._id
-        };
-        this.$store.dispatch("getSchedule", objSender);
-        // this.isShowAlert = true;
-        // this.$store.dispatch("getStatusDoneSender");
-      } else {
-        this.isActive = schedule._id;
-        this.$router.push({
-          name: "f_broadcast_schedule",
-          params: { scheduleId: schedule._id }
-        });
-        let result = await BroadcastService.index();
-        result = result.data.data.filter(
-          item =>
-            StringFunction.convertUnicode(item.typeBroadCast)
-              .toLowerCase()
-              .trim() === "thiet lap bo hen"
-        );
-        const objSender = {
-          broadId: result[0]._id,
-          blockId: schedule._id
-        };
-        this.$store.dispatch("getSchedule", objSender);
-      }
-    },
-    closeAlert() {
-      this.isShowAlert = false;
+    // addSchedule() {
+    //   this.$store.dispatch("createSchedule");
+    // },
+    // async showSchedule(schedule) {
+    //   const dateNow = Date.now();
+    //   const scheduleCron =
+    //     schedule.timeSetting.dateMonth + " " + schedule.timeSetting.hour;
+    //   const dateUpdated = new Date(scheduleCron.replace(/-/g, "/"));
+    //   if (Date.parse(dateUpdated) < dateNow) {
+    //     this.isActive = schedule._id;
+    //     this.$router.push({
+    //       name: "f_broadcast_schedule",
+    //       params: { scheduleId: schedule._id }
+    //     });
+    //     let result = await BroadcastService.index();
+    //     result = result.data.data.filter(
+    //       item =>
+    //         StringFunction.convertUnicode(item.typeBroadCast)
+    //           .toLowerCase()
+    //           .trim() === "thiet lap bo hen"
+    //     );
+    //     const objSender = {
+    //       broadId: result[0]._id,
+    //       blockId: schedule._id
+    //     };
+    //     this.$store.dispatch("getSchedule", objSender);
+    //     // this.isShowAlert = true;
+    //     // this.$store.dispatch("getStatusDoneSender");
+    //   } else {
+    //     this.isActive = schedule._id;
+    //     this.$router.push({
+    //       name: "f_broadcast_schedule",
+    //       params: { scheduleId: schedule._id }
+    //     });
+    //     let result = await BroadcastService.index();
+    //     result = result.data.data.filter(
+    //       item =>
+    //         StringFunction.convertUnicode(item.typeBroadCast)
+    //           .toLowerCase()
+    //           .trim() === "thiet lap bo hen"
+    //     );
+    //     const objSender = {
+    //       broadId: result[0]._id,
+    //       blockId: schedule._id
+    //     };
+    //     this.$store.dispatch("getSchedule", objSender);
+    //   }
+    // },
+    // closeAlert() {
+    //   this.isShowAlert = false;
+    // },
+    goToSchedule(){
+      this.$router.push( {
+        name: "broadcast_schedule"
+      } );
     }
   },
   filters: {

@@ -5,10 +5,8 @@ import CookieFunction from "@/utils/functions/cookie";
 Vue.config.productionTip = false;
 Vue.prototype.$http = request;
 
-const token = CookieFunction.getCookie( "sid" ),
-  cfr = CookieFunction.getCookie( "cfr" );
+const cookie = `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "cfr" )}; cfr=${CookieFunction.getCookie( "uid" )};`;
 
-if ( token && cfr ) {
-  Vue.prototype.$http.defaults.headers.common.Authorization = token;
-  Vue.prototype.$http.defaults.headers.common.cfr = cfr;
+if ( cookie ) {
+  Vue.prototype.$http.defaults.headers[ "Authorization" ] = cookie
 }
