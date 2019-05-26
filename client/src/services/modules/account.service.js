@@ -39,10 +39,10 @@ export default {
     return Api().put( "users", dataSender );
   },
   signUp( user ) {
-    return Api().post( "signup", user );
+    return Api().post( "signup", user, { credentials: "same-origin" } );
   },
   signIn( user ) {
-    return Api().post( "signin", user );
+    return Api().post( "signin", user, { credentials: "same-origin" } );
   },
   changePassword( user ) {
     return Api().patch( "users/change-password", user );

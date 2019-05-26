@@ -40,10 +40,10 @@ app.set( "port", process.env.PORT_BASE );
 app.use( cors( {
   "origin": [
     `${process.env.APP_URL}:${process.env.PORT_BASE}`,
-    process.env.SERVER_PARENT_URL
+    "http://localhost:8080"
   ],
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
-  "allowedHeaders": [ "Content-Type", "Authorization", "cfr", "uid" ],
+  "allowedHeaders": [ "Content-Type", "Authorization" ],
   "exposedHeaders": [ "Cookie" ] } ) );
 app.use( bodyParser.json( { "limit": "500MB", "extended": true } ) );
 app.use( bodyParser.urlencoded( { "limit": "500MB", "extended": true } ) );

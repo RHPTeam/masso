@@ -26,17 +26,10 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
     },
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
-    "ip": [],
     "_role": {
       "type": Schema.Types.ObjectId,
       "ref": "Role"
     },
-    "_accountfb": [
-      {
-        "type": Schema.Types.ObjectId,
-        "ref": "AccountFacebook"
-      }
-    ],
     "_server": {
       "type": Schema.Types.ObjectId,
       "ref": "Server"

@@ -8,13 +8,8 @@ const router = require( "express-promise-router" )();
 
 const AccountController = require( "../../controllers/account.controller" );
 
-const {
-  validateBody,
-  schemas
-} = require( "../../helpers/validator/router.validator" );
-
 router
   .route( "/" )
-  .post( validateBody( schemas.userSignUpSchema ), AccountController.signUp );
+  .post( AccountController.signUp );
 
 module.exports = router;

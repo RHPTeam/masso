@@ -1,6 +1,7 @@
 import AccountServices from "@/services/modules/account.service";
-
 import CookieFunction from "@/utils/functions/cookie";
+import StringFunction from "@/utils/functions/string";
+
 import axios from "axios";
 
 const state = {
@@ -40,10 +41,8 @@ const mutations = {
   auth_request_success: ( state ) => {
     state.status = "success";
   },
-  auth_success: ( state, payload ) => {
+  auth_success: ( state ) => {
     state.status = "success";
-    state.token = payload.token;
-    state.user = payload.user;
   },
   auth_error: ( state, payload ) => {
     state.status = payload;
@@ -90,29 +89,40 @@ const mutations = {
 const actions = {
   signIn: async ( { commit }, user ) => {
     try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signIn( user );
+      commit("auth_request");
+      const resData = await AccountServices.signIn(user);
 
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data.user._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
+      console.log( resData );
 
-      // remove localStorage
-      localStorage.removeItem( "rid" );
+      const newSid = StringFunction.findSubString(
+        resData.headers.cookie,
+        "sid=",
+        ";"
+      );
 
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
+      const newUid = StringFunction.findSubString(
+        resData.headers.cookie,
+        "uid=",
+        ";"
+      );
 
-      commit( "auth_success", sendDataToMutation );
-    } catch ( e ) {
-      if ( e.response.status === 401 ) {
-        commit( "auth_error", "401" );
-      }
-      if ( e.response.status === 405 ) {
-        commit( "auth_error", "405" );
+      const newCfr = StringFunction.findSubString(
+        resData.headers.cookie,
+        "cfr=",
+        ""
+      );
+
+      CookieFunction.setCookie("sid", newSid);
+      CookieFunction.setCookie("uid", newUid);
+      CookieFunction.setCookie("cfr", newCfr);
+
+      axios.defaults.headers.common["Authorization"] = resData.headers.cookie;
+
+      commit("auth_success");
+    } catch (e) {
+      console.log( e );
+      if (e.response.status === 401) {
+        commit("auth_error", "401");
       }
     }
   },
@@ -131,12 +141,8 @@ const actions = {
 
       // set Authorization
       axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
 
-      commit( "auth_success", sendDataToMutation );
+      commit( "auth_success" );
     } catch ( e ) {
       commit( "auth_error" );
       if ( e.response.status === 405 ) {
