@@ -11,6 +11,7 @@
 
 const Account = require( "../models/Account.model" );
 const jsonResponse = require( "../configs/response" );
+const { updateUserSync } = require( "../microservices/synchronize/account.service" );
 
 module.exports = {
   "show": async ( req, res ) => {
@@ -18,34 +19,32 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
-  // "update": async ( req, res ) => {
-  //   // const { body } = req;
-  //   // const email = secure( res, req.headers.authorization );
-  //   // const foundUser = await Account.findOne( { "email": email } );
+  "update": async ( req, res ) => {
+    const { body } = req,
+      userInfo = await Account.findOne( { "_id": req.uid } );
 
-  //   // if ( !foundUser ) {
-  //   //   return res
-  //   //     .status( 403 )
-  //   //     .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-  //   // }
+    let data, resUserSync;
 
-  //   // const dataResponse = await Account.findByIdAndUpdate(
-  //   //   foundUser._id,
-  //   //   {
-  //   //     "$set": body
-  //   //   },
-  //   //   {
-  //   //     "new": true
-  //   //   }
-  //   // ).select( "-password" );
+    // join property email to data send
+    resUserSync = await updateUserSync( "users/sync", { "info": body, "id": req.uid }, { "Authorization": req.headers.authorization } );
+    if ( resUserSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH" } );
+    }
 
-  //   // // join property email to data send
-  //   // update( `${process.env.SERVER_PARENT_API}/users`, req.headers, body );
+    data = await Account.findByIdAndUpdate(
+      userInfo._id,
+      {
+        "$set": body
+      },
+      {
+        "new": true
+      }
+    ).select( "-password -__v" );
 
-  //   // res
-  //   //   .status( 201 )
-  //   //   .json( jsonResponse( "Update account successfull!", dataResponse ) );
-  // },
+    res
+      .status( 201 )
+      .json( jsonResponse( "success", data ) );
+  },
   // "changePassword": async ( req, res ) => {
   //   // const userId = secure( res, req.headers.authorization );
   //   // const { body } = req;

@@ -1,10 +1,12 @@
-const axios = require( "axios/index" );
+const request = require( "axios" );
 
 module.exports = {
-  "update": ( url, headers, data ) => {
-    return axios( {
+  "updateUserSync": ( url, data, headers ) => {
+    let urlRequest = `${process.env.APP_PARENT_URL }/api/v1/${url}`;
+
+    return request( {
       "method": "patch",
-      "url": url,
+      "url": urlRequest,
       "data": data,
       "headers": headers
     } );
