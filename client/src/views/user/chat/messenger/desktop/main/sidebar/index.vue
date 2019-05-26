@@ -4,7 +4,7 @@
       <div role="wrap" aria-label="wrap of right sidebar">
         <!--Start: Info-->
         <div class="info d_flex flex_column align_items_center py_3 px_3">
-          <div class="img" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
+          <div class="img mb_3" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
           <h3>Liu Kang</h3>
           <div role="time">Hoạt động từ thời xa xưa</div>
         </div>
@@ -81,6 +81,7 @@ div[role="right"] {
       height: 100px;
     }
     h3 {
+      cursor: pointer;
       font-size: 18px;
       font-weight: 700;
       margin-bottom: .5rem;

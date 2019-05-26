@@ -17,5 +17,18 @@
     .icon {
       cursor: pointer;
     }
+    .action {
+      background: #ffffff;
+      border: 1px solid #e4e4e4;
+      border-radius: .625rem;
+      font-size: 14px;
+      top: 0;
+      right: 100%;
+      width: 200px;
+      z-index: 999;
+      .item {
+        padding: .5rem 1rem;
+      }
+    }
   }
 }

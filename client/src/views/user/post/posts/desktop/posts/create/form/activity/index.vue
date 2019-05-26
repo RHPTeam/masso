@@ -137,7 +137,7 @@ export default {
       this.$emit( "closeActivity", false );
     },
     close(){
-      this.isShowSuggestOptionActivity = false
+      this.isShowSuggestOptionActivity = false;
     },
     showSuggestActivityDefault() {
       this.isShowSuggestDefault = true;

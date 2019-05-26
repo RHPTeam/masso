@@ -2,12 +2,13 @@
   <div class="tag d_flex align_items_center">
     <div class="fixed text_center">Tại</div>
     <div class="option position_relative">
-      <input type="text"
-             placeholder="Bạn đang ở đâu?"
-             v-model="placesName"
-             v-click-outside="close"
-             @click="isShowSuggestDefault = true"
-      >
+      <input
+        type="text"
+        placeholder="Bạn đang ở đâu?"
+        v-model="placesName"
+        v-click-outside="close"
+        @click="isShowSuggestDefault = true"
+      />
       <div class="suggest position_absolute" :data-theme="currentTheme" v-if="isShowSuggestDefault === true">
         <VuePerfectScrollbar class="show">
           <div v-if="this.$store.getters.faceBStatus === 'loading'"

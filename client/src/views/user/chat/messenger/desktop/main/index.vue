@@ -1,14 +1,19 @@
 <template>
   <span class="wrap">
     <!--Start: Header Content-->
-     <main-header />
+     <main-header
+       :status="isShowRightSidebar"
+        @toggleRightSidebar="isShowRightSidebar = $event"
+     />
     <!--End: Header Content-->
     <!--Start: Main Content-->
     <div class="body d_flex flex_row_reverse">
       <!--Start: Sidebar-->
-        <div class="sidebar">
+      <transition name="sidebar">
+        <div class="sidebar" v-if="isShowRightSidebar === false">
           <right-sidebar/>
         </div>
+      </transition>
       <!--End: Sidebar-->
       <!--Start: Chat Content-->
       <chat-content />
@@ -27,7 +32,12 @@ export default {
     ChatContent,
     MainHeader,
     RightSidebar
-  }
+  },
+  data() {
+    return {
+      isShowRightSidebar: false
+    }
+  },
 }
 </script>
 
@@ -50,6 +60,20 @@ export default {
       flex: 0 2 33.33%;
       max-width: 420px;
       min-width: 200px;
+    }
+    //Transition tooglesidebar
+    .sidebar-enter {
+      transform: translateX(100%);
+    }
+
+    .sidebar-enter-to {
+      transition: transform 0.75s;
+      transform: translateX(0);
+    }
+
+    .sidebar-leave-to {
+      transition: transform 0.75s;
+      transform: translateX(100%);
     }
   }
 }

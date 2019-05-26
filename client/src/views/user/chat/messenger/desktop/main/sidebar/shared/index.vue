@@ -1,14 +1,12 @@
 <template>
   <div class="libraries">
-    <div class="libraries--desc">Thư viện</div>
-    <div class="gallery">
+    <div class="libraries--desc p_3">Ảnh đã chia sẻ</div>
+    <div class="gallery d_flex">
       <div class="gallery--item"
            v-for="(item, index) in imageList"
            :key="index"
+           :style="{backgroundImage:'url('+item.valueContent+')'}"
       >
-        <img
-          :src="item.valueContent"
-        />
       </div>
     </div>
   </div>
@@ -24,7 +22,7 @@ export default {
           text: "hello"
         },
         {
-          valueContent: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg",
+          valueContent: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
           text: "hello"
         },
         {
@@ -72,16 +70,44 @@ export default {
 
 <style lang="scss" scoped>
   .libraries {
-    padding: 20px;
     .libraries--desc {
-      font-size: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
       margin-top: -5px;
-      margin-bottom: 20px;
+      text-transform: uppercase;
     }
     .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-gap: 5px;
+      flex-wrap: wrap;
+      padding: 0 12px;
+      word-wrap: break-word;
+      &--item {
+        background-position: 50% 50%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        border-radius: 3px;
+        cursor: pointer;
+        flex: 0 0 33.33%;
+        box-sizing: border-box;
+        margin-bottom: 3px;
+        position: relative;
+        height: 100%;
+        &:before {
+          content: '';
+          float: left;
+          padding-top: 100%;
+        }
+        &:nth-of-type(3n+1) {
+          border-right: 2px solid #fff;
+        }
+        &:nth-of-type(3n+2) {
+          border-left: 1px solid #fff;
+          border-right: 1px solid #fff;
+        }
+        &:nth-of-type(3n+3) {
+          border-left: 2px solid #fff
+        }
+      }
       img {
         width: 100%;
         height: 100%;

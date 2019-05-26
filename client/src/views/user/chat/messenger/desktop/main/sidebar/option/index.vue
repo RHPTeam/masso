@@ -2,7 +2,8 @@
   <div class="option">
     <div class="option--desc">Tùy chọn</div>
     <div class="option--item d_flex justify_content_start align_items_center">
-      <div class="option--item-icon">
+      <div class="option--item-name">Tìm kiếm tin nhắn</div>
+      <div class="option--item-icon ml_auto">
         <icon-base
           icon-name="input-search"
           width="20"
@@ -12,11 +13,11 @@
           <icon-input-search />
         </icon-base>
       </div>
-      <div class="option--item-name">Tìm kiếm tin nhắn</div>
     </div>
     <div class="option--item d_flex justify_content_start align_items_center"
     >
-      <div class="option--item-icon">
+      <div class="option--item-name">Xóa cuộc trò chuyện</div>
+      <div class="option--item-icon ml_auto">
         <icon-base
           icon-name="remove"
           width="20"
@@ -26,7 +27,6 @@
           <icon-remove />
         </icon-base>
       </div>
-      <div class="option--item-name">Xóa cuộc trò chuyện</div>
     </div>
 
     <!--*********** POPUP *************-->
@@ -52,8 +52,11 @@ export default {
     padding: 20px;
     border-bottom: 1px solid #e4e4e4;
     .option--desc {
-      font-size: 12px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
       margin-top: -5px;
+      text-transform: uppercase;
     }
     .option--item {
       cursor: pointer;

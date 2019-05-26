@@ -26,7 +26,7 @@
             <icon-location />
           </icon-base>
         </div>
-        <div class="icon mr_3">
+        <div class="icon mr_3" @click="toggleRightSidebar">
           <icon-base
             icon-name="menu"
             width="24"
@@ -43,9 +43,19 @@
 
 <script>
 export default {
+  props: [ "status" ],
   data() {
     return {
       srcTest: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg"
+    }
+  },
+  methods: {
+    toggleRightSidebar() {
+      if(this.status === false) {
+        this.$emit("toggleRightSidebar", true);
+      } else {
+        this.$emit("toggleRightSidebar", false);
+      }
     }
   },
 }

@@ -14,6 +14,7 @@
       <input
         type="text"
         placeholder="Tìm kiếm"
+        @click="changeStatus"
       />
     </div>
   </div>
@@ -21,7 +22,11 @@
 
 <script>
 export default {
-
+  methods: {
+    changeStatus() {
+      this.$emit("changeStatus", false);
+    }
+  },
 }
 </script>
 

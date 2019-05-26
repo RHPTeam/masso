@@ -1,15 +1,12 @@
 <template>
-  <div class="d_flex flex_column" role="chat">
+  <div class="d_flex flex_column position_relative" role="chat">
     <vue-perfect-scrollbar class="p_2" :style="{ height: contentMessengerHeight + 'px' }">
       <!-- Start: Info friend-->
       <div class="info d_flex align_items_center p_3" role="above">
         <div class="avatar mr_3" :style="{backgroundImage: 'url('+srcTest+')'}"></div>
         <div role="infomation">
           <h3 class="m_0">Liu Lang</h3>
-          <p class="m_0">Các bạn là bạn bè trên  đâu đó</p>
-          <p class="m_0">Đã từng làm việc tại đâu đó</p>
-          <p class="m_0">Từng học chung tại đâu đó</p>
-          <p class="m_0"> Sống chung tại đâu đó</p>
+          <p class="m_0">Các bạn là bạn bè kết nối trên zinbee</p>
         </div>
       </div>
       <!-- End: Info friend-->
@@ -28,36 +25,36 @@
         </div>
         <!-- End: if it's first chat -->
         <!-- Start: receiver-->
-        <div class="receiver position_relative mb_3">
+        <div class="left d_flex align_items_start justify_content_start position_relative mb_3">
           <div class="mr_2 position_absolute" role="receiver" :style="{backgroundImage:'url('+srcTest2+')'}"></div>
-          <div class="wrap">
-            <div class="receiver--content d_flex flex_column">
-              <span class="ms rcv_m">Lorem ipsum dolor sit amet, consectetur. </span>
+          <div class="receiver">
+            <div class="content d_flex flex_column">
+              <span class="ms rcv_m">Lorem ipsum dolor sit amet, consectetur. Lorem ipsum dolor sit amet, consectetur. Lorem ipsum dolor sit amet, consectetur</span>
               <span class="ms rcv_m">Lorem ipsum dolor sit amet, consectetur.</span>
               <span class="ms rcv_m">Lorem ipsum dolor sit amet, consectetur.</span>
             </div>
             <!--Start: If have images-->
             <div class="gallery">
-              <div class="gallery--item rcv" :style="{ backgroundImage: 'url('+ srcTest2 +')' }">
+              <div class="gallery--item rcv" :style="{ backgroundImage: 'url('+ srcTest2 +')' }" @click="isShowGallery = true">
               </div>
             </div>
             <!--End: If have images-->
           </div>
+          <div role="empty"></div>
         </div>
         <!-- End: receiver-->
 
         <!-- Start: sender -->
-        <div class="right d_flex align_items_center justify_content_between mb_3">
+        <div class="right d_flex justify_content_end align_items_end mb_3">
           <div role="empty"></div>
           <div class="sender">
-            <div class="receiver--content">
-              <span class="d_block ms sd_m">Lorem ipsum dolor sit amet, consectetur. Lorem ipsum dolor sit amet, consectetur. </span>
-              <span class="d_block ms sd_m">Lorem ipsum dolor sit amet, consectetur.</span>
-              <span class="d_block ms sd_m">Lorem ipsum dolor sit amet, consectetur.</span>
+            <div class="content d_flex flex_column">
+              <span class="ms sd_m ml_auto">Lorem ipsum dolor sit amet, consectetur. Lorem ipsum dolor sit amet, consectetur. Lorem ipsum dolor sit amet, consectetur</span>
+              <span class="ms sd_m ml_auto">Lorem ipsum dolor sit amet, consectetur.</span>
             </div>
             <!--Start: If have images-->
             <div class="gallery d_flex">
-              <div class="gallery--item ml_auto sdr" :style="{ backgroundImage: 'url('+ srcTest2 +')' }">
+              <div class="gallery--item ml_auto sdr" :style="{ backgroundImage: 'url('+ srcTest2 +')' }" @click="isShowGallery = true">
               </div>
             </div>
             <!--End: If have images-->
@@ -122,14 +119,31 @@
       </form>
       </div>
     <!-- End: Create message-->
+
+    <!-- Start: Gallery -->
+    <slides
+      v-if="isShowGallery === true"
+      :message="item"
+      @closeGallery="isShowGallery = $event"
+    />
+    <!-- End: Gallery -->
   </div>
 </template>
 
 <script>
+import Slides from "./gallery";
 export default {
+  components: {
+    Slides
+  },
   data() {
     return {
+      isShowGallery: false,
       contentMessengerHeight: 0,
+      item: {
+        typeContent: "image",
+        valueContent: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg"
+      },
       srcTest: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg",
       srcTest2: "https://scontent.fhan5-2.fna.fbcdn.net/v/t1.15752-9/61319608_2065780287057450_3340204763407974400_n.jpg?_nc_cat=110&_nc_ht=scontent.fhan5-2.fna&oh=567549ea1537e3a19cca75b90cfebac3&oe=5D9B850E",
     }
