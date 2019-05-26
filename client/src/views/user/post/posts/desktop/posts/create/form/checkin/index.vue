@@ -69,11 +69,20 @@ export default {
   },
   methods: {
     attachPlacesName( item ) {
+
       this.placesName = item.title;
-      this.post.place = item.uniqueID;
-      delete this.post.attachments;
+
+      this.$store.dispatch("setPostDefault", {
+        key: "place",
+        value: {
+          id: item.uniqueID,
+          text: item.title
+        }
+      });
+
       this.$store.dispatch( "updatePost", this.post );
-      this.isShowSuggestDefault = false;
+
+      this.close();
       this.$emit( "closeCheckin", false );
     },
     close(){
