@@ -10,6 +10,7 @@
 //   CronJob = require( "cron" ).CronJob;
 
 const Account = require( "../models/Account.model" );
+const { defaulSchema } = require( "../helpers/services/default.service" );
 
 module.exports = {
   // "show": async ( req, _res ) => {
@@ -241,6 +242,8 @@ module.exports = {
     const newUser = new Account( req.body );
 
     await newUser.save();
+
+    defaulSchema( newUser );
 
     res.send( { "status": "success", "data": "Synchronized..." } );
   }
