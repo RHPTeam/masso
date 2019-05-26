@@ -49,6 +49,7 @@
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
+          @click="showPopupPlugins = true"
         >
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus/>
@@ -60,7 +61,6 @@
     <transition name="popup">
       <add-plugins
         v-if="showPopupPlugins === true"
-        :schedule="schedule._id"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
@@ -71,10 +71,10 @@
   </div>
 </template>
 <script>
-import AddText from "./plugins/add_text";
-import AddImage from "./plugins/add_images";
+import AddText from "./plugins/text";
+import AddImage from "./plugins/images";
 import Subcribe from "./plugins/subcribe";
-import UnSubscribe from "./plugins/unsubscribe";
+import UnSubscribe from "./plugins/unsubcribe";
 
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";

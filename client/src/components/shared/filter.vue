@@ -277,7 +277,7 @@ export default {
     width: 60% !important;
   }
   .list--filter {
-    width: calc((100% - 240px) / 2);
+    // width: calc((100% - 240px) / 2);
     .list {
       top: 101%;
       left: 0;

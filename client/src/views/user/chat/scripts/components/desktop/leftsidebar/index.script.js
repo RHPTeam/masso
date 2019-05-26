@@ -2,6 +2,7 @@ let typingTimer;
 export default {
   data() {
     return {
+      title: "AAAAAAAAA",
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
       currentIndexActionItemDropdown: null,

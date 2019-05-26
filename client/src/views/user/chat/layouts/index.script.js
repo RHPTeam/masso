@@ -3,9 +3,6 @@ import Loading from "@/components/shared/loading";
 import AppNotification from "@/components/shared/notification";
 import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
-import HeaderMobile from "./mobile/header";
-import SearchMobile from "./mobile/search";
-import FooterMobile from "./mobile/footer";
 
 export default {
   data() {

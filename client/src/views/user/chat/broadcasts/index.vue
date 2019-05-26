@@ -7,10 +7,10 @@
       />
       <!-- Start: Content -->
       <div class="main--content r">
-        <div class="c_md_12 c_xl_4 pr_xl_0">
+        <div class="c_md_4 c_xl_4 pr_xl_0">
           <app-sidebar />
         </div>
-        <div class="c_md_12 c_xl_8 mt_md_4 mt_xl_0">
+        <div class="c_md_8 c_xl_8 mt_md_4 mt_xl_0">
           <router-view />
         </div>
       </div>

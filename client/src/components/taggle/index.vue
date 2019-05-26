@@ -88,12 +88,10 @@
 /* CHANGE THEME _________________________ */
 
 /* DARK */
-.vue-input-tag-wrapper[data-theme="dark"] {
-  .new-tag {
-    color: #fff;
-    background: #27292d;
-  }
+.vue-input-tag-wrapper[data-theme="dark"]{
+  
 }
+
 
 /* LIGHT */
 .vue-input-tag-wrapper[data-theme="light"] {

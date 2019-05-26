@@ -3,15 +3,23 @@
     <!-- Start: Wrapper Top -->
     <div class="wrapper--top position_relative d_flex align_content_center">
       <div class="title">Ảnh đại diện</div>
-      <div class="change--icon ml_auto">
+      <div class="change--icon ml_auto mr_2">
         <div class="icon" @click="isDropZone = true">
           <icon-base icon-name viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </div>
       </div>
+      <div class="icon remove--avatar" @click="isShowDeleteCampaignPopup = true">
+        <icon-base width="20" height="20" viewBox="0 0 15 15">
+          <icon-remove />
+        </icon-base>
+      </div>
       <!--Start: Dropzone Component-->
-    <dropzone :status="isDropZone" @close="isDropZone = $event" />
+    <!-- <dropzone :status="isDropZone" @close="isDropZone = $event" /> -->
+      <div class="position_absolute file--avatar">
+        <input type="file" id="useravatar">
+      </div>
     <!--End: Dropzone Component-->
     </div>
     <!-- End: Wrapper Top -->
@@ -47,10 +55,25 @@
       <!-- End: Content Default -->
     </div>
     <!-- End: Wrapper Content -->
+
+    <!-- Start: Popup Delete Avatar -->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isShowDeleteCampaignPopup === true"
+        :data-theme="currentTheme"
+        title="Xoá Avatar"
+        @closePopup="isShowDeleteCampaignPopup = $event"
+        storeActionName="deleteAvatar"
+        typeName="avatar"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Popup Delete Avatar -->
   </div>
 </template>
 
 <script>
+import DeleteCampaignPopup from "@/components/popups/delete";
+
 export default {
   filters: {
     getFirstLetter( string ) {
@@ -66,9 +89,19 @@ export default {
   props: [ "user" ],
   data() {
     return {
-      isDropZone: false
+      isDropZone: false,
+      isShowDeleteCampaignPopup: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }    
+  },
+  components: {
+    DeleteCampaignPopup
   }
+
 };
 </script>
 

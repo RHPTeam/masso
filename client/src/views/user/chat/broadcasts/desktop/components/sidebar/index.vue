@@ -39,19 +39,19 @@
         <div class="action"></div>
       </div>
       <div class="group--item-body r m_0">
-        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2" @click="goToSchedule">
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="goToSchedule">
           <div class="mx_1 content--setup">
             <span>Hang ngay</span>
             <span class="pl_1">xx:xx</span>
           </div>
         </div>
-        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2">
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
           <div class="content--setup mx_1">
             <span>Hang ngay</span>
             <span class="pl_1">12:30</span>
           </div>
         </div>
-        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2">
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
           <div class="content--setup mx_1">
             <icon-base
               icon-name="add"

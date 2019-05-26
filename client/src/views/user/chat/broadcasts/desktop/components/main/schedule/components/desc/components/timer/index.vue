@@ -41,7 +41,7 @@
           <div
             class="option--repeat-item"
           >
-            Lặp lại: item.value
+            "Lặp lại: " + item.value
           </div>
           <div class="option--repeat-item">
             Lặp lại: Tùy chỉnh
@@ -207,6 +207,8 @@ export default {
 </style>
 
 <style lang="scss">
+
+
 div[data-theme="light"] .timer {
   .option--time-days {
     input[name="date-setting"] {
@@ -228,7 +230,13 @@ div[data-theme="light"] .timer {
       }
     }
   }
+  .option--time .icon svg{
+    color: #666;
+  }
 }
+
+
+
 div[data-theme="dark"] .timer {
   .option--time-days {
     input[name="date-setting"] {
