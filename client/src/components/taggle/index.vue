@@ -6,6 +6,7 @@
       'vue-input-tag-wrapper--active': isInputActive,
     }"
     class="vue-input-tag-wrapper"
+    :data-theme="currentTheme"
   >
     <span v-for="(tag, index) in innerTags" :key="index" class="input-tag">
       <span>{{ tag }}</span>
@@ -32,11 +33,12 @@
 
 <style>
 .vue-input-tag-wrapper {
+  border-radius: 10px;
   background-color: #fff;
   border: 1px solid #ccc;
   overflow: hidden;
-  padding-left: 4px;
-  padding-top: 4px;
+  padding-left: 7px;
+  padding-top: 5px;
   cursor: text;
   text-align: left;
   -webkit-appearance: textfield;
@@ -49,7 +51,7 @@
   border: 1px solid #a5d24a;
   color: #638421;
   display: inline-block;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   margin-bottom: 4px;
   margin-right: 4px;
@@ -70,7 +72,7 @@
   background: transparent;
   border: 0;
   color: #777;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   margin-bottom: 6px;
   margin-top: 1px;
@@ -81,5 +83,19 @@
 }
 .vue-input-tag-wrapper.read-only {
   cursor: default;
+}
+
+/* CHANGE THEME _________________________ */
+
+/* DARK */
+.vue-input-tag-wrapper[data-theme="dark"] {
+  .new-tag {
+    color: #fff;
+    background: #27292d;
+  }
+}
+
+/* LIGHT */
+.vue-input-tag-wrapper[data-theme="light"] {
 }
 </style>

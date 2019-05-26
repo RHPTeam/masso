@@ -4,8 +4,8 @@ const fs = require( "fs" ),
   cheerio = require( "cheerio" ),
   request = require( "request" ),
   { post, postsSearch } = require( "../../configs/crawl" ),
-  { getDtsgAg } = require( "../../helpers/utils/dtsgfb.util" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
+  { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
   getPost = ( { cookie, agent, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -31,7 +31,7 @@ const fs = require( "fs" ),
               .each( function() {
                 photos.push( $( this ).attr( "data-ploi" ) );
               } );
-            
+
             resolve( {
               "error": {
                 "code": 200,
@@ -46,7 +46,7 @@ const fs = require( "fs" ),
               }
             } );
           }
-          
+
           // profile
           $( "div.hidden_elem" )
             .find( "code" )
@@ -135,7 +135,7 @@ const fs = require( "fs" ),
                   "div[data-sigil='reactions-sentence-container'] > div:nth-child(2)"
                 )
                 .text();
-              
+
               // Comment
               share = $( this ).find( "span[data-sigil='comments-token']" ).next().text();
 
@@ -153,7 +153,7 @@ const fs = require( "fs" ),
                 results.pop();
               }
             } );
-          
+
           results = await Promise.all( results.map( async ( result ) => {
             postInfo = await getPost( { cookie, agent, "id": result.postID } );
 

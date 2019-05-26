@@ -1,6 +1,6 @@
 
-import EventsServices from "@/services/modules/events.services";
-import CampaignsServices from "@/services/modules/campaigns.services";
+import EventsServices from "@/services/modules/post/event.service";
+import CampaignsServices from "@/services/modules/post/campaign.service";
 
 import ArrayFunction from "@/utils/functions/array";
 
@@ -50,34 +50,36 @@ const mutations = {
   },
   set_event: ( state, payload ) => {
     state.event[ payload.key ] = payload.value;
-    console.log(state.event);
   },
   set_event_special: ( state, payload ) => {
     let tempPage = [], temGroup = [];
     state.event[ payload.key ] = state.event[ payload.key ].concat( payload.value );
 
     tempPage = state.event[ payload.key ].filter( target => target.typeTarget === 1 );
-    console.log( tempPage );
     tempPage = ArrayFunction.removeDuplicateObject( tempPage, "target", "pageId" );
 
     temGroup = state.event[ payload.key ].filter( target => target.typeTarget === 0 );
     temGroup = ArrayFunction.removeDuplicateObject( temGroup, "target", "groupId" );
 
     state.event[ payload.key ] = tempPage.concat( temGroup );
-    console.log(state.event[ payload.key ] )
   },
   set_event_push: ( state, payload ) => {
     state.event[ payload.key ].push( payload.value );
     state.event[ payload.key ] = [ ...new Set( state.event[ payload.key ] ) ];
-    console.log( state.event )
   },
   set_caseEvent: ( state, payload ) => {
     state.caseEvent[ payload.key ] = payload.value;
-    console.log( state.caseEvent );
   },
   set_event_remove: ( state, payload ) => {
     delete state.event[ payload ];
-    console.log( state.event );
+  },
+  set_event_post_remove: ( state, payload ) => {
+    const postCustom = state.event.post_custom,
+      res = postCustom.filter( ( item ) => {
+      return item._id !== payload;
+    } );
+
+    state.event.post_custom = res;
   },
   ev_request: state => {
     state.statusEvent = 'loading';
@@ -115,8 +117,7 @@ const actions = {
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
-    await  commit( "setEvent", res.data.data );
-    console.log( res.data.data );
+    await  commit( "setEvent", res.data.data );;
     commit( "set_caseEvent", {
       key: "post",
       value: res.data.data.post_custom.length > 0 ? 2 : 1
@@ -162,6 +163,9 @@ const actions = {
   },
   setEventRemove: ( { commit }, payload ) => {
     commit( "set_event_remove", payload );
+  },
+  setEventPostRemove: ( { commit }, payload ) => {
+    commit( "set_event_post_remove", payload )
   },
   setEventReset: ( { commit } ) => {
     commit( "setEvent", {

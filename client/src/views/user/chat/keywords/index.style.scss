@@ -1,3 +1,24 @@
+// Start syntax
+.auto--list{
+    .syntax{
+        background: #f7f7f7;
+        border-radius: 10px;
+        cursor: pointer;
+        height: 40px;
+        line-height: 40px;
+        width: 100%;
+        color: #444444;
+        transition: background-color .75s;
+        &:hover{
+            background-color: #ffb94a;
+            transition: background-color .75s;
+            color: #fff;
+        }
+    }
+}
+// End syntax
+
+
 .main {
     font-family: "Open Sans", sans-serif;
     .main--content {

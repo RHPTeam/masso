@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "serve": "nodemon -r dotenv/config index.js",
-    "lint": "./node_modules/.bin/eslint **/*.js",
+    "lint": "./node_modules/.bin/eslint src",
     "lint:fix": "./node_modules/.bin/eslint **/*.js --fix"
   },
   "keywords": [],
@@ -301,6 +301,7 @@
     }
   },
   "devDependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",

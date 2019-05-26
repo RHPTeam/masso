@@ -10,7 +10,7 @@
         <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script />
         </div>
-        <div class="main--scripts d_flex  c_md_8">
+        <div class="main--scripts d_flex c_md_8">
           <app-main-script />
         </div>
       </div>
@@ -29,8 +29,8 @@ export default {
   },
   computed: {},
   async created() {
-    await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getSequence");
   },
   components: {
     AppLeftSidebarScript,
@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   font-family: "Open Sans", sans-serif;
-  background: #2f31368a;
+  // background: #2f31368a;
   .main--content {
     border-radius: 10px;
     min-height: calc(100vh - 260px);

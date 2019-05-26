@@ -1,5 +1,6 @@
 <template>
   <div class="category">
+    <!-- Start: Top -->
     <div class="top d_flex align_items_center justify_content_between mb_3">
       <div class="top--left"
            @click="resetPostType"
@@ -19,17 +20,10 @@
         </div>
       </div>
     </div>
+    <!-- End: Top -->
+    <!-- Start: Body -->
     <div class="body p_3 mb_4">
-      <div class="desc mb_3">
-        <icon-base
-          class="icon--sort-down"
-          icon="icon--sort-down"
-          width="14px"
-          heigh="5px"
-          viewBox="0 0 14 14"
-        >
-          <icon-sort-down></icon-sort-down>
-        </icon-base>
+      <div class="desc mb_2">
         <span class="desc--text">Danh mục bài viết</span>
       </div>
       <div class="option">
@@ -43,11 +37,14 @@
         />
       </div>
     </div>
+    <!-- End: Body -->
+    <!-- Start: Bottom -->
     <div class="bottom">
       <!--Start: Post detail -->
       <global-option />
       <!--End: Post detail -->
     </div>
+    <!-- End: Bottom -->
   </div>
 </template>
 

@@ -8,8 +8,8 @@
 const Post = require( "../../models/post/Post.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
@@ -21,26 +21,24 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let page = null, dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Post.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
+      dataResponse = await Post.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     } else if ( req.query._categoryId ) {
       dataResponse = await Post.find( { "_categories": req.query._categoryId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = ( await Post.find( { "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = ( await Post.find( { "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Post.find( { "_account": userId } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
+      dataResponse = await Post.find( { "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean();
     }
 
     if ( req.query._size ) {
-      if ( ( await Post.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
-        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size );
+      if ( ( await Post.find( { "_account": req.uid } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await Post.find( { "_account": req.uid } ) ).length / req.query._size );
       } else {
-        page = Math.floor( ( await Post.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+        page = Math.floor( ( await Post.find( { "_account": req.uid } ) ).length / req.query._size ) + 1;
       }
 
       return res
@@ -64,9 +62,8 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findPostCategory = await PostCategory.findOne( { "_account": userId, "title": dictionary.DEFAULT_POSTCATEGORY } ),
-      newPost = await new Post( { "title": dictionary.DEFAULT_NAMEPOST, "_account": userId } );
+    const findPostCategory = new PostCategory( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+      newPost = await new Post( { "title": dictionary.DEFAULT_NAMEPOST, "_account": req.uid } );
 
     newPost._categories.push( findPostCategory._id );
     await newPost.save();
@@ -81,14 +78,11 @@ module.exports = {
    */
   "update": async ( req, res ) => {
 
-    const userId = secure( res, req.headers.authorization ),
-      findPost = await Post.findById( req.query._postId );
+    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
-    } else if ( findPost._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Check update post if user upload file
@@ -128,14 +122,11 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      findPost = await Post.findById( req.query._postId );
+    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
-    } else if ( findPost._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài đăng này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Remove a file attachments in post
@@ -143,11 +134,11 @@ module.exports = {
       const findPostOfAttachment = await Post.findOne( { "attachments._id": req.query._attachmentId } );
 
       if ( !findPostOfAttachment ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Ảnh không tồn tại trong bài đăng này!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Ảnh không tồn tại trong bài đăng này!" } );
       }
       Post.updateOne( { "_id": req.query._postId }, { "$pull": { "attachments": { "_id": req.query._attachmentId } } }, ( err ) => {
         if ( err ) {
-          return res.status( 500 ).json( { "status": "error", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
+          return res.status( 500 ).json( { "status": "errors.js", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
         }
       } );
       return res.status( 200 ).json( jsonResponse( "success", null ) );

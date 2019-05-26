@@ -2,10 +2,8 @@
 const router = require( "express" ).Router();
 const auth = require( "../helpers/middleware/authenticate.middleware" );
 
-// Chat Route
-
 // General Route
-router.use( "/me", require( "./modules/post/ads.route" ) );
+router.use( "/me", auth, require( "./modules/post/ads.route" ) );
 router.use( "/core", require( "./modules/core.route" ) );
 router.use( "/signup", require( "./modules/signup.route" ) );
 router.use( "/signin", require( "./modules/signin.route" ) );
@@ -30,6 +28,17 @@ router.use( "/post-group", auth, require( "./modules/post/postGroup.route" ) );
 router.use( "/group-facebook", auth, require( "./modules/post/groupFacebook.route" ) );
 router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route" ) );
 router.use( "/post-facebook", auth, require( "./modules/post/postFacebook.route" ) );
+
+// Chat Route
+router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );
+router.use( "/block", auth, require( "./modules/chat/block.route" ) );
+router.use( "/broadcast", auth, require( "./modules/chat/broadcast.route" ) );
+router.use( "/group-block", auth, require( "./modules/chat/groupBlock.route" ) );
+router.use( "/group-friend", auth, require( "./modules/chat/groupFriend.route" ) );
+router.use( "/sequence", auth, require( "./modules/chat/sequence.route" ) );
+router.use( "/syntax", auth, require( "./modules/chat/syntax.route" ) );
+router.use( "/vocate", auth, require( "./modules/chat/vocate.route" ) );
+
 
 // Server Route
 router.use( "/vps", auth, require( "./modules/server.route" ) );

@@ -12,9 +12,9 @@ const HelpCategory = require( "../../models/help/HelpCategory.model" );
 const Account = require( "../../models/Account.model" );
 
 
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
-const convertUnicode = require( "../../helpers/utils/convertUnicode.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
+const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 module.exports = {
   /**
@@ -93,9 +93,9 @@ module.exports = {
 
     // Check catch when update post categories
     if ( !findBlogHelp ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài viết không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài viết không tồn tại!" } );
     } else if ( findBlogHelp._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho bài viết này!" } );
+      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho bài viết này!" } );
     }
     if ( req.body.vote ) {
       await Promise.all( findBlogHelp.vote.map( ( vote ) => {
@@ -125,7 +125,7 @@ module.exports = {
 
 
     if ( !findAccount ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
     let dataResponse = findBlogHelp.filter( ( blog ) => convertUnicode( blog.title.toLowerCase() ).toString().includes( convertUnicode( req.query._title.toLowerCase() ).toString() ) );
 
@@ -149,10 +149,10 @@ module.exports = {
 
     // Check ctach when delete help categories
     if ( !findBlogHelp ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Bài viết không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài viết không tồn tại!" } );
     }
     if ( !findAccount ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
 
     // When delete auto which all of help category of that auto will deleted

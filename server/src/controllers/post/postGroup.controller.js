@@ -11,8 +11,8 @@
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
-const jsonResponse = require( "../../configs/res" );
-const secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" );
+const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -23,12 +23,10 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     // Handle get all page from mongodb
     if ( req.query._id ) {
-      dataResponse = await PostGroup.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await PostGroup.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       dataResponse = dataResponse[ 0 ];
       dataResponse._pages = await Promise.all( dataResponse._pages.map( async ( id ) => {
         return await PageFacebook.findOne( { "pageId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
@@ -37,7 +35,7 @@ module.exports = {
         return await GroupFacebook.findOne( { "groupId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
       } ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostGroup.find( { "_account": userId } ).lean();
+      dataResponse = await PostGroup.find( { "_account": req.uid } ).lean();
     }
 
     res
@@ -57,13 +55,12 @@ module.exports = {
     }
 
     // Handle create campaign
-    const userId = secure( res, req.headers.authorization ),
-      newPostGroup = await new PostGroup( {
-        "title": req.body.title,
-        "_pages": req.body._pages ? req.body._pages : [],
-        "_groups": req.body._groups ? req.body._groups : [],
-        "_account": userId
-      } );
+    const newPostGroup = await new PostGroup( {
+      "title": req.body.title,
+      "_pages": req.body._pages ? req.body._pages : [],
+      "_groups": req.body._groups ? req.body._groups : [],
+      "_account": req.uid
+    } );
 
     await newPostGroup.save();
 
@@ -83,14 +80,11 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề nhóm nơi đăng không được bỏ trống!" } } );
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      findPostGroup = await PostGroup.findById( req.query._postGroupId );
+    const findPostGroup = await PostGroup.findOne( { "_id": req.query._postGroupId, "_account": req.uid } );
 
     // Check catch when update campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
-    } else if ( findPostGroup._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
     }
 
     // check exists in database
@@ -108,14 +102,11 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findPostGroup = await PostGroup.findById( req.query._postGroupId );
+    const findPostGroup = await PostGroup.findOne( { "_id": req.query._postGroupId, "_account": req.uid } );
 
     // Check catch when delete campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
-    } else if ( findPostGroup._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho nhóm nơi đăng này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
     }
 
     await PostGroup.findByIdAndDelete( req.query._postGroupId );

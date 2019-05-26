@@ -4,5 +4,14 @@
  */
 module.exports = {
   "DEFAULT_POSTCATEGORY": "Chưa phân loại",
-  "DEFAULT_NAMEPOST": "Bài đăng chưa có tiêu đề"
+  "DEFAULT_NAMEPOST": "Bài đăng chưa có tiêu đề",
+  "SYNTAX": "Cú pháp",
+  "BLOCK": "Kịch bản",
+  "GROUPBLOCK": "Nhóm kịch bản",
+  "SEQUENCE": "Chuỗi kịch bản",
+  "GROUPFRIEND": "Nhóm bạn bè",
+  "VOCATE": "Danh xưng",
+  "VOCATEDEFAULT": "Bạn",
+  "MALE": "Anh",
+  "FEMALE": "Chị"
 };

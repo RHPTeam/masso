@@ -111,7 +111,7 @@
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
-        :to="{ name: 'account' }"
+        :to="{ name: 'facebook' }"
         active-class="active"
       >
         <a>

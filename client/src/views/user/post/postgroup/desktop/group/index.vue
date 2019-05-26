@@ -7,7 +7,6 @@
     >
       Xem tất cả
     </div>
-
     <div class="group--item mr_2 mb_2"
          :class="[currentIndex === index ? 'active' : '']"
          v-for="(postGroup, index) in postGroups"
@@ -20,7 +19,7 @@
           placeholder="Nhập tên..."
           :contenteditable="true"
           :noNL="true"
-          v-model='postGroup.title'
+          v-model="postGroup.title"
           @keyup="upTypingText( postGroup )"
           @keydown="clearTypingTimer"
         />

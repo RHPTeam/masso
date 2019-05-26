@@ -1,6 +1,6 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <div class="group py_3">
+  <div class="group py_3" :data-theme="currentTheme">
     <!--Start: Component Deliver your message now-->
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
@@ -38,6 +38,33 @@
         </div>
         <div class="action"></div>
       </div>
+      <div class="group--item-body r m_0">
+        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2" @click="goToSchedule">
+          <div class="mx_1 content--setup">
+            <span>Hang ngay</span>
+            <span class="pl_1">xx:xx</span>
+          </div>
+        </div>
+        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2">
+          <div class="content--setup mx_1">
+            <span>Hang ngay</span>
+            <span class="pl_1">12:30</span>
+          </div>
+        </div>
+        <div class="c_xl_6 c_lg_6 c_md_12 text_center px_0 mb_2">
+          <div class="content--setup mx_1">
+            <icon-base
+              icon-name="add"
+              width="20"
+              height="20"
+              viewBox="0 0 60 60"
+            >
+              <icon-plus />
+            </icon-base>
+          </div>
+        </div>
+      </div>
+
       <loading-component
         v-if="this.$store.getters.statusBroadcast === 'loading'"
       />
@@ -50,7 +77,7 @@
             Chiến dịch đã được gửi đi
           </p>
         </div> -->
-        <div
+        <!-- <div
           class="box"
           v-for="(schedule, index) in schedules"
           :key="index"
@@ -58,8 +85,8 @@
           :class="{ active: isActive == schedule._id }"
         >
           <span>{{ schedule.timeSetting | filteredName }}</span>
-        </div>
-        <div class="box add" @click="addSchedule">
+        </div> -->
+        <!-- <div class="box add" @click="addSchedule">
           <icon-base
             icon-name="remove"
             width="20"
@@ -68,7 +95,7 @@
           >
             <icon-plus />
           </icon-base>
-        </div>
+        </div> -->
       </div>
     </div>
     <!--End: Component Schedule later-->

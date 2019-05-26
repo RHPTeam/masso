@@ -1,19 +1,16 @@
 <template>
   <div>
-    <div class="text d_flex align_items_center mb_2">
+    <div class="text d_flex align_items_center mb_2" :data-theme="currentTheme">
       <div class="text-edit">
         <contenteditable
           class="editable"
           tag="div"
           placeholder="Nhập văn bản..."
           :contenteditable="true"
-          v-model="item.valueText"
-          @keyup="upTypingText('itembroadcasts', item)"
-          @keydown="clear"
         />
       </div>
       <div class="body--icon ml_2">
-        <div class="icon--delete mb_1" @click="isDeleteItemSchedule = true">
+        <div class="icon--delete mb_1">
           <icon-base
             icon-name="remove"
             width="20"
@@ -36,20 +33,16 @@
       </div>
     </div>
     <!--Start:Delete Item Popup-->
-    <delete-item
-      v-if="isDeleteItemSchedule === true"
+    <!-- <delete-item
       desc="Bạn có thực sự muốn xóa nội dung này trong chiến dịch không?"
-      :block="schedule._id"
-      :content="item._id"
       target="itemschedule"
-      @close="isDeleteItemSchedule = $event"
-    />
+    /> -->
     <!--End: Delete Item Popup-->
   </div>
 </template>
 <script>
-import BroadcastService from "@/services/modules/broadcast.service";
-import StringFunction from "@/utils/string.util";
+import BroadcastService from "@/services/modules/chat/broadcast.service";
+import StringFunction from "@/utils/functions/string";
 
 // import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
@@ -71,32 +64,32 @@ export default {
     };
   },
   methods: {
-    upTypingText(type, group) {
-      clearTimeout(typingTimer);
-      if (type === "itembroadcasts") {
-        typingTimer = setTimeout(this.updateSchedule(group), 800);
-      }
-    },
-    clear() {
-      clearTimeout(typingTimer);
-    },
-    // Update item schedule
-    async updateSchedule(group) {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        bcId: result[0]._id,
-        blockId: this.$store.getters.schedule._id,
-        contentId: group._id,
-        value: group.valueText
-      };
-      this.$store.dispatch("updateItemSchedule", objSender);
-    }
+    // upTypingText(type, group) {
+    //   clearTimeout(typingTimer);
+    //   if (type === "itembroadcasts") {
+    //     typingTimer = setTimeout(this.updateSchedule(group), 800);
+    //   }
+    // },
+    // clear() {
+    //   clearTimeout(typingTimer);
+    // },
+    // // Update item schedule
+    // async updateSchedule(group) {
+    //   let result = await BroadcastService.index();
+    //   result = result.data.data.filter(
+    //     item =>
+    //       StringFunction.convertUnicode(item.typeBroadCast)
+    //         .toLowerCase()
+    //         .trim() === "thiet lap bo hen"
+    //   );
+    //   const objSender = {
+    //     bcId: result[0]._id,
+    //     blockId: this.$store.getters.schedule._id,
+    //     contentId: group._id,
+    //     value: group.valueText
+    //   };
+    //   this.$store.dispatch("updateItemSchedule", objSender);
+    // }
     // closeSuggestAttributeInItem() {
     //   this.showSuggestAttribute = false;
     // },
@@ -121,7 +114,12 @@ export default {
     //   console.log(dataSender);
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
-  }
+  },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   // components: {
   //   VuePerfectScrollbar
   // }

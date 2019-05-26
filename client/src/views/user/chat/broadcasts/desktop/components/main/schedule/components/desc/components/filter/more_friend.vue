@@ -1,6 +1,6 @@
 <template>
-  <div class="modal--wrapper">
-    <div class="modal--dialog d_flex justify_content_center align_items_center">
+  <div class="modal--wrapper d_none">
+    <!-- <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header">
           <input type="text" class="search" placeholder="Tìm kiếm bạn bè ..." />
@@ -36,13 +36,13 @@
           </button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
-  props: ["infoGroupFilter"],
+  // props: ["infoGroupFilter"],
   data() {
     return {};
   },
@@ -67,6 +67,7 @@ export default {
   bottom: 0;
   right: 0;
   z-index: 999;
+  display: none;
   .modal--dialog {
     width: 100%;
     height: 100%;

@@ -12,13 +12,13 @@
           <div
             class="time--value-limit d_flex justify_content_between align_items_end"
           >
-            <span> mintime }}s</span>
-            <span> maxtime }}s</span>
+            <span>0 s</span>
+            <span>20 s</span>
           </div>
           <div
             class="time--value-current position_absolute"
           >
-            item.valueText }}s
+            <!-- 10 s -->
           </div>
         </div>
       </div>

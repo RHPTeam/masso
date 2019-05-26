@@ -10,8 +10,8 @@ const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 
-const jsonResponse = require( "../../configs/res" ),
-  secure = require( "../../helpers/utils/secure.util" );
+const jsonResponse = require( "../../configs/response" ),
+  secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -22,11 +22,9 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let page = null, dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -44,7 +42,7 @@ module.exports = {
         }
       } ) );
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -62,13 +60,13 @@ module.exports = {
         }
       } ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await Event.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = ( await Event.find( { "_account": req.uid } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Event.find( { "_account": userId } ).lean();
+      dataResponse = await Event.find( { "_account": req.uid } ).lean();
     }
 
     if ( req.query._size ) {
-      if ( ( await Event.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
+      if ( ( await Event.find( { "_account": req.uid } ) ).length % req.query._size === 0 ) {
         page = Math.floor( ( await Event.find( { "_account": userId } ) ).length / req.query._size );
       } else {
         page = Math.floor( ( await Event.find( { "_account": userId } ) ).length / req.query._size ) + 1;
@@ -82,7 +80,7 @@ module.exports = {
     // Check when user get one
     if ( req.query._id ) {
       if ( dataResponse.length === 0 ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
       }
       dataResponse = dataResponse[ 0 ];
     }
@@ -112,35 +110,22 @@ module.exports = {
       } else if ( req.body.started_at === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
-    const errors = [], userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": userId } ).populate( { "path": "_events", "select": "title started_at" } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "title started_at" } );
 
     // Check catch when update event
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
-    } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     }
 
     // Check status of campaign to create status for event
     req.body.status = findCampaign.status;
-    req.body._account = userId;
+    req.body._account = req.uid;
     // eslint-disable-next-line one-var
     const newEvent = await new Event( req.body );
-
-    // Check exist started_at
-    await Promise.all( findCampaign._events.map( ( event ) => {
-      if ( event.started_at === req.body.started_at ) {
-        errors.push( event.title );
-      }
-    } ) );
-    // if ( errors.length > 0 ) {
-    //   return res.status( 404 ).json( { "status": "errors", "message": `${errors[ 0 ]} có thời gian bắt đầu trùng với thời gian bạn thiết lập cho sự kiện mới này!` } );
-    // }
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
@@ -170,18 +155,15 @@ module.exports = {
       } else if ( !req.body.started_at ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      findEvent = await Event.findById( req.query._eventId );
+    const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } );
 
     // Check catch when update event
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
-    } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     }
 
     // Check switch status of event
@@ -200,17 +182,14 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
-      findEvent = await Event.findById( req.query._eventId );
+    const findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
+      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } );
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
     } else if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
-    } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     }
 
     // delete event of campain
@@ -221,15 +200,12 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "duplicate": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
-      findEvent = await Event.findById( req.query._eventId ).select( "-_id -__v -updated_at -created_at" ).lean();
+    const findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
+      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when duplicate
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
-    } else if ( findEvent._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho sự kiện này!" } );
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
     }
 
     findEvent.title = `${findEvent.title} Copy`;

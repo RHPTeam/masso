@@ -62,7 +62,7 @@ export default {
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
-      this.$router.push( "/signin" );
+      window.location = process.env.VUE_APP_PARENT_URL;
     },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
@@ -84,7 +84,7 @@ export default {
 
       await this.$store.dispatch( "createNewPost", dataSender );
       this.$router.push( {
-        name: "update_post",
+        name: "post_update_post",
         params: { id: this.newPost._id }
       } );
     }

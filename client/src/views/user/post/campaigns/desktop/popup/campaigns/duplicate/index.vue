@@ -46,7 +46,7 @@ export default {
       console.log(campaign);
 
 
-      this.$router.push( { name: "campaigns/detail",
+      this.$router.push( { name: "post_campaigns_detail",
                            params: { campaignId: campaign._id } } );
 
       this.$emit( "closePopup", false );

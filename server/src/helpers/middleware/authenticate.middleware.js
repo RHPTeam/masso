@@ -1,30 +1,28 @@
-const jwt = require( "jsonwebtoken" );
-
-const jsonResponse = require( "../../configs/res" );
-const Account = require( "../../models/Account.model" );
-
-/**
- *  The Auth Checker middleware function.
- */
+const jwt = require( "jsonwebtoken" ),
+  { findSubString } = require( "../utils/functions/string" ),
+  Account = require( "../../models/Account.model" );
 
 module.exports = ( req, res, next ) => {
   if ( !req.headers.authorization ) {
-    return res
-      .status( 404 )
-      .json( jsonResponse( "Cookie của bạn không được tìm thấy!", null ) );
+    return res.status( 405 ).json( { "status": "error", "message": "Cookie của bạn không được tìm thấy!" } );
   }
-  const token = req.headers.authorization;
 
-  return jwt.verify( token, process.env.APP_KEY, ( err, decoded ) => {
-    if ( err ) {
-      return res.status( 401 ).end();
+  const authorization = req.headers.authorization;
+
+  // Decode Cookie to get sid
+
+  return jwt.verify( findSubString( authorization, "sid=", ";" ), process.env.APP_KEY, ( error, decoded ) => {
+    if ( error ) {
+      return res.status( 405 ).json( { "status": "error", "message": "Cookie của bạn không đúng!" } );
     }
-    const userId = decoded.sub;
 
-    return Account.findById( userId, ( userErr, user ) => {
-      if ( userErr || !user ) {
-        return res.status( 401 ).end();
+    const id = decoded.sub;
+
+    return Account.findOne( { "_id": id }, ( err, user ) => {
+      if ( err || !user ) {
+        return res.status( 405 ).json( { "status": "error", "message": "Cookie của bạn không hợp lệ!" } );
       }
+      req.uid = id;
       return next();
     } );
   } );

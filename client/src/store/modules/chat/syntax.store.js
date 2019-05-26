@@ -1,4 +1,4 @@
-import SyntaxService from "@/services/modules/chat/syntax.service";
+// import SyntaxService from "@/services/modules/chat/syntax.service";
 
 const state = {
   statusSyntaxList: "",
@@ -21,7 +21,7 @@ const mutations = {
     state.statusSyntaxList = "success";
   },
   syntaxList_error: state => {
-    state.statusSyntaxList = "error";
+    state.statusSyntaxList = "errors.js";
   },
   syntax_request: state => {
     state.statusSyntax = "loading";
@@ -30,7 +30,7 @@ const mutations = {
     state.statusSyntax = "success";
   },
   syntax_error: state => {
-    state.statusSyntax = "error";
+    state.statusSyntax = "errors.js";
   },
   /******************** SYNTAX *********************/
   setSyntax: (state, payload) => {

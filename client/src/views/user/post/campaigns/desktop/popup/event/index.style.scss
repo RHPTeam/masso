@@ -7,7 +7,6 @@
   right: 0;
   top: 0;
   z-index: 999;
-
   .modal--dialog {
     align-items: center;
     display: flex;
@@ -15,13 +14,33 @@
     justify-content: center;
     width: 100%;
     .modal--scroll {
-      max-height: calc( 100vh - 140px - 6rem );
+      max-height: calc( 100vh - 140px - 8rem );
     }
     .modal--content {
       background-color: #f7f7f7;
       border-radius: .625rem;
       max-height: calc( 100vh - 4rem );
       width: 60%;
+    }
+  }
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .modal--wrapper {
+    .modal--dialog {
+      .modal--content {
+        width: 70%;
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .modal--wrapper {
+    .modal--dialog {
+      .modal--content {
+        width: 80%;
+      }
     }
   }
 }

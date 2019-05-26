@@ -5,8 +5,6 @@ import Router from "vue-router";
 import customerGeneralChatRouter from "./modules/user/chat";
 import customerGeneralPostRouter from "./modules/user/post";
 import customerResetPassword from "./modules/user/password";
-import customerSigninRouter from "./modules/user/signin";
-import customerSignupRouter from "./modules/user/signup";
 import customerWelcomeRouter from "./modules/user/welcome";
 import customerMessengerRouter from "./modules/user/messenger";
 
@@ -23,13 +21,19 @@ export default new Router( {
     customerGeneralChatRouter,
     customerGeneralPostRouter,
     customerResetPassword,
-    customerSigninRouter,
-    customerSignupRouter,
     customerWelcomeRouter,
     customerMessengerRouter,
     error404Router,
     error500Router,
     guideGeneralRouter,
+    {
+      path: "/signin",
+      redirect: "/welcome"
+    },
+    {
+      path: "/signup",
+      redirect: "/welcome"
+    },
     {
       path: "*",
       redirect: "/404"

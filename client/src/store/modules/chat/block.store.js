@@ -1,5 +1,5 @@
-import BlockServices from "@/services/modules/chat/block.service";
-import GroupBlockServices from "@/services/modules/chat/groupBlock.service";
+// import BlockServices from "@/services/modules/chat/block.service";
+// import GroupBlockServices from "@/services/modules/chat/groupBlock.service";
 
 const state = {
   statusGroupBlocks: "",
@@ -33,7 +33,7 @@ const mutations = {
     state.statusBlocks = "success";
   },
   block_error: state => {
-    state.statusBlocks = "error";
+    state.statusBlocks = "errors.js";
   },
   /******************** GROUP BLOCKS *********************/
   setGroupBlock: (state, payload) => {

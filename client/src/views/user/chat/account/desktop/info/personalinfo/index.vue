@@ -1,5 +1,5 @@
 <template>
-  <div class="perinfo--wrapper">
+  <div class="perinfo--wrapper" :data-theme="currentTheme">
     <div class="title text_left">Thông tin cá nhân</div>
     <form class="wrapper--form">
       <!-- Start: Email -->
@@ -9,7 +9,7 @@
             <icon-envelope />
           </icon-base>
         </div>
-        <div class="text">{{ user.email }}</div>
+        <div class="text">mouse@gmail.com</div>
       </div>
       <!-- End: Email -->
       <!-- Start: Name & Phone-->

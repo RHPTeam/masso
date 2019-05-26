@@ -9,7 +9,7 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema;
 
-const rcrypt = require( "../secures" ),
+const rcrypt = require( "../helpers/secures/rcrypt" ),
 
   AccountSchema = new Schema( {
     "name": String,
@@ -26,17 +26,10 @@ const rcrypt = require( "../secures" ),
     },
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
-    "ip": [],
     "_role": {
       "type": Schema.Types.ObjectId,
       "ref": "Role"
     },
-    "_accountfb": [
-      {
-        "type": Schema.Types.ObjectId,
-        "ref": "AccountFacebook"
-      }
-    ],
     "_server": {
       "type": Schema.Types.ObjectId,
       "ref": "Server"

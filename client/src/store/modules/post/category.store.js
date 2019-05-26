@@ -1,4 +1,4 @@
-import CategoriesServices from "@/services/modules/categories.services";
+import CategoriesServices from "@/services/modules/post/category.service";
 
 const state = {
   allCategories: [],

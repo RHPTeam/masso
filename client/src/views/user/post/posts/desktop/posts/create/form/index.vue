@@ -197,7 +197,7 @@
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
             <div v-if="post.attachments && post.attachments.length > 0">
-              <div v-if="this.$store.getters.errorPost === 'error'" class="text_danger">
+              <div v-if="this.$store.getters.errorPost === 'errors.js'" class="text_danger">
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
               <div v-else>

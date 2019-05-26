@@ -1,6 +1,7 @@
-import AccountServices from "@/services/modules/account.services";
-
+import AccountServices from "@/services/modules/account.service";
 import CookieFunction from "@/utils/functions/cookie";
+import StringFunction from "@/utils/functions/string";
+
 import axios from "axios";
 
 const state = {
@@ -40,15 +41,13 @@ const mutations = {
   auth_request_success: ( state ) => {
     state.status = "success";
   },
-  auth_success: ( state, payload ) => {
+  auth_success: ( state ) => {
     state.status = "success";
-    state.token = payload.token;
-    state.user = payload.user;
   },
   auth_error: ( state, payload ) => {
     state.status = payload;
   },
-  user_set: ( state, payload ) => {
+  setUser: ( state, payload ) => {
     state.user = payload;
   },
   user_action: ( state, payload ) => {
@@ -88,67 +87,6 @@ const mutations = {
 };
 
 const actions = {
-  signIn: async ( { commit }, user ) => {
-    try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signIn( user );
-
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data.user._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
-
-      // remove localStorage
-      localStorage.removeItem( "rid" );
-
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
-
-      commit( "auth_success", sendDataToMutation );
-    } catch ( e ) {
-      if ( e.response.status === 401 ) {
-        commit( "auth_error", "401" );
-      }
-      if ( e.response.status === 405 ) {
-        commit( "auth_error", "405" );
-      }
-    }
-  },
-  signUp: async ( { commit }, user ) => {
-    try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signUp( user );
-      // set cookie
-
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
-
-      // remove localStorage
-      localStorage.removeItem( "rid" );
-
-      // set Authorization
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
-
-      commit( "auth_success", sendDataToMutation );
-    } catch ( e ) {
-      commit( "auth_error" );
-      if ( e.response.status === 405 ) {
-        commit( "set_textAuth", e.response.data.data.details[ 0 ].context.label );
-      } else if ( e.response.status === 404 ) {
-        commit( "set_textAuth", "404" );
-      } else {
-        commit( "set_textAuth", e.response.data.status );
-      }
-      return false;
-    }
-  },
   logOut: async ( { commit } ) => {
     commit( "logout" );
     // remove cookie
@@ -165,12 +103,8 @@ const actions = {
     const userInfoRes = await AccountServices.show(
       CookieFunction.getCookie( "uid" )
     );
-    const sendDataToMutation = {
-      token: CookieFunction.getCookie( "sid" ),
-      user: userInfoRes.data.data[ 0 ]
-    };
 
-    commit( "auth_success", sendDataToMutation );
+    commit( "setUser", userInfoRes.data.data );
   },
   updateUser: async ( { commit }, payload ) => {
     await AccountServices.update( payload );

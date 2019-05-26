@@ -5,7 +5,7 @@
         class="header d_flex align_items_center justify_content_between mb_3"
       >
         <h3 class="title">Đăng ký trình tự</h3>
-        <div class="icon--remove ml_auto" @click="isDeleteItemSchedule = true">
+        <div class="icon--remove ml_auto" @click="isDeleteItemSchedule = !isDeleteItemSchedule">
           <icon-base
             icon-name="remove"
             width="18"
@@ -99,11 +99,9 @@
 <!--        </button>-->
 <!--      </div>-->
       <div class="subcrible--edit mb_3">
-        <list
-          :sequence="item"
-          :block="schedule"
-          @update="updateToParent($event)"
-        />
+        <multiselect         
+          label="title"
+          placeholder="Chọn danh mục đăng bài "/>
       </div>
     </div>
     <!--Start:Delete Item Popup-->
