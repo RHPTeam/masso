@@ -11,12 +11,24 @@ const mongoose = require( "mongoose" ),
       "link": String,
       "typeAttachment": Number
     } ],
-    "place": String,
-    "scrape": String,
-    "tags": Array,
-    "activity": {
-      "typeActivity": String,
+    "place": {
       "id": String,
+      "text": String
+    },
+    "scrape": String,
+    "tags": [ {
+      "uid": String,
+      "text": String
+    } ],
+    "activity": {
+      "typeActivity": {
+        "id": String,
+        "text": String
+      },
+      "id": {
+        "id": String,
+        "photo": String
+      },
       "text": String
     },
     "_account": {
