@@ -3,10 +3,12 @@ import PostFacebookService from "@/services/modules/post/postfacebook.service";
 const state = {
   allPostsFacebook: [],
   postsFacebookByKey: [],
+  postPush: []
 };
 const getters = {
   allPostsFacebook: state => state.allPostsFacebook,
   postsFacebookByKey: state => state.postsFacebookByKey,
+  postPush: state => state.postPush
 };
 const mutations = {
   setAllPostsFacebook: ( state, payload ) => {
@@ -14,6 +16,12 @@ const mutations = {
   },
   setPostsFacebookByKey: ( state, payload ) => {
     state.postsFacebookByKey = payload;
+  },
+  setPostPush: (state, payload) => {
+    payload.map(item => {
+      state.postPush.push(item);
+    })
+    // state.postPush.concat(payload);
   }
 };
 const actions = {
@@ -27,7 +35,12 @@ const actions = {
       payload.size,
       payload.page
     );
+    console.log(result.data.data);
+    commit("setPostPush", result.data.data.results);
     commit( "setPostsFacebookByKey", result.data.data );
+  },
+  setPostSearchDefault: async ({ commit }, payload) => {
+    commit("set_push_post", payload);
   }
 };
 

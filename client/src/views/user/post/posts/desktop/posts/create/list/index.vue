@@ -61,6 +61,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      maxPerPage: 12,
       keyword: "Mỹ phẩm",
       search: "",
     }
@@ -79,18 +80,25 @@ export default {
   },
   async created () {
     await this.$store.dispatch( "getUserInfo" );
-
-    this.keyword = this.user.keywords[0];
+    this.$store.dispatch( "getAllPostFacebook" );
   },
   methods: {
     searchPostByKeyword( val ) {
-      this.keyword = val;
+      const dataSender = {
+        key: val,
+        size: this.maxPerPage,
+        page: this.currentPage
+      };
+      this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
     },
     searchPost() {
       if ( this.search !== "" ) {
-        this.keyword = this.search;
-      } else {
-        this.keyword = this.user.keywords[0];
+        const dataSender = {
+          key: this.search,
+          size: this.maxPerPage,
+          page: this.currentPage
+        };
+        this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
       }
     }
   },

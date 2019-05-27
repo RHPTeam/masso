@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
-    <div>{{ keyword }}</div>
     <div class="list--data my_3">
+      {{postPush.length}}
       <div class="item--header d_flex align_items_center px_2 py_2">
         <div class="col col--content px_3">Nội dung</div>
         <div class="col col--image px_3">Hình ảnh</div>
@@ -10,13 +10,19 @@
         <div class="col col--action px_3">Hành động</div>
       </div>
       <!-- Start: List Content -->
-      <div v-for="(item, index) in postsArr" :key="index">
-        <item-detail :item="item" />
-      </div>
-      <div class="infinite--control-block">
-        <div ref="infiniteScrollTrigger" id="scrollTrigger"></div>
-        <div class="circle--loading" v-if="showLoader"></div>
-      </div>
+      <vue-perfect-scrollbar class="infinite">
+
+          <div v-for="(item, index) in postPush" :key="index">
+            <item-detail :item="item" />
+          </div>
+
+
+
+        <div class="infinite--control-block">
+          <div ref="infiniteScrollTrigger" id="scrollTrigger"></div>
+          <div class="circle--loading" v-if="showLoader"></div>
+        </div>
+      </vue-perfect-scrollbar>
     </div>
   </div>
 </template>
@@ -41,24 +47,20 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    allPostFacebook(){
+      // console.log(this.$store.getters.allPostsFacebook);
+      return this.$store.getters.allPostsFacebook;
+    },
     postsFacebookByKey() {
+      // console.log(this.$store.getters.postsFacebookByKey);
       return this.$store.getters.postsFacebookByKey;
+    },
+    postPush(){
+      return this.$store.getters.postPush;
     },
     user() {
       return this.$store.getters.userInfo;
     }
-  },
-  async created() {
-    const dataSender = {
-      key: this.keyword,
-      size: this.maxPerPage,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
-    this.postsFacebookByKey.results.forEach( ( item ) => {
-      this.postsArr.push( item );
-    } );
   },
   mounted() {
     this.scrollTrigger();
@@ -90,10 +92,6 @@ export default {
       };
 
       await this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
-
-      this.postsFacebookByKey.results.forEach( ( item ) => {
-        this.postsArr.push( item );
-      } );
     }
   }
 };
@@ -183,7 +181,9 @@ export default {
     }
   }
 }
-
+.infinite {
+  max-height: 280px;
+}
 .infinite--control-block {
   width: 100%;
   #scrollTrigger {
