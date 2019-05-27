@@ -30,7 +30,7 @@
           <!--Start: Create and show content-->
           <div class="content position_relative">
             <!--Start: Content Default-->
-            <div v-if="post.color === ''" class="p_2">
+            <div v-if="checkColor" class="p_2">
               <contenteditable
                 tag="div"
                 class="description"
@@ -119,7 +119,7 @@
 
               </div>
               <!--Start: Choose color text-->
-              <div class="color">
+              <div class="color pl_3">
                 <color-post
                   @turnOff="isShowColor = $event"
                   @openContentColor="changeResultContentColor($event)"

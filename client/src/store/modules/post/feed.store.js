@@ -1,4 +1,5 @@
 import FeedServices from "@/services/modules/post/feed.service";
+import PostFacebookService from "@/services/modules/post/postfacebook.service";
 
 const state = {
   allPostLibraries: [],
@@ -115,7 +116,7 @@ const actions = {
   },
   searchPostFromLibrariesByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const result = await FeedServices.searchPostLibrariesByPage(
+    const result = await PostFacebookService.searchByKeyword(
       payload.key,
       payload.size,
       payload.page
