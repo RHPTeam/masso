@@ -22,7 +22,7 @@
 
 <script>
 import AppBreadCrumb from "@/components/breadcrumb";
-import AppSegments from "./components/desktop/segments";
+import AppSegments from "./components/desktop";
 // import AppMobile from "./mobile/index_mobile";
 export default {
   components: {

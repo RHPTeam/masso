@@ -38,10 +38,7 @@ mongoose.set( "useFindAndModify", false );
 app.set( "port", process.env.PORT_BASE );
 
 app.use( cors( {
-  "origin": [
-    `${process.env.APP_URL}:${process.env.PORT_BASE}`,
-    "http://localhost:8080"
-  ],
+  "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
   "allowedHeaders": [ "Content-Type", "Authorization" ],
   "exposedHeaders": [ "Cookie" ] } ) );

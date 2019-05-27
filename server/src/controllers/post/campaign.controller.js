@@ -10,7 +10,6 @@ const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 
 module.exports = {
@@ -22,24 +21,22 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let page = null, dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).lean();
+      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Campaign.find( { "_account": userId } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
-      dataResponse = ( await Campaign.find( { "_account": userId } ).lean() ).slice( 0, Number( req.query._size ) );
+      dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( 0, Number( req.query._size ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Campaign.find( { "_account": userId } ).lean();
+      dataResponse = await Campaign.find( { "_account": req.uid } ).lean();
     }
 
     if ( req.query._size ) {
-      if ( ( await Campaign.find( { "_account": userId } ) ).length % req.query._size === 0 ) {
-        page = Math.floor( ( await Campaign.find( { "_account": userId } ) ).length / req.query._size );
+      if ( ( await Campaign.find( { "_account": req.uid } ) ).length % req.query._size === 0 ) {
+        page = Math.floor( ( await Campaign.find( { "_account": req.uid } ) ).length / req.query._size );
       } else {
-        page = Math.floor( ( await Campaign.find( { "_account": userId } ) ).length / req.query._size ) + 1;
+        page = Math.floor( ( await Campaign.find( { "_account": req.uid } ) ).length / req.query._size ) + 1;
       }
 
       return res
@@ -69,15 +66,13 @@ module.exports = {
     }
 
     // Handle create campaign
-    const userId = secure( res, req.headers.authorization ),
-      objSave = {
-        "title": req.body.title,
-        "description": req.body.description ? req.body.description : "",
-        "started_at": req.body.started_at ? req.body.started_at : Date.now(),
-        "finished_at": req.body.finished_at ? req.body.finished_at : "",
-        "_account": userId
-      },
-      newCampaign = await new Campaign( objSave );
+    const newCampaign = await new Campaign( {
+      "title": req.body.title,
+      "description": req.body.description ? req.body.description : "",
+      "started_at": req.body.started_at ? req.body.started_at : Date.now(),
+      "finished_at": req.body.finished_at ? req.body.finished_at : "",
+      "_account": req.uid
+    } );
 
     await newCampaign.save();
 
@@ -95,14 +90,11 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findById( req.query._campaignId );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
-    } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch này!" } );
     }
 
     // Check switch status of campaign
@@ -126,14 +118,11 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findById( req.query._campaignId );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } );
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
-    } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
 
     // delete all event in campain
@@ -149,14 +138,11 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "duplicate": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findCampaign = await Campaign.findById( req.query._campaignId ).select( "-_id -__v -updated_at -created_at" ).lean();
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
-    } else if ( findCampaign._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho chiến dịch mục này!" } );
     }
 
     findCampaign.title = `${findCampaign.title} Copy`;

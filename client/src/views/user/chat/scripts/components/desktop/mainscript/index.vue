@@ -13,7 +13,7 @@
           :contenteditable="true"
         />
         <div class="script--header-copy-link disabled--icon">
-          <icon-base
+          <!-- <icon-base
             class="disable"
             icon-name="copy"
             width="26"
@@ -30,10 +30,11 @@
             viewBox="0 0 482.8 482.8"
           >
             <icon-link />
-          </icon-base>
+          </icon-base> -->
         </div>
         <div
           class="script--header-delete ml_auto"
+          @click="isDeleteItemBlock = true"
         >
           <icon-base
             icon-name="remove"
@@ -57,7 +58,7 @@
               <icon-remove />
             </icon-base>
             <ul
-              class="header--dropdown-wrap position_absolute text_left p_0 m_0"
+              class="header--dropdown-wrap d_none position_absolute text_left p_0 m_0"
             >
               <li class="disabled--icon">
                 <icon-base
@@ -176,6 +177,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
+              @click="showPopupPlugins = true"
             >
               <icon-base
                 class="icon--add"
@@ -209,7 +211,6 @@
     <transition name="popup">
       <popup-plugins
         v-if="showPopupPlugins == true"
-        :content="block._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
@@ -219,14 +220,18 @@
         @closePopupPluginClick="showPopupPlugins = $event"
       />
     </transition>
-    <!--Delete popup-->
-    <!-- <delete-popup
-      v-if="isDeletePopup === true"
-      desc="Bạn có thực sự muốn xóa kịch bản này không?"
-      :content="block._id"
-      target="block"
-      @close="isDeletePopup = $event"
-    /> -->
+   <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        title="Delete Scripts"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteScripts"
+        typeName="Scripts"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 

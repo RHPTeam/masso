@@ -183,7 +183,7 @@
 </template>
 <script>
 import AppFilter from "@/components/shared/filter";
-import MoreFriend from "./more_friend";
+import MoreFriend from "./friend";
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
 export default {

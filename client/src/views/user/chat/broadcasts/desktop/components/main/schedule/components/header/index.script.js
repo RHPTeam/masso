@@ -1,10 +1,11 @@
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 export default {
   data() {
     return {
-      isDeletePopup: false
+      isDeleteItemBlock: false
     };
   },
   computed: {
@@ -50,5 +51,8 @@ export default {
     //     });
     //   }
     // }
+  },
+  components: {
+    DeleteCampaignPopup,
   }
 };

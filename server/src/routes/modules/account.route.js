@@ -6,8 +6,8 @@
  */
 const router = require( "express-promise-router" )();
 // const { findSubString } = require( "../../helpers/utils/functions/string" );
-// const auth = require( "../../helpers/middleware/authenticate.middleware" );
-// const AccountController = require( "../../controllers/account.controller" );
+const auth = require( "../../helpers/middleware/authenticate.middleware" );
+const AccountController = require( "../../controllers/account.controller" );
 
 // Handle save image
 // const fs = require( "fs-extra" );
@@ -40,11 +40,11 @@ const router = require( "express-promise-router" )();
 //     }
 //   } );
 
-// router
-//   .route( "/" )
-//   .post( auth, upload.single( "file" ), AccountController.upload )
-//   .get( auth, AccountController.show )
-//   .patch( auth, AccountController.update );
+router.route( "/" ).patch( auth, AccountController.update );
+
+router
+  .route( "/info" )
+  .get( auth, AccountController.show );
 
 // router.route( "/change-password" ).patch( AccountController.changePassword );
 

@@ -5,15 +5,13 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const secure = require( "../../../helpers/utils/secures/jwt" );
 const PostController = require( "../../../controllers/post/post.controller" );
 // Handle save image
 const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": ( req, file, cb ) => {
-      const userId = secure( file, req.headers.authorization ),
-        path = `./uploads/posts/person/${userId}`;
+      path = `./uploads/posts/person/${req.uid}`;
 
       fs.mkdirsSync( path );
       cb( null, path );

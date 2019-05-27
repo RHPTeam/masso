@@ -1,7 +1,7 @@
 <template>
-  <div class="top d_flex" :data-theme="currentTheme">
+  <div class="top d_flex r m_0" :data-theme="currentTheme">
     <!--Start: Top Left Component-->
-    <div class="top--left d_flex">
+    <div class="top--left d_flex c_md_12 mb_3 c_xl_6 c_lg_12 px_0">
       <!-- <div class="segment--name mr_1">
         <contenteditable
           class="editable"
@@ -19,7 +19,7 @@
     </div>
     <!--End: Top Left Component-->
     <!--Start: Top Right Component-->
-    <div class="top--right d_flex">
+    <div class="top--right d_flex c_md_12 c_xl_6 c_lg_12 px_0">
       <!--Start: Add Member to Group Component-->
       <div class="action mr_2">Thêm vào nhóm</div>
       <!--End: Add Member to Group Component-->
@@ -104,4 +104,20 @@
 
 <style lang="scss" scoped>
 @import "./index.style";
+
+@media screen and (max-width: 1199px){
+  .top--left{
+    position: relative;
+    .segment--total{
+      position: absolute;
+      right: 0;
+    }
+    .segment--search{
+      margin-left: 0!important;
+    }
+  }
+  .top--right{
+    justify-content: flex-start;
+  }
+}
 </style>

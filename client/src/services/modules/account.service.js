@@ -8,8 +8,8 @@ export default {
   create( user ) {
     return Api().post( "users", user );
   },
-  show( userId ) {
-    return Api().get( `users?_id=${userId}` );
+  show() {
+    return Api().get( "users/info" );
   },
   showUserByEmail( email ) {
     return Api().get( `password?email=${email}` );

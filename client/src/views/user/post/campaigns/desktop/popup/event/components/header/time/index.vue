@@ -3,10 +3,10 @@
     <div class="header mb_2">
     </div>
     <div class="body d_flex align_items_center">
-      <div>{{ event.break_point }}</div>
       <div class="date d_flex align_items_center mr_5">
         <div class="desc mr_3">Bắt đầu:</div>
         <time-picker
+          v-if="event.type_event === 0"
           :value.sync="time"
           @change="changeTimeSetup"
         />
@@ -17,7 +17,7 @@
           @change="changeDateSetup"
         />
       </div>
-      <div class="break d_flex align_items_center">
+      <div class="break d_flex align_items_center" v-if="event.type_event === 0">
         <div class="desc mr_3">Chờ giữa các lần gửi:</div>
         <div class="item d_flex align_items_center mr_2">
           <input class="input--time mr_2"

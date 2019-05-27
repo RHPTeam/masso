@@ -1,0 +1,150 @@
+div[role="chat"] {
+  font-size: 14px;
+  flex: 2 0 0%;
+  overflow: hidden;
+  position: relative;
+  .info {
+    border-bottom: 1px solid #e4e4e4;
+    .avatar {
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+    }
+    div[role="infomation"] {
+      h3 {
+        font-size: 14px;
+        font-weight: 600;
+      }
+      p {
+        font-size: 13px;
+        font-weight: 300;
+      }
+    }
+  }
+  .inside {
+    .first--chat {
+      .round {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: pointer;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+      }
+      .av_f {
+        margin-left: -10px;
+      }
+      div[role="welcome"] {
+        font-weight: 300;
+        font-size: 12px;
+      }
+    }
+    .ms {
+      background-color: #f1f0f0;
+      display: block;
+      max-width: 78%;
+      margin-bottom: .25rem;
+      padding: .5rem 1rem;
+    }
+    .rcv_m {
+      border-top-right-radius: 1rem;
+      border-bottom-right-radius: 1rem;
+      margin-right: auto;
+      &:first-child {
+        border-top-left-radius: 1.3rem;
+      }
+      &:last-child {
+        border-bottom-left-radius: 1.3rem;
+      }
+    }
+    .sd_m {
+      background-color: #0099ff;
+      color: #ffffff;
+      border-top-left-radius: 1rem;
+      border-bottom-left-radius: 1rem;
+      &:first-child {
+        border-top-right-radius: 1.3rem;
+      }
+      &:last-child {
+        border-bottom-right-radius: 1.3rem;
+      }
+    }
+    .rcv {
+      border-top-right-radius: 1.3rem;
+      border-bottom-right-radius: 1.3rem;
+    }
+    .sdr {
+      border-top-left-radius: 1.3rem;
+      border-bottom-left-radius: 1.3rem;
+    }
+    .left {
+      div[role="receiver"] {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border-radius: 50%;
+        bottom: 2px;
+        cursor: pointer;
+        width: 28px;
+        height: 28px;
+      }
+      .receiver {
+        width: 100%;
+        padding-left: 36px;
+      }
+    }
+    .sender {
+      width: 100%;
+      .content {
+        padding-left: 36px;
+      }
+    }
+    .right {
+      padding-right: 36px;
+    }
+    .gallery {
+      &--item {
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        border: 1px solid #e4e4e4;
+        height: 300px;
+        width: 300px;
+        img{
+          width: 100%;
+        }
+      }
+    }
+  }
+  .mess {
+    border-top: 1px solid #e4e4e4;
+    display: flex;
+    flex-direction: column;
+    .message {
+      width: 87%;
+      [contenteditable="true"]:empty:before {
+        content: attr(placeholder);
+        color: #999;
+        display: block; /* For Firefox */
+      }
+      div[contenteditable="true"] {
+        width: 100%;
+        border-radius: 10px;
+        border: 0;
+        margin-bottom: -6px;
+        outline: 0;
+        padding: 10px 15px;
+      }
+    }
+    .icon--mess[role="icon"] {
+      width: 13%;
+      .icon {
+        cursor: pointer;
+      }
+    }
+  }
+}

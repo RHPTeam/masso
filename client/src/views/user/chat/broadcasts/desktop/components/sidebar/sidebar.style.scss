@@ -109,6 +109,12 @@
         border-radius: 5px;
         font-size: 14px;
         padding: 7px 0;
+        width: 95%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        white-space: nowrap;
+
     }
 }
 
@@ -133,6 +139,13 @@ div[data-theme="light"] {
             background-color: #ffffff;
         }
     }
+    .content--setup{
+        transition: 0.3s;
+        &:hover{
+            background: #ffb94a;
+            color: #fff;
+        }
+    }
 }
 
 // LIGHT
@@ -151,6 +164,13 @@ div[data-theme="dark"] {
             background-color: #27292c;
         }
     }
+    .content--setup{
+        transition: 0.3s;
+        &:hover{
+            background: #ffb94a;
+            color: #fff;
+        }
+    }
 }
 
 
@@ -161,4 +181,19 @@ div[data-theme="dark"] {
   .content--setup{
     background: #27292c;
   }
+}
+
+
+
+
+
+
+
+
+// *********** RESPONSIVE
+
+@media only screen and (max-width: 1200px) and (min-width: 768px){
+    .setup{
+        width: 100%!important;
+    }
 }
