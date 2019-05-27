@@ -1,0 +1,3 @@
+{
+  "emailReset": "<div>\n  <img src=\"http://zinbee.vn/assets/landing/image/logo/zinbee.png\"> <br>\n  <span style=\"font-size: 20px\">Email tự động xác nhận passcode</span><br>\n  <span style=\"font-size: 20px\"><b>Code: ${code}</b> </span>\n</div>"
+}

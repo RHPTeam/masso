@@ -8,6 +8,7 @@
 const Facebook = require( "../models/Facebook.model" );
 const PageFacebook = require( "../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../models/post/GroupFacebook.model" );
+const PostGroup = require( "../models/post/PostGroup.model" );
 
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions/string" );
@@ -105,17 +106,38 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
   },
   "delete": async ( req, res ) => {
-    const findFacebook = await Facebook.findById( req.query._facebookId );
+    const findFacebook = await Facebook.findOne( { "_id": req.query._facebookId, "_account": req.uid } ),
+      listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
+      listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
+      listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 
     // Check catch when delete campaign
     if ( !findFacebook ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Tài khoản facebook không tồn tại!" } );
-    } else if ( findFacebook._account.toString() !== req.uid ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho tài khoản facebook này!" } );
     }
+
+    // Remove group Id, page Id of facebook account
+    Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
+      // Remove pages of facebook
+      Promise.all( postGroup._pages.map( ( pageId, index ) => {
+        if ( listPageFacebook.includes( pageId ) ) {
+          postGroup._pages.splice( index, 1 );
+        }
+      } ) );
+
+      // Remove groups of facebook
+      Promise.all( postGroup._groups.map( ( groupId, index ) => {
+        if ( listGroupFacebook.includes( groupId ) ) {
+          postGroup._groups.splice( index, 1 );
+        }
+      } ) );
+
+      await postGroup.save();
+    } ) );
+
     // Delete Group and Page of facebook deleted
-    await GroupFacebook.remove( { "_facebook": req.query._facebookId } );
-    await PageFacebook.remove( { "_facebook": req.query._facebookId } );
+    await GroupFacebook.deleteMany( { "_facebook": req.query._facebookId } );
+    await PageFacebook.deleteMany( { "_facebook": req.query._facebookId } );
 
     await Facebook.findByIdAndDelete( req.query._facebookId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
