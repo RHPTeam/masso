@@ -24,7 +24,10 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchPostByKeyword" />
+          <input type="text"
+                 placeholder="Tìm kiếm"
+                 v-model="search"
+                 @keydown.enter="searchPost(search)" />
         </div>
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
@@ -34,14 +37,16 @@
             class="list--keywork-item py_1 m_1"
             v-for="(item, index) in keyPopular"
             :key="index"
-            @click="searchPostByKey(item)"
+            @click="searchPostByKeyword(item)"
           >
             {{ item }}
           </span>
         </div>
       </div>
       <app-list
+        :currentPage="currentPage"
         :keyword="keyword"
+        @updateCurrentPage="currentPage += 1"
       />
     </div>
   </div>
@@ -55,9 +60,9 @@ export default {
   },
   data() {
     return {
-      keyword: "",
-      limit: 12,
-      page: 1,
+      currentPage: 1,
+      keyword: "Mỹ phẩm",
+      search: "",
     }
   },
   computed: {
@@ -72,45 +77,20 @@ export default {
       return this.user.keywords.slice(0,5);
     }
   },
-  async created() {
+  async created () {
     await this.$store.dispatch( "getUserInfo" );
 
-    if( this.user.keywords ) {
-      const dataSender = {
-        key: this.user.keywords[0],
-        size: this.limit,
-        page: 1
-      };
-
-      await this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-    }
+    this.keyword = this.user.keywords[0];
   },
   methods: {
-    searchPostByKey( val ) {
-      const dataSender = {
-        key: val,
-        size: this.limit,
-        page: 1
-      };
-      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+    searchPostByKeyword( val ) {
+      this.keyword = val;
     },
-    searchPostByKeyword(){
-      if( this.keyword.length > 0 ) {
-        const dataSender = {
-          key: this.keyword,
-          size: this.limit,
-          page: 1
-        };
-
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+    searchPost() {
+      if ( this.search !== "" ) {
+        this.keyword = this.search;
       } else {
-        const dataSender = {
-          key: this.user.keywords[0],
-          size: this.limit,
-          page: 1
-        };
-
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+        this.keyword = this.user.keywords[0];
       }
     }
   },
