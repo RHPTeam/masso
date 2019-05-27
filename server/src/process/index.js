@@ -6,9 +6,11 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
 
   // Check Role First Time Server running
   if ( roleList.length === undefined || roleList.length === 0 ) {
+    console.log( "Start sync role" );
 
-    const resRole = await roleSync( `${process.env.APP_PARENT_URL}/roles/sync` );
+    const resRole = await roleSync( "roles/sync" );
 
+    console.log( resRole.data );
     // Catch
     if ( resRole.data.status !== "success" ) {
       console.log( resRole.data );

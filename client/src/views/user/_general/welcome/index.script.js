@@ -1,9 +1,8 @@
-/* eslint-disable global-require */
-/* eslint-disable prettier/prettier */
 import IconBase from "@/components/icons/IconBase";
 import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconAccount from "@/components/icons/IconAccount";
 import IconLogout from "@/components/icons/IconLogout";
+
 export default {
   data() {
     return {
@@ -36,12 +35,13 @@ export default {
     }
   },
   async created() {
+    // Get User Info
     await this.$store.dispatch( "getUserInfo" );
   },
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
-      this.$router.push( "/signin" );
+      window.location = process.env.VUE_APP_PARENT_URL;
     },
     gotoHomePost() {
       this.$router.push( "/post" );

@@ -26,15 +26,13 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     // Handle get all page from mongodb
     if ( req.query._id ) {
-      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PageFacebook.find( { "_account": userId } ).lean();
+      dataResponse = await PageFacebook.find( { "_account": req.uid } ).lean();
     }
 
     res
@@ -48,10 +46,8 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      facebookList = await Facebook.find( { "_account": userId } ),
-      postGroupList = await PostGroup.find( { "_account": userId } );
+    const facebookList = await Facebook.find( { "_account": req.uid } ),
+      postGroupList = await PostGroup.find( { "_account": req.uid } );
 
     // Get all page from facebook and save
     await Promise.all( facebookList.map( async ( facebook ) => {
@@ -63,7 +59,7 @@ module.exports = {
           "pageId": page.page_id,
           "name": page.page_display_name,
           "profile_picture": page.page_image_src,
-          "_account": userId,
+          "_account": req.uid,
           "_facebook": facebook._id
         };
       } );

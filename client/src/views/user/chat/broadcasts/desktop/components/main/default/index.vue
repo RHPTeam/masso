@@ -79,4 +79,19 @@ div[data-theme="dark"] {
     color: #fff;
   }
 }
+@media only screen and (max-width: 1240px) and (min-width: 768px) { 
+  .null--container{
+    padding: 15px;
+    width: 100%!important;
+  }
+}
+@media screen and (max-width: 919px) { 
+  .null--container{
+    padding: 15px;
+    flex-direction: column;
+    .null--image{
+      text-align: center;
+    }
+  }
+}
 </style>

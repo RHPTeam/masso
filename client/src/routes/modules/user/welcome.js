@@ -5,6 +5,7 @@ const welcomeRouter = {
   meta: {
     requiredAuth: true
   },
+  name: "welcome",
   component: () => import( "@/views/user/_general/welcome" )
 };
 

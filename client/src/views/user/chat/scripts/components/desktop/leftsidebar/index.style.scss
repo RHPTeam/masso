@@ -11,6 +11,7 @@
             border: 0;
             color: #ccc;
             text-transform: uppercase;
+
             &:focus {
                 border: 1px solid #999;
                 border-radius: 11px;
@@ -30,7 +31,7 @@
             width: 250px;
             position: absolute;
             top: 37px;
-            right: -85%;
+            right: -225px;
             border-radius: 5px;
             z-index: 2;;
             background: #27292d;
@@ -137,9 +138,9 @@
             width: 250px;
             position: absolute;
             top: 37px;
-            right: -85%;
+            right: -225px;
             border-radius: 5px;
-            z-index: 2;;
+            z-index: 22;
             background: #27292d;
             color: #fff;
             .dropdown--menu-item:nth-child(1){
@@ -202,12 +203,19 @@
         }
         .content--item{
             background: #27292d;
-            padding: 10px 5px;
             color: #ccc;
             border-radius: .5rem;
             text-align: center;
             transition: background-color .5s;
             margin: 0 3px;
+        }
+        .after--day, .name-script{
+            padding: 10px 5px;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
         }
         .icon-more{
             display: none;
@@ -232,6 +240,10 @@
             padding: 5px 0;
             width: 60px;
             margin-right: 5px;
+            text-overflow: ellipsis;
+            cursor: pointer;
+            white-space: nowrap; 
+            overflow: hidden;
         }
         .day{
             border: 1px solid #ccc;
@@ -243,11 +255,11 @@
             font-size: 13px;
         }
         .options--day{
-            right: -90px;
-            top: 0px;
+            right: 0;
+            top: 100%;
             font-size: 14px;
             ul{
-                background: #fff;
+                background: #f0f0f0;
                 list-style: none;
                 padding: 0;
                 margin: 0;
@@ -698,7 +710,33 @@ div[data-theme="dark"] {
 }
 
 
-
+.scripts[contenteditable="true"]:empty:before, .scripts{
+    content:"Scripts";
+    color: #666;
+    text-transform: uppercase;
+    line-height: 40px;
+    padding: 0 5px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+}
+.sequence[contenteditable="true"]:empty:before, .sequence{        
+    content:"Scripts";
+    color: #666;
+    text-transform: uppercase;
+    line-height: 40px;
+    padding: 0 5px;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    width: 80%;
+    white-space: nowrap;
+    overflow: hidden;
+    cursor: pointer;
+    
+}
 
 
 
@@ -708,20 +746,24 @@ div[data-theme="dark"] {
 
 //  LIGHT
 .sidebar-scripts[data-theme="light"]{
-    .group--scripts .content .group--items .content--item{
-        background: #fff;
-        color: #666;
-        &:hover{
-            background: #ffb94a;
-            color: #fff;
-            & .icon--more{
+    .group--scripts {
+        width: 100%;
+        .content .group--items .content--item{
+            background: #fff;
+            color: #666;
+            &:hover{
+                background: #ffb94a;
                 color: #fff;
+                & .icon--more{
+                    color: #fff;
+                }
+            }
+            .icon--more{
+                color: #ccc;
             }
         }
-        .icon--more{
-            color: #ccc;
-        }
     }
+    
     .sequences--scripts .content{
         .content--item{
             background: #fff;
@@ -734,6 +776,7 @@ div[data-theme="dark"] {
     }
     .group--scripts .title, .sequences--scripts .title{
         color: #666;
+        max-width: 100%;
         .name--scripts-edit{
             color: #666;
         }
@@ -745,5 +788,11 @@ div[data-theme="dark"] {
 
 // DARK
 .sidebar-scripts[data-theme="dark"]{
-    
+    .scripts[contenteditable="true"]:empty:before, .scripts{
+        color: #fff;
+    }
+    .sequence[contenteditable="true"]:empty:before, .sequence{        
+        color: #fff;
+        
+    }
 }

@@ -5,28 +5,12 @@ import store from '../../store'
 
 /** ******************* SECURED ROUTER ************************/
 router.beforeEach( ( to, from, next ) => {
-  if ( CookieFunction.getCookie( "sid" ) && to.path === "/signin" ) {
-    next( "/welcome" );
-  } else if ( CookieFunction.getCookie( "sid" ) && to.path === "/signup" ) {
-    next( "/welcome" );
-  } else if ( to.matched.some( ( record ) => record.meta.requiredAuth ) ) {
-    if ( store.getters.isLoggedIn || CookieFunction.getCookie( "sid" ) ) {
+  if ( to.matched.some( ( record ) => record.meta.requiredAuth ) ) {
+    if ( CookieFunction.getCookie( "sid" ) && CookieFunction.getCookie( "uid" ) && CookieFunction.getCookie( "cfr" ) ) {
       next();
       return;
     }
-    next( "/signin" );
-  } else if ( to.matched.some( ( record ) => record.meta.requiredAdmin ) ) {
-    if (
-      parseInt(
-        SecureFunction.decodeRole( CookieFunction.getCookie( "cfr" ), 10 )
-      ) === 1 || parseInt(
-      SecureFunction.decodeRole( CookieFunction.getCookie( "cfr" ), 10 )
-      ) === 2
-    ) {
-      next();
-      return;
-    }
-    next( "/welcome" );
+    window.location = process.env.VUE_APP_PARENT_URL;
   } else if (
     store.getters.mailSender === "" && to.path === "/reset-password/step-2"
   ) {

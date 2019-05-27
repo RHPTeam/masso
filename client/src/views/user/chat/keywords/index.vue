@@ -9,10 +9,10 @@
         subBread="Trang giúp bạn thiết lập nhanh AI tự động trả lời"
       />
       <div class="main--content r">
-        <div class="auto--sidebar c_md_12 c_xl_4">
+        <div class="auto--sidebar c_md_4 c_xl_4">
           <auto-sidebar />
         </div>
-        <div class="auto--main c_md_12 c_xl_8">
+        <div class="auto--main c_md_8 c_xl_8">
           <loading-component
           />
           <div class="auto--main-wrap p_4">
@@ -22,7 +22,7 @@
                 tag="div"
                 :contenteditable="true"
               />
-              <div class="icon--drop ml_auto" @click="isDeletePopup = true">
+              <div class="icon--drop ml_auto" @click="isDeleteItemBlock = true">
                 <icon-base
                   class="icon--remove"
                   icon-name="remove"
@@ -34,36 +34,47 @@
                 </icon-base>
               </div>
             </div>
+            <auto-header />
             <auto-reply-main />
           </div>
         </div>
       </div>
     </div>
-    <delete-popup
-      v-if="isDeletePopup === true"
-      desc="Bạn có thực sự muốn xóa cú pháp này không?"
-      target="syntax"
-      @close="isDeletePopup = $event"
-    />
+    
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 
 <script>
+import AutoHeader from "./components/desktop/autosidebar/header";
 import AppBreadCrumb from "@/components/breadcrumb";
-import AutoSidebar from "./components/desktop/auto_sidebar";
-import AutoReplyMain from "./components/desktop/autocontent/main";
-// import AppAutoMobile from "./mobile/index_mobile";
+import AutoSidebar from "./components/desktop/autosidebar";
+import AutoReplyMain from "./components/desktop/autocontent";
+import DeleteCampaignPopup from "@/components/popups/delete";
+
 let typingTimer;
 export default {
   components: {
     AppBreadCrumb,
     AutoSidebar,
     AutoReplyMain,
-    // AppAutoMobile
+    DeleteCampaignPopup,
+    AutoHeader
   },
   data() {
     return {
-      isDeletePopup: false
+      isDeleteItemBlock: false
     };
   },
   computed: {
@@ -97,5 +108,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "index.style";
+@import "./index.style";
 </style>

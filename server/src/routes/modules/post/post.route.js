@@ -12,8 +12,7 @@ const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": ( req, file, cb ) => {
-      const userId = secure( file, req.headers.authorization ),
-        path = `./uploads/posts/person/${userId}`;
+      path = `./uploads/posts/person/${req.uid}`;
 
       fs.mkdirsSync( path );
       cb( null, path );

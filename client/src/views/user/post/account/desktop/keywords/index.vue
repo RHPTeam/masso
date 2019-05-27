@@ -7,7 +7,7 @@
         nhất với bạn.
       </div>
     </div>
-    <div class="wrapper--content">
+    <div class="wrapper--content" v-if="user">
       <taggle class="taggle" v-model="user.keywords" @input="updateKey" placeholder="Nhập từ khóa của bạn ..." />
     </div>
   </div>

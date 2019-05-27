@@ -1,10 +1,17 @@
 import PostServices from "@/services/modules/post/post.service";
+import RemoveFunction  from "@/utils/functions/array";
 
 const state = {
   allPost: [],
   errorPost: "",
   newPost: [],
-  post: [],
+  post: {
+    color: "",
+    place: {
+      id: "",
+      text: ""
+    }
+  },
   postOfCate: [],
   postsPage: [],
   postsPageSize: 1,
@@ -38,6 +45,16 @@ const mutations = {
   },
   setPost: ( state, payload ) => {
     state.post = payload;
+  },
+  set_post: ( state, payload ) => {
+    state.post[ payload.key ] = payload.value;
+  },
+  set_post_array: ( state, payload ) => {
+    state.post[ payload.key ] =  payload.value;
+    state.post[ payload.key ] = RemoveFunction.removeDuplicateObjectInArray(payload.value, "uid");
+  },
+  set_post_remove: ( state, payload) => {
+    delete state.post[ payload.key ];
   },
   setPostByCate: ( state, payload ) => {
     state.setPostByCate = payload;
@@ -107,6 +124,15 @@ const actions = {
     // commit( "post_request" );
     commit( "setError", 'errors.js' );
     // commit( "post_success" );
+  },
+  setPostDefault: async ({ commit }, payload) => {
+    commit("set_post", payload)
+  },
+  setPostArray: async ({commit}, payload) => {
+    commit("set_post_array", payload);
+  },
+  setPostRemove: ( { commit }, payload ) => {
+    commit( "set_post_remove", payload );
   },
   updatePost: async ( { commit }, payload ) => {
     commit( "post_request" );

@@ -1,5 +1,5 @@
-import DeleteFriendsPopup from "../../../popup/delete-popup/delete-popup";
-import AddtoGroupPopup from "../../../popup/addto-group-popup/addto-group-popup";
+import DeleteFriendsPopup from "../../../popup/delete-popup";
+import AddtoGroupPopup from "../../../popup/addto-group-popup";
 import AppTooltip from "./tooltip";
 let typingTimer;
 export default {

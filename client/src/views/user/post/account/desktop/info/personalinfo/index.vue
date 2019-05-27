@@ -1,5 +1,5 @@
 <template>
-  <div class="perinfo--wrapper">
+  <div class="perinfo--wrapper" v-if="user">
     <div class="title text_left">Thông tin cá nhân</div>
     <form class="wrapper--form">
       <!-- Start: Email -->

@@ -1,22 +1,26 @@
 <template>
   <div
     class="notification d_flex align_items_center popup-enter"
-    v-if="item.status === false"
   >
     <div class="notification--text">
-      Bạn đã đăng xuất tài khoản facebook <span>{{ item.userInfo.name }}</span
-    >. Hãy đăng nhập lại và cập nhật lại cookie!.
-      <button class="btn--update ml_4" @click="showModal = true">
-        Cập nhật ngay
-      </button>
+      <div class="r m_0 content mb_1 pt_2 pb_1  px_3">
+        <div class="d_inline_flex">
+          <div class="notifi mr_1"></div>
+          <div class="name">Thông báo</div>
+        </div>
+        <div class="d_inline_flex close--now">
+          <div class="now mr_1">vừa xong</div>
+          <div class="close">x</div>
+        </div>
+      </div>
+      <div class="notice py_2  px_3">
+        <div>
+          <span>Chúng tôi nhận thấy rằng, bạn đã đăng xuất tài khoản</span>
+          <span class="name--user px_1"> Nguyễn Công Khanh</span>
+          <span>trên facebook. Vui lòng cập nhật lại mã kích hoạt tài khoản facebook tại đây!</span>
+        </div>
+      </div>
     </div>
-    <update-cookie
-      v-if="showModal === true"
-      :item="item"
-      :popupData="showModal"
-      @closeAddPopup="showModal = $event"
-      :nameBread="nameBread"
-      :subBread="subBread"></update-cookie>
   </div>
 </template>
 
@@ -36,48 +40,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  .notification {
-    width: 100%;
-    padding: 0.25rem 2.5rem;
-    font-size: 13px;
-    justify-content: space-between;
-    transition: all 0.4s ease;
-    border-bottom: 1px dotted #ffffff;
-    background-color: #ff0000;
-    &:last-child {
-      border-bottom: 0;
+.notification {
+  font-size: 13px;
+  justify-content: space-between;
+  transition: all 0.4s ease;
+  background-color: #f0fff0;
+  width: 250px;
+  z-index: 1000;
+  bottom: 15px;
+  left: 15px;
+  border-radius: 10px;
+  position: fixed;
+  color: #333;
+  &:last-child {
+    border-bottom: 0;
+  }
+  &--text {
+    .name{
+      font-weight: bold;
     }
-    &--text {
-      width: 95%;
-      margin-right: 1rem;
-      text-align: center;
-      color: #ffffff;
-      span {
-        color: #ffab0d;
-        font-size: 14px;
-        font-weight: 500;
-      }
-      button {
-        background-color: transparent;
-        box-shadow: none;
-        border: 1px solid #ffffff;
-        border-radius: 0.25rem;
-        color: #ffffff;
-        height: 24px;
-        font-size: 13px;
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-          background-color: #ffffff;
-          color: #ff0000;
-          transition: all 0.5s ease;
-        }
-      }
+    .notifi{
+      height: 20px;
+      width: 20px;
+      background: rgb(0, 122, 255);
     }
-
-    &--close {
-      cursor: pointer;
+    .content{
+      border-bottom: 1px solid #ccc;
+      background: #ccc;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .notice{
+      .name--user{
+        color: rgba(255,0,3,.56);
+      }
     }
   }
+  .close--now{
+    margin-left: 57px;
+  }
+  .close {
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
 </style>

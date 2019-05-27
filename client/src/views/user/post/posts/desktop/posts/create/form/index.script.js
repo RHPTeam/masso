@@ -39,6 +39,9 @@ export default {
     };
   },
   computed: {
+    activity() {
+      return this.$store.getters.activity;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -51,6 +54,10 @@ export default {
       if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
       return this.$store.getters.post;
     },
+    placesPopular(){
+      console.log(this.$store.getters.places);
+      return this.$store.getters.places;
+    },
     //Get Categories
     categories() {
       return this.$store.getters.allCategories;
@@ -62,27 +69,15 @@ export default {
     },
     // Get 12 first item from more color
     randomColor() {
-      return this.colorFb[2].textFormats.slice(0, 11);
-    },
-    // Get name friend from uid item tags of post
-    nameFriend(){
-      let result = this.post.tags;
-      if( result === undefined || result === "" ) {
-        return result = [];
-      } else {
-        const results = [];
-        let arrOther = this.friendFb;
-        result.map( uid => {
-          return arrOther.map( item => {
-            if( item.uid == uid ) results.push( item.text );
-          } );
-        } );
-        return results;
+      if(this.colorFb && this.colorFb.length > 0) {
+        return this.colorFb[2].textFormats.slice(0, 11);
       }
     },
     // Get friend from item 1 to end
     moreFriend(){
-      return this.nameFriend.slice(1);
+      if(this.post && this.post.tags && this.post.tags.length > 0) {
+        return this.post.tags.slice(1);
+      }
     },
     /*listIconActivity() {
       if ( this.$store.getters.listActivity === undefined ) return;
@@ -100,13 +95,6 @@ export default {
         return arr[0].photo;
       }
     },*/
-    // Get name item activity
-    // activityFeelName() {
-    //   let result = this.post.activity.typeActivity;
-    //   let newStr = result.slice( 4 );
-    //   let str = newStr.split(".");
-    //   return str[0];
-    // }
   },
   watch: {
     /**
@@ -181,7 +169,10 @@ export default {
       this.isShowActivity = true;
     },
     changeContentDefault() {
-      this.post.color = "";
+      this.$store.dispatch("setPostDefault", {
+        key: "color",
+        value: ""
+      });
       this.$store.dispatch( "updatePost", this.post );
     },
     showOptionPostImages(){

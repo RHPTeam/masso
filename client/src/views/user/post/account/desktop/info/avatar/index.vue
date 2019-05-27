@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar--wrapper">
+  <div class="avatar--wrapper" v-if="user">
     <!-- Start: Wrapper Top -->
     <div class="wrapper--top position_relative d_flex align_content_center">
       <div class="title">Ảnh đại diện</div>

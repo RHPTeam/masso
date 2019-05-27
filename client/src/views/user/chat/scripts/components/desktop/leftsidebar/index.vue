@@ -1,7 +1,6 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
   <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
-
     <!-- Start Group Scripts -->
     <div class="group--scripts mb_3 mt_2">
       <div class="title d_inline_flex">
@@ -13,13 +12,11 @@
             height="10"
             viewBox="0 0 10 10"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
-        <div>
-          <input type="text" value="Ahihi" class="name--scripts-edit">
-        </div>
-        <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts"> 
+        <contenteditable class="scripts" tag="div" :contenteditable="true" :placeholder="title"/>
+        <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts">
           <icon-base
             class="icon--more"
             icon-name="IconMore"
@@ -27,24 +24,25 @@
             height="23"
             viewBox="0 0 750 750"
           >
-            <icon-more />
+            <icon-more/>
           </icon-base>
         </div>
-        <div class="click--icon dropdown--menu-content" v-show="showCopyScripts">
+        <div
+          class="click--icon dropdown--menu dropdown--menu-content dropdown--menu-left flipInY animated type"
+          v-show="showCopyScripts"
+        >
           <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
             <div class="copy">Sao chép</div>
             <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
           </div>
-          <div class="dropdown--menu-item mb_2 pl_3">
-            Xóa
-          </div>
+          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
         </div>
       </div>
       <div class="content my_3">
         <div class="name group-scripts r m_0">
           <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
             <div class="content--item position_relative">
-              <div class="text_center">Kịch bản 1</div>
+              <div class="text_center name-script">Kịch bản 1</div>
               <div class="position_absolute icon-more">
                 <icon-base
                   class="icon--more"
@@ -53,7 +51,7 @@
                   height="22"
                   viewBox="0 0 760 760"
                 >
-                  <icon-more />
+                  <icon-more/>
                 </icon-base>
               </div>
               <!-- <div class="infor position_absolute">
@@ -62,7 +60,7 @@
                   <li>Di chuyển</li>
                   <li>Xóa</li>
                 </ul>
-              </div> -->
+              </div>-->
             </div>
           </div>
           <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
@@ -76,7 +74,7 @@
                   height="22"
                   viewBox="0 0 760 760"
                 >
-                  <icon-more />
+                  <icon-more/>
                 </icon-base>
               </div>
               <div class="infor position_absolute d_none">
@@ -98,7 +96,7 @@
                   height="16"
                   viewBox="0 0 60 60"
                 >
-                  <icon-plus />
+                  <icon-plus/>
                 </icon-base>
               </div>
             </div>
@@ -119,13 +117,14 @@
             height="10"
             viewBox="0 0 10 10"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
-        <div>
-          <input type="text" value="Ahaha" class="name--scripts-edit">
-        </div>
-        <div @click="showCopySequenceScripts = !showCopySequenceScripts" v-click-outside="closeCopySequenceScripts"> 
+        <contenteditable class="sequence" tag="div" :contenteditable="true"/>
+        <div
+          @click="showCopySequenceScripts = !showCopySequenceScripts"
+          v-click-outside="closeCopySequenceScripts"
+        >
           <icon-base
             class="icon--more"
             icon-name="IconMore"
@@ -133,7 +132,7 @@
             height="23"
             viewBox="0 0 750 750"
           >
-            <icon-more />
+            <icon-more/>
           </icon-base>
         </div>
         <div class="click--icon dropdown--menu-content" v-show="showCopySequenceScripts">
@@ -141,25 +140,23 @@
             <div class="copy">Sao chép</div>
             <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
           </div>
-          <div class="dropdown--menu-item mb_2 pl_3">
-            Xóa
-          </div>
+          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
         </div>
       </div>
       <div class="content">
-        <div class="r m_0 group--items mb_3">
-          <div class="c_lg_4 c_xl_4 c_md_12 p_0">
+        <div class="r m_0 group--items ">
+          <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
             <div class="content--item">
               <div class="after--day">
-                <span>Sau </span>
+                <span>Sau</span>
                 <span>1</span>
-                <span> Ngày</span>
+                <span>Ngày</span>
               </div>
             </div>
           </div>
-          <div class="c_lg_8 c_xl_8 c_md_12 p_0 position_relative">
+          <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
             <div class="content--item">
-              <div class="text_center">Kịch bản 1</div>
+              <div class="text_center name-script">Kịch bản 1</div>
             </div>
             <div class="position_absolute icon-more">
               <icon-base
@@ -169,7 +166,7 @@
                 height="22"
                 viewBox="0 0 760 760"
               >
-                <icon-more />
+                <icon-more/>
               </icon-base>
             </div>
             <div class="infor position_absolute d_none">
@@ -181,20 +178,41 @@
             </div>
           </div>
         </div>
-        <div class="r m_0 group--items mb_3">
-          <div class="c_lg_4 c_xl_4 c_md_12 p_0">
+        <div class="r m_0 group--items">
+          <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
             <div class="content--item position_relative">
-              <div class="after--day" @click="showAfterDay = ! showAfterDay" v-click-outside="closeShowAfterDay">
-                <span>Sau </span>
+              <div class="after--day"
+                @click="showAfterDay = true"
+                
+              >
+                <span>Sau</span>
                 <span>1</span>
-                <span> Ngày</span>
+                <span>Ngày</span>
               </div>
-              <div class="show--after-day position_absolute text_left" v-show="showAfterDay">
-                <div>Send after {{ showOptionsDay }}</div>
+              <div
+                class="show--after-day position_absolute text_left"
+                v-if="showAfterDay === true" v-click-outside="closeShowAfterDay"
+              >
+                <div>Send after</div>
                 <div class="d_inline_flex hours--day position_relative my_1">
                   <div class="text_center number--day" contenteditable="true">12</div>
-                  <div class="day" @click="showOptionsDay = ! showOptionsDay" v-click-outside="closeShowOptionsDay">Day</div>
-                  <div class="position_absolute options--day" v-show="showOptionsDay">
+                  <div class="day" @click="showOptionsDay = true">
+                    <span>Day</span>
+                    <icon-base
+                      class="icon--sort-down float_right mt_2"
+                      icon-name="IconSortDown"
+                      width="17"
+                      height="10"
+                      viewBox="0 0 10 10"
+                    >
+                      <icon-sort-down/>
+                    </icon-base>
+                  </div>
+                  <div
+                    class="position_absolute options--day"
+                    v-if="showOptionsDay === true"
+                    v-click-outside="closeShowOptionsDay"
+                  >
                     <ul>
                       <li class="py_1 pl_1 py_2">Send now</li>
                       <li class="py_1 pl_1 py_2">Seconds</li>
@@ -210,9 +228,9 @@
               </div>
             </div>
           </div>
-          <div class="c_lg_8 c_xl_8 c_md_12 p_0 position_relative">
+          <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
             <div class="content--item">
-              <div class="text_center">Kịch bản 1</div>
+              <div class="text_center name-script">Kịch bản 1</div>
             </div>
             <div class="position_absolute icon-more">
               <icon-base
@@ -222,7 +240,7 @@
                 height="22"
                 viewBox="0 0 760 760"
               >
-                <icon-more />
+                <icon-more/>
               </icon-base>
             </div>
           </div>
@@ -230,7 +248,7 @@
         <div class="r m_0 group--items mb_3 position_relative">
           <div class="c_lg_12 c_xl_12 c_md_12 p_0">
             <div class="content--item">
-              <div class="text_center">
+              <div class="text_center name-script">
                 <icon-base
                   class="icon--add"
                   icon-name="plus"
@@ -238,7 +256,7 @@
                   height="16"
                   viewBox="0 0 60 60"
                 >
-                  <icon-plus />
+                  <icon-plus/>
                 </icon-base>
               </div>
             </div>
@@ -250,9 +268,7 @@
 
     <!-- Start: Group Component -->
     <loading-component/>
-    <div
-      class="type-script--item group--item"
-    >
+    <div class="type-script--item group--item">
       <!-- Item Type -->
       <div class="type-script--name d_flex mb_2 align_items_center">
         <div class="type-script--icon d_flex align_items_center">
@@ -263,31 +279,21 @@
             height="5.506"
             viewBox="0 0 9.431 5.506"
           >
-            <icon-sort-down />
+            <icon-sort-down/>
           </icon-base>
         </div>
-        <contenteditable
-          class="script--edit-name"
-          tag="div"
-          :contenteditable="true"
-        />
+        <contenteditable class="script--edit-name" tag="div" :contenteditable="true" :placeholder="title"/>
         <!-- <d-group-script type="groupblock" /> -->
       </div>
       <!-- Group Name Scripts -->
       <div class="scripts--group r no_g align_items_center">
-        <div
-          class="script--item c_xl_6 c_lg_6 c_md_12 mb_3 text_center position_relative"
-        >
-          <span
-            class="script--item-name d_flex flex_row align_items_center position_relative"
-          >
-            <span>block.namee</span>
+        <div class="script--item c_xl_6 c_lg_6 c_md_12 mb_3 text_center position_relative">
+          <span class="script--item-name d_flex flex_row align_items_center position_relative">
+            <span>block.name</span>
           </span>
           <!-- <d-script class="action--block position_absolute" /> -->
         </div>
-        <div
-          class="script--item script--item-add c_xl_6 c_lg_6 c_md_12 mb_3 text-center"
-        >
+        <div class="script--item script--item-add c_xl_6 c_lg_6 c_md_12 mb_3 text-center">
           <span>
             <icon-base
               class="icon--add"
@@ -296,7 +302,7 @@
               height="16"
               viewBox="0 0 60 60"
             >
-              <icon-plus />
+              <icon-plus/>
             </icon-base>
           </span>
         </div>
@@ -304,10 +310,8 @@
     </div>
     <!-- End: Group Component -->
     <!--Start: Sequence Name Scripts -->
-    <loading-component />
-    <div
-      class="type--script--item group--item group--sequence"
-    >
+    <loading-component/>
+    <div class="type--script--item group--item group--sequence">
       <!--Item Type-->
       <!-- <div class="type-script--name d_flex mb_2 align_items_center">
         <div class="type-script--icon d_flex align_items_center">
@@ -328,7 +332,7 @@
           placeholder="AAAAAAAAAA"
         />
         <d-group-script type="sequence" />
-      </div> -->
+      </div>-->
       <!--Group Name Scripts-->
       <!-- <div class="scripts--group r no_g justify_content_between">
         <div
@@ -341,11 +345,11 @@
             class="item item--info text_left ml_3 position_relative"
           >
             item._block.name
-          </div> -->
-          <!-- <d-sequence class="remove action--block position_absolute"/> -->
-        <!-- </div> -->
-        <!-- Add item block sequences -->
-        <!-- <div
+      </div>-->
+      <!-- <d-sequence class="remove action--block position_absolute"/> -->
+      <!-- </div> -->
+      <!-- Add item block sequences -->
+      <!-- <div
           class="script--item script--item-add c_xl_12 c_lg_12 c_md_12 mb_3 text-center"
         >
           <span>
@@ -360,7 +364,7 @@
             </icon-base>
           </span>
         </div>
-      </div> -->
+      </div>-->
     </div>
     <!--End: Sequence Name Scripts-->
 
@@ -371,14 +375,8 @@
       v-click-outside="closeAddTypeDropdown"
     >
       <div class="group--item-name d_flex align_items_center">
-        <icon-base
-          class="icon--add"
-          icon-name="plus"
-          width="9"
-          height="9"
-          viewBox="0 0 60 60"
-        >
-          <icon-plus />
+        <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
+          <icon-plus/>
         </icon-base>
         <span class="ml_3">Thêm trình tự hoặc nhóm</span>
       </div>
@@ -390,9 +388,7 @@
           <span class="bg_light"></span>
         </span>
         <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item">
-            Trình tự
-          </div>
+          <div class="dropdown--menu-item">Trình tự</div>
           <div class="dropdown--menu-item">Nhóm</div>
         </div>
       </div>
@@ -566,6 +562,15 @@
     position: absolute;
     top: 0.75rem;
     right: 0.5rem;
+  }
+}
+.group--items {
+  .name-script {
+    text-overflow: ellipsis;
+    cursor: pointer;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
   }
 }
 </style>

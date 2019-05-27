@@ -47,7 +47,7 @@ const mutations = {
   auth_error: ( state, payload ) => {
     state.status = payload;
   },
-  user_set: ( state, payload ) => {
+  setUser: ( state, payload ) => {
     state.user = payload;
   },
   user_action: ( state, payload ) => {
@@ -87,74 +87,6 @@ const mutations = {
 };
 
 const actions = {
-  signIn: async ( { commit }, user ) => {
-    try {
-      commit("auth_request");
-      const resData = await AccountServices.signIn(user);
-
-      console.log( resData );
-
-      const newSid = StringFunction.findSubString(
-        resData.headers.cookie,
-        "sid=",
-        ";"
-      );
-
-      const newUid = StringFunction.findSubString(
-        resData.headers.cookie,
-        "uid=",
-        ";"
-      );
-
-      const newCfr = StringFunction.findSubString(
-        resData.headers.cookie,
-        "cfr=",
-        ""
-      );
-
-      CookieFunction.setCookie("sid", newSid);
-      CookieFunction.setCookie("uid", newUid);
-      CookieFunction.setCookie("cfr", newCfr);
-
-      axios.defaults.headers.common["Authorization"] = resData.headers.cookie;
-
-      commit("auth_success");
-    } catch (e) {
-      console.log( e );
-      if (e.response.status === 401) {
-        commit("auth_error", "401");
-      }
-    }
-  },
-  signUp: async ( { commit }, user ) => {
-    try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signUp( user );
-      // set cookie
-
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
-
-      // remove localStorage
-      localStorage.removeItem( "rid" );
-
-      // set Authorization
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-
-      commit( "auth_success" );
-    } catch ( e ) {
-      commit( "auth_error" );
-      if ( e.response.status === 405 ) {
-        commit( "set_textAuth", e.response.data.data.details[ 0 ].context.label );
-      } else if ( e.response.status === 404 ) {
-        commit( "set_textAuth", "404" );
-      } else {
-        commit( "set_textAuth", e.response.data.status );
-      }
-      return false;
-    }
-  },
   logOut: async ( { commit } ) => {
     commit( "logout" );
     // remove cookie
@@ -171,12 +103,8 @@ const actions = {
     const userInfoRes = await AccountServices.show(
       CookieFunction.getCookie( "uid" )
     );
-    const sendDataToMutation = {
-      token: CookieFunction.getCookie( "sid" ),
-      user: userInfoRes.data.data[ 0 ]
-    };
 
-    commit( "auth_success", sendDataToMutation );
+    commit( "setUser", userInfoRes.data.data );
   },
   updateUser: async ( { commit }, payload ) => {
     await AccountServices.update( payload );

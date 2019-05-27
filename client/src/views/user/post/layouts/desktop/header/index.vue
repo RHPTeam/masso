@@ -116,7 +116,7 @@
               <p class="mb_0">{{ user.email }}</p>
             </div>
           </div>
-          <router-link class="dropdown--item" :to="{ name: 'account' }">
+          <router-link class="dropdown--item" :to="{ name: 'post_account' }">
             <icon-base
               icon-name="account"
               width="20"

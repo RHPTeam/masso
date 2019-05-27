@@ -13,19 +13,16 @@ const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUs
 const { findSubString } = require( "../helpers/utils/functions/string" );
 const { agent } = require( "../configs/crawl" );
 const jsonResponse = require( "../configs/response" );
-const secure = require( "../helpers/utils/secures/jwt" );
 
 module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     if ( req.query._id ) {
-      dataResponse = await Facebook.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await Facebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Facebook.find( { "_account": userId } ).lean();
+      dataResponse = await Facebook.find( { "_account": req.uid } ).lean();
     }
 
     // Remove cookie when get facebook account
@@ -49,9 +46,8 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "cookie": "Cookie facebook không được để trống!" } } );
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } );
-    let newFacebook = await new Facebook( { "cookie": req.body.cookie ? req.body.cookie : null, "status": 1, "_account": userId, "userInfo": {
+    const userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } );
+    let newFacebook = await new Facebook( { "cookie": req.body.cookie ? req.body.cookie : null, "status": 1, "_account": req.uid, "userInfo": {
       "id": userInfoCore.results.id,
       "name": userInfoCore.results.fullName,
       "thumbSrc": userInfoCore.results.thumbSrc,
@@ -59,8 +55,8 @@ module.exports = {
     } } );
 
     // Check errors
-    if ( userInfoCore.errors.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": userInfoCore.errors.text } );
+    if ( userInfoCore.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": userInfoCore.error.text } );
     }
 
     await newFacebook.save();
@@ -79,12 +75,11 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "_facebookId": "Vui lòng cung cấp query _facebookId!" } } );
     }
 
-    const userId = secure( res, req.headers.authorization ),
-      userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } ),
+    const userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } ),
       findFacebook = await Facebook.findById( req.query._facebookId );
     let newFacebook = {
         "cookie": req.body.cookie ? req.body.cookie : null,
-        "status": 1, "_account": userId, "userInfo": {
+        "status": 1, "_account": req.uid, "userInfo": {
           "id": userInfoCore.results.id,
           "name": userInfoCore.results.fullName,
           "thumbSrc": userInfoCore.results.thumbSrc,
@@ -110,13 +105,12 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
   },
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      findFacebook = await Facebook.findById( req.query._facebookId );
+    const findFacebook = await Facebook.findById( req.query._facebookId );
 
     // Check catch when delete campaign
     if ( !findFacebook ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Tài khoản facebook không tồn tại!" } );
-    } else if ( findFacebook._account.toString() !== userId ) {
+    } else if ( findFacebook._account.toString() !== req.uid ) {
       return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho tài khoản facebook này!" } );
     }
     // Delete Group and Page of facebook deleted
@@ -127,50 +121,46 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "getAllActionTypeLoader": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      findFacebook = await Facebook.find( { "_account": userId } ),
+    const findFacebook = await Facebook.find( { "_account": req.uid } ),
       activityList = await getAllActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent } );
 
-    if ( activityList.errors.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": activityList.errors.text } );
+    if ( activityList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": activityList.error.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", activityList ) );
   },
   "showActionTypeLoader": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      findFacebook = await Facebook.find( { "_account": userId } ),
+    const findFacebook = await Facebook.find( { "_account": req.uid } ),
       activityItemList = await getAllItemActionTypeLoader( { "cookie": findFacebook[ 0 ].cookie, agent, "item": req.params.id } );
 
-    if ( activityItemList.errors.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": activityItemList.errors.text } );
+    if ( activityItemList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": activityItemList.error.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", activityItemList ) );
   },
   "getAllFriends": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      findFacebook = await Facebook.find( { "_account": userId } ),
-      friendsList = await getAllFriends( { "cookie": findFacebook[ 0 ].cookie, agent } );
+    const findFacebook = await Facebook.find( { "_account": req.uid } );
 
-    if ( friendsList.errors.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": friendsList.errors.text } );
+    if ( findFacebook.length === 0 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Bạn không có tài khoản facebook để thực hiện chức năng này!" } );
+    }
+    let friendsList = await getAllFriends( { "cookie": findFacebook[ 0 ].cookie, agent } );
+
+    if ( friendsList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": friendsList.error.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", friendsList ) );
   },
   "searchPlaces": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      findFacebook = await Facebook.find( { "_account": userId } ),
+    const findFacebook = await Facebook.find( { "_account": req.uid } ),
       placesList = await searchPlaces( { "cookie": findFacebook[ 0 ].cookie, agent, "keyword": req.query.keyword ? req.query.keyword : null,
         "number": req.query.number ? req.query.number : 15 } );
 
-    if ( placesList.errors.code !== 200 ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": placesList.errors.text } );
+    if ( placesList.error.code !== 200 ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": placesList.error.text } );
     }
 
     res.status( 200 ).json( jsonResponse( "success", placesList ) );

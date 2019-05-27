@@ -2,15 +2,16 @@
 /* eslint-disable camelcase */
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
-
   PostFacebookSchema = new Schema( {
     "title": String,
     "content": String,
     "color": String,
-    "attachments": [ {
-      "link": String,
-      "typeAttachment": Number // 0 video 1 image
-    } ],
+    "attachments": [
+      {
+        "link": String,
+        "typeAttachment": Number // 0 video 1 image
+      }
+    ],
     "place": String,
     "scrape": String,
     "tags": Array,

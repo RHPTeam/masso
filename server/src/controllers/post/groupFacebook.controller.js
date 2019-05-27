@@ -26,15 +26,13 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization );
 
     // Handle get all group from mongodb
     if ( req.query._id ) {
-      dataResponse = await GroupFacebook.find( { "_id": req.query._id, "_account": userId } ).lean();
+      dataResponse = await GroupFacebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       dataResponse = dataResponse[ 0 ];
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await GroupFacebook.find( { "_account": userId } ).lean();
+      dataResponse = await GroupFacebook.find( { "_account": req.uid } ).lean();
     }
 
     res
@@ -49,10 +47,8 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      facebookList = await Facebook.find( { "_account": userId } ),
-      postGroupList = await PostGroup.find( { "_account": userId } );
+    const facebookList = await Facebook.find( { "_account": req.uid } ),
+      postGroupList = await PostGroup.find( { "_account": req.uid } );
 
     // Get all group from facebook and save
     await Promise.all( facebookList.map( async ( facebook ) => {
@@ -60,7 +56,7 @@ module.exports = {
 
       // Handle code when fix add other item
       const groupListFixed = groupList.results.map( ( group ) => {
-        group._account = userId;
+        group._account = req.uid;
         group._facebook = facebook._id;
         return group;
       } );

@@ -1,7 +1,8 @@
 <template>
-  <div v-if="item.typeContent === 'time'" :data-theme="currentTheme">
-    <div class="script--body-timer position_relative mb_4">
+  <div :data-theme="currentTheme">
+    <div class="card card_body script--body-timer position_relative mb_4">
       <div class="timer--title mb_2 text_left">
+        <img src="@/assets/images/upload/icon_time_round.svg" height="30" class="mr_1">
         Khoảng thời gian giữa các lần gửi tin nhắn
       </div>
       <div class="time--adjust">
@@ -9,9 +10,7 @@
           type="range"
           :min="mintime"
           :max="maxtime"
-          :value="item.valueText"
           :style="{ 'background-size': percentTime + '% 100%' }"
-          @input="changeTime($event, item._id)"
         />
         <div class="time--value position_relative pt_1">
           <div
@@ -20,16 +19,16 @@
             <span>{{ mintime }}s</span>
             <span>{{ maxtime }}s</span>
           </div>
-          <div
+          <!-- <div
             class="time--value-current position_absolute"
             :style="{ left: percentTime + '%' }"
             v-if="item.valueText > mintime && item.valueText < maxtime"
           >
             {{ item.valueText }}s
-          </div>
+          </div> -->
         </div>
       </div>
-      <div class="script--body-delete mt_4" @click="isDeleteItemBlock = true">
+      <div class="script--body-delete" @click="isDeleteItemBlock = true">
         <icon-base
           icon-name="remove"
           width="20"
@@ -50,20 +49,24 @@
         </icon-base>
       </div>
     </div>
-    <!--Delete Item Popup-->
-    <delete-item
-      v-if="isDeleteItemBlock === true"
-      desc="Bạn có thực sự muốn xóa nội dung trong chiến dịch này không?"
-      :content="item._id"
-      :block="schedule._id"
-      target="slideritem"
-      @close="isDeleteItemBlock = $event"
-    />
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Property"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteProperty"
+          typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   props: ["item", "schedule"],
   data() {
@@ -79,46 +82,50 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  watch: {
-    "item.valueText"() {
-      this.percentTime =
-        (parseInt(this.item.valueText) * 100) /
-        (parseInt(this.maxtime) - parseInt(this.mintime));
-    }
+  components: {
+    DeleteCampaignPopup
   },
+  // watch: {
+  //   "item.valueText"() {
+  //     this.percentTime =
+  //       (parseInt(this.item.valueText) * 100) /
+  //       (parseInt(this.maxtime) - parseInt(this.mintime));
+  //   }
+  // },
   async created() {
     this.percentTime =
-      (parseInt(this.item.valueText) * 100) /
+      ( 10 * 100) /
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
-  methods: {
-    async changeTime(e, id) {
-      this.item.valueText = e.target.value;
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      const objSender = {
-        bcId: result[0]._id,
-        blockId: this.$store.getters.schedule._id,
-        contentId: id,
-        value: e.target.value
-      };
-      this.$store.dispatch("updateItemSchedule", objSender);
-    }
-  }
+  // methods: {
+  //   async changeTime(e, id) {
+  //     this.item.valueText = e.target.value;
+  //     let result = await BroadcastService.index();
+  //     result = result.data.data.filter(
+  //       item =>
+  //         StringFunction.convertUnicode(item.typeBroadCast)
+  //           .toLowerCase()
+  //           .trim() === "thiet lap bo hen"
+  //     );
+  //     const objSender = {
+  //       bcId: result[0]._id,
+  //       blockId: this.$store.getters.schedule._id,
+  //       contentId: id,
+  //       value: e.target.value
+  //     };
+  //     this.$store.dispatch("updateItemSchedule", objSender);
+  //   }
+  // }
 };
 </script>
 <style lang="scss" scoped>
 /**    Script Body Timer      **/
 .script--body-timer {
-  max-width: 350px;
-  .timer--title {
-    font-weight: 600;
-    font-size: 18px;
+  max-width: 450px;
+  border-radius: 10px;
+  transition: 0.3s;
+  &:hover{
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
   }
   .time--adjust {
     max-width: 320px;
@@ -177,7 +184,8 @@ export default {
     cursor: pointer;
     position: absolute;
     right: -30px;
-    top: 0;
+    top: 50%;
+    transform: translateY(-50%);
   }
   /*    Icon Move   */
   .script--body-move {
@@ -195,7 +203,12 @@ div[data-theme="light"] {
       background-color: #e4e4e4;
     }
     .timer--title {
-      color: #999;
+      font-weight: 600;
+      font-size: 16px;
+      color: #000000ed;
+    }
+    .script--body-delete{
+      color: #666;
     }
   }
 }
@@ -203,12 +216,22 @@ div[data-theme="dark"] {
   /*****Script Body Timer*****/
   .script--body-timer {
     color: #ccc;
+    background: #2f3136;
+    background: #212529;
     input[type="range"] {
       background-color: #2f3136;
     }
     .timer--title {
       color: #ccc;
     }
+  }
+}
+
+@media only screen and (max-width: 845px) and (min-width: 768px){
+  .script--body{
+      &-timer{
+          width: 280px!important;
+      }
   }
 }
 </style>

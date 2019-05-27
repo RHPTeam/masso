@@ -12,16 +12,13 @@ const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const Post = require( "../../models/post/Post.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   "statistic": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      campaignList = await Campaign.find( { "_account": userId } ).lean(),
-      groupList = await GroupFacebook.find( { "_account": userId } ).lean(),
-      pageList = await PageFacebook.find( { "_account": userId } ).lean(),
-      postList = await Post.find( { "_account": userId } ).lean();
+    const campaignList = await Campaign.find( { "_account": req.uid } ).lean(),
+      groupList = await GroupFacebook.find( { "_account": req.uid } ).lean(),
+      pageList = await PageFacebook.find( { "_account": req.uid } ).lean(),
+      postList = await Post.find( { "_account": req.uid } ).lean();
 
     res.status( 200 ).json( jsonResponse( "success", {
       "campaign": campaignList.length,
@@ -31,9 +28,7 @@ module.exports = {
     } ) );
   },
   "statisticCampaign": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      statisticList = [];
+    const statisticList = [];
 
     for ( let i = 0; i <= 6; i++ ) {
       const dateActive = new Date( ( new Date() ).setDate( ( new Date() ).getDate() - i ) ),
@@ -43,7 +38,7 @@ module.exports = {
       dateActiveBehind.setHours( 23, 59, 59, 999 );
 
       // eslint-disable-next-line one-var
-      const campaignList = await Campaign.find( { "_account": userId, "started_at": {
+      const campaignList = await Campaign.find( { "_account": req.uid, "started_at": {
         "$gte": dateActive,
         "$lte": dateActiveBehind
       } } ).lean();
@@ -57,9 +52,7 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", statisticList ) );
   },
   "statisticPost": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      statisticList = [];
+    const statisticList = [];
 
     for ( let i = 0; i <= 4; i++ ) {
       const start = new Date( ( new Date() ).setDate( ( new Date() ).getDate() - i ) ),
@@ -69,7 +62,7 @@ module.exports = {
       end.setHours( 23, 59, 59, 999 );
 
       // eslint-disable-next-line one-var
-      const postList = await Post.find( { "_account": userId, "created_at": {
+      const postList = await Post.find( { "_account": req.uid, "created_at": {
         "$gte": start,
         "$lte": end
       } } );
