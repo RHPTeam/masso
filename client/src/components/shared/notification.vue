@@ -8,9 +8,8 @@
           <div class="notifi mr_1"></div>
           <div class="name">Thông báo</div>
         </div>
-        <div class="d_inline_flex close--now">
+        <div class="d_inline_flex close--now ml_auto">
           <div class="now mr_1">vừa xong</div>
-          <div class="close">x</div>
         </div>
       </div>
       <div class="notice py_2  px_3">
@@ -61,7 +60,7 @@ export default {
     .notifi{
       height: 20px;
       width: 20px;
-      background: rgb(0, 122, 255);
+      background: rgba(255, 0, 3, 0.82);
     }
     .content{
       border-bottom: 1px solid #ccc;
@@ -74,9 +73,6 @@ export default {
         color: rgba(255,0,3,.56);
       }
     }
-  }
-  .close--now{
-    margin-left: 57px;
   }
   .close {
     font-size: 1rem;

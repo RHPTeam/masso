@@ -131,6 +131,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../index.style";
+.icon--delete{
+  transition: 0.3s;
+  &:hover{
+    cursor: pointer;
+    color: #fdb849;
+  }
+}
 .default {
   background-position: center;
   background-size: contain;

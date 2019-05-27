@@ -1,3 +1,7 @@
+// VARIABLE BORDER
+
+$border_radius: rgb(72, 72, 72);
+
 .scripts {
     font-size: 14px;
     /********Script Header*******/
@@ -7,6 +11,15 @@
       .script--header-title {
         font-size: 30px;
         max-width: 70%;
+        border: 1px solid transparent;
+        &:focus{
+          box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.07);
+          outline: none;
+          border: solid 1px rgba(0, 0, 0, 0.33);
+          border-radius: 7px;
+          cursor: text;
+          padding: 0 0.625rem;
+        }
         text-overflow: ellipsis;
         cursor: pointer;
         white-space: nowrap;
@@ -85,7 +98,7 @@
           background: #27292D;
           border-radius: 10px;
           // border: 10px solid #2F3136;
-          min-height: 60px;
+          // min-height: 60px;
           text-align: left;
           outline: none;
           div[contenteditable="true"]:empty:before {
@@ -170,7 +183,7 @@
         padding: 15px;
         border-radius: 10px;
         max-width: 590px;
-        background: #fff; 
+        background: #fff;
   
         &-icon {
           align-items: center;
@@ -185,12 +198,18 @@
         &-title {
           display: flex;
           align-items: center;
-        }
-  
-        &-title {
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 15px;
+        }
+
+        &-list{
+          .describle{
+            font-size: 14px;
+            line-height: 1.71;
+            flex: 1;
+            white-space: normal;
+          }
         }
   
         &-description {
@@ -221,7 +240,13 @@
             }
           }
           .tag--created {
-            width: 50%;
+            width: 48%;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            transition: 0.3s;
+            &:hover{
+              border: 1px solid $border_radius;
+            }
             .list--attribute {
               border: 1px solid #707070;
               border-radius: 6px;
@@ -270,7 +295,6 @@
               //width: 100%;
             }
             &-item {
-              color: #e9604a;
               max-width: 100%;
               padding: 0.25rem .5rem;
               text-overflow: ellipsis;
@@ -377,8 +401,7 @@
           justify-content: center;
           height: 40px;
           margin: 15px 0 0;
-          padding: 10px;
-  
+          padding: 10px;  
           span + span {
             margin-left: 10px;
           }
@@ -438,7 +461,7 @@
             }
   
             .tag--created {
-              width: 50%;
+              width: 48%;
             }
   
             .tag--icon-delete {
@@ -785,11 +808,11 @@
           &:hover {
             background: #FFB94A;
             color: #fff;
+            span svg {
+              color: #ccc;
+            }
           }
   
-          svg {
-            color: #ccc;
-          }
         }
       }
   
@@ -881,6 +904,10 @@
   
       .script--header-title {
         color: #fff;
+        &:focus{
+          border: 1px solid $border_radius;
+          
+        }
       }
   
       .header--dropdown-wrap {
@@ -916,9 +943,9 @@
       /*****Script Body Text Edit*****/
       .script--body-text {
         background: #f0f0f04f;
+        border: 1px solid $border_radius;
         .script--body-text-edit {
           background: #27292D;
-          // border: 10px solid #2F3136;
           padding: 10px;
           color: #fff;
   
@@ -943,6 +970,10 @@
   
       /*****Script Body Upload Image*****/
       .script--body-image {
+        border: 1px solid $border_radius;
+        background: none;
+        transition: 0.3s;
+        cursor: pointer;
         .script--body-upload-image {
           background: #2F3136;
         }
@@ -950,7 +981,7 @@
         &:hover {
           .scrip--body-image-link + .script--body-upload-image {
             color: #fff;
-            background: rgba(153, 153, 153, 0.60);
+            background: #252627;
             z-index: 2;
           }
   
@@ -958,12 +989,18 @@
             fill: #fff;
             color: #fff;
           }
+          .script--body-upload-image{
+            span{
+              color: #fff;
+            }
+          }
         }
       }
   
       /*****Script Body Timer*****/
       .script--body-timer {
         color: #ccc;
+        transition: 0.3s;
   
         input[type="range"] {
           background-color: #2f3136;

@@ -1,5 +1,5 @@
 <template>
-  <div class="main--desc">
+  <div class="main--desc mb_3">
     <div class="desc my_3">
       Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng
       cáo cho thương hiệu, sản phảm. Bạn chỉ cần thiết lập nội dung chiến dịch
@@ -34,6 +34,7 @@ export default {
      */
 
 .main--desc {
+  border-bottom: solid 1px rgba(0, 0, 0, 0.09);
   .desc {
     text-align: left;
   }

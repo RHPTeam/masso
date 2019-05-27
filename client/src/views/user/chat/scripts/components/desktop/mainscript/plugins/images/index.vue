@@ -112,7 +112,5 @@ export default {
   height: 207px;
   opacity: 0.3;
 }
-.script--body-delete{
-  line-height: 15;
-}
+
 </style>

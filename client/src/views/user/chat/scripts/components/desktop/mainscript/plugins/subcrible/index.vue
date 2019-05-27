@@ -176,10 +176,17 @@ export default {
   }
 }
 .subcrible[data-theme="dark"]{
-  border: 0;
+  border: 1px solid transparent;
   background: #2f3236;
   border-radius: 10px;
   .title{
+    color: #fff;
+  }
+  &:hover{
+    border: 1px solid $border_radius;
+    box-shadow: 0;
+  }
+  .desc, .subcrible--edit{
     color: #fff;
   }
 }

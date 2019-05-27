@@ -12,7 +12,7 @@
     </div>
     <div class="right d_flex align_items_center">
       <router-link tag="div" class="mess" :to="{name: 'messenger'}">
-        Trò chuyện
+        Mo bang messenger
       </router-link>
       <div
         class="header--profile position_relative d_flex justify_content_end align_items_center"

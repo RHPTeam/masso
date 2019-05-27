@@ -21,7 +21,8 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      title: "aaaaaaa"
     };
   },
   methods: {

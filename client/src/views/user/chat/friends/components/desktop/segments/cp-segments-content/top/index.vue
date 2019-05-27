@@ -24,7 +24,7 @@
       <div class="action mr_2">Thêm vào nhóm</div>
       <!--End: Add Member to Group Component-->
       <!--Start: Delete Member in Group Component-->
-      <div class="action mr_2">Xóa</div>
+      <div class="action mr_2 d_none">Xóa</div>
       <!--End: Delete Member in Group Component-->
       <!--Start: Export Data Component-->
       <div class="action export disabled position_relative mr_2">
@@ -105,7 +105,10 @@
 <style lang="scss" scoped>
 @import "./index.style";
 
-@media screen and (max-width: 1199px){
+.top--right{
+  justify-content: flex-end;
+}
+@media only screen and (max-width: 1199px) and (min-width: 768px){
   .top--left{
     position: relative;
     .segment--total{

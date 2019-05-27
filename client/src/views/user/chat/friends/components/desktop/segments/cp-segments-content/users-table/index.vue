@@ -343,7 +343,7 @@
           >
            Danh xung ne
           </span> -->
-          <span class="btn--action">
+          <span class="btn--action" @click="isShowPronounPopup = true">
             Chọn để thiết lập
           </span>
         </div>
@@ -385,15 +385,13 @@
     <!--End: Paginate Component-->
 
     <!--*********** POPUP *************-->
-    <!-- <transition name="popup">
+    <transition name="popup-enter-active">
       <pronoun-popup
         v-if="isShowPronounPopup === true"
         :data-theme="currentTheme"
-        :isShowPronounPopup="isShowPronounPopup"
-        :userID="userID"
         @closeAddPopup="isShowPronounPopup = $event"
       ></pronoun-popup>
-    </transition> -->
+    </transition>
   </div>
   <!--  -->
 </template>

@@ -15,7 +15,7 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-        <contenteditable class="scripts" tag="div" :contenteditable="true" :placeholder="title"/>
+        <contenteditable class="name--scripts" tag="div" :contenteditable="true" placeholder="Nhap ten kich ban" v-model="title"/>
         <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts">
           <icon-base
             class="icon--more"
@@ -120,7 +120,7 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-        <contenteditable class="sequence" tag="div" :contenteditable="true"/>
+        <contenteditable class="name--sequence" tag="div" :contenteditable="true" placeholder="Nhap chuoi kich ban ..." v-model="title"/>
         <div
           @click="showCopySequenceScripts = !showCopySequenceScripts"
           v-click-outside="closeCopySequenceScripts"

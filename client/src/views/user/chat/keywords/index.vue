@@ -21,6 +21,8 @@
                 class="header--title"
                 tag="div"
                 :contenteditable="true"
+                placeholder="Nhập tên cú pháp"
+                v-model="title"
               />
               <div class="icon--drop ml_auto" @click="isDeleteItemBlock = true">
                 <icon-base
@@ -74,7 +76,8 @@ export default {
   },
   data() {
     return {
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      title: "VVVVVVVV"
     };
   },
   computed: {

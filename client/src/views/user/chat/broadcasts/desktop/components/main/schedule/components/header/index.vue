@@ -11,14 +11,20 @@
             height="26"
             viewBox="0 0 482.8 482.8"
           >
-            <icon-copy/>
+            <icon-copy />
           </icon-base>
         </div>
-        <div class="action--item live">
+        <div class="action--item live" @click.prevent="startBroadcast" v-if="isShowStart === false">
           <icon-base icon-name="icon-copy" width="14" height="16" viewBox="0 0 13.955 16">
-            <icon-copy/>
+            <icon-plays-button />
           </icon-base>
-          <span class="ml_2">Start</span>
+          <span class="ml_2">Bat dau</span>
+        </div>
+        <div class="action--item delete" @click.prevent="stopBroadcast" v-if="isShowStart === true">
+          <icon-base icon-name="icon-copy" width="14" height="16" viewBox="0 0 13.955 16">
+            <icon-plays-button />
+          </icon-base>
+          <span class="ml_2">Huy bo</span>
         </div>
       </div>
     </div>
@@ -48,8 +54,8 @@
 @import "./index.style";
 
 @media only screen and (max-width: 1045px) and (min-width: 768px){
-    .name--campaign{
-        flex-direction: column;
-    }
+  .name--campaign{
+    flex-direction: column;
+  }
 }
 </style>

@@ -18,6 +18,9 @@
         .left {
             width: calc(100% - 75px);
         }
+        // .filter{
+        //     border-radius: 5px;
+        // }
         .filter--icon {
             cursor: pointer;
             width: 70px;
@@ -65,6 +68,11 @@
             background-color: #CCCCCC;
             color: #ffffff;
             font-weight: 600;
+        }
+    }
+    .filter--result {
+        .title{
+            font-weight: bold;
         }
     }
 }

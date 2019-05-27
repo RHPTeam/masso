@@ -30,6 +30,7 @@
       </div>
       <div class="script--body-delete" @click="isDeleteItemBlock = true">
         <icon-base
+          class="icon--delete"
           icon-name="remove"
           width="20"
           height="20"
@@ -186,6 +187,12 @@ export default {
     right: -30px;
     top: 50%;
     transform: translateY(-50%);
+    .icon--delete{
+      transition: 0.3s;
+      &:hover{
+        color: #fdb849;
+      }
+    }
   }
   /*    Icon Move   */
   .script--body-move {

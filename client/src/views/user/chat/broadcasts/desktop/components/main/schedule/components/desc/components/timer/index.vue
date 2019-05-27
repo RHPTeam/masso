@@ -3,59 +3,40 @@
   <div class="timer" :data-theme="currentTheme">
     <!-- <div
       class="option--time-repeat position_relative"
-    ></div> -->
-    <div class="option--time py_3 d_flex align_items_center mt_4">
+    ></div>-->
+    <div class="option--time py_3 d_flex align_items_center mt_2">
       <date-picker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
         name="date-setting"
       ></date-picker>
       <div class="option--time-hours mr_4 ml_4">
-        <input
-          type="text"
-          placeholder="12:00"
-          class="form_control option--time-item text_center"
-        />
+        <time-picker class="option--time-item text_center" v-model="time"/>
       </div>
-      <div
-        class="option--time-repeat position_relative"
-      >
-        <input
-          type="text"
-          readonly
-          class="form_control option--time-item"
-        />
+      <div class="option--time-repeat position_relative"  v-click-outside="closeShowOptionRepeat">
+        <div @click="showOptionRepeat = true">
+          <input type="text" readonly class="form_control option--time-item">
+        </div>
         <div class="icon position_absolute">
-          <icon-base
-            icon-name="arrow-down"
-            width="10"
-            height="10"
-            viewBox="0 0 130 130"
-          >
-            <icon-arrow-down />
+          <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
+            <icon-arrow-down/>
           </icon-base>
         </div>
-        <div
-          class="option--repeat position_absolute text_left d_none"
-        >
-          <div
-            class="option--repeat-item"
-          >
-            "Lặp lại: " + item.value
-          </div>
-          <div class="option--repeat-item">
-            Lặp lại: Tùy chỉnh
-          </div>
+        <div class="option--repeat position_absolute text_left" v-show="showOptionRepeat">
+          <div class="option--repeat-item" @click="closeShowOptionDays">Lặp lại: AAAAA</div>
+          <div class="option--repeat-item" @click="showOptionDay">Lặp lại: Tùy chỉnh</div> 
         </div>
       </div>
     </div>
-    <div class="option--custom d_none">
-      <div class="option--custom-wrap d_flex mb_3">
-        <div
-          class="option--custom-item"
-        >
-          item.value
-        </div>
+    <div class="option--custom mb_3" v-if="showOptionDays === true">
+      <div class="option--custom-wrap d_inline_flex">
+        <div class="item">T2</div>
+        <div class="item">T3</div>
+        <div class="item">T4</div>
+        <div class="item">T5</div>
+        <div class="item">T6</div>
+        <div class="item">T7</div>
+        <div class="item">CN</div>
       </div>
     </div>
   </div>
@@ -70,6 +51,10 @@ const currentTimeStamp = new Date();
 export default {
   data() {
     return {
+      time: {
+        HH: "10",
+        mm: "05"
+      },
       showOptionRepeat: false,
       showOptionDays: false,
       showCustom: false,
@@ -94,20 +79,35 @@ export default {
       selectedOption: [],
       nowTimeStamp: Date.now(),
       disabledDates: {
-        to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
+        to: new Date(
+          currentTimeStamp.getFullYear(),
+          currentTimeStamp.getMonth(),
+          currentTimeStamp.getDate()
+        ) // Disable all dates up to specific date
       }
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
     // schedule() {
     //   if (this.$store.getters.schedule === undefined) return;
     //   return this.$store.getters.schedule;
     // }
   },
   methods: {
+    closeShowOptionRepeat(){
+      this.showOptionRepeat = false;
+    },
+    showOptionDay(){
+      this.showOptionRepeat = false;
+      this.showOptionDays = true;
+    },
+    closeShowOptionDays(){
+      this.showOptionDays = false;
+      this.showOptionRepeat = false;
+    }
     // async chooseDaysRepeat(id) {
     //   if (this.selectedOption.includes(id)) {
     //     // remove item out ot array
@@ -207,8 +207,6 @@ export default {
 </style>
 
 <style lang="scss">
-
-
 div[data-theme="light"] .timer {
   .option--time-days {
     input[name="date-setting"] {
@@ -230,12 +228,10 @@ div[data-theme="light"] .timer {
       }
     }
   }
-  .option--time .icon svg{
+  .option--time .icon svg {
     color: #666;
   }
 }
-
-
 
 div[data-theme="dark"] .timer {
   .option--time-days {
@@ -258,7 +254,7 @@ div[data-theme="dark"] .timer {
       }
     }
   }
-  .mx-input{
+  .mx-input {
     background: #27292d;
     border: 0;
   }

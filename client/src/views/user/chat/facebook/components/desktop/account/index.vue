@@ -47,7 +47,7 @@
               </div>
               <div class="name--user mb_2">I need Food</div>
               <div class="status--active-true">Dang hoat dong</div>
-              <div class="status--active-false">Ngung hoat dong</div>
+              <div class="status--active-false" @click="showModal = true">Cap nhat</div>
             </div>
             <div class="card--header">
               <!-- Start: Delete Item Popup-->

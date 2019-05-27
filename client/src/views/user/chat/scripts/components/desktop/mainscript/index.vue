@@ -11,6 +11,8 @@
           class="script--header-title"
           tag="div"
           :contenteditable="true"
+          placeholder="Nhap ten kich ban..."
+          v-model="title"
         />
         <div class="script--header-copy-link disabled--icon">
           <!-- <icon-base

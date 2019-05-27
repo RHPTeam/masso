@@ -1,6 +1,6 @@
 <template>
   <div class="tooltip--plugin position_absolute pt_1 pb_1 pl_2 pr_2">
-    Tính năng này sẽ được cập nhập trong phiên bản sắp tới!
+    Tính năng này sẽ được cập nhật trong phiên bản sắp tới!
   </div>
 </template>
 
@@ -26,4 +26,5 @@
     transform: translateX(-50%);
   }
 }
+
 </style>

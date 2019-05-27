@@ -347,7 +347,7 @@ export default {
   .filter--body-option {
     background: #ffffff;
     border: 1px solid #e4e4e4;
-    /*border-radius: 10px;*/
+    border-radius: 5px;
     font-size: 15px;
   }
   .filter--attribute-option {
