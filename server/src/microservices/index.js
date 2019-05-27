@@ -28,7 +28,7 @@ io = require( "socket.io" )( server );
 server.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {
-  console.log( `Client from post.zinbee.vn connected with id: ${socket.id}` );
+  console.log( `Client from ${process.env.APP_URL}:${process.env.PORT_BASE} connected with id: ${socket.id}` );
   // Check server have one more account
   const threadId = socket.id,
     accountTest = await Account.find( {} ).limit( 1 ).lean();

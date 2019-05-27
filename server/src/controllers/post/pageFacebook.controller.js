@@ -15,7 +15,6 @@ const PostGroup = require( "../../models/post/PostGroup.model" );
 const { agent } = require( "../../configs/crawl" );
 const getAllPages = require( "../core/pages.core" );
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**
@@ -78,8 +77,10 @@ module.exports = {
         postGroup._pages.map( async ( page ) => {
           const pageChecked = await PageFacebook.findOne( { "pageId": page } );
 
+          console.log( pageChecked );
+
           if ( !pageChecked ) {
-            postGroup._pages.splice( indexOf( postGroup._pages.indexOf( page ) ), 1 );
+            postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
             await postGroup.save();
           }
         } );
