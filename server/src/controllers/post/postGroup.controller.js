@@ -12,7 +12,6 @@ const PostGroup = require( "../../models/post/PostGroup.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**

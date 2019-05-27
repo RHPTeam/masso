@@ -46,7 +46,7 @@ app.use( bodyParser.json( { "limit": "500MB", "extended": true } ) );
 app.use( bodyParser.urlencoded( { "limit": "500MB", "extended": true } ) );
 app.use( passport.initialize() );
 app.use( passport.session() );
-app.use( logger( "tiny" ) );
+app.use( logger( "dev" ) );
 // file image local
 app.use( "/uploads", express.static( "uploads" ) );
 app.use( "/api/v1", api );

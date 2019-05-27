@@ -27,7 +27,6 @@ router.use( "/events", auth, require( "./modules/post/event.route" ) );
 router.use( "/post-group", auth, require( "./modules/post/postGroup.route" ) );
 router.use( "/group-facebook", auth, require( "./modules/post/groupFacebook.route" ) );
 router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route" ) );
-router.use( "/post-facebook", auth, require( "./modules/post/postFacebook.route" ) );
 
 // Chat Route
 router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );
