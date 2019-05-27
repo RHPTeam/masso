@@ -3,7 +3,7 @@
     <div class="item--body d_flex align_items_center px_2 py_2">
       <div class="col col--content px_3">
         <div class="col--content-text">
-          <div v-html="item.content"></div>
+          <div v-html="item.content">{{ item.content }}</div>
         </div>
       </div>
       <div class="col col--image px_3">
@@ -21,8 +21,8 @@
         </div>
         <div v-else>Không có hình ảnh</div>
       </div>
-      <div class="col col--like px_3">102</div>
-      <div class="col col--share px_3">128</div>
+      <div class="col col--like px_3">{{ item.like }}</div>
+      <div class="col col--share px_3">{{ item.share }}</div>
 
       <div class="col col--action px_3 text_center">
         <span class="mx_1">

@@ -17,6 +17,7 @@ import FacebookStore from "./modules/post/facebook.store";
 import GroupFacebook from "./modules/post/groupfacebook.store";
 import PageFacebook from "./modules/post/pagefacebook.store";
 import PostStore from "./modules/post/post.store";
+import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 import AnalysisStore from "./modules/post/analytic.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
@@ -39,6 +40,7 @@ export default new Vuex.Store( {
     GroupFacebook,
     PageFacebook,
     PostStore,
+    PostFacebookStore,
     PostGroupStore,
     AnalysisStore,
     SequenceFaceBook,

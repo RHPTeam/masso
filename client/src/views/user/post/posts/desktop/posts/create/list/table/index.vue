@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
+    <div>{{ keyword }}</div>
     <div class="list--data my_3">
       <div class="item--header d_flex align_items_center px_2 py_2">
         <div class="col col--content px_3">Nội dung</div>
@@ -8,15 +9,14 @@
         <div class="col col--share px_3">Chia sẻ</div>
         <div class="col col--action px_3">Hành động</div>
       </div>
-      <vue-perfect-scrollbar class="wrap--post" ref="text">
-        <div v-if="this.$store.getters.statusLib === 'loading'">
-          <loading-component/>
-        </div>
-        <div v-else v-for="(item, index) in resultPostSearch.results" :key="`s-${index}`">
-          <item-detail :item="item" />
-        </div>
-        <observer @intersect="intersected" />
-      </vue-perfect-scrollbar>
+      <!-- Start: List Content -->
+      <div v-for="(item, index) in postsArr" :key="index">
+        <item-detail :item="item" />
+      </div>
+      <div class="infinite--control-block">
+        <div ref="infiniteScrollTrigger" id="scrollTrigger"></div>
+        <div class="circle--loading" v-if="showLoader"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -24,63 +24,76 @@
 <script>
 
 import ItemDetail from "./item/index";
-import Observer from "./observer/index";
 
 export default {
   components: {
     ItemDetail,
-    Observer
   },
-  props: {
-    keyword: String,
-  },
+  props: [ "currentPage", "keyword" ],
   data() {
     return {
-      items: [],
-      progress: 0,
-      limit: 12,
-      count: 1
+      maxPerPage: 12,
+      showLoader: false,
+      postsArr: [],
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    allPostLibararies(){
-      const result =  this.$store.getters.allPostLibraries;
-      return result.reverse().splice(-8);
+    postsFacebookByKey() {
+      return this.$store.getters.postsFacebookByKey;
     },
-    resultPostSearch() {
-      return this.$store.getters.postSearch;
-      // const arr = this.$store.getters.postSearch;
-      // console.log(arr);
-      // if(arr.length === 0) {
-      //   return;
-      // } else {
-      //   arr.results.map(item => {
-      //     this.items.push(item);
-      //   });
-      // }
-      // return arr;
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
-  async created(){
+  async created() {
+    const dataSender = {
+      key: this.keyword,
+      size: this.maxPerPage,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
+    this.postsFacebookByKey.results.forEach( ( item ) => {
+      this.postsArr.push( item );
+    } );
+  },
+  mounted() {
+    this.scrollTrigger();
   },
   methods: {
-    intersected(){
-      if ( this.resultPostSearch && this.count < this.resultPostSearch.page ) {
-        this.count++;
-      } else if (this.resultPostSearch && this.count == this.resultPostSearch.page) {
-        return;
-      }
+    scrollTrigger() {
+      const observer = new IntersectionObserver( ( entries ) => {
+        entries.forEach( ( entry ) => {
+          if ( entry.intersectionRatio > 0 && this.currentPage < this.postsFacebookByKey.page) {
+            this.showLoader = true;
+            setTimeout( () => {
+              this.$emit( "updateCurrentPage" );
+              this.showLoader = false;
 
+              this.getMorePost();
+
+            }, 2000 );
+          }
+        } );
+      } );
+
+      observer.observe(this.$refs.infiniteScrollTrigger);
+    },
+    async getMorePost() {
       const dataSender = {
         key: this.keyword,
-        size: this.limit,
-        page: this.count
+        size: this.maxPerPage,
+        page: this.currentPage
       };
 
-      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+      await this.$store.dispatch( "searchPostsFacebookByKey", dataSender );
+
+      this.postsFacebookByKey.results.forEach( ( item ) => {
+        this.postsArr.push( item );
+      } );
     }
   }
 };
@@ -167,6 +180,32 @@ export default {
       height: 100%;
       left: 0;
       top: 0;
+    }
+  }
+}
+
+.infinite--control-block {
+  width: 100%;
+  #scrollTrigger {
+    height: 30px;
+  }
+  .circle--loading {
+    animation: animate 1.5s infinite linear;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top: 3px solid #fff;
+    height: 30px;
+    margin-left: 50%;
+    transform: translate( -50%, -50%);
+    width: 30px;
+  }
+
+  @keyframes animate {
+    0% {
+      transform: translate(-50%,-50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%,-50%) rotate(360deg);
     }
   }
 }
