@@ -4,7 +4,6 @@ import Router from "vue-router";
 
 import customerGeneralChatRouter from "./modules/user/chat";
 import customerGeneralPostRouter from "./modules/user/post";
-import customerResetPassword from "./modules/user/password";
 import customerWelcomeRouter from "./modules/user/welcome";
 import customerMessengerRouter from "./modules/user/messenger";
 
@@ -23,7 +22,6 @@ export default new Router( {
   routes: [
     customerGeneralChatRouter,
     customerGeneralPostRouter,
-    customerResetPassword,
     customerWelcomeRouter,
     customerMessengerRouter,
     error404Router,

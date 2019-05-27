@@ -87,6 +87,9 @@ export default {
         name: "post_update_post",
         params: { id: this.newPost._id }
       } );
+    },
+    redirectToHelp() {
+      window.location = `${process.env.VUE_APP_PARENT_URL}help`;
     }
   },
 
