@@ -143,6 +143,12 @@ Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 Vue.component("DeletePopup", () => import("@/components/popupDelete"));
 Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 
+
+/********************* CUSTOM FLAG COMPONENT ****************************/
+Vue.component("IconChinaFlag", () => import("@/components/icons/flags/cn"));
+Vue.component("IconVietnamFlag", () => import("@/components/icons/flags/vi"));
+Vue.component("IconAmericaFlag", () => import("@/components/icons/flags/us"));
+
 /**
  * Assign Global Vue Directives or Other Libraries
  */

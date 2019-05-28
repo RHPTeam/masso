@@ -10,8 +10,7 @@ const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 
-const jsonResponse = require( "../../configs/response" ),
-  secure = require( "../../helpers/utils/secures/jwt" );
+const jsonResponse = require( "../../configs/response" );
 
 module.exports = {
   /**

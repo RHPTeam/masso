@@ -1,9 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="alert alert_warning text_left">
-      CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả dữ
-      liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ
-      với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
+      {{ $t("chat.facebook.notification") }}
     </div>
     <div class="list r">
       <div class="addItem c_md_6 c_lg_4 c_xl_3">
@@ -20,7 +18,7 @@
                 <icon-plus/>
               </icon-base>
 
-              <p>Kết nối với Facebook</p>
+              <p>{{ $t("chat.facebook.connect") }}</p>
             </div>
           </div>
         </div>
@@ -46,8 +44,8 @@
                 <div class="position_absolute status--user"></div>
               </div>
               <div class="name--user mb_2">I need Food</div>
-              <div class="status--active-true">Dang hoat dong</div>
-              <div class="status--active-false" @click="showModal = true">Cap nhat</div>
+              <div class="status--active-true">{{ $t("chat.facebook.active") }}</div>
+              <div class="status--active-false" @click="showModal = true">{{ $t("chat.facebook.update") }}</div>
             </div>
             <div class="card--header">
               <!-- Start: Delete Item Popup-->

@@ -6,7 +6,7 @@
           <contenteditable
             class="editable"
             tag="div"
-            placeholder="Nhập văn bản..."
+            :placeholder="$t('chat.common.card.text')"
             :contenteditable="true"
             v-model="title"
           />

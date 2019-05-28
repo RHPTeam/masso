@@ -33,15 +33,23 @@
             top: 37px;
             right: -225px;
             border-radius: 5px;
-            z-index: 2;;
+            background: #fff;
+            color: #333;
+            border: 1px solid #48484830;
+            z-index: 2;
             .dropdown--menu-item:nth-child(1){
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #66666654;
                 font-size: 13px;
                 font-weight: 400;
+                transition: 0.3s;
                 .copy{
                     font-weight: bold;
                     font-size: 15px;
                     margin-bottom: 5px;
+                }
+                &:hover{
+                    background: #FFB94A;
+                    color: #fff;
                 }
             }
             .dropdown--menu-item:last-child{
@@ -139,14 +147,22 @@
             right: -225px;
             border-radius: 5px;
             z-index: 22;
+            background: #fff;
+            color: #333;
+            border: 1px solid #48484830;
             .dropdown--menu-item:nth-child(1){
-                border-bottom: 1px solid #fff;
+                border-bottom: 1px solid #66666654;
                 font-size: 13px;
                 font-weight: 400;
+                transition: 0.3s;
                 .copy{
                     font-weight: bold;
                     font-size: 15px;
                     margin-bottom: 5px;
+                }
+                &:hover{
+                    background: #FFB94A;
+                    color: #fff;
                 }
             }
             .dropdown--menu-item:last-child{
@@ -776,10 +792,6 @@ div[data-theme="dark"] {
                 color: #ccc;
             }
         }
-        .click--icon{
-            background: #f0f0f0;
-            color: #333;
-        }
     }
     
     .sequences--scripts .content{
@@ -790,10 +802,6 @@ div[data-theme="dark"] {
         .group--items:hover .content--item{
             background: #ffb94a;
             color: #fff;
-        }
-        .click--icon{
-            background: #f0f0f0;
-            color: #333;
         }
     }
     .group--scripts .title, .sequences--scripts .title{

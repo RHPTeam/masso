@@ -2,12 +2,12 @@
   <div class="auto--main-content text_left">
     <div class="r mb_4">
       <div class="c_md_12 c_xl_6 mb_3">
-        <div class="divide--title mb_2">Từ khóa</div>
-        <taggle placeholder="Nhập từ khóa..." type="syntax"/>
+        <div class="divide--title mb_2">{{ $t("chat.keywords.content.keyword.title") }}</div>
+        <taggle :placeholder="$t('chat.keywords.content.keyword.placeholder')" type="syntax"/>
       </div>
       <div class="c_md_12 c_xl_6">
         <div class="auto--answer">
-          <div class="divide--title mb_2">Trả lời</div>
+          <div class="divide--title mb_2">{{ $t("chat.keywords.content.reply.title") }}</div>
           <div class="auto--answer-add">
             <div class="block">
               <!-- Start: Add Block or Text Component -->
@@ -16,7 +16,7 @@
                   <contenteditable
                     class="editable"
                     tag="div"
-                    placeholder="Nhập văn bản..."
+                    :placeholder="$t('chat.keywords.content.reply.placeholderText')"
                     :contenteditable="true"
                     v-model="title"
                   />
@@ -40,7 +40,7 @@
               <div class="block--body">
                 <div class="block--body-item">
                   <multiselect
-                    placeholder="Chọn nhóm..."
+                    :placeholder="$t('chat.keywords.content.reply.placeholderGroup')"
                     type="itemSyntax"
                     v-model="title"
                     class="choose--group"
@@ -113,9 +113,9 @@
             </div>
             <!-- Start: Footer  Component -->
             <div class="block--footer">
-              Thêm
-              <span>nhóm</span> hoặc
-              <span>văn bản</span>
+              {{ $t("chat.keywords.content.reply.add") }}
+              <span>{{ $t("chat.keywords.content.reply.group") }}</span> {{ $t("chat.keywords.content.reply.or") }}
+              <span>{{ $t("chat.keywords.content.reply.text") }}</span>
             </div>
             <!--End: Footer Component-->
           </div>
@@ -124,9 +124,9 @@
     </div>
     <div class="r">
       <div class="form_group c_12">
-        <div class="divide--title mb_3">Tài khoản áp dụng</div>
+        <div class="divide--title mb_3">{{ $t("chat.keywords.content.accountUse.title") }}</div>
         <ul class="list--user">
-          <li>Bạn chưa thêm tài khoản facebook nào!</li>
+          <li>{{ $t("chat.keywords.content.accountUse.noAccount") }}</li>
         </ul>
         <ul class="list--user">
           <!--Selected class-->

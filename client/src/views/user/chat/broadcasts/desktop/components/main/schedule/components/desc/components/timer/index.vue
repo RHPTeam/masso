@@ -23,20 +23,14 @@
           </icon-base>
         </div>
         <div class="option--repeat position_absolute text_left" v-show="showOptionRepeat">
-          <div class="option--repeat-item" @click="closeShowOptionDays">Lặp lại: AAAAA</div>
-          <div class="option--repeat-item" @click="showOptionDay">Lặp lại: Tùy chỉnh</div> 
+          <div class="option--repeat-item" @click="closeShowOptionDays">{{ $t("chat.broadcast.main.scripts.timer.repeat[0]") }}</div>
+          <div class="option--repeat-item" @click="showOptionDay">{{ $t("chat.broadcast.main.scripts.timer.repeat[1]") }}</div> 
         </div>
       </div>
     </div>
     <div class="option--custom mb_3" v-if="showOptionDays === true">
       <div class="option--custom-wrap d_inline_flex">
-        <div class="item">T2</div>
-        <div class="item">T3</div>
-        <div class="item">T4</div>
-        <div class="item">T5</div>
-        <div class="item">T6</div>
-        <div class="item">T7</div>
-        <div class="item">CN</div>
+        <div class="item" v-for="item in $t('chat.broadcast.main.scripts.timer.options')" :key="item">{{ item }}</div>
       </div>
     </div>
   </div>

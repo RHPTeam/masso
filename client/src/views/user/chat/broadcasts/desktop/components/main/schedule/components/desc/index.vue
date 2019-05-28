@@ -1,10 +1,7 @@
 <template>
   <div class="main--desc mb_3">
     <div class="desc my_3">
-      Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng
-      cáo cho thương hiệu, sản phảm. Bạn chỉ cần thiết lập nội dung chiến dịch
-      mà bạn muốn thực hiện, sau đó thiết lập thời gian, việc còn lại là thư
-      giãn...
+      {{ $t("chat.broadcast.main.scripts.header.desc") }}
     </div>
     <!--Start: Component filter-->
     <app-filter />

@@ -37,7 +37,7 @@
       <!--End: Filter icon-->
     </div>
     <!--Start: Result before filter-->
-    <div v-if="showListUserFilterBefore === true">
+    <!-- <div v-if="showListUserFilterBefore === true">
       <div v-if="!userFilter"></div>
       <div class="filter--result text_left mt_2" v-else>
         <div>Tìm thấy X người khả dụng</div>
@@ -46,16 +46,16 @@
             <div
               class="option--user-item item d_flex align_items_center justify_content_center mr_2"
             ></div>
-          </div>
+          </div> -->
           <!--        Click show data user in group-->
-          <div
+          <!-- <div
             class="option--user-more item text_center"
           >
             AAAAAA
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--End: Result before filter-->
 
     <!--Start: Result done filter-->
@@ -149,7 +149,9 @@
         <div></div>
         <div class="filter--result text_left mt_4">
           <div class="title">
-            Tìm thấy 1 người khả dụng
+            <span>{{ $t("chat.broadcast.main.scripts.header.search.see") }}</span>
+            <span class="px_1">1</span>
+            <span>{{ $t("chat.broadcast.main.scripts.header.search.people") }}</span>
           </div>
           <div class="option--user-list d_flex align_items_center mt_3">
             <div

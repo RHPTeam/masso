@@ -6,7 +6,7 @@
           <icon-tag/>
         </icon-base>
       </span>
-      <span>Thuộc tính người dùng</span>
+      <span>{{ $t('chat.scripts.content.tagUser.title') }}</span>
       <div class="ml_auto">
         <div @click="isDeleteItemBlock = true">
           <icon-base icon-name="remove" width="18" height="18" viewBox="0 0 18 18">
@@ -16,15 +16,12 @@
       </div>
     </div>
     <div class="script--body-tag-description">
-      Đặt giá trị cho thuộc tính người dùng hiện có hoặc thêm thuộc tính mới. Sử
-      dụng nhóm chiến dịch để gửi, kịch bản để xác định phân tích hoạt động của
-      người dùng. Lưu ý rằng bạn có thể sử dụng các biểu thức và thuộc tính số
-      học trong trường Giá trị.
+      {{ $t('chat.scripts.content.tagUser.desc') }}
     </div>
     <div class="script--body-tag-list">
       <div class="script--body-tag-edit-title d_flex">
-        <span>Tên thẻ</span>
-        <span>Giá trị</span>
+        <span>{{ $t('chat.scripts.content.tagUser.attribute.title') }}</span>
+        <span>{{ $t('chat.scripts.content.tagUser.value.title') }}</span>
       </div>
       <div class="script--body-tag-item d_flex align_items_center position_relative mb_2">
         <div class="tag--created position_relative">
@@ -57,8 +54,8 @@
         </div>
       </div>
       <div class="script--body--tag-item d_flex">
-        <div class="describle">Bạn có thể chọn một trong các thuộc tính hiện có hoặc tạo một thuộc tính mới.</div>
-        <div class="describle">Đặt bất kỳ giá trị hoặc xóa thuộc tính người dùng bằng tùy chọn.</div>
+        <div class="describle">{{ $t('chat.scripts.content.tagUser.attribute.desc') }}</div>
+        <div class="describle">{{ $t('chat.scripts.content.tagUser.value.desc') }}</div>
       </div>
       <div class="script--body-tag-footer">
         <div class="script--body-tag-add">
@@ -81,7 +78,7 @@
     <div class="hidden--tag">
       <div class="">
         <div class="mb_2">
-          <div class="name">Tên thẻ</div>
+          <div class="name">{{ $t('chat.scripts.content.tagUser.attribute.title') }}</div>
           <div class="tag--created">
             <contenteditable
               class="tag--created-item"
@@ -92,11 +89,11 @@
             />
           </div>
           <div class="">
-            <div class="describle">Bạn có thể chọn một trong các thuộc tính hiện có hoặc tạo một thuộc tính mới.</div>            
+            <div class="describle">{{ $t('chat.scripts.content.tagUser.attribute.desc') }}</div>            
           </div>
         </div>
         <div class="mb_2">
-          <div class="name">Giá trị</div>
+          <div class="name">{{ $t('chat.scripts.content.tagUser.value.title') }}</div>
           <div class="tag--created position_relative">
             <contenteditable
               class="tag--created-item"
@@ -107,7 +104,7 @@
             />
           </div>
           <div class="">
-            <div class="describle">Đặt bất kỳ giá trị hoặc xóa thuộc tính người dùng bằng tùy chọn.</div>            
+            <div class="describle">{{ $t('chat.scripts.content.tagUser.value.desc') }}</div>            
           </div>
         </div>
         <div class="tag--icon-delete d_flex">
@@ -134,7 +131,7 @@
               <icon-plus/>
             </icon-base>
           </span>
-          <span>Thêm thẻ</span>
+          <span>{{ $t('chat.scripts.content.tagUser.add') }}</span>
         </div>
       </div>
     </div>

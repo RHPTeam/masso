@@ -6,7 +6,7 @@
       :class="[groupSelected === false ? 'btn--seall-active' : '']"
       @click="seeAllUsers"
     >
-      Xem tất cả
+      {{ $t("chat.friends.view.all") }}
     </div>
 
     <div
@@ -62,7 +62,7 @@
         viewBox="0 0 60 60"
       >
         <icon-plus /> </icon-base
-      >Tạo nhóm mới
+      >{{ $t("chat.friends.view.new") }}
     </div>
 
     <!--*********** POPUP *************-->

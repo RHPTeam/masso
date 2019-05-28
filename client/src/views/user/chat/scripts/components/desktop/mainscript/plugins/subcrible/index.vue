@@ -6,7 +6,8 @@
       >
         <h3 class="title">
           <img src="@/assets/images/plugins/subscribe.svg" class="" height="30" alt="">
-          Đăng ký trình tự</h3>
+          {{ $t('chat.common.card.subscribe.title') }}
+        </h3>
         <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
@@ -19,9 +20,7 @@
         </div>
       </div>
       <div class="desc mb_3">
-        Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra
-        những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ
-        lọc.
+        {{ $t('chat.common.card.subscribe.desc') }}
       </div>
 
 <!--      <div class="subcrible&#45;&#45;filter mb_3">-->
@@ -103,7 +102,7 @@
 <!--      </div>-->
 
       <div class="subcrible--edit mb_0">
-        <div class="mb_2"><b>Đăng ký từ</b></div>
+        <div class="mb_2"><b>{{ $t('chat.common.card.subscribe.label') }}</b></div>
         <list :sequence="item" :block="content" @update="updateToParent($event)" />
       </div>
     </div>

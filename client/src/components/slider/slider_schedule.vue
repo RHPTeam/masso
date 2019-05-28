@@ -3,7 +3,7 @@
     <div class="card card_body script--body-timer position_relative mb_4">
       <div class="timer--title mb_2 text_left">
         <img src="@/assets/images/upload/icon_time_round.svg" height="30" class="mr_1">
-        Khoảng thời gian giữa các lần gửi tin nhắn
+        {{ $t('chat.common.card.timerSendMessage') }}
       </div>
       <div class="time--adjust">
         <input

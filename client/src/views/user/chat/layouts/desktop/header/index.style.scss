@@ -55,6 +55,63 @@
         transition: all.5s ease;
       }
     }
+    .flags{
+        .choose--lang{
+            width: 150px;
+            z-index: 2;
+            background: #fff;
+            color: #16181b;
+            left: 0;
+            top: 40px;
+            border: 1px solid rgba(0,0,0,.125);
+            border-radius: 6px;
+            overflow: hidden;
+            transition: 0.3s;
+            // &:hover{
+            //     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+            // }
+            .item{
+                padding: 0 0.2rem;
+                cursor: pointer;
+                &:hover{
+                    background: #ffb94a;
+                    color: #fff;
+                }
+            }
+        }
+        svg{
+            cursor: pointer;
+        }
+    }
+    .notification--groups {
+        .btn--notification {
+          cursor: pointer;
+          .notification--total {
+            background-color: #F96666;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 10px;
+            min-width: 16px;
+            right: -5px;
+            top: -5px;
+            .text {
+              padding: 0 1.5px;
+            }
+          }
+          svg {
+            color: #999999;
+            stroke: #999;
+            stroke-width: 7.5;
+            transition: all .4s ease;
+          }
+        }
+        .notification--dropdown {
+          margin-top: 6px;
+          min-width: 420px;
+          right: 0;
+          z-index: 99999;
+        }
+      }
   }
 }
 

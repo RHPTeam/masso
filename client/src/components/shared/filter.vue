@@ -19,7 +19,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listAttr"
+            v-for="(item, index) in $t('chat.friends.attribute.listAttr')"
             :key="index"
             @click="showListAttribute(item.value)"
           >
@@ -38,7 +38,7 @@
           v-model="resultFilter"
           class="filter--item filter--body-created"
           @click="showResultFilterDefault"
-          placeholder="Tên thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderAttr')"
           v-click-outside="closeResultListFilter"
         />
         <div
@@ -71,7 +71,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listCondition"
+            v-for="(item, index) in $t('chat.friends.attribute.listCondition')"
             :key="index"
             @click="getCondition = item.value"
           >
@@ -87,7 +87,7 @@
           v-model="valueFilter"
           class="filter--item filter--body-created"
           @click="showValueListFilter = true"
-          placeholder="Giá trị thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderValue')"
           v-click-outside="closeValueListFilter"
         />
         <div

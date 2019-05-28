@@ -6,17 +6,17 @@
       <div class="r m_0 content mb_1 pt_2 pb_1  px_3">
         <div class="d_inline_flex">
           <div class="notifi mr_1"></div>
-          <div class="name">Thông báo</div>
+          <div class="name">{{ $t('chat.common.slowConnect.title') }}</div>
         </div>
         <div class="d_inline_flex close--now ml_auto">
-          <div class="now mr_1">vừa xong</div>
+          <div class="now mr_1">{{ $t('chat.common.slowConnect.now') }}</div>
         </div>
       </div>
       <div class="notice py_2  px_3">
         <div>
-          <span>Chúng tôi nhận thấy rằng, bạn đã đăng xuất tài khoản</span>
+          <span>{{ $t('chat.common.slowConnect.see') }}</span>
           <span class="name--user px_1"> Nguyễn Công Khanh</span>
-          <span>trên facebook. Vui lòng cập nhật lại mã kích hoạt tài khoản facebook tại đây!</span>
+          <span>{{ $t('chat.common.slowConnect.onFB') }}</span>
         </div>
       </div>
     </div>
