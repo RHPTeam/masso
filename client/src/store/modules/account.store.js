@@ -96,8 +96,8 @@ const actions = {
     CookieFunction.removeCookie( "sid" );
     CookieFunction.removeCookie( "uid" );
     CookieFunction.removeCookie( "cfr" );
-    // remove localstorage
-    localStorage.removeItem( "rid" );
+    CookieFunction.removeCookie( "token" );
+    CookieFunction.removeCookie( "__v" );
     // delete token on headers
     delete axios.defaults.headers.common.Authorization;
   },
