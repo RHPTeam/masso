@@ -219,6 +219,7 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
   "signUp": async( req, res ) => {
+    console.log(req.body)
     const newUser = new Account( req.body );
 
     await newUser.save();
