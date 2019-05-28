@@ -24,6 +24,10 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
       "type": Number,
       "default": 2
     },
+    "_accountfb": [ {
+      "type": Schema.Types.ObjectId,
+      "ref": "Facebook"
+    } ],
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
     "_role": {
