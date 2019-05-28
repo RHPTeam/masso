@@ -1,5 +1,5 @@
 <template>
-  <div class="search mb_2">
+  <div class="search mb_1">
     <div class="input--wrap position_relative">
       <div class="search--icon position_absolute">
         <icon-base

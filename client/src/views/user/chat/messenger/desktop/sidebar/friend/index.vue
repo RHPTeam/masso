@@ -1,5 +1,5 @@
 <template>
-  <div class="result px_2">
+  <div class="result px_2" v-click-outside="changeStatusDefault">
     <h3>người liên hệ</h3>
     <div class="list d_flex align_items_center mb_2" @click="changeStatusDefault">
       <div class="list--item-avt mr_3" :style="{backgroundImage:'url('+srcDefault+')'}"></div>
