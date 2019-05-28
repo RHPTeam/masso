@@ -70,7 +70,6 @@ module.exports = {
         return sequence.name;
       }
     } ).filter( ( item ) => {
-      console.log( item );
       if ( item === undefined ) {
         return;
       }

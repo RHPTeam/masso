@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import PopupDetail from "../../popup/detail/index";
+import PopupDetail from "../popup/detail/index";
 export default {
   components: {
     PopupDetail
