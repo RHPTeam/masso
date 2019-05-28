@@ -25,7 +25,7 @@ module.exports = {
     const { body, file } = req,
       userInfo = await Account.findOne( { "_id": req.uid } );
 
-    let data, resUserSync;
+    let data, resUserSync, userInfoProfile;
 
     // Check update user info if user upload profile
     if ( file ) {
@@ -39,9 +39,15 @@ module.exports = {
       }
 
       userInfo.imageAvatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
-      await userInfo.save();
+      userInfoProfile = await Account.findByIdAndUpdate( req.uid, {
+        "$set": body
+      },
+      {
+        "new": true
+      }
+      ).select( "-password -__v" );
 
-      return res.status( 201 ).json( jsonResponse( "success", userInfo ) );
+      return res.status( 201 ).json( jsonResponse( "success", userInfoProfile ) );
     }
 
     // join property email to data send
