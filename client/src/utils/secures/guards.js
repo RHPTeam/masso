@@ -6,7 +6,7 @@ import store from '../../store'
 /** ******************* SECURED ROUTER ************************/
 router.beforeEach( ( to, from, next ) => {
   if ( to.matched.some( ( record ) => record.meta.requiredAuth ) ) {
-    if ( CookieFunction.getCookie( "sid" ) && CookieFunction.getCookie( "uid" ) && CookieFunction.getCookie( "cfr" ) ) {
+    if ( CookieFunction.getCookie( "sid" ) && CookieFunction.getCookie( "cfr" ) && CookieFunction.getCookie( "uid" ) ) {
       next();
       return;
     }

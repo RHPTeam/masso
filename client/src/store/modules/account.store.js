@@ -21,7 +21,7 @@ const state = {
 
 const getters = {
   isLoggedIn: ( state ) => !!state.token,
-  authStatus: ( state ) => state.status,
+  status: ( state ) => state.status,
   userInfo: ( state ) => state.user,
   statusNotification: ( state ) => state.statusNotification,
   mailSender: ( state ) => state.mailSender,
@@ -48,6 +48,9 @@ const mutations = {
     state.status = payload;
   },
   setUser: ( state, payload ) => {
+    state.user = payload;
+  },
+  user_set: (state, payload) => {
     state.user = payload;
   },
   user_action: ( state, payload ) => {
@@ -108,11 +111,12 @@ const actions = {
   },
   updateUser: async ( { commit }, payload ) => {
     await AccountServices.update( payload );
+
     const userInfoRes = await AccountServices.show(
       CookieFunction.getCookie( "uid" )
     );
 
-    commit( "updateUser", userInfoRes.data.data[ 0 ] );
+    commit( "updateUser", userInfoRes.data.data );
   },
   updateUserByAdmin: async ( { commit }, payload ) => {
     const res = await AccountServices.updateUserByAdmin( payload );

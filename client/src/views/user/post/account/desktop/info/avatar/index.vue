@@ -1,5 +1,5 @@
 <template>
-  <div class="avatar--wrapper" v-if="user">
+  <div class="avatar--wrapper">
     <!-- Start: Wrapper Top -->
     <div class="wrapper--top position_relative d_flex align_content_center">
       <div class="title">Ảnh đại diện</div>
@@ -16,7 +16,8 @@
     </div>
     <!-- End: Wrapper Top -->
     <!-- Start: Wrapper Content -->
-    <div class="wrapper--content">
+    <div v-if="!user"></div>
+    <div v-else class="wrapper--content">
       <!-- Start: Content Avatar -->
       <div class="content--avatar position_relative" v-if="user.imageAvatar">
         <div
