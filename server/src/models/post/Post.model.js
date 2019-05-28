@@ -6,7 +6,10 @@ const mongoose = require( "mongoose" ),
   PostSchema = new Schema( {
     "title": { "type": String, "default": "" },
     "content": { "type": String, "default": "" },
-    "color": String,
+    "color": {
+      "backgroundColor": String,
+      "backgroundImage": String
+    },
     "attachments": [ {
       "link": String,
       "typeAttachment": Number

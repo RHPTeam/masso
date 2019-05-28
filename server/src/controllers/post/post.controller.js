@@ -89,7 +89,7 @@ module.exports = {
       const attachmentsList = req.files.map( ( file ) => {
         if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
           return {
-            "link": `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`,
+            "link": `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`,
             "typeAttachment": 1
           };
         }

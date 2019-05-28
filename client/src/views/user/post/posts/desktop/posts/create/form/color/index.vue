@@ -96,11 +96,16 @@ export default {
       this.isShowMoreColor = false;
     },
     async hiddeOptionColor( color ) {
+
       await this.$emit( "openContentColor", true );
       await this.$emit( "changeBgColor", color );
-      this.post.color = color;
-      delete this.post.attachments;
-      this.$store.dispatch( "updatePost", this.post );
+
+      this.$store.dispatch("setPostDefault", {
+        key: "color",
+        value: color
+      });
+
+      this.$store.dispatch( "updatePostColor", this.post );
       this.changeBgColorDefault();
     }
   }

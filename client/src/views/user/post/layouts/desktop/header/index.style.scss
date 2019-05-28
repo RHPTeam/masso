@@ -21,6 +21,12 @@
     }
   }
   .header--right {
+    .help {
+      cursor: pointer;
+      svg {
+        fill: #00c853;
+      }
+    }
     .notification--groups {
       .btn--notification {
         cursor: pointer;

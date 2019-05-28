@@ -136,7 +136,21 @@ const actions = {
   },
   updatePost: async ( { commit }, payload ) => {
     commit( "post_request" );
+
     await PostServices.updatePost( payload._id, payload );
+
+    const resultPost = await PostServices.index();
+    commit( "setAllPost", resultPost.data.data );
+
+    commit( "post_success" );
+  },
+  updatePostColor: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    await PostServices.updatePost( payload._id, payload );
+
+    const resultPostById = await PostServices.getById( payload._id );
+    commit( "setPost", resultPostById.data.data );
 
     const resultPost = await PostServices.index();
     commit( "setAllPost", resultPost.data.data );
@@ -146,6 +160,11 @@ const actions = {
   updateAttachmentPost: async ( { commit }, payload ) => {
     await PostServices.updateAttachmentPost( payload.id, payload.formData );
     const resultPost = await PostServices.getById( payload.id );
+    commit( "setPost", resultPost.data.data );
+  },
+  deleteAttachmentPost: async ( { commit }, payload ) => {
+    await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
+    const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
   }
 };

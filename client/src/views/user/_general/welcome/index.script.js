@@ -32,11 +32,16 @@ export default {
   computed: {
     user() {
       return this.$store.getters.userInfo;
+    },
+    allAccountFb() {
+      return this.$store.getters.allAccountFb;
     }
   },
   async created() {
     // Get User Info
     await this.$store.dispatch( "getUserInfo" );
+    // Get User FB Accounts
+    await this.$store.dispatch( "getAllAccountFb" );
   },
   methods: {
     async logOut() {
@@ -44,7 +49,11 @@ export default {
       window.location = process.env.VUE_APP_PARENT_URL;
     },
     gotoHomePost() {
-      this.$router.push( "/post" );
+      if ( this.allAccountFb.length === 0 ) {
+        this.$router.push( { name: "post_fbaccount" } );
+      } else {
+        this.$router.push( "/post" );
+      }
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
