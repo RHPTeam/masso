@@ -54,7 +54,7 @@ export default {
       windowHeight: 0,
       listChat: [
         {
-          name: "Đặng Yến",
+          name: "Ngọc Hân",
           avatar: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
           content: "Trên đời này có tồn tại công bằng hay không",
           time: "19:00",

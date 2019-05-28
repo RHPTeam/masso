@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       isShowAction: false,
-      selectedUser: "Đặng Yến"
+      selectedUser: "Ngọc Hân"
     }
   },
   methods: {
