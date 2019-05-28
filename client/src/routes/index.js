@@ -6,6 +6,7 @@ import customerGeneralChatRouter from "./modules/user/chat";
 import customerGeneralPostRouter from "./modules/user/post";
 import customerWelcomeRouter from "./modules/user/welcome";
 import customerMessengerRouter from "./modules/user/messenger";
+import redirectRouter from "./modules/user/redirect";
 
 import error404Router from "./modules/errors/404";
 import error500Router from  "./modules/errors/500";
