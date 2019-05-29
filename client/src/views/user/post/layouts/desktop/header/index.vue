@@ -17,10 +17,6 @@
           <icon-menu />
         </icon-base>
       </div>
-      <button
-        class="header--button ml_4"
-        @click="createNewPost"
-        >Viết bài mới</button>
     </div>
     <!-- End: Header Left -->
     <!-- Start: Header Right -->
