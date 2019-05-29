@@ -16,6 +16,7 @@ Vue.component("IconArrowLeft", () => import("@/components/icons/IconArrowLeft"))
 
 Vue.component("IconBase", () => import("@/components/icons/IconBase"));
 Vue.component("IconBell", () => import("@/components/icons/IconBell"));
+Vue.component("IconBellOff", () => import("@/components/icons/IconBellOff"));
 Vue.component("IconBroadcast", () =>
   import("@/components/icons/IconBroadcast")
 );
