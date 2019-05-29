@@ -12,7 +12,6 @@ import error404Router from "./modules/errors/404";
 import error500Router from  "./modules/errors/500";
 
 import guideGeneralRouter from "./modules/help";
-import redirectRouter from './modules/user/redirect'
 
 Vue.use( Router );
 
