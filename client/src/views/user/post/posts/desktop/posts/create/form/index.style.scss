@@ -117,6 +117,9 @@
       }
       .tagger--summary {
         font-size: .825rem;
+        .feel {
+          text-transform: lowercase;
+        }
         .emoji {
           min-width: 0;
           max-width: 25px;

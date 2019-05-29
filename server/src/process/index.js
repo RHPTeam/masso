@@ -10,7 +10,6 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
 
     const resRole = await roleSync( "roles/sync" );
 
-    console.log( resRole.data );
     // Catch
     if ( resRole.data.status !== "success" ) {
       console.log( resRole.data );
@@ -21,5 +20,8 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
         console.log( error );
       }
     } );
+
+    console.log( "Sync role successfully!" );
+
   }
 } )();

@@ -117,7 +117,7 @@ const actions = {
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
-    await  commit( "setEvent", res.data.data );;
+    await  commit( "setEvent", res.data.data );
     commit( "set_caseEvent", {
       key: "post",
       value: res.data.data.post_custom.length > 0 ? 2 : 1

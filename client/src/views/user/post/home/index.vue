@@ -166,7 +166,7 @@
 
       <!-- Start: Notification for check key word account-->
       <add-key-word
-        v-if="user.keywords && user.keywords.length === 0"
+        v-if="user && user.keywords && user.keywords.length === 0"
         :user="user"
         :currentTheme="currentTheme"
       >

@@ -31,9 +31,8 @@ module.exports = {
     const authorization = req.headers.authorization;
     const role = req.headers.cfr;
 
-    const email = secure( res, authorization );
-    const accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+    const userID = secure( res, authorization );
+    const accountResult = await Account.findOne( { "_id": userID } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -59,9 +58,8 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select( "-password" ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -95,9 +93,8 @@ module.exports = {
    *
    */
   "addBlock": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select( "-password" ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -202,9 +199,8 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select( "-password" ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
     const {
       body,
       query
@@ -241,8 +237,8 @@ module.exports = {
    *
    */
   "delete": async ( req, res, next ) => {
-    const userId = secure( res, req.headers.authorization );
-    const foundUser = await Account.findById( userId ).select( "-password" );
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );

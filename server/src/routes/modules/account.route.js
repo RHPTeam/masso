@@ -40,6 +40,8 @@ const AccountController = require( "../../controllers/account.controller" );
 //     }
 //   } );
 
+router.route( "/" ).patch( auth, AccountController.update );
+
 router
   .route( "/info" )
   .get( auth, AccountController.show );

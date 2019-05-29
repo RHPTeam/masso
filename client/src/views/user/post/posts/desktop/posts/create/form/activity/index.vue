@@ -43,7 +43,7 @@
       class="activity--suggets d_flex align_items_center"
     >
       <div class="activity--desc text_center">
-        {{ activityDefault.typeActivity }}
+        {{ typeActivityDefault }}
       </div>
       <div class="activity--option position_relative">
         <input
@@ -101,10 +101,17 @@ export default {
   data() {
     return {
       activityName: "",
+      typeActivityDefault: "",
       activityDefault: {
-        "typeActivity": "",
-        "id": "",
-        "text": ""
+        typeActivity: {
+          title: "",
+          id: ""
+        },
+        id: {
+          id: "",
+          photo: ""
+        },
+        text: ""
       },
       isShowActivityDefault: false,
       isShowSuggestOptionActivity: true,
@@ -128,10 +135,14 @@ export default {
   },
   methods: {
     attachActivity( item ) {
-      this.activityDefault.id = item.uid;
+
+      this.activityDefault.id.id = item.uid;
+      this.activityDefault.id.photo = item.photo;
       this.activityDefault.text = item.text;
+
       this.post.activity = this.activityDefault;
       this.$store.dispatch( "updatePost", this.post );
+
       this.isShowSuggestOptionActivity = false;
       this.$emit( "sendPhoto", item.photo );
       this.$emit( "closeActivity", false );
@@ -144,7 +155,11 @@ export default {
     },
     showOptionActivity(val) {
       this.isShowActivityDefault = true;
-      this.activityDefault.typeActivity = val.uid;
+      this.typeActivityDefault = val.text;
+
+      this.activityDefault.typeActivity.text = val.prompt_text;
+      this.activityDefault.typeActivity.id = val.uid;
+
       this.$store.dispatch( "getListActivityFb", val.uid );
     },
     showSuggestOptionActivityFb(){

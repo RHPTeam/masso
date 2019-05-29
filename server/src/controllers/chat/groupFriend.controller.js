@@ -29,21 +29,15 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const accountResult = await Account.findOne( { "_id": req.uid } ),
-      role = findSubString( req.headers.authorization, "cfr=", ";" );
 
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     if ( role === "Member" ) {
-      !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": userId } )
+      !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } )
         .populate( { "path": "_friends", "select": "-_account -_facebook" } )
         .lean() ) : ( dataResponse = await GroupFriend.find( {
         "_id": req.query,
-        "_account": userId
+        "_account": req.uid
       } )
         .populate( { "path": "_friends", "select": "-_account -_facebook" } )
         .lean() );
@@ -51,7 +45,7 @@ module.exports = {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
@@ -59,7 +53,7 @@ module.exports = {
     if ( req.query._id ) {
       for ( let i = 0; i < dataResponse[ 0 ]._friends.length; i++ ) {
         let vocate = await Vocate.find( {
-          "_account": userId,
+          "_account": req.uid,
           "_friends": dataResponse[ 0 ]._friends[ i ]._id
         } );
 
@@ -81,18 +75,7 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    // const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select(
-        "-password"
-      ),
-      userId = foundUser._id.toString();
-
-    if ( !foundUser ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundGroupFriend = await GroupFriend.find( { "_account": userId } ),
+    const foundGroupFriend = await GroupFriend.find( { "_account": req.uid } ),
       newGroupFriend = await new GroupFriend();
 
     if ( req.query._name === "true" ) {
@@ -104,7 +87,7 @@ module.exports = {
           .json( jsonResponse( "Vui lòng nhập tên nhóm bạn muốn sử dụng!", null ) );
       }
       newGroupFriend.name = req.body.name;
-      newGroupFriend._account = userId;
+      newGroupFriend._account = req.uid;
       await newGroupFriend.save();
       return res
         .status( 200 )
@@ -131,7 +114,7 @@ module.exports = {
     const indexCurrent = Math.max( ...nameArr );
 
     newGroupFriend.name = indexCurrent.toString() === "NaN" || foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent + 1}`;
-    newGroupFriend._account = userId;
+    newGroupFriend._account = req.uid;
     await newGroupFriend.save();
     res
       .status( 200 )
@@ -144,11 +127,8 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select(
-        "-password"
-      ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res
@@ -205,11 +185,8 @@ module.exports = {
    *
    */
   "addFriend": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select(
-        "-password"
-      ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res
@@ -292,11 +269,8 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization );
-    const foundUser = await Account.findOne( { "email": email } ).select(
-        "-password"
-      ),
-      userId = foundUser._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
 
     if ( !foundUser ) {
       return res
