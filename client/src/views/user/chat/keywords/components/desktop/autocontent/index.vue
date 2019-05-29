@@ -42,61 +42,9 @@
                   <multiselect
                     :placeholder="$t('chat.keywords.content.reply.placeholderGroup')"
                     type="itemSyntax"
-                    v-model="title"
                     class="choose--group"
                   ></multiselect>
                   <span class="action" @click="isDeleteItemBlock = true">
-                    <icon-base
-                      class="icon--remove"
-                      icon-name="remove"
-                      width="26"
-                      height="26"
-                      viewBox="0 0 18 18"
-                    >
-                      <icon-remove/>
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
-              <!--End: Add Block or Text Component-->
-            </div>
-            <div class="block">
-              <!-- Start: Add Block or Text Component -->
-              <div class="block--body">
-                <div class="block--body-item">
-                  <contenteditable
-                    class="editable"
-                    tag="div"
-                    placeholder="Nhập văn bản..."
-                    :contenteditable="true"
-                    v-model="title"
-                  />
-                  <span class="action">
-                    <icon-base
-                      class="icon--remove"
-                      icon-name="remove"
-                      width="26"
-                      height="26"
-                      viewBox="0 0 18 18"
-                    >
-                      <icon-remove/>
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
-              <!--End: Add Block or Text Component-->
-            </div>
-            <div class="block">
-              <!-- Start: Add Block or Text Component -->
-              <div class="block--body">
-                <div class="block--body-item">
-                  <multiselect
-                    placeholder="Chọn nhóm..."
-                    type="itemSyntax"
-                    v-model="title"
-                    class="choose--group"
-                  ></multiselect>
-                  <span class="action">
                     <icon-base
                       class="icon--remove"
                       icon-name="remove"
@@ -186,11 +134,11 @@ export default {
     // syntax() {
     //   return this.$store.getters.syntax;
     // }
-  },
-  methods: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  methods: {
     // createItem(type) {
     //   this.syntax.content.push({
     //     typeContent: type,
@@ -251,6 +199,9 @@ export default {
       line-height: 36px;
       padding: 0.75rem 0;
       position: relative;
+      .choose--group{
+        margin-right: 27px;
+      }
       .editable {
         border: 1px solid transparent;
       }

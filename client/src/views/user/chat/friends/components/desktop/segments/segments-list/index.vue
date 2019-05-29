@@ -9,7 +9,7 @@
       {{ $t("chat.friends.view.all") }}
     </div>
 
-    <div
+    <!-- <div
       class="segments--list-item mr_2 mb_2"
       :class="[currentIndex === index ? 'active' : '']"
       v-for="(groupItem, index) in groupFriend"
@@ -37,10 +37,10 @@
           <icon-remove />
         </icon-base>
       </div>
-    </div>
+    </div> -->
 
-    <div class="segments--list-item mr_2 mb_2 position_relative">
-      <div class="name--group">Name Group</div>
+    <div class="segments--list-item mr_2 mb_2 position_relative" v-for="group in allGroupFriends" :key="group">
+      <div class="name--group">{{ group.name }}</div>
       <div class="position_absolute remove--group" @click="isDeleteItemBlock = true">
         <icon-base
           class="icon--remove"
@@ -110,8 +110,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    groupFriend() {
-      return this.$store.getters.groupFriend;
+    allGroupFriends() {
+      return this.$store.getters.allGroupFriends;
     }
   },
   methods: {
@@ -151,6 +151,7 @@ export default {
   },
   async created() {
     // await this.$store.dispatch("getGroupFriend");
+    await this.$store.dispatch("getAllGroupFriend");
   },
   components: {
     DeleteGroupPopup,
