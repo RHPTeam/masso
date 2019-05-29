@@ -15,7 +15,7 @@
       <div class="name">
         <span
           class="sort"
-          >Tên
+          >{{ $t("chat.friends.table.main.name") }}
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -25,15 +25,6 @@
           >
             <icon-arrow-down />
           </icon-base>
-          <!-- <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base> -->
           <icon-base
             class="icon--arrow-up ml_1"
             icon-name="icon-arrow-up"
@@ -48,16 +39,7 @@
       <div class="gender">
         <span
           class="sort"
-          >Giới tính
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
+          >{{ $t("chat.friends.table.main.gender") }}
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -81,16 +63,7 @@
       <div class="pronoun">
         <span
           class="sort"
-          >Danh xưng
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
+          >{{ $t("chat.friends.table.main.nickname") }}
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -189,7 +162,7 @@
           />
           <div>
             <div class="none--data">
-              Không có dữ liệu
+              {{ $t("chat.friends.table.main.loading") }}
             </div>
             <div
               class="user--table-item record"
@@ -249,7 +222,7 @@
         <!--Start: Show all info user in table-->
         <div>
           <div class="none--data">
-            Không có dữ liệu
+            {{ $t("chat.friends.table.main.loading") }}
           </div>
           <div
             class="user--table-item record"
@@ -286,7 +259,7 @@
               <span
                 class="btn--action"
               >
-                Chọn để thiết lập
+                {{ $t("chat.friends.table.main.setup") }}
               </span>
             </div>
             <!-- <div class="updated-date d_none">
@@ -343,7 +316,7 @@
           >
            Danh xung ne
           </span> -->
-          <span class="btn--action">
+          <span class="btn--action" @click="isShowPronounPopup = true">
             Chọn để thiết lập
           </span>
         </div>
@@ -385,15 +358,13 @@
     <!--End: Paginate Component-->
 
     <!--*********** POPUP *************-->
-    <!-- <transition name="popup">
+    <transition name="popup-enter-active">
       <pronoun-popup
         v-if="isShowPronounPopup === true"
         :data-theme="currentTheme"
-        :isShowPronounPopup="isShowPronounPopup"
-        :userID="userID"
         @closeAddPopup="isShowPronounPopup = $event"
       ></pronoun-popup>
-    </transition> -->
+    </transition>
   </div>
   <!--  -->
 </template>

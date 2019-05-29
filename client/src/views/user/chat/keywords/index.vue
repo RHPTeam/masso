@@ -5,8 +5,8 @@
     </div>
     <div class="d_none d_md_block">
       <app-bread-crumb
-        nameBread="Trả lời tự động"
-        subBread="Trang giúp bạn thiết lập nhanh AI tự động trả lời"
+        :nameBread="$t('chat.keywords.title')"
+        :subBread="$t('chat.keywords.desc')"
       />
       <div class="main--content r">
         <div class="auto--sidebar c_md_4 c_xl_4">
@@ -21,6 +21,8 @@
                 class="header--title"
                 tag="div"
                 :contenteditable="true"
+                :placeholder="$t('chat.keywords.content.nameSyntax')"
+                v-model="title"
               />
               <div class="icon--drop ml_auto" @click="isDeleteItemBlock = true">
                 <icon-base
@@ -74,7 +76,8 @@ export default {
   },
   data() {
     return {
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      title: "VVVVVVVV"
     };
   },
   computed: {

@@ -6,8 +6,9 @@
           <contenteditable
             class="editable"
             tag="div"
-            placeholder="Nhập văn bản..."
+            :placeholder="$t('chat.common.card.text')"
             :contenteditable="true"
+            v-model="title"
           />
         </div>
       </div>
@@ -61,7 +62,8 @@ export default {
   props: ["item", "schedule"],
   data() {
     return {
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      title: "AAAAAAAA"
       // showSuggestAttribute: false,
       // listAttribute: null,
       // resultFilterAttr: null,
@@ -137,4 +139,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../index.style";
+.icon--delete{
+  transition: 0.3s;
+  &:hover{
+    cursor: pointer;
+    color: #fdb849;
+  }
+}
 </style>

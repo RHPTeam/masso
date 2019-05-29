@@ -5,10 +5,7 @@
         <img :src="nullImage" alt="Null Image" />
       </span>
       <div class="null--text">
-        Tính năng chiến dịch cho phép bạn chủ động tiếp cận với khách hàng của
-        mình. Lọc khách hàng của bạn dựa trên các thuộc tính của họ và gửi tin
-        nhắn được cá nhân hóa. Bắt đầu bằng cách chọn loại chiến dịch bạn muốn
-        gửi ở bên trái.
+        {{ $t("chat.broadcast.main.default.title") }}
       </div>
     </div>
   </div>

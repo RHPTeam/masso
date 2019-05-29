@@ -15,6 +15,7 @@ import FacebookCookie from "./modules/chat/facebookCookie.store";
 import FacebookFriend from "./modules/post/friendfacebook.store";
 import FacebookStore from "./modules/post/facebook.store";
 import GroupFacebook from "./modules/post/groupfacebook.store";
+import GroupFriend from "./modules/chat/groupfriend.store";
 import PageFacebook from "./modules/post/pagefacebook.store";
 import PostStore from "./modules/post/post.store";
 import PostFacebookStore from "./modules/post/postfacebook.store";
@@ -45,6 +46,7 @@ export default new Vuex.Store( {
     AnalysisStore,
     SequenceFaceBook,
     Block,
-    Syntax
+    Syntax,
+    GroupFriend
   }
 } );

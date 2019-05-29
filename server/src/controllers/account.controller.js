@@ -6,14 +6,13 @@
  * date to: 25/05/2019
  * team: BE-RHP
  */
-const Account = require( "../models/Account.model" ),
-  Role = require( "../models/Role.model" ),
-  fs = require( "fs" ),
-  jsonResponse = require( "../configs/response" ),
-  { changePasswordSync, createNewPasswordSync, updateUserSync } = require( "../microservices/synchronize/account.service" ),
-  { signToken } = require( "../configs/jwt" ),
-  mail = require( "nodemailer" ),
-  CronJob = require( "cron" ).CronJob;
+// const nodemailer = require( "nodemailer" ),
+//   CronJob = require( "cron" ).CronJob;
+
+const Account = require( "../models/Account.model" );
+const { defaulSchema } = require( "../helpers/services/default.service" );
+const jsonResponse = require( "../configs/response" );
+const { updateUserSync } = require( "../microservices/synchronize/account.service" );
 
 module.exports = {
   "show": async ( req, res ) => {
@@ -219,10 +218,11 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
   "signUp": async( req, res ) => {
-    console.log(req.body)
     const newUser = new Account( req.body );
 
     await newUser.save();
+
+    defaulSchema( newUser );
 
     res.send( { "status": "success", "data": "Synchronized..." } );
   }

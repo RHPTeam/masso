@@ -6,42 +6,18 @@
       :class="[groupSelected === false ? 'btn--seall-active' : '']"
       @click="seeAllUsers"
     >
-      Xem tất cả
+      {{ $t("chat.friends.view.all") }}
     </div>
 
-    <div
-      class="segments--list-item mr_2 mb_2"
-      :class="[currentIndex === index ? 'active' : '']"
-      v-for="(groupItem, index) in groupFriend"
-      :key="index"
-    >
-      <div @click="getGroupByID(groupItem._id, index)">
-        <contenteditable
+    <div class="segments--list-item mr_2 mb_2 position_relative" v-for="(group, index) in allGroupFriends" :key="index">
+      <contenteditable
           class="editable"
           tag="div"
-          placeholder="Nhập tên..."
+          placeholder="..."
           :contenteditable="true"
-          v-model="groupItem.name"
-          @keyup="upTypingText('groupfriend', groupItem)"
-          @keydown="clear"
+          v-model="group.name"
         />
-      </div>
-      <div class="btn--delete" @click="showDeletePopup(groupItem)">
-        <icon-base
-          class="icon--add mr_1"
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-          <icon-remove />
-        </icon-base>
-      </div>
-    </div>
-
-    <div class="segments--list-item mr_2 mb_2 position_relative">
-      <div class="name--group">Name Group</div>
-      <div class="position_absolute remove--group">
+      <div class="position_absolute remove--group" @click="isDeleteItemBlock = true">
         <icon-base
           class="icon--remove"
           icon-name="plus"
@@ -53,7 +29,7 @@
       </div>
     </div>
 
-    <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">
+    <div class="segments--list-item btn--add-segment mb_2" @click="isShowCreateGroup = true">
       <icon-base
         class="icon--add mr_2"
         icon-name="plus"
@@ -62,27 +38,34 @@
         viewBox="0 0 60 60"
       >
         <icon-plus /> </icon-base
-      >Tạo nhóm mới
+      >{{ $t("chat.friends.view.new") }}
     </div>
 
     <!--*********** POPUP *************-->
+
     <transition name="popup">
-      <delete-group-popup
-        v-if="isShowDeletePopup === true"
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Time"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteTime"
+          typeName="TIME"
+      ></delete-campaign-popup>
+      <create-group
+        v-if="isShowCreateGroup === true"
         :data-theme="currentTheme"
-        title="Xoá nhóm"
-        :isShowDeletePopup="isShowDeletePopup"
-        @closeAddPopup="isShowDeletePopup = $event"
-        :groupTarget="groupDeleted"
-        type="group"
-      />
+        @closePopup="isShowCreateGroup = $event"
+      ></create-group>
     </transition>
   </div>
   <!-- End Segments List -->
 </template>
 
 <script>
+import CreateGroup from "../../popup/creategroup";
 import DeleteGroupPopup from "../../popup/delete-popup";
+import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 export default {
   props: ["groupSelected"],
@@ -90,26 +73,25 @@ export default {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      groupDeleted: {}
+      groupDeleted: {},
+      isDeleteItemBlock: false,
+      isShowCreateGroup: false
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    groupFriend() {
-      return this.$store.getters.groupFriend;
+    allGroupFriends() {
+      return this.$store.getters.allGroupFriends;
     }
   },
   methods: {
-    getGroupByID(group_id, index) {
+    getGroupById(group_id, index) {
       this.currentIndex = index;
       this.$store.dispatch("getGroupByID", group_id);
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);
-    },
-    createGroup() {
-      this.$store.dispatch("createGroup");
     },
     showDeletePopup(group) {
       this.groupDeleted = group;
@@ -137,10 +119,12 @@ export default {
     }
   },
   async created() {
-    // await this.$store.dispatch("getGroupFriend");
+    await this.$store.dispatch("getAllGroupFriend");
   },
   components: {
-    DeleteGroupPopup
+    CreateGroup,
+    DeleteGroupPopup,
+    DeleteCampaignPopup
   }
 };
 </script>

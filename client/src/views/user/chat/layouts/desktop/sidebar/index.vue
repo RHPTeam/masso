@@ -29,6 +29,25 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
+      <!-- Keywords -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'keywords' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="auto-answer"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-auto-answer />
+          </icon-base>
+          <span class="menu--item-text">{{ $t('chat.keywords.title') }}</span>
+        </a>
+      </router-link>
       <!-- Script -->
       <router-link
         class="menu--item d_flex align_items_center"
@@ -45,25 +64,7 @@
           >
             <icon-script />
           </icon-base>
-          <span class="menu--item-text">Kịch bản</span>
-        </a>
-      </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'keywords' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="auto-answer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-auto-answer />
-          </icon-base>
-          <span class="menu--item-text">Trả lời tự động</span>
+          <span class="menu--item-text">{{ $t('chat.scripts.title') }}</span>
         </a>
       </router-link>
 
@@ -83,7 +84,7 @@
           >
             <icon-friend />
           </icon-base>
-          <span class="menu--item-text">Bạn bè</span>
+          <span class="menu--item-text">{{ $t('chat.friends.title') }}</span>
         </a>
       </router-link>
 
@@ -103,7 +104,7 @@
           >
             <icon-broadcast />
           </icon-base>
-          <span class="menu--item-text">Chiến dịch</span>
+          <span class="menu--item-text">{{ $t('chat.broadcast.title') }}</span>
         </a>
       </router-link>
 
@@ -123,7 +124,7 @@
           >
             <icon-account />
           </icon-base>
-          <span class="menu--item-text">Tài khoản Facebook</span>
+          <span class="menu--item-text">{{ $t('chat.facebook.title') }}</span>
         </a>
       </router-link>
     </ul>

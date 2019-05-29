@@ -3,8 +3,8 @@
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
-        nameBread="Thiết lập tài khoản"
-        subBread="Giúp bạn thiết lập những cài đặt cá nhân về thông tin tài khoản của mình."
+        :nameBread="$t('chat.account.title')"
+        :subBread="$t('chat.account.desc')"
       />
       <!-- Start: Top -->
       <app-top :user="user" />

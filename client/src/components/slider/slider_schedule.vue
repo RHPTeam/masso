@@ -3,7 +3,7 @@
     <div class="card card_body script--body-timer position_relative mb_4">
       <div class="timer--title mb_2 text_left">
         <img src="@/assets/images/upload/icon_time_round.svg" height="30" class="mr_1">
-        Khoảng thời gian giữa các lần gửi tin nhắn
+        {{ $t('chat.common.card.timerSendMessage') }}
       </div>
       <div class="time--adjust">
         <input
@@ -30,6 +30,7 @@
       </div>
       <div class="script--body-delete" @click="isDeleteItemBlock = true">
         <icon-base
+          class="icon--delete"
           icon-name="remove"
           width="20"
           height="20"
@@ -186,6 +187,12 @@ export default {
     right: -30px;
     top: 50%;
     transform: translateY(-50%);
+    .icon--delete{
+      transition: 0.3s;
+      &:hover{
+        color: #fdb849;
+      }
+    }
   }
   /*    Icon Move   */
   .script--body-move {
