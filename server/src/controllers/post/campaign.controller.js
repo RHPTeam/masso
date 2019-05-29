@@ -10,7 +10,6 @@ const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 
 module.exports = {

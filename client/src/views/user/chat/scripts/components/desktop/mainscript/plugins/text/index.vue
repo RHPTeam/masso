@@ -2,35 +2,28 @@
   <div class="card card_body script--body-text mt_3">
     <div class="script--body-delete" @click="isShowDeleteTextPopup = true">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-        <icon-remove />
+        <icon-remove/>
       </icon-base>
     </div>
-    <div class="script--body-move d_none" >
+    <div class="script--body-move d_none">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
-        <icon-move />
+        <icon-move/>
       </icon-base>
     </div>
-    <div class="script--body-text-edit position_relative" contenteditable="true">
+    <div class="script--body-text-edit position_relative">
       <contenteditable
         class="editable"
         tag="div"
-        placeholder="Nhập văn bản..."
+        :placeholder="$t('chat.common.card.text')"
         :contenteditable="true"
+        v-model="title"
       />
-      <div
-        class="list--suggest position_absolute d_none"
-      >
+      <div class="list--suggest position_absolute d_none">
         <VuePerfectScrollbar class="suggest">
-          <div
-            class="suggest--item"
-          >
-            <span class="custom custom--item">
-              list.name
-            </span>
+          <div class="suggest--item">
+            <span class="custom custom--item">list.name</span>
           </div>
-          <div
-            class="suggest--item"
-          >
+          <div class="suggest--item">
             <span class="custom custom--fixed">fixed.value</span>
           </div>
         </VuePerfectScrollbar>
@@ -72,7 +65,8 @@ export default {
         { id: 0, value: "Danh xưng" },
         { id: 1, value: "Tên" },
         { id: 2, value: "Họ tên" }
-      ]
+      ],
+      title: "AAAAAAAAA"
     };
   },
   methods: {
@@ -126,10 +120,10 @@ export default {
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
   },
-  computed: {    
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
   },
   components: {
     VuePerfectScrollbar,
@@ -158,8 +152,8 @@ export default {
 .custom--fixed {
   background-color: #906d60;
 }
-.script--body-text-edit{
+.script--body-text-edit {
   color: #fff;
+  font-size: 1rem;
 }
-
 </style>

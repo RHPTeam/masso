@@ -14,7 +14,7 @@
       <input
         type="text"
         v-model="searchCom"
-        placeholder="Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
+        :placeholder="$t('chat.keywords.sidebar.search')"
       />
     </div>
   </div>

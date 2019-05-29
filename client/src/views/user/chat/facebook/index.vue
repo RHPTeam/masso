@@ -3,8 +3,8 @@
     <!--Nội dung Desktop-->
     <div class="d_none d_md_block">
       <app-bread-crumb
-        nameBread="Tài khoản facebook"
-        subBread="Trang giúp bạn thiết lập các tài khoản facebook"
+        :nameBread="$t('chat.facebook.title')"
+        :subBread="$t('chat.facebook.desc')"
       />
       <div class="main--contentItem">
         <app-list-account :accountsFB="getAccountsFB" />

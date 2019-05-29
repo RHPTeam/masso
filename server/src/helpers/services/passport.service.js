@@ -39,6 +39,7 @@ passport.serializeUser( ( user, done ) => {
 
 // HANDLE IT WHEN A USER MAKES A REQUEST FOR A SECURED URL
 passport.deserializeUser( ( id, done ) => {
+  // eslint-disable-next-line no-shadow
   let user = Account.find( ( user ) => {
     return user._id === id;
   } );

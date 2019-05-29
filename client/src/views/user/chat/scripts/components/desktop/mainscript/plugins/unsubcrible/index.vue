@@ -6,7 +6,7 @@
       >
         <h3 class="title">
           <img src="@/assets/images/plugins/subscribe.svg" class="" height="30" alt="">
-          Hủy đăng ký trình tự</h3>
+          {{ $t('chat.common.card.unsubscribe.title') }}</h3>
         <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="desc mb_3">
-        Hủy theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ lọc.
+        {{ $t('chat.common.card.unsubscribe.desc') }}
       </div>
 
 <!--      <div class="subcrible&#45;&#45;filter mb_3">-->
@@ -101,7 +101,7 @@
 <!--      </div>-->
 
       <div class="subcrible--edit mb_0">
-        <div class="mb_2"><b>Hủy đăng ký từ</b></div>
+        <div class="mb_2"><b>{{ $t('chat.common.card.unsubscribe.label') }}</b></div>
         <list :sequence="item" :block="content" />
       </div>
     </div>
@@ -170,12 +170,20 @@ export default {
   }
 }
 .unsubcrible[data-theme="dark"]{
-  border: 0;
+  border: 1px solid transparent;
+  background: none;
   .card_body{
     background: #2f3236;
     border-radius: 10px;
   }
   .title, .icon--remove svg{
+    color: #fff;
+  }
+  &:hover{
+    border: 1px solid $border_radius;
+    box-shadow: 0;
+  }
+  .desc, .subcrible--edit{
     color: #fff;
   }
 }

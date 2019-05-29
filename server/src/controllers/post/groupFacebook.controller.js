@@ -15,7 +15,6 @@ const PostGroup = require( "../../models/post/PostGroup.model" );
 const { agent } = require( "../../configs/crawl" );
 const getAllGroups = require( "../core/groups.core" );
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 module.exports = {
   /**

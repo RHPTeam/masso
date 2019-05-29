@@ -6,7 +6,7 @@
       :class="[groupSelected === false ? 'btn--seall-active' : '']"
       @click="seeAllUsers"
     >
-      Xem tất cả
+      {{ $t("chat.friends.view.all") }}
     </div>
 
     <div
@@ -41,7 +41,7 @@
 
     <div class="segments--list-item mr_2 mb_2 position_relative">
       <div class="name--group">Name Group</div>
-      <div class="position_absolute remove--group">
+      <div class="position_absolute remove--group" @click="isDeleteItemBlock = true">
         <icon-base
           class="icon--remove"
           icon-name="plus"
@@ -62,11 +62,11 @@
         viewBox="0 0 60 60"
       >
         <icon-plus /> </icon-base
-      >Tạo nhóm mới
+      >{{ $t("chat.friends.view.new") }}
     </div>
 
     <!--*********** POPUP *************-->
-    <transition name="popup">
+    <!-- <transition name="popup">
       <delete-group-popup
         v-if="isShowDeletePopup === true"
         :data-theme="currentTheme"
@@ -76,6 +76,17 @@
         :groupTarget="groupDeleted"
         type="group"
       />
+    </transition> -->
+
+    <transition name="popup">
+      <delete-campaign-popup
+          v-if="isDeleteItemBlock === true"
+          :data-theme="currentTheme"
+          title="Delete Time"
+          @closePopup="isDeleteItemBlock = $event"
+          storeActionName="deleteTime"
+          typeName="TIME"
+      ></delete-campaign-popup>
     </transition>
   </div>
   <!-- End Segments List -->
@@ -83,6 +94,7 @@
 
 <script>
 import DeleteGroupPopup from "../../popup/delete-popup";
+import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 export default {
   props: ["groupSelected"],
@@ -90,7 +102,8 @@ export default {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      groupDeleted: {}
+      groupDeleted: {},
+      isDeleteItemBlock: false
     };
   },
   computed: {
@@ -140,7 +153,8 @@ export default {
     // await this.$store.dispatch("getGroupFriend");
   },
   components: {
-    DeleteGroupPopup
+    DeleteGroupPopup,
+    DeleteCampaignPopup
   }
 };
 </script>

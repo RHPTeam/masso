@@ -4,9 +4,11 @@
       <div
         class="header d_flex align_items_center justify_content_between mb_3"
       >
-        <h3 class="title">Đăng ký trình tự</h3>
+          <img src="@/assets/images/plugins/subscribe.svg" class="mr_1" height="30" alt="">
+        <h3 class="title mb_0">{{ $t("chat.common.card.subscribe.title") }}</h3>
         <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
+            class="icon--delete"
             icon-name="remove"
             width="18"
             height="18"
@@ -17,9 +19,7 @@
         </div>
       </div>
       <div class="desc mb_3">
-        Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra
-        những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ
-        lọc.
+        {{ $t("chat.common.card.subscribe.desc") }}
       </div>
 <!--      <div class="subcrible&#45;&#45;filter mb_3">-->
 <!--        <div class="body mb_3" v-if="showFilter === true">-->
@@ -163,7 +163,21 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../index.style";
-
+.subcrible{
+  .title{
+    color: #000000;
+    margin: 0 0 14px;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 24px;
+  }
+  .icon--delete{
+    transition: 0.3s;
+    &:hover{
+      color: #fdb849;
+    }
+  }
+}
 .subcrible[data-theme="dark"]{
   border: 0;
   .card_body{

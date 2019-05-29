@@ -1,6 +1,6 @@
 <template>
   <div class="perinfo--wrapper" :data-theme="currentTheme">
-    <div class="title text_left">Thông tin cá nhân</div>
+    <div class="title text_left">{{ $t("chat.account.main.inforUser.title") }}</div>
     <form class="wrapper--form">
       <!-- Start: Email -->
       <div class="user--email d_flex mb_2">
@@ -24,7 +24,7 @@
             <input
               type="text"
               class="form_control"
-              placeholder="Nhập tên của bạn"
+              :placeholder="$t('chat.account.main.inforUser.placeholderName')"
               v-model="user.name"
             />
           </div>
@@ -39,7 +39,7 @@
             <input
               type="text"
               class="form_control"
-              placeholder="Nhập số điện thoại của bạn"
+              :placeholder="$t('chat.account.main.inforUser.placeholderPhone')"
               v-model="user.phone"
             />
           </div>
@@ -47,7 +47,7 @@
       </div>
       <!-- End: Name & Phone -->
       <!--  Star: Password-->
-      <div class="title d_flex mt_2">Mật khẩu</div>
+      <div class="title d_flex mt_2">{{ $t('chat.account.main.password.title') }}</div>
       <div class="r pb_lg_4">
         <div class="c_sm_12 c_md_12 c_lg_6 form_group">
           <div
@@ -65,7 +65,7 @@
             <input
               type="password"
               class="form_control"
-              placeholder="Nhập mật khẩu của bạn"
+              :placeholder="$t('chat.account.main.password.pass')"
               v-model="reset.newPassword"
             />
           </div>
@@ -87,7 +87,7 @@
             <input
               type="password"
               class="form_control"
-              placeholder="Nhập lại mật khẩu của bạn"
+              :placeholder="$t('chat.account.main.password.repass')"
               v-model="reset.confirmNewPassword"
             />
           </div>

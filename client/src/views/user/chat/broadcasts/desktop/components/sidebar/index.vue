@@ -5,7 +5,7 @@
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
-          <span>Tin nhắn gửi ngay</span>
+          <span>{{ $t("chat.broadcast.sidebar.messeger.title") }}</span>
         </div>
         <div class="action"></div>
       </div>
@@ -20,8 +20,7 @@
           class="tooltip--now position_absolute p_2"
           v-if="showTooltip === true"
         >
-          Tính năng này đang được phát triển và được cập nhật trong phiên bản
-          sắp tới.
+          {{ $t("chat.broadcast.sidebar.messeger.desc") }}
         </div>
       </div>
     </div>
@@ -34,7 +33,7 @@
     <div class="group--item schedule">
       <div class="group--item-header text_left">
         <div class="title mb_2">
-          <span>Thiết lập bộ hẹn</span>
+          <span>{{ $t("chat.broadcast.sidebar.schedule.title") }}</span>
         </div>
         <div class="action"></div>
       </div>

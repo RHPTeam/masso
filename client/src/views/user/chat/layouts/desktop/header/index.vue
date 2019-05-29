@@ -7,13 +7,93 @@
   >
     <div class="header--icon" @click="toogleSidebar">
       <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
-        <icon-menu />
+        <icon-menu/>
       </icon-base>
     </div>
     <div class="right d_flex align_items_center">
-      <router-link tag="div" class="mess" :to="{name: 'messenger'}">
-        Trò chuyện
-      </router-link>
+      <router-link tag="div" class="mess" :to="{name: 'messenger'}">{{ $t("chat.layout.openMess") }}</router-link>
+      <!-- Start: Language flag -->
+      <div class="flags mr_1 position_relative">
+        <div @click="showFlag = true">
+          <icon-base icon-name="flag--vietnam" width="30" height="25" viewBox="0 0 600 400">
+            <icon-vietnam-flag/>
+          </icon-base>
+        </div>
+        <div
+          v-if="showFlag === true"
+          class="position_absolute choose--lang"
+          v-click-outside="closeShowFlag"
+        >
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              icon-name="flag--vietnam"
+              width="40"
+              height="30"
+              viewBox="0 0 600 400"
+              class="mr_1"
+            >
+              <icon-vietnam-flag/>
+            </icon-base>
+            <span>{{ $t('language') }}</span>
+          </div>
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              icon-name="flag--english"
+              width="40"
+              height="30"
+              viewBox="0 0 600 400"
+              class="mr_1"
+            >
+              <icon-america-flag/>
+            </icon-base>
+            <span>English</span>
+          </div>
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              icon-name="flag--vietnam"
+              width="40"
+              height="30"
+              viewBox="0 0 600 400"
+              class="mr_1"
+            >
+              <icon-china-flag/>
+            </icon-base>
+            <span>China</span>
+          </div>
+        </div>
+      </div>
+      <!-- End: Language flag -->
+      <!-- Start: Notification Groups -->
+      <div class="notification--groups position_relative">
+        <div class="btn--notification position_relative mr_3"
+          @click="showNotificationDropdown"
+        >
+          <icon-base
+            :class="[ isShowNotificationDropdown ? 'active' : null ]"
+            icon-name="bell"
+            width="20px"
+            height="20px"
+            viewBox="0 0 512 512"
+          >
+            <icon-bell></icon-bell>
+          </icon-base>
+          <div class="notification--total position_absolute">
+            <div class="text text_center">{{ notifications.length }}</div>
+          </div>
+        </div>
+        <!-- Start: Notification Dropdown -->
+        <div class="notification--dropdown position_absolute">
+          <transition name="dropdown">
+            <header-notification
+              v-if="isShowNotificationDropdown"
+              :notifications="notifications"
+              @closeDropdown="isShowNotificationDropdown = $event"
+            ></header-notification>
+          </transition>
+        </div>
+        <!-- End: Notification Dropdown -->
+      </div>
+      <!-- End: Notification Groups -->
       <div
         class="header--profile position_relative d_flex justify_content_end align_items_center"
         @click="showDropdown"
@@ -25,47 +105,38 @@
             class="avatar--content avatar--img position_relative d_block"
             :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
           ></div>
-          <div
-            v-else
-            class="avatar--content avatar--default position_relative d_block"
-          >
-          <span class="position_absolute">{{
-            user.name | getFirstLetter
-          }}</span>
+          <div v-else class="avatar--content avatar--default position_relative d_block">
+            <span class="position_absolute">
+              {{
+              user.name | getFirstLetter
+              }}
+            </span>
           </div>
         </div>
         <div class="header--profile-name ml_2 mr_2">{{ user.name }}</div>
-        <icon-base
-          icon-name="arrow-down"
-          width="10"
-          height="10"
-          viewBox="0 0 130 130"
-        >
-          <icon-arrow-down />
+        <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
+          <icon-arrow-down/>
         </icon-base>
         <div
           class="dropdown--menu dropdown--menu-right user--dd flipInY animated"
           :class="{ show: showdropdown }"
         >
-        <span class="with--arrow">
-          <span class="bg-orange"></span>
-        </span>
-          <div
-            class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2"
-          >
+          <span class="with--arrow">
+            <span class="bg-orange"></span>
+          </span>
+          <div class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2">
             <div class="avatar--wrap">
               <div
                 v-if="user.imageAvatar"
                 class="avatar--content avatar--img position_relative d_block"
                 :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
               ></div>
-              <div
-                v-else
-                class="avatar--content avatar--default position_relative d_block"
-              >
-              <span class="position_absolute">{{
-                user.name | getFirstLetter
-              }}</span>
+              <div v-else class="avatar--content avatar--default position_relative d_block">
+                <span class="position_absolute">
+                  {{
+                  user.name | getFirstLetter
+                  }}
+                </span>
               </div>
             </div>
             <div class="ml_2">
@@ -73,36 +144,21 @@
               <p class="mb_0">{{ user.email }}</p>
             </div>
           </div>
-          <router-link class="dropdown--item" :to="{ }">
-            <icon-base
-              icon-name="account"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-            >
-              <icon-account /> </icon-base
-            >Thiết lập tài khoản
+          <router-link class="dropdown--item" :to="{ name: 'account' }">
+            <icon-base icon-name="account" width="20" height="20" viewBox="0 0 24 24">
+              <icon-account/>
+            </icon-base>{{ $t("chat.layout.setupAccount") }}
           </router-link>
-          <router-link class="dropdown--item friend" :to="{ }">
-            <icon-base
-              icon-name="friend"
-              width="22"
-              height="22"
-              viewBox="0 0 25 25"
-            >
-              <icon-friend /> </icon-base
-            >Quản lý bạn bè
+          <router-link class="dropdown--item friend" :to="{ name: 'friends' }">
+            <icon-base icon-name="friend" width="22" height="22" viewBox="0 0 25 25">
+              <icon-friend/>
+            </icon-base>{{ $t("chat.layout.friendManager") }}
           </router-link>
           <div class="dropdown--divider"></div>
           <a class="dropdown--item" href="javascript:void(0)">
-            <icon-base
-              icon-name="logout"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-            >
-              <icon-logout /> </icon-base
-            >Đăng xuất
+            <icon-base icon-name="logout" width="20" height="20" viewBox="0 0 20 20">
+              <icon-logout/>
+            </icon-base>{{ $t("chat.layout.logout") }}
           </a>
         </div>
       </div>

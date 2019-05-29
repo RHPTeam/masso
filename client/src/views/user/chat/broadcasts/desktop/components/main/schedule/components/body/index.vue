@@ -29,23 +29,23 @@
       </div>
     </div>
     <div class="footer mt_3">
-      <div class="title text_left">Thêm phần tử</div>
+      <div class="title text_left">{{ $t("chat.common.card.add.title") }}</div>
       <div class="group d_flex align_items_center">
         <div class="item d_flex align_items_center justify_content_center flex_column">
           <icon-base class="icon-text" width="20" height="20" viewBox="0 0 13.53 20.11">
             <icon-text/>
-          </icon-base>Văn bản
+          </icon-base>{{ $t("chat.common.card.add.text") }}
         </div>
 
         <div class="item d_flex align_items_center justify_content_center flex_column">
           <icon-base class="icon-image" width="20" height="20" viewBox="0 0 26 26">
             <icon-image/>
-          </icon-base>Hình ảnh
+          </icon-base>{{ $t("chat.common.card.add.images") }}
         </div>
         <div class="item d_flex align_items_center justify_content_center flex_column">
           <icon-base class="icon-sand-clock" width="20" height="20" viewBox="0 0 14.41 20.14">
             <icon-sand-clock/>
-          </icon-base>Thời gian
+          </icon-base>{{ $t("chat.common.card.add.titimetle") }}
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
@@ -53,7 +53,7 @@
         >
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus/>
-          </icon-base>Thêm mới
+          </icon-base>{{ $t("chat.common.card.add.add") }}
         </div>
       </div>
     </div>

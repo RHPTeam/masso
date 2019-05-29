@@ -1,33 +1,25 @@
 <template>
-  <div class="auto--main-content text_left" :data-theme="currentTheme">
+  <div class="auto--main-content text_left">
     <div class="r mb_4">
-      <div class="c_md_12 c_xl_6 mb_2">
-        <div class="divide--title mb_3">Từ khóa</div>
-        <taggle
-          placeholder="Nhập từ khóa..."
-          type="syntax"
-        />
+      <div class="c_md_12 c_xl_6 mb_3">
+        <div class="divide--title mb_2">{{ $t("chat.keywords.content.keyword.title") }}</div>
+        <taggle :placeholder="$t('chat.keywords.content.keyword.placeholder')" type="syntax"/>
       </div>
       <div class="c_md_12 c_xl_6">
         <div class="auto--answer">
-          <div class="divide--title mb_3">Trả lời</div>
+          <div class="divide--title mb_2">{{ $t("chat.keywords.content.reply.title") }}</div>
           <div class="auto--answer-add">
             <div class="block">
               <!-- Start: Add Block or Text Component -->
               <div class="block--body">
-                <div
-                  class="block--body-item"
-                >
+                <div class="block--body-item">
                   <contenteditable
                     class="editable"
                     tag="div"
-                    placeholder="Nhập văn bản..."
+                    :placeholder="$t('chat.keywords.content.reply.placeholderText')"
                     :contenteditable="true"
+                    v-model="title"
                   />
-                  <!-- <multi
-                    placeholder="Chọn nhóm..."
-                    type="itemSyntax"
-                  ></multi> -->
                   <span class="action">
                     <icon-base
                       class="icon--remove"
@@ -36,57 +28,144 @@
                       height="26"
                       viewBox="0 0 18 18"
                     >
-                      <icon-remove />
+                      <icon-remove/>
                     </icon-base>
                   </span>
                 </div>
               </div>
               <!--End: Add Block or Text Component-->
-
-              <!-- Start: Footer  Component -->
-              <div class="block--footer">
-                Thêm <span>nhóm</span> hoặc
-                <span>văn bản</span>
-              </div>
-              <!--End: Footer Component-->
             </div>
+            <div class="block">
+              <!-- Start: Add Block or Text Component -->
+              <div class="block--body">
+                <div class="block--body-item">
+                  <multiselect
+                    :placeholder="$t('chat.keywords.content.reply.placeholderGroup')"
+                    type="itemSyntax"
+                    v-model="title"
+                    class="choose--group"
+                  ></multiselect>
+                  <span class="action" @click="isDeleteItemBlock = true">
+                    <icon-base
+                      class="icon--remove"
+                      icon-name="remove"
+                      width="26"
+                      height="26"
+                      viewBox="0 0 18 18"
+                    >
+                      <icon-remove/>
+                    </icon-base>
+                  </span>
+                </div>
+              </div>
+              <!--End: Add Block or Text Component-->
+            </div>
+            <div class="block">
+              <!-- Start: Add Block or Text Component -->
+              <div class="block--body">
+                <div class="block--body-item">
+                  <contenteditable
+                    class="editable"
+                    tag="div"
+                    placeholder="Nhập văn bản..."
+                    :contenteditable="true"
+                    v-model="title"
+                  />
+                  <span class="action">
+                    <icon-base
+                      class="icon--remove"
+                      icon-name="remove"
+                      width="26"
+                      height="26"
+                      viewBox="0 0 18 18"
+                    >
+                      <icon-remove/>
+                    </icon-base>
+                  </span>
+                </div>
+              </div>
+              <!--End: Add Block or Text Component-->
+            </div>
+            <div class="block">
+              <!-- Start: Add Block or Text Component -->
+              <div class="block--body">
+                <div class="block--body-item">
+                  <multiselect
+                    placeholder="Chọn nhóm..."
+                    type="itemSyntax"
+                    v-model="title"
+                    class="choose--group"
+                  ></multiselect>
+                  <span class="action">
+                    <icon-base
+                      class="icon--remove"
+                      icon-name="remove"
+                      width="26"
+                      height="26"
+                      viewBox="0 0 18 18"
+                    >
+                      <icon-remove/>
+                    </icon-base>
+                  </span>
+                </div>
+              </div>
+              <!--End: Add Block or Text Component-->
+            </div>
+            <!-- Start: Footer  Component -->
+            <div class="block--footer">
+              {{ $t("chat.keywords.content.reply.add") }}
+              <span>{{ $t("chat.keywords.content.reply.group") }}</span> {{ $t("chat.keywords.content.reply.or") }}
+              <span>{{ $t("chat.keywords.content.reply.text") }}</span>
+            </div>
+            <!--End: Footer Component-->
           </div>
         </div>
       </div>
     </div>
     <div class="r">
       <div class="form_group c_12">
-        <div class="divide--title mb_3">Tài khoản áp dụng</div>
-        <ul
-          class="list--user"
-        >
-          <li>Bạn chưa thêm tài khoản facebook nào!</li>
+        <div class="divide--title mb_3">{{ $t("chat.keywords.content.accountUse.title") }}</div>
+        <ul class="list--user">
+          <li>{{ $t("chat.keywords.content.accountUse.noAccount") }}</li>
         </ul>
         <ul class="list--user">
           <!--Selected class-->
-          <li
-            class="list--user-item"
-          >
-            <div class="d_flex">
+          <li class>
+            <div class="d_inline_flex user px_2 py_1">
               <div class="images--avatar mr_2">
-                <img src="@/assets/images/register--logo.png" />
+                <img src="@/assets/images/register--logo.png">
               </div>
-              <div>Ahihi</div>
+              <div class="name--user">Ahihi</div>
             </div>
           </li>
         </ul>
       </div>
     </div>
+    <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        title="Delete Property"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteProperty"
+        typeName="Property"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 <script>
 let typingTimer;
+import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   data() {
     return {
       isOpenDocument: false,
       isOpenScript: false,
-      currentIndexOfUser: null
+      currentIndexOfUser: null,
+      title: "AAAA",
+      isDeleteItemBlock: false
     };
   },
   async created() {
@@ -111,7 +190,7 @@ export default {
   methods: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
     // createItem(type) {
     //   this.syntax.content.push({
     //     typeContent: type,
@@ -148,6 +227,9 @@ export default {
     // updateSyntax() {
     //   this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
     // }
+  },
+  components: {
+    DeleteCampaignPopup
   }
 };
 </script>
@@ -155,8 +237,7 @@ export default {
 @import "../../../index.style";
 
 // Answer group or text
-.auto--answer{
-
+.auto--answer {
 }
 .block {
   &--body,
@@ -167,10 +248,12 @@ export default {
     padding-top: 0;
     padding-bottom: 0;
     &-item {
-      border-bottom: 1px solid #cccccc;
       line-height: 36px;
       padding: 0.75rem 0;
       position: relative;
+      .editable {
+        border: 1px solid transparent;
+      }
       &:last-child {
         border-bottom: 0;
       }
@@ -192,7 +275,7 @@ export default {
           color: #ffb94a !important;
         }
       }
-      .editable{
+      .editable {
         padding-right: 30px;
       }
     }
@@ -215,21 +298,18 @@ export default {
   }
 }
 
-
 // *************** CHANGE THEME **************
 
 // DARK
-.auto--main-content[data-theme="dark"]{
-  .images--avatar{
+.auto--main-content[data-theme="dark"] {
+  .images--avatar {
     color: #fff;
   }
 }
 
-
-
 // LIGHT
-.auto--main-content[data-theme="light"]{
-  .images--avatar{
+.auto--main-content[data-theme="light"] {
+  .images--avatar {
     color: #666;
   }
 }
