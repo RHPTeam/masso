@@ -7,11 +7,11 @@
  */
 
 const Account = require( "../../models/Account.model" );
-const Vocate = require( "../../models/chat/Vocate.model" );
+// const Vocate = require( "../../models/chat/Vocate.model" );
 
-const jsonResponse = require( "../../configs/response" );
+// const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
-const { agent } = require( "../../configs/crawl" );
+// const { agent } = require( "../../configs/crawl" );
 
 module.exports = {
   /**
@@ -22,19 +22,19 @@ module.exports = {
    *
    */
   "index": async ( req, res ) => {
-    let dataResponse = null;
+    // let dataResponse = null;
     const authorization = req.headers.authorization,
+      // eslint-disable-next-line no-unused-vars
       role = req.headers.cfr,
-
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
+      return res
+        .status( 404 )
+        .json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
     }
-    if ( role === "Member" ) {
-
-    }
-
+    // if ( role === "Member" ) {
+    // }
   }
 };
