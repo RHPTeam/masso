@@ -58,16 +58,16 @@
       <!-- End: Notification Groups -->
 
       <!-- Start: Redirect to help -->
-      <div class="help mr_2 ml_1" @click="redirectToHelp">
-        <icon-base
-          icon-name="menu"
-          width="25"
-          height="25"
-          viewBox="0 0 25 25"
-        >
-          <icon-help />
-        </icon-base>
-      </div>
+<!--      <div class="help mr_2 ml_1" @click="redirectToHelp">-->
+<!--        <icon-base-->
+<!--          icon-name="menu"-->
+<!--          width="25"-->
+<!--          height="25"-->
+<!--          viewBox="0 0 25 25"-->
+<!--        >-->
+<!--          <icon-help />-->
+<!--        </icon-base>-->
+<!--      </div>-->
       <!-- End: Redirect to help -->
 
       <!-- Start: User Info -->

@@ -5,7 +5,6 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 const auth = require( "../../helpers/middleware/authenticate.middleware" );
 const AccountController = require( "../../controllers/account.controller" );
 
@@ -14,8 +13,7 @@ const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": ( req, file, cb ) => {
-      const userId = findSubString( req.headers.Cookie, "uid", ";" ),
-        path = `./uploads/users/person/${userId}`;
+      const path = `./uploads/users/person/${req.uid}`;
 
       fs.mkdirsSync( path );
       cb( null, path );
@@ -43,9 +41,10 @@ const multer = require( "multer" ),
 router.route( "/" ).patch( auth, upload.single( "profileUrl" ), AccountController.update );
 
 router.route( "/change-password" ).patch( auth, AccountController.changePassword );
+router.route( "/create-password" ).post( auth, AccountController.createNewPassword );// final reset password
 router.route( "/info" ).get( auth, AccountController.show );
-router.route( "/info/code" ).post( AccountController.checkCode );
-router.route( "/info/reset-password" ).get( AccountController.getUserInfoLostPass );
-router.route( "/reset-password" ).post( AccountController.resetPassword );
+router.route( "/info/code" ).post( AccountController.checkCode ); // check code
+router.route( "/info/reset-password" ).get( AccountController.getUserInfoLostPass ); // get use info by email
+router.route( "/reset-password" ).post( AccountController.resetPassword ); // b1 check mail
 
 module.exports = router;
