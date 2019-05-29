@@ -1,57 +1,59 @@
 <template>
   <div class="main p_3 position_relative" v-if="caseEvent">
-    <div class="section" v-if="caseEvent.post === 0" >
-      <div class="r">
-        <div class="c_6">
-          <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 1 )">
-            <div class="card_body text_center">
-              <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"
-                   :style="{backgroundColor: event.color}"
-              >
-                <icon-base
-                  class="icon--categories"
-                  height="52px"
-                  width="54px"
-                  viewBox="0 0 460 460"
-                >
-                  <icon-categories></icon-categories>
-                </icon-base>
-              </div>
-              <div class="card--content">
-                <h3 class="h5">Đăng bài viết từ danh mục</h3>
-                <div class="card--text">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
-              </div>
-            </div>
-          </div>
+    <div class="section d_flex align_items_center mb_4">
+      <div class="tabs d_flex align_items_center justify_content_center mr_3" :class="isActive === true ? 'active' : 'off'" role="category" @click="selectPostType( 1 )">
+        <div class="icon--left mr_2">
+          <icon-base
+            class="icon--categories"
+            height="20"
+            width="20"
+            viewBox="0 0 525 525"
+          >
+            <icon-categories></icon-categories>
+          </icon-base>
         </div>
-        <div class="c_6">
-          <div class="card" role="type" aria-label="Type Post" @click="selectPostType( 2 )">
-            <div class="card_body text_center">
-              <div class="card--icon d_flex align_items_center justify_content_center mx_auto mb_3"
-                   :style="{backgroundColor: event.color}"
-              >
-                <icon-base
-                  class="icon--reply-post"
-                  height="56px"
-                  width="50px"
-                  viewBox="0 0 500 500"
-                >
-                  <icon-reply-post></icon-reply-post>
-                </icon-base>
-              </div>
-              <div class="card--content">
-                <h3 class="h5">Tùy chọn đăng bài viết cụ thể</h3>
-                <div class="card--text">Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
-              </div>
-            </div>
-          </div>
+        <h3 class="h5 mr_2">Đăng bài viết từ danh mục</h3>
+        <div class="icon position_relative">
+          <icon-base
+            class="icon--edit"
+            height="20"
+            width="20"
+            viewBox="0 0 25 25"
+          >
+            <icon-info/>
+          </icon-base>
+          <div class="card--text position_absolute">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
+        </div>
+      </div>
+      <div class="tabs d_flex align_items_center justify_content_center" :class="{active: isOption}" role="custom" @click="selectPostType( 2 )">
+        <div class="icon--left mr_2">
+          <icon-base
+            class="icon--reply-post"
+            height="20"
+            width="20"
+            viewBox="0 0 500 500"
+          >
+            <icon-reply-post></icon-reply-post>
+          </icon-base>
+        </div>
+        <h3 class="h5 mr_2">Tùy chọn đăng bài viết cụ thể</h3>
+        <div class="icon position_relative">
+          <icon-base
+            class="icon--edit"
+            height="20"
+            width="20"
+            viewBox="0 0 25 25"
+          >
+            <icon-info/>
+          </icon-base>
+          <div class="card--text position_absolute">Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
         </div>
       </div>
     </div>
     <!-- Start: Show option category -->
     <category-post
       :event="event"
-      v-else-if="caseEvent.post === 1"
+      v-if="caseEvent.post === 1"
     />
     <!-- End: Show option category -->
     <!-- Start: Show option detail -->
@@ -74,6 +76,12 @@ export default {
   props: {
     event: Object
   },
+  data() {
+    return {
+      isActive: true,
+      isOption: false
+    }
+  },
   computed: {
     caseEvent() {
       return this.$store.getters.caseEvent;
@@ -81,6 +89,13 @@ export default {
   },
   methods: {
     selectPostType( value ) {
+      if(value === 1) {
+        this.isOption = false;
+        this.isActive = true;
+      } else if (value === 2) {
+        this.isOption = true;
+        this.isActive = false;
+      }
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
         value: value
@@ -92,13 +107,49 @@ export default {
 
 <style lang="scss" scoped>
 .section {
+  color: #ffba3c;
   label {
     color: $mainDark;
   }
   .time[role=date] {
     border: 1px solid $mainDark;
   }
+  .tabs {
+    cursor: pointer;
+    .h5 {
+      font-size: 16px;
+    }
+    .icon {
+      &:hover, &:focus, &:active, &:visited {
+        > .card--text {
+          opacity: 1;
+        }
+      }
+    }
+    .card--text {
+      background: #ffffff;
+      border: 1px solid #e4e4e4;
+      border-radius: .25rem;
+      left: -100px;
+      opacity: 0;
+      top: 110%;
+      padding: .25rem;
+      width: 300px;
+      z-index: 9;
+    }
+  }
+  .active {
+    border-bottom: 2px solid #ffba3c;
+  }
+  .off {
+    border-bottom: 0 !important;
+  }
+  div[role="category"] {
 
+  }
+  div[role="custom"] {
+
+  }
   .card[role=type] {
     border: 0;
     border-radius: .5rem;
