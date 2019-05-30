@@ -2,6 +2,19 @@ module.exports = {
   "removeDuplicates": ( arr ) => {
     return arr.filter( ( v, i ) => arr.indexOf( v ) === i );
   },
+  "removeObjectDuplicates": ( arr, comp ) => {
+    const unique = arr
+      .map( ( e ) => e[ comp ] )
+
+    // store the keys of the unique objects
+      .map( ( e, i, final ) => final.indexOf( e ) === i && i )
+
+    // eliminate the dead keys & store unique objects
+      .filter( ( e ) => arr[ e ] ).map( ( e ) => arr[ e ] );
+
+    return unique;
+  },
+
   "getRandom": ( arr, n ) => {
     let result = new Array( n ),
       len = arr.length,
