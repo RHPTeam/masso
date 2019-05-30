@@ -1,6 +1,9 @@
 const Role = require( "../models/Role.model" );
 const { roleSync } = require( "../microservices/synchronize/role.service" );
 
+// Other process
+require( "./cron/post/campaign" );
+
 ( async () => {
   const roleList = await Role.find( {} );
 

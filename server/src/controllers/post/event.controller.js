@@ -12,6 +12,8 @@ const PageFacebook = require( "../../models/post/PageFacebook.model" );
 
 const jsonResponse = require( "../../configs/response" );
 
+const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+
 module.exports = {
   /**
    * Get All (query)
@@ -126,11 +128,12 @@ module.exports = {
     // eslint-disable-next-line one-var
     const newEvent = await new Event( req.body );
 
+    // Create to event schedule, Check follow condition
+    await EventScheduleController.create( newEvent.toObject(), findCampaign._id );
+
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
     await findCampaign.save();
-
-    // Create Cron Job
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
