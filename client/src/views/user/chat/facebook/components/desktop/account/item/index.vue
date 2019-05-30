@@ -1,17 +1,17 @@
 <template>
   <div class="card">
     <div class="card_body">
-      <div class="card--header">
-        <delete-popup :content="item" />
-      </div>
+<!--      <div class="card&#45;&#45;header">-->
+<!--        <delete-popup :content="item" />-->
+<!--      </div>-->
       <div class="card--content">
         <div class="avatar">
-          <img class="picture" :src="item.userInfo.thumbSrc" />
+          <img class="picture" :src="item.userInfo.thumbSrc" alt=""/>
           <span class="status" :class="item.status === true ? 'active' : ''">
           </span>
         </div>
         <h3 class="name">{{ item.userInfo.name }}</h3>
-        <button class="btn btn--connect" v-if="item.status == true">
+        <button class="btn btn--connect" v-if="item.status === true">
           Đang hoạt động
         </button>
         <!-- if cookie dont use show button-->
@@ -33,7 +33,7 @@
     <transition name="popup">
       <update-cookie
         :item="item"
-        v-if="isModalUpdateCookie == true"
+        v-if="isModalUpdateCookie === true"
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
         :nameBread="nameUpdatePopup"
@@ -42,20 +42,9 @@
     </transition>
   </div>
 </template>
+
 <script>
-// import DeletePopup from "@/components/popup/p_acfb";
 export default {
-  props: ["item"],
-  data() {
-    return {
-      isModalUpdateCookie: false,
-      nameUpdatePopup: "Cập nhật mã kích hoạt",
-      descUpdatePopup:
-        "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
-    };
-  },
-  methods: {
-  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -68,11 +57,20 @@ export default {
       return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
   },
-  components: {
-    // DeletePopup
+  props: [ "item" ],
+  data() {
+    return {
+      isModalUpdateCookie: false,
+      nameUpdatePopup: "Cập nhật mã kích hoạt",
+      descUpdatePopup:
+        "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
+    };
+  },
+  methods: {
   }
 };
 </script>
+
 <style lang="scss" scoped>
 @import "../index.style";
 </style>

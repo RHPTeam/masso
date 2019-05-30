@@ -1,6 +1,6 @@
 <template>
   <div class="main" :data-theme="currentTheme">
-    <!--Nội dung Desktop-->
+    <!-- Desktop -->
     <div class="d_none d_md_block">
       <app-bread-crumb
         :nameBread="$t('chat.facebook.title')"
@@ -10,15 +10,15 @@
         <app-list-account :accountsFB="getAccountsFB" />
       </div>
     </div>
-    <!--Nội dung Mobile-->
-    <div class="d_block d_md_none">
+    <!-- Mobile-->
+    <!--<div class="d_block d_md_none">
       <transition name="popup">
         <app-status-notification v-if="0" :data-theme="currentTheme" />
       </transition>
-      <!-- <div class="main--contentItem">
+      <div class="main--contentItem">
         <app-list-account-mobile :accountsFB="getAccountsFB" />
-      </div> -->
-    </div>
+      </div>
+    </div>-->
   </div>
 </template>
 
@@ -30,14 +30,14 @@ import AppStatusNotification from "@/components/shared/status-notification";
 // import Popup from '../scriptfacebook/components/desktop/popup/popup'
 
 export default {
-  async created() {
-    // await this.$store.dispatch("getAccountsFB");
+  components: {
+    AppListAccount,
+    AppBreadCrumb,
+    AppStatusNotification
   },
-
   data() {
     return {};
   },
-
   computed: {
     user() {
       return this.$store.getters.userInfo;
@@ -46,20 +46,17 @@ export default {
       return this.$store.getters.themeName;
     },
     getAccountsFB() {
-      return this.$store.getters.accountsFB;
+      return this.$store.getters.allAccountFb;
     }
   },
-
+  async created() {
+    await this.$store.dispatch( "getAllAccountFb" );
+  },
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
     }
-  },
-  components: {
-    AppListAccount,
-    AppBreadCrumb,
-    AppStatusNotification
   }
 };
 </script>
