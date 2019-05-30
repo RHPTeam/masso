@@ -12,14 +12,10 @@ const Vocate = require( "../../models/chat/Vocate.model" );
 const Facebook = require( "../../models/Facebook.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const { removeObjectDuplicates } = require( "../../helpers/utils/functions/array" );
 const { agent } = require( "../../configs/crawl" );
 const { getAllFriends } = require( "../../controllers/core/facebook.core" );
-<<<<<<< HEAD
 const { findSubString } = require( "../../helpers/utils/functions/string" );
-=======
->>>>>>> dev-yendt-vue
 
 module.exports = {
   /**
@@ -30,23 +26,11 @@ module.exports = {
    *
    */
   "index": async ( req, res ) => {
-    let dataResponse = [];
-    const authorization = req.headers.authorization,
-<<<<<<< HEAD
-      role = findSubString( authorization, "cfr=", ";" ),
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+    let dataResponse = [],
+      page, dataRes;
+    const role = findSubString( req.headers.authorization, "cfr=", ";" ),
+      accountResult = await Account.findOne( { "_id": req.uid } );
 
-=======
-      role = req.headers.cfr,
-
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
-
-    if ( !accountResult ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
-    }
->>>>>>> dev-yendt-vue
     if ( role === "Member" ) {
       Promise.all( accountResult._accountfb.map( async ( facebook ) => {
         let findFacebook = await Facebook.findOne( { "_id": facebook } ),
@@ -61,13 +45,32 @@ module.exports = {
         const dataFriend = [].concat.apply( [], data );
 
         Promise.all( removeObjectDuplicates( dataFriend, "uid" ).map( async ( friend ) => {
-          let vocate = await Vocate.find( { "_account": userId, "_friends": friend.uid.toString() } );
+          let vocate = await Vocate.find( { "_account": req.uid, "_friends": friend.uid.toString() } );
 
           vocate.length === 0 ? friend.vocate = "Chưa thiết lập" : friend.vocate = vocate[ 0 ].name;
-          friend.photo = `http://graph.facebook.com/${friend.uid}/picture?type=large`;
+          friend.photo = `https://graph.facebook.com/${friend.uid}/picture?type=large`;
           return friend;
         } ) ).then( async ( item ) => {
-          return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", item ) );
+
+          if ( req.query._size && req.query._page ) {
+            dataRes = item.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+          } else if ( req.query._size ) {
+            dataRes = item.slice( 0, Number( req.query._size ) );
+          }
+
+          if ( req.query._size ) {
+            if ( item.length % req.query._size === 0 ) {
+              page = Math.floor( item.length / req.query._size );
+            } else {
+              page = Math.floor( item.length / req.query._size ) + 1;
+            }
+
+            return res
+              .status( 200 )
+              .json( jsonResponse( "success", { "results": dataRes, "page": page } ) );
+          }
+
+          res.status( 200 ).json( jsonResponse( "success", item ) );
         } );
 
       } );

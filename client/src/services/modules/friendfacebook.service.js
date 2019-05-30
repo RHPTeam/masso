@@ -9,5 +9,8 @@ export default {
   },
   getFriendFriendById ( id ) {
     return Api().get( `friend?_id=${id}` );
+  },
+  getFriendBySize ( size, page ){
+    return Api().get( `friend?_size=${size}&_page=${page}` );
   }
 }

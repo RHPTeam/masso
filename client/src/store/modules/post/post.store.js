@@ -139,7 +139,7 @@ const actions = {
 
     await PostServices.updatePost( payload._id, payload );
 
-    const resultPost = await PostServices.index1();
+    const resultPost = await PostServices.index();
     commit( "setAllPost", resultPost.data.data );
 
     commit( "post_success" );
@@ -152,7 +152,7 @@ const actions = {
     const resultPostById = await PostServices.getById( payload._id );
     commit( "setPost", resultPostById.data.data );
 
-    const resultPost = await PostServices.index1();
+    const resultPost = await PostServices.index();
     commit( "setAllPost", resultPost.data.data );
 
     commit( "post_success" );

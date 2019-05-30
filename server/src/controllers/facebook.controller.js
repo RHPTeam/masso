@@ -150,17 +150,9 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
   },
   "delete": async ( req, res ) => {
-<<<<<<< HEAD
     const accountResult = await Account.findOne( { "_id": req.uid } ),
       listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
       findFacebook = await Facebook.findById( req.query._facebookId ),
-=======
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } ),
-      findFacebook = await Facebook.findById( req.query._facebookId ),
-      listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
->>>>>>> dev-yendt-vue
       listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
       listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 

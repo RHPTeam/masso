@@ -33,11 +33,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization,
-<<<<<<< HEAD
       role = findSubString( authorization, "cfr=", ";" ),
-=======
-      role = req.headers.cfr,
->>>>>>> dev-yendt-vue
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } );
 
@@ -124,17 +120,11 @@ module.exports = {
     let checkName = false;
 
     foundAllGroupFriend.map( ( val ) => {
-<<<<<<< HEAD
       if ( val._account.toString() !== userId ) {
         if ( val.name.toString() === req.body.name.toString() ) {
           checkName = true;
           return checkName;
         }
-=======
-      if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
-        checkName = true;
-        return checkName;
->>>>>>> dev-yendt-vue
       }
     } );
     if ( checkName ) {

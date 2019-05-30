@@ -14,14 +14,24 @@ const mutations = {
   setAllBroadcasts: ( state, payload ) => {
     state.allBroadcasts = payload;
   },
-  setAllBroadcastsStatus: ( state, payload ) => {
-    state.allBroadcastsStatus = payload;
+  broadcasts_request: ( state ) => {
+    state.broadCastStatus = "request";
+  },
+  broadcasts_success: ( state ) => {
+    state.broadCastStatus = "success";
   },
   setScheduleBlocks: ( state, payload ) => {
     state.scheduleBlocks = payload;
   }
 };
 const actions = {
+  createSchedule: async ({commit}) => {
+    commit("broadcasts_request");
+    await BroadcastService.createBroadcastSchedule();
+    const result = await BroadcastService.index();
+    commit("setAllBroadcasts", result.data.data);
+    commit("broadcasts_success");
+  },
   getAllBroadcasts: async ( { commit } ) => {
     commit( "setAllBroadcastsStatus", "loading" );
     // Get all broadcasts

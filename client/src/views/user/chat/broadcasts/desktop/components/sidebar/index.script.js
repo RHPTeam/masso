@@ -25,9 +25,9 @@ export default {
     }
   },
   methods: {
-    // addSchedule() {
-    //   this.$store.dispatch("createSchedule");
-    // },
+    addSchedule() {
+      this.$store.dispatch("createSchedule");
+    },
     // async showSchedule(schedule) {
     //   const dateNow = Date.now();
     //   const scheduleCron =
