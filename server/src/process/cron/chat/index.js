@@ -28,10 +28,10 @@ const CONFIG = require( "./src/configs/configs" ),
 
 
 /** ***********************************************************************/
-const ConvertCookieToObject = require( "../../../../src/helpers/utils/facebook/cookie" );
-const CookieFacebook = require( "../../../../src/configs/cookieFacebook" );
-const ConvertUnicode = require( "./src/helpers/util/convertUnicode.util" );
-const ErrorText = require( "./src/configs/errors" );
+const convertCookieToObject = require( "../../../../src/helpers/utils/facebook/cookie" );
+const cookieFacebook = require( "../../../../src/configs/cookieFacebook" );
+const ConvertUnicode = require( "../../../../src/helpers/utils/functions/unicode" );
+const ErrorText = require( "../../../../src/configs/errors" );
 /** ***********************************************************************/
 
 /** ***********************************************************************/
@@ -96,8 +96,8 @@ let process = async function( account ) {
     },
 
     // Convert cookie to object which pass to facebook
-    cookieObject = ConvertCookieToObject( account.cookie )[ 0 ],
-    cookie = CookieFacebook( cookieObject.fr, cookieObject.datr, cookieObject.c_user, cookieObject.xs );
+    cookieObject = convertCookieToObject( account.cookie )[ 0 ],
+    cookie = cookieFacebook( cookieObject.fr, cookieObject.datr, cookieObject.c_user, cookieObject.xs );
 
   try {
     api = await loginFacebook( cookie );
