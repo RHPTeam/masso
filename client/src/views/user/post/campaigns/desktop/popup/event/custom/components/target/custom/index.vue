@@ -1,5 +1,6 @@
 <template>
   <div class="page">
+    <div class="mb_3">Tùy chọn đăng vào các nhóm và trang mà bạn có mặt trên facebook.</div>
     <div class="body">
       <!-- Start: Pages Selected -->
       <div class="item d_flex mb_3">
@@ -60,11 +61,18 @@
       </div>
       <!-- End: Groups Selected -->
     </div>
+    <div class="bottom mt_3">
+      <new-feed />
+    </div>
   </div>
 </template>
 
 <script>
+import NewFeed from "../newfeed"
 export default {
+  components: {
+    NewFeed
+  },
   data() {
     return {
       custom: []

@@ -5,7 +5,7 @@
         <!--Start: Info-->
         <div class="info d_flex flex_column align_items_center py_3 px_3">
           <div class="img mb_3" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
-          <h3>Liu Kang</h3>
+          <h3>Ngọc Hân</h3>
           <div role="time">Hoạt động từ thời xa xưa</div>
         </div>
         <!--End: Info-->
@@ -84,12 +84,11 @@ div[role="right"] {
       cursor: pointer;
       font-size: 18px;
       font-weight: 700;
-      margin-bottom: .5rem;
+      margin-bottom: .25rem;
     }
     div[role="time"] {
-      font-size: 14px;
-      color: #cccccc;
-      font-weight: 300;
+      font-size: .85rem;
+      color: #999;
     }
   }
 }

@@ -3,24 +3,14 @@
     .header--icon {
       cursor: pointer;
     }
-    .header--button {
-      background-color: #ffb94a;
-      border: solid 1px #ffb94a;
-      border-radius: 0.5rem;
-      color: #fff;
-      cursor: pointer;
-      font-size: .875rem;
-      font-weight: 600;
-      height: 35px;
-      outline: none;
-      padding: 0 .75rem;
-      transition: all 0.4s ease;
-      &:hover {
-        background-color: #FF9E4A;
-      }
-    }
   }
   .header--right {
+    .help {
+      cursor: pointer;
+      svg {
+        fill: #00c853;
+      }
+    }
     .notification--groups {
       .btn--notification {
         cursor: pointer;

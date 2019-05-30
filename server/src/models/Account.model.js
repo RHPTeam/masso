@@ -24,15 +24,15 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
       "type": Number,
       "default": 2
     },
+    "_accountfb": [ {
+      "type": Schema.Types.ObjectId,
+      "ref": "Facebook"
+    } ],
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
-    "_role": {
-      "type": Schema.Types.ObjectId,
-      "ref": "Role"
-    },
-    "_server": {
-      "type": Schema.Types.ObjectId,
-      "ref": "Server"
+    "language": {
+      "type": String,
+      "default": "vi"
     },
     "settings": {
       "themeCustom": {
@@ -43,6 +43,14 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
         "tutorial": { "type": Number, "default": 1 },
         "suggest": { "type": Number, "default": 1 }
       }
+    },
+    "_role": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Role"
+    },
+    "_server": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Server"
     },
     "created_at": {
       "type": Date,

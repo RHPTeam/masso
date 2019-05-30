@@ -1,7 +1,8 @@
 <template>
-  <div class="perinfo--wrapper" v-if="user">
+  <div class="perinfo--wrapper">
     <div class="title text_left">Thông tin cá nhân</div>
-    <form class="wrapper--form">
+    <div v-if="!user"></div>
+    <form v-else class="wrapper--form">
       <!-- Start: Email -->
       <div class="user--email d_flex mb_2">
         <div class="icon--envelope mt_1">

@@ -1,10 +1,11 @@
 <template>
   <div class="main--top d_flex align_items_center p_3" :data-theme="currentTheme">
     <div class="exp--account">
-      Tài khoản hết hạn: {{ user.expireDate | formatDate }}
+      <span class="pr_1">{{ $t("chat.account.header.expire") }}</span>
+      {{ user.expireDate | formatDate }}
     </div>
     <div class="renewed--account text_center ml_auto">
-      <button disabled>Gia hạn</button>
+      <button disabled>{{ $t("chat.account.header.renewed") }}</button>
     </div>
   </div>
 </template>

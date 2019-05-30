@@ -59,7 +59,7 @@
               <icon-upload-image />
             </icon-base>
           </div>
-          <span>Tải ảnh lên</span>
+          <span>{{ $t("chat.common.card.uploadImage") }}</span>
         </div>
       </div>
     </div>
@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async getSchedules() {
-      let result = await BroadcastService.index();
+      let result = await BroadcastService.index1();
       result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)
@@ -131,6 +131,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "../../index.style";
+.icon--delete{
+  transition: 0.3s;
+  &:hover{
+    cursor: pointer;
+    color: #fdb849;
+  }
+}
 .default {
   background-position: center;
   background-size: contain;

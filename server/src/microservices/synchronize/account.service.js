@@ -1,12 +1,27 @@
-const request = require( "axios" );
+const request = require( "axios" ),
+  urlRequest = `${process.env.APP_PARENT_URL }/api/v1/`;
 
 module.exports = {
-  "updateUserSync": ( url, data, headers ) => {
-    let urlRequest = `${process.env.APP_PARENT_URL }/api/v1/${url}`;
-
+  "changePasswordSync": ( url, data, headers ) => {
     return request( {
       "method": "patch",
-      "url": urlRequest,
+      "url": urlRequest + url,
+      "data": data,
+      "headers": headers
+    } );
+  },
+  "createNewPasswordSync": ( url, data, headers ) => {
+    return request( {
+      "method": "patch",
+      "url": urlRequest + url,
+      "data": data,
+      "headers": headers
+    } );
+  },
+  "updateUserSync": ( url, data, headers ) => {
+    return request( {
+      "method": "patch",
+      "url": urlRequest + url,
       "data": data,
       "headers": headers
     } );

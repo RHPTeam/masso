@@ -1,5 +1,5 @@
 <template>
-  <div class="search">
+  <div class="search mb_1">
     <div class="input--wrap position_relative">
       <div class="search--icon position_absolute">
         <icon-base
@@ -35,10 +35,9 @@ export default {
     padding: 8px 20px 8px 20px;
     font-size: 14px;
     input {
-      background-color: #cccccc;
+      background-color: #F7F7F7;
       border-radius: 1rem;
-      padding: 8px 15px;
-      padding-left: 50px;
+      padding: 10px 15px 8px 40px;
       width: 100%;
       border: 0;
       outline: 0;

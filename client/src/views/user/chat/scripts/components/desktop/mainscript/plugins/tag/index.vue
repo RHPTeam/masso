@@ -1,12 +1,12 @@
 <template>
-  <div class="card card_body script--body-tag mt_3">
+  <div class="card card_body script--body-tag mt_3" :data-theme="currentTheme">
     <div class="script--body-tag-title">
       <span class="script--body-tag-icon">
         <icon-base class="icon-tag" width="15" height="16" viewBox="0 0 337.7 487.85">
           <icon-tag/>
         </icon-base>
       </span>
-      <span>Thuộc tính người dùng</span>
+      <span>{{ $t('chat.scripts.content.tagUser.title') }}</span>
       <div class="ml_auto">
         <div @click="isDeleteItemBlock = true">
           <icon-base icon-name="remove" width="18" height="18" viewBox="0 0 18 18">
@@ -16,15 +16,12 @@
       </div>
     </div>
     <div class="script--body-tag-description">
-      Đặt giá trị cho thuộc tính người dùng hiện có hoặc thêm thuộc tính mới. Sử
-      dụng nhóm chiến dịch để gửi, kịch bản để xác định phân tích hoạt động của
-      người dùng. Lưu ý rằng bạn có thể sử dụng các biểu thức và thuộc tính số
-      học trong trường Giá trị.
+      {{ $t('chat.scripts.content.tagUser.desc') }}
     </div>
     <div class="script--body-tag-list">
       <div class="script--body-tag-edit-title d_flex">
-        <span>Tên thẻ</span>
-        <span>Giá trị</span>
+        <span>{{ $t('chat.scripts.content.tagUser.attribute.title') }}</span>
+        <span>{{ $t('chat.scripts.content.tagUser.value.title') }}</span>
       </div>
       <div class="script--body-tag-item d_flex align_items_center position_relative mb_2">
         <div class="tag--created position_relative">
@@ -32,6 +29,7 @@
             class="tag--created-item"
             tag="div"
             placeholder="Nhập tên..."
+            v-model="ATTRIBUTE"
             :contenteditable="true"
           />
         </div>
@@ -39,11 +37,77 @@
           <contenteditable
             class="tag--created-item"
             tag="div"
-            placeholder="GIÁ TRỊ..."
+            placeholder="Gia tri..."
             :contenteditable="true"
+            v-model="VALUE"
           />
         </div>
         <div class="tag--icon-delete d_flex align_items_center position_absolute">
+          <icon-base
+              icon-name="delete"
+              width="20"
+              height="20"
+              viewBox="0 0 18 18"
+            >
+              <icon-remove />
+            </icon-base>
+        </div>
+      </div>
+      <div class="script--body--tag-item d_flex">
+        <div class="describle">{{ $t('chat.scripts.content.tagUser.attribute.desc') }}</div>
+        <div class="describle">{{ $t('chat.scripts.content.tagUser.value.desc') }}</div>
+      </div>
+      <div class="script--body-tag-footer">
+        <div class="script--body-tag-add">
+          <span>
+            <icon-base
+              class="icon--add"
+              icon-name="plus"
+              width="16"
+              height="16"
+              viewBox="0 0 60 60"
+            >
+              <icon-plus/>
+            </icon-base>
+          </span>
+          <span>Thêm thẻ</span>
+        </div>
+      </div>
+    </div>
+    <!-- Hidden screen > 1024px and Block < 1024px-->
+    <div class="hidden--tag">
+      <div class="">
+        <div class="mb_2">
+          <div class="name">{{ $t('chat.scripts.content.tagUser.attribute.title') }}</div>
+          <div class="tag--created">
+            <contenteditable
+              class="tag--created-item"
+              tag="div"
+              placeholder="Gia tri..."
+              :contenteditable="true"
+              v-model="VALUE"
+            />
+          </div>
+          <div class="">
+            <div class="describle">{{ $t('chat.scripts.content.tagUser.attribute.desc') }}</div>            
+          </div>
+        </div>
+        <div class="mb_2">
+          <div class="name">{{ $t('chat.scripts.content.tagUser.value.title') }}</div>
+          <div class="tag--created position_relative">
+            <contenteditable
+              class="tag--created-item"
+              tag="div"
+              placeholder="Nhập tên..."
+              v-model="ATTRIBUTE"
+              :contenteditable="true"
+            />
+          </div>
+          <div class="">
+            <div class="describle">{{ $t('chat.scripts.content.tagUser.value.desc') }}</div>            
+          </div>
+        </div>
+        <div class="tag--icon-delete d_flex">
           <icon-base
               icon-name="delete"
               width="20"
@@ -67,7 +131,7 @@
               <icon-plus/>
             </icon-base>
           </span>
-          <span>Thêm thẻ</span>
+          <span>{{ $t('chat.scripts.content.tagUser.add') }}</span>
         </div>
       </div>
     </div>
@@ -97,7 +161,9 @@ export default {
   data() {
     return {
       isShowAddAttribute: false,
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      ATTRIBUTE: "AAAAAAA",
+      VALUE: "BBBBBBBb"
     };
   },
   async created() {},
@@ -143,8 +209,68 @@ export default {
       cursor: pointer;
     }
   }
+}
+
+
+
+
+
+//  ************************* CHANGE THEME *************************
+.hidden--tag{
+  display: none;
+}
+.script--body-tag[data-theme="light"]{
+  .tag--created .tag--created-item{
+    color: #666;
+  }
+  .describle{
+    color: #666;
+  }
   &:hover{
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
   }
+}
+
+.script--body-tag[data-theme="dark"]{
+  .tag--created .tag--created-item{
+    color: #fff;
+  }
+  &-item{
+    .describle{
+      color: #f0f0f0;
+    }
+  }
+  &:hover{
+    border: 1px solid $border_radius;
+    box-shadow: 0;
+  }
+}
+.hidden--tag{
+  display: none;
+  .name{
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .tag--created{
+    background: #fff;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    transition: 0.3s;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-bottom: 5px;
+    .tag--created-item{
+      outline: none;
+    }
+  }
+}
+
+
+@media only screen and (max-width: 1024px) and (min-width: 768px){
+  .script--body-tag-list{
+    display: none;
+  }.hidden--tag{
+      display: block;
+    }
 }
 </style>

@@ -7,11 +7,15 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            Toàn bộ dữ liệu liên quan đến {{ typeName }}
-            <span class="text--bold">{{ targetName }}</span> sẽ bị xóa hoàn toàn.
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} </span>
+              {{ typeName }}
+            <span class="text--bold pr_1">{{ targetName }}</span>
+            {{ $t('chat.common.popup.delete.willDelete') }}
             <span v-if="description !== '' ">{{ description }}</span>
-            Để tiếp tục, nhập
-            <span class="text--delete">DELETE</span> vào ô bên dưới.
+            
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
+            <span class="text--delete">DELETE</span>
+            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
           </div>
           <input
             class="modal--body-input mt_3"
@@ -24,12 +28,12 @@
           <button
             class="btn--submit"
             @click="closePopup()"
-          >HỦY</button>
+          > {{ $t('chat.common.popup.delete.cancle') }} </button>
           <button
             class="btn--skip"
             v-if="deleteConfirm"
             @click="deleteTargets()"
-          >XÓA</button>
+          > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
       </div>
     </div>

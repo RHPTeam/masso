@@ -2,7 +2,7 @@
   <div class="avatar--wrapper">
     <!-- Start: Wrapper Top -->
     <div class="wrapper--top position_relative d_flex align_content_center">
-      <div class="title">Ảnh đại diện</div>
+      <div class="title">{{ $t("chat.account.sidebar.title") }}</div>
       <div class="change--icon ml_auto mr_2">
         <div class="icon" @click="isDropZone = true">
           <icon-base icon-name viewBox="0 0 20 20">

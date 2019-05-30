@@ -189,13 +189,12 @@ export default {
   cursor: text;
   margin-bottom: 2em;
   min-height: 60px;
-  padding: 8px;
+  padding: 4px;
   position: relative;
   transition: all 0.25s;
   &.input {
     height: auto;
     min-height: 47px;
-    padding-bottom: 0;
   }
   &.cf:before,
   &.cf:after {

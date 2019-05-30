@@ -11,6 +11,8 @@
           class="script--header-title"
           tag="div"
           :contenteditable="true"
+          :placeholder="$t('chat.scripts.content.name.placeholder')"
+          v-model="title"
         />
         <div class="script--header-copy-link disabled--icon">
           <!-- <icon-base
@@ -134,7 +136,7 @@
       <!--Regions Script Footer-->
       <div class="script--footer">
         <div class="script--footer-addelm">
-          <div class="title">Thêm phần tử</div>
+          <div class="title">{{ $t("chat.common.card.add.title") }}</div>
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
@@ -146,7 +148,7 @@
                 viewBox="0 0 13.53 20.11"
               >
                 <icon-text /> </icon-base
-              >Văn bản
+              >{{ $t('chat.common.card.add.text') }}
             </div>
 
             <div
@@ -159,7 +161,7 @@
                 viewBox="0 0 26 26"
               >
                 <icon-image /> </icon-base
-              >Hình ảnh
+              >{{ $t('chat.common.card.add.images') }}
             </div>
 
             <div
@@ -172,7 +174,7 @@
                 viewBox="0 0 14.41 20.14"
               >
                 <icon-sand-clock /> </icon-base
-              >Thời gian
+              >{{ $t('chat.common.card.add.time') }}
             </div>
 
             <div
@@ -187,7 +189,7 @@
                 viewBox="0 0 60 60"
               >
                 <icon-plus /> </icon-base
-              >Thêm
+              >{{ $t('chat.common.card.add.add') }}
             </div>
           </div>
         </div>

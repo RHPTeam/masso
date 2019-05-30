@@ -27,9 +27,8 @@ module.exports = {
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = req.headers.cfr,
-      email = secure( res, authorization ),
-      accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+      userId = secure( res, authorization ),
+      accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -61,9 +60,8 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -99,9 +97,8 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -133,9 +130,8 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const email = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+    const userId = secure( res, req.headers.authorization ),
+      accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );

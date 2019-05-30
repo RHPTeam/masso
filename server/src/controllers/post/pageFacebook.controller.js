@@ -77,8 +77,6 @@ module.exports = {
         postGroup._pages.map( async ( page ) => {
           const pageChecked = await PageFacebook.findOne( { "pageId": page } );
 
-          console.log( pageChecked );
-
           if ( !pageChecked ) {
             postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
             await postGroup.save();

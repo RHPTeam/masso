@@ -1,6 +1,6 @@
 <template>
-  <div class="libraries">
-    <div class="libraries--desc p_3">Ảnh đã chia sẻ</div>
+  <div class="libraries p_3">
+    <div class="title mb_3">Ảnh đã chia sẻ</div>
     <div class="gallery d_flex">
       <div class="gallery--item"
            v-for="(item, index) in imageList"
@@ -70,16 +70,15 @@ export default {
 
 <style lang="scss" scoped>
   .libraries {
-    .libraries--desc {
+    .title {
+      color: #999;
       cursor: pointer;
-      font-size: 14px;
+      font-size: .875rem;
       font-weight: 600;
-      margin-top: -5px;
       text-transform: uppercase;
     }
     .gallery {
       flex-wrap: wrap;
-      padding: 0 12px;
       word-wrap: break-word;
       &--item {
         background-position: 50% 50%;

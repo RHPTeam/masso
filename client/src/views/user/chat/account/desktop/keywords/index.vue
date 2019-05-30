@@ -1,14 +1,13 @@
 <template>
   <div class="keyword--wrapper p_3" :data-theme="currentTheme">
     <div class="wrapper--top mb_3">
-      <div class="title mb_1">Từ khóa sản phẩm dịch vụ</div>
+      <div class="title mb_1">{{ $t('chat.common.keyProduct.title') }}</div>
       <div class="desc">
-        Chúng tôi sẽ dựa trên những từ khóa này để gợi ý các nội dung phù hợp
-        nhất với bạn.
+        {{ $t('chat.common.keyProduct.desc') }}
       </div>
     </div>
     <div class="wrapper--content">
-      <taggle class="taggle" v-model="user.keywords" @input="updateKey" placeholder="Nhập từ khóa của bạn ..." />
+      <taggle class="taggle" v-model="user.keywords" @input="updateKey" :placeholder="$t('chat.common.keyProduct.placeholder')" />
     </div>
   </div>
 </template>

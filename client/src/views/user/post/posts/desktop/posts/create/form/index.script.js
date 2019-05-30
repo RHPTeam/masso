@@ -79,22 +79,10 @@ export default {
         return this.post.tags.slice(1);
       }
     },
-    /*listIconActivity() {
-      if ( this.$store.getters.listActivity === undefined ) return;
-      return this.$store.getters.listActivity;
-    },
-    iconActivity() {
-      let result = this.post.activity.id;
-      let arrIcon = this.listIconActivity;
-      if (arrIcon === undefined) {
-        return;
-      } else {
-        let arr =  arrIcon.navigation(item => {
-          if( item.uid == result ) return item.photo;
-        });
-        return arr[0].photo;
-      }
-    },*/
+    checkColor: function () {
+      return this.post.color === '' || this.post.color === undefined;
+    }
+
   },
   watch: {
     /**
@@ -173,7 +161,7 @@ export default {
         key: "color",
         value: ""
       });
-      this.$store.dispatch( "updatePost", this.post );
+      this.$store.dispatch( "updatePostColor", this.post );
     },
     showOptionPostImages(){
       this.isShowColor = false;

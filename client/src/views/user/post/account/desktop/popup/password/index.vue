@@ -59,16 +59,16 @@ export default {
     closePopup() {
       this.$emit( "closePopup", false );
     },
-    updatePassword() {
+    async updatePassword() {
       const passwordSender = {
         password: this.oldPassword,
         newPassword: this.reset.newPassword
       };
 
-      this.$store.dispatch( "changePassword", passwordSender );
-      if ( this.$store.getters.authStatus === "success" ) {
+      await this.$store.dispatch( "changePassword", passwordSender );
+      if ( this.$store.getters.status === "success" ) {
         this.$emit( "closePopup", false );
-        this.$router.push( "/account" );
+        this.$router.push( {name: "post_account"} );
       }
     }
   }

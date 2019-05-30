@@ -10,7 +10,6 @@ const Post = require( "../../models/post/Post.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {

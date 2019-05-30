@@ -105,7 +105,7 @@
     .content--setup{
         cursor: pointer;
         background: #fff;
-        border: 1px solid #ccc;
+        border: 1px solid rgba(0, 0, 0, 0.07);
         border-radius: 5px;
         font-size: 14px;
         padding: 7px 0;
@@ -144,6 +144,7 @@ div[data-theme="light"] {
         &:hover{
             background: #ffb94a;
             color: #fff;
+            border-color: #ffb94a;
         }
     }
 }
@@ -169,6 +170,7 @@ div[data-theme="dark"] {
         &:hover{
             background: #ffb94a;
             color: #fff;
+            border-color: #ffb94a;
         }
     }
 }

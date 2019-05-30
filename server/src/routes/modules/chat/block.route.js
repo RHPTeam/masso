@@ -7,15 +7,13 @@
 const router = require( "express-promise-router" )();
 const secure = require( "../../../helpers/utils/secures/jwt" );
 const BlockController = require( "../../../controllers/chat/block.controller" );
-const Account = require( "../../../models/Account.model" );
 // Handle save image
 const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": async ( req, file, cb ) => {
-      const email = secure( file, req.headers.authorization ),
-        foundUser = await Account.findOne( { "email": email } ),
-        path = `./uploads/chat/blocks/person/${foundUser._id}`;
+      const userId = secure( file, req.headers.authorization ),
+        path = `./uploads/chat/blocks/person/${userId}`;
 
       fs.mkdirsSync( path );
       cb( null, path );

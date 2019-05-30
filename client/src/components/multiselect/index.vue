@@ -10,7 +10,7 @@
           :multiple="multiple"
           :disabled="disabled"
         >
-          <span class="vs__selected" v-bind:key="option.index">
+          <span class="vs__selected" v-bind:key="option.index1">
             <slot
               name="selected-option"
               v-bind="normalizeOptionForSlot(option)"

@@ -61,13 +61,13 @@ const actions = {
     });
     await commit("setAccountsFB", state.accountsFB);
     await AccountFacebookService.delete(payload);
-    const accountsFB = await AccountFacebookService.index();
+    const accountsFB = await AccountFacebookService.index1();
     await commit("setAccountsFB", accountsFB.data.data);
     commit("statusDeleteFacebook_success");
   },
   getAccountsFB: async ({ commit }) => {
     commit("facebook_request");
-    const accountsFB = await AccountFacebookService.index();
+    const accountsFB = await AccountFacebookService.index1();
     await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
   },
@@ -77,12 +77,11 @@ const actions = {
   updateFacebook: async ({ commit }, payload) => {
     try {
       commit("facebook_request");
-      console.log(payload);
       const dataSender = {
         cookie: payload.cookie
       };
       await AccountFacebookService.update(payload.fbId , dataSender);
-      const result = await AccountFacebookService.index();
+      const result = await AccountFacebookService.index1();
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
 

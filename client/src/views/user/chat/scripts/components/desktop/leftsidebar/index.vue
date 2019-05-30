@@ -15,7 +15,7 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-        <contenteditable class="scripts" tag="div" :contenteditable="true" :placeholder="title"/>
+        <contenteditable class="name--scripts" tag="div" :contenteditable="true" :placeholder="$t('chat.scripts.sidebar.name.placeholder')" v-model="title"/>
         <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts">
           <icon-base
             class="icon--more"
@@ -32,10 +32,10 @@
           v-show="showCopyScripts"
         >
           <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">Sao chép</div>
-            <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
+            <div class="copy">{{ $t("chat.scripts.sidebar.name.copy.title") }}</div>
+            <div>{{ $t("chat.scripts.sidebar.name.copy.desc") }}</div>
           </div>
-          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
+          <div class="dropdown--menu-item mb_2 pl_3">{{ $t("chat.scripts.sidebar.name.copy.delete") }}</div>
         </div>
       </div>
       <div class="content my_3">
@@ -120,7 +120,7 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-        <contenteditable class="sequence" tag="div" :contenteditable="true"/>
+        <contenteditable class="name--sequence" tag="div" :contenteditable="true" :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')" v-model="title"/>
         <div
           @click="showCopySequenceScripts = !showCopySequenceScripts"
           v-click-outside="closeCopySequenceScripts"
@@ -137,10 +137,10 @@
         </div>
         <div class="click--icon dropdown--menu-content" v-show="showCopySequenceScripts">
           <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">Sao chép</div>
-            <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
+            <div class="copy">{{ $t("chat.scripts.sidebar.sequence.copy.title") }}</div>
+            <div>{{ $t("chat.scripts.sidebar.sequence.copy.desc") }}</div>
           </div>
-          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
+          <div class="dropdown--menu-item mb_2 pl_3">{{ $t("chat.scripts.sidebar.sequence.copy.delete") }}</div>
         </div>
       </div>
       <div class="content">
@@ -148,7 +148,7 @@
           <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
             <div class="content--item">
               <div class="after--day">
-                <span>Sau</span>
+                <span>{{ $t("chat.scripts.sidebar.sequence.items.after") }}</span>
                 <span>1</span>
                 <span>Ngày</span>
               </div>
@@ -185,7 +185,7 @@
                 @click="showAfterDay = true"
                 
               >
-                <span>Sau</span>
+                <span>{{ $t("chat.scripts.sidebar.sequence.items.after") }}</span>
                 <span>1</span>
                 <span>Ngày</span>
               </div>
@@ -193,11 +193,11 @@
                 class="show--after-day position_absolute text_left"
                 v-if="showAfterDay === true" v-click-outside="closeShowAfterDay"
               >
-                <div>Send after</div>
+                <div>{{ $t("chat.scripts.sidebar.sequence.items.popup.title") }}</div>
                 <div class="d_inline_flex hours--day position_relative my_1">
-                  <div class="text_center number--day" contenteditable="true">12</div>
+                  <div class="text_center number--day" contenteditable="true">{{ $t("chat.scripts.sidebar.sequence.items.popup.number") }}</div>
                   <div class="day" @click="showOptionsDay = true">
-                    <span>Day</span>
+                    <span>{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.day") }}</span>
                     <icon-base
                       class="icon--sort-down float_right mt_2"
                       icon-name="IconSortDown"
@@ -208,23 +208,24 @@
                       <icon-sort-down/>
                     </icon-base>
                   </div>
+                  <div class="d_none">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.now") }}</div>
                   <div
                     class="position_absolute options--day"
                     v-if="showOptionsDay === true"
                     v-click-outside="closeShowOptionsDay"
                   >
                     <ul>
-                      <li class="py_1 pl_1 py_2">Send now</li>
-                      <li class="py_1 pl_1 py_2">Seconds</li>
-                      <li class="py_1 pl_1 py_2">Minute</li>
-                      <li class="py_1 pl_1 py_2">Hours</li>
-                      <li class="py_1 pl_1 py_2">Day</li>
-                      <li class="py_1 pl_1 py_2">Off</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.now") }}</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.seconds") }}</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.minute") }}</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.hours") }}</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.day") }}</li>
+                      <li class="py_1 pl_1 py_2">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.off") }}</li>
                     </ul>
                   </div>
                 </div>
-                <div class="follow">Broadcasts Follow</div>
-                <div class="follow">Other Follow</div>
+                <div class="follow">{{ $t("chat.scripts.sidebar.sequence.items.popup.followBroadcast") }}</div>
+                <div class="follow">{{ $t("chat.scripts.sidebar.sequence.items.popup.followOther") }}</div>
               </div>
             </div>
           </div>
@@ -378,7 +379,7 @@
         <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
           <icon-plus/>
         </icon-base>
-        <span class="ml_3">Thêm trình tự hoặc nhóm</span>
+        <span class="ml_3">{{ $t("chat.scripts.sidebar.add.title") }}</span>
       </div>
       <div
         class="dropdown--menu dropdown--menu-left flipInY animated type"
@@ -388,8 +389,8 @@
           <span class="bg_light"></span>
         </span>
         <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item">Trình tự</div>
-          <div class="dropdown--menu-item">Nhóm</div>
+          <div class="dropdown--menu-item">{{ $t("chat.scripts.sidebar.add.sequence") }}</div>
+          <div class="dropdown--menu-item">{{ $t("chat.scripts.sidebar.add.group") }}</div>
         </div>
       </div>
     </div>

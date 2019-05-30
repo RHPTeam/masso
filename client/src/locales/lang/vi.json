@@ -1,3 +1,409 @@
 {
-  "message": "hello i18n !!"
+  "language": "Tiếng Việt",
+
+  "chat": {
+    "common": {
+      "card": {
+        "add": {
+          "title": "Thêm phần tử",
+          "text": "Văn bản",
+          "images": "Hình ảnh",
+          "time": "Thời gian",
+          "add": "Thêm"
+        },
+        "subscribe": {
+          "desc": "Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ lọc.",
+          "title": "Đăng ký trình tự",
+          "label": "Đăng ký từ"
+        },
+        "text": "Nhập văn bản...",
+        "timerSendMessage": "Khoảng thời gian giữa các lần gửi tin nhắn",
+        "uploadImage": "Tải ảnh lên",
+        "unsubscribe": {
+          "desc": "Hủy theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ lọc.",
+          "title": "Hủy đăng ký trình tự",
+          "label": "Hủy đăng ký từ"
+        }
+      },
+
+      "popup": {
+        "scripts": {
+          "plugins": {
+            "title": "Tiện ích mở rộng",
+            "label": "Được dùng nhiều nhất :",
+            "listMostUsed": [
+              {
+                "name": "JSON API",
+                "src": "@/assets/images/plugins/json.png",
+                "hasInfo": true,
+                "isActive": false
+              },
+              {
+                "name": "Người dùng nhập",
+                "src": "@/assets/images/plugins/user-input.png",
+                "hasInfo": true,
+                "isActive": false
+              },
+              {
+                "name": "Gửi email",
+                "src": "@/assets/images/plugins/send-mail.png",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Danh sách",
+                "src": "@/assets/images/plugins/list.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Trò chuyện trực tuyến",
+                "src": "@/assets/images/plugins/live-chat.png",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Cài đặt thuộc tính",
+                "src": "@/assets/images/plugins/setup-attribute.svg",
+                "hasInfo": false,
+                "isActive": true
+              },
+              {
+                "name": "gửi kịch bản",
+                "src": "@/assets/images/plugins/go-block.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Gửi hình ảnh",
+                "src": "@/assets/images/plugins/audio.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Gửi âm thanh",
+                "src": "@/assets/images/plugins/video.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Chia sẻ vị trí",
+                "src": "@/assets/images/plugins/location.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Bình luận",
+                "src": "@/assets/images/plugins/comment.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Email người dùng",
+                "src": "@/assets/images/plugins/user-email.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Số điện thoại người dùng",
+                "src": "@/assets/images/plugins/user-phone.svg",
+                "hasInfo": false,
+                "isActive": false
+              },
+              {
+                "name": "Lưu bản tính trên Google",
+                "src": "@/assets/images/plugins/google-sheet.svg",
+                "hasInfo": false,
+                "isActive": false
+              }
+            ]
+          },
+          "sequences": {
+            "title": "Trình tự",
+            "subscribe": "Đăng ký trình tự",
+            "unsubscribe": "Hủy đăng ký trình tự"
+          },
+          "subscribe": {
+            "title": "Tiện ích có đăng ký:"
+          }
+        },
+
+        "broadcastSchedule": {},
+
+        "delete": {
+          "title": "Xóa",
+          "allData": "Toàn bộ dữ liệu liên quan đến",
+          "willDelete": "sẽ bị xóa hoàn toàn.",
+          "continue": "Để tiếp tục, nhập",
+          "input": "vào ô bên dưới.",
+          "cancle": "HỦY",
+          "delete": "XÓA",
+          "name": {
+            "scripts": "Kịch bản",
+            "avatart": "Anh dai dien"
+          }
+        }
+      },
+
+      "keyProduct": {
+        "title": "Từ khóa sản phẩm dịch vụ",
+        "desc": "Chúng tôi sẽ dựa trên những từ khóa này để gợi ý các nội dung phù hợp nhất với bạn.",
+        "placeholder": "Nhập từ khóa của bạn..."
+      },
+
+      "slowConnect": {
+        "title": "Thông báo",
+        "now": "vừa xong",
+        "see": "Chúng tôi nhận thấy rằng, bạn đã đăng xuất tài khoản",
+        "onFB": "trên facebook. Vui lòng cập nhật lại mã kích hoạt tài khoản facebook tại đây!"
+      }
+    },
+
+    "layout": {
+      "logout": "Đăng xuất",
+      "notification": {
+        "title": "Thông báo",
+        "readAll": "Đánh dấu tất cả là đã đọc",
+        "removeNoti": "Gỡ thông báo này",
+        "noRead": "Đánh dấu là chưa đọc",
+        "read": "Đánh dấu là đã đọc",
+        "viewAll": "Xem tất cả"
+      },
+      "openMess": "Mở bang Messeger",
+      "setupAccount": "Thiết lập tài khoản",
+      "friendManager": "Quản lý bạn bè"
+    },
+
+    "scripts": {
+      "title": "Kịch bản",
+      "desc": "Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn",
+
+      "sidebar": {
+        "name": {
+          "placeholder": "Nhap ten kich ban...",
+          "copy": {
+            "title": "Sao chép",
+            "desc": "Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép",
+            "delete": "Xóa"
+          }
+        },
+        "sequence": {
+          "placeholder": "Nhap chuoi kich ban ...",
+          "copy": {
+            "title": "Sao chép",
+            "desc": "Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép",
+            "delete": "Xóa"
+          },
+          "items": {
+            "after": "Sau",
+            "popup": {
+              "title": "Gửi sau",
+              "number": "12",
+              "optionsDay": {
+                "now": "Gửi ngay",
+                "seconds": "Giây",
+                "minute": "Phút",
+                "hours": "Giờ",
+                "day": "Ngày",
+                "off": "Tắt"
+              },
+              "followBroadcast": "Broadcasts Follow",
+              "followOther": "Other Follow"
+            }
+          }
+        },
+        "add": {
+          "title": "THÊM TRÌNH TỰ HOẶC NHÓM",
+          "sequence": "Trình tự",
+          "group": "Nhóm"
+        }
+      },
+
+      "content": {
+        "name": {
+          "placeholder": "Nhập tên kịch bản"
+        },
+        "tagUser": {
+          "title": "Thuộc tính người dùng",
+          "desc": "Đặt giá trị cho thuộc tính người dùng hiện có hoặc thêm thuộc tính mới. Sử dụng nhóm chiến dịch để gửi, kịch bản để xác định phân tích hoạt động của người dùng. Lưu ý rằng bạn có thể sử dụng các biểu thức và thuộc tính số học trong trường Giá trị",
+          "attribute": {
+            "title": "TÊN THẺ",
+            "desc": "Bạn có thể chọn một trong các thuộc tính hiện có hoặc tạo một thuộc tính mới."
+          },
+          "value": {
+            "title": "GIÁ TRỊ",
+            "desc": "Đặt bất kỳ giá trị hoặc xóa thuộc tính người dùng bằng tùy chọn."
+          },
+          "add": "Thêm thẻ"
+        }
+      }
+    },
+
+    "keywords": {
+      "title": "Trả lời tự động",
+      "desc": "Trang giúp bạn thiết lập nhanh AI tự động trả lời",
+      "sidebar": {
+        "search": "Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
+      },
+      "content": {
+        "nameSyntax": "Nhập tên cú pháp",
+        "desc": "Hệ thống sẽ tự động so sánh các từ khóa bạn cung cấp để đưa ra một câu trả lời bằng văn bản hoặc dạng kịch bản mà bạn muốn hiển thị.",
+        "keyword": {
+          "title": "Từ khóa",
+          "placeholder": "Nhập từ khóa..."
+        },
+        "reply": {
+          "title": "Trả lời",
+          "placeholderText": "Nhập văn bản...",
+          "placeholderGroup": "Chọn nhóm...",
+          "add": "Thêm",
+          "group": "nhóm",
+          "or": "hoặc",
+          "text": "văn bản"
+        },
+        "accountUse": {
+          "title": "Tài khoản áp dụng",
+          "noAccount": "Bạn chưa thêm tài khoản facebook nào!"
+        }
+      }
+    },
+
+    "friends": {
+      "title": "Bạn bè",
+      "titleContent": "Bạn bè Facebook",
+      "desc": "Trang giúp bạn thiết lập nhanh các nhóm bạn bè",
+
+      "loading": {
+        "name": "KHUYẾN CÁO!",
+        "item": "Ở lần đầu, hệ thống sẽ mất nhiều thời gian tải dữ liệu khi số lượng bạn bè lớn. Điều này giúp cho trải nghiệm sau đó trở nên tốt hơn, hãy kiên nhẫn chờ đợi (Thông báo sẽ được ẩn khi dữ liệu tải thành công)."
+      },
+
+      "view": {
+        "all": "Xem tất cả",
+        "new": "Tạo nhóm mới"
+      },
+
+      "attribute": {
+        "placeholderAttr": "Tên thuộc tính",
+        "placeholderValue": "Giá trị thuộc tính",
+        "listAttr": [
+          { "key": 1, "value": "Thuộc tính" },
+          { "key": 1, "value": "Nhóm" }
+        ],
+        "listCondition": [
+          { "key": 1, "value": "là" },
+          { "key": 1, "value": "không phải là" }
+        ],
+        "getAttribute": "Thuộc tính",
+        "getCondition": "là"
+      },
+
+      "table": {
+
+        "top": {
+
+          "left": {
+            "inNumber": "trong số",
+            "people": "người",
+            "placeholderSearch": "Tìm kiếm bạn bè..."
+          },
+
+          "right": {
+            "addInGroup": "Thêm vào nhóm",
+            "delete": "Xóa",
+            "exportData": "Xuất dữ liệu",
+            "all": "Tất cả",
+            "dropdown": ["Tất cả", "Ahihi", "Ahuhu"]
+          }
+        },
+
+        "main": {
+          "name": "Tên",
+          "gender": "Giới tính",
+          "nickname": "Danh xưng",
+          "loading": "Không có dữ liệu",
+          "setup": "Chọn để thiết lập"
+        }
+      }
+    },
+
+    "broadcast": {
+      "title": "Chiến dịch",
+      "desc": "Trang giúp bạn thiết lập các chiến dịch cá nhân hóa khách hàng",
+
+      "sidebar": {
+
+        "messeger": {
+          "title": "Tin nhắn gửi ngay",
+          "desc": "Tính năng này đang được phát triển và được cập nhật trong phiên bản sắp tới."
+        },
+
+        "schedule": {
+          "title": "THIẾT LẬP BỘ HẸN"
+        }
+
+      },
+
+      "main": {
+        "default": {
+          "title": "Tính năng chiến dịch cho phép bạn chủ động tiếp cận với khách hàng của mình. Lọc khách hàng của bạn dựa trên các thuộc tính của họ và gửi tin nhắn được cá nhân hóa. Bắt đầu bằng cách chọn loại chiến dịch bạn muốn gửi ở bên trái."
+        },
+        "scripts": {
+          "header": {
+            "title": "Chiến dịch theo bộ hẹn",
+            "desc": "Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng cáo cho thương hiệu, sản phảm. Bạn chỉ cần thiết lập nội dung chiến dịch mà bạn muốn thực hiện, sau đó thiết lập thời gian, việc còn lại là thư giãn...",
+            "start": "Bắt đầu",
+            "stop": "Hủy bỏ",
+            "search": {
+              "see": "Tìm thấy",
+              "people": "người khả dụng"
+            }
+          },
+          "timer": {
+            "placeholderDay": "Chọn ngày",
+            "repeat": ["Lặp lại: AAAAA", "Lặp lại: Tùy chỉnh"],
+            "options": ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+          }
+        }
+      }
+
+    },
+
+    "facebook": {
+      "title": "Tài khoản Facebook",
+      "desc": "Trang giúp bạn thiết lập các tài khoản facebook",
+      "notification": "CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả dữ liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.",
+      "connect": "Kết nối với Facebook",
+      "active": "Đang hoạt động",
+      "update": "Cập nhật"
+    },
+
+    "account": {
+      "desc": "Giúp bạn thiết lập những cài đặt cá nhân về thông tin tài khoản của mình.",
+      "title": "Thiết lập tài khoản",
+
+      "header": {
+        "expire": "Tài khoản hết hạn:",
+        "renewed": "Gia hạn"
+      },
+
+      "sidebar": {
+        "title": "Ảnh đại diện"
+      },
+
+      "main": {
+        "inforUser": {
+          "title": "Thông tin cá nhân",
+          "placeholderName": "Nhập tên của bạn",
+          "placeholderPhone": "Nhập số điện thoại của bạn"
+        },
+        "password": {
+          "title": "Mật khẩu",
+          "pass": "Nhập mật khẩu của bạn",
+          "repass": "Nhập lại mật khẩu của bạn"
+        }
+      }
+
+    }
+  }
 }
