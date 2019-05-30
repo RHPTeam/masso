@@ -3,15 +3,21 @@
     <div
       class="section--header d_flex justify_content_start align_items_center"
     >
-      <!--<h5 class="mb_0">Viết bài mới</h5>
-      <span class="space"></span>-->
       <router-link
-        class="mr_3"
+        class="btn--link mr_2"
         tag="a"
         :to="{ name: 'post_posts' }"
         active-class="active"
         exact
-        >Xem tất cả bài viết</router-link
+      >Tất cả bài viết</router-link
+      >
+      <div class="divider"></div>
+      <router-link
+        class="btn--link ml_2"
+        tag="a"
+        :to="{ name: 'post_postCategories' }"
+        active-class="active"
+      >Danh mục</router-link
       >
     </div>
     <div class="section--body ct_0">
@@ -62,16 +68,29 @@ export default {
       font-size: 18px;
       font-weight: 600;
     }
-
+    a {
+      text-decoration: none;
+    }
     span.space {
       height: 1rem;
       margin: 0 0.75rem 0 1rem;
       width: 1px;
     }
-    > a {
-      font-size: 14px;
-      text-decoration: none;
+    .btn--link {
+      background-color: transparent;
+      border: 0;
+      border-radius: .625rem;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      height: 100%;
+      outline: none;
+      padding: 0 .5rem;
       transition: all 0.4s ease;
+    }
+    .divider {
+      height: 16px;
+      width: 2px;
     }
   }
 }
@@ -89,6 +108,9 @@ export default {
         color: #ffb94a;
       }
     }
+    .divider {
+      background-color: #ccc;
+    }
   }
 }
 .section[data-theme="dark"] {
@@ -102,6 +124,9 @@ export default {
       &:hover {
         color: #ffb94a;
       }
+    }
+    .divider {
+      background-color: #666;
     }
   }
 }

@@ -78,7 +78,7 @@ module.exports = {
           const pageChecked = await PageFacebook.findOne( { "pageId": page } );
 
           if ( !pageChecked ) {
-            postGroup._pages.splice( indexOf( postGroup._pages.indexOf( page ) ), 1 );
+            postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
             await postGroup.save();
           }
         } );

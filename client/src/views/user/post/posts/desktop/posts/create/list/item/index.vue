@@ -21,8 +21,8 @@
         </div>
         <div v-else>Không có hình ảnh</div>
       </div>
-      <div class="col col--like px_3">102</div>
-      <div class="col col--share px_3">128</div>
+      <div class="col col--like px_3">{{ item.like }}</div>
+      <div class="col col--share px_3">{{ item.share }}</div>
 
       <div class="col col--action px_3 text_center">
         <span class="mx_1">
@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import PopupDetail from "../../popup/detail/index";
+import PopupDetail from "../popup/detail/index";
 export default {
   components: {
     PopupDetail

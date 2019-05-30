@@ -32,19 +32,21 @@ export default {
   computed: {
     user() {
       return this.$store.getters.userInfo;
+    },
+    allAccountFb() {
+      return this.$store.getters.allAccountFb;
     }
   },
   async created() {
     // Get User Info
     await this.$store.dispatch( "getUserInfo" );
+    // Get User FB Accounts
+    await this.$store.dispatch( "getAllAccountFb" );
   },
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
       window.location = process.env.VUE_APP_PARENT_URL;
-    },
-    gotoHomePost() {
-      this.$router.push( "/post" );
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
@@ -52,10 +54,21 @@ export default {
     closeDropdownUser() {
       this.showdropdown = false;
     },
+    gotoHomePost() {
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "post_fbaccount" } );
 
-    // go to home chat
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( "/post" );
+
+        window.open(routeData.href, '_blank');
+      }
+    },
     gotoHomeChat(){
-      this.$router.push( "/chat" );
+      const routeData = this.$router.resolve( "/chat" );
+
+      window.open(routeData.href, '_blank');
     }
   },
   filters: {

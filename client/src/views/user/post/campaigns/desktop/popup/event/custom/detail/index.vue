@@ -1,27 +1,6 @@
 <template>
   <div class="wrap">
     <div class="custom" v-if="caseEvent.libraries === 0">
-      <!-- Start: Top -->
-      <div class="top d_flex align_items_center justify_content_between mb_3">
-        <div class="top--left"
-             @click="resetPostType"
-        >≪ Quay lại</div>
-        <div class="top--right d_flex align_items_center">
-          <div class="mr_2">Tùy chọn đăng bài viết cụ thể</div>
-          <div class="icon">
-            <icon-base
-              class="icon--reply-post"
-              :style="[ { color: event.color }, { stroke: event.color } ]"
-              height="22px"
-              width="18px"
-              viewBox="0 0 460 460"
-            >
-              <icon-reply-post></icon-reply-post>
-            </icon-base>
-          </div>
-        </div>
-      </div>
-      <!-- End: Top -->
       <!-- Start: Body -->
       <div class="body p_3 mb_4">
         <div class="body--top d_flex align_items_center justify_content_between mb_3">

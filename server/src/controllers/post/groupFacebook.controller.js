@@ -75,7 +75,7 @@ module.exports = {
           const groupChecked = await GroupFacebook.findOne( { "groupId": group } );
 
           if ( !groupChecked ) {
-            postGroup._groups.splice( indexOf( postGroup._groups.indexOf( group ) ), 1 );
+            postGroup._groups.splice( postGroup._groups.indexOf( group ), 1 );
             await postGroup.save();
           }
         } );

@@ -8,8 +8,8 @@ export default {
   create( user ) {
     return Api().post( "users", user );
   },
-  show() {
-    return Api().get( "users/info" );
+  show(id) {
+    return Api().get( `users/info?_id=${id}` );
   },
   showUserByEmail( email ) {
     return Api().get( `password?email=${email}` );
@@ -38,12 +38,6 @@ export default {
 
     return Api().put( "users", dataSender );
   },
-  signUp( user ) {
-    return Api().post( "signup", user, { credentials: "same-origin" } );
-  },
-  signIn( user ) {
-    return Api().post( "signin", user, { credentials: "same-origin" } );
-  },
   changePassword( user ) {
     return Api().patch( "users/change-password", user );
   },
@@ -57,7 +51,7 @@ export default {
     return Api().patch( `password/new-password?_userId=${userId}`, user );
   },
   upload( file ) {
-    return Api().post( "users", file );
+    return Api().patch( "users", file );
   },
   active( user ) {
     return Api().post( "users/active", user );

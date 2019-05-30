@@ -14,7 +14,7 @@ export default {
   searchByKeyword(keyword, size, page) {
     return request( {
       "method": "post",
-      "url": `${process.env.VUE_APP_API_MAIN_URL}/posts?keyword=${keyword}&_size=${size}&_page=${page}`,
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/posts/search?keyword=${keyword}&_size=${size}&_page=${page}`,
       "headers": {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }

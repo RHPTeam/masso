@@ -24,7 +24,10 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchPostByKeyword" />
+          <input type="text"
+                 placeholder="Tìm kiếm"
+                 v-model="keyword"
+                 @keydown.enter="searchPost(keyword)" />
         </div>
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
@@ -34,177 +37,119 @@
             class="list--keywork-item py_1 m_1"
             v-for="(item, index) in keyPopular"
             :key="index"
-            @click="searchPostByKey(item)"
+            @click="searchPostByKeyword(item)"
           >
             {{ item }}
           </span>
         </div>
       </div>
-      <app-list
-        :keyword="keyword"
-      />
+      <div class="list--data my_3">
+        <div class="item--header d_flex align_items_center px_2 py_2">
+          <div class="col col--content px_3">Nội dung</div>
+          <div class="col col--image px_3">Hình ảnh</div>
+          <div class="col col--like px_3">Thích</div>
+          <div class="col col--share px_3">Chia sẻ</div>
+          <div class="col col--action px_3">Hành động</div>
+        </div>
+        <!-- Start: List Content -->
+        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+          <div v-for="(item, index) in listPostFacebookDefault" :key="index">
+            <app-item :item="item" />
+          </div>
+          <div v-if="listPostFacebookDefault && listPostFacebookDefault.length === 0" class="item--header d_flex align_items_center justify_content_center px_2 py_2" style="border-top: 1px solid #e4e4e4; border-radius: 0;">
+            <span>Không có kết quả tìm kiếm cho từ khóa này...</span>
+          </div>
+        </vue-perfect-scrollbar>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import AppList from "./table/index";
+import AppItem from "./item";
 export default {
   components: {
-    AppList
+    AppItem
   },
   data() {
     return {
+      currentPage: 1,
+      maxPerPage: 12,
       keyword: "",
-      limit: 12,
-      page: 1,
+      showLoader: true
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    user(){
-      return this.$store.getters.userInfo;
+    listPostFacebookDefault(){
+      return this.$store.getters.listPostFacebookDefault;
     },
     keyPopular(){
       if(Object.entries(this.user).length === 0 && this.user.constructor === Object) return;
       return this.user.keywords.slice(0,5);
+    },
+    numberPageCurrent() {
+      return this.$store.getters.numberPageCurrent;
+    },
+    user(){
+      return this.$store.getters.userInfo;
     }
   },
-  async created() {
+  async created () {
     await this.$store.dispatch( "getUserInfo" );
-
-    if( this.user.keywords ) {
-      const dataSender = {
-        key: this.user.keywords[0],
-        size: this.limit,
-        page: 1
-      };
-
-      await this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-    }
+    const keywordDefault = this.user.keywords[Math.floor(Math.random() * this.user.keywords.length)]
+    await this.$store.dispatch( "getListPostFacebookDefault", {
+      keyword: keywordDefault,
+      size: this.maxPerPage,
+      page: this.currentPage
+    } );
+    this.keyword = keywordDefault
   },
   methods: {
-    searchPostByKey( val ) {
-      const dataSender = {
-        key: val,
-        size: this.limit,
-        page: 1
-      };
-      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-    },
-    searchPostByKeyword(){
-      if( this.keyword.length > 0 ) {
-        const dataSender = {
-          key: this.keyword,
-          size: this.limit,
-          page: 1
-        };
+    async loadMore() {
+      if ( this.showLoader === true ) {
+        if ( this.keyword !== "" ) {
 
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-      } else {
-        const dataSender = {
-          key: this.user.keywords[0],
-          size: this.limit,
-          page: 1
-        };
+          if ( this.currentPage > this.numberPageCurrent ) {
+            return false;
+          } else {
+            this.showLoader = false;
 
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+            this.currentPage += 1;
+
+            await this.$store.dispatch( "searchPostsFacebookByKey", {
+              keyword: this.keyword,
+              size: this.maxPerPage,
+              page: this.currentPage
+            } );
+            this.showLoader = true;
+          }
+        }
       }
+    },
+    async searchPost() {
+      this.currentPage = 1;
+      this.$store.dispatch( "getListPostFacebookDefault", {
+        keyword: this.keyword,
+        size: this.maxPerPage,
+        page: this.currentPage
+      } );
+    },
+    async searchPostByKeyword(keyword) {
+      this.currentPage = 1;
+      this.keyword = keyword;
+      this.$store.dispatch( "getListPostFacebookDefault", {
+        keyword: keyword,
+        size: this.maxPerPage,
+        page: this.currentPage
+      } );
     }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.list--header {
-  color: #444444;
-  margin-bottom: 1.25rem;
-  &-title {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  &-description {
-    color: #999999;
-    font-size: .875rem;
-  }
-}
-.list--input {
-  border-radius: 10px;
-  font-size: 0.875rem;
-  height: 40px;
-  max-width: 100%;
-  width: 60%;
-  min-width: 400px;
-  > input[type="text"] {
-    background-color: transparent;
-    border-top-right-radius: calc(0.5rem + 2px);
-    border-bottom-right-radius: calc(0.5rem + 2px);
-    border: 0;
-    font-size: 0.875rem;
-    height: 100%;
-    outline: none;
-    width: calc(100% - 48px);
-  }
-  ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: #ccc;
-  }
-  ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #ccc;
-  }
-  :-ms-input-placeholder {
-    /* IE 10+ */
-    color: #ccc;
-  }
-  :-moz-placeholder {
-    /* Firefox 18- */
-    color: #999;
-  }
-  svg {
-    color: #999;
-  }
-}
-.list--keywork {
-  &-item {
-    cursor: pointer;
-    color: $color-dark-2;
-    font-size: calc(1rem - 3px);
-    font-weight: 500;
-    text-decoration: underline;
-    &:hover,
-    &:active,
-    &:visited,
-    &:focus {
-      color: #ffb94a;
-    }
-  }
-}
-// CHANGE COLOR THEME
-.list[data-theme="light"] {
-  .list--header {
-    color: #444444;
-  }
-  .list--input {
-    background-color: #ffffff;
-    input[type="text"] {
-      background: #ffffff;
-      color: #000;
-    }
-  }
-}
-.list[data-theme="dark"] {
-  .list--header {
-    color: #ccc;
-  }
-  .list--input {
-    background-color: #27292d;
-    input[type="text"] {
-      background: #27292d;
-      color: #ccc;
-    }
-  }
-}
+@import "./index.style";
 </style>

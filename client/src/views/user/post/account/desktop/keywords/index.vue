@@ -28,6 +28,7 @@ export default {
     updateKey( val ){
       this.user.keywords = val;
       this.$store.dispatch( "updateUser", this.user );
+      // this.$router.push({name:"post_account"})
     }
   }
 };

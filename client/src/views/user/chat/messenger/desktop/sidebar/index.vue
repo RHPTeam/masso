@@ -11,7 +11,8 @@
       <!-- Start: Search Left Sidebar -->
 
       <!-- Start:Result  Search Left Sidebar -->
-      <div v-if="isShowDefault === false">
+      <div v-if="isShowDefault === false"
+      >
         <result-search
           @backDefault="isShowDefault = $event"
         />
@@ -39,6 +40,7 @@ import AppHeader from "./header";
 import AppSearch from "./search";
 import AppUser from "./user";
 import ResultSearch from "./friend";
+
 export default {
   components: {
     AppHeader,
@@ -52,35 +54,140 @@ export default {
       windowHeight: 0,
       listChat: [
         {
-          name: "Liu Kang",
+          name: "Ngọc Hân",
           avatar: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
           content: "Trên đời này có tồn tại công bằng hay không",
           time: "19:00",
           status: false
         },
         {
-          name: "Leo Rank",
+          name: "Lê Khang",
           avatar: "http://static.gamehub.vn/img/files/2015/09/19/GameHub-Tokyo-Ghoul-Game-theo-chan-Manga-huyen-thoai-danh-tieng-Mobile-3.jpg",
           content: "Tất cả mọi người đều có 24 tiếng/ngày. Và đó là sự công bằng.",
           time: "19:00",
           status: true
         },
         {
-          name: "Leo",
+          name: "Phạm Văn Học",
           avatar: "https://images-na.ssl-images-amazon.com/images/I/51UfgHEbgiL.jpg?scale.width=450",
           content: "Nếu mình nghèo, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để làm giàu",
           time: "19:00",
           status: true
         },
         {
-          name: "Leu Leu",
+          name: "Nguyễn Công Khanh",
           avatar: "https://www.xemgame.com/data/pictures/images/2015/11/16/Anime_2.jpg",
           content: "Nếu mình kém, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để học hỏi",
           time: "19:00",
           status: false
         },
         {
-          name: "Liu Liu",
+          name: "Trần Toản",
+          content: "Nếu mình ốm, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để xây dựng sức khoẻ",
+          avatar: "https://i.a4vn.com/2018/4/3/neu-kaneki-ngay-tu-dau-la-con-gai-tokyo-ghoul-co-le-se-con-noi-t-dad30b.jpg",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Đặng Yến",
+          avatar: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
+          content: "Trên đời này có tồn tại công bằng hay không",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Lê Khang",
+          avatar: "http://static.gamehub.vn/img/files/2015/09/19/GameHub-Tokyo-Ghoul-Game-theo-chan-Manga-huyen-thoai-danh-tieng-Mobile-3.jpg",
+          content: "Tất cả mọi người đều có 24 tiếng/ngày. Và đó là sự công bằng.",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Phạm Văn Học",
+          avatar: "https://images-na.ssl-images-amazon.com/images/I/51UfgHEbgiL.jpg?scale.width=450",
+          content: "Nếu mình nghèo, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để làm giàu",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Nguyễn Công Khanh",
+          avatar: "https://www.xemgame.com/data/pictures/images/2015/11/16/Anime_2.jpg",
+          content: "Nếu mình kém, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để học hỏi",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Trần Toản",
+          content: "Nếu mình ốm, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để xây dựng sức khoẻ",
+          avatar: "https://i.a4vn.com/2018/4/3/neu-kaneki-ngay-tu-dau-la-con-gai-tokyo-ghoul-co-le-se-con-noi-t-dad30b.jpg",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Đặng Yến",
+          avatar: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
+          content: "Trên đời này có tồn tại công bằng hay không",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Lê Khang",
+          avatar: "http://static.gamehub.vn/img/files/2015/09/19/GameHub-Tokyo-Ghoul-Game-theo-chan-Manga-huyen-thoai-danh-tieng-Mobile-3.jpg",
+          content: "Tất cả mọi người đều có 24 tiếng/ngày. Và đó là sự công bằng.",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Phạm Văn Học",
+          avatar: "https://images-na.ssl-images-amazon.com/images/I/51UfgHEbgiL.jpg?scale.width=450",
+          content: "Nếu mình nghèo, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để làm giàu",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Nguyễn Công Khanh",
+          avatar: "https://www.xemgame.com/data/pictures/images/2015/11/16/Anime_2.jpg",
+          content: "Nếu mình kém, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để học hỏi",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Trần Toản",
+          content: "Nếu mình ốm, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để xây dựng sức khoẻ",
+          avatar: "https://i.a4vn.com/2018/4/3/neu-kaneki-ngay-tu-dau-la-con-gai-tokyo-ghoul-co-le-se-con-noi-t-dad30b.jpg",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Đặng Yến",
+          avatar: "https://a.wattpad.com/cover/120584330-352-k556620.jpg",
+          content: "Trên đời này có tồn tại công bằng hay không",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Lê Khang",
+          avatar: "http://static.gamehub.vn/img/files/2015/09/19/GameHub-Tokyo-Ghoul-Game-theo-chan-Manga-huyen-thoai-danh-tieng-Mobile-3.jpg",
+          content: "Tất cả mọi người đều có 24 tiếng/ngày. Và đó là sự công bằng.",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Phạm Văn Học",
+          avatar: "https://images-na.ssl-images-amazon.com/images/I/51UfgHEbgiL.jpg?scale.width=450",
+          content: "Nếu mình nghèo, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để làm giàu",
+          time: "19:00",
+          status: true
+        },
+        {
+          name: "Nguyễn Công Khanh",
+          avatar: "https://www.xemgame.com/data/pictures/images/2015/11/16/Anime_2.jpg",
+          content: "Nếu mình kém, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để học hỏi",
+          time: "19:00",
+          status: false
+        },
+        {
+          name: "Trần Toản",
           content: "Nếu mình ốm, đừng đổ lỗi cho thế giới vì mình cũng có 24 tiếng để xây dựng sức khoẻ",
           avatar: "https://i.a4vn.com/2018/4/3/neu-kaneki-ngay-tu-dau-la-con-gai-tokyo-ghoul-co-le-se-con-noi-t-dad30b.jpg",
           time: "19:00",

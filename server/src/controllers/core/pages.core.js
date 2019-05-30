@@ -37,7 +37,7 @@ const request = require( "request" ),
               "code": 200,
               "text": null
             },
-            "results": bodyJson.payload.items[ 0 ].sections
+            "results": bodyJson.payload.items.length > 0 ? bodyJson.payload.items[ 0 ].sections : []
           } );
         }
       } );

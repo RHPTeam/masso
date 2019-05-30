@@ -1,92 +1,93 @@
-<template>
-  <div class="wrapper" :data-theme="currentTheme">
-    <div class="list--data my_3">
-      <div class="item--header d_flex align_items_center px_2 py_2">
-        <div class="col col--content px_3">Nội dung</div>
-        <div class="col col--image px_3">Hình ảnh</div>
-        <div class="col col--like px_3">Thích</div>
-        <div class="col col--share px_3">Chia sẻ</div>
-        <div class="col col--action px_3">Hành động</div>
-      </div>
-      <vue-perfect-scrollbar class="wrap--post" ref="text">
-        <div v-if="this.$store.getters.statusLib === 'loading'">
-          <loading-component/>
-        </div>
-        <div v-else v-for="(item, index) in resultPostSearch.results" :key="`s-${index}`">
-          <item-detail :item="item" />
-        </div>
-        <observer @intersect="intersected" />
-      </vue-perfect-scrollbar>
-    </div>
-  </div>
-</template>
-
-<script>
-
-import ItemDetail from "./item/index";
-import Observer from "./observer/index";
-
-export default {
-  components: {
-    ItemDetail,
-    Observer
-  },
-  props: {
-    keyword: String,
-  },
-  data() {
-    return {
-      items: [],
-      progress: 0,
-      limit: 12,
-      count: 1
-    }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    allPostLibararies(){
-      const result =  this.$store.getters.allPostLibraries;
-      return result.reverse().splice(-8);
-    },
-    resultPostSearch() {
-      return this.$store.getters.postSearch;
-      // const arr = this.$store.getters.postSearch;
-      // console.log(arr);
-      // if(arr.length === 0) {
-      //   return;
-      // } else {
-      //   arr.results.map(item => {
-      //     this.items.push(item);
-      //   });
-      // }
-      // return arr;
-    }
-  },
-  async created(){
-  },
-  methods: {
-    intersected(){
-      if ( this.resultPostSearch && this.count < this.resultPostSearch.page ) {
-        this.count++;
-      } else if (this.resultPostSearch && this.count == this.resultPostSearch.page) {
-        return;
-      }
-
-      const dataSender = {
-        key: this.keyword,
-        size: this.limit,
-        page: this.count
-      };
-
-      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+.list--header {
+  color: #444444;
+  margin-bottom: 1.25rem;
+  &-title {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  &-description {
+    color: #999999;
+    font-size: .875rem;
+  }
+}
+.list--input {
+  border-radius: 10px;
+  font-size: 0.875rem;
+  height: 40px;
+  max-width: 100%;
+  width: 60%;
+  min-width: 400px;
+  > input[type="text"] {
+    background-color: transparent;
+    border-top-right-radius: calc(0.5rem + 2px);
+    border-bottom-right-radius: calc(0.5rem + 2px);
+    border: 0;
+    font-size: 0.875rem;
+    height: 100%;
+    outline: none;
+    width: calc(100% - 48px);
+  }
+  ::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    color: #ccc;
+  }
+  ::-moz-placeholder {
+    /* Firefox 19+ */
+    color: #ccc;
+  }
+  :-ms-input-placeholder {
+    /* IE 10+ */
+    color: #ccc;
+  }
+  :-moz-placeholder {
+    /* Firefox 18- */
+    color: #999;
+  }
+  svg {
+    color: #999;
+  }
+}
+.list--keywork {
+  &-item {
+    cursor: pointer;
+    color: $color-dark-2;
+    font-size: calc(1rem - 3px);
+    font-weight: 500;
+    text-decoration: underline;
+    &:hover,
+    &:active,
+    &:visited,
+    &:focus {
+      color: #ffb94a;
     }
   }
-};
-</script>
+}
+// CHANGE COLOR THEME
+.list[data-theme="light"] {
+  .list--header {
+    color: #444444;
+  }
+  .list--input {
+    background-color: #ffffff;
+    input[type="text"] {
+      background: #ffffff;
+      color: #000;
+    }
+  }
+}
+.list[data-theme="dark"] {
+  .list--header {
+    color: #ccc;
+  }
+  .list--input {
+    background-color: #27292d;
+    input[type="text"] {
+      background: #27292d;
+      color: #ccc;
+    }
+  }
+}
 
-<style lang="scss" scoped>
 .list--data {
   font-size: 0.875rem;
   .item--header {
@@ -167,6 +168,34 @@ export default {
       height: 100%;
       left: 0;
       top: 0;
+    }
+  }
+}
+.infinite {
+  max-height: 280px;
+}
+.infinite--control-block {
+  width: 100%;
+  #scrollTrigger {
+    height: 30px;
+  }
+  .circle--loading {
+    animation: animate 1.5s infinite linear;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+    border-top: 3px solid #fff;
+    height: 30px;
+    margin-left: 50%;
+    transform: translate( -50%, -50%);
+    width: 30px;
+  }
+
+  @keyframes animate {
+    0% {
+      transform: translate(-50%,-50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%,-50%) rotate(360deg);
     }
   }
 }
@@ -281,7 +310,7 @@ export default {
 //CHANGE COLOR THEME
 
 // THEME lIGHT
-.wrapper[data-theme="light"] {
+.list[data-theme="light"] {
   .item--header {
     background-color: #ffffff;
   }
@@ -291,7 +320,7 @@ export default {
 }
 
 // THEME DARK
-.wrapper[data-theme="dark"] {
+.list[data-theme="dark"] {
   .item--header {
     background-color: #27292d;
     border-bottom: 1px solid #666;
@@ -300,4 +329,3 @@ export default {
     background-color: #27292d;
   }
 }
-</style>

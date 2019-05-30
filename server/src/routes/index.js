@@ -7,7 +7,7 @@ router.use( "/me", auth, require( "./modules/post/ads.route" ) );
 router.use( "/core", require( "./modules/core.route" ) );
 router.use( "/signup", require( "./modules/signup.route" ) );
 router.use( "/signin", require( "./modules/signin.route" ) );
-router.use( "/users", auth, require( "./modules/account.route" ) );
+router.use( "/users", require( "./modules/account.route" ) );
 router.use( "/password", require( "./modules/forgetPassword.route" ) );
 router.use( "/facebook", auth, require( "./modules/facebook.route" ) );
 router.use( "/roles", auth, require( "./modules/role.route" ) );
@@ -27,7 +27,6 @@ router.use( "/events", auth, require( "./modules/post/event.route" ) );
 router.use( "/post-group", auth, require( "./modules/post/postGroup.route" ) );
 router.use( "/group-facebook", auth, require( "./modules/post/groupFacebook.route" ) );
 router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route" ) );
-router.use( "/post-facebook", auth, require( "./modules/post/postFacebook.route" ) );
 
 // Chat Route
 router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );

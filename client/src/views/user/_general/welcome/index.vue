@@ -4,6 +4,7 @@
       class="wellcome--wrap"
       :style="{ backgroundImage: 'url(' + imagePage + ')' }"
     >
+      <!-- Start: Header -->
       <div class="header d_flex justify_content_end">
         <div
           class="header--profile position_relative d_flex justify_content_end align_items_center"
@@ -82,6 +83,8 @@
           </div>
         </div>
       </div>
+      <!-- End: Header -->
+      <!-- Start: Content -->
       <div
         class="wellcome--content d_flex justify_content_center align_items_center flex_column text_center"
       >
@@ -108,6 +111,7 @@
           </div>
         </div>
       </div>
+      <!-- End: Content -->
     </div>
   </div>
 </template>

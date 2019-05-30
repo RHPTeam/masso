@@ -5,34 +5,10 @@
       <div class="icon mr_2 d_flex align_items_center">
         <span>Nơi đăng</span>
       </div>
-      <div class="target--selected" v-if="caseEvent.target === 3">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Trang cá nhân
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
-      <div class="target--selected" v-if="caseEvent.target === 1">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Nhóm đã lưu
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
-      <div class="target--selected" v-if="caseEvent.target === 2">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Tùy chọn nơi đăng
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body" v-if="caseEvent.target === 0">
+    <div class="body mb_4">
       <div class="r">
         <!-- Start: FB Profile -->
         <div class="c_md_4">
@@ -114,7 +90,7 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-else-if="caseEvent.target === 1" />
+    <target-group v-if="caseEvent.target === 1" />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
