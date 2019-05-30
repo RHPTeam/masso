@@ -101,7 +101,7 @@ export default {
       this.now = new Date(this.now);
     },
     async getSchedules() {
-      let result = await BroadcastService.index();
+      let result = await BroadcastService.index1();
       result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)

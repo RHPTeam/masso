@@ -42,7 +42,7 @@ const actions = {
     const result = await FeedServices.create( payload );
     commit( "setNewPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index();
+    const resultUpdate = await FeedServices.index1();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
 
     commit( "lib_success" );
@@ -50,7 +50,7 @@ const actions = {
   getAllPostLibraries: async ( { commit } ) => {
     commit( "lib_request" );
 
-    const result = await FeedServices.index();
+    const result = await FeedServices.index1();
     commit( "setAllPostLibraries", result.data.data );
 
     commit( "lib_success" );
@@ -72,7 +72,7 @@ const actions = {
     const result = await FeedServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index();
+    const resultUpdate = await FeedServices.index1();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
 
     commit( "post_success" );
@@ -86,12 +86,12 @@ const actions = {
     const result = await FeedServices.getById( payload.id );
     commit( "setPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index();
+    const resultUpdate = await FeedServices.index1();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
   },
   deletePostLibrariesFacebook: async ( { commit }, payload ) => {
     await FeedServices.deletePostFacebook(payload);
-    const result = await FeedServices.index();
+    const result = await FeedServices.index1();
     commit( "setAllPostLibraries", result.data.data );
   },
   deleteItemAttachmentLibraries: async ( { commit }, payload ) => {
@@ -102,7 +102,7 @@ const actions = {
     const result = await FeedServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
 
-    const results = await FeedServices.index();
+    const results = await FeedServices.index1();
     commit( "setAllPostLibraries", results.data.data );
   },
   searchPostFromLibrariesByKey: async ( { commit }, payload ) => {

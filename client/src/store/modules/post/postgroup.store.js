@@ -49,7 +49,7 @@ const state = {
     addToPostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
 
-      const res = await PostGroupServices.index();
+      const res = await PostGroupServices.index1();
 
       await commit( "setPostGroups", res.data.data );
     },
@@ -68,11 +68,11 @@ const state = {
       commit( "setPostGroups", postGroups );
 
       await PostGroupServices.delete( payload.id );
-      res = await PostGroupServices.index();
+      res = await PostGroupServices.index1();
       commit( "setPostGroups", res.data.data );
     },
     getAllPostGroups: async ( { commit } ) => {
-      const res = await PostGroupServices.index();
+      const res = await PostGroupServices.index1();
 
       await commit( "setPostGroups", res.data.data );
     },

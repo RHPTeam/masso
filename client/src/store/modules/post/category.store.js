@@ -42,7 +42,7 @@ const mutations = {
 const actions = {
   getAllCategories: async ( { commit } ) => {
     commit( "cate_request" );
-    const resultCategories = await CategoriesServices.index();
+    const resultCategories = await CategoriesServices.index1();
     commit( "setAllCategories", resultCategories.data.data );
     commit( "cate_success" );
   },

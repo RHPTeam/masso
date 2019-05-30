@@ -66,7 +66,7 @@ const state = {
       await commit( "setCampaignDetail", res.data.data );
     },
     getAllCampaigns: async ( { commit } ) => {
-      const res = await CampaignsServices.index();
+      const res = await CampaignsServices.index1();
 
       await commit( "setAllCampaigns", res.data.data );
     },
@@ -91,7 +91,7 @@ const state = {
       const res = await CampaignsServices.updateStatus( payload );
       await commit( "setCampaignDetail", res.data.data );
 
-      const result = await CampaignsServices.index();
+      const result = await CampaignsServices.index1();
       await commit( "setAllCampaigns", result.data.data );
     }
   };

@@ -30,11 +30,11 @@ const mutations = {
 const actions = {
   createAttribute: async ({ commit }) => {
     await AttributeService.create();
-    const resultAttr = AttributeService.index();
+    const resultAttr = AttributeService.index1();
     commit("setAttr", resultAttr);
   },
   getAttr: async ({ commit }) => {
-    const resultData = await AttributeService.index();
+    const resultData = await AttributeService.index1();
     await commit("setAttr", resultData.data.data);
   },
   getAttrById: async ({ commit }, payload) => {
@@ -50,14 +50,14 @@ const actions = {
       payload
     );
     commit("setAttr", resultAttrUpdate.data.data);
-    const resultUpdate = await AttributeService.index();
+    const resultUpdate = await AttributeService.index1();
     commit("setAttr", resultUpdate.data.data);
     commit("attr_success");
   },
   deleteItemAttribute: async ({ commit }, payload) => {
     commit("attr_request");
     await AttributeService.deleteAttribute(payload);
-    const dataDel = await AttributeService.index();
+    const dataDel = await AttributeService.index1();
     commit("setAttr", dataDel.data.data);
     commit("attr_success");
   }

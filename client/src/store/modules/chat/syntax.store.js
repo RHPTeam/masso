@@ -43,14 +43,14 @@ const mutations = {
 const actions = {
   getSyntaxList: async ({ commit }) => {
     commit("syntaxList_request");
-    const result = await SyntaxService.index();
+    const result = await SyntaxService.index1();
     await commit("setSyntaxList", result.data.data);
     commit("syntaxList_success");
   },
   createSyntax: async ({ commit }) => {
     commit("syntaxList_request");
     await SyntaxService.create();
-    const result = await SyntaxService.index();
+    const result = await SyntaxService.index1();
     await commit("setSyntaxList", result.data.data);
     commit("syntaxList_success");
   },
@@ -62,19 +62,19 @@ const actions = {
   },
   getFirstSyntax: async ({ commit }) => {
     commit("syntax_request");
-    const result = await SyntaxService.index();
+    const result = await SyntaxService.index1();
     await commit("setSyntax", result.data.data[0]);
     commit("syntax_success");
   },
   updateSyntax: async ({ commit }, payload) => {
     await SyntaxService.update(payload);
-    const results = await SyntaxService.index();
+    const results = await SyntaxService.index1();
     await commit("setSyntaxList", results.data.data);
   },
   deleteSyntax: async ({ commit }, payload) => {
     commit("syntaxList_request");
     await SyntaxService.delete(payload);
-    const result = await SyntaxService.index();
+    const result = await SyntaxService.index1();
     await commit("setSyntax", result.data.data[0]);
     await commit("setSyntaxList", result.data.data);
     commit("syntaxList_success");
