@@ -68,6 +68,11 @@ import DeleteGroupPopup from "../../popup/delete-popup";
 import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 export default {
+  components: {
+    CreateGroup,
+    DeleteGroupPopup,
+    DeleteCampaignPopup
+  },
   props: ["groupSelected"],
   data() {
     return {
@@ -85,6 +90,9 @@ export default {
     allGroupFriends() {
       return this.$store.getters.allGroupFriends;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getAllGroupFriend");
   },
   methods: {
     getGroupById(group_id, index) {
@@ -117,14 +125,6 @@ export default {
       };
       this.$store.dispatch("updateGroup", objSender);
     }
-  },
-  async created() {
-    await this.$store.dispatch("getAllGroupFriend");
-  },
-  components: {
-    CreateGroup,
-    DeleteGroupPopup,
-    DeleteCampaignPopup
   }
 };
 </script>

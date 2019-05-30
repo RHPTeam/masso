@@ -112,7 +112,7 @@ const actions = {
     commit( "ev_success");
   },
   getAllEvents: async ( { commit } ) => {
-    const res = await EventsServices.index();
+    const res = await EventsServices.index1();
     await commit( "setEvents", res.data.data );
   },
   getEventById: async ( { commit, state }, payload ) => {

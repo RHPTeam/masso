@@ -17,6 +17,7 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 
 const Dictionaries = require( "../../configs/dictionaries" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -28,7 +29,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization;
-    const role = req.headers.cfr;
+    const role = findSubString( authorization, "cfr=", ";" );
 
     const userId = secure( res, authorization );
     const accountResult = await Account.findOne( { "_id": userId } );
@@ -60,13 +61,12 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundBlock = await Block.find( { "_account": userId } );
+    const foundBlock = await Block.find( { "_account": req.uid } );
 
     // num block only exist in block
     let nameArr = foundBlock.map( ( block ) => {
@@ -81,17 +81,17 @@ module.exports = {
     } ).map( ( item ) => parseInt( item.slice( Dictionaries.BLOCK.length ) ) );
     const indexCurrent = Math.max( ...nameArr );
 
-    const foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": userId } );
+    const foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": req.uid } );
     const block = await new Block( req.body );
 
     if ( req.query._groupId ) {
-      const findGroup = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": userId } );
+      const findGroup = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": req.uid } );
 
       if ( !findGroup ) {
         return res.status( 403 ).json( jsonResponse( "Nhóm block không tồn tại!", null ) );
       }
       block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-      block._account = userId;
+      block._account = req.uid;
       block._groupBlock = req.query._groupId;
       await block.save();
       findGroup.blocks.push( block._id );
@@ -99,7 +99,7 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "Tạo block thành công!", block ) );
     }
     block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-    block._account = userId;
+    block._account = req.uid;
     block._groupBlock = foundDefaultGr._id;
     await block.save();
     foundDefaultGr.blocks.push( block._id );

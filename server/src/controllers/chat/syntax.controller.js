@@ -14,6 +14,7 @@ const Syntax = require( "../../models/chat/Syntax.model" );
 const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const Dictionaries = require( "../../configs/dictionaries" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
 
@@ -26,7 +27,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
+      role = findSubString( authorization, "cfr=", ";" ),
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } );
 

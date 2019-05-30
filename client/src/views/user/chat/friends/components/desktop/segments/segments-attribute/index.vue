@@ -40,13 +40,13 @@
 import AppFilter from "@/components/shared/filter";
 
 export default {
+  components: {
+    AppFilter
+  },
   data() {
     return {
       selectFilter: false
     };
-  },
-  components: {
-    AppFilter
   },
   computed: {
     currentTheme() {

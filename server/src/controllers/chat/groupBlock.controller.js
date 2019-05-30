@@ -17,7 +17,7 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
-
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -29,10 +29,10 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization;
-    const role = req.headers.cfr;
+    const role = findSubString( authorization, "cfr=", ";" );
 
-    const userID = secure( res, authorization );
-    const accountResult = await Account.findOne( { "_id": userID } );
+    const userId = secure( res, authorization );
+    const accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -218,9 +218,11 @@ module.exports = {
     let checkName = false;
 
     findAllGroup.map( ( val ) => {
-      if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
-        checkName = true;
-        return checkName;
+      if ( val._account.toString() !== userId ) {
+        if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
+          checkName = true;
+          return checkName;
+        }
       }
     } );
     if ( checkName ) {

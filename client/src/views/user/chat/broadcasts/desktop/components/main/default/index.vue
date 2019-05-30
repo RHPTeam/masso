@@ -13,15 +13,15 @@
 
 <script>
 export default {
-  computed: {
-    themeName() {
-      return this.$store.getters.themeName;
-    }
-  },
   data() {
     return {
       nullImage: require("@/assets/images/broadcast_null.png")
     };
+  },
+  computed: {
+    themeName() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>

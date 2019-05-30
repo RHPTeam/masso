@@ -48,7 +48,7 @@ const actions = {
   createSequence: async ({ commit }) => {
     await commit("sequence_request");
     await SequenceService.create();
-    const resultCreate = await SequenceService.index();
+    const resultCreate = await SequenceService.index1();
     await commit("setSequence", resultCreate.data.data);
     await commit("sequence_success");
   },
@@ -56,7 +56,7 @@ const actions = {
   createItemSequences: async ({ commit }, payload) => {
     await commit("sequenceItem_request");
     await SequenceService.createItemSequence(payload);
-    const resultDataItem = await SequenceService.index();
+    const resultDataItem = await SequenceService.index1();
     await commit("setSequence", resultDataItem.data.data);
     await commit("sequenceItem_success");
   },
@@ -64,7 +64,7 @@ const actions = {
   deleteSequence: async ({ commit }, payload) => {
     await commit("sequence_request");
     await SequenceService.deleteSequence(payload);
-    const resultDelete = await SequenceService.index();
+    const resultDelete = await SequenceService.index1();
     await commit("setSequence", resultDelete.data.data);
     await commit("sequence_success");
   },
@@ -72,14 +72,14 @@ const actions = {
   deleteBlockOnSequence: async ({ commit }, payload) => {
     await commit("sequence_request");
     await SequenceService.deleteItemSequence(payload.sq_id, payload.blockId);
-    const resultDelete = await SequenceService.index();
+    const resultDelete = await SequenceService.index1();
     await commit("setSequence", resultDelete.data.data);
-    await BlockServices.index();
+    await BlockServices.index1();
     await commit("sequence_success");
   },
   // Get info group sequence
   getSequence: async ({ commit }) => {
-    const result = await SequenceService.index();
+    const result = await SequenceService.index1();
     await commit("setSequence", result.data.data);
   },
   //Get info block on sequence
@@ -99,7 +99,7 @@ const actions = {
       payload.itemId,
       objSender
     );
-    const resultUpdate = await BlockServices.index();
+    const resultUpdate = await BlockServices.index1();
     await commit("setBlock", resultUpdate.data.data[0]);
   },
   //Update description time block on sequence
@@ -112,7 +112,7 @@ const actions = {
       payload.itemId,
       objSender
     );
-    const resultUpdate = await BlockServices.index();
+    const resultUpdate = await BlockServices.index1();
     await commit("setBlock", resultUpdate.data.data[0]);
   },
   // Update name group sequence
