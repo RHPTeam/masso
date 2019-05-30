@@ -10,7 +10,6 @@
  */
 
 const Account = require( "../../models/Account.model" );
-const Friend = require( "../../models/chat/Friend.model" );
 const Vocate = require( "../../models/chat/Vocate.model" );
 
 const jsonResponse = require( "../../configs/response" );
@@ -72,24 +71,6 @@ module.exports = {
     const friends = req.body._friends,
       friendsChecked = ArrayFunction.removeDuplicates( friends );
 
-    // Check item friends have exists in friends collection
-    let checkExist = false;
-
-    await Promise.all( friends.map( async ( val ) => {
-      const foundFriend = await Friend.findOne( { "_account": userId, "_id": val } );
-
-      return foundFriend === null;
-    } ) ).then( ( result ) => {
-      result.map( ( value ) => {
-        if ( value === true ) {
-          checkExist = true;
-          return checkExist;
-        }
-      } );
-    } );
-    if ( checkExist ) {
-      return res.status( 405 ).json( jsonResponse( "Một trong số các bạn bè không có trong tài khoản của bạn!", null ) );
-    }
 
     const listVocates = await Vocate.find( { "_account": userId } );
 
@@ -170,7 +151,7 @@ module.exports = {
       resData.map( ( item ) => {
         item._friends.map( ( friendItem, index, item ) => {
           friendsChecked.map( ( fi ) => {
-            if ( fi.toString() === friendItem._id.toString() ) {
+            if ( fi.toString() === friendItem.toString() ) {
               return item.pop( friendItem );
             }
           } );

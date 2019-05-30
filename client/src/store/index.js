@@ -6,6 +6,7 @@ Vue.use( Vuex );
 import AccountStore from "./modules/account.store";
 import AccountFacebookStore from "./modules/post/accoutfacebook.store";
 import AttributeStore from "./modules/chat/attribute.store";
+import BroadcastStore from "./modules/chat/broadcast.store";
 import CampaignsStore from "./modules/post/campaign.store";
 import CategoriesStore from "./modules/post/category.store";
 import DashBoard from "./modules/layout";
@@ -30,6 +31,7 @@ export default new Vuex.Store( {
     AccountStore,
     AccountFacebookStore,
     AttributeStore,
+    BroadcastStore,
     CampaignsStore,
     CategoriesStore,
     DashBoard,
