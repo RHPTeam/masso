@@ -139,7 +139,8 @@
           "cancle": "HỦY",
           "delete": "XÓA",
           "name": {
-            "scripts": "Kịch bản"
+            "scripts": "Kịch bản",
+            "avatart": "Anh dai dien"
           }
         }
       },
@@ -254,7 +255,7 @@
         "reply": {
           "title": "Trả lời",
           "placeholderText": "Nhập văn bản...",
-          "placeholderGroup": "",
+          "placeholderGroup": "Chọn nhóm...",
           "add": "Thêm",
           "group": "nhóm",
           "or": "hoặc",

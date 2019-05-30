@@ -10,10 +10,7 @@ const AttributeSchema = new Schema( {
     "type": Schema.Types.ObjectId,
     "ref": "Account"
   },
-  "_friends": [ {
-    "type": Schema.Types.ObjectId,
-    "ref": "Friend"
-  } ],
+  "_friends": Array,
   "created_at": {
     "type": Date,
     "default": Date.now()

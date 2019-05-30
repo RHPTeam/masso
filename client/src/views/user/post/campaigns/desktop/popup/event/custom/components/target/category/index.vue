@@ -1,27 +1,37 @@
 <template>
   <div class="group">
-    <div class="body">
-      <!--<div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>-->
-      <div class="main">
-        <multiselect
-          label="title"
-          placeholder="Chọn nhóm muốn đăng"
-          :value="event.target_category"
-          :clearable="false"
-          :options="groupPost"
-          @input="selectGroupPost"
-        />
+    <div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>
+    <div class="body d_flex align_items_center">
+      <div class="left">
+        <div class="main">
+          <multiselect
+            label="title"
+            placeholder="Chọn nhóm muốn đăng"
+            :value="event.target_category"
+            :clearable="false"
+            :options="groupPost"
+            @input="selectGroupPost"
+          />
+        </div>
+        <div class="desc mt_1 px_2">Bao gồm
+          <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
+          <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
+        </div>
       </div>
-      <div class="desc mt_1 px_2">Bao gồm
-        <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
-        <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
+
+      <div class="right px_3">
+        <new-feed />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import NewFeed from "../newfeed";
 export default {
+  components: {
+    NewFeed
+  },
   data() {
     return {
       selectedGroups: {}
@@ -50,9 +60,12 @@ export default {
 <style lang="scss" scoped>
   .group {
     .body {
-      width: 50%;
+      width: 100%;
       .title  {
         color: #666;
+      }
+      .left, .right {
+        width: 50%;
       }
       .main {
         border: 1px solid $border-color;

@@ -3,7 +3,7 @@
     <div class="item--body d_flex align_items_center px_2 py_2">
       <div class="col col--content px_3">
         <div class="col--content-text">
-          <div v-html="item.content">{{ item.content }}</div>
+          <div v-html="item.content"></div>
         </div>
       </div>
       <div class="col col--image px_3">

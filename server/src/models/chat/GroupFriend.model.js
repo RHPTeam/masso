@@ -5,10 +5,7 @@ const Schema = mongoose.Schema;
 
 const GroupFriendSchema = new Schema( {
   "name": String,
-  "_friends": [ {
-    "type": Schema.Types.ObjectId,
-    "ref": "Friend"
-  } ],
+  "_friends": Array,
   "_account": {
     "type": Schema.Types.ObjectId,
     "ref": "Account"
