@@ -23,8 +23,14 @@ const actions = {
   getAllFriendFb: async ( {commit} ) => {
     commit( "fr_request" );
     const result =  await FacebookFriendServices.getAllFriend();
-    console.log(result.data.data.results);
     commit( "setAllFriend", result.data.data.results );
+    commit( "fr_success" );
+  },
+  getAllFriendFacebook: async ( {commit} ) => {
+    commit( "fr_request" );
+    const result =  await FacebookFriendServices.getAllFriendFB();
+    console.log(result.data.data);
+    commit( "setAllFriend", result.data.data );
     commit( "fr_success" );
   }
 };

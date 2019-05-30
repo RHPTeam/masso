@@ -1,5 +1,5 @@
 import PronounPopup from "../../../popup/pronoun-popup";
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 
 export default {
   props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault"],
@@ -58,7 +58,6 @@ export default {
       return this.$store.getters.themeName;
     },
     friendFilter() {
-      console.log(this.$store.getters.userFilter);
       return this.$store.getters.userFilter;
     },
     filteredUsers() {

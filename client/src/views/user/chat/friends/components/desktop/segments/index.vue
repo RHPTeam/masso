@@ -22,6 +22,10 @@ import SegmentsContentTop from "./cp-segments-content/top";
 import SegmentsContentUsersTable from "./cp-segments-content/users-table";
 
 export default {
+  components: {
+    SegmentsContentTop,
+    SegmentsContentUsersTable
+  },
   props: ["groupSelected", "selectFilter", "resultsDefault"],
   data() {
     return {
@@ -31,10 +35,6 @@ export default {
         name: "Tất cả"
       }
     };
-  },
-  components: {
-    SegmentsContentTop,
-    SegmentsContentUsersTable
   }
 };
 </script>

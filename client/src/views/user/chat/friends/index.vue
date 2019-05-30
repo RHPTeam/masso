@@ -38,6 +38,7 @@ export default {
     // if (this.$store.getters.allFriends.length === 0) {
     //   this.$store.dispatch("getFriendsBySize", 20);
     // }
+    this.$store.dispatch( "getAllFriendFacebook" );
   }
 };
 </script>
