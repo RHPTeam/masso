@@ -1,45 +1,40 @@
 let typingTimer;
+
+import AfterDay from "../popup/time";
+import OptionsSequence from "../popup/optionssequence";
+
 export default {
+  props: ["clickShowAfterDay", "closeAfterDay"],
   data() {
     return {
-      title: "AAAAAAAAA",
+      title: "AA",
       isAddTypeDropdown: false,
-      isActionItemDropdown: false,
-      currentIndexActionItemDropdown: null,
-      currentIndexGroupItemButton: null,
-      showItemAction: false,
-      showActionSequence: false,
-      showOptionSequence: false,
+      // isActionItemDropdown: false,
+      // currentIndexActionItemDropdown: null,
+      // currentIndexGroupItemButton: null,
+      // showItemAction: false,
+      // showActionSequence: false,
+      // showOptionSequence: false,
       showCopyScripts: false,
       showOptionsScripts: false,
       showCopySequenceScripts: false,
       showAfterDay: false,
-      showOptionsDay: false
+      showOptionsDay: false,
+      currentSequenceIndex: "",
+      currentAfterDayIndex: ""
     };
   },
   computed: {
-    // block() {
-    //   return this.$store.getters.block;
-    // },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // groupBlock() {
-    //   return this.$store.getters.groups;
-    // },
-    // groupSequence() {
-    //   return this.$store.getters.groupSqc;
-    // },
-    // status() {
-    //   return this.$store.getters.statusBlocks;
-    // },
-    // curConversation() {
-    //   return this.$store.getters.curConversation;
-    // }
+    groupSequence() {
+      return this.$store.getters.allSequenceScript;
+    },
   },
   async created() {
     // await this.$store.dispatch("getGroupBlock");
-    // await this.$store.dispatch("getSequence");
+    await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
     closeShowCopyScripts(){
@@ -50,9 +45,11 @@ export default {
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
+      this.currentSequenceIndex = "";
     },
     closeShowAfterDay(){
       this.showAfterDay = false;
+      this.currentAfterDayIndex = "";
     },
     closeShowOptionsDay(){
       this.showOptionsDay = false;
@@ -60,46 +57,50 @@ export default {
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    // showBlock(id) {
-    //   this.$store.dispatch("getBlock", id);
-    // },
-    // showItemSqc(SqcId) {
-    //   this.$store.dispatch("getItemSqc", SqcId);
-    // },
-    // createBlock(groupId) {
-    //   this.$store.dispatch("createBlock", groupId);
-    // },
-    // createItemSqc(sequenceId) {
-    //   this.$store.dispatch("createItemSequences", sequenceId);
-    // },
-    // createSequence() {
-    //   this.$store.dispatch("createSequence");
-    // },
-    // createGroup() {
-    //   this.$store.dispatch("createGroupBlock");
-    // },
-    // showActionGroupItem(index) {
-    //   this.currentIndexGroupItemButton = index;
-    // },
-    // upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "namegroupblock") {
-    //     typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
-    //   } else if (type === "namegroupsequence") {
-    //     typingTimer = setTimeout(this.updateNameSequence(group), 800);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name group block
-    // updateNameGroupBlock(value) {
-    //   const objSender = {
-    //     gr_id: value._id,
-    //     name: value.name
-    //   };
-    //   this.$store.dispatch("updateGroupBlock", objSender);
-    // },
+    openSequenceDropdown( id ){
+      this.showCopySequenceScripts = true;
+      this.currentSequenceIndex = id;
+    },
+    openShowAfterDay( ){
+      this.showAfterDay = true;
+    },
+    createSequence() {
+      this.$store.dispatch("createSequenceScript");
+    },
+    deleteASequence( id ){
+      this.showCopySequenceScripts = false;
+      this.$store.dispatch("deleteASequence", id);
+    },
+    async upTypingText(type, group) {
+      await clearTimeout(typingTimer);
+      if (type === "groupfriend") {
+        typingTimer = await setTimeout(this.updateGroupFriend(group), 1000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    // update
+    updateGroupFriend(group) {
+      const objSender = {
+        _id: group._id,
+        name: group.name
+      };
+      this.$store.dispatch("updateSequence", objSender);
+    },
+
+    // create new block in a sequence
+    createNewBlockInSequence( id ) {
+      this.$store.dispatch("createBlockInSequence", id);
+    },
+
+    // get all block in a sequence
+    getAllBlockInSequence( id ) {
+      this.$store.dispatch("getAllBlockInSequence", id);
+    }
+
+
+    
     // //Update nam sequence
     // updateNameSequence(value) {
     //   const objSender = {
@@ -132,5 +133,9 @@ export default {
     //     _.$refs.audioTone.play();
     //   }
     // }
+  },
+  components: {
+    AfterDay,
+    OptionsSequence
   }
 };

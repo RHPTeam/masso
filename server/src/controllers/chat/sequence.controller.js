@@ -36,12 +36,12 @@ module.exports = {
     }
 
     if ( role === "Member" ) {
-      !req.query._id ? dataResponse = await Sequence.find( { "_account": userId } ).populate( { "path": "sequences._block", "select": "name" } ) : dataResponse = await Sequence.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "sequences._block", "select": "name" } );
+      !req.query._id ? dataResponse = await Sequence.find( { "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } ) : dataResponse = await Sequence.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
@@ -87,22 +87,21 @@ module.exports = {
    * @param: res
    */
   "addBlock": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": userId } );
+    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": req.uid } );
 
     if ( !foundSequence ) {
       return res.status( 403 ).json( jsonResponse( "Trình tự kịch bản không tồn tại!", null ) );
     }
-    const foundGroupSequence = await GroupBlock.findOne( { "name": "Chuỗi Kịch Bản", "_account": userId } );
+    const foundGroupSequence = await GroupBlock.findOne( { "name": "Chuỗi Kịch Bản", "_account": req.uid } );
 
     // take block group block to sequence
     if ( req.query._blockId ) {
-      const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": userId } );
+      const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 
       if ( !foundBlock ) {
         return res.status( 403 ).json( jsonResponse( "Kịch bản không tồn tại!", null ) );
@@ -110,7 +109,7 @@ module.exports = {
       if ( foundBlock._groupBlock === undefined ) {
         return res.status( 405 ).json( jsonResponse( "Có lỗi xảy ra, vui lòng kiểm tra lại kịch bản muốn thêm!", null ) );
       }
-      const foundGroup = await GroupBlock.findOne( { "_id": foundBlock._groupBlock, "_account": userId } );
+      const foundGroup = await GroupBlock.findOne( { "_id": foundBlock._groupBlock, "_account": req.uid } );
       let checkLoop = false;
 
       foundSequence.sequences.map( ( val ) => {
@@ -138,7 +137,7 @@ module.exports = {
     }
 
     // add new block from sequence
-    const foundBlock = await Block.find( { "_account": userId } );
+    const foundBlock = await Block.find( { "_account": req.uid } );
 
     console.log( foundBlock );
     // num block only exist in block
@@ -157,7 +156,7 @@ module.exports = {
       newBlock = new Block();
 
     newBlock.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
-    newBlock._account = userId;
+    newBlock._account = req.uid;
     await newBlock.save();
     if ( foundGroupSequence ) {
       newBlock._groupBlock = foundGroupSequence._id;

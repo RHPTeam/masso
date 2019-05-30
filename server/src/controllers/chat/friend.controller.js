@@ -32,16 +32,22 @@ module.exports = {
       accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( role === "Member" ) {
-      Promise.all( accountResult._accountfb.map( async ( facebook ) => {
-        let findFacebook = await Facebook.findOne( { "_id": facebook } ),
-          friendsList = await getAllFriends( { "cookie": findFacebook.cookie, agent } );
+      Promise.all(
+        accountResult._accountfb.map( async ( facebook ) => {
+          let findFacebook = await Facebook.findOne( { "_id": facebook } ),
+            friendsList = await getAllFriends( {
+              "cookie": findFacebook.cookie,
+              agent
+            } );
 
-        dataResponse = dataResponse.concat( friendsList.results, dataResponse );
+          dataResponse = dataResponse.concat( friendsList.results, dataResponse );
 
-        return dataResponse;
-      } ) ).then( ( data ) => {
+          return dataResponse;
+        } )
+      ).then( ( data ) => {
         dataResponse = [];
         // Concat element children of array
+        // eslint-disable-next-line prefer-spread
         const dataFriend = [].concat.apply( [], data );
 
         Promise.all( removeObjectDuplicates( dataFriend, "uid" ).map( async ( friend ) => {
@@ -72,7 +78,6 @@ module.exports = {
 
           res.status( 200 ).json( jsonResponse( "success", item ) );
         } );
-
       } );
     }
 

@@ -25,6 +25,7 @@ module.exports = {
     let dataResponse = null;
     const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
+    // eslint-disable-next-line semi
     const userId = req.uid
     const accountResult = await Account.findOne( { "_id": req.uid } );
 

@@ -21,7 +21,6 @@ const checkObjectExist = ( arr, property ) => {
     return el.uid === property;
   } );
 };
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -32,17 +31,14 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = findSubString( authorization, "cfr=", ";" ),
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
+    const role = findSubString( authorization, "cfr=", ";" );
 
     if ( role === "Member" ) {
-      !req.query._id ? dataResponse = await GroupFriend.find( { "_account": userId } ).lean() : dataResponse = await GroupFriend.find( { "_id": req.query, "_account": userId } ).lean();
+      !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean() ) : ( dataResponse = await GroupFriend.find( {
+        "_id": req.query._id,
+        "_account": req.uid
+      } ).lean() );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
@@ -52,7 +48,9 @@ module.exports = {
         }
       } );
     }
-    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    res
+      .status( 200 )
+      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
   },
   /**
    *  create group friend
@@ -132,7 +130,9 @@ module.exports = {
     }
     foundGroupFriend.name = req.body.name;
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } ).lean();
+    const resGroupFriend = await GroupFriend.findOne( {
+      "_id": req.query._groupId
+    } ).lean();
 
     res.status( 201 ).json( jsonResponse( "Cập nhật nhóm bạn bè thành công!", resGroupFriend ) );
   },
@@ -173,7 +173,9 @@ module.exports = {
       foundGroupFriend._friends.push( val );
     } );
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } );
+    const resGroupFriend = await GroupFriend.findOne( {
+      "_id": req.query._groupId
+    } );
 
     res.status( 200 ).json( jsonResponse( "Thêm bạn bè vào danh sách bạn bè thành công!", resGroupFriend ) );
   },
@@ -190,7 +192,9 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } );
+    const foundGroupFriend = await GroupFriend.findOne( {
+      "_id": req.query._groupId
+    } );
 
     if ( !foundGroupFriend ) {
       return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
@@ -206,7 +210,14 @@ module.exports = {
         }
       } );
       if ( checkCon ) {
-        return res.status( 405 ).json( jsonResponse( "Bạn không có một trong những người bạn ở nhóm bạn bè này!", null ) );
+        return res
+          .status( 405 )
+          .json(
+            jsonResponse(
+              "Bạn không có một trong những người bạn ở nhóm bạn bè này!",
+              null
+            )
+          );
       }
 
       const checkFriend = ArrayFunction.removeObjectDuplicates( friends );

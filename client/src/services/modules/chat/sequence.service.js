@@ -1,28 +1,36 @@
 import Api from "@/services";
 
 export default {
-  index() {
-    return Api().get("sequence");
-  },
-  show(SqcId) {
-    return Api().get(`sequence?_SqcId=${SqcId}`);
-  },
-  create() {
+  createNewSequence(){
     return Api().post("sequence");
   },
-  createItemSequence(sequenceId) {
-    return Api().post(`sequence/addBlock?_sqId=${sequenceId}`);
+
+  // get all sequence
+  getAllSequence(){
+    return Api().get("sequence");
   },
-  update(sequenceId, sequence) {
-    return Api().patch(`sequence?_sqId=${sequenceId}`, sequence);
+
+  // delete sequence
+  deleteASequence( id ){
+    return Api().delete(`sequence?_sqId=${id}`);
   },
-  updateItemSqc(sequenceId, itemId, content) {
-    return Api().patch(`sequence?_sqId=${sequenceId}&_blockId=${itemId}`, content);
+
+  // get id a sequence
+  getSequenceById( id ){
+    return Api().get(`sequence?_id=${id}`);
   },
-  deleteItemSequence(sequenceId, itemId) {
-    return Api().delete(`sequence?_sqId=${sequenceId}&_blockId=${itemId}`);
+
+  //update sequence 
+  updateSequence( id, content ){
+    return Api().patch(`sequence?_sqId=${id}`, content);
   },
-  deleteSequence(sequenceId) {
-    return Api().delete(`sequence?_sqId=${sequenceId}`);
+
+  // create a new block for sequence 
+  createBlockInASequence( id ){
+    return Api().post(`sequence/addBlock?_sqId=${id}`);
+  },
+  // get block sequence by id
+  getAllBlockSequenceById( id ){
+    return Api().get(`sequence?_id=${id}`);
   }
 };
