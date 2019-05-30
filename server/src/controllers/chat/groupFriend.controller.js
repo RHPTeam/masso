@@ -120,9 +120,11 @@ module.exports = {
     let checkName = false;
 
     foundAllGroupFriend.map( ( val ) => {
-      if ( val.name.toString().toLowerCase() === req.body.name.toString().toLowerCase() ) {
-        checkName = true;
-        return checkName;
+      if ( val._id.toString() !== userId ) {
+        if ( val.name.toString() === req.body.name.toString() ) {
+          checkName = true;
+          return checkName;
+        }
       }
     } );
     if ( checkName ) {
