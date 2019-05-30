@@ -13,7 +13,6 @@ const GroupFriend = require( "../../models/chat/GroupFriend.model" );
 
 const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
-const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
 const { findSubString } = require( "../../helpers/utils/functions/string" );
@@ -128,13 +127,7 @@ module.exports = {
     let checkName = false;
 
     foundAllGroupFriend.map( ( val ) => {
-      if (
-        convertUnicode( val.name )
-          .toString()
-          .toLowerCase() === convertUnicode( req.body.name )
-          .toString()
-          .toLowerCase()
-      ) {
+      if ( val.name.toString() === req.body.name.toString() ) {
         checkName = true;
         return checkName;
       }
