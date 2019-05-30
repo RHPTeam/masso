@@ -42,7 +42,7 @@ const actions = {
     const result = await FeedServices.create( payload );
     commit( "setNewPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index1();
+    const resultUpdate = await FeedServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
 
     commit( "lib_success" );
@@ -50,7 +50,7 @@ const actions = {
   getAllPostLibraries: async ( { commit } ) => {
     commit( "lib_request" );
 
-    const result = await FeedServices.index1();
+    const result = await FeedServices.index();
     commit( "setAllPostLibraries", result.data.data );
 
     commit( "lib_success" );
@@ -72,7 +72,7 @@ const actions = {
     const result = await FeedServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index1();
+    const resultUpdate = await FeedServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
 
     commit( "post_success" );
@@ -86,7 +86,7 @@ const actions = {
     const result = await FeedServices.getById( payload.id );
     commit( "setPostLibraries", result.data.data );
 
-    const resultUpdate = await FeedServices.index1();
+    const resultUpdate = await FeedServices.index();
     commit ( "setAllPostLibraries", resultUpdate.data.data);
   },
   deletePostLibrariesFacebook: async ( { commit }, payload ) => {
@@ -102,7 +102,7 @@ const actions = {
     const result = await FeedServices.getById( payload.postId );
     commit( "setPostLibraries", result.data.data );
 
-    const results = await FeedServices.index1();
+    const results = await FeedServices.index();
     commit( "setAllPostLibraries", results.data.data );
   },
   searchPostFromLibrariesByKey: async ( { commit }, payload ) => {

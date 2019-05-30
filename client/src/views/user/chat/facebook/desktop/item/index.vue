@@ -1,12 +1,12 @@
 <template>
-  <div class="card">
+  <div class="card" v-if="item">
     <div class="card_body">
-<!--      <div class="card&#45;&#45;header">-->
-<!--        <delete-popup :content="item" />-->
-<!--      </div>-->
+      <div class="card--header">
+        <delete-popup :content="item" />  
+      </div>
       <div class="card--content">
         <div class="avatar">
-          <img class="picture" :src="item.userInfo.thumbSrc" alt=""/>
+          <img class="picture" :src="item.userInfo.thumbSrc" />
           <span class="status" :class="item.status === true ? 'active' : ''">
           </span>
         </div>
@@ -37,14 +37,16 @@
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
         :nameBread="nameUpdatePopup"
-        :subBread="descUpdatePopup"
-      />
+        :subBread="descUpdatePopup"></update-cookie>
     </transition>
   </div>
 </template>
-
 <script>
+import DeletePopup from "@/components/shared/layouts/popupdelete/deleteAccountFb";
 export default {
+  components: {
+    DeletePopup
+  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -57,7 +59,7 @@ export default {
       return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
   },
-  props: [ "item" ],
+  props: ["item"],
   data() {
     return {
       isModalUpdateCookie: false,
@@ -70,7 +72,6 @@ export default {
   }
 };
 </script>
-
 <style lang="scss" scoped>
-@import "../index.style";
+  @import "../index.style";
 </style>

@@ -49,7 +49,7 @@ const state = {
     addToPostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
 
-      const res = await PostGroupServices.index1();
+      const res = await PostGroupServices.index();
 
       await commit( "setPostGroups", res.data.data );
     },

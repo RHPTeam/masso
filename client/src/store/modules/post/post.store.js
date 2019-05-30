@@ -93,7 +93,7 @@ const actions = {
   },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
-    const resultAllPost = await PostServices.index1();
+    const resultAllPost = await PostServices.index();
     commit( "setAllPost", resultAllPost.data.data );
     commit( "post_success" );
   },
