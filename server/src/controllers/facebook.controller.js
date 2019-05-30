@@ -150,12 +150,26 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
   },
   "delete": async ( req, res ) => {
+<<<<<<< HEAD
     const accountResult = await Account.findOne( { "_id": req.uid } ),
       listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
       findFacebook = await Facebook.findById( req.query._facebookId ),
+=======
+    const authorization = req.headers.authorization,
+      userId = secure( res, authorization ),
+      accountResult = await Account.findOne( { "_id": userId } ),
+      findFacebook = await Facebook.findById( req.query._facebookId ),
+      listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
+>>>>>>> dev-yendt-vue
       listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
       listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 
+    if ( !accountResult ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
+    }
+    if ( userId !== req.uid ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Xem lại quyền người dùng!" } );
+    }
     // Check catch when delete campaign
     if ( !findFacebook ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Tài khoản facebook không tồn tại!" } );

@@ -17,7 +17,11 @@ const Sequence = require( "../../models/chat/Sequence.model" );
 const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
+<<<<<<< HEAD
 const { findSubString } = require( "../../helpers/utils/functions/string" )
+=======
+const { findSubString } = require( "../../helpers/utils/functions/string" );
+>>>>>>> dev-yendt-vue
 
 module.exports = {
   /**

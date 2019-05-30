@@ -16,7 +16,10 @@ const secure = require( "../../helpers/utils/secures/jwt" );
 const { removeObjectDuplicates } = require( "../../helpers/utils/functions/array" );
 const { agent } = require( "../../configs/crawl" );
 const { getAllFriends } = require( "../../controllers/core/facebook.core" );
+<<<<<<< HEAD
 const { findSubString } = require( "../../helpers/utils/functions/string" );
+=======
+>>>>>>> dev-yendt-vue
 
 module.exports = {
   /**
@@ -29,10 +32,21 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = [];
     const authorization = req.headers.authorization,
+<<<<<<< HEAD
       role = findSubString( authorization, "cfr=", ";" ),
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } );
 
+=======
+      role = req.headers.cfr,
+
+      userId = secure( res, authorization ),
+      accountResult = await Account.findOne( { "_id": userId } );
+
+    if ( !accountResult ) {
+      return res.status( 404 ).json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
+    }
+>>>>>>> dev-yendt-vue
     if ( role === "Member" ) {
       Promise.all( accountResult._accountfb.map( async ( facebook ) => {
         let findFacebook = await Facebook.findOne( { "_id": facebook } ),
@@ -58,7 +72,6 @@ module.exports = {
 
       } );
     }
-    // if ( role === "Member" ) {
-    // }
+
   }
 };

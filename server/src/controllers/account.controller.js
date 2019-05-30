@@ -18,7 +18,7 @@ const Account = require( "../models/Account.model" ),
 
 module.exports = {
   "show": async ( req, res ) => {
-    const userInfo = await Account.findOne( { "_id": req.uid } ).select( "-password -__v" ).lean();
+    const userInfo = await Account.findOne( { "_id": req.uid } ).lean();
 
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
@@ -26,7 +26,7 @@ module.exports = {
     const { body, file } = req,
       userInfo = await Account.findOne( { "_id": req.uid } );
 
-    let data, resUserSync, userInfoProfile;
+    let data, resUserSync;
 
     // Check update user info if user upload profile
     if ( file ) {
@@ -40,15 +40,9 @@ module.exports = {
       }
 
       userInfo.imageAvatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
-      userInfoProfile = await Account.findByIdAndUpdate( req.uid, {
-        "$set": body
-      },
-      {
-        "new": true
-      }
-      ).select( "-password -__v" );
+      await userInfo.save();
 
-      return res.status( 201 ).json( jsonResponse( "success", userInfoProfile ) );
+      return res.status( 201 ).json( jsonResponse( "success", userInfo ) );
     }
 
     // join property email to data send
