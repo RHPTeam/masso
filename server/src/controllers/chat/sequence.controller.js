@@ -220,9 +220,11 @@ module.exports = {
     let checkName = false;
 
     foundAllSequence.map( ( val ) => {
-      if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
-        checkName = true;
-        return checkName;
+      if ( val._account.toString() !== userId ) {
+        if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
+          checkName = true;
+          return checkName;
+        }
       }
     } );
     if ( checkName ) {
