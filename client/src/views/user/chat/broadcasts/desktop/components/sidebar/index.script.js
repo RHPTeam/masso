@@ -17,6 +17,9 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    allBroadcasts() {
+      return this.$store.getters.allBroadcasts;
+    }
     // schedules() {
     //   return this.$store.getters.schedules;
     // }

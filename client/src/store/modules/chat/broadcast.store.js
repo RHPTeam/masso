@@ -1,19 +1,28 @@
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 
 const state = {
-  allBroadcasts: []
+  allBroadcasts: [],
+  allBroadcastsStatus: ""
 };
 const getters = {
-  allBroadcasts: ( state ) => state.allBroadcasts
+  allBroadcasts: ( state ) => state.allBroadcasts,
+  allBroadcastsStatus: ( state ) => state.allBroadcastsStatus
 };
 const mutations = {
-  getAllBroadcasts: ( state, payload ) => {
-
+  setAllBroadcasts: ( state, payload ) => {
+    state.allBroadcasts = payload;
+  },
+  setAllBroadcastsStatus: ( state, payload ) => {
+    state.allBroadcastsStatus = payload;
   }
 };
 const actions = {
-  getAllBroadcasts: {
-
+  getAllBroadcasts: async ( { commit } ) => {
+    commit( "setAllBroadcastsStatus", "loading" );
+    const res = await BroadcastService.index();
+    console.log(res);
+    await commit( "setAllBroadcasts", res.data.data );
+    commit( "setAllBroadcastsStatus", "success" )
   }
 };
 export default {

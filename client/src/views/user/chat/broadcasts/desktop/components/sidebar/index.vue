@@ -2,6 +2,7 @@
 <template>
   <div class="group py_3" :data-theme="currentTheme">
     <!--Start: Component Deliver your message now-->
+    <div>{{ allBroadcasts }}</div>
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
@@ -101,8 +102,8 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./sidebar.script.js"></script>
+<script type="text/javascript" src="./index.script.js"></script>
 
 <style scoped lang="scss">
-@import "./sidebar.style";
+@import "./index.style";
 </style>
