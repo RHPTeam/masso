@@ -53,25 +53,36 @@
         }
       }
     }
-    .mess {
-      background-color: #FFB94A;
-      border-radius: .5rem;
-      cursor: pointer;
-      height: 30px;
-      margin-right: .95rem;
-      padding: 0 .5rem;
-      transition: background-color .4s ease;
-      text-decoration: none;
-      &:hover {
-        background-color: #FF9E4A;
+    .messenger--group {
+      .btn--messenger {
+        cursor: pointer;
+        svg {
+          color: #999999;
+          transition: all .4s ease;
+        }
+        .icon--messenger {
+          &:hover {
+            color: #444;
+          }
+        }
+        .messenger--total {
+          background-color: #F96666;
+          border-radius: 5px;
+          color: #fff;
+          font-size: 10px;
+          min-width: 16px;
+          right: -5px;
+          top: -5px;
+          .text {
+            padding: 0 1.5px;
+          }
+        }
       }
-      .icon--messenger {
-        color: #fff;
-      }
-      .text {
-        color: #fff;
-        font-size: .825rem;
-        font-weight: 600;
+      .messenger--dropdown {
+        margin-top: 6px;
+        min-width: 420px;
+        right: 4px;
+        z-index: 99999;
       }
     }
     .notification--groups {

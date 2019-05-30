@@ -22,20 +22,37 @@
     <!-- Start: Header Right -->
     <div class="header--right d_flex align_items_center">
       <!-- Start: Messenger Link-->
-      <router-link tag="a"
-                   class="mess d_flex align_items_center justify_content_center"
-                   :to="{name: 'messenger'}"
-                   target="_blank">
-        <icon-base
-          class="icon--messenger mr_1"
-          width="24px"
-          height="20px"
-          viewBox="0 0 16 16"
+      <div class="messenger--group position_relative">
+        <!-- Start: Btn Messenger -->
+        <div class="btn--messenger position_relative mr_3"
+             @click="showMessengerDropdown"
+             v-click-outside="closeMessengerDropdown"
         >
-          <icon-messenger></icon-messenger>
-        </icon-base>
-        <div class="text">Trò chuyện</div>
-      </router-link>
+          <icon-base
+            class="icon--messenger"
+            width="25px"
+            height="20px"
+            viewBox="0 0 12 12"
+          >
+            <icon-messenger></icon-messenger>
+          </icon-base>
+          <div class="messenger--total position_absolute">
+            <div class="text text_center">0</div>
+          </div>
+        </div>
+        <!-- End: Btn Messenger -->
+        <!-- Start: Messenger Dropdown -->
+        <div class="messenger--dropdown position_absolute">
+          <transition name="dropdown">
+            <header-messenger
+              v-if="isShowMessengerDropdown"
+              :messages="notifications"
+              @closeDropdown="isShowMessengerDropdown = $event"
+            ></header-messenger>
+          </transition>
+        </div>
+        <!-- End: Messenger Dropdown -->
+      </div>
       <!-- Start: Messenger Link-->
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
@@ -69,64 +86,6 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
-      <!-- Start: Language flag -->
-      <div class="flags position_relative mr_3">
-        <div @click="isShowFlagDropdown = true">
-          <icon-base
-            class="icon--flag"
-            icon-name="flag--vietnam"
-            width="24"
-            height="20"
-            viewBox="0 0 460 460">
-            <icon-vietnam-flag/>
-          </icon-base>
-        </div>
-        <transition name="dropdown">
-          <div
-            v-if="isShowFlagDropdown === true"
-            class="position_absolute dropdown--lang"
-            v-click-outside="closeFlagDropdown"
-          >
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--vietnam"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-vietnam-flag/>
-              </icon-base>
-              <span>Tiếng Việt</span>
-            </div>
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--english"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-america-flag/>
-              </icon-base>
-              <span>English</span>
-            </div>
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--chinese"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-china-flag/>
-              </icon-base>
-              <span>中文</span>
-            </div>
-          </div>
-        </transition>
-      </div>
-      <!-- End: Language flag -->
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
@@ -213,6 +172,64 @@
         <!-- End: Dropdown Menu -->
       </div>
       <!-- End: User Info -->
+      <!-- Start: Language flag -->
+      <div class="flags position_relative ml_3">
+        <div @click="isShowFlagDropdown = true">
+          <icon-base
+            class="icon--flag"
+            icon-name="flag--vietnam"
+            width="24"
+            height="20"
+            viewBox="0 0 460 460">
+            <icon-vietnam-flag/>
+          </icon-base>
+        </div>
+        <transition name="dropdown">
+          <div
+            v-if="isShowFlagDropdown === true"
+            class="position_absolute dropdown--lang"
+            v-click-outside="closeFlagDropdown"
+          >
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--vietnam"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-vietnam-flag/>
+              </icon-base>
+              <span>Tiếng Việt</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--english"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-america-flag/>
+              </icon-base>
+              <span>English</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--chinese"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-china-flag/>
+              </icon-base>
+              <span>中文</span>
+            </div>
+          </div>
+        </transition>
+      </div>
+      <!-- End: Language flag -->
     </div>
     <!-- End: Header Right -->
   </div>

@@ -77,7 +77,6 @@ const actions = {
   updateFacebook: async ({ commit }, payload) => {
     try {
       commit("facebook_request");
-      console.log(payload);
       const dataSender = {
         cookie: payload.cookie
       };
