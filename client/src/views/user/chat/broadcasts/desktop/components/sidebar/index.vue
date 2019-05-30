@@ -2,7 +2,7 @@
 <template>
   <div class="group py_3" :data-theme="currentTheme">
     <!--Start: Component Deliver your message now-->
-    <div>{{ allBroadcasts }}</div>
+    <div>{{ scheduleBlocks }}</div>
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
@@ -32,25 +32,28 @@
 
     <!--Start: Component Schedule later-->
     <div class="group--item schedule">
+      <!--Start: Schedule Header -->
       <div class="group--item-header text_left">
         <div class="title mb_2">
           <span>{{ $t("chat.broadcast.sidebar.schedule.title") }}</span>
         </div>
         <div class="action"></div>
       </div>
+      <!--End: Schedule Header -->
+      <!--Start: Schedule Block Item Group-->
       <div class="group--item-body r m_0">
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="goToSchedule">
+        <!--Start: Block Item Loop-->
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup"
+             v-for="( block, index ) in scheduleBlocks"
+             :key="index"
+             @click="goToSchedule">
           <div class="mx_1 content--setup">
-            <span>Hang ngay</span>
+            <span>{{ block.timeSetting | filteredName }}</span>
             <span class="pl_1">xx:xx</span>
           </div>
         </div>
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
-          <div class="content--setup mx_1">
-            <span>Hang ngay</span>
-            <span class="pl_1">12:30</span>
-          </div>
-        </div>
+        <!--End: Block Item Loop-->
+        <!--Start: Block Item Add-->
         <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
           <div class="content--setup mx_1">
             <icon-base
@@ -63,8 +66,9 @@
             </icon-base>
           </div>
         </div>
+        <!--End: Block Item Add-->
       </div>
-
+      <!--End: Schedule Block Item Group-->
       <loading-component
         v-if="this.$store.getters.statusBroadcast === 'loading'"
       />

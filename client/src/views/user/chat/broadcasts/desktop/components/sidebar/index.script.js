@@ -19,10 +19,10 @@ export default {
     },
     allBroadcasts() {
       return this.$store.getters.allBroadcasts;
+    },
+    scheduleBlocks() {
+      return this.$store.getters.scheduleBlocks;
     }
-    // schedules() {
-    //   return this.$store.getters.schedules;
-    // }
   },
   methods: {
     // addSchedule() {
@@ -83,42 +83,26 @@ export default {
     }
   },
   filters: {
-    filteredName(value) {
+    filteredName( value ) {
       let dateCustom = new Date(value.dateMonth);
       let date = dateCustom.getDate();
 
+      console.log(dateCustom);
+      console.log(StringFunction.convertUnicode( value.repeat.typeRepeat.toLowerCase() ));
       let dateMonth = `Ngày ${dateCustom.getDate()} tháng ${dateCustom.getMonth() +
         1}`;
       // Set case for name
-      if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "khong"
-      ) {
+      if ( value.repeat.typeRepeat === "Không") {
         return `${dateMonth} ${value.hour}`;
-      } else if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "hang ngay"
-      ) {
+      } else if ( value.repeat.typeRepeat === "Hằng ngày" ) {
         return `Hằng ngày ${value.hour}`;
-      } else if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "cuoi tuan"
-      ) {
+      } else if ( value.repeat.typeRepeat === "Cuối tuần" ) {
         return `Cuối tuần ${value.hour}`;
-      } else if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "hang thang"
-      ) {
+      } else if ( value.repeat.typeRepeat.toLowerCase() === "Hằng tháng" ) {
         return `Mỗi ngày ${date} của tháng ${value.hour}`;
-      } else if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "ngay lam viec"
-      ) {
+      } else if ( value.repeat.typeRepeat.toLowerCase() === "Ngày làm việc" ) {
         return `Ngày làm việc ${value.hour}`;
-      } else if (
-        StringFunction.convertUnicode(value.repeat.typeRepeat.toLowerCase()) ===
-        "tuy chinh"
-      ) {
+      } else if ( value.repeat.typeRepeat.toLowerCase() === "Tùy chỉnh" ) {
         if (
           value.repeat.valueRepeat
             .split(",")
