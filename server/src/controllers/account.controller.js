@@ -6,17 +6,18 @@
  * date to: 25/05/2019
  * team: BE-RHP
  */
-// const nodemailer = require( "nodemailer" ),
-//   CronJob = require( "cron" ).CronJob;
-
-const Account = require( "../models/Account.model" );
-const { defaulSchema } = require( "../helpers/services/default.service" );
-const jsonResponse = require( "../configs/response" );
-const { updateUserSync } = require( "../microservices/synchronize/account.service" );
+const Account = require( "../models/Account.model" ),
+  Role = require( "../models/Role.model" ),
+  fs = require( "fs" ),
+  jsonResponse = require( "../configs/response" ),
+  { changePasswordSync, createNewPasswordSync, updateUserSync } = require( "../microservices/synchronize/account.service" ),
+  { signToken } = require( "../configs/jwt" ),
+  mail = require( "nodemailer" ),
+  CronJob = require( "cron" ).CronJob;
 
 module.exports = {
   "show": async ( req, res ) => {
-    const userInfo = await Account.findOne( { "_id": req.uid } ).select( "-password -__v" ).lean();
+    const userInfo = await Account.findOne( { "_id": req.uid } ).lean();
 
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
@@ -24,7 +25,7 @@ module.exports = {
     const { body, file } = req,
       userInfo = await Account.findOne( { "_id": req.uid } );
 
-    let data, resUserSync, userInfoProfile;
+    let data, resUserSync;
 
     // Check update user info if user upload profile
     if ( file ) {
@@ -38,21 +39,15 @@ module.exports = {
       }
 
       userInfo.imageAvatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
-      userInfoProfile = await Account.findByIdAndUpdate( req.uid, {
-        "$set": body
-      },
-      {
-        "new": true
-      }
-      ).select( "-password -__v" );
+      await userInfo.save();
 
-      return res.status( 201 ).json( jsonResponse( "success", userInfoProfile ) );
+      return res.status( 201 ).json( jsonResponse( "success", userInfo ) );
     }
 
     // join property email to data send
     resUserSync = await updateUserSync( "users/sync", { "info": body, "id": req.uid }, { "Authorization": req.headers.authorization } );
     if ( resUserSync.data.status !== "success" ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH" } );
     }
 
     data = await Account.findByIdAndUpdate(

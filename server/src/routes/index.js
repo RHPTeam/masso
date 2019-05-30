@@ -32,6 +32,7 @@ router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route"
 router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );
 router.use( "/block", auth, require( "./modules/chat/block.route" ) );
 router.use( "/broadcast", auth, require( "./modules/chat/broadcast.route" ) );
+router.use( "/friend", auth, require( "./modules/chat/friend.route" ) );
 router.use( "/group-block", auth, require( "./modules/chat/groupBlock.route" ) );
 router.use( "/group-friend", auth, require( "./modules/chat/groupFriend.route" ) );
 router.use( "/sequence", auth, require( "./modules/chat/sequence.route" ) );

@@ -29,8 +29,8 @@ module.exports = {
     const authorization = req.headers.authorization;
     const role = req.headers.cfr;
 
-    const userID = secure( res, authorization );
-    const accountResult = await Account.findOne( { "_id": userID } );
+    const userId = secure( res, authorization );
+    const accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
       return res
