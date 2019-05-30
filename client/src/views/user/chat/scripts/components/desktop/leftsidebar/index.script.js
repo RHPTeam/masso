@@ -14,7 +14,8 @@ export default {
       showOptionsScripts: false,
       showCopySequenceScripts: false,
       showAfterDay: false,
-      showOptionsDay: false
+      showOptionsDay: false,
+      currentSequenceIndex: ""
     };
   },
   computed: {
@@ -27,9 +28,10 @@ export default {
     // groupBlock() {
     //   return this.$store.getters.groups;
     // },
-    // groupSequence() {
-    //   return this.$store.getters.groupSqc;
-    // },
+    groupSequence() {
+      console.log(this.$store.getters.allSequenceScript);
+      return this.$store.getters.allSequenceScript;
+    },
     // status() {
     //   return this.$store.getters.statusBlocks;
     // },
@@ -39,7 +41,7 @@ export default {
   },
   async created() {
     // await this.$store.dispatch("getGroupBlock");
-    // await this.$store.dispatch("getSequence");
+    await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
     closeShowCopyScripts(){
@@ -53,12 +55,17 @@ export default {
     },
     closeShowAfterDay(){
       this.showAfterDay = false;
+      this.currentSequenceIndex = "";
     },
     closeShowOptionsDay(){
       this.showOptionsDay = false;
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
+    },
+    openSequenceDropdown( id ){
+      this.showCopySequenceScripts = true;
+      this.currentSequenceIndex = id;
     },
     // showBlock(id) {
     //   this.$store.dispatch("getBlock", id);
@@ -72,34 +79,31 @@ export default {
     // createItemSqc(sequenceId) {
     //   this.$store.dispatch("createItemSequences", sequenceId);
     // },
-    // createSequence() {
-    //   this.$store.dispatch("createSequence");
-    // },
-    // createGroup() {
-    //   this.$store.dispatch("createGroupBlock");
-    // },
-    // showActionGroupItem(index) {
-    //   this.currentIndexGroupItemButton = index;
-    // },
-    // upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "namegroupblock") {
-    //     typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
-    //   } else if (type === "namegroupsequence") {
-    //     typingTimer = setTimeout(this.updateNameSequence(group), 800);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name group block
-    // updateNameGroupBlock(value) {
-    //   const objSender = {
-    //     gr_id: value._id,
-    //     name: value.name
-    //   };
-    //   this.$store.dispatch("updateGroupBlock", objSender);
-    // },
+    createSequence() {
+      this.$store.dispatch("createSequenceScript");
+    },
+    deleteASequence( id ){
+      this.showCopySequenceScripts = false;
+      this.$store.dispatch("deleteASequence", id);
+    },
+    async upTypingText(type, group) {
+      await clearTimeout(typingTimer);
+      if (type === "groupfriend") {
+        typingTimer = await setTimeout(this.updateGroupFriend(group), 1000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    // update
+    updateGroupFriend(group) {
+      const objSender = {
+        _id: group._id,
+        name: group.name
+      };
+      this.$store.dispatch("updateSequence", objSender);
+    }
+    
     // //Update nam sequence
     // updateNameSequence(value) {
     //   const objSender = {

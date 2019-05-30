@@ -46,15 +46,9 @@ const actions = {
     },
     // update Group friend
     updateGroupFriend: async ( { commit }, payload ) => {
-        console.log("payloadupdate");
-        console.log(payload);
-
         await GroupFriend.updateGroupFriend( payload._id, payload );
-        const rsUpdate = GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsUpdate.data.data);
-
-        console.log("rsUpdate.data.data");
-        console.log(rsUpdate);
+        const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
+        // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
 
     // get Id Group Friend
@@ -69,8 +63,8 @@ const actions = {
         const rsDelete = await GroupFriend.getAllGroupFriends();
         commit("setAllGroupFriend", rsDelete.data.data);
 
-        const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsGetAllGroup.data.data);
+        // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
+        // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     }
 }
 

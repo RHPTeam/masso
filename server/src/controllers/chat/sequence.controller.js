@@ -16,6 +16,7 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 
 module.exports = {
@@ -26,22 +27,20 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+    const role = findSubString( req.headers.authorization, "cfr=", ";" ),
+      accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
 
     if ( role === "Member" ) {
-      !req.query._id ? dataResponse = await Sequence.find( { "_account": userId } ).populate( { "path": "sequences._block", "select": "name" } ) : dataResponse = await Sequence.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "sequences._block", "select": "name" } );
+      !req.query._id ? dataResponse = await Sequence.find( { "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } ) : dataResponse = await Sequence.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
