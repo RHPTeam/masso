@@ -23,5 +23,14 @@ export default {
   //update sequence 
   updateSequence( id, content ){
     return Api().patch(`sequence?_sqId=${id}`, content);
+  },
+
+  // create a new block for sequence 
+  createBlockInASequence( id ){
+    return Api().post(`sequence/addBlock?_sqId=${id}`);
+  },
+  // get block sequence by id
+  getAllBlockSequenceById( id ){
+    return Api().get(`sequence?_id=${id}`);
   }
 };

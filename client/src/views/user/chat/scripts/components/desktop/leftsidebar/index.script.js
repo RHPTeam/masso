@@ -1,43 +1,36 @@
 let typingTimer;
+
+import AfterDay from "../popup/time";
+import OptionsSequence from "../popup/optionssequence";
+
 export default {
+  props: ["clickShowAfterDay", "closeAfterDay"],
   data() {
     return {
-      title: "AAAAAAAAA",
+      title: "AA",
       isAddTypeDropdown: false,
-      isActionItemDropdown: false,
-      currentIndexActionItemDropdown: null,
-      currentIndexGroupItemButton: null,
-      showItemAction: false,
-      showActionSequence: false,
-      showOptionSequence: false,
+      // isActionItemDropdown: false,
+      // currentIndexActionItemDropdown: null,
+      // currentIndexGroupItemButton: null,
+      // showItemAction: false,
+      // showActionSequence: false,
+      // showOptionSequence: false,
       showCopyScripts: false,
       showOptionsScripts: false,
       showCopySequenceScripts: false,
       showAfterDay: false,
       showOptionsDay: false,
-      currentSequenceIndex: ""
+      currentSequenceIndex: "",
+      currentAfterDayIndex: ""
     };
   },
   computed: {
-    // block() {
-    //   return this.$store.getters.block;
-    // },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // groupBlock() {
-    //   return this.$store.getters.groups;
-    // },
     groupSequence() {
-      console.log(this.$store.getters.allSequenceScript);
       return this.$store.getters.allSequenceScript;
     },
-    // status() {
-    //   return this.$store.getters.statusBlocks;
-    // },
-    // curConversation() {
-    //   return this.$store.getters.curConversation;
-    // }
   },
   async created() {
     // await this.$store.dispatch("getGroupBlock");
@@ -52,10 +45,11 @@ export default {
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
+      this.currentSequenceIndex = "";
     },
     closeShowAfterDay(){
       this.showAfterDay = false;
-      this.currentSequenceIndex = "";
+      this.currentAfterDayIndex = "";
     },
     closeShowOptionsDay(){
       this.showOptionsDay = false;
@@ -67,18 +61,9 @@ export default {
       this.showCopySequenceScripts = true;
       this.currentSequenceIndex = id;
     },
-    // showBlock(id) {
-    //   this.$store.dispatch("getBlock", id);
-    // },
-    // showItemSqc(SqcId) {
-    //   this.$store.dispatch("getItemSqc", SqcId);
-    // },
-    // createBlock(groupId) {
-    //   this.$store.dispatch("createBlock", groupId);
-    // },
-    // createItemSqc(sequenceId) {
-    //   this.$store.dispatch("createItemSequences", sequenceId);
-    // },
+    openShowAfterDay( ){
+      this.showAfterDay = true;
+    },
     createSequence() {
       this.$store.dispatch("createSequenceScript");
     },
@@ -102,7 +87,19 @@ export default {
         name: group.name
       };
       this.$store.dispatch("updateSequence", objSender);
+    },
+
+    // create new block in a sequence
+    createNewBlockInSequence( id ) {
+      this.$store.dispatch("createBlockInSequence", id);
+    },
+
+    // get all block in a sequence
+    getAllBlockInSequence( id ) {
+      this.$store.dispatch("getAllBlockInSequence", id);
     }
+
+
     
     // //Update nam sequence
     // updateNameSequence(value) {
@@ -136,5 +133,9 @@ export default {
     //     _.$refs.audioTone.play();
     //   }
     // }
+  },
+  components: {
+    AfterDay,
+    OptionsSequence
   }
 };

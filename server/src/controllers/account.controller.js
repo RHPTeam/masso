@@ -11,6 +11,7 @@ const Account = require( "../models/Account.model" ),
   fs = require( "fs" ),
   jsonResponse = require( "../configs/response" ),
   { changePasswordSync, createNewPasswordSync, updateUserSync } = require( "../microservices/synchronize/account.service" ),
+  { defaulSchema } = require( "../helpers/services/default.service" ),
   { signToken } = require( "../configs/jwt" ),
   mail = require( "nodemailer" ),
   CronJob = require( "cron" ).CronJob;

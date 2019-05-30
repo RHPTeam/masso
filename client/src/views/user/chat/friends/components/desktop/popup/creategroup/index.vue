@@ -11,13 +11,13 @@
           </div>
         </div>
         <div class="modal--body mb_3">
-            <input
-              type="text"
-              class="modal--body-input input--custom"
-              placeholder="Nhập tên nhóm"
-              v-model="newGroupFriend"
-              @keyup.enter="createGroupFriend"
-            />
+          <input
+            type="text"
+            class="modal--body-input input--custom"
+            placeholder="Nhập tên nhóm"
+            v-model="newGroupFriend"
+            @keyup.enter="createGroupFriend"
+          />
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center mt_4"

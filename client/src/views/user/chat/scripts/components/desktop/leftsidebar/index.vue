@@ -128,17 +128,15 @@
             <icon-sort-down/>
           </icon-base>
         </div>
-        <div>
-          <contenteditable
-            class="name--sequence"
-            tag="div"
-            :contenteditable="true"
-            :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')"
-            v-model="sequence.name"
-            @keyup="upTypingText('groupfriend', sequence)"
-            @keydown="clear"
-          />
-        </div>
+        <contenteditable
+          class="name--sequence"
+          tag="div"
+          :contenteditable="true"
+          :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')"
+          v-model="sequence.name"
+          @keyup="upTypingText('groupfriend', sequence)"
+          @keydown="clear"
+        />
         <div @click="openSequenceDropdown(sequence._id)">
           <icon-base
             class="icon--more"
@@ -153,6 +151,7 @@
         <div
           class="click--icon dropdown--menu-content"
           v-if="showCopySequenceScripts === true && currentSequenceIndex === sequence._id"
+          v-click-outside="closeCopySequenceScripts"
         >
           <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
             <div class="copy">{{ $t("chat.scripts.sidebar.sequence.copy.title") }}</div>
@@ -165,94 +164,27 @@
         </div>
       </div>
       <div class="content">
-        <div class="r m_0 group--items">
+        <div
+          class="r m_0 group--items"
+          v-for="(blockInSequence,index) in groupSequence[index].sequences"
+          :key="`b-${index}`"
+        >
           <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item position_relative">
-              <div class="after--day" @click="showAfterDay = true">
-                <span>{{ $t("chat.scripts.sidebar.sequence.items.after") }}</span>
-                <span>1</span>
-                <span>Ngày</span>
-              </div>
-              <div
-                class="show--after-day position_absolute text_left"
-                v-if="showAfterDay === true"
-                v-click-outside="closeShowAfterDay"
-              >
-                <div>{{ $t("chat.scripts.sidebar.sequence.items.popup.title") }}</div>
-                <div class="d_inline_flex hours--day position_relative my_1">
-                  <div
-                    class="text_center number--day"
-                    contenteditable="true"
-                  >{{ $t("chat.scripts.sidebar.sequence.items.popup.number") }}</div>
-                  <div class="day" @click="showOptionsDay = true">
-                    <span>{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.day") }}</span>
-                    <icon-base
-                      class="icon--sort-down float_right mt_2"
-                      icon-name="IconSortDown"
-                      width="17"
-                      height="10"
-                      viewBox="0 0 10 10"
-                    >
-                      <icon-sort-down/>
-                    </icon-base>
-                  </div>
-                  <div
-                    class="d_none"
-                  >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.now") }}</div>
-                  <div
-                    class="position_absolute options--day"
-                    v-if="showOptionsDay === true"
-                    v-click-outside="closeShowOptionsDay"
-                  >
-                    <ul>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.now") }}</li>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.seconds") }}</li>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.minute") }}</li>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.hours") }}</li>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.day") }}</li>
-                      <li
-                        class="py_1 pl_1 py_2"
-                      >{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.off") }}</li>
-                    </ul>
-                  </div>
-                </div>
-                <div
-                  class="follow"
-                >{{ $t("chat.scripts.sidebar.sequence.items.popup.followBroadcast") }}</div>
-                <div
-                  class="follow"
-                >{{ $t("chat.scripts.sidebar.sequence.items.popup.followOther") }}</div>
-              </div>
+            <div class="content--item position_relative">              
+              <after-day :id="blockInSequence._id" :item="blockInSequence" :time="blockInSequence.time.numberTime" />
             </div>
           </div>
           <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
             <div class="content--item">
-              <div class="text_center name-script">Kịch bản 1</div>
+              <div class="text_center name-script">{{ blockInSequence._block.name }}</div>
             </div>
-            <div class="position_absolute icon-more">
-              <icon-base
-                class="icon--more"
-                icon-name="IconMore"
-                width="22"
-                height="22"
-                viewBox="0 0 760 760"
-              >
-                <icon-more/>
-              </icon-base>
-            </div>
+            <options-sequence class="options--sequence" :id="blockInSequence._id" :item="blockInSequence" :hover="true" />
           </div>
         </div>
-        <div class="r m_0 group--items mb_3 position_relative">
+        <div
+          class="r m_0 group--items mb_3 position_relative"
+          @click="createNewBlockInSequence(sequence._id)"
+        >
           <div class="c_lg_12 c_xl_12 c_md_12 p_0">
             <div class="content--item">
               <div class="text_center name-script">

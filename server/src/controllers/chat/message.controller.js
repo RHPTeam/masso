@@ -13,6 +13,7 @@ const Account = require( "../../models/Account.model" );
 const Message = require( "../../models/chat/Message.model" );
 
 const jsonResponse = require( "../../configs/response" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -22,7 +23,7 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const role = req.headers.cfr;
+    const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     // eslint-disable-next-line semi
     const userId = req.uid
