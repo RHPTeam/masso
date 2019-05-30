@@ -10,14 +10,18 @@
     </div>
 
     <div class="segments--list-item mr_2 mb_2 position_relative" v-for="(group, index) in allGroupFriends" :key="index">
-      <contenteditable
+      <div @click="getGroupById(group._id, index)">
+        <contenteditable
           class="editable"
           tag="div"
           placeholder="..."
           :contenteditable="true"
           v-model="group.name"
+          @keyup="upTypingText('groupfriend', group)"
+          @keydown="clear"
         />
-      <div class="position_absolute remove--group" @click="isDeleteItemBlock = true">
+      </div>
+      <div class="position_absolute remove--group" @click="showDeletePopup(group)">
         <icon-base
           class="icon--remove"
           icon-name="plus"
@@ -49,7 +53,8 @@
           :data-theme="currentTheme"
           title="Delete Time"
           @closePopup="isDeleteItemBlock = $event"
-          storeActionName="deleteTime"
+          storeActionName="deleteGroupFriend"
+          :targetData="groupDeleted"
           typeName="TIME"
       ></delete-campaign-popup>
       <create-group
@@ -87,15 +92,16 @@ export default {
     }
   },
   methods: {
-    getGroupById(group_id, index) {
+    getGroupById(id_group, index) {
       this.currentIndex = index;
-      this.$store.dispatch("getGroupByID", group_id);
-      this.$store.dispatch("selectedUIDs", []);
-      this.$emit("groupSelected", true);
+      this.$store.dispatch("getIdGroupFriend", id_group);
+      // this.$store.dispatch("selectedUIDs", []);
+      // this.$emit("groupSelected", true);
     },
     showDeletePopup(group) {
+      console.log(group);
       this.groupDeleted = group;
-      this.isShowDeletePopup = true;
+      this.isDeleteItemBlock = true;
     },
     seeAllUsers() {
       this.$emit("groupSelected", false);
@@ -110,12 +116,13 @@ export default {
     clear() {
       clearTimeout(typingTimer);
     },
+    // update
     updateGroupFriend(group) {
       const objSender = {
-        gr_id: group._id,
+        _id: group._id,
         name: group.name
       };
-      this.$store.dispatch("updateGroup", objSender);
+      this.$store.dispatch("updateGroupFriend", objSender);
     }
   },
   async created() {

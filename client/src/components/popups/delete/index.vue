@@ -93,7 +93,7 @@ export default {
     },
     deleteTargets() {
       this.$store.dispatch( this.storeActionName, this.targetData );
-
+      
       this.$emit( "closePopup", false );
     }
   }
