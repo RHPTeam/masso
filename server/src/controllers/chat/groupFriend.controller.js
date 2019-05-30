@@ -10,8 +10,6 @@
 
 const Account = require( "../../models/Account.model" );
 const GroupFriend = require( "../../models/chat/GroupFriend.model" );
-const Friend = require( "../../models/chat/Friend.model" );
-const Vocate = require( "../../models/chat/Vocate.model" );
 
 const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
@@ -19,6 +17,12 @@ const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
 const { findSubString } = require( "../../helpers/utils/functions/string" );
+
+const checkObjectExist = ( arr, property ) => {
+  return arr.some( function( el ) {
+    return el.uid === property;
+  } );
+};
 
 module.exports = {
   /**
@@ -33,14 +37,7 @@ module.exports = {
     const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     if ( role === "Member" ) {
-      !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } )
-        .populate( { "path": "_friends", "select": "-_account -_facebook" } )
-        .lean() ) : ( dataResponse = await GroupFriend.find( {
-        "_id": req.query,
-        "_account": req.uid
-      } )
-        .populate( { "path": "_friends", "select": "-_account -_facebook" } )
-        .lean() );
+      !req.query._id ? dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean() : dataResponse = await GroupFriend.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
@@ -50,23 +47,7 @@ module.exports = {
         }
       } );
     }
-    if ( req.query._id ) {
-      for ( let i = 0; i < dataResponse[ 0 ]._friends.length; i++ ) {
-        let vocate = await Vocate.find( {
-          "_account": req.uid,
-          "_friends": dataResponse[ 0 ]._friends[ i ]._id
-        } );
-
-        vocate.length === 0 ? ( dataResponse[ 0 ]._friends[ i ].vocate = "Chưa thiết lập" ) : ( dataResponse[ 0 ]._friends[ i ].vocate = vocate[ 0 ].name );
-      }
-      return res
-        .status( 200 )
-        .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse[ 0 ] ) );
-    }
-
-    res
-      .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
   },
   /**
    *  create group friend
@@ -170,9 +151,7 @@ module.exports = {
     }
     foundGroupFriend.name = req.body.name;
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findById(
-      req.query._groupId
-    ).populate( { "path": "_friends", "select": "-_account -_facebook" } );
+    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } ).lean();
 
     res
       .status( 201 )
@@ -202,38 +181,10 @@ module.exports = {
     }
 
     const friends = req.body.friendId;
-    let checkCon = false,
-      checkExist = false;
+    let checkCon = false;
 
-    await Promise.all(
-      friends.map( async ( val ) => {
-        const foundFriend = await Friend.findOne( {
-          "_account": userId,
-          "_id": val
-        } );
-
-        return foundFriend === null;
-      } )
-    ).then( ( result ) => {
-      result.map( ( value ) => {
-        if ( value === true ) {
-          checkExist = true;
-          return checkExist;
-        }
-      } );
-    } );
-    if ( checkExist ) {
-      return res
-        .status( 405 )
-        .json(
-          jsonResponse(
-            "Một trong số các bạn bè không có trong tài khoản của bạn!",
-            null
-          )
-        );
-    }
     friends.map( async ( val ) => {
-      if ( foundGroupFriend._friends.indexOf( val ) > -1 ) {
+      if ( checkObjectExist( foundGroupFriend._friends, val.uid ) ) {
         checkCon = true;
         return checkCon;
       }
@@ -243,15 +194,13 @@ module.exports = {
         .status( 405 )
         .json( jsonResponse( "Bạn đã thêm một trong những bạn bè này!", null ) );
     }
-    const checkFriend = ArrayFunction.removeDuplicates( friends );
+    const checkFriend = ArrayFunction.removeObjectDuplicates( friends );
 
     checkFriend.map( ( val ) => {
       foundGroupFriend._friends.push( val );
     } );
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findById(
-      req.query._groupId
-    ).populate( { "path": "_friends", "select": "-_account -_facebook" } );
+    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } );
 
     res
       .status( 200 )
@@ -277,7 +226,7 @@ module.exports = {
         .status( 403 )
         .json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundGroupFriend = await GroupFriend.findById( req.query._groupId );
+    const foundGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } );
 
     if ( !foundGroupFriend ) {
       return res
@@ -286,61 +235,25 @@ module.exports = {
     }
     if ( req.query._friend === "true" ) {
       const friends = req.body.friendId;
-      let checkCon = false,
-        checkExist = false;
+      let checkCon = false;
 
-      await Promise.all(
-        friends.map( async ( val ) => {
-          const foundFriend = await Friend.findOne( {
-            "_account": userId,
-            "_id": val
-          } );
-
-          return foundFriend === null;
-        } )
-      ).then( ( result ) => {
-        result.map( ( value ) => {
-          if ( value === true ) {
-            checkExist = true;
-            return checkExist;
-          }
-        } );
-      } );
-      if ( checkExist ) {
-        return res
-          .status( 405 )
-          .json(
-            jsonResponse(
-              "Một trong số các bạn bè không có trong tài khoản của bạn!",
-              null
-            )
-          );
-      }
       friends.map( async ( val ) => {
-        if ( foundGroupFriend._friends.indexOf( val ) < 0 ) {
+        if ( checkObjectExist( foundGroupFriend._friends, val.uid ) === false ) {
           checkCon = true;
           return checkCon;
         }
       } );
       if ( checkCon ) {
-        return res
-          .status( 405 )
-          .json(
-            jsonResponse(
-              "Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!",
-              null
-            )
-          );
+        return res.status( 405 ).json( jsonResponse( "Bạn không có một trong những người bạn ở nhóm bạn bè này!", null ) );
       }
-      const checkFriend = ArrayFunction.removeDuplicates( friends );
+
+      const checkFriend = ArrayFunction.removeObjectDuplicates( friends );
 
       checkFriend.map( ( val ) => {
         foundGroupFriend._friends.pull( val );
       } );
       await foundGroupFriend.save();
-      const resGroupFriend = await GroupFriend.findById(
-        req.query._groupId
-      ).populate( { "path": "_friends", "select": "-_account -_facebook" } );
+      const resGroupFriend = await GroupFriend.findById( req.query._groupId );
 
       return res
         .status( 200 )

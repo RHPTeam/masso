@@ -29,11 +29,11 @@ const actions = {
     },
 
     // get all group friend
-    getAllGroupInFriends: async ( { commit } ) => {
+    getAllGroupWhenCreate: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         commit("setAllGroupFriend", rsGetAllGroup.data.data);
         console.log("rsGetAllGroup.data.data");
-        console.log(rsGetAllGroup.data.data);
+        console.log(rsGetAllGroup);
     },
     // update Group friend
     updateGroupFriend: async ( { commit }, payload ) => {

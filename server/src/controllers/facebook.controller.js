@@ -153,7 +153,10 @@ module.exports = {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } ),
-      findFacebook = await Facebook.findById( req.query._facebookId );
+      findFacebook = await Facebook.findById( req.query._facebookId ),
+      listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
+      listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
+      listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 
     if ( !accountResult ) {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
