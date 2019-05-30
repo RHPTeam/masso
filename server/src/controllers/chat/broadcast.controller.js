@@ -17,6 +17,7 @@ const Sequence = require( "../../models/chat/Sequence.model" );
 const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
+const { findSubString } = require( "../../helpers/utils/functions/string" )
 
 module.exports = {
   /**
@@ -27,7 +28,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization;
-    const role = req.headers.cfr;
+    const role = findSubString( authorization, "cfr=", ";" );
 
     const userId = secure( res, authorization );
     const accountResult = await Account.findOne( { "_id": userId } );

@@ -16,6 +16,7 @@ const secure = require( "../../helpers/utils/secures/jwt" );
 const { removeObjectDuplicates } = require( "../../helpers/utils/functions/array" );
 const { agent } = require( "../../configs/crawl" );
 const { getAllFriends } = require( "../../controllers/core/facebook.core" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -28,8 +29,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = [];
     const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-
+      role = findSubString( authorization, "cfr=", ";" ),
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } );
 

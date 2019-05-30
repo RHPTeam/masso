@@ -17,7 +17,7 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
-
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -29,7 +29,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
     const authorization = req.headers.authorization;
-    const role = req.headers.cfr;
+    const role = findSubString( authorization, "cfr=", ";" );
 
     const userId = secure( res, authorization );
     const accountResult = await Account.findOne( { "_id": userId } );
