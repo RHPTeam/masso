@@ -10,7 +10,6 @@ import StringFunction from "@/utils/functions/string";
 export default {
   created() {
     const query = this.$route.query;
-
     if ( query.hasOwnProperty( "authorization" ) ) {
       CookieFunction.setCookie( "sid", StringFunction.findSubString( query.authorization, "sid=", ";" ) );
       CookieFunction.setCookie( "uid", StringFunction.findSubString( query.authorization, "uid=", ";" ) );
