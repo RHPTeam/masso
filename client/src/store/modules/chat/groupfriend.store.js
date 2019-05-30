@@ -2,17 +2,19 @@ import GroupFriend from "@/services/modules/chat/groupfriend.service";
 
 const state = {
     // all group friends
-    allGroupFriends: []
+    allGroupFriends: [],
+    allCreateGroupFriends: []
 }
 const getters = {
     // all group friends
-    allGroupFriends: state => state.allGroupFriends
+    allGroupFriends: state => state.allGroupFriends,
+    allCreateGroupFriends: state => state.allCreateGroupFriends
 
 }
 const mutations = {
     // set create group friend
     setCreateGroup: (state, payload) => {
-        // state.
+        state.allCreateGroupFriends = payload;
     },
     // all group friends
     setAllGroupFriend: (state, payload) => {
@@ -27,9 +29,10 @@ const actions = {
     },
 
     // get all group friend
-    getAllGroupFriend: async ( { commit } ) => {
+    getAllGroupInFriends: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         commit("setAllGroupFriend", rsGetAllGroup.data.data);
+        console.log("rsGetAllGroup.data.data");
         console.log(rsGetAllGroup.data.data);
     },
     // update Group friend

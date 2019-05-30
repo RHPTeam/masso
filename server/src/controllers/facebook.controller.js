@@ -9,7 +9,7 @@ const Account = require( "../models/Account.model" );
 const Facebook = require( "../models/Facebook.model" );
 const PageFacebook = require( "../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../models/post/GroupFacebook.model" );
-const PostGroup = require( "../models/post/PostGroup.model" );
+// const PostGroup = require( "../models/post/PostGroup.model" );
 
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions/string" );

@@ -119,7 +119,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllGroupFriend");
+    await this.$store.dispatch("getAllGroupInFriends");
   },
   components: {
     CreateGroup,
