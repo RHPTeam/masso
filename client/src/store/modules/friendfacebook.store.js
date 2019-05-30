@@ -1,4 +1,4 @@
-import FacebookFriendServices from "@/services/modules/chat/friendfacebook.service";
+import FacebookFriendServices from "@/services/modules/friendfacebook.service";
 
 const state = {
   allFriend: [],
@@ -21,10 +21,11 @@ const mutations = {
 };
 const actions = {
   getAllFriendFb: async ( {commit} ) => {
-    commit( "fr_request" )
+    commit( "fr_request" );
     const result =  await FacebookFriendServices.getAllFriend();
+    console.log(result.data.data.results);
     commit( "setAllFriend", result.data.data.results );
-    commit( "fr_success" )
+    commit( "fr_success" );
   }
 };
 

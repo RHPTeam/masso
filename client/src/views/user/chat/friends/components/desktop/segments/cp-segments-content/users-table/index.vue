@@ -36,6 +36,39 @@
           </icon-base>
         </span>
       </div>
+      <div class="updated-date">
+        <span
+          class="sort"
+        >Xem lần cuối
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+          >
+            <icon-arrow-up />
+          </icon-base>
+        </span>
+      </div>
       <div class="gender">
         <span
           class="sort"
@@ -64,39 +97,6 @@
         <span
           class="sort"
           >{{ $t("chat.friends.table.main.nickname") }}
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
-          <icon-base
-            class="icon--arrow-up ml_1"
-            icon-name="icon-arrow-up"
-            width="12"
-            height="12"
-            viewBox="0 0 26 26"
-          >
-            <icon-arrow-up />
-          </icon-base>
-        </span>
-      </div>
-      <div class="updated-date d_none">
-        <span
-          class="sort"
-          >Xem lần cuối
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
             icon-name="icon-arrow-down"
@@ -176,6 +176,7 @@
                   <span class="checkbox--control-checkmark"></span>
                 </span>
               </div>
+
               <div class="name">
                 <div class="name--avatar mr_2">
                   <img
@@ -188,6 +189,11 @@
                   <span class="btn--action"> user.fullName }}</span>
                 </div>
               </div>
+
+              <div class="updated-date">
+                <span class="btn--action">deu co</span>
+              </div>
+
               <div class="gender">
                 <span class="btn--action">dddd</span>
               </div>
@@ -202,11 +208,6 @@
                 >
                   Chọn để thiết lập
                 </span>
-              </div>
-              <div class="updated-date d_none">
-                <span class="btn--action">
-                  user.updated_at | covertDateUpdatedAt
-                }}</span>
               </div>
               <div class="attributes d_none">
                 <span class="btn--action">None</span>
@@ -247,6 +248,11 @@
                 <span class="btn--action">fullName</span>
               </div>
             </div>
+
+            <div class="updated-date">
+              <span class="btn--action">deo co</span>
+            </div>
+
             <div class="gender">
               <span class="btn--action">Gender ne</span>
             </div>
@@ -262,11 +268,7 @@
                 {{ $t("chat.friends.table.main.setup") }}
               </span>
             </div>
-            <!-- <div class="updated-date d_none">
-              <span class="btn--action">{{
-                user.updated_at | covertDateUpdatedAt
-              }}</span>
-            </div> -->
+
             <div class="attributes d_none">
               <span class="btn--action">None</span>
             </div>
