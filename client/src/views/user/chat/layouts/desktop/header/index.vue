@@ -11,62 +11,27 @@
       </icon-base>
     </div>
     <div class="right d_flex align_items_center">
-      <router-link tag="div" class="mess" :to="{name: 'messenger'}">{{ $t("chat.layout.openMess") }}</router-link>
-      <!-- Start: Language flag -->
-      <div class="flags mr_1 position_relative">
-        <div @click="showFlag = true">
-          <icon-base icon-name="flag--vietnam" width="30" height="25" viewBox="0 0 600 400">
-            <icon-vietnam-flag/>
-          </icon-base>
-        </div>
-        <div
-          v-if="showFlag === true"
-          class="position_absolute choose--lang"
-          v-click-outside="closeShowFlag"
+      <!-- Start: Messenger Link-->
+      <router-link tag="a"
+                   class="mess d_flex align_items_center justify_content_center"
+                   :to="{name: 'messenger'}"
+                   target="_blank">
+        <icon-base
+          class="icon--messenger mr_1"
+          width="24px"
+          height="20px"
+          viewBox="0 0 16 16"
         >
-          <div @click="closeShowFlag" class="item pb_1">
-            <icon-base
-              icon-name="flag--vietnam"
-              width="40"
-              height="30"
-              viewBox="0 0 600 400"
-              class="mr_1"
-            >
-              <icon-vietnam-flag/>
-            </icon-base>
-            <span>{{ $t('language') }}</span>
-          </div>
-          <div @click="closeShowFlag" class="item pb_1">
-            <icon-base
-              icon-name="flag--english"
-              width="40"
-              height="30"
-              viewBox="0 0 600 400"
-              class="mr_1"
-            >
-              <icon-america-flag/>
-            </icon-base>
-            <span>English</span>
-          </div>
-          <div @click="closeShowFlag" class="item pb_1">
-            <icon-base
-              icon-name="flag--vietnam"
-              width="40"
-              height="30"
-              viewBox="0 0 600 400"
-              class="mr_1"
-            >
-              <icon-china-flag/>
-            </icon-base>
-            <span>China</span>
-          </div>
-        </div>
-      </div>
-      <!-- End: Language flag -->
+          <icon-messenger></icon-messenger>
+        </icon-base>
+        <div class="text">Trò chuyện</div>
+      </router-link>
+      <!-- Start: Messenger Link-->
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3"
           @click="showNotificationDropdown"
+           v-click-outside="closeNotificationDropdown"
         >
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
@@ -94,6 +59,65 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+      <!-- Start: Language flag -->
+      <div class="flags position_relative mr_3">
+        <div @click="showFlag = true">
+          <icon-base
+            class="icon--flag"
+            icon-name="flag--vietnam"
+            width="24"
+            height="20"
+            viewBox="0 0 460 460">
+            <icon-vietnam-flag/>
+          </icon-base>
+        </div>
+        <transition name="dropdown">
+          <div
+          v-if="showFlag === true"
+          class="position_absolute dropdown--lang"
+          v-click-outside="closeShowFlag"
+        >
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              class="icon--flag mr_2"
+              icon-name="flag--vietnam"
+              width="24"
+              height="20"
+              viewBox="0 0 460 460"
+            >
+              <icon-vietnam-flag/>
+            </icon-base>
+            <span>Tiếng Việt</span>
+          </div>
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              class="icon--flag mr_2"
+              icon-name="flag--english"
+              width="24"
+              height="20"
+              viewBox="0 0 460 460"
+            >
+              <icon-america-flag/>
+            </icon-base>
+            <span>English</span>
+          </div>
+          <div @click="closeShowFlag" class="item pb_1">
+            <icon-base
+              class="icon--flag mr_2"
+              icon-name="flag--chinese"
+              width="24"
+              height="20"
+              viewBox="0 0 460 460"
+            >
+              <icon-china-flag/>
+            </icon-base>
+            <span>中文</span>
+          </div>
+        </div>
+        </transition>
+      </div>
+      <!-- End: Language flag -->
+      <!-- Start: User Info & Action -->
       <div
         class="header--profile position_relative d_flex justify_content_end align_items_center"
         @click="showDropdown"
@@ -162,6 +186,7 @@
           </a>
         </div>
       </div>
+      <!-- End: User Info & Action -->
     </div>
   </div>
 </template>

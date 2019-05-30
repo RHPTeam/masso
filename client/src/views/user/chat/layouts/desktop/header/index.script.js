@@ -87,6 +87,9 @@ export default {
     closeShowFlag(){
       this.showFlag = false;
     },
+    closeNotificationDropdown() {
+      this.isShowNotificationDropdown = false;
+    },
     showNotificationDropdown() {
       this.isShowProfileDropdown = false;
       this.isShowNotificationDropdown = !this.isShowNotificationDropdown;

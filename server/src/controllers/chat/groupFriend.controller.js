@@ -18,6 +18,7 @@ const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -28,11 +29,8 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = req.headers.cfr,
-      email = secure( res, authorization ),
-      accountResult = await Account.findOne( { "email": email } ),
-      userId = accountResult._id.toString();
+    const accountResult = await Account.findOne( { "_id": req.uid } ),
+      role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
