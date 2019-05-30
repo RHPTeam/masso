@@ -13,7 +13,9 @@ const Facebook = require( "../../models/Facebook.model" );
 
 // const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
-const { removeObjectDuplicates } = require( "../../helpers/utils/functions/array" );
+const {
+  removeObjectDuplicates
+} = require( "../../helpers/utils/functions/array" );
 const { agent } = require( "../../configs/crawl" );
 const { getAllFriends } = require( "../../controllers/core/facebook.core" );
 
@@ -34,31 +36,47 @@ module.exports = {
       accountResult = await Account.findOne( { "_id": userId } );
 
     if ( !accountResult ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
+      return res
+        .status( 404 )
+        .json( { "status": "errors.js", "message": "Không tìm thấy người dùng!" } );
     }
     if ( role === "Member" ) {
-      Promise.all( accountResult._accountfb.map( async ( facebook ) => {
-        let findFacebook = await Facebook.findOne( { "_id": facebook } ),
-          friendsList = await getAllFriends( { "cookie": findFacebook.cookie, agent } );
+      Promise.all(
+        accountResult._accountfb.map( async ( facebook ) => {
+          let findFacebook = await Facebook.findOne( { "_id": facebook } ),
+            friendsList = await getAllFriends( {
+              "cookie": findFacebook.cookie,
+              agent
+            } );
 
-        dataResponse = dataResponse.concat( friendsList.results, dataResponse );
+          dataResponse = dataResponse.concat( friendsList.results, dataResponse );
 
-        return dataResponse;
-      } ) ).then( ( data ) => {
+          return dataResponse;
+        } )
+      ).then( ( data ) => {
         dataResponse = [];
         // Concat element children of array
+        // eslint-disable-next-line prefer-spread
         const dataFriend = [].concat.apply( [], data );
 
-        Promise.all( removeObjectDuplicates( dataFriend, "uid" ).map( async ( friend ) => {
-          let vocate = await Vocate.find( { "_account": userId, "_friends": friend.uid.toString() } );
+        Promise.all(
+          removeObjectDuplicates( dataFriend, "uid" ).map( async ( friend ) => {
+            let vocate = await Vocate.find( {
+              "_account": userId,
+              "_friends": friend.uid.toString()
+            } );
 
-          vocate.length === 0 ? friend.vocate = "Chưa thiết lập" : friend.vocate = vocate[ 0 ].name;
-          friend.photo = `http://graph.facebook.com/${friend.uid}/picture?type=large`;
-          return friend;
-        } ) ).then( async ( item ) => {
-          return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", item ) );
+            vocate.length === 0 ? ( friend.vocate = "Chưa thiết lập" ) : ( friend.vocate = vocate[ 0 ].name );
+            friend.photo = `http://graph.facebook.com/${
+              friend.uid
+            }/picture?type=large`;
+            return friend;
+          } )
+        ).then( async ( item ) => {
+          return res
+            .status( 200 )
+            .json( jsonResponse( "Lấy dữ liệu thành công =))", item ) );
         } );
-
       } );
     }
     // if ( role === "Member" ) {
