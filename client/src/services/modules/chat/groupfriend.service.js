@@ -15,6 +15,11 @@ export default{
 
     updateGroupFriend( id, content){
         return Api().patch(`group-friend?_groupId=${id}`, content );
+    },
+
+    // get Id group friend
+    getIdGroupFriend( id ){
+        return Api().get(`group-friend?_id=${id}`)
     }
 
 }
