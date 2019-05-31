@@ -47,7 +47,7 @@
               class="option--user-item item d_flex align_items_center justify_content_center mr_2"
             ></div>
           </div> -->
-          <!--        Click show data user in group-->
+          <!--        Click show data user in item-->
           <!-- <div
             class="option--user-more item text_center"
           >
@@ -71,7 +71,7 @@
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
             </div> -->
-            <!--        Click show data user in group-->
+            <!--        Click show data user in item-->
             <!-- <div
               class="option--user-more item text_center"
             >
@@ -98,7 +98,7 @@
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
             </div> -->
-            <!--        Click show data user in group-->
+            <!--        Click show data user in item-->
             <!-- <div
               class="option--user-more item text_center"
             >
@@ -128,7 +128,7 @@
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
             </div> -->
-            <!--        Click show data user in group-->
+            <!--        Click show data user in item-->
             <!-- <div
               class="option--user-more item text_center"
             >
@@ -160,7 +160,7 @@
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
               ></div>
             </div>
-            <!--        Click show data user in group-->
+            <!--        Click show data user in item-->
             <div
               class="option--user-more item text_center"
             >
@@ -227,11 +227,11 @@ export default {
     // this.listUserFilter = this.userFilter.slice(0, 5);
   },
   computed: {
-    // Get info group friend when choose segment
+    // Get info item friend when choose segment
     // infoGroupFilter() {
     //   return this.$store.getters.infoGroupFilter._friends;
     // },
-    // // Get info item start 0 to 5 on array group friend
+    // // Get info item start 0 to 5 on array item friend
     // filterMember() {
     //   return this.infoGroupFilter.slice(0, 5);
     // },
@@ -239,7 +239,7 @@ export default {
     // infoFriendWithNameAttr() {
     //   return this.$store.getters.filterFriendAttribute;
     // },
-    // // Get info item start 0 to 5 on array group friend
+    // // Get info item start 0 to 5 on array item friend
     // sliceFriendWithNameAttr() {
     //   return this.infoFriendWithNameAttr.slice(0, 5);
     // },
@@ -247,7 +247,7 @@ export default {
     // infoFriendWithConditonIs() {
     //   return this.$store.getters.filterFriendCondition;
     // },
-    // // Get info item start 0 to 5 on array group friend with condition is
+    // // Get info item start 0 to 5 on array item friend with condition is
     // sliceFriendWithConditionIs() {
     //   return this.infoFriendWithConditonIs.slice(0, 5);
     // },
@@ -255,7 +255,7 @@ export default {
     // infoFriendWithConditonIsNot() {
     //   return this.$store.getters.filterFriendConditionIsNot;
     // },
-    // // Get info item start 0 to 5 on array group friend with condition is not
+    // // Get info item start 0 to 5 on array item friend with condition is not
     // sliceFriendWithConditionIsNot() {
     //   return this.infoFriendWithConditonIsNot.slice(0, 5);
     // }

@@ -47,11 +47,7 @@ PostFacebookSchema.pre( "save", function( next ) {
 
 const PostFacebook = mongoose.model( "PostFacebook", PostFacebookSchema );
 
-<<<<<<< HEAD
 PostFacebook.on( "index.vue", function ( error ) {
-=======
-PostFacebook.on( "index1.vue", function ( error ) {
->>>>>>> 412889344a0e88c616eca6ae524b4e507e1339af
   if ( error ) {
     console.log( error.message );
   }

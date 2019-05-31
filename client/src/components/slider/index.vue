@@ -8,7 +8,11 @@
       <div class="time--adjust">
         <input
           type="range"
+          :min="mintime"
+          :max="maxtime"
+          :value="item.valueText"
           :style="{ 'background-size': percentTime + '% 100%' }"
+          @input="changeTime($event, item._id)"
         />
         <div class="time--value position_relative pt_1">
           <div
@@ -19,8 +23,10 @@
           </div>
           <div
             class="time--value-current position_absolute"
+            :style="{ left: percentTime + '%' }"
+            v-if="item.valueText > mintime && item.valueText < maxtime"
           >
-            <!-- 10 s -->
+            {{ item.valueText }}s
           </div>
         </div>
       </div>
@@ -62,6 +68,9 @@
 <script>
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
+  components: {
+    DeleteCampaignPopup
+  },
   props: ["item", "block"],
   data() {
     return {
@@ -76,32 +85,29 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  // watch: {
-  //   "item.valueText"() {
-  //     this.percentTime =
-  //       (parseInt(this.item.valueText) * 100) /
-  //       (parseInt(this.maxtime) - parseInt(this.mintime));
-  //   }
-  // },
+  watch: {
+    "item.valueText"() {
+      this.percentTime =
+        (parseInt(this.item.valueText) * 100) /
+        (parseInt(this.maxtime) - parseInt(this.mintime));
+    }
+  },
   async created() {
     this.percentTime =
       ( 10 * 100) /
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
-  // methods: {
-  //   changeTime(e, id) {
-  //     this.item.valueText = e.target.value;
-  //     const objSender = {
-  //       itemId: id,
-  //       valueText: this.item.valueText,
-  //       type: "time",
-  //       block: this.$store.getters.block
-  //     };
-  //     this.$store.dispatch("updateItemBlock", objSender);
-  //   }
-  // },
-  components: {
-    DeleteCampaignPopup
+  methods: {
+    changeTime(e, id) {
+      this.item.valueText = e.target.value;
+      const objSender = {
+        itemId: id,
+        valueText: this.item.valueText,
+        type: "time",
+        block: this.block
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    }
   }
 };
 </script>

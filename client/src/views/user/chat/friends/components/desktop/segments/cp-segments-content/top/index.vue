@@ -17,14 +17,19 @@
         <span>{{ $t("chat.friends.table.top.left.people") }}</span>
       </div>
       <div class="segment--search ml_3">
-        <input type="text" :placeholder="$t('chat.friends.table.top.left.placeholderSearch')">
+        <input
+          type="text"
+          :placeholder="$t('chat.friends.table.top.left.placeholderSearch')"
+          @keydown.enter="searchFriendFacebook"
+          v-model="keySearch"
+        />
       </div>
     </div>
     <!--End: Top Left Component-->
     <!--Start: Top Right Component-->
     <div class="top--right d_flex c_md_12 c_xl_6 c_lg_12 px_0">
       <!--Start: Add Member to Group Component-->
-      <div class="action mr_2">{{ $t("chat.friends.table.top.right.addInGroup") }}</div>
+      <div class="action mr_2" @click="isShowAddtoGrPopup = true">{{ $t("chat.friends.table.top.right.addInGroup") }}</div>
       <!--End: Add Member to Group Component-->
       <!--Start: Delete Member in Group Component-->
       <div class="action mr_2 d_none">{{ $t("chat.friends.table.top.right.delete") }}</div>
@@ -82,9 +87,9 @@
     <!--End: Top Right Component-->
 
     <!--*********** POPUP *************-->
-    <!-- <transition name="popup">
+     <transition name="popup">
       <delete-friends-popup
-        v-if="isShowDeleteFrPopup == true"
+        v-if="isShowDeleteFrPopup === true"
         :data-theme="currentTheme"
         title="Xoá bạn bè khỏi nhóm"
         :isShowDeletePopup="isShowDeleteFrPopup"
@@ -93,12 +98,12 @@
         type="friends"
       ></delete-friends-popup>
       <addto-group-popup
-        v-if="isShowAddtoGrPopup == true"
+        v-if="isShowAddtoGrPopup === true"
         :data-theme="currentTheme"
         :isShowDeleteFrPopup="isShowAddtoGrPopup"
         @closeAddPopup="isShowAddtoGrPopup = $event"
       ></addto-group-popup>
-    </transition>-->
+    </transition>
   </div>
 </template>
 

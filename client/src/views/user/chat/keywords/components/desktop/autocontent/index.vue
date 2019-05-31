@@ -163,10 +163,10 @@ export default {
     //     this.$store.dispatch("updateSyntax", this.syntax);
     //   }
     // },
-    // upTypingText(type, group) {
+    // upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "itemsyntax") {
-    //     typingTimer = setTimeout(this.updateSyntax(group), 800);
+    //     typingTimer = setTimeout(this.updateSyntax(item), 800);
     //   }
     // },
     // clear() {
@@ -184,7 +184,7 @@ export default {
 <style lang="scss" scoped>
 @import "../../../index.style";
 
-// Answer group or text
+// Answer item or text
 .auto--answer {
 }
 .block {

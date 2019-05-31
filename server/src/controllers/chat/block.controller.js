@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable one-var */
+
 /**
  * Controller block for project
  * author: hocpv
@@ -28,31 +27,36 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization;
-    const role = findSubString( authorization, "cfr=", ";" );
+    const authorization = req.headers.authorization,
+      role = findSubString( authorization, "cfr=", ";" ),
 
-    const userId = secure( res, authorization );
-    const accountResult = await Account.findOne( { "_id": userId } );
+      accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
 
     if ( role === "Member" ) {
-      !req.query._id ? dataResponse = await Block.find( { "_account": userId } ) : dataResponse = await Block.find( {
+      // eslint-disable-next-line no-unused-expressions
+      !req.query._id ? dataResponse = await Block.find( { "_account": req.uid } ) : dataResponse = await Block.find( {
         "_id": req.query,
-        "_account": userId
+        "_account": req.uid
       } );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
     }
-    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   /**
    *  create block by user
@@ -79,10 +83,10 @@ module.exports = {
       }
       return true;
     } ).map( ( item ) => parseInt( item.slice( Dictionaries.BLOCK.length ) ) );
-    const indexCurrent = Math.max( ...nameArr );
+    const indexCurrent = Math.max( ...nameArr ),
 
-    const foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": req.uid } );
-    const block = await new Block( req.body );
+      foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": req.uid } ),
+      block = await new Block( req.body );
 
     if ( req.query._groupId ) {
       const findGroup = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": req.uid } );

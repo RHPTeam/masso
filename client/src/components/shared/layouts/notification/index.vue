@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  props: ["item"],
+  props: ["index.vue"],
   data() {
     return {
       showModal: false,

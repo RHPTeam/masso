@@ -2,7 +2,7 @@
   <div class="card" v-if="item">
     <div class="card_body">
       <div class="card--header">
-        <delete-popup :content="item" />  
+<!--        <delete-popup :content="item" />  -->
       </div>
       <div class="card--content">
         <div class="avatar">
@@ -37,15 +37,17 @@
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
         :nameBread="nameUpdatePopup"
-        :subBread="descUpdatePopup"></update-cookie>
+        :subBread="descUpdatePopup"
+      >
+      </update-cookie>
     </transition>
   </div>
 </template>
 <script>
-import DeletePopup from "@/components/shared/layouts/popupdelete/deleteAccountFb";
+import UpdateCookie from "../popup/updatecookie";
 export default {
   components: {
-    DeletePopup
+    UpdateCookie
   },
   filters: {
     covertDateUpdatedAt(d) {

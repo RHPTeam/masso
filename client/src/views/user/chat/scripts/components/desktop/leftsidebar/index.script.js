@@ -129,19 +129,17 @@ export default {
 
     // // get all block in group block
     getAllBlockInGroupById( idGroup ){
-      console.log("idGroup");
-      console.log(idGroup);
       this.$store.dispatch("getAllBlockInAGroupById", idGroup);
     },
 
     // show infor a block in sequence
-    showInforBlockSequence( content ){
-      this.$store.dispatch("getAllBlockInSequenceById", content)
+    showInfoBlockSequence( val ){
+      this.$store.dispatch("getInfoBlock", val);
     },
 
     // show infor a block in group block
     showInforBlockGroup( content ){
-      this.$store.dispatch("getInforABlockGroupById", content)
+      this.$store.dispatch("getInfoBlock", content);
     }
   },
   sockets: {

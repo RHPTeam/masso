@@ -47,8 +47,8 @@
                   height="14"
                   viewBox="0 0 18 18"
                 >
-                  <icon-cancel /> </icon-base
-                >
+                  <icon-cancel />
+                </icon-base>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
           <button class="disabled" v-show="selectedGroups.length === 0">XONG</button>
-          <button class="btn-submit" v-show="selectedGroups.length != 0" @click="addFriendsToGroup">XONG</button>
+          <button class="btn-submit" v-show="selectedGroups.length !== 0" @click="addFriendsToGroup">XONG</button>
         </div>
       </div>
     </div>
@@ -95,5 +95,5 @@
 
 <style lang="scss" scoped>
 @import "../index.style";
-@import "./index.style"
+@import "./index.style";
 </style>

@@ -1,5 +1,5 @@
 /**
- * Create route group block for project
+ * Create route item block for project
  * author: hocpv
  * date: 07/03/2019
  * team: BE-RHP

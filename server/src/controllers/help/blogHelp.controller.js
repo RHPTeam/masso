@@ -28,7 +28,7 @@ module.exports = {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization );
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await BlogHelp.find( { "_id": req.query._id, "_account": userId } ).populate( { "path": "_helpCategory", "select": "_id title" } ).lean();
       dataResponse = dataResponse[ 0 ];

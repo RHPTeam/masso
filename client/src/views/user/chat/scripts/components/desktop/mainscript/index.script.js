@@ -30,36 +30,35 @@ export default {
     //   this.showOptionTablet = false;
     // },
     // // Add Text Value in block
-    // addItemBlock(type, blockId) {
-    //   const dataSender = {
-    //     value: "",
-    //     type: type,
-    //     id: blockId
-    //   };
-    //   this.$store.dispatch("createItemBlock", dataSender);
-    // },
-    async upTypingText(type, group) {
+    createItemBlock(type, blockId) {
+      const dataSender = {
+        value: "",
+        type: type,
+        id: blockId
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
+    },
+    async upTypingText(type, item) {
       clearTimeout(typingTimer);
       if (type === "nameblock") {
-        typingTimer = setTimeout(this.updateNameBlock(group), 2000);
+        typingTimer = setTimeout(this.updateNameBlock(item), 2000);
       }
     },
     clear() {
       clearTimeout(typingTimer);
     },
-
-    //Update name block by id
+    //Update name block
     updateNameBlock() {
-      this.$store.dispatch("updateNameBlockById", this.$store.getters.inforBlockGroup);
+      this.$store.dispatch("updateBlock", this.block);
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // block() {
-    //   return this.$store.getters.block;
-    // },
+    block() {
+      return this.$store.getters.block;
+    },
     // sequence() {
     //   return this.$store.getters.itemSqc;
     // }

@@ -9,7 +9,7 @@ const Account = require( "../models/Account.model" );
 const Facebook = require( "../models/Facebook.model" );
 const PageFacebook = require( "../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../models/post/GroupFacebook.model" );
-// const PostGroup = require( "../models/post/PostGroup.model" );
+const PostGroup = require( "../models/post/PostGroup.model" );
 
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions/string" );
@@ -152,22 +152,19 @@ module.exports = {
   "delete": async ( req, res ) => {
     const accountResult = await Account.findOne( { "_id": req.uid } ),
       listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
-      findFacebook = await Facebook.findById( req.query._facebookId ),
+      findFacebook = await Facebook.findById( req.query._id ),
       listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
       listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 
     if ( !accountResult ) {
       return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
-    if ( userId !== req.uid ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
-    }
     // Check catch when delete campaign
     if ( !findFacebook ) {
       return res.status( 404 ).json( { "status": "error", "message": "Tài khoản facebook không tồn tại!" } );
     }
 
-    // Remove group Id, page Id of facebook account
+    // Remove item Id, page Id of facebook account
     Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
       // Remove pages of facebook
       Promise.all( postGroup._pages.map( ( pageId, index ) => {
