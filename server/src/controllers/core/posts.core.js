@@ -150,11 +150,11 @@ module.exports = {
         const path = await handleImageUpload( image );
 
         // Check download fail
-        if ( path.errors.code === 1023 ) {
+        if ( path.error.code === 1023 ) {
           return;
         }
         // Check write file issues
-        if ( path.errors.code === 1024 ) {
+        if ( path.error.code === 1024 ) {
           return;
         }
 
@@ -197,11 +197,15 @@ module.exports = {
       feedObject.scrape = resultPreviewScrape.results;
     }
 
+    // Check activity
+    if ( feed.activity && feed.activity.type.length > 0 ) {
+      feedObject.activity = feed.activity;
+    }
+
     // Check if user change privacy of feed
     feedObject.privacy = privacy;
 
     // Pass data from original object of client
-    feedObject.activity = feed.activity;
     feedObject.color = feed.color;
     feedObject.content = feed.content;
     feedObject.location = feed.location;
