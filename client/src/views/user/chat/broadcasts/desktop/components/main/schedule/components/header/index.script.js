@@ -10,9 +10,14 @@ export default {
     };
   },
   computed: {
-    // schedule() {
-    //   return this.$store.getters.schedule;
-    // }
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    }
+  },
+  async created() {
+    const scheduleBlockId = this.$route.params.scheduleBlockId;
+
+    await this.$store.dispatch( "getScheduleBlockDetailById", scheduleBlockId );
   },
   methods: {
     startBroadcast(){

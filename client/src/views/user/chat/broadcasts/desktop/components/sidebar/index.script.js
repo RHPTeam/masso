@@ -1,6 +1,3 @@
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
-
 export default {
   data() {
     return {
@@ -19,6 +16,9 @@ export default {
     },
     allBroadcasts() {
       return this.$store.getters.allBroadcasts;
+    },
+    broadcastStatus() {
+      return this.$store.getters.allBroadcastsStatus;
     },
     scheduleBlocks() {
       return this.$store.getters.scheduleBlocks;
@@ -76,56 +76,56 @@ export default {
     // closeAlert() {
     //   this.isShowAlert = false;
     // },
-    goToSchedule(){
+    goToScheduleBlock( block ){
+      this.$store.dispatch( "getScheduleBlockDetail", block );
+
       this.$router.push( {
-        name: "broadcast_schedule"
+        name: "chat_broadcast_schedule",
+        params: { scheduleBlockId: block._id }
       } );
     }
   },
   filters: {
-    filteredName( value ) {
-      let dateCustom = new Date(value.dateMonth);
-      let date = dateCustom.getDate();
+    filteredName( block ) {
+      let dateCustom = new Date(block.dateMonth),
+        date = dateCustom.getDate(),
+        dateMonth = `Ngày ${dateCustom.getDate()} tháng ${dateCustom.getMonth() + 1}`;
 
-      console.log(dateCustom);
-      console.log(StringFunction.convertUnicode( value.repeat.typeRepeat.toLowerCase() ));
-      let dateMonth = `Ngày ${dateCustom.getDate()} tháng ${dateCustom.getMonth() +
-        1}`;
       // Set case for name
-      if ( value.repeat.typeRepeat === "Không") {
-        return `${dateMonth} ${value.hour}`;
-      } else if ( value.repeat.typeRepeat === "Hằng ngày" ) {
-        return `Hằng ngày ${value.hour}`;
-      } else if ( value.repeat.typeRepeat === "Cuối tuần" ) {
-        return `Cuối tuần ${value.hour}`;
-      } else if ( value.repeat.typeRepeat.toLowerCase() === "Hằng tháng" ) {
-        return `Mỗi ngày ${date} của tháng ${value.hour}`;
-      } else if ( value.repeat.typeRepeat.toLowerCase() === "Ngày làm việc" ) {
-        return `Ngày làm việc ${value.hour}`;
-      } else if ( value.repeat.typeRepeat.toLowerCase() === "Tùy chỉnh" ) {
+      if ( block.repeat.typeRepeat === "Không") {
+        return `${dateMonth} ${block.hour}`;
+      } else if ( block.repeat.typeRepeat === "Hằng ngày" ) {
+        return `Hằng ngày ${block.hour}`;
+      } else if ( block.repeat.typeRepeat === "Cuối tuần" ) {
+        return `Cuối tuần ${block.hour}`;
+      } else if ( block.repeat.typeRepeat.toLowerCase() === "Hằng tháng" ) {
+        return `Mỗi ngày ${date} của tháng ${block.hour}`;
+      } else if ( block.repeat.typeRepeat.toLowerCase() === "Ngày làm việc" ) {
+        return `Ngày làm việc ${block.hour}`;
+      } else if ( block.repeat.typeRepeat.toLowerCase() === "Tùy chỉnh" ) {
         if (
-          value.repeat.valueRepeat
+          block.repeat.blockRepeat
             .split(",")
             .sort()
             .toString() === "0,6"
         ) {
-          return `Cuối tuần ${value.hour}`;
+          return `Cuối tuần ${block.hour}`;
         } else if (
-          value.repeat.valueRepeat
+          block.repeat.blockRepeat
             .split(",")
             .sort()
             .toString() === "1,2,3,4,5"
         ) {
-          return `Ngày làm việc ${value.hour}`;
+          return `Ngày làm việc ${block.hour}`;
         } else if (
-          value.repeat.valueRepeat
+          block.repeat.blockRepeat
             .split(",")
             .sort()
             .toString() === "0,1,2,3,4,5,6"
         ) {
-          return `Hằng ngày ${value.hour}`;
+          return `Hằng ngày ${block.hour}`;
         } else {
-          let arrDate = value.repeat.valueRepeat.split(",");
+          let arrDate = block.repeat.blockRepeat.split(",");
           let arrOther = [];
           arrDate.sort().map(item => {
             switch (item) {
@@ -145,7 +145,7 @@ export default {
                 return arrOther.push("T7");
             }
           });
-          return `${arrOther.toString()} ${value.hour}`;
+          return `${arrOther.toString()} ${block.hour}`;
         }
       }
     }

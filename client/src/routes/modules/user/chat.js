@@ -39,8 +39,8 @@ const generalChatRouter = {
             component: require("@/views/user/chat/broadcasts/desktop/components/main/default").default,
           },
           {
-            path: "/schedule/id123123",
-            name: "broadcast_schedule",
+            path: "/schedule/:scheduleBlockId",
+            name: "chat_broadcast_schedule",
             component: require("@/views/user/chat/broadcasts/desktop/components/main/schedule")
               .default
           }
