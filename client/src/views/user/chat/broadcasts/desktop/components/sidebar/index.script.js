@@ -25,8 +25,10 @@ export default {
     }
   },
   methods: {
-    addSchedule() {
-      this.$store.dispatch("createSchedule");
+    createScheduleBlock() {
+      const id = this.allBroadcasts[1]._id;
+
+      this.$store.dispatch("createScheduleBlock", id );
     },
     // async showSchedule(schedule) {
     //   const dateNow = Date.now();

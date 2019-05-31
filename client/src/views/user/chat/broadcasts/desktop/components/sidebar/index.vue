@@ -54,7 +54,7 @@
         </div>
         <!--End: Block Item Loop-->
         <!--Start: Block Item Add-->
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="addSchedule">
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="createScheduleBlock">
           <div class="content--setup d_flex align_items_center justify_content_center">
             <icon-base
               class="icon--add"

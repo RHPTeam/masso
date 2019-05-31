@@ -27,13 +27,21 @@ const mutations = {
   },
 };
 const actions = {
-  createScheduleBlock: async ( { commit } ) => {
+  createScheduleBlock: async ( { commit }, payload ) => {
     commit("setBroadcastStatus", "loading");
+    await BroadcastService.createScheduleBlock( payload );
 
-    await BroadcastService.createBroadcastSchedule();
+    // Get all broadcasts
+    const res = await BroadcastService.index(),
+      allBroadcasts = res.data.data;
 
-    const result = await BroadcastService.index();
-    commit("setAllBroadcasts", result.data.data);
+    await commit( "setAllBroadcasts", allBroadcasts );
+
+    // Get all blocks of schedule broadcast
+    const scheduleBroadcast = allBroadcasts.filter( ( item ) => {
+      return item.typeBroadCast === "Thiết lập bộ hẹn";
+    } );
+    await commit( "setScheduleBlocks", scheduleBroadcast[0].blocks );
 
     commit("setBroadcastStatus", "success");
   },
@@ -70,7 +78,6 @@ const actions = {
     const scheduleBlock = scheduleBroadcast[0].blocks.filter( ( item ) => {
       return item._id === payload;
     } );
-    console.log(scheduleBlock);
     await commit( "setScheduleBlockDetail", scheduleBlock[0] );
   }
 };
