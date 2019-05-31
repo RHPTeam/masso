@@ -61,7 +61,6 @@ const actions = {
     commit( "fr_request" );
   },
   getFriendFacebookBySize: async ( {commit}, payload ) => {
-    console.log(payload);
     commit( "fr_request" );
     const result = await FacebookFriendServices.getFriendBySize(
       payload.size,
