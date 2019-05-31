@@ -11,7 +11,8 @@ module.exports = {
   "defaulSchema": async ( newUser ) => {
     // Create default postcategory
     const defaultPostCategory = await new PostCategory( {
-      "title": dictionaries.DEFAULT_POSTCATEGORY
+      "title": dictionaries.DEFAULT_POSTCATEGORY,
+      "_account": newUser._id
     } );
 
     await defaultPostCategory.save();
