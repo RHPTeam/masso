@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="position_absolute icon-more" @click="showOptionsSequence" v-if="hover === true">
+  <div class="">
+    <div class="position_absolute icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
         icon-name="IconMore"
@@ -19,7 +19,7 @@
       <ul>
         <li @click="closeOptionsSequence" class="disable">Sao chép</li>
         <li @click="closeOptionsSequence" class="disable">Di chuyển</li>
-        <li @click="deleteBlockInSequence( sequenceId, item._id )">Xóa</li>
+        <li>Xóa</li>
       </ul>
     </div>
   </div>
@@ -29,8 +29,7 @@
 export default {
   props: {
     sequenceId: String,
-    item: Object,
-    hover: false
+    item: Object
   },
   data() {
     return {
@@ -43,13 +42,6 @@ export default {
     },
     closeOptionsSequence() {
       this.isOptionsSequence = false;
-    },
-    deleteBlockInSequence( sqId, blockId ){
-      const dataSender = {
-        sqId: sqId,
-        blockId: blockId
-      };
-      this.$store.dispatch("deleteBlockInSequence", dataSender);
     }
   }
 };
@@ -57,7 +49,6 @@ export default {
 
 <style lang="scss" scoped>
 .icon-more {
-  top: 15px;
   right: 1px;
   z-index: 1;
   // display: none;
@@ -70,9 +61,10 @@ export default {
 }
 .infor {
   cursor: pointer;
-  top: 40px;
-  right: -90px;
+  top: 23px;
+  right: -81px;
   z-index: 11;
+  width: 108px;
   border: 1px solid #48484852;
   ul {
     list-style: none;

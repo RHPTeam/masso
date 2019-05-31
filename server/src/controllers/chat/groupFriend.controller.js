@@ -15,6 +15,7 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const checkObjectExist = ( arr, property ) => {
   return arr.some( function( el ) {
@@ -32,7 +33,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    const role = findSubString( authorization, "cfr=", ";" );
+    const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     if ( role === "Member" ) {
       !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean() ) : ( dataResponse = await GroupFriend.find( {
@@ -43,7 +44,7 @@ module.exports = {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
