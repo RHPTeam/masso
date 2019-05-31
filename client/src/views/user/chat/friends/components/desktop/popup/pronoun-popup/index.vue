@@ -102,7 +102,7 @@ export default {
       };
       console.log(dataSender);
       this.$store.dispatch("createVocate", dataSender);
-      // this.$emit("closeAddPopup", false);
+      this.$emit("closeAddPopup", false);
     }
   }
 };

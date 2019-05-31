@@ -17,7 +17,9 @@ export default {
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
       statusNumberDisplayedDropdown: false,
-      keySearch: ""
+      keySearch: "",
+      size: 20,
+      currentPage: 1
     };
   },
   async created() {
@@ -81,6 +83,23 @@ export default {
     },
     updateSearch() {
       this.$emit("updateSearch", this.keySearch);
+    },
+    async searchFriendFacebook(){
+      if(this.keySearch.length !== 0) {
+        const dataSender = {
+          key: this.keySearch,
+          size: this.size,
+          page: this.currentPage
+        };
+        await this.$store.dispatch("searchFriendFacebookByKey", dataSender);
+        this.$emit("changeStatusDefault", false);
+      } else {
+        const dataSender = {
+          size: this.size,
+          page: this.currentPage
+        };
+        this.$store.dispatch("getFriendFacebookBySizeDefault", dataSender);
+      }
     }
   },
   watch: {

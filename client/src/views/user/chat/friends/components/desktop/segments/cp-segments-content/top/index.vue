@@ -17,7 +17,12 @@
         <span>{{ $t("chat.friends.table.top.left.people") }}</span>
       </div>
       <div class="segment--search ml_3">
-        <input type="text" :placeholder="$t('chat.friends.table.top.left.placeholderSearch')">
+        <input
+          type="text"
+          :placeholder="$t('chat.friends.table.top.left.placeholderSearch')"
+          @keydown.enter="searchFriendFacebook"
+          v-model="keySearch"
+        />
       </div>
     </div>
     <!--End: Top Left Component-->

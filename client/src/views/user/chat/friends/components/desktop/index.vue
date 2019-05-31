@@ -14,6 +14,7 @@
       :groupSelected="groupSelected"
       :selectFilter="selectFilter"
       :resultsDefault="resultsDefault"
+      @changeResultDefault="resultsDefault = $event"
     ></segments-content>
   </div>
 </template>
