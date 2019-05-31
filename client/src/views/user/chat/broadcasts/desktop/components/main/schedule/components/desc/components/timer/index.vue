@@ -1,44 +1,73 @@
 <template>
   <!--Section option hours-->
   <div class="timer" :data-theme="currentTheme">
-    <!-- <div
-      class="option--time-repeat position_relative"
-    ></div>-->
+    <!-- Start: Option time -->
     <div class="option--time py_3 d_flex align_items_center mt_2">
+      <!-- Start: Day Setting-->
       <date-picker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
-        name="date-setting"
+        v-model=" scheduleBlockDetail.timeSetting.dateMonth"
+        format="DD/MM/YYYY"
       ></date-picker>
+      <!-- End: Day Setting-->
+      <!-- Start: Time Setting -->
       <div class="option--time-hours mr_4 ml_4">
-        <time-picker class="option--time-item text_center" v-model="time"/>
+        <time-picker
+          class="option--time-item text_center"
+          v-model="scheduleBlockHour"
+        />
       </div>
-      <div class="option--time-repeat position_relative"  v-click-outside="closeShowOptionRepeat">
+      <!-- End: Time Setting-->
+      <!-- Start: Repeat setting -->
+      <div class="option--time-repeat position_relative"
+           v-click-outside="closeShowOptionRepeat"
+      >
         <div @click="showOptionRepeat = true">
-          <input type="text" readonly class="form_control option--time-item">
+          <input
+            type="text"
+            readonly
+            class="form_control option--time-item"
+            :value="'Lặp lại: ' + repeatOptionSelected">
         </div>
         <div class="icon position_absolute">
-          <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
+          <icon-base
+            icon-name="arrow-down"
+            width="10"
+            height="10"
+            viewBox="0 0 130 130">
             <icon-arrow-down/>
           </icon-base>
         </div>
         <div class="option--repeat position_absolute text_left" v-show="showOptionRepeat">
-          <div class="option--repeat-item" @click="closeShowOptionDays">{{ $t("chat.broadcast.main.scripts.timer.repeat[0]") }}</div>
-          <div class="option--repeat-item" @click="showOptionDay">{{ $t("chat.broadcast.main.scripts.timer.repeat[1]") }}</div> 
+          <div class="option--repeat-item"
+               v-for="( option, index ) in $t('chat.broadcast.main.scripts.timer.repeatOptions')"
+               :key="index"
+               @click="closeShowOptionDays"
+          >
+            Lặp lại: {{ option }}
+          </div>
+        </div>
+      </div>
+      <!-- End: Repeat setting -->
+    </div>
+    <!-- End: Option time -->
+    <!-- Start: Repeat custom option-->
+    <div class="option--custom mb_3" v-if="showOptionDays === true">
+      <div class="option--custom-wrap d_inline_flex">
+        <div class="item"
+             v-for="( item, index ) in $t('chat.broadcast.main.scripts.timer.options')"
+             :key="index"
+        >
+          {{ item }}
         </div>
       </div>
     </div>
-    <div class="option--custom mb_3" v-if="showOptionDays === true">
-      <div class="option--custom-wrap d_inline_flex">
-        <div class="item" v-for="item in $t('chat.broadcast.main.scripts.timer.options')" :key="item">{{ item }}</div>
-      </div>
-    </div>
+    <!-- End: Repeat custom option-->
   </div>
   <!--End Section option hours-->
 </template>
 <script>
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
 
 const currentTimeStamp = new Date();
 
@@ -52,15 +81,15 @@ export default {
       showOptionRepeat: false,
       showOptionDays: false,
       showCustom: false,
-      repeatContent: "Lặp Lại: Không",
-      repeats: [
+      repeatOptionSelected: "Không",
+      repeatOptions: [
         { key: 0, value: "Không" },
         { key: 1, value: "Hằng ngày" },
         { key: 2, value: "Cuối tuần" },
-        { key: 3, value: "Hàng tháng" },
-        { key: 4, value: "Làm việc" }
+        { key: 3, value: "Hằng tháng" },
+        { key: 4, value: "Ngày làm việc" }
       ],
-      options: [
+      repeatCustomOptions: [
         { key: 0, value: "CN" },
         { key: 1, value: "T2" },
         { key: 2, value: "T3" },
@@ -84,11 +113,25 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    },
+    scheduleBlockHour() {
+      const blockHour = this.scheduleBlockDetail.timeSetting.hour,
+            hour = blockHour.substr( 0, blockHour.indexOf( ":" ) ),
+            min = blockHour.substr( blockHour.indexOf(":") + 1 );
+
+      return {
+        HH: hour,
+        mm: min
+      }
     }
-    // schedule() {
-    //   if (this.$store.getters.schedule === undefined) return;
-    //   return this.$store.getters.schedule;
-    // }
+  },
+  async created() {
+    const scheduleBlockId = this.$route.params.scheduleBlockId;
+
+    await this.$store.dispatch( "getScheduleBlockDetailById", scheduleBlockId );
   },
   methods: {
     closeShowOptionRepeat(){
@@ -101,7 +144,7 @@ export default {
     closeShowOptionDays(){
       this.showOptionDays = false;
       this.showOptionRepeat = false;
-    }
+    },
     // async chooseDaysRepeat(id) {
     //   if (this.selectedOption.includes(id)) {
     //     // remove item out ot array

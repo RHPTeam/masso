@@ -21,7 +21,7 @@ const { agent } = require( "../../../configs/crawl" ),
   }
 
   console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
-  Promise.all( listEventSchedule.map( ( eventSchedule ) => {
+  await Promise.all( listEventSchedule.map( ( eventSchedule ) => {
     console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
 
     console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );

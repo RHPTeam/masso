@@ -23,7 +23,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).lean();
+      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean();
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {

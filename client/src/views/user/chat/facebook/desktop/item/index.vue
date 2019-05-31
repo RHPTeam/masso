@@ -37,15 +37,17 @@
         :popupData="isModalUpdateCookie"
         @closeAddPopup="isModalUpdateCookie = $event"
         :nameBread="nameUpdatePopup"
-        :subBread="descUpdatePopup"></update-cookie>
+        :subBread="descUpdatePopup"
+      >
+      </update-cookie>
     </transition>
   </div>
 </template>
 <script>
-import DeletePopup from "@/components/shared/layouts/popupdelete/deleteAccountFb";
+import UpdateCookie from "../popup/updatecookie";
 export default {
   components: {
-    DeletePopup
+    UpdateCookie
   },
   filters: {
     covertDateUpdatedAt(d) {

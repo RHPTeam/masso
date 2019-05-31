@@ -2,7 +2,6 @@
 <template>
   <div class="group py_3" :data-theme="currentTheme">
     <!--Start: Component Deliver your message now-->
-    <div>{{ scheduleBlocks }}</div>
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
@@ -13,7 +12,11 @@
       <div class="group--item-body position_relative">
         <!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
         <div class="box add" @click.prevent="showTooltip = !showTooltip">
-          <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
+          <icon-base
+            class="icon--add"
+            width="20"
+            height="20"
+            viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
         </div>
@@ -26,10 +29,8 @@
       </div>
     </div>
     <!--End: Component Deliver your message now-->
-
     <!--Start: Component Trigger-->
     <!--End: Component Trigger-->
-
     <!--Start: Component Schedule later-->
     <div class="group--item schedule">
       <!--Start: Schedule Header -->
@@ -46,18 +47,17 @@
         <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup"
              v-for="( block, index ) in scheduleBlocks"
              :key="index"
-             @click="goToSchedule">
-          <div class="mx_1 content--setup">
+             @click="goToScheduleBlock( block )">
+          <div class="mx_1 content--setup d_flex align_items_center justify_content_center">
             <span>{{ block.timeSetting | filteredName }}</span>
-            <span class="pl_1">xx:xx</span>
           </div>
         </div>
         <!--End: Block Item Loop-->
         <!--Start: Block Item Add-->
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="addSchedule">
-          <div class="content--setup mx_1">
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="createScheduleBlock">
+          <div class="content--setup d_flex align_items_center justify_content_center">
             <icon-base
-              icon-name="add"
+              class="icon--add"
               width="20"
               height="20"
               viewBox="0 0 60 60"
@@ -70,7 +70,7 @@
       </div>
       <!--End: Schedule Block Item Group-->
       <loading-component
-        v-if="this.$store.getters.statusBroadcast === 'loading'"
+        v-if="broadcastStatus === 'loading'"
       />
       <div
         v-else

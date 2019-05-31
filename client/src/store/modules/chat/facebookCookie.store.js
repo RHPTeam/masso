@@ -24,7 +24,7 @@ const mutations = {
     state.facebookStatus = "success";
   },
   facebook_error: state => {
-    state.facebookStatus = "errors.js";
+    state.facebookStatus = "error";
   },
   setAccountsFB: (state, payload) => {
     state.accountsFB = payload;
@@ -50,7 +50,7 @@ const actions = {
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");
     } catch (e) {
-      if (e.response.status === 403) commit("addAccountError", "errors.js");
+      if (e.response.status === 403) commit("addAccountError", "error");
       commit("facebook_success");
     }
   },
@@ -86,7 +86,7 @@ const actions = {
       commit("facebook_success");
 
     } catch (e) {
-      if (e.response.status === 403) commit("addAccountError", "errors.js");
+      if (e.response.status === 403) commit("addAccountError", "error");
       commit("facebook_success");
     }
   }

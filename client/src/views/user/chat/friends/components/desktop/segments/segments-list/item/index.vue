@@ -28,18 +28,18 @@
       <delete-campaign-popup
         v-if="isDeleteItemBlock === true"
         :data-theme="currentTheme"
-        title="Delete Time"
+        title="Delete Group Friend"
         @closePopup="isDeleteItemBlock = $event"
         storeActionName="deleteGroupFriend"
         :targetData="group"
-        :typeName="group"
+        typeName="group"
       ></delete-campaign-popup>
     </transition>
   </div>
 </template>
 
 <script>
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 
 let typingTimer;
 export default {

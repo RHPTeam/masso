@@ -47,7 +47,7 @@ PostFacebookSchema.pre( "save", function( next ) {
 
 const PostFacebook = mongoose.model( "PostFacebook", PostFacebookSchema );
 
-PostFacebook.on( "index1.vue", function (error ) {
+PostFacebook.on( "index.vue", function ( error ) {
   if ( error ) {
     console.log( error.message );
   }
