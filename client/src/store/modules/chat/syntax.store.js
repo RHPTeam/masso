@@ -21,7 +21,7 @@ const mutations = {
     state.statusSyntaxList = "success";
   },
   syntaxList_error: state => {
-    state.statusSyntaxList = "errors.js";
+    state.statusSyntaxList = "error";
   },
   syntax_request: state => {
     state.statusSyntax = "loading";
@@ -30,7 +30,7 @@ const mutations = {
     state.statusSyntax = "success";
   },
   syntax_error: state => {
-    state.statusSyntax = "errors.js";
+    state.statusSyntax = "error";
   },
   /******************** SYNTAX *********************/
   setSyntax: (state, payload) => {

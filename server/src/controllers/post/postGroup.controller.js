@@ -83,7 +83,7 @@ module.exports = {
 
     // Check catch when update campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
     }
 
     // check exists in database
@@ -105,7 +105,7 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPostGroup ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Nhóm nơi đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
     }
 
     await PostGroup.findByIdAndDelete( req.query._postGroupId );

@@ -37,6 +37,10 @@ const mongoose = require( "mongoose" ),
     "status": {
       "type": Boolean
     },
+    "_account": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Account"
+    },
     "_event": {
       "type": Schema.Types.ObjectId,
       "ref": "Event"

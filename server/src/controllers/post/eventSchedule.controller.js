@@ -12,7 +12,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
   { createPost } = require( "../../controllers/core/posts.core" ),
 
   // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
-  convert = ( campaign, event, post, cookie, location, target = "", time ) => {
+  convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
     let photos;
 
     if ( post.attachments.length > 0 ) {
@@ -45,6 +45,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       },
       "started_at": new Date( time ),
       "status": event.status,
+      "_account": account,
       "_event": event._id,
       "_campaign": campaign._id
     };
@@ -80,8 +81,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
 let listPost, listEventSchedule = [];
 
 module.exports = {
-  "create": async ( event, campaignId ) => {
-    console.log( "Starting..." );
+  "create": async ( event, campaignId, account ) => {
     let startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
     const campaignContainEvent = await Campaign.findOne( { "_id": campaignId } ).lean();
 
@@ -100,7 +100,7 @@ module.exports = {
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, accountFacebookInfo.cookie, 0, "", startAt );
+          return convert( campaignContainEvent, event, postSelectedFromRandom, accountFacebookInfo.cookie, 0, "", startAt, account );
         } ) );
       }
 
@@ -115,7 +115,7 @@ module.exports = {
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt );
+          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
         } ) ) );
 
         // Handle Group
@@ -125,7 +125,7 @@ module.exports = {
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt );
+          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt, account );
         } ) ) );
       }
 
@@ -138,7 +138,7 @@ module.exports = {
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt );
+          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
         } ) ) );
 
         // Handle Group
@@ -148,7 +148,7 @@ module.exports = {
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt );
+          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt, account );
         } ) ) );
       }
 

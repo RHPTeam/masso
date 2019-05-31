@@ -20,6 +20,8 @@ const { agent } = require( "../../../configs/crawl" ),
     return false;
   }
 
+  console.log( listEventSchedule );
+
   console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
   await Promise.all( listEventSchedule.map( ( eventSchedule ) => {
     console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );

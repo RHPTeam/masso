@@ -18,7 +18,7 @@ const mutations = {
     state.statusAttr = "success";
   },
   attr_error: state => {
-    state.statusAttr = "errors.js";
+    state.statusAttr = "error";
   },
   setAttr: (state, payload) => {
     state.attr = payload;

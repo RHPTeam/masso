@@ -33,7 +33,7 @@ const mutations = {
     state.statusBlocks = "success";
   },
   block_error: state => {
-    state.statusBlocks = "errors.js";
+    state.statusBlocks = "error";
   },
   /******************** GROUP BLOCKS *********************/
   setGroupBlock: (state, payload) => {

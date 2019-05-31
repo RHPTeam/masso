@@ -82,7 +82,7 @@ const actions = {
       commit( "fb_success" );
 
     } catch (e) {
-      if (e.response.status === 403) commit( "addAccountErrorPost", "errors.js" );
+      if (e.response.status === 403) commit( "addAccountErrorPost", "error" );
       commit( "fb_success" );
     }
   },
