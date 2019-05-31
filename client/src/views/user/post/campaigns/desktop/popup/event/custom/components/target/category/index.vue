@@ -1,8 +1,8 @@
 <template>
   <div class="group">
     <div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>
-    <div class="body d_flex align_items_center">
-      <div class="left">
+    <div class="body">
+      <div class="row--group">
         <div class="main">
           <multiselect
             label="title"
@@ -18,8 +18,7 @@
           <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
         </div>
       </div>
-
-      <div class="right px_3">
+      <div class="mt_3">
         <new-feed />
       </div>
     </div>
@@ -64,7 +63,7 @@ export default {
       .title  {
         color: #666;
       }
-      .left, .right {
+      .row--group {
         width: 50%;
       }
       .main {
