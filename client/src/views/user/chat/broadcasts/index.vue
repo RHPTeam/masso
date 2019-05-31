@@ -22,10 +22,14 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppSidebar from "./desktop/components/sidebar";
 // import AppMobile from "./mobile/index_mobile";
+
 export default {
   components: {
     AppBreadCrumb,
     AppSidebar
+  },
+  async created() {
+    this.$store.dispatch( "getAllBroadcasts" );
   }
 };
 </script>

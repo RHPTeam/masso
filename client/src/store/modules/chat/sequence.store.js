@@ -7,7 +7,8 @@ const state = {
   idSequence: [],
   newBlockInSequence: [],
   allBlockInASequence: [],
-  newSequenceScript: []
+  newSequenceScript: [],
+  inforABlockInSequence: []
 };
 const getters = {
   /******************** SEQUENCE *********************/
@@ -15,7 +16,8 @@ const getters = {
   idSequence: state => state.idSequence,
   newBlockInSequence: state => state.newBlockInSequence,
   allBlockInASequence: state => state.allBlockInASequence,
-  newSequenceScript: state => state.newSequenceScript
+  newSequenceScript: state => state.newSequenceScript,
+  inforABlockInSequence: state => state.inforABlockInSequence
 };
 const mutations = {  
   /******************** SEQUENCE *********************/
@@ -41,8 +43,8 @@ const mutations = {
     state.newSequenceScript = payload;
   },
   // update time block sequence
-  setUpdateTimeBlockSequence: (state, payload) => {
-    // state.
+  setAllBlockInSequenceById: (state, payload) => {
+    state.inforABlockInSequence = payload;
   }
 };
 const actions = {
@@ -77,35 +79,48 @@ const actions = {
   updateSequence: async ( { commit }, payload ) => {
     await SequenceService.updateSequence( payload._id, payload);
     const rsGetAllSequence = await SequenceService.getAllSequence();
-    // commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
 
   // create new block in sequence
   createBlockInSequence: async ( { commit }, payload ) => {
     const rsCreateBlockInSequence = await SequenceService.createBlockInASequence( payload );
 
-    // commit("setCreateBlockInSequence", rsCreateBlockInSequence.data.data);
-    // console.log("rsCreateBlockInSequence.data.data");
-    // console.log(rsCreateBlockInSequence.data.data);
     const rsGetAllSequence = await SequenceService.getAllSequence();
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
 
   // get all block in a sequence 
-  getAllBlockInSequence: async ( { commit }, payload ) => {
-    console.log("Pay load getAllBlockInSequence");
+  getAllBlockInSequenceById: async ( { commit }, payload ) => {
+    console.log("payload all sequence by id");
     console.log(payload);
     const rsAllBlockInSequence = await SequenceService.getAllBlockSequenceById( payload );
-    commit("setAllBlockInSequence", rsAllBlockInSequence.data.data);
+    commit("setAllBlockInSequenceById", rsAllBlockInSequence.data.data);
   },
 
-  // update time sequence
-  updateTimeBlockSequence: async ( { commit }, payload ) => {
-    console.log("payload");
-    console.log(payload);
-
-    SequenceService.updateTimeSequence(payload._id, payload.sequences._id, payload);
+  // Update number time Block on sequence
+  updateNumberTimeItemSqc: async ({ commit }, payload) => {
+    await SequenceService.updateTimeBlockSequence(
+      payload.sqId,
+      payload.blockId,
+      payload.numberTime
+    );
+  },
+  //Update description time block on sequence
+  updateDescTimeItemSqc: async ({ commit }, payload) => {
+    await SequenceService.updateDescTimeBlockSequence(
+      payload.sqId,
+      payload.blockId,
+      payload.descTime
+    );
     
+    const rsGetAllSequence = await SequenceService.getAllSequence();
+    commit("setAllSequenceScript", rsGetAllSequence.data.data);
+  },
+
+  // delete a block in sequence
+  deleteBlockInSequence: async ( { commit }, payload ) => {
+    await SequenceService.deleteBlockInSequence( payload.sqId, payload.blockId );
+
     const rsGetAllSequence = await SequenceService.getAllSequence();
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   }

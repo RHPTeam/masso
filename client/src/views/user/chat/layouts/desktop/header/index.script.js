@@ -1,39 +1,17 @@
-import IconBase from "@/components/icons/IconBase";
-import IconMenu from "@/components/icons/IconMenu";
-import IconArrowDown from "@/components/icons/IconArrowDown";
-import IconFriend from "@/components/icons/IconFriend";
-import IconAccount from "@/components/icons/IconAccount";
-import IconLibs from "@/components/icons/IconLibs";
-import IconLogout from "@/components/icons/IconLogout";
+import HeaderMessenger from "./messenger/index";
 import HeaderNotification from "./notification/index";
+
 export default {
   components: {
-    IconBase,
-    IconMenu,
-    IconArrowDown,
-    IconAccount,
-    IconLibs,
-    IconFriend,
-    IconLogout,
+    HeaderMessenger,
     HeaderNotification
-  },
-  computed: {
-    user() {
-      return this.$store.getters.userInfo;
-    },
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    collapseMenu() {
-      this.statusCollapse = this.$store.getters.collapseMenu;
-    }
   },
   data() {
     return {
       statusCollapse: false,
-      showdropdown: false,
-      showFlag: false,
+      isShowFlagDropdown: false,
       isShowProfileDropdown: false,
+      isShowMessengerDropdown: false,
       isShowNotificationDropdown: false,
       notifications: [
         {
@@ -63,33 +41,65 @@ export default {
       ]
     };
   },
-  filters: {
-    getFirstLetter(string) {
-      // return string.charAt(0).toUpperCase();
+  async created() {
+    await this.$store.dispatch( "getUserInfo" );
+  },
+  computed: {
+    user() {
+      if ( this.$store.getters.userInfo === undefined ) {
+        return;
+      }
+      return this.$store.getters.userInfo;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    collapseMenu() {
+      this.statusCollapse = this.$store.getters.collapseMenu;
     }
   },
 
   methods: {
-    async logOut() {
-      await this.$store.dispatch("logOut");
-      this.$router.go("/signin");
-    },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
-      this.$store.dispatch("changeMenu", this.statusCollapse);
+      this.$store.dispatch( "changeMenu", this.statusCollapse );
     },
-    showDropdown: function() {
-      this.showdropdown = !this.showdropdown;
+    closeFlagDropdown(){
+      this.isShowFlagDropdown = false;
     },
-    closeDropdownUser() {
-      this.showdropdown = false;
+    closeMessengerDropdown() {
+      this.isShowMessengerDropdown = false;
     },
-    closeShowFlag(){
-      this.showFlag = false;
+    closeNotificationDropdown() {
+      this.isShowNotificationDropdown = false;
+    },
+    closeProfileDropdown() {
+      this.isShowProfileDropdown = false;
+    },
+    redirectToHelp() {
+      window.location = `${process.env.VUE_APP_PARENT_URL}help`;
+    },
+    showMessengerDropdown() {
+      this.isShowMessengerDropdown = !this.isShowMessengerDropdown;
     },
     showNotificationDropdown() {
-      this.isShowProfileDropdown = false;
       this.isShowNotificationDropdown = !this.isShowNotificationDropdown;
     },
+    showProfileDropdown() {
+      this.isShowProfileDropdown = !this.isShowProfileDropdown;
+    },
+    async logOut() {
+      await this.$store.dispatch( "logOut" );
+      window.location = process.env.VUE_APP_PARENT_URL;
+    },
+  },
+
+  filters: {
+    getFirstLetter( string ) {
+      if ( string === undefined ) {
+        return;
+      }
+      return string.charAt( 0 ).toUpperCase();
+    }
   }
 };

@@ -1,5 +1,5 @@
 import PronounPopup from "../../../popup/pronoun-popup";
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 
 export default {
   props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault"],
@@ -44,7 +44,8 @@ export default {
       totalCount: null,
       perPage: 20,
       isShowPaginateSearch: false,
-      isShowPaginate: true
+      isShowPaginate: true,
+      showLoader: true
     };
   },
   async created() {
@@ -52,13 +53,17 @@ export default {
     //   await this.$store.dispatch("getFriendsBySize", 20);
     // }
     // await this.$store.dispatch("selectedUIDs", []);
+    // await this.$store.dispatch( "getAllFriendFacebook" );
+    await this.$store.dispatch("getFriendFacebookBySizeDefault", {
+      size:  this.perPage,
+      page: this.currentPage
+    });
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     friendFilter() {
-      console.log(this.$store.getters.userFilter);
       return this.$store.getters.userFilter;
     },
     filteredUsers() {
@@ -101,40 +106,48 @@ export default {
         });
       }
     },
-    selectAll: {
-      get() {
-        if (this.groupSelected === false) {
-          return this.users
-            ? this.selectedUIDs.length === this.users.length
-            : false;
-        } else {
-          return this.usersOfGroup
-            ? this.selectedUIDs.length === this.usersOfGroup.length
-            : false;
-        }
-      },
-      set(value) {
-        let selected = [];
-        if (this.groupSelected === false) {
-          if (value) {
-            this.users.forEach(function(user) {
-              selected.push(user._id);
-            });
-          }
-        } else {
-          if (value) {
-            this.usersOfGroup.forEach(function(user) {
-              selected.push(user._id);
-            });
-          }
-        }
-
-        this.selectedArr = selected;
-        this.$store.dispatch("selectedUIDs", this.selectedArr);
-      }
-    },
+    // selectAll: {
+    //   get() {
+    //     if (this.groupSelected === false) {
+    //       return this.users
+    //         ? this.selectedUIDs.length === this.users.length
+    //         : false;
+    //     } else {
+    //       return this.usersOfGroup
+    //         ? this.selectedUIDs.length === this.usersOfGroup.length
+    //         : false;
+    //     }
+    //   },
+    //   set(value) {
+    //     let selected = [];
+    //     if (this.groupSelected === false) {
+    //       if (value) {
+    //         this.users.forEach(function(user) {
+    //           selected.push(user._id);
+    //         });
+    //       }
+    //     } else {
+    //       if (value) {
+    //         this.usersOfGroup.forEach(function(user) {
+    //           selected.push(user._id);
+    //         });
+    //       }
+    //     }
+    //
+    //     this.selectedArr = selected;
+    //     this.$store.dispatch("selectedUIDs", this.selectedArr);
+    //   }
+    // },
     users() {
-      return this.$store.getters.allFriends;
+      if(this.$store.getters.friendFacebook === undefined) return;
+      return this.$store.getters.friendFacebook;
+    },
+    listFriendDefault(){
+      if(this.$store.getters.friendFacebookDefault === undefined) return;
+      return this.$store.getters.friendFacebookDefault;
+    },
+    numberPageCurrent(){
+      return this.$store.getters.numberPageFriendCurrent;
     },
     usersOfGroup() {
       return this.$store.getters.groupInfo._friends;
@@ -152,6 +165,24 @@ export default {
     }
   },
   methods: {
+    async loadMore(){
+      if( this.showLoader === true ) {
+        if(this.currentPage > this.numberPageCurrent) {
+          return false;
+        } else {
+          this.showLoader = false;
+
+          this.currentPage += 1;
+
+          await this.$store.dispatch("getFriendFacebookBySize", {
+            size: this.perPage,
+            page: this.currentPage
+          });
+
+          this.showLoader = true;
+        }
+      }
+    },
     showGender(gender) {
       if (gender === "male_singular") {
         return "Nam";

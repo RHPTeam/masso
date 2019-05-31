@@ -35,6 +35,7 @@ module.exports = {
     "code": 1024,
     "text": "[1024] Chuyển ảnh thất bại hoặc ghi file không thành công. Vui lòng thử lại!"
   },
+  "LOGOUTFACEBOOKSEND": "Error retrieving userID. This can be caused by a lot of things, including getting blocked by Facebook for logging in from an unknown location. Try logging in with a browser to verify.",
   "LOGOUT": "[ERROR: 1403] Bạn đã đăng xuất tài khoản facebook. Hãy đăng nhập lại và cập nhật lại cookie!",
   "LISTEN": "[ERROR: 1208] Có lỗi xảy ra! Vui lòng kiểm tra lại hoặc liên hệ với CSKH.",
   "CODELOGOUT": 1403

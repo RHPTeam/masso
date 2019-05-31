@@ -56,6 +56,7 @@ Vue.component("IconLockCheck", () =>
 );
 Vue.component( "IconMail", () => import( "@/components/icons/IconMail" ) );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
+Vue.component( "IconMessenger", () => import( "@/components/icons/IconMessenger" ) );
 Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCookie" ) );
 Vue.component( "IconText", () => import( "@/components/icons/IconText" ) );
 Vue.component( "IconTag", () => import( "@/components/icons/IconTag" ) );

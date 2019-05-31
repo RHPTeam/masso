@@ -1,7 +1,7 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
-  EventSchema = new Schema( {
+  EventScheduleSchema = new Schema( {
     "cookie": {
       "type": String
     },
@@ -37,6 +37,10 @@ const mongoose = require( "mongoose" ),
     "status": {
       "type": Boolean
     },
+    "_event": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Event"
+    },
     "_campaign": {
       "type": Schema.Types.ObjectId,
       "ref": "Campaign"
@@ -50,13 +54,13 @@ const mongoose = require( "mongoose" ),
     }
   } );
 
-EventSchema.pre( "save", function( next ) {
+EventScheduleSchema.pre( "save", function( next ) {
   /* eslint-disable camelcase */
   this.updated_at = Date.now();
   next();
 } );
 
 /* eslint-disable one-var */
-const Event = mongoose.model( "Event", EventSchema );
+const EventSchedule = mongoose.model( "EventSchedule", EventScheduleSchema );
 
-module.exports = Event;
+module.exports = EventSchedule;

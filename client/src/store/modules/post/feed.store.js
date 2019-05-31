@@ -91,7 +91,7 @@ const actions = {
   },
   deletePostLibrariesFacebook: async ( { commit }, payload ) => {
     await FeedServices.deletePostFacebook(payload);
-    const result = await FeedServices.index();
+    const result = await FeedServices.index1();
     commit( "setAllPostLibraries", result.data.data );
   },
   deleteItemAttachmentLibraries: async ( { commit }, payload ) => {

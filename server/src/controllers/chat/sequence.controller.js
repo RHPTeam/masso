@@ -253,7 +253,7 @@ module.exports = {
       let checkExist = false;
 
       foundSequence.sequences.map( ( val ) => {
-        if ( val._id.toString() === req.query._blockId ) {
+        if ( val._id.toString() !== req.query._blockId ) {
           checkExist = true;
           return checkExist;
         }

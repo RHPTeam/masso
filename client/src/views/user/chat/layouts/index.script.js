@@ -10,10 +10,11 @@ export default {
       timer: ""
     };
   },
-  async created() {
+  created() {
     // this.startUpdateTimer();
     // await this.$store.dispatch("getUserInfo");
     // await this.$store.dispatch("getAccountsFB");
+    // this.$store.dispatch( "getAllFriendFacebook" );
   },
   // beforeDestroy() {
   //   this.stopUpdateTimer();

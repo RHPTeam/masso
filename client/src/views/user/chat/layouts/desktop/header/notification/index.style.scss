@@ -111,8 +111,11 @@
 }
 
 /* Transition */
-.dropdown-enter, .dropdown-leave-to{
+.dropdown-enter{
   transform: scaleY(0);
+}
+.dropdown-leave-to {
+  opacity: 0;
 }
 
 /* Theme Color */

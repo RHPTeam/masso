@@ -12,7 +12,7 @@
           tag="div"
           :contenteditable="true"
           :placeholder="$t('chat.scripts.content.name.placeholder')"
-          v-model="title"
+          v-model="inforBlockGroup.name"
         />
         <div class="script--header-copy-link disabled--icon">
           <!-- <icon-base
@@ -100,7 +100,7 @@
         </div>
       </div>
       <!-- Start: Regions Scripts Body-->
-      <div class="script--body">
+      <div class="script--body d_none">
         <div>
           <!--Start: Add text-->
           <div>

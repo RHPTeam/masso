@@ -1,8 +1,8 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
+  <div class="sidebar-scripts group py_3" :data-theme="currentTheme" >
     <!-- Start Group Scripts -->
-    <!-- <div class="group--scripts mb_3 mt_2 d_none">
+    <div class="group--scripts mb_3 mt_2" v-for="(groupBlock, index) in groupBlock" :key="`c-${index}`">
       <div class="title d_inline_flex">
         <div>
           <icon-base
@@ -20,75 +20,25 @@
           tag="div"
           :contenteditable="true"
           :placeholder="$t('chat.scripts.sidebar.name.placeholder')"
-          v-model="title"
+          v-model="groupBlock.name"
+          @keyup="upTypingText('groupblock', groupBlock)"
+          @keydown="clear"
         />
-        <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts">
-          <icon-base
-            class="icon--more"
-            icon-name="IconMore"
-            width="23"
-            height="23"
-            viewBox="0 0 750 750"
-          >
-            <icon-more/>
-          </icon-base>
-        </div>
-        <div
-          class="click--icon dropdown--menu dropdown--menu-content dropdown--menu-left flipInY animated type"
-          v-show="showCopyScripts"
-        >
-          <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">{{ $t("chat.scripts.sidebar.name.copy.title") }}</div>
-            <div>{{ $t("chat.scripts.sidebar.name.copy.desc") }}</div>
-          </div>
-          <div
-            class="dropdown--menu-item mb_2 pl_3"
-          >{{ $t("chat.scripts.sidebar.name.copy.delete") }}</div>
-        </div>
+        <option-group :groupId="groupBlock._id" />
       </div>
       <div class="content my_3">
         <div class="name group-scripts r m_0">
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
+          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3" v-for="(blockGroup, index) in groupBlock.blocks" :key="`e-${index}`">
             <div class="content--item position_relative">
-              <div class="text_center name-script">Kịch bản 1</div>
-              <div class="position_absolute icon-more">
-                <icon-base
-                  class="icon--more"
-                  icon-name="IconMore"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 760 760"
-                >
-                  <icon-more/>
-                </icon-base>
+              <div class="text_center" @click="showInforBlockGroup(blockGroup._id)">
+                {{ blockGroup.name }}
               </div>
-             
-            </div>
-          </div>
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
-            <div class="content--item position_relative">
-              <div class="text_center">Kịch bản 2</div>
-              <div class="position_absolute icon-more">
-                <icon-base
-                  class="icon--more"
-                  icon-name="IconMore"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 760 760"
-                >
-                  <icon-more/>
-                </icon-base>
-              </div>
-              <div class="infor position_absolute d_none">
-                <ul>
-                  <li>Sao chép</li>
-                  <li>Di chuyển</li>
-                  <li>Xóa</li>
-                </ul>
+              <div class="position_absolute icon--more-group-block">
+                <option-group-block />
               </div>
             </div>
           </div>
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
+          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3" @click="createBlockInAGroup(groupBlock._id)">
             <div class="content--item position_relative">
               <div class="text_center">
                 <icon-base
@@ -105,7 +55,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
     <!-- End Group Scripts -->
 
     <!-- Start sequence scripts  -->
@@ -164,22 +114,17 @@
           :key="`b-${index}`"
         >
           <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item position_relative">
-              <after-day
-                :sequenceId="blockInSequence"
-              />
+            <div class="content--item position_relative">              
+              <after-day :sequenceId="sequence._id" :item="blockInSequence" />
             </div>
           </div>
           <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
-            <div class="content--item">
+            <div class="content--item" @click="showInforBlockSequence(blockInSequence._id)">
               <div class="text_center name-script">{{ blockInSequence._block.name }}</div>
             </div>
-            <options-sequence
-              class="options--sequence"
-              :id="blockInSequence._id"
-              :item="blockInSequence"
-              :hover="true"
-            />
+            <div class="option">
+              <options-sequence class="options--sequence" :sequenceId="sequence._id" :item="blockInSequence" />
+            </div>
           </div>
         </div>
         <div
@@ -230,7 +175,10 @@
             class="dropdown--menu-item"
             @click="createSequence"
           >{{ $t("chat.scripts.sidebar.add.sequence") }}</div>
-          <div class="dropdown--menu-item">{{ $t("chat.scripts.sidebar.add.group") }}</div>
+          <div
+          class="dropdown--menu-item"
+          @click="createGroupBlock"
+          >{{ $t("chat.scripts.sidebar.add.group") }}</div>
         </div>
       </div>
     </div>

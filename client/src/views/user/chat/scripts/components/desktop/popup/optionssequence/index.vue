@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="position_absolute icon-more" @click="showOptionsSequence" v-if="hover === true">
+    <div class="position_absolute icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
         icon-name="IconMore"
@@ -17,9 +17,9 @@
       v-click-outside="closeOptionsSequence"
     >
       <ul>
-        <li @click="closeOptionsSequence">Sao chép</li>
-        <li @click="closeOptionsSequence">Di chuyển</li>
-        <li @click="closeOptionsSequence">Xóa</li>
+        <li @click="closeOptionsSequence" class="disable">Sao chép</li>
+        <li @click="closeOptionsSequence" class="disable">Di chuyển</li>
+        <li @click="deleteBlockInSequence( sequenceId, item._id )">Xóa</li>
       </ul>
     </div>
   </div>
@@ -28,9 +28,8 @@
 <script>
 export default {
   props: {
-    id: String,
-    item: Object,
-    hover: false
+    sequenceId: String,
+    item: Object
   },
   data() {
     return {
@@ -43,28 +42,27 @@ export default {
     },
     closeOptionsSequence() {
       this.isOptionsSequence = false;
+    },
+    deleteBlockInSequence( sqId, blockId ){
+      const dataSender = {
+        sqId: sqId,
+        blockId: blockId
+      };
+      this.$store.dispatch("deleteBlockInSequence", dataSender);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.icon-more {
-  top: 15px;
-  right: 1px;
-  z-index: 1;
-  // display: none;
-  &[hover="true"]{
-    display: block;
-    .icon--more{
-      color: #fff;
-    }
-  }
+.icon-more:hover{
+  cursor: pointer;
 }
 .infor {
   cursor: pointer;
   top: 40px;
   right: -90px;
+  width: 108px;
   z-index: 11;
   border: 1px solid #48484852;
   ul {
@@ -86,6 +84,9 @@ export default {
   & li:hover {
     background: #ffb94a;
     color: #fff;
+  }
+  .disable{
+    cursor: not-allowed;
   }
 }
 </style>

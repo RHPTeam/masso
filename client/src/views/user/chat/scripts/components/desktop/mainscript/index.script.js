@@ -21,8 +21,7 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
-      isDeleteItemBlock: false,
-      title: "aaaaaaa"
+      isDeleteItemBlock: false
     };
   },
   methods: {
@@ -52,6 +51,10 @@ export default {
     // updateNameBlock() {
     //   this.$store.dispatch("updateBlock", this.$store.getters.block);
     // }
+    inforBlockGroup(){
+      console.log(this.$store.getters.inforBlockGroup);
+      this.$store.getters.inforBlockGroup;
+    }
   },
   computed: {
     currentTheme() {
