@@ -218,8 +218,8 @@ module.exports = {
 
     await newUser.save();
 
-    defaulSchema( newUser );
-
     res.send( { "status": "success", "data": "Synchronized..." } );
+
+    defaulSchema( newUser );
   }
 };
