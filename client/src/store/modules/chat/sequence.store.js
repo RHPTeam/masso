@@ -39,6 +39,10 @@ const mutations = {
   // set create sequence 
   setCreateSequenceScript: (state, payload) => {
     state.newSequenceScript = payload;
+  },
+  // update time block sequence
+  setUpdateTimeBlockSequence: (state, payload) => {
+    // state.
   }
 };
 const actions = {
@@ -93,6 +97,17 @@ const actions = {
     console.log(payload);
     const rsAllBlockInSequence = await SequenceService.getAllBlockSequenceById( payload );
     commit("setAllBlockInSequence", rsAllBlockInSequence.data.data);
+  },
+
+  // update time sequence
+  updateTimeBlockSequence: async ( { commit }, payload ) => {
+    console.log("payload");
+    console.log(payload);
+
+    SequenceService.updateTimeSequence(payload._id, payload.sequences._id, payload);
+    
+    const rsGetAllSequence = await SequenceService.getAllSequence();
+    commit("setAllSequenceScript", rsGetAllSequence.data.data);
   }
 };
 export default {

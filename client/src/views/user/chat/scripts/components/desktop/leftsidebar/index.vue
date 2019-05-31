@@ -2,7 +2,7 @@
 <template>
   <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
     <!-- Start Group Scripts -->
-    <div class="group--scripts mb_3 mt_2 d_none">
+    <!-- <div class="group--scripts mb_3 mt_2 d_none">
       <div class="title d_inline_flex">
         <div>
           <icon-base
@@ -62,13 +62,7 @@
                   <icon-more/>
                 </icon-base>
               </div>
-              <!-- <div class="infor position_absolute">
-                <ul>
-                  <li>Sao chép</li>
-                  <li>Di chuyển</li>
-                  <li>Xóa</li>
-                </ul>
-              </div>-->
+             
             </div>
           </div>
           <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
@@ -111,7 +105,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- End Group Scripts -->
 
     <!-- Start sequence scripts  -->
@@ -170,15 +164,22 @@
           :key="`b-${index}`"
         >
           <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item position_relative">              
-              <after-day :id="blockInSequence._id" :item="blockInSequence" :time="blockInSequence.time.numberTime" />
+            <div class="content--item position_relative">
+              <after-day
+                :sequenceId="blockInSequence"
+              />
             </div>
           </div>
           <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
             <div class="content--item">
               <div class="text_center name-script">{{ blockInSequence._block.name }}</div>
             </div>
-            <options-sequence class="options--sequence" :id="blockInSequence._id" :item="blockInSequence" :hover="true" />
+            <options-sequence
+              class="options--sequence"
+              :id="blockInSequence._id"
+              :item="blockInSequence"
+              :hover="true"
+            />
           </div>
         </div>
         <div

@@ -32,5 +32,9 @@ export default {
   // get block sequence by id
   getAllBlockSequenceById( id ){
     return Api().get(`sequence?_id=${id}`);
+  },
+  // update time  sequence
+  updateTimeSequence(sqId, blockId, content){
+    return Api().patch(`sequence?_sqId=${sqId}&_blockId=${blockId}`, content);
   }
 };
