@@ -83,7 +83,7 @@ import StringFunction from "@/utils/functions/string";
 import DeleteCampaignPopup from "@/components/popups/delete";
 
 export default {
-  props: ["item", "schedule"],
+  props: ["index.vue", "schedule"],
   data() {
     return {
       isDeleteItemBlock: false,

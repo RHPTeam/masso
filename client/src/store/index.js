@@ -19,6 +19,7 @@ import FacebookCookie from "./modules/chat/facebookCookie.store";
 import GroupFriend from "./modules/chat/groupfriend.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
 import Syntax from "./modules/chat/syntax.store";
+import VocateStore from "./modules/chat/vocate.store";
 
 /**
  * Store for Page Post
@@ -56,6 +57,7 @@ export default new Vuex.Store( {
     GroupFriend,
     SequenceFaceBook,
     Syntax,
+    VocateStore,
     /**
      * Store for Page Post
      */

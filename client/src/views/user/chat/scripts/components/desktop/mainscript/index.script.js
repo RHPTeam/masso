@@ -39,10 +39,10 @@ export default {
     //   };
     //   this.$store.dispatch("createItemBlock", dataSender);
     // },
-    // async upTypingText(type, group) {
+    // async upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "nameblock") {
-    //     typingTimer = setTimeout(this.updateNameBlock(group), 2000);
+    //     typingTimer = setTimeout(this.updateNameBlock(item), 2000);
     //   }
     // },
     // clear() {

@@ -95,7 +95,7 @@ export default {
     //     return results;
     //   }
     // },
-    // //get name group sequence
+    // //get name item sequence
     // listGroupSequence() {
     //   return this.$store.getters.groupSqc;
     // }

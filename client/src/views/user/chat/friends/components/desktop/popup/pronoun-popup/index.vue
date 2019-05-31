@@ -13,9 +13,9 @@
           <input type="text"
                   class="modal--body-input" 
                   placeholder="Nhập danh xưng"
-                  @click.stop="showSuggestion"
+                 @keydown.enter="createVocate"
                   v-model="pronounInput"/>
-          <div class="suggestion--list" 
+          <div class="suggestion--list"
                 v-if="isShowSuggestion && filterSuggestionList().length > 0"
           >
             <VuePerfectScrollbar class="scroll">
@@ -46,6 +46,10 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+
+  components: {
+    VuePerfectScrollbar
+  },
   props: ["isShowPronounPopup","userID"],
 
   data() {
@@ -63,10 +67,16 @@ export default {
       const vocatesNameArr = [];
       const vocatesArr = this.$store.getters.allVocates;
       vocatesArr.forEach(item => {
-          vocatesNameArr.push(item.name);
+        vocatesNameArr.push(item.name);
       });
       return vocatesNameArr;
     },
+    vocateDefault(){
+      return this.$store.getters.vocateDefault;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getAllVocate");
   },
 
   methods: {
@@ -85,27 +95,20 @@ export default {
       this.pronounInput = val[0].toUpperCase() + val.slice(1);
       this.isShowSuggestion = false;
     },
-    createVocate(name, uid){
+    createVocate(){
       const dataSender = {
-        name: name,
-        _friends: [`${uid}`],
-        gr_id: (this.groupInfo ? this.groupInfo._id : '') 
-      }
+        name: this.pronounInput,
+        _friends: this.vocateDefault._friends
+      };
+      console.log(dataSender);
       this.$store.dispatch("createVocate", dataSender);
-      this.$emit("closeAddPopup", false);
+      // this.$emit("closeAddPopup", false);
     }
-  },
-  async created() {
-    await this.$store.dispatch("getALlVocates");
-  },
-
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../index.style";
-@import "./index.style"
+@import "./index.style";
 </style>

@@ -56,7 +56,7 @@ export default {
   components: {
     PopupDetail
   },
-  props: [ "item" ],
+  props: [ "index.vue" ],
   data() {
     return {
       showDetail: false

@@ -1,5 +1,5 @@
 /**
- * Create route post group for project
+ * Create route post item for project
  * author: hocpv
  * date: 24/04/2019
  * team: BE-RHP

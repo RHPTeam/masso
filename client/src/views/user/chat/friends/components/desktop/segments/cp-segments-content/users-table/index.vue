@@ -156,12 +156,12 @@
 
       <div>
         <!-- Start : User Table Items Of Group -->
-        <div>
+        <div v-if="groupSelected === false">
 <!--          <div v-if="this.$store.getters.frStatus ==='loading'">-->
 <!--            <loading-component />-->
 <!--          </div>-->
           <div>
-            <div v-if="listFriendDefault && listFriendDefault.length >0">
+            <div v-if="listFriendDefault && listFriendDefault.length > 0">
               <div
                 class="user--table-item record"
                 v-for="(user, index) in listFriendDefault"
@@ -172,6 +172,8 @@
                   <input
                     type="checkbox"
                     class="checkbox--control-input"
+                    v-model="selectedUIDs"
+                    :value="user"
                   />
                   <span class="checkbox--control-checkmark"></span>
                 </span>
@@ -201,6 +203,7 @@
                 <div class="pronoun">
                   <span
                     class="btn--action"
+                    @click="showPronounPopup(user.uid)"
                   >
                     Chọn để thiết lập
                   </span>
@@ -215,14 +218,15 @@
         </div>
 
         <!--Start: Show all info user in table-->
-        <div>
-          <div class="none--data">
-            {{ $t("chat.friends.table.main.loading") }}
-          </div>
-          <div
-            class="user--table-item record"
-          >
-            <div class="checkbox">
+        <div v-if="groupSelected === true">
+          <div v-if="listFriendOfGroup && listFriendOfGroup.length > 0">
+
+            <div
+              class="user--table-item record"
+              v-for="(user, index) in listFriendOfGroup[0]._friends"
+              :key="`g-${index}`"
+            >
+              <div class="checkbox">
               <span class="checkbox--control">
                 <input
                   type="checkbox"
@@ -230,45 +234,46 @@
                 />
                 <span class="checkbox--control-checkmark"></span>
               </span>
-            </div>
-            <div class="name">
-              <div class="name--avatar mr_2">
-                <img
-                  width="32px"
-                  height="32px"
-                />
               </div>
-              <div class="name--text">
-                <span class="btn--action">fullName</span>
+              <div class="name">
+                <div class="name--avatar mr_2">
+                  <img
+                    :src="user.photo"
+                    width="32px"
+                    height="32px"
+                  />
+                </div>
+                <div class="name--text">
+                  <span class="btn--action">{{user.text}}</span>
+                </div>
+              </div>
+
+              <div class="updated-date">
+                <span class="btn--action">deo co</span>
+              </div>
+
+              <div class="gender">
+                <span class="btn--action">Gender ne</span>
+              </div>
+              <div class="pronoun">
+                <span
+                  class="btn--action"
+                  @click="showPronounPopup(user.uid)"
+                >
+                  {{ $t("chat.friends.table.main.setup") }}
+                </span>
+              </div>
+
+              <div class="attributes d_none">
+                <span class="btn--action">None</span>
+              </div>
+              <div class="status d_none">
+                <span class="btn--action">None</span>
               </div>
             </div>
-
-            <div class="updated-date">
-              <span class="btn--action">deo co</span>
-            </div>
-
-            <div class="gender">
-              <span class="btn--action">Gender ne</span>
-            </div>
-            <div class="pronoun">
-              <!-- <span
-                class="btn--action"
-              >
-                user.vocate | upperCaseFirstLetter }}
-              </span> -->
-              <span
-                class="btn--action"
-              >
-                {{ $t("chat.friends.table.main.setup") }}
-              </span>
-            </div>
-
-            <div class="attributes d_none">
-              <span class="btn--action">None</span>
-            </div>
-            <div class="status d_none">
-              <span class="btn--action">None</span>
-            </div>
+          </div>
+          <div v-else class="none--data">
+            {{ $t("chat.friends.table.main.loading") }}
           </div>
         </div>
         <!--End: Show all info user in table-->

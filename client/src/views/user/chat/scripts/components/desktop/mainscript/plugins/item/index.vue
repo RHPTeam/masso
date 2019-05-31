@@ -131,12 +131,12 @@ export default {
     //   this.listAttr = listAttribute.data.data;
     //   this.resultFilterValue = this.listAttr.filter(item => item.value !== "");
     // },
-    // upTypingText(type, group) {
+    // upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "nameattribute") {
-    //     typingTimer = setTimeout(this.updateNameAttribute(group), 800);
+    //     typingTimer = setTimeout(this.updateNameAttribute(item), 800);
     //   } else if (type === "valueattribute") {
-    //     typingTimer = setTimeout(this.updateValueAttribute(group), 800);
+    //     typingTimer = setTimeout(this.updateValueAttribute(item), 800);
     //   }
     // },
     // clear() {

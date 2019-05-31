@@ -2,6 +2,7 @@
   <div class="segments">
     <segments-list
       @groupSelected="groupSelected = $event"
+      @changeSelectedGroup="groupSelected = $event"
       :groupSelected="groupSelected"
     ></segments-list>
     <segments-attribute

@@ -46,7 +46,7 @@
 <script>
 import StringFuntion from "@/utils/functions/string";
 export default {
-  props: ["item", "subBread", "nameBread"],
+  props: ["index.vue", "subBread", "nameBread"],
   data() {
     return {
       cookie: "",

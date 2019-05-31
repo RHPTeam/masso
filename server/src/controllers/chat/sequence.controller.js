@@ -99,7 +99,7 @@ module.exports = {
     }
     const foundGroupSequence = await GroupBlock.findOne( { "name": "Chuỗi Kịch Bản", "_account": req.uid } );
 
-    // take block group block to sequence
+    // take block item block to sequence
     if ( req.query._blockId ) {
       const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 

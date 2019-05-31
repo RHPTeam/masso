@@ -36,7 +36,7 @@ module.exports = {
         .json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
     }
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await Help.find( { "_id": req.query._id } )
         .populate( { "path": "popular_blog", "select": "_id title" } )

@@ -3,6 +3,12 @@ import AddtoGroupPopup from "../../../popup/addto-group-popup";
 import AppTooltip from "./tooltip";
 let typingTimer;
 export default {
+
+  components: {
+    DeleteFriendsPopup,
+    AddtoGroupPopup,
+    AppTooltip
+  },
   props: ["groupSelected", "accountSelected"],
   data() {
     return {
@@ -82,13 +88,8 @@ export default {
       const dataSender = {
         name: value,
         size: 20
-      }
+      };
       this.$store.dispatch("searchFriendsByName", dataSender);
     }
-  },
-  components: {
-    DeleteFriendsPopup,
-    AddtoGroupPopup,
-    AppTooltip
   }
 };

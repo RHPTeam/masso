@@ -26,7 +26,7 @@ const cheerio = require( "cheerio" ),
 
       /**
        * When id of post appear effect background text. Handle duplicate text.
-       * When id of post is new member of group. Handle get like
+       * When id of post is new member of item. Handle get like
        */
 
       request( option, ( err, res, body ) => {
@@ -158,7 +158,7 @@ module.exports = {
           return;
         }
 
-        // Assign variable for "av" author vendor | 0: timeline, 1: group, 2: page
+        // Assign variable for "av" author vendor | 0: timeline, 1: item, 2: page
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           feedObject.privacy = findSubString( cookie, "c_user=", ";" );
         } else if ( feed.location.type === 2 ) {

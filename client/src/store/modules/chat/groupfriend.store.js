@@ -1,24 +1,35 @@
 import GroupFriend from "@/services/modules/chat/groupfriend.service";
 
 const state = {
-    // all group friends
+    // all item friends
     allGroupFriends: [],
     allCreateGroupFriends: [],
-    idGroupFriend: []
+    idGroupFriend: [],
+  groupFriend: {},
+  groupStatus: "",
+  selectedUIDs: []
 }
 const getters = {
-    // all group friends
+    // all item friends
     allGroupFriends: state => state.allGroupFriends,
     allCreateGroupFriends: state => state.allCreateGroupFriends,
-    idGroupFriend: state => state.idGroupFriend
-
+    idGroupFriend: state => state.idGroupFriend,
+  groupFriend: state => state.groupFriend,
+  groupStatus: state => state.groupStatus,
+  selectedUIDs: state => state.selectedUIDs
 }
 const mutations = {
-    // set create group friend
+  group_request: (state) => {
+    state.groupStatus = "loading";
+  },
+  group_success: (state) => {
+    state.groupStatus = "success";
+  },
+    // set create item friend
     setCreateGroup: (state, payload) => {
         state.allCreateGroupFriends = payload;
     },
-    // all group friends
+    // all item friends
     setAllGroupFriend: (state, payload) => {
         state.allGroupFriends = payload;
     },
@@ -26,21 +37,44 @@ const mutations = {
     setIdGroupFriend: (state, payload) => {
         state.idGroupFriend = payload;
     },
-    // update
+  setGroupFriend: (state, payload) => {
+    state.groupFriend = payload;
+  },
+  selectedUIDs: (state, payload) => {
+    state.selectedUIDs = payload;
+  }
 
 }
 const actions = {
-    // create group friend
-    createGroup: async ({ commit }, payload) => {
-        const rsCreateGroup = await GroupFriend.createGroupFriend( payload );
-        commit("setCreateGroup", rsCreateGroup.data.data);
+  /**
+   *
+   * @param commit: status, setGroup, setAll item
+   * @param payload: Array id friend
+   * @returns {Promise<void>}
+   */
+  addFriendToGroup: async ({commit}, payload) =>  {
+    commit("group_request");
 
-        const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsGetAllGroup.data.data);
+    const dataSender = {
+      friendId: payload.friendId
+    };
+
+    const result = await GroupFriend.addFriendGroup(payload.gr_id, dataSender);
+    commit("setGroupFriend", result);
+    const resultAllGroup = await GroupFriend.getAllGroupFriends();
+    commit("setAllGroupFriend", resultAllGroup.data.data);
+    commit("group_success");
+  },
+    // create item friend
+  createGroupFriend: async ({ commit }, payload) => {
+      await GroupFriend.createGroupFriend( payload );
+
+      const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
+      commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
 
-    // get all group friend
-    getAllGroupWhenCreate: async ( { commit } ) => {
+    // get all item friend
+  getAllGroupFriend: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
@@ -52,12 +86,12 @@ const actions = {
     },
 
     // get Id Group Friend
-    getIdGroupFriend: async ( { commit }, payload ) => {
-        const rsGetId = await GroupFriend.getIdGroupFriend( payload );
-        commit("setIdGroupFriend", rsGetId.data.data);
+  getGroupFriendById: async ( { commit }, payload ) => {
+    const rsGetId = await GroupFriend.getInfoGroupFriend( payload );
+    commit("setGroupFriend", rsGetId.data.data);
     },
 
-    // delete group friend
+    // delete item friend
     deleteGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.deleteGroupFriends( payload._id );
         const rsDelete = await GroupFriend.getAllGroupFriends();
@@ -65,7 +99,10 @@ const actions = {
 
         // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         // commit("setAllGroupFriend", rsGetAllGroup.data.data);
-    }
+    },
+  selectedUIDs: async ({commit}, payload) => {
+    commit("selectedUIDs", payload);
+  }
 }
 
 export default {

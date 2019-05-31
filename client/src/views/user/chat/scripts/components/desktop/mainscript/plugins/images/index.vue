@@ -68,7 +68,7 @@
 <script>
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
-  props: ["item", "block"],
+  props: ["index.vue", "block"],
   data() {
     return {
       isDeleteItemBlock: false,

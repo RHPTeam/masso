@@ -53,7 +53,7 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 
 export default {
-  props: ["item", "block"],
+  props: ["index.vue", "block"],
   data() {
     return {
       isShowDeleteTextPopup: false,
@@ -70,11 +70,11 @@ export default {
     };
   },
   methods: {
-    // async upTypingText(type, group) {
+    // async upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "updateitem") {
-    //     typingTimer = setTimeout(this.updateItem(group), 2000);
-    //     if (group.valueText === "{{") {
+    //     typingTimer = setTimeout(this.updateItem(item), 2000);
+    //     if (item.valueText === "{{") {
     //       this.showSuggestAttribute = true;
     //       // Filter item have name # null
     //       const resultAttribute = await AttributeService.index();

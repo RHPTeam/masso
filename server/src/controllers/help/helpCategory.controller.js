@@ -26,7 +26,7 @@ module.exports = {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization );
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await HelpCategory.find( { "_id": req.query._id, "_account": userId } ).lean();
       dataResponse = dataResponse[ 0 ];

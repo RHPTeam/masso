@@ -11,7 +11,7 @@
           v-if="this.$store.getters.friendsStatus === 'loading'"
         >
           <span>{{ $t("chat.friends.loading.name") }}</span>
-          {{ $t("chat.friends.loading.item") }}
+          {{ $t("chat.friends.loading.index.vue") }}
         </div>
         <app-segments></app-segments>
       </div>

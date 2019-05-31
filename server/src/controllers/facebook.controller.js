@@ -167,7 +167,7 @@ module.exports = {
       return res.status( 404 ).json( { "status": "errors.js", "message": "Tài khoản facebook không tồn tại!" } );
     }
 
-    // Remove group Id, page Id of facebook account
+    // Remove item Id, page Id of facebook account
     Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
       // Remove pages of facebook
       Promise.all( postGroup._pages.map( ( pageId, index ) => {

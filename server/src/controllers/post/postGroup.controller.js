@@ -2,7 +2,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-shadow */
 /**
- * Controller post group for project
+ * Controller post item for project
  * author: hoc-anms
  * date up: 24/04/2019
  * date to: ___
@@ -42,7 +42,7 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
   },
   /**
-   * Create post group
+   * Create post item
    * @param req
    * @param res
    * @returns {Promise<void>}
@@ -67,7 +67,7 @@ module.exports = {
 
   },
   /**
-   * Update post group
+   * Update post item
    * ID: using of facebook
    * @param req
    * @param res
@@ -95,7 +95,7 @@ module.exports = {
     res.status( 201 ).json( jsonResponse( "success", await PostGroup.findByIdAndUpdate( req.query._postGroupId, { "$set": req.body }, { "new": true } ) ) );
   },
   /**
-   * Delete post group
+   * Delete post item
    * @param req
    * @param res
    * @returns {Promise<void>}
