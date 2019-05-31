@@ -13,12 +13,13 @@ const state = {
     break_point: 15,
     started_at: new Date,
     post_custom: [],
-    target_custom: []
+    target_custom: [],
+    timeline: []
   },
   errorEvent: [],
   statusEvent: "",
   caseEvent: {
-    post: 0, // 0: None, 1: Category, 2: Custom
+    post: 1, // 0: None, 1: Category, 2: Custom
     target: 0, // 0: None, 1: Category, 2: Custom
     libraries: 0, // 0: All, 1: Libraries
     popup: false
@@ -175,10 +176,11 @@ const actions = {
       break_point: 15,
       started_at: new Date,
       post_custom: [],
-      target_custom: []
+      target_custom: [],
+      timeline: []
     } );
     commit( "setCaseEvent", {
-      post: 0, // 0: None, 1: Category, 2: Custom
+      post: 1, // 0: None, 1: Category, 2: Custom
       target: 0, // 0: None, 1: Category, 2: Custom
       libraries: 0, // 0: All, 1: Libraries
       popup: false

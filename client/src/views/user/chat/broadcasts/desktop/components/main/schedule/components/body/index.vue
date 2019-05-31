@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div></div>
+    <div>{{ scheduleBlockDetail }}</div>
     <div>
       <div>
         <!--Start: Text item component-->
@@ -45,7 +45,7 @@
         <div class="item d_flex align_items_center justify_content_center flex_column">
           <icon-base class="icon-sand-clock" width="20" height="20" viewBox="0 0 14.41 20.14">
             <icon-sand-clock/>
-          </icon-base>{{ $t("chat.common.card.add.titimetle") }}
+          </icon-base>{{ $t("chat.common.card.add.time") }}
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
@@ -95,6 +95,9 @@ export default {
     };
   },
   computed: {
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    }
     // schedules() {
     //   return this.$store.getters.schedules;
     // },

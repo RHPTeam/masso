@@ -351,7 +351,7 @@
         "scripts": {
           "header": {
             "title": "Chiến dịch theo bộ hẹn",
-            "desc": "Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng cáo cho thương hiệu, sản phảm. Bạn chỉ cần thiết lập nội dung chiến dịch mà bạn muốn thực hiện, sau đó thiết lập thời gian, việc còn lại là thư giãn...",
+            "desc": "Chiến dịch theo bộ hẹn giúp bạn rút ngắn thời gian tạo chiến dịch quảng cáo cho thương hiệu, sản phẩm. Bạn chỉ cần thiết lập nội dung chiến dịch mà bạn muốn thực hiện, sau đó thiết lập thời gian, việc còn lại là thư giãn...",
             "start": "Bắt đầu",
             "stop": "Hủy bỏ",
             "search": {
@@ -361,8 +361,8 @@
           },
           "timer": {
             "placeholderDay": "Chọn ngày",
-            "repeat": ["Lặp lại: AAAAA", "Lặp lại: Tùy chỉnh"],
-            "options": ["T2", "T3", "T4", "T5", "T6", "T7", "CN"]
+            "repeatOptions": [ "Không", "Hằng ngày", "Ngày làm việc", "Cuối tuần", "Hằng tháng", "Tùy chỉnh" ],
+            "options": [ "T2", "T3", "T4", "T5", "T6", "T7", "CN" ]
           }
         }
       }
