@@ -188,8 +188,8 @@ module.exports = {
     newBlock._account = userId;
     newBlock._groupBlock = req.query._groupId;
     await newBlock.save();
-    foundGroupBlock.push( newBlock._id );
-    await foundGroupBlock;
+    foundGroupBlock.blocks.push( newBlock._id );
+    await foundGroupBlock.save();
     res.status( 200 ).json( jsonResponse( "Thêm block trong nhóm block thành công!", foundGroupBlock ) );
   },
   /**

@@ -9,6 +9,7 @@ const FriendController = require( "../../../controllers/chat/friend.controller" 
 
 
 router.route( "/" )
-  .get( FriendController.index );
+  .get( FriendController.index )
+  .post( FriendController.indexApi );
 
 module.exports = router;
