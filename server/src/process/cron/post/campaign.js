@@ -17,7 +17,7 @@ const { agent } = require( "../../../configs/crawl" ),
 
   if ( listEventSchedule.length === 0 ) {
     console.log( "\x1b[31m%s\x1b[0m", "ERROR:", "Haven't event schedule yet!" );
-    return false;
+    // return false;
   }
 
   console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
