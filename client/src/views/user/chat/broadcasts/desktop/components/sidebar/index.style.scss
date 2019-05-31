@@ -140,7 +140,7 @@ div[data-theme="light"] {
     .content--setup{
         transition: 0.3s;
         &:hover{
-            box-shadow: 0 0 6px rgba(0, 0, 0, .15);
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
           .icon--add {
             color: #666;
           }
@@ -167,9 +167,7 @@ div[data-theme="dark"] {
     .content--setup{
         transition: 0.3s;
         &:hover{
-            background: #ffb94a;
-            color: #fff;
-            border-color: #ffb94a;
+            box-shadow: 0 2px 4px 0 rgba(255, 255, 255, 0.12);
         }
     }
 }

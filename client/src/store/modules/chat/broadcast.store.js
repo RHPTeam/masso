@@ -64,6 +64,12 @@ const actions = {
   getScheduleBlockDetail: ( { commit }, payload ) => {
     commit( "setScheduleBlockDetail", payload );
   },
+  /**
+   * Get schedule block detail by id
+   * @param commit
+   * @param payload is block detail id
+   * @returns {Promise<void>}
+   */
   getScheduleBlockDetailById: async ( { commit }, payload ) => {
     // Get all broadcast
     const res = await BroadcastService.index(),
@@ -74,10 +80,11 @@ const actions = {
       return item.typeBroadCast === "Thiết lập bộ hẹn";
     } );
 
-    //Find schedule block by id
+    // Find schedule block by id
     const scheduleBlock = scheduleBroadcast[0].blocks.filter( ( item ) => {
       return item._id === payload;
     } );
+
     await commit( "setScheduleBlockDetail", scheduleBlock[0] );
   }
 };

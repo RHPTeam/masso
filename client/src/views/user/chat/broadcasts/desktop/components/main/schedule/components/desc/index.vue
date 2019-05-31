@@ -32,6 +32,7 @@ export default {
 
 .main--desc {
   border-bottom: solid 1px rgba(0, 0, 0, 0.09);
+  font-size: .875rem;
   .desc {
     text-align: left;
   }

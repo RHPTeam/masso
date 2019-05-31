@@ -1,6 +1,6 @@
 <template>
   <div class="main--header d_flex align_items_center">
-    <div class="d_flex name--campaign">
+    <div class="d_flex align_items_center name--campaign">
       <h1 class="title">{{ $t("chat.broadcast.main.scripts.header.title") }}</h1>
       <div class="action--l d_flex align_items_center">
         <div class="action--item copy d_none">
@@ -15,7 +15,11 @@
           </icon-base>
         </div>
         <div class="action--item live" @click.prevent="startBroadcast" v-if="isShowStart === false">
-          <icon-base icon-name="icon-copy" width="14" height="16" viewBox="0 0 13.955 16">
+          <icon-base
+            class="icon--play"
+            width="14"
+            height="16"
+            viewBox="0 0 13.955 16">
             <icon-plays-button />
           </icon-base>
           <span class="ml_2">{{ $t("chat.broadcast.main.scripts.header.start") }}</span>
