@@ -139,7 +139,7 @@ module.exports = {
     } ) );
 
     const dataFriend = [].concat.apply( [], listFriend );
-
+    console.log(dataFriend.length)
     Promise.all( removeObjectDuplicates( dataFriend, "userID" ).map( async ( friend ) => {
       let vocate = await Vocate.find( { "_account": req.uid, "_friends": friend.userID.toString() } ),
         listFriendInfo = {
