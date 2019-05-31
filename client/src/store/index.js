@@ -31,6 +31,7 @@ import CategoriesStore from "./modules/post/category.store";
 import EventsStore from "./modules/post/event.store";
 import FeedStore from  "./modules/post/feed.store";
 import FacebookStore from "./modules/post/facebook.store";
+import GroupBlock from "./modules/chat/groupblock.store";
 import GroupFacebook from "./modules/post/groupfacebook.store";
 import PageFacebook from "./modules/post/pagefacebook.store";
 import PostStore from "./modules/post/post.store";
@@ -71,6 +72,7 @@ export default new Vuex.Store( {
     PageFacebook,
     PostStore,
     PostFacebookStore,
-    PostGroupStore
+    PostGroupStore,
+    GroupBlock
   }
 } );

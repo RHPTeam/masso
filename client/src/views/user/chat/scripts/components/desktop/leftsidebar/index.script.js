@@ -2,6 +2,8 @@ let typingTimer;
 
 import AfterDay from "../popup/time";
 import OptionsSequence from "../popup/optionssequence";
+import OptionGroup from "../popup/optiongroup";
+import OptionGroupBlock from "../popup/optiongroupblock";
 
 export default {
   props: ["clickShowAfterDay", "closeAfterDay"],
@@ -31,9 +33,12 @@ export default {
     groupSequence() {
       return this.$store.getters.allSequenceScript;
     },
+    groupBlock(){
+      return this.$store.getters.allGroupBlock;
+    }
   },
   async created() {
-    // await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getAllGroupBlockScripts");
     await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
@@ -76,6 +81,9 @@ export default {
       if (type === "groupfriend") {
         typingTimer = await setTimeout(this.updateGroupFriend(group), 1000);
       }
+      if (type === "groupblock") {
+        typingTimer = await setTimeout(this.updateGroupBlock(group), 1000);
+      }
     },
     clear() {
       clearTimeout(typingTimer);
@@ -97,18 +105,44 @@ export default {
     // get all block in a sequence
     getAllBlockInSequence( id ) {
       this.$store.dispatch("getAllBlockInSequence", id);
+    },
+
+
+    // ************ Group Block
+    createGroupBlock(){
+      this.$store.dispatch("createGroupBlock");
+    },
+
+
+    // update a block group
+    updateGroupBlock(groupBlock){
+      const dataSender = {
+        _id: groupBlock._id,
+        name: groupBlock.name
+      };
+      this.$store.dispatch("updateGroupBlock", dataSender)
+    },
+    // create a block in group 
+    createBlockInAGroup( idGroup ){
+      this.$store.dispatch("createBlockInGroup", idGroup);
+    },
+
+    // // get all block in group block
+    getAllBlockInGroupById( idGroup ){
+      console.log("idGroup");
+      console.log(idGroup);
+      this.$store.dispatch("getAllBlockInAGroupById", idGroup);
+    },
+
+    // show infor a block in sequence
+    showInforBlockSequence( content ){
+      this.$store.dispatch("getAllBlockInSequenceById", content)
+    },
+
+    // show infor a block in group block
+    showInforBlockGroup( content ){
+      this.$store.dispatch("getInforABlockGroupById", content)
     }
-
-
-    
-    // //Update nam sequence
-    // updateNameSequence(value) {
-    //   const objSender = {
-    //     sq_id: value._id,
-    //     name: value.name
-    //   };
-    //   this.$store.dispatch("updateSequence", objSender);
-    // }
   },
   sockets: {
     // async receiveMessage(value) {
@@ -136,6 +170,8 @@ export default {
   },
   components: {
     AfterDay,
-    OptionsSequence
+    OptionsSequence,
+    OptionGroup,
+    OptionGroupBlock
   }
 };

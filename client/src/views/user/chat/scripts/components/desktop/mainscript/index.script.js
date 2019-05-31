@@ -21,8 +21,7 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
-      isDeleteItemBlock: false,
-      title: "aaaaaaa"
+      isDeleteItemBlock: false
     };
   },
   methods: {
@@ -39,19 +38,20 @@ export default {
     //   };
     //   this.$store.dispatch("createItemBlock", dataSender);
     // },
-    // async upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "nameblock") {
-    //     typingTimer = setTimeout(this.updateNameBlock(group), 2000);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name block
-    // updateNameBlock() {
-    //   this.$store.dispatch("updateBlock", this.$store.getters.block);
-    // }
+    async upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "nameblock") {
+        typingTimer = setTimeout(this.updateNameBlock(group), 2000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+
+    //Update name block by id
+    updateNameBlock() {
+      this.$store.dispatch("updateNameBlockById", this.$store.getters.inforBlockGroup);
+    }
   },
   computed: {
     currentTheme() {
@@ -63,6 +63,9 @@ export default {
     // sequence() {
     //   return this.$store.getters.itemSqc;
     // }
+    inforBlockGroup(){
+      return this.$store.getters.inforBlockGroup;
+    }
   },
   async created() {
     // const blocks = await BlockService.index();

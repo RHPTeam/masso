@@ -198,3 +198,11 @@ div[data-theme="dark"] .footer {
 
 
 // ****************** RESPONSIVE
+@media (max-width: 1200px) and (min-width: 768px){
+    .footer .group{
+        flex-wrap: wrap;
+        .item {
+            width: calc(50% - 10px);
+        }
+    }
+}

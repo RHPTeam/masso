@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="icon-more float_right" @click="showOptionsSequence">
+  <div class>
+    <div class="position_absolute icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
         icon-name="IconMore"
@@ -23,7 +23,7 @@
             class="desc--copy"
           >Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
         </li>
-        <li @click="deleteBlockInSequence( sequenceId, item._id )" class="delete">Xóa</li>
+        <li class="delete">Xóa</li>
       </ul>
     </div>
   </div>
@@ -46,29 +46,29 @@ export default {
     },
     closeOptionsSequence() {
       this.isOptionsSequence = false;
-    },
-    deleteBlockInSequence(sqId, blockId) {
-      const dataSender = {
-        sqId: sqId,
-        blockId: blockId
-      };
-      this.$store.dispatch("deleteBlockInSequence", dataSender);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
-.icon-more:hover {
-  cursor: pointer;
+.icon-more {
+  right: 1px;
+  z-index: 1;
+  // display: none;
+  &[hover="true"] {
+    display: block;
+    .icon--more {
+      color: #fff;
+    }
+  }
 }
 .infor {
   cursor: pointer;
-  top: 29px;
-  right: 0;
+  top: 30px;
+  right: -97px;
   z-index: 11;
-  width: 100%;
+  width: 250px;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
@@ -94,7 +94,8 @@ export default {
     color: #fff;
   }
   .disable {
-    cursor: not-allowed;.copy {
+    cursor: not-allowed;
+    .copy {
       font-weight: bold;
     }
     .desc--copy {
@@ -104,6 +105,5 @@ export default {
   .delete {
     font-weight: bold;
   }
-  
 }
 </style>
