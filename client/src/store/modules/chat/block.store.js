@@ -1,5 +1,5 @@
-// import BlockServices from "@/services/modules/chat/block.service";
-// import GroupBlockServices from "@/services/modules/chat/groupBlock.service";
+import BlockServices from "@/services/modules/chat/block.service";
+import GroupBlockServices from "@/services/modules/chat/groupblock.service";
 
 const state = {
   statusGroupBlocks: "",
@@ -52,13 +52,13 @@ const mutations = {
 };
 const actions = {
   /******************** GROUP BLOCKS *********************/
-  createGroupBlock: async ({ commit }) => {
-    await commit("groupBlock_request");
-    await GroupBlockServices.create();
-    const groupBlock = await GroupBlockServices.index();
-    await commit("setGroupBlock", groupBlock.data.data);
-    await commit("groupBlock_success");
-  },
+  // createGroupBlock: async ({ commit }) => {
+  //   await commit("groupBlock_request");
+  //   await GroupBlockServices.create();
+  //   const groupBlock = await GroupBlockServices.index();
+  //   await commit("setGroupBlock", groupBlock.data.data);
+  //   await commit("groupBlock_success");
+  // },
   deleteGroup: async ({ commit }, payload) => {
     await commit("groupBlock_request");
     await GroupBlockServices.deleteGroup(payload);
@@ -147,10 +147,16 @@ const actions = {
     commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
-  getBlock: async ({ commit }, payload) => {
+  /**
+   * Get info block by id
+   * @param commit set status block and set value of block
+   * @param payload : id of block
+   * @returns {Promise<void>}
+   */
+  getInfoBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const result = await BlockServices.show(payload);
-    await commit("setBlock", result.data.data[0]);
+    await commit("setBlock", result.data.data);
     await commit("block_success");
   },
   updateBlock: async ({ commit }, payload) => {
@@ -192,6 +198,7 @@ const actions = {
     await commit("setGroupBlock", resultGroupBlock.data.data);
   }
 };
+
 export default {
   state,
   getters,

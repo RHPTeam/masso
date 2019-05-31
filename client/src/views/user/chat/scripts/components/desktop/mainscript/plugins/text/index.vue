@@ -16,7 +16,9 @@
         tag="div"
         :placeholder="$t('chat.common.card.text')"
         :contenteditable="true"
-        v-model="title"
+        v-model="item.valueText"
+        @keyup="upTypingText('updateitem', item)"
+        @keydown="clear"
       />
       <div class="list--suggest position_absolute d_none">
         <VuePerfectScrollbar class="suggest">
@@ -53,7 +55,11 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 
 export default {
-  props: ["index.vue", "block"],
+  components: {
+    VuePerfectScrollbar,
+    DeleteCampaignPopup
+  },
+  props: ["item", "block"],
   data() {
     return {
       isShowDeleteTextPopup: false,
@@ -69,37 +75,42 @@ export default {
       title: "AAAAAAAAA"
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
-    // async upTypingText(type, item) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "updateitem") {
-    //     typingTimer = setTimeout(this.updateItem(item), 2000);
-    //     if (item.valueText === "{{") {
-    //       this.showSuggestAttribute = true;
-    //       // Filter item have name # null
-    //       const resultAttribute = await AttributeService.index();
-    //       this.listAttribute = resultAttribute.data.data;
-    //       this.resultFilterAttr = this.listAttribute.filter(
-    //         item => item.name !== ""
-    //       );
-    //     }
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
+    async upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "updateitem") {
+        typingTimer = setTimeout(this.updateItem(item), 2000);
+        if (item.valueText === "{{") {
+          this.showSuggestAttribute = true;
+          // Filter item have name # null
+          const resultAttribute = await AttributeService.index();
+          this.listAttribute = resultAttribute.data.data;
+          this.resultFilterAttr = this.listAttribute.filter(
+            item => item.name !== ""
+          );
+        }
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
     // // Update item in block
-    // updateItem(item) {
-    //   const objSender = {
-    //     itemId: item._id,
-    //     valueText: item.valueText,
-    //     block: this.$store.getters.block
-    //   };
-    //   this.$store.dispatch("updateItemBlock", objSender);
-    // },
-    // closeSuggestAttributeInItem() {
-    //   this.showSuggestAttribute = false;
-    // },
+    updateItem(item) {
+      const objSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    },
+    closeSuggestAttributeInItem() {
+      this.showSuggestAttribute = false;
+    },
     // attachValue(list, item) {
     //   item.valueText = "{{" + list.name + "}}";
     //   // item.valueText += '{{' +list.name + '}}' + ' ';
@@ -119,15 +130,6 @@ export default {
     //   };
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  components: {
-    VuePerfectScrollbar,
-    DeleteCampaignPopup
   }
 };
 </script>

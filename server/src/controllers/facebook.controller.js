@@ -72,7 +72,7 @@ module.exports = {
     if ( userId !== req.uid ) {
       return res.status( 405 ).json( { "status": "errors.js", "message": "Xem lại quyền người dùng!" } );
     }
-    if ( accountResult._accountfb.length >= 5 ) {
+    if ( accountResult._accountfb.length >= 2 ) {
       return res.status( 403 ).json( { "status": "errors.js", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
     }
     if ( foundAccountFacebook.length > 0 ) {

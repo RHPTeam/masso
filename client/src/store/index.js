@@ -14,7 +14,7 @@ import FacebookFriend from "./modules/friendfacebook.store";
  * Store for Page Chat
  */
 import AttributeStore from "./modules/chat/attribute.store";
-import Block from "./modules/chat/block.store";
+import BlockStore from "./modules/chat/block.store";
 import FacebookCookie from "./modules/chat/facebookCookie.store";
 import GroupFriend from "./modules/chat/groupfriend.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
@@ -32,6 +32,7 @@ import CategoriesStore from "./modules/post/category.store";
 import EventsStore from "./modules/post/event.store";
 import FeedStore from  "./modules/post/feed.store";
 import FacebookStore from "./modules/post/facebook.store";
+import GroupBlock from "./modules/chat/groupblock.store";
 import GroupFacebook from "./modules/post/groupfacebook.store";
 import PageFacebook from "./modules/post/pagefacebook.store";
 import PostStore from "./modules/post/post.store";
@@ -52,7 +53,7 @@ export default new Vuex.Store( {
      * Store for Page Chat
      */
     AttributeStore,
-    Block,
+    BlockStore,
     FacebookCookie,
     GroupFriend,
     SequenceFaceBook,
@@ -73,6 +74,7 @@ export default new Vuex.Store( {
     PageFacebook,
     PostStore,
     PostFacebookStore,
-    PostGroupStore
+    PostGroupStore,
+    GroupBlock
   }
 } );

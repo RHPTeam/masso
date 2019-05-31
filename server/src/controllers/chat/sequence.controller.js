@@ -28,8 +28,7 @@ module.exports = {
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = findSubString( authorization, "cfr=", ";" ),
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+      accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -46,7 +45,12 @@ module.exports = {
         }
       } );
     }
-    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+
+    if ( req.query._id ) {
+      dataResponse = dataResponse[ 0 ];
+    }
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   /**
    * create sequence
@@ -54,13 +58,12 @@ module.exports = {
    * @param: res
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundAllSequence = await Sequence.find( { "_account": userId } );
+    const foundAllSequence = await Sequence.find( { "_account": req.uid } );
 
     // handle num for name
     let nameArr = foundAllSequence.map( ( sequence ) => {
@@ -77,7 +80,7 @@ module.exports = {
       newSeq = await new Sequence();
 
     newSeq.name = indexCurrent.toString() === "NaN" || foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent + 1}`;
-    newSeq._account = userId;
+    newSeq._account = req.uid;
     await newSeq.save();
     res.status( 200 ).json( jsonResponse( "Tạo trình tự kịch bản thành công!", newSeq ) );
   },
@@ -253,7 +256,7 @@ module.exports = {
       let checkExist = false;
 
       foundSequence.sequences.map( ( val ) => {
-        if ( val._id.toString() === req.query._blockId ) {
+        if ( val._id.toString() !== req.query._blockId ) {
           checkExist = true;
           return checkExist;
         }

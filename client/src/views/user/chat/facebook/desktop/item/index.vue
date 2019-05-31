@@ -2,7 +2,7 @@
   <div class="card" v-if="item">
     <div class="card_body">
       <div class="card--header">
-        <delete-popup :content="item" />  
+<!--        <delete-popup :content="item" />  -->
       </div>
       <div class="card--content">
         <div class="avatar">

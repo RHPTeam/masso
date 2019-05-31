@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="">
     <div class="position_absolute icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
@@ -19,7 +19,7 @@
       <ul>
         <li @click="closeOptionsSequence" class="disable">Sao chép</li>
         <li @click="closeOptionsSequence" class="disable">Di chuyển</li>
-        <li @click="deleteBlockInSequence( sequenceId, item._id )">Xóa</li>
+        <li>Xóa</li>
       </ul>
     </div>
   </div>
@@ -42,28 +42,29 @@ export default {
     },
     closeOptionsSequence() {
       this.isOptionsSequence = false;
-    },
-    deleteBlockInSequence( sqId, blockId ){
-      const dataSender = {
-        sqId: sqId,
-        blockId: blockId
-      };
-      this.$store.dispatch("deleteBlockInSequence", dataSender);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.icon-more:hover{
-  cursor: pointer;
+.icon-more {
+  right: 1px;
+  z-index: 1;
+  // display: none;
+  &[hover="true"] {
+    display: block;
+    .icon--more {
+      color: #fff;
+    }
+  }
 }
 .infor {
   cursor: pointer;
-  top: 40px;
-  right: -90px;
-  width: 108px;
+  top: 23px;
+  right: -81px;
   z-index: 11;
+  width: 108px;
   border: 1px solid #48484852;
   ul {
     list-style: none;
