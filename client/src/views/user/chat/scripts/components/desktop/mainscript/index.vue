@@ -13,6 +13,8 @@
           :contenteditable="true"
           :placeholder="$t('chat.scripts.content.name.placeholder')"
           v-model="inforBlockGroup.name"
+          @keyup="upTypingText('nameblock', inforBlockGroup)"
+          @keydown="clear"
         />
         <div class="script--header-copy-link disabled--icon">
           <!-- <icon-base

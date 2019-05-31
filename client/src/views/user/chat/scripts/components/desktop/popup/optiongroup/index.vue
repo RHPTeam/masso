@@ -78,10 +78,11 @@ div[data-theme="dark"]{
   border-radius: 5px;
   background: #fff;
   color: #333;
-  border: 1px solid #48484830;
+  box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
   z-index: 2;
   .dropdown--menu-item:nth-child(1) {
-    border-bottom: 1px solid #66666654;
+    border-bottom: 1px dotted rgba(16, 16, 16, 0.08);
+    cursor: not-allowed;
     font-size: 13px;
     font-weight: 400;
     transition: 0.3s;

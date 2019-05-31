@@ -18,7 +18,7 @@
           <div class="auto--main-wrap p_4">
             <div class="auto--content-header d_flex align_items_center mb_3">
               <contenteditable
-                class="header--title"
+                class="header--title text_center"
                 tag="div"
                 :contenteditable="true"
                 :placeholder="$t('chat.keywords.content.nameSyntax')"

@@ -141,7 +141,6 @@ export default {
 
     // show infor a block in group block
     showInforBlockGroup( content ){
-      console.log(content);
       this.$store.dispatch("getInforABlockGroupById", content)
     }
   },

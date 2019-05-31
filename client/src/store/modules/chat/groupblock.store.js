@@ -65,7 +65,15 @@ const actions = {
     // get infor a block in group 
     getInforABlockGroupById: async ( { commit }, payload ) => {
         const rsGetInforBlockGroup = await GroupBlock.getInforBlockGroup( payload );
-        commit("setInforABlockGroup", rsGetInforBlockGroup.data.data);
+        commit("setInforABlockGroup", rsGetInforBlockGroup.data.data[0]);
+    },
+
+    // Update name infor block Group by id
+    updateNameBlockById: async ( { commit }, payload ) => {
+        const rsUpdateNameBlockById = await GroupBlock.updateNameBlockById( payload );
+
+        const rsAllGroupBlock = await GroupBlock.getAllGroupBlock();
+        commit("setAllGroupBlock", rsAllGroupBlock.data.data);
     }
 }
 

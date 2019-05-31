@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="position_absolute icon-more" @click="showOptionsSequence">
+    <div class="icon-more float_right" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
         icon-name="IconMore"
@@ -17,9 +17,13 @@
       v-click-outside="closeOptionsSequence"
     >
       <ul>
-        <li @click="closeOptionsSequence" class="disable">Sao chép</li>
-        <li @click="closeOptionsSequence" class="disable">Di chuyển</li>
-        <li @click="deleteBlockInSequence( sequenceId, item._id )">Xóa</li>
+        <li @click="closeOptionsSequence" class="disable">
+          <div class="pb_1 copy">Sao chép</div>
+          <div
+            class="desc--copy"
+          >Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
+        </li>
+        <li @click="deleteBlockInSequence( sequenceId, item._id )" class="delete">Xóa</li>
       </ul>
     </div>
   </div>
@@ -43,7 +47,7 @@ export default {
     closeOptionsSequence() {
       this.isOptionsSequence = false;
     },
-    deleteBlockInSequence( sqId, blockId ){
+    deleteBlockInSequence(sqId, blockId) {
       const dataSender = {
         sqId: sqId,
         blockId: blockId
@@ -55,27 +59,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-more:hover{
+
+.icon-more:hover {
   cursor: pointer;
 }
 .infor {
   cursor: pointer;
-  top: 40px;
-  right: -90px;
-  width: 108px;
+  top: 29px;
+  right: 0;
   z-index: 11;
-  border: 1px solid #48484852;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 5px;
+  box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
   ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
   li {
-    border-bottom: 1px dotted #333;
+    border-bottom: 1px dotted rgba(16, 16, 16, 0.08);
     text-align: left;
     background: #fff;
     color: #333;
-    padding: 0.75rem 1.25rem;
+    padding: 0.75rem;
+    transition: 0.3s;
   }
   li:last-child {
     color: #f43c3c;
@@ -85,8 +93,17 @@ export default {
     background: #ffb94a;
     color: #fff;
   }
-  .disable{
-    cursor: not-allowed;
+  .disable {
+    cursor: not-allowed;.copy {
+      font-weight: bold;
+    }
+    .desc--copy {
+      font-size: 0.8125rem;
+    }
   }
+  .delete {
+    font-weight: bold;
+  }
+  
 }
 </style>

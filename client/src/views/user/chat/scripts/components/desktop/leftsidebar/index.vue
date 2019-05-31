@@ -30,7 +30,7 @@
         <div class="name group-scripts r m_0">
           <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3" v-for="(blockGroup, index) in groupBlock.blocks" :key="`e-${index}`">
             <div class="content--item position_relative">
-              <div class="text_center" @click="showInforBlockGroup(blockGroup._id)">
+              <div class="text_center name" @click="showInforBlockGroup(blockGroup._id)">
                 {{ blockGroup.name }}
               </div>
               <div class="position_absolute icon--more-group-block">

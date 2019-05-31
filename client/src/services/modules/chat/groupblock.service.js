@@ -33,8 +33,11 @@ export default {
 
     // get infor block group
     getInforBlockGroup( id ){
-        console.log("id api");
-        console.log(id);
         return Api().get(`block?_id=${id}`);
+    },
+
+    // update name infor block Group by id
+    updateNameBlockById( blockId ){
+        return Api().patch(`block?_blockId=${blockId._id}`, blockId);
     }
 }

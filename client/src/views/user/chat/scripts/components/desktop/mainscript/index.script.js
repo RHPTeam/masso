@@ -38,22 +38,19 @@ export default {
     //   };
     //   this.$store.dispatch("createItemBlock", dataSender);
     // },
-    // async upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "nameblock") {
-    //     typingTimer = setTimeout(this.updateNameBlock(group), 2000);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name block
-    // updateNameBlock() {
-    //   this.$store.dispatch("updateBlock", this.$store.getters.block);
-    // }
-    inforBlockGroup(){
-      console.log(this.$store.getters.inforBlockGroup);
-      this.$store.getters.inforBlockGroup;
+    async upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "nameblock") {
+        typingTimer = setTimeout(this.updateNameBlock(group), 2000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+
+    //Update name block by id
+    updateNameBlock() {
+      this.$store.dispatch("updateNameBlockById", this.$store.getters.inforBlockGroup);
     }
   },
   computed: {
@@ -66,6 +63,9 @@ export default {
     // sequence() {
     //   return this.$store.getters.itemSqc;
     // }
+    inforBlockGroup(){
+      return this.$store.getters.inforBlockGroup;
+    }
   },
   async created() {
     // const blocks = await BlockService.index();
