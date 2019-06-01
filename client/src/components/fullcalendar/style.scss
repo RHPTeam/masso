@@ -672,12 +672,10 @@ Docs & License: https://rfullcalendar.io/
     z-index: 11;
     .card--hover-item {
       display: flex;
-      align-items: start;
       margin-top: 1rem;
       &.card--hover--title {
         margin-bottom: 1rem;
         margin-top: 0;
-        align-items: start;
       }
       &.item--page {
         margin-top: .75rem;
