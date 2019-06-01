@@ -13,5 +13,6 @@ module.exports = {
   "VOCATE": "Danh xưng",
   "VOCATEDEFAULT": "Bạn",
   "MALE": "Anh",
-  "FEMALE": "Chị"
+  "FEMALE": "Chị",
+  "BROADCAST_SCHEDULE": "Thiết lập bộ hẹn"
 };

@@ -11,6 +11,9 @@ export default {
     return {
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
+      isShowScriptDefault: true,
+      isActive: true,
+      isOption: false,
       currentIndexActionItemDropdown: null,
       currentIndexGroupItemButton: null,
       showItemAction: false,
@@ -46,6 +49,16 @@ export default {
     await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
+    showScriptDefault(){
+      this.isShowScriptDefault = true;
+      this.isActive = true;
+      this.isOption = false;
+    },
+    showScriptSequence(){
+      this.isShowScriptDefault = false;
+      this.isActive = false;
+      this.isOption = true;
+    },
     openSequenceDropdown( id ){
       this.showCopySequenceScripts = true;
       this.currentSequenceIndex = id;

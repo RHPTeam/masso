@@ -11,10 +11,29 @@ let CronJob = require( "cron" ).CronJob;
 const express = require( "express" ),
   app = express();
 const Account = require( "../../../models/Account.model" );
+const dictionaries = require( "../../../configs/dictionaries" );
 const nodemailer = require( "nodemailer" ),
-  // When  upload to server comment 2 line after
-  http = require( "http" ).Server( app ),
-  io = require( "socket.io" )( http );
+  fs = require( "fs" ),
+  http = require( "http" ),
+  https = require( "https" );
+
+let server = null, io = null;
+
+if ( process.env.APP_ENV === "production" ) {
+  const option = {
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
+    "passphrase": process.env.HTTPS_PASSWORD
+  };
+
+  server = https.createServer( option, app );
+} else {
+  server = http.createServer( app );
+}
+
+io = require( "socket.io" )( server );
+
+server.listen( process.env.PORT_SOCKET_CHAT );
+
 
 /*
  const fs = require('fs')
@@ -245,11 +264,12 @@ let chatAuto = async function( account ) {
       } );
     } );
     // Handle broadcast 1p call cron to send broadcast with per account facebook
-    const findActiveBroadcast = await Broadcast.find( {
-      "_account": account._account
+    const findActiveBroadcast = await Broadcast.findOne( {
+      "_account": account._account,
+      "typeBroadCast": dictionaries.BROADCAST_SCHEDULE
     } );
 
-    await findActiveBroadcast[ 1 ].blocks.map( async ( block ) => {
+    await findActiveBroadcast.blocks.map( async ( block ) => {
       if ( block.status === true ) {
         await BroadcastProcess.handleMessageScheduleBroadcast(
           block,
@@ -586,7 +606,4 @@ let chatAuto = async function( account ) {
   return account;
 };
 
-// When  upload to server comment line after
-http.listen( 8889 );
-// server.listen( process.env.PORT_SOCKET );
 module.exports = chatAuto;

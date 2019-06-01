@@ -58,6 +58,12 @@ export default {
     targetData: {
       type: Object
     },
+    item: {
+      type: Object
+    },
+    block: {
+      type: Object
+    },
     targetName: {
       type: String,
       default: ""
@@ -92,10 +98,16 @@ export default {
       this.$emit( "closePopup", false );
     },
     async deleteTargets() {
-      console.log(this.targetData._id)
-      await this.$store.dispatch("deleteAccountFacebook", this.targetData._id);
-      // remove localStorage
-      localStorage.removeItem("rid");
+      if(this.typeName.toString().toLowerCase() === 'unsubscrible') {
+        console.log("delete")
+      } else if (this.typeName.toString().toLowerCase() === "itemblock") {
+        const dataSender = {
+          blockId: this.block._id,
+          itemId: this.item._id
+        };
+        this.$store.dispatch("deleteItemBlock", dataSender);
+        // this.$router.push({ name: "scripts" });
+      }
       this.closePopup();
     }
   }

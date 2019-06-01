@@ -137,7 +137,6 @@
       </div>
     </div>
     <!-- End User Table Header -->
-
     <!--Start: Loading Component-->
     <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
 <!--      <loading-component-->
@@ -173,14 +172,14 @@
                 <div class="name">
                   <div class="name--avatar mr_2">
                     <img
-                      :src="user.photo"
+                      :src="user.profilePicture"
                       alt="ảnh đại diện"
                       width="32px"
                       height="32px"
                     />
                   </div>
                   <div class="name--text">
-                    <span class="btn--action"> {{user.text }}</span>
+                    <span class="btn--action"> {{user.fullName }}</span>
                   </div>
                 </div>
 
@@ -189,14 +188,14 @@
                 </div>
 
                 <div class="gender">
-                  <span class="btn--action">Gender</span>
+                  <span class="btn--action">{{user.gender === 'female_singular' ? 'Nữ' : 'Nam'}}</span>
                 </div>
                 <div class="pronoun">
                   <span
                     class="btn--action"
-                    @click="showPronounPopup(user.uid)"
+                    @click="showPronounPopup(user.userID)"
                   >
-                    Chọn để thiết lập
+                    {{user.vocate}}
                   </span>
                 </div>
               </div>
@@ -229,13 +228,13 @@
               <div class="name">
                 <div class="name--avatar mr_2">
                   <img
-                    :src="user.photo"
+                    :src="user.profilePicture"
                     width="32px"
                     height="32px"
                   />
                 </div>
                 <div class="name--text">
-                  <span class="btn--action">{{user.text}}</span>
+                  <span class="btn--action">{{user.fullName}}</span>
                 </div>
               </div>
 
@@ -244,12 +243,12 @@
               </div>
 
               <div class="gender">
-                <span class="btn--action">Gender</span>
+                <span class="btn--action">{{user.gender}}</span>
               </div>
               <div class="pronoun">
                 <span
                   class="btn--action"
-                  @click="showPronounPopup(user.uid)"
+                  @click="showPronounPopup(user.userID)"
                 >
                   {{ $t("chat.friends.table.main.setup") }}
                 </span>
