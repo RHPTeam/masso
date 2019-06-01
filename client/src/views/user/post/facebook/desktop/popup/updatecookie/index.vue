@@ -13,15 +13,20 @@
           </icon-base>
         </div>
         <div class="modal--body">
-          <div class="modal--title">Thêm tài khoản Facebook</div>
+          <div class="modal--title">{{ nameBread }}</div>
           <div class="modal--desc">
-            Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
+            {{ subBread }}
+          </div>
+          <div class="alert p_2" v-if="isShowAlert === true">
+            Mã cookie của bạn không chính xác, vui lòng xác nhận đây là mã
+            cookie của tài khoản <span>{{ item.userInfo.name }}</span
+          >.
           </div>
           <textarea
             placeholder="Nhập mã kích hoạt tại đây ..."
             v-model="cookie"
             @keydown.enter.exact.prevent
-            @keyup.enter.exact="addCookie"
+            @keyup.enter.exact="updateCookie"
             @keydown.enter.shift.exact="newline"
           ></textarea>
         </div>
@@ -29,8 +34,8 @@
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-add" @click="addCookie">
-            XONG
+          <button class="btn-add" @click="updateCookie">
+            CẬP NHẬT
           </button>
         </div>
       </div>
@@ -39,11 +44,13 @@
 </template>
 
 <script>
-
+import StringFuntion from "@/utils/functions/string";
 export default {
+  props: ["item", "subBread", "nameBread"],
   data() {
     return {
-      cookie: ""
+      cookie: "",
+      isShowAlert: false
     };
   },
   computed: {
@@ -53,16 +60,29 @@ export default {
   },
   methods: {
     closeAddPopup() {
-      this.$emit( "closeAddPopup", false );
+      this.$emit("closeAddPopup", false);
     },
-    async addCookie() {
-      await this.$emit( "closeAddPopup", false );
-      await this.$store.dispatch( "addCookie", this.cookie );
+    async updateCookie() {
+      const newUserId = StringFuntion.findSubString(
+        this.cookie,
+        "c_user=",
+        ";"
+      );
+      const userId = this.item.userInfo.id;
+      if (newUserId === userId) {
+        await this.$store.dispatch("updateFacebook", {
+          fbId: this.item._id,
+          cookie: this.cookie
+        });
+        this.$emit("closeAddPopup", false);
+      } else {
+        this.isShowAlert = true;
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-  @import "../../index.style";
+  @import "./index.style";
 </style>

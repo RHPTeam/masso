@@ -153,8 +153,8 @@ module.exports = {
     const accountResult = await Account.findOne( { "_id": req.uid } ),
       listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),
       findFacebook = await Facebook.findById( req.query._id ),
-      listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
-      listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._facebookId, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
+      listGroupFacebook = ( await GroupFacebook.find( { "_facebook": req.query._id, "_account": req.uid } ).lean() ).map( ( groupFacebook ) => groupFacebook.groupId ),
+      listPageFacebook = ( await PageFacebook.find( { "_facebook": req.query._id, "_account": req.uid } ).lean() ).map( ( pageFacebook ) => pageFacebook.pageId );
 
     if ( !accountResult ) {
       return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
@@ -184,14 +184,14 @@ module.exports = {
     } ) );
 
     // Delete Group and Page of facebook deleted
-    await GroupFacebook.deleteMany( { "_facebook": req.query._facebookId } );
-    await PageFacebook.deleteMany( { "_facebook": req.query._facebookId } );
+    await GroupFacebook.deleteMany( { "_facebook": req.query._id } );
+    await PageFacebook.deleteMany( { "_facebook": req.query._id } );
 
     // Remove Id account facebook from account
-    accountResult._accountfb.pull( req.query._facebookId );
+    accountResult._accountfb.pull( req.query._id );
     await accountResult.save();
 
-    await Facebook.findByIdAndDelete( req.query._facebookId );
+    await Facebook.findByIdAndDelete( req.query._id );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "getAllActionTypeLoader": async ( req, res ) => {
