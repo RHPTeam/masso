@@ -113,6 +113,7 @@ module.exports = {
           }
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
+        event.status = findCampaign.status;
         await EventScheduleController.create( event, findCampaign._id, req.uid );
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
