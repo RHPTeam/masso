@@ -33,10 +33,10 @@ module.exports = {
     if ( !findAccount ) {
       return res
         .status( 404 )
-        .json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
+        .json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await Help.find( { "_id": req.query._id } )
         .populate( { "path": "popular_blog", "select": "_id title" } )
@@ -67,13 +67,13 @@ module.exports = {
     if ( !findAccount ) {
       return res
         .status( 404 )
-        .json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
+        .json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
     if ( findHelp.popular_blog.length > 5 ) {
       return res
         .status( 404 )
         .json( {
-          "status": "errors.js",
+          "status": "error",
           "message":
             "Qua so luong bai viet, hay xoa nhung bai viet da ton tai de them"
         } );

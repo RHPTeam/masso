@@ -149,7 +149,7 @@ module.exports = {
               "code": 200,
               "text": null
             },
-            "results": bodyJson.payload.entries
+            "results": bodyJson.payload ? bodyJson.payload.entries : []
           } );
         }
         return resolve( {

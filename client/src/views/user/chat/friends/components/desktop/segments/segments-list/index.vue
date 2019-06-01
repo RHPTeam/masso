@@ -1,6 +1,6 @@
 <template>
   <!-- Segments List-->
-  <div class="segments--list" :data-theme="currentTheme">
+  <div class="segments--list d_flex align_items_center" :data-theme="currentTheme">
     <div
       class="btn--seeall mr_3 mb_2"
       :class="[groupSelected === false ? 'btn--seall-active' : '']"
@@ -9,29 +9,12 @@
       {{ $t("chat.friends.view.all") }}
     </div>
 
-    <div class="segments--list-item mr_2 mb_2 position_relative" v-for="(group, index) in allGroupFriends" :key="index">
-      <div @click="getGroupById(group._id, index)">
-        <contenteditable
-          class="editable"
-          tag="div"
-          placeholder="..."
-          :contenteditable="true"
-          v-model="group.name"
-          @keyup="upTypingText('groupfriend', group)"
-          @keydown="clear"
-        />
-      </div>
-      <div class="position_absolute remove--group" @click="showDeletePopup(group)">
-        <icon-base
-          class="icon--remove"
-          icon-name="plus"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-        <icon-remove /> </icon-base>
-      </div>
-    </div>
+    <item-group
+      v-for="(group, index) in allGroupFriends"
+      :key="index"
+      :group="group"
+      @groupSelected="changeGroupSelected($event)"
+    />
 
     <div class="segments--list-item btn--add-segment mb_2" @click="isShowCreateGroup = true">
       <icon-base
@@ -48,15 +31,6 @@
     <!--*********** POPUP *************-->
 
     <transition name="popup">
-      <delete-campaign-popup
-          v-if="isDeleteItemBlock === true"
-          :data-theme="currentTheme"
-          title="Delete Time"
-          @closePopup="isDeleteItemBlock = $event"
-          storeActionName="deleteGroupFriend"
-          :targetData="groupDeleted"
-          typeName="TIME"
-      ></delete-campaign-popup>
       <create-group
         v-if="isShowCreateGroup === true"
         :data-theme="currentTheme"
@@ -69,14 +43,12 @@
 
 <script>
 import CreateGroup from "../../popup/creategroup";
-import DeleteGroupPopup from "../../popup/delete-popup";
-import DeleteCampaignPopup from "@/components/popups/delete";
+import ItemGroup from "./item";
 let typingTimer;
 export default {
   components: {
     CreateGroup,
-    DeleteGroupPopup,
-    DeleteCampaignPopup
+    ItemGroup,
   },
   props: ["groupSelected"],
   data() {
@@ -100,11 +72,14 @@ export default {
     await this.$store.dispatch("getAllGroupFriend");
   },
   methods: {
-    getGroupById(id_group, index) {
-      this.currentIndex = index;
-      this.$store.dispatch("getIdGroupFriend", id_group);
-      // this.$store.dispatch("selectedUIDs", []);
-      // this.$emit("groupSelected", true);
+    changeGroupSelected(val){
+      this.$emit("changeSelectedGroup", val);
+    },
+    getGroupById(id_group) {
+      // this.currentIndex = index;
+      this.$store.dispatch("getGroupFriendById", id_group);
+      this.$store.dispatch("selectedUIDs", []);
+      this.$emit("groupSelected", true);
     },
     showDeletePopup(group) {
       console.log(group);
@@ -113,7 +88,6 @@ export default {
     },
     seeAllUsers() {
       this.$emit("groupSelected", false);
-      this.currentIndex = null;
     },
     async upTypingText(type, group) {
       await clearTimeout(typingTimer);
@@ -132,14 +106,6 @@ export default {
       };
       this.$store.dispatch("updateGroupFriend", objSender);
     }
-  },
-  async created() {
-    await this.$store.dispatch("getAllGroupWhenCreate");
-  },
-  components: {
-    CreateGroup,
-    DeleteGroupPopup,
-    DeleteCampaignPopup
   }
 };
 </script>

@@ -205,7 +205,10 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
         }
@@ -263,7 +266,10 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
         }

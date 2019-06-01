@@ -16,7 +16,7 @@ const mongoose = require( "mongoose" ),
         "type": String
       },
       "location": {
-        "type": String
+        "type": Object
       },
       "photos": {
         "type": Object
@@ -36,6 +36,10 @@ const mongoose = require( "mongoose" ),
     },
     "status": {
       "type": Boolean
+    },
+    "_account": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Account"
     },
     "_event": {
       "type": Schema.Types.ObjectId,

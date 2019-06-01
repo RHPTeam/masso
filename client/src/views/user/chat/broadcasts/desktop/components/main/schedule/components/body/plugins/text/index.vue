@@ -59,7 +59,7 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 
 export default {
-  props: ["item", "schedule"],
+  props: ["index.vue", "schedule"],
   data() {
     return {
       isDeleteItemBlock: false,
@@ -75,17 +75,17 @@ export default {
     };
   },
   methods: {
-    // upTypingText(type, group) {
+    // upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "itembroadcasts") {
-    //     typingTimer = setTimeout(this.updateSchedule(group), 800);
+    //     typingTimer = setTimeout(this.updateSchedule(item), 800);
     //   }
     // },
     // clear() {
     //   clearTimeout(typingTimer);
     // },
     // // Update item schedule
-    // async updateSchedule(group) {
+    // async updateSchedule(item) {
     //   let result = await BroadcastService.index();
     //   result = result.data.data.filter(
     //     item =>
@@ -96,8 +96,8 @@ export default {
     //   const objSender = {
     //     bcId: result[0]._id,
     //     blockId: this.$store.getters.schedule._id,
-    //     contentId: group._id,
-    //     value: group.valueText
+    //     contentId: item._id,
+    //     value: item.valueText
     //   };
     //   this.$store.dispatch("updateItemSchedule", objSender);
     // }

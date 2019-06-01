@@ -18,7 +18,7 @@
           <div class="auto--main-wrap p_4">
             <div class="auto--content-header d_flex align_items_center mb_3">
               <contenteditable
-                class="header--title"
+                class="header--title text_center"
                 tag="div"
                 :contenteditable="true"
                 :placeholder="$t('chat.keywords.content.nameSyntax')"
@@ -94,10 +94,10 @@ export default {
     // await this.$store.dispatch("getFirstSyntax");
   },
   methods: {
-    // upTypingText(type, group) {
+    // upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "titlesyntax") {
-    //     typingTimer = setTimeout(this.updateSyntax(group), 1000);
+    //     typingTimer = setTimeout(this.updateSyntax(item), 1000);
     //   }
     // },
     // clear() {

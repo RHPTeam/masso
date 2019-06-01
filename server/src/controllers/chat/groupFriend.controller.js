@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable one-var */
 /**
- * Controller group block for project
+ * Controller item block for project
  * author: hocpv
  * date up: 13/03/2019
  * date to: ___
@@ -12,9 +12,9 @@ const Account = require( "../../models/Account.model" );
 const GroupFriend = require( "../../models/chat/GroupFriend.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const checkObjectExist = ( arr, property ) => {
   return arr.some( function( el ) {
@@ -24,7 +24,7 @@ const checkObjectExist = ( arr, property ) => {
 
 module.exports = {
   /**
-   *  get all group friend & group friend by Id
+   *  get all item friend & item friend by Id
    *  @param req
    *  @param res
    *
@@ -32,7 +32,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    const role = findSubString( authorization, "cfr=", ";" );
+    const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
     if ( role === "Member" ) {
       !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean() ) : ( dataResponse = await GroupFriend.find( {
@@ -43,7 +43,7 @@ module.exports = {
         return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } );
@@ -53,19 +53,18 @@ module.exports = {
       .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
   },
   /**
-   *  create group friend
+   *  create item friend
    *  @param req
    *  @param res
    *
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
-    const foundGroupFriend = await GroupFriend.find( { "_account": userId } ),
+    const foundGroupFriend = await GroupFriend.find( { "_account": req.uid } ),
       newGroupFriend = await new GroupFriend();
 
     if ( req.query._name === "true" ) {
@@ -73,7 +72,7 @@ module.exports = {
         return res.status( 405 ).json( jsonResponse( "Vui lòng nhập tên nhóm bạn muốn sử dụng!", null ) );
       }
       newGroupFriend.name = req.body.name;
-      newGroupFriend._account = userId;
+      newGroupFriend._account = req.uid;
       await newGroupFriend.save();
       return res.status( 200 ).json( jsonResponse( "Tạo nhóm bạn bè thành công!", newGroupFriend ) );
     }
@@ -91,19 +90,18 @@ module.exports = {
     const indexCurrent = Math.max( ...nameArr );
 
     newGroupFriend.name = indexCurrent.toString() === "NaN" || foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent + 1}`;
-    newGroupFriend._account = userId;
+    newGroupFriend._account = req.uid;
     await newGroupFriend.save();
     res.status( 200 ).json( jsonResponse( "Tạo nhóm bạn bè thành công!", newGroupFriend ) );
   },
   /**
-   *  update group friend
+   *  update item friend
    *  @param req
    *  @param res
    *
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -113,12 +111,12 @@ module.exports = {
     if ( !foundGroupFriend ) {
       return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
     }
-    // Check name group friend is exist
-    const foundAllGroupFriend = await GroupFriend.find( { "_account": userId } );
+    // Check name item friend is exist
+    const foundAllGroupFriend = await GroupFriend.find( { "_account": req.uid } );
     let checkName = false;
 
     foundAllGroupFriend.map( ( val ) => {
-      if ( val._account.toString() !== userId ) {
+      if ( val._account.toString() !== req.uid ) {
         if ( val.name.toString() === req.body.name.toString() ) {
           checkName = true;
           return checkName;
@@ -137,14 +135,13 @@ module.exports = {
     res.status( 201 ).json( jsonResponse( "Cập nhật nhóm bạn bè thành công!", resGroupFriend ) );
   },
   /**
-   *  add friend to group friend
+   *  add friend to item friend
    *  @param req
    *  @param res
    *
    */
   "addFriend": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -167,7 +164,7 @@ module.exports = {
     if ( checkCon ) {
       return res.status( 405 ).json( jsonResponse( "Bạn đã thêm một trong những bạn bè này!", null ) );
     }
-    const checkFriend = ArrayFunction.removeObjectDuplicates( friends );
+    const checkFriend = ArrayFunction.removeObjectDuplicates( friends, "uid" );
 
     checkFriend.map( ( val ) => {
       foundGroupFriend._friends.push( val );
@@ -180,14 +177,13 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "Thêm bạn bè vào danh sách bạn bè thành công!", resGroupFriend ) );
   },
   /**
-   *  delete group friend
+   *  delete item friend
    *  @param req
    *  @param res
    *
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
+    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );

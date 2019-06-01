@@ -68,7 +68,7 @@ const {
       if ( feed.location.type === 0 ) {
         // Do something
       }
-      // Check group
+      // Check item
       if ( feed.location.type === 1 ) {
         variables.input.audience = { "to_id": feed.location.value };
       }
@@ -198,7 +198,7 @@ const {
         }
       };
 
-      // Change audience case: timeline, group, fanpage
+      // Change audience case: timeline, item, fanpage
       if ( type === 0 ) {
         option.form[ "data[audience][web_privacyx]" ] = privacy;
       } else if ( type === 1 ) {

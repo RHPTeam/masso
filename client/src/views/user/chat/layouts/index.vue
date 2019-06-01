@@ -1,5 +1,4 @@
 <template>
-  <div class="wrapper--none">
     <div class="wrapper" :data-theme="currentTheme">
       <!-- Loading -->
       <loading v-if="false"/>
@@ -7,9 +6,6 @@
 
       <!-- Desktop -->
       <div class="d_none d_md_block">
-        <!-- Noification -->
-        <app-notification
-        ></app-notification>
         <div class="wrap--content d_md_flex">
           <div class="wrap--content-sidebar">
             <app-sidebar />
@@ -20,8 +16,12 @@
           </div>
         </div>
       </div>
+
+      <!-- Start: Notification for check login facebook account-->
+      <app-notification :statusNetwork="statusNetwork" />
+      <!-- End: Notification for check login facebook account-->
+
     </div>
-  </div>
 </template>
 <script src="./index.script.js"></script>
 

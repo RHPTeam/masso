@@ -209,7 +209,7 @@ export default {
       this.$emit("closePopupPluginClick", false);
     },
     async getSchedules() {
-      let result = await BroadcastService.index1();
+      let result = await BroadcastService.index();
       result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)

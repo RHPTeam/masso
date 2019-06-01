@@ -173,7 +173,7 @@ export default {
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
       if (item.value === undefined) {
-        // dispatch show group friend when choose option segments
+        // dispatch show item friend when choose option segments
         const dataSender = {
           itemId: item._id,
           bcId: this.bcId,

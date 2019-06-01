@@ -585,7 +585,7 @@ $border_radius: rgb(72, 72, 72);
           }
         }
   
-        @media (min-width: 992px) and (max-width: 1200px) {
+        @media (min-width: 768px) and (max-width: 1200px) {
           flex-wrap: wrap;
           .addelm-item {
             width: calc(50% - 10px);

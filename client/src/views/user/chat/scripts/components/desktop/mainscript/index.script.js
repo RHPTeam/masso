@@ -21,8 +21,7 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
-      isDeleteItemBlock: false,
-      title: "aaaaaaa"
+      isDeleteItemBlock: false
     };
   },
   methods: {
@@ -31,38 +30,41 @@ export default {
     //   this.showOptionTablet = false;
     // },
     // // Add Text Value in block
-    // addItemBlock(type, blockId) {
-    //   const dataSender = {
-    //     value: "",
-    //     type: type,
-    //     id: blockId
-    //   };
-    //   this.$store.dispatch("createItemBlock", dataSender);
-    // },
-    // async upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "nameblock") {
-    //     typingTimer = setTimeout(this.updateNameBlock(group), 2000);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name block
-    // updateNameBlock() {
-    //   this.$store.dispatch("updateBlock", this.$store.getters.block);
-    // }
+    createItemBlock(type, blockId) {
+      const dataSender = {
+        value: "",
+        type: type,
+        id: blockId
+      };
+      this.$store.dispatch("createItemBlock", dataSender);
+    },
+    async upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "nameblock") {
+        typingTimer = setTimeout(this.updateNameBlock(item), 2000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name block
+    updateNameBlock() {
+      this.$store.dispatch("updateBlock", this.block);
+    }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // block() {
-    //   return this.$store.getters.block;
-    // },
+    block() {
+      return this.$store.getters.block;
+    },
     // sequence() {
     //   return this.$store.getters.itemSqc;
     // }
+    inforBlockGroup(){
+      return this.$store.getters.inforBlockGroup;
+    }
   },
   async created() {
     // const blocks = await BlockService.index();

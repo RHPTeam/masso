@@ -3,9 +3,9 @@ import Api from "@/services";
 
 export default {
   index() {
-    return Api().get( "group-facebook" );
+    return Api().get( "item-facebook" );
   },
   update() {
-    return Api().patch( "group-facebook" );
+    return Api().patch( "item-facebook" );
   },
 };

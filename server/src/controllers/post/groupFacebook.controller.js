@@ -26,7 +26,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await GroupFacebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
       dataResponse = dataResponse[ 0 ];
@@ -40,7 +40,7 @@ module.exports = {
 
   },
   /**
-   * Update all group from facebook strange
+   * Update all item from facebook strange
    * @param req
    * @param res
    * @returns {Promise<void>}
@@ -49,7 +49,7 @@ module.exports = {
     const facebookList = await Facebook.find( { "_account": req.uid } ),
       postGroupList = await PostGroup.find( { "_account": req.uid } );
 
-    // Get all group from facebook and save
+    // Get all item from facebook and save
     await Promise.all( facebookList.map( async ( facebook ) => {
       const groupList = await getAllGroups( { "cookie": facebook.cookie, agent } );
 
@@ -59,17 +59,17 @@ module.exports = {
         group._facebook = facebook._id;
         return group;
       } );
-      // Delete all group facebook
+      // Delete all item facebook
       const findGroupFacebook = await GroupFacebook.find( { "_facebook": facebook._id } );
 
       await Promise.all( findGroupFacebook.map( ( groupFacebook ) => {
         groupFacebook.remove();
       } ) );
 
-      // insert group facebook list to database
+      // insert item facebook list to database
       await GroupFacebook.insertMany( groupListFixed );
 
-      // Check post group exists old ID
+      // Check post item exists old ID
       await Promise.all( postGroupList.map( ( postGroup ) => {
         postGroup._groups.map( async ( group ) => {
           const groupChecked = await GroupFacebook.findOne( { "groupId": group } );

@@ -1,48 +1,60 @@
 <template>
-  <div class="main p_3 position_relative" v-if="caseEvent">
+  <div class="main position_relative" v-if="caseEvent">
     <div class="section d_flex align_items_center mb_4">
-      <div class="tabs d_flex align_items_center justify_content_center mr_3" :class="isActive === true ? 'active' : 'off'" role="category" @click="selectPostType( 1 )">
-        <div class="icon--left mr_2">
+      <div class="tabs d_flex align_items_center justify_content_center"
+           role="category"
+           :class="isActive === true ? 'active' : 'off'"
+           :style="[ isActive === true ? { borderColor: event.color, color: event.color } : null ]"
+           @click="selectPostType( 1 )"
+      >
+        <!--<div class="icon--left mr_2">
           <icon-base
             class="icon--categories"
-            height="20"
-            width="20"
-            viewBox="0 0 525 525"
+            height="16"
+            width="16"
+            viewBox="0 0 420 420"
           >
             <icon-categories></icon-categories>
           </icon-base>
-        </div>
-        <h3 class="h5 mr_2">Đăng bài viết từ danh mục</h3>
+        </div>-->
+        <div class="title mr_2">Đăng bài viết từ danh mục</div>
         <div class="icon position_relative">
           <icon-base
-            class="icon--edit"
-            height="20"
-            width="20"
-            viewBox="0 0 25 25"
+            class="icon--info"
+            :style="[ isActive === true ? { stroke: event.color, color: event.color } : null ]"
+            height="14"
+            width="14"
+            viewBox="0 0 18 18"
           >
             <icon-info/>
           </icon-base>
           <div class="card--text position_absolute">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
         </div>
       </div>
-      <div class="tabs d_flex align_items_center justify_content_center" :class="{active: isOption}" role="custom" @click="selectPostType( 2 )">
-        <div class="icon--left mr_2">
+      <div class="tabs d_flex align_items_center justify_content_center"
+           role="custom"
+           :class="{ active: isOption }"
+           :style="[ isOption === true ? { borderColor: event.color, color: event.color } : null ]"
+           @click="selectPostType( 2 )"
+      >
+        <!--<div class="icon--left mr_2">
           <icon-base
             class="icon--reply-post"
-            height="20"
-            width="20"
+            height="16"
+            width="16"
             viewBox="0 0 500 500"
           >
             <icon-reply-post></icon-reply-post>
           </icon-base>
-        </div>
-        <h3 class="h5 mr_2">Tùy chọn đăng bài viết cụ thể</h3>
+        </div>-->
+        <div class="title mr_2">Tùy chọn đăng bài viết cụ thể</div>
         <div class="icon position_relative">
           <icon-base
-            class="icon--edit"
-            height="20"
-            width="20"
-            viewBox="0 0 25 25"
+            class="icon--info"
+            :style="[ isOption === true ? { stroke: event.color, color: event.color } : null ]"
+            height="14"
+            width="14"
+            viewBox="0 0 18 18"
           >
             <icon-info/>
           </icon-base>
@@ -52,12 +64,14 @@
     </div>
     <!-- Start: Show option category -->
     <category-post
+      class="px_3 pb_3"
       :event="event"
       v-if="caseEvent.post === 1"
     />
     <!-- End: Show option category -->
     <!-- Start: Show option detail -->
     <custom-post
+      class="px_3 pb_3"
       v-else-if="caseEvent.post === 2"
     />
     <!-- End: Show option detail -->
@@ -115,31 +129,55 @@ export default {
     border: 1px solid $mainDark;
   }
   .tabs {
+    background-color: #fff;
     cursor: pointer;
-    .h5 {
-      font-size: 16px;
+    color: #999;
+    font-weight: 600;
+    flex: 0.5;
+    padding: .65rem;
+    transition: color .4s ease;
+    &:hover{
+      color: #666;
+      .icon {
+        .icon--info {
+          color: #666;
+          stroke: #666;
+        }
+      }
+    }
+    .title {
+      font-size: .875rem;
     }
     .icon {
-      &:hover, &:focus, &:active, &:visited {
+      &:hover {
         > .card--text {
-          opacity: 1;
+          display: block;
         }
+      }
+      .icon--info {
+        color: #999999;
+        stroke: #999999;
+        stroke-width: .5;
+        transition: all .4s ease;
       }
     }
     .card--text {
       background: #ffffff;
-      border: 1px solid #e4e4e4;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
       border-radius: .25rem;
-      left: -100px;
-      opacity: 0;
+      color: #444;
+      display: none;
+      font-size: .825rem;
+      font-weight: normal;
+      right: -30px;
       top: 110%;
-      padding: .25rem;
+      padding: .375rem .75rem;
       width: 300px;
       z-index: 9;
     }
   }
   .active {
-    border-bottom: 2px solid #ffba3c;
+    border-bottom: 2.25px solid;
   }
   .off {
     border-bottom: 0 !important;

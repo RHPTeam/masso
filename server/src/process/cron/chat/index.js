@@ -131,7 +131,9 @@ let chatAuto = async function( account ) {
       html = `
           <div>
             <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
-            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${
+  account.userInfo.name
+} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
             <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
             <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
             <span style="font-size: 20px">Trân trọng!</span>
@@ -261,7 +263,6 @@ let chatAuto = async function( account ) {
 
     // Handle action listen from which api receive from facebook
     let stopListen = api.listen( async ( err, message ) => {
-      console.log(message)
       // Handle error with api
       if ( err !== null ) {
         if ( err.code !== "ESOCKETTIMEDOUT" ) {

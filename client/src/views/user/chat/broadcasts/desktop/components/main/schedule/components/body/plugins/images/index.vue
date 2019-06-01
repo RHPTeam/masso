@@ -83,7 +83,7 @@ import StringFunction from "@/utils/functions/string";
 import DeleteCampaignPopup from "@/components/popups/delete";
 
 export default {
-  props: ["item", "schedule"],
+  props: ["index.vue", "schedule"],
   data() {
     return {
       isDeleteItemBlock: false,
@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async getSchedules() {
-      let result = await BroadcastService.index1();
+      let result = await BroadcastService.index();
       result = result.data.data.filter(
         item =>
           StringFunction.convertUnicode(item.typeBroadCast)
@@ -122,7 +122,7 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    }    
+    }
   },
   components: {
     DeleteCampaignPopup

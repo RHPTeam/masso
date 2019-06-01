@@ -11,6 +11,6 @@ module.exports = {
   },
 
   objectKeyExists ( key ) {
-    return schedule.hasOwnProperty( key );
+    return schedule.hasOwnProperty( keyDefault + key );
   }
 };

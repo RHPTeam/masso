@@ -69,7 +69,7 @@ import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
-  props: ["item", "schedule"],
+  props: ["index.vue", "schedule"],
   data() {
     return {
       maxtime: 20,

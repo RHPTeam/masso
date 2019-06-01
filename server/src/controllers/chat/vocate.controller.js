@@ -13,7 +13,6 @@ const Account = require( "../../models/Account.model" );
 const Vocate = require( "../../models/chat/Vocate.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
 const { findSubString } = require( "../../helpers/utils/functions/string" );
@@ -29,20 +28,19 @@ module.exports = {
     let dataResponse = null;
     const authorization = req.headers.authorization,
       role = findSubString( authorization, "cfr=", ";" ),
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+      accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
 
     if ( role === "Member" ) {
-      !req.query ? dataResponse = await Vocate.find( { "_account": userId } ) : dataResponse = await Vocate.find( req.query );
+      !req.query ? dataResponse = await Vocate.find( { "_account": req.uid } ) : dataResponse = await Vocate.find( req.query );
       if ( !dataResponse ) {
         return res.status( 403 ).json( jsonResponse( "Danh xưng không tồn tại" ) );
       }
       dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
+        if ( item._account.toString() === req.uid ) {
           return item;
         }
       } ).filter( ( item ) => {
@@ -61,8 +59,7 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+    const accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -70,16 +67,16 @@ module.exports = {
 
     // Remove item same value in array _friends
     const friends = req.body._friends,
-      friendsChecked = ArrayFunction.removeDuplicates( friends );
+      friendsChecked = ArrayFunction.removeObjectDuplicates( friends, "uid" );
 
 
-    const listVocates = await Vocate.find( { "_account": userId } );
+    const listVocates = await Vocate.find( { "_account": req.uid } );
 
     if ( listVocates.length === 0 ) {
       const objectSaver = {
           "name": req.body.name.toLowerCase(),
           "_friends": friendsChecked,
-          "_account": userId,
+          "_account": req.uid,
           "updated_at": Date.now()
         },
         dataResponse = await new Vocate( objectSaver );
@@ -90,7 +87,7 @@ module.exports = {
 
     // Check name is exists
     const nameConverted = convertUnicode( req.body.name ),
-      resData = await Vocate.find( { "_account": userId } ),
+      resData = await Vocate.find( { "_account": req.uid } ),
 
       resultCheckCon = await Promise.all( listVocates.map( async ( vocate ) => {
         if ( nameConverted.toString().toLowerCase() === convertUnicode( vocate.name ).toString().toLowerCase() ) {
@@ -126,7 +123,7 @@ module.exports = {
             }
             return false;
           } );
-          vocateFound._account = userId;
+          vocateFound._account = req.uid ;
           // eslint-disable-next-line camelcase
           vocateFound.updated_at = Date.now();
           return vocateFound;
@@ -165,7 +162,7 @@ module.exports = {
       const objectSaver = {
           "name": req.body.name.toLowerCase(),
           "_friends": friendsChecked,
-          "_account": userId,
+          "_account": req.uid,
           "updated_at": Date.now()
         },
 
@@ -183,8 +180,7 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
+    const accountResult = await Account.findOne( { "_id": req.uid } );
 
     if ( !accountResult ) {
       res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
@@ -197,7 +193,7 @@ module.exports = {
     if ( !vocateResult ) {
       res.status( 403 ).json( jsonResponse( "Danh xưng này không tồn tại!", null ) );
     }
-    if ( vocateResult._account.toString() !== userId ) {
+    if ( vocateResult._account.toString() !== req.uid ) {
       return res.status( 405 ).json( jsonResponse( "Bạn không có quyền cho mục này!", null ) );
     }
     await vocateResult.remove();

@@ -32,5 +32,25 @@ export default {
   // get block sequence by id
   getAllBlockSequenceById( id ){
     return Api().get(`sequence?_id=${id}`);
+  },
+
+  // update time block a sequence 
+  updateTimeBlockSequence(sqId, blockId, numberTime){
+    const dataSender = {
+      numberTime: parseInt(numberTime)
+    }
+    return Api().patch(`sequence?_sqId=${sqId}&_blockId=${blockId}`, dataSender);
+  },
+  // update desc time block a sequence
+  updateDescTimeBlockSequence(sqId, blockId, descTime){
+    const dataSender = {
+      descTime: descTime
+    }
+    return Api().patch(`sequence?_sqId=${sqId}&_blockId=${blockId}`, dataSender);
+  },
+
+  // delete a block in sequence
+  deleteBlockInSequence( sqId, blockId ){
+    return Api().delete(`sequence?_sqId=${sqId}&_blockId=${blockId}`);
   }
 };
