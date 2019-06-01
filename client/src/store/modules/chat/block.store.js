@@ -47,18 +47,19 @@ const mutations = {
     state.blocks = payload;
   },
   setPreviewUpdate: (state, payload) => {
-    state.dataPreviewUpdate = payload
+    state.dataPreviewUpdate = payload;
+    // state.dataPreviewUpdate = [...new Set(payload)];
   }
 };
 const actions = {
   /******************** GROUP BLOCKS *********************/
-  // createGroupBlock: async ({ commit }) => {
-  //   await commit("groupBlock_request");
-  //   await GroupBlockServices.create();
-  //   const groupBlock = await GroupBlockServices.index();
-  //   await commit("setGroupBlock", groupBlock.data.data);
-  //   await commit("groupBlock_success");
-  // },
+  createGroupBlock: async ({ commit }) => {
+    await commit("groupBlock_request");
+    await GroupBlockServices.create();
+    const groupBlock = await GroupBlockServices.index();
+    await commit("setGroupBlock", groupBlock.data.data);
+    await commit("groupBlock_success");
+  },
   deleteGroup: async ({ commit }, payload) => {
     await commit("groupBlock_request");
     await GroupBlockServices.deleteGroup(payload);
@@ -177,6 +178,11 @@ const actions = {
       payload.itemId,
       payload.block
     );
+  },
+  updateSubscribleBlock: async ({commit}, payload) => {
+    commit("block_request");
+    await BlockServices.updateItemBlock(payload.block, payload.itemId, payload.valueText);
+    commit("block_success")
   },
   updateItemImageBlock: async ({ commit }, payload) => {
     const resultBlock = await BlockServices.updateItemBlock(
