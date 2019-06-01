@@ -105,7 +105,7 @@ module.exports = {
       findCampaign.status = !findCampaign.status;
 
       await Promise.all( findCampaign._events.map( async ( event ) => {
-        const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id, "status": true } ).lean();
 
         await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
           if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
