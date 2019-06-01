@@ -36,10 +36,12 @@
       <delete-campaign-popup
         v-if="isShowDeleteTextPopup === true"
         :data-theme="currentTheme"
+        :block="block"
+        :item="item"
         title="Delete Text"
         @closePopup="isShowDeleteTextPopup = $event"
         storeActionName="deleteText"
-        typeName="TEXT"
+        typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
 
@@ -50,7 +52,7 @@
 // import AttributeService from "@/services/modules/attributes.service";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 
 let typingTimer;
 

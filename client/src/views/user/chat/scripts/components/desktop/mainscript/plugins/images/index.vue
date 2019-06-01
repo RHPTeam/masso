@@ -59,17 +59,19 @@
       <delete-campaign-popup
           v-if="isDeleteItemBlock === true"
           :data-theme="currentTheme"
+          :block="block"
+          :item="item"
           title="Delete Image"
           @closePopup="isDeleteItemBlock = $event"
           storeActionName="deleteImage"
-          typeName="Image"
+          typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
     <!--End: Delete Item Popup-->
   </div>
 </template>
 <script>
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 export default {
   components:{
     DeleteCampaignPopup

@@ -32,10 +32,12 @@
       <delete-campaign-popup
           v-if="isDeleteItemBlock === true"
           :data-theme="currentTheme"
+          :item="item"
+          :block="block"
           title="Delete Unsubcrible"
           @closePopup="isDeleteItemBlock = $event"
           storeActionName="deleteUnsubcrible"
-          typeName="Unsubcrible"
+          typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
     <!-- End: Delete Item Popup -->

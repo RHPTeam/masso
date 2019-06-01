@@ -33,10 +33,12 @@
       <delete-campaign-popup
           v-if="isDeleteItemBlock === true"
           :data-theme="currentTheme"
+          :block="block"
+          :item="item"
           title="Delete Subcrible"
           @closePopup="isDeleteItemBlock = $event"
           storeActionName="deleteSubcrible"
-          typeName="Subcrible"
+          typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
     <!-- End: Delete Popup Delete -->
@@ -44,8 +46,12 @@
 </template>
 <script>
 import List from "../sequence";
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 export default {
+  components: {
+    List,
+    DeleteCampaignPopup
+  },
   props: {
     block: Object,
     item: Object
@@ -67,10 +73,6 @@ export default {
     updateToParent(value) {
       this.$emit("updateItemFromMiddleComponent", value)
     }
-  },
-  components: {
-    List,
-    DeleteCampaignPopup
   }
 };
 </script>

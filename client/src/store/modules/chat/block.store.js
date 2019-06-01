@@ -116,10 +116,11 @@ const actions = {
   deleteItemBlock: async ({ commit }, payload) => {
     await commit("block_request");
     await BlockServices.deleteItemBlock(payload.blockId, payload.itemId);
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    // console.log(resultDataUpdate.data.data);
+    commit("setBlock", resultDataUpdate.data.data);
     const resultDelItem = await BlockServices.index();
     await commit("setBlock", resultDelItem.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
   deleteItemAttrInBlock: async ({ commit }, payload) => {
@@ -129,23 +130,27 @@ const actions = {
       payload.itemId,
       payload.valueText
     );
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data);
     const resultDelItemAttr = await BlockServices.index();
     await commit("setBlock", resultDelItemAttr.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
   deleteItemSequenceInBlock: async ({ commit }, payload) => {
     await commit("block_request");
+
     await BlockServices.deleteItemSequenceInBlock(
       payload.blockId,
       payload.itemId,
       payload.sequenceId
     );
+
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data);
+
     const resultDelItemSequence = await BlockServices.index();
     await commit("setBlock", resultDelItemSequence.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
+
     await commit("block_success");
   },
   /**
@@ -179,11 +184,11 @@ const actions = {
       payload.block
     );
   },
-  updateSubscribleBlock: async ({commit}, payload) => {
-    commit("block_request");
-    await BlockServices.updateItemBlock(payload.block, payload.itemId, payload.valueText);
-    commit("block_success")
-  },
+  // updateSubscribleBlock: async ({commit}, payload) => {
+  //   commit("block_request");
+  //   await BlockServices.updateItemBlock(payload.block, payload.itemId, payload.valueText);
+  //   commit("block_success")
+  // },
   updateItemImageBlock: async ({ commit }, payload) => {
     const resultBlock = await BlockServices.updateItemBlock(
       payload.formData,
