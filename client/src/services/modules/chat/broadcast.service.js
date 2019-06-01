@@ -45,10 +45,10 @@ export default {
       content
     );
   },
-  updateSchedule(bc_id, b_id, type, schedule) {
+  updateTimeSettingScheduleBlock(bc_id, b_id, type, block) {
     return Api().patch(
       `broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`,
-      schedule
+      block
     );
   },
   updateTimeSchedule(bcId, blockId, content) {
