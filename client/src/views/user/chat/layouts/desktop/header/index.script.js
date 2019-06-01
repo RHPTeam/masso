@@ -44,6 +44,8 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getUserInfo" );
+    // Get User FB Accounts
+    this.$store.dispatch( "getAccountsFB" );
   },
   computed: {
     user() {
@@ -57,6 +59,9 @@ export default {
     },
     collapseMenu() {
       this.statusCollapse = this.$store.getters.collapseMenu;
+    },
+    allAccountFb() {
+      return this.$store.getters.accountsFB;
     }
   },
 
@@ -96,6 +101,24 @@ export default {
       await this.$store.dispatch( "logOut" );
       window.location = process.env.VUE_APP_PARENT_URL;
     },
+    gotoHomePost() {
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "post_fbaccount" } );
+
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( "/post" );
+
+        window.open(routeData.href, '_blank');
+      }
+      this.isShowOptionsMoreDropdown = false;
+    },
+    gotoHomeChat(){
+      const routeData = this.$router.resolve( "/chat" );
+
+      window.open(routeData.href, '_blank');
+      this.isShowOptionsMoreDropdown = false;
+    }
   },
 
   filters: {

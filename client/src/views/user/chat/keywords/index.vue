@@ -14,15 +14,18 @@
         </div>
         <div class="auto--main c_md_8 c_xl_8">
           <loading-component
+            v-if="this.$store.getters.statusSyntax === 'loading'"
           />
-          <div class="auto--main-wrap p_4">
+          <div v-else class="auto--main-wrap p_4">
             <div class="auto--content-header d_flex align_items_center mb_3">
               <contenteditable
                 class="header--title"
                 tag="div"
                 :contenteditable="true"
                 :placeholder="$t('chat.keywords.content.nameSyntax')"
-                v-model="title"
+                v-model="syntax.title"
+                @keyup="upTypingText('titlesyntax', syntax)"
+                @keydown="clear"
                 :noNL="true"
               />
               <div class="icon--drop ml_auto" @click="isDeleteItemBlock = true">
@@ -51,8 +54,9 @@
           :data-theme="currentTheme"
           title="Delete Property"
           @closePopup="isDeleteItemBlock = $event"
-          storeActionName="deleteProperty"
+          storeActionName="deleteSyntax"
           typeName="Property"
+          :targetData="(syntax._id).toString()"
       ></delete-campaign-popup>
     </transition>
     <!-- End: Delete Item Popup -->
@@ -77,36 +81,35 @@ export default {
   },
   data() {
     return {
-      isDeleteItemBlock: false,
-      title: "VVVVVVVV"
+      isDeleteItemBlock: false
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // syntax() {
-    //   if (this.$store.getters.syntax === undefined)
-    //     return { title: "Mặc định (dữ liệu mẫu)" };
-    //   return this.$store.getters.syntax;
-    // }
+    syntax() {
+      if (this.$store.getters.syntax === undefined)
+        return { title: "Mặc định (dữ liệu mẫu)" };
+      return this.$store.getters.syntax;
+    }
   },
   async created() {
-    // await this.$store.dispatch("getFirstSyntax");
+    await this.$store.dispatch("getFirstSyntax");
   },
   methods: {
-    // upTypingText(type, item) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "titlesyntax") {
-    //     typingTimer = setTimeout(this.updateSyntax(item), 1000);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // updateSyntax() {
-    //   this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-    // }
+    upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "titlesyntax") {
+        typingTimer = setTimeout(this.updateSyntax(item), 1000);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateSyntax() {
+      this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+    }
   }
 };
 </script>

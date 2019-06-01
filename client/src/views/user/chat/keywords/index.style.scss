@@ -388,6 +388,11 @@
             .auto--list-item {
                 background: #2F3136;
                 color: #ffffff;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                cursor: pointer;
+                white-space: nowrap;
+                padding: 0 0.4375rem;
                 &:hover,
                 &:focus,
                 &:active,

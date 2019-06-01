@@ -28,6 +28,7 @@ Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
 Vue.component( "IconCheck", () => import( "@/components/icons/IconCheck" ) );
 Vue.component( "IconCheckActive", () => import( "@/components/icons/IconCheckActive" ) );
+Vue.component( "IconConf", () => import( "@/components/icons/IconConf" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
 Vue.component( "IconCustom", () => import( "@/components/icons/IconCustom" ) );
 Vue.component( "IconDelete", () => import( "@/components/icons/IconDelete" ) );
@@ -74,6 +75,7 @@ Vue.component( "IconPlay", () => import( "@/components/icons/IconPlay" ) );
 Vue.component( "IconPlaysButton", () => import( "@/components/icons/IconPlaysButton" ) );
 Vue.component( "IconPlus", () => import( "@/components/icons/IconPlus" ) );
 Vue.component( "IconPost", () => import( "@/components/icons/IconPost" ) );
+Vue.component( "IconProfile", () => import( "@/components/icons/IconProfile" ) );
 Vue.component( "IconRemove", () => import( "@/components/icons/IconRemove" ) );
 Vue.component( "IconReplyPost", () => import( "@/components/icons/IconReplyPost" ) );
 Vue.component( "IconRole", () => import( "@/components/icons/IconRole" ) );
@@ -89,6 +91,8 @@ Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadImage" ) );
 Vue.component( "IconMore", () => import( "@/components/icons/IconMore" ) );
 Vue.component( "IconZalo", () => import( "@/components/icons/IconZalo" ) );
+Vue.component( "IconZinPost", () => import( "@/components/icons/IconZinPost" ) );
+Vue.component( "IconZinChat", () => import( "@/components/icons/IconZinChat" ) );
 
 
 // Icon Logo

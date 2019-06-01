@@ -12,6 +12,12 @@
       }
     }
     .messenger--group {
+      .mess{
+        color: unset;
+        &:hover{
+          text-decoration: none;
+        }
+      }
       .btn--messenger {
         cursor: pointer;
         background: #fff;
@@ -135,8 +141,11 @@
           &:hover{
             border: 1px solid #e5e5e5;
             cursor: pointer;
-            // background: #ffb94a;
-            // color: #fff;
+          }
+          &.instagram, &.zalo{
+            &:hover{
+              cursor: not-allowed;
+            }
           }
         }
       }

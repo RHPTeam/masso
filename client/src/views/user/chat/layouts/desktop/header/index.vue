@@ -24,28 +24,28 @@
       <!-- Start: Messenger Link-->
       <div class="messenger--group position_relative">
         <!-- Start: Btn Messenger -->
-        <div class="btn--messenger position_relative mr_3 d_flex"
-             @click="showMessengerDropdown"
-             v-click-outside="closeMessengerDropdown"
-        >
-          <div class="mt_1">
-            <icon-base
-              class="icon--messenger"
-              width="25px"
-              height="20px"
-              viewBox="0 0 12 12"
-            >
-              <icon-messenger></icon-messenger>
-            </icon-base>
-            <!-- <div class="messenger--total position_absolute">
-              <div class="text text_center">0</div>
-            </div> -->
+        <router-link :to="{ name: 'messenger' }" class="mess">
+          <div class="btn--messenger position_relative mr_3 d_flex"
+          >
+            <div class="mt_1">
+              <icon-base
+                class="icon--messenger"
+                width="25px"
+                height="20px"
+                viewBox="0 0 12 12"
+              >
+                <icon-messenger></icon-messenger>
+              </icon-base>
+              <!-- <div class="messenger--total position_absolute">
+                <div class="text text_center">0</div>
+              </div> -->
+            </div>
+            <div class="pl_2 open--mess">Mở bằng messenger</div>
           </div>
-          <div class="pl_2 open--mess">Mở bằng messenger</div>
-        </div>
+        </router-link>
         <!-- End: Btn Messenger -->
         <!-- Start: Messenger Dropdown -->
-        <div class="messenger--dropdown position_absolute">
+        <!-- <div class="messenger--dropdown position_absolute">
           <transition name="dropdown">
             <header-messenger
               v-if="isShowMessengerDropdown"
@@ -53,7 +53,7 @@
               @closeDropdown="isShowMessengerDropdown = $event"
             ></header-messenger>
           </transition>
-        </div>
+        </div> -->
         <!-- End: Messenger Dropdown -->
       </div>
       <!-- Start: Messenger Link-->
@@ -103,29 +103,32 @@
         </div>
         <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
           <div class="d_flex text_center r m_0 application">
-            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
+            <!-- Zin post -->
+            <div class="zin--post item c_4" @click="gotoHomePost">
               <icon-base
                 icon-name="bell"
                 width="50px"
                 height="50px"
                 viewBox="0 0 512 512"
               >
-                <icon-bell />
+                <icon-zin-post />
               </icon-base>
               <div class="pt_1">Zin Post</div>
             </div>
-            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
+            <!-- Zin Chat -->
+            <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
               <icon-base
                 icon-name="bell"
                 width="50px"
                 height="50px"
                 viewBox="0 0 512 512"
               >
-                <icon-bell />
+                <icon-zin-chat />
               </icon-base>
               <div class="pt_1">Zin Chat</div>
             </div>
-            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
+            <!-- Zin instagram -->
+            <div class="zin--post instagram item c_4 position_relative">
               <icon-base
                 icon-name="bell"
                 width="50px"
@@ -136,7 +139,8 @@
               </icon-base>
               <div class="pt_1">Instagram</div>
             </div>
-            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
+            <!-- Zin zalo -->
+            <div class="zin--post zalo item c_4 position_relative">
               <icon-base
                 icon-name="bell"
                 width="50px"

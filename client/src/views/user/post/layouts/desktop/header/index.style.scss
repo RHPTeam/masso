@@ -11,6 +11,58 @@
         fill: #00c853;
       }
     }
+    .messenger--group {
+      .mess{
+        color: unset;
+        &:hover{
+          text-decoration: none;
+        }
+      }
+      .btn--messenger {
+        cursor: pointer;
+        background: #fff;
+        height: 40px;
+        line-height: 40px;
+        padding: 0 0.875rem;
+        border-radius: 10px;
+        box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
+        // border: 1px solid rgba(16, 16, 16, 0.08);
+        &:hover{
+          background: #ffb94a;
+          color: #fff;
+        }
+        svg {
+          color: #999999;
+          transition: all .4s ease;
+        }
+        .icon--messenger {
+          &:hover {
+            color: #444;
+          }
+        }
+        .messenger--total {
+          background-color: #F96666;
+          border-radius: 5px;
+          color: #fff;
+          font-size: 10px;
+          min-width: 16px;
+          right: -5px;
+          top: -5px;
+          .text {
+            padding: 0 1.5px;
+          }
+        }
+        .open--mess{
+          text-transform: uppercase;
+        }
+      }
+      .messenger--dropdown {
+        margin-top: 6px;
+        min-width: 420px;
+        right: 4px;
+        z-index: 99999;
+      }
+    }
     .notification--groups {
       .btn--notification {
         cursor: pointer;
@@ -38,6 +90,66 @@
         min-width: 420px;
         right: 0;
         z-index: 99999;
+      }
+    }
+    .more--options{
+      .more{
+        cursor: pointer;
+      }
+      .options{
+        z-index: 10;
+        width: 333px;
+        background: #fff;
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        color: #000000;
+        border: 1px solid #ccc;
+        border-color: rgba(0,0,0,.2);
+        font-size: 0.8125rem;
+        right: -143px;
+        top: 46px;
+        // min-height: 300px;
+        .application{
+          padding: 2.5rem 2.5rem 0;
+        }
+        .view-more{
+          cursor: pointer;          
+          background: #2b2d33;
+          color: #fff;
+          height: 40px;
+          line-height: 40px;
+          box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        }
+        &:before{
+          background-color: #fff;
+          // border-radius: 6px 0 0;
+          content: "";
+          height: 12px;
+          position: absolute;
+          right: 162px;
+          top: -6px;
+          -webkit-transform: rotate(45deg);
+          transform: rotate(45deg);
+          width: 12px;
+          z-index: 3;
+        }
+        .item{
+          border: 1px solid transparent;
+          transition: 0.3s;
+          height: 84px;
+          padding: 0.3125rem 0;
+          margin-bottom: 1rem;
+          &:hover{
+            border: 1px solid #e5e5e5;
+            cursor: pointer;
+            // background: #ffb94a;
+            // color: #fff;
+          }
+          &.instagram, &.zalo{
+            &:hover{
+              cursor: not-allowed;
+            }
+          }
+        }
       }
     }
     .profile {
@@ -268,6 +380,17 @@
     }
   }
   .header--right {
+    .messenger--group {
+      .btn--messenger {
+        cursor: pointer;
+        background: #282a2d;
+        border: 0;
+        &:hover{
+          background: #ffffff14;
+          color: #fff;
+        }
+      }
+    }
     .notification--groups {
       .btn--notification {
         svg {
@@ -280,6 +403,21 @@
             color: #f7f7f7;
             stroke: #f7f7f7;
             stroke-width: 7.5;
+          }
+        }
+      }
+    }
+    .more--options{
+      .options{
+        background: #272a2c;
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        &:before{
+          background-color: #272a2c;
+        }
+        .item{
+          color: #ccc;
+          &:hover{
+            border: 1px solid #ccc;
           }
         }
       }

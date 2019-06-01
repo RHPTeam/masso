@@ -16,12 +16,15 @@
                 <icon-info/>
               </icon-base>
             </div>
-            <div class="position_absolute infor">
-              keywords as 
-            </div>
+            <div class="position_absolute infor">keywords as</div>
           </div>
         </div>
-        <taggle :placeholder="$t('chat.keywords.content.keyword.placeholder')" type="syntax"/>
+        <taggle
+          :placeholder="$t('chat.keywords.content.keyword.placeholder')"
+          type="syntax"
+          v-model="syntax.name"
+          @input="updateSyntax"
+        />
       </div>
       <div class="c_md_12 c_xl_6">
         <div class="auto--answer">
@@ -39,24 +42,33 @@
                   <icon-info/>
                 </icon-base>
               </div>
-              <div class="position_absolute infor">
-                Reply
-              </div>
+              <div class="position_absolute infor">Reply</div>
             </div>
           </div>
           <div class="auto--answer-add">
             <div class="block">
               <!-- Start: Add Block or Text Component -->
               <div class="block--body">
-                <div class="block--body-item">
+                <div class="block--body-item" 
+                  v-for="(item, index) in syntax.content"
+                  :key="index">
                   <contenteditable
+                    v-if="item.typeContent === 'text'"
                     class="editable"
                     tag="div"
                     :placeholder="$t('chat.keywords.content.reply.placeholderText')"
                     :contenteditable="true"
-                    v-model="title"
+                    v-model="item.valueContent"
+                    @keyup="upTypingText('itemsyntax', item)"
+                    @keydown="clear"
                   />
-                  <div class="action">
+                  <multiselect
+                    :placeholder="$t('chat.keywords.content.reply.placeholderGroup')"
+                    v-if="item.typeContent === 'block'"
+                    @option="groupBlock"
+                    multiple
+                  ></multiselect>
+                  <div class="action" @click.prevent="removeItem(index)">
                     <icon-base
                       class="icon--remove"
                       icon-name="remove"
@@ -71,35 +83,11 @@
               </div>
               <!--End: Add Block or Text Component-->
             </div>
-            <div class="block">
-              <!-- Start: Add Block or Text Component -->
-              <div class="block--body">
-                <div class="block--body-item">
-                  <multiselect
-                    :placeholder="$t('chat.keywords.content.reply.placeholderGroup')"
-                    type="itemSyntax"
-                    class="choose--group"
-                  ></multiselect>
-                  <span class="action" @click="isDeleteItemBlock = true">
-                    <icon-base
-                      class="icon--remove"
-                      icon-name="remove"
-                      width="26"
-                      height="26"
-                      viewBox="0 0 18 18"
-                    >
-                      <icon-remove/>
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
-              <!--End: Add Block or Text Component-->
-            </div>
-            <!-- Start: Footer  Component -->
             <div class="block--footer">
               {{ $t("chat.keywords.content.reply.add") }}
-              <span>{{ $t("chat.keywords.content.reply.group") }}</span> {{ $t("chat.keywords.content.reply.or") }}
-              <span>{{ $t("chat.keywords.content.reply.text") }}</span>
+              <span @click.prevent="createItem('block')">{{ $t("chat.keywords.content.reply.group") }}</span>
+              {{ $t("chat.keywords.content.reply.or") }}
+              <span @click.prevent="createItem('text')">{{ $t("chat.keywords.content.reply.text") }}</span>
             </div>
             <!--End: Footer Component-->
           </div>
@@ -111,33 +99,42 @@
         <div class="divide--title mb_3 d_flex">
           <div>{{ $t("chat.keywords.content.accountUse.title") }}</div>
           <div class="ml_auto position_relative">
-              <div class="icon--infor">
-                <icon-base
-                  class="icon--info"
-                  icon-name="info"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 18 18"
-                >
-                  <icon-info/>
-                </icon-base>
-              </div>
-              <div class="position_absolute infor">
-                Click something
-              </div>
+            <div class="icon--infor">
+              <icon-base
+                class="icon--info"
+                icon-name="info"
+                width="14"
+                height="14"
+                viewBox="0 0 18 18"
+              >
+                <icon-info/>
+              </icon-base>
             </div>
+            <div class="position_absolute infor">Click something</div>
+          </div>
         </div>
-        <ul class="list--user">
-          <li class="no--account">{{ $t("chat.keywords.content.accountUse.noAccount") }}</li>
+        <ul
+          class="list--user"
+          v-if="!accountFacebookList || accountFacebookList.length === 0"
+        >
+          <li class="no--account">Bạn chưa thêm tài khoản facebook nào!</li>
         </ul>
-        <ul class="list--user">
+        <ul v-else class="list--user">
           <!--Selected class-->
-          <li class>
-            <div class="d_inline_flex user px_2 py_1">
+          <li
+            class="list--user-item"
+            :class="[
+              syntax._facebook.includes(account._id) === true ? 'selected' : ''
+            ]"
+            v-for="(account, index) in accountFacebookList"
+            :key="index"
+            @click.prevent="toggleUser(account._id)"
+          >
+            <div class="d_flex">
               <div class="images--avatar mr_2">
-                <img src="@/assets/images/register--logo.png">
+                <img :src="account.userInfo.thumbSrc" alt="" />
               </div>
-              <div class="name--user">Ahihi</div>
+              <div>{{ account.userInfo.name }}</div>
             </div>
           </li>
         </ul>
@@ -166,69 +163,69 @@ export default {
       isOpenDocument: false,
       isOpenScript: false,
       currentIndexOfUser: null,
-      title: "AAAA",
       isDeleteItemBlock: false
     };
   },
   async created() {
-    // await this.$store.dispatch("getAccountsFB");
-    // await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getAccountsFB");
+    await this.$store.dispatch("getGroupBlock");
     // await this.$store.dispatch("getSequence");
   },
   computed: {
-    // accountFacebookList() {
-    //   return this.$store.getters.accountsFB;
-    // },
-    // groupBlock() {
-    //   return this.$store.getters.groups;
-    // },
-    // sequences() {
-    //   return this.$store.getters.groupSqc;
-    // },
-    // syntax() {
-    //   return this.$store.getters.syntax;
-    // }
+    accountFacebookList() {
+      return this.$store.getters.accountsFB;
+    },
+    groupBlock() {
+      console.log("this.$store.getters.groups;");
+      console.log(this.$store.getters.groups);
+      return this.$store.getters.groups;
+    },
+    sequences() {
+      return this.$store.getters.groupSqc;
+    },
+    syntax() {
+      return this.$store.getters.syntax;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
   methods: {
-    // createItem(type) {
-    //   this.syntax.content.push({
-    //     typeContent: type,
-    //     valueContent: ""
-    //   });
-    //   this.$store.dispatch("updateSyntax", this.syntax);
-    // },
-    // removeItem(index) {
-    //   this.syntax.content.splice(index, 1);
-    //   this.$store.dispatch("updateSyntax", this.syntax);
-    // },
-    // toggleUser(userId) {
-    //   if (this.syntax._facebook.includes(userId) === true) {
-    //     this.syntax._facebook = this.syntax._facebook.filter(item => {
-    //       if (item === userId) return;
-    //       return true;
-    //     });
-    //     this.$store.dispatch("updateSyntax", this.syntax);
-    //   } else {
-    //     this.syntax._facebook.push(userId);
-
-    //     this.$store.dispatch("updateSyntax", this.syntax);
-    //   }
-    // },
-    // upTypingText(type, item) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "itemsyntax") {
-    //     typingTimer = setTimeout(this.updateSyntax(item), 800);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // updateSyntax() {
-    //   this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
-    // }
+    createItem(type) {
+      this.syntax.content.push({
+        typeContent: type,
+        valueContent: ""
+      });
+      this.$store.dispatch("updateSyntax", this.syntax);
+    },
+    removeItem(index) {
+      this.syntax.content.splice(index, 1);
+      this.$store.dispatch("updateSyntax", this.syntax);
+    },
+    toggleUser(userId) {
+      if (this.syntax._facebook.includes(userId) === true) {
+        this.syntax._facebook = this.syntax._facebook.filter(item => {
+          if (item === userId) return;
+          return true;
+        });
+        this.$store.dispatch("updateSyntax", this.syntax);
+      } else {
+        this.syntax._facebook.push(userId);
+        this.$store.dispatch("updateSyntax", this.syntax);
+      }
+    },
+    upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "itemsyntax") {
+        typingTimer = setTimeout(this.updateSyntax(item), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateSyntax() {
+      this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
+    }
   },
   components: {
     DeleteCampaignPopup
@@ -240,15 +237,16 @@ export default {
 
 // Answer item or text
 .divide--title {
-  .icon--infor, .icon--info{
-      cursor: pointer;
+  .icon--infor,
+  .icon--info {
+    cursor: pointer;
   }
   .icon--infor:hover + {
-    .infor{
+    .infor {
       display: block;
     }
   }
-  .infor{
+  .infor {
     display: none;
     background: #fff;
     box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
@@ -258,7 +256,7 @@ export default {
     right: 0;
     padding: 0.625rem;
     font-weight: 400;
-    font-size: .825rem;
+    font-size: 0.825rem;
     border-radius: 0.3125rem;
     color: #666;
   }
@@ -276,7 +274,7 @@ export default {
       padding: 0.75rem 0;
       position: relative;
       margin-right: 27px;
-      .choose--group{
+      .choose--group {
       }
       .editable {
         border: 1px solid transparent;
@@ -325,8 +323,8 @@ export default {
     }
   }
 }
-.list--user{
-  .no--account{
+.list--user {
+  .no--account {
     font-style: italic;
     font-size: 0.875rem;
   }
@@ -339,11 +337,10 @@ export default {
   .images--avatar {
     color: #fff;
   }
-  .block--body-item{
-    .editable{
+  .block--body-item {
+    .editable {
       border: 1px solid #484848;
     }
-    
   }
 }
 
