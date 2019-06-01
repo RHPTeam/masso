@@ -11,7 +11,7 @@
       </div>
       <div class="group--item-body position_relative">
         <!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
-        <div class="box add" @click.prevent="showTooltip = !showTooltip">
+        <div class="box add">
           <icon-base
             class="icon--add"
             width="20"
@@ -22,7 +22,6 @@
         </div>
         <div
           class="tooltip--now position_absolute p_2"
-          v-if="showTooltip === true"
         >
           {{ $t("chat.broadcast.sidebar.messeger.desc") }}
         </div>

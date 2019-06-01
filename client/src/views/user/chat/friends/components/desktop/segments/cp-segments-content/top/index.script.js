@@ -19,7 +19,8 @@ export default {
       statusNumberDisplayedDropdown: false,
       keySearch: "",
       size: 20,
-      currentPage: 1
+      currentPage: 1,
+      isShowOptionsAttribute: false
     };
   },
   async created() {
@@ -43,6 +44,12 @@ export default {
     }
   },
   methods: {
+    showAttribute(){
+      this.isShowOptionsAttribute = true;
+    },
+    closeShowAttribute(){
+      this.isShowOptionsAttribute = false;
+    },
     closeShowUsers(){
       this.showUsers = false;
     },

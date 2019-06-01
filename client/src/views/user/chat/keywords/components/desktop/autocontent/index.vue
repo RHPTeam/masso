@@ -1,13 +1,49 @@
 <template>
-  <div class="auto--main-content text_left">
+  <div class="auto--main-content text_left" :data-theme="currentTheme">
     <div class="r mb_4">
       <div class="c_md_12 c_xl_6 mb_3">
-        <div class="divide--title mb_2">{{ $t("chat.keywords.content.keyword.title") }}</div>
+        <div class="divide--title mb_2 d_flex">
+          <div>{{ $t("chat.keywords.content.keyword.title") }}</div>
+          <div class="ml_auto position_relative">
+            <div class="icon--infor">
+              <icon-base
+                class="icon--info"
+                icon-name="info"
+                width="14"
+                height="14"
+                viewBox="0 0 18 18"
+              >
+                <icon-info/>
+              </icon-base>
+            </div>
+            <div class="position_absolute infor">
+              keywords as 
+            </div>
+          </div>
+        </div>
         <taggle :placeholder="$t('chat.keywords.content.keyword.placeholder')" type="syntax"/>
       </div>
       <div class="c_md_12 c_xl_6">
         <div class="auto--answer">
-          <div class="divide--title mb_2">{{ $t("chat.keywords.content.reply.title") }}</div>
+          <div class="divide--title mb_2 d_flex">
+            <div>{{ $t("chat.keywords.content.reply.title") }}</div>
+            <div class="ml_auto position_relative">
+              <div class="icon--infor">
+                <icon-base
+                  class="icon--info"
+                  icon-name="info"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 18 18"
+                >
+                  <icon-info/>
+                </icon-base>
+              </div>
+              <div class="position_absolute infor">
+                Reply
+              </div>
+            </div>
+          </div>
           <div class="auto--answer-add">
             <div class="block">
               <!-- Start: Add Block or Text Component -->
@@ -20,7 +56,7 @@
                     :contenteditable="true"
                     v-model="title"
                   />
-                  <span class="action">
+                  <div class="action">
                     <icon-base
                       class="icon--remove"
                       icon-name="remove"
@@ -30,7 +66,7 @@
                     >
                       <icon-remove/>
                     </icon-base>
-                  </span>
+                  </div>
                 </div>
               </div>
               <!--End: Add Block or Text Component-->
@@ -72,9 +108,27 @@
     </div>
     <div class="r">
       <div class="form_group c_12">
-        <div class="divide--title mb_3">{{ $t("chat.keywords.content.accountUse.title") }}</div>
+        <div class="divide--title mb_3 d_flex">
+          <div>{{ $t("chat.keywords.content.accountUse.title") }}</div>
+          <div class="ml_auto position_relative">
+              <div class="icon--infor">
+                <icon-base
+                  class="icon--info"
+                  icon-name="info"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 18 18"
+                >
+                  <icon-info/>
+                </icon-base>
+              </div>
+              <div class="position_absolute infor">
+                Click something
+              </div>
+            </div>
+        </div>
         <ul class="list--user">
-          <li>{{ $t("chat.keywords.content.accountUse.noAccount") }}</li>
+          <li class="no--account">{{ $t("chat.keywords.content.accountUse.noAccount") }}</li>
         </ul>
         <ul class="list--user">
           <!--Selected class-->
@@ -185,7 +239,29 @@ export default {
 @import "../../../index.style";
 
 // Answer item or text
-.auto--answer {
+.divide--title {
+  .icon--infor, .icon--info{
+      cursor: pointer;
+  }
+  .icon--infor:hover + {
+    .infor{
+      display: block;
+    }
+  }
+  .infor{
+    display: none;
+    background: #fff;
+    box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
+    width: 150px;
+    z-index: 5;
+    top: 100%;
+    right: 0;
+    padding: 0.625rem;
+    font-weight: 400;
+    font-size: .825rem;
+    border-radius: 0.3125rem;
+    color: #666;
+  }
 }
 .block {
   &--body,
@@ -199,8 +275,8 @@ export default {
       line-height: 36px;
       padding: 0.75rem 0;
       position: relative;
+      margin-right: 27px;
       .choose--group{
-        margin-right: 27px;
       }
       .editable {
         border: 1px solid transparent;
@@ -216,12 +292,13 @@ export default {
       .action {
         align-items: center;
         cursor: pointer;
-        display: none;
+        // display: none;
         position: absolute;
-        top: 50%;
+        top: 54%;
         transform: translateY(-50%);
-        right: 0;
+        right: -30px;
         transition: all 0.4s ease;
+        height: 24px;
         &:hover {
           color: #ffb94a !important;
         }
@@ -248,6 +325,12 @@ export default {
     }
   }
 }
+.list--user{
+  .no--account{
+    font-style: italic;
+    font-size: 0.875rem;
+  }
+}
 
 // *************** CHANGE THEME **************
 
@@ -255,6 +338,12 @@ export default {
 .auto--main-content[data-theme="dark"] {
   .images--avatar {
     color: #fff;
+  }
+  .block--body-item{
+    .editable{
+      border: 1px solid #484848;
+    }
+    
   }
 }
 

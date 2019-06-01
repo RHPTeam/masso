@@ -24,20 +24,23 @@
       <!-- Start: Messenger Link-->
       <div class="messenger--group position_relative">
         <!-- Start: Btn Messenger -->
-        <div class="btn--messenger position_relative mr_3"
+        <div class="btn--messenger position_relative mr_3 d_flex"
              @click="showMessengerDropdown"
              v-click-outside="closeMessengerDropdown"
         >
-          <icon-base
-            class="icon--messenger"
-            width="25px"
-            height="20px"
-            viewBox="0 0 12 12"
-          >
-            <icon-messenger></icon-messenger>
-          </icon-base>
-          <div class="messenger--total position_absolute">
-            <div class="text text_center">0</div>
+          <div class="pr_1">Mở bằng messenger</div>
+          <div>
+            <icon-base
+              class="icon--messenger"
+              width="25px"
+              height="20px"
+              viewBox="0 0 12 12"
+            >
+              <icon-messenger></icon-messenger>
+            </icon-base>
+            <div class="messenger--total position_absolute">
+              <div class="text text_center">0</div>
+            </div>
           </div>
         </div>
         <!-- End: Btn Messenger -->
@@ -86,6 +89,70 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+      <!-- Start: More Options -->
+      <div class="more--options position_relative pr_2">
+        <div @click="showOptionsMoreDropdown" class="more">
+          <icon-base
+            icon-name="bell"
+            width="20px"
+            height="20px"
+            viewBox="0 0 512 512"
+          >
+            <icon-bell></icon-bell>
+          </icon-base>
+        </div>
+        <div class="position_absolute options p_3 pt_3" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+          <div class="d_flex text_center">
+            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+              <icon-base
+                icon-name="bell"
+                width="20px"
+                height="20px"
+                viewBox="0 0 512 512"
+              >
+                <icon-bell></icon-bell>
+              </icon-base>
+              <div>Zin Post</div>
+            </div>
+            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+              <icon-base
+                icon-name="bell"
+                width="20px"
+                height="20px"
+                viewBox="0 0 512 512"
+              >
+                <icon-bell></icon-bell>
+              </icon-base>
+              <div>Zin Chat</div>
+            </div>
+          </div>
+          <div class="d_flex text_center">
+            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+              <icon-base
+                icon-name="bell"
+                width="20px"
+                height="20px"
+                viewBox="0 0 512 512"
+              >
+                <icon-bell></icon-bell>
+              </icon-base>
+              <div>Instagram</div>
+            </div>
+            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+              <icon-base
+                icon-name="bell"
+                width="20px"
+                height="20px"
+                viewBox="0 0 512 512"
+              >
+                <icon-bell></icon-bell>
+              </icon-base>
+              <div>Zalo</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End: More Options -->
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
@@ -172,64 +239,7 @@
         <!-- End: Dropdown Menu -->
       </div>
       <!-- End: User Info -->
-      <!-- Start: Language flag -->
-      <div class="flags position_relative ml_3">
-        <div @click="isShowFlagDropdown = true">
-          <icon-base
-            class="icon--flag"
-            icon-name="flag--vietnam"
-            width="24"
-            height="20"
-            viewBox="0 0 460 460">
-            <icon-vietnam-flag/>
-          </icon-base>
-        </div>
-        <transition name="dropdown">
-          <div
-            v-if="isShowFlagDropdown === true"
-            class="position_absolute dropdown--lang"
-            v-click-outside="closeFlagDropdown"
-          >
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--vietnam"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-vietnam-flag/>
-              </icon-base>
-              <span>Tiếng Việt</span>
-            </div>
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--english"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-america-flag/>
-              </icon-base>
-              <span>English</span>
-            </div>
-            <div @click="closeFlagDropdown" class="item pb_1">
-              <icon-base
-                class="icon--flag mr_2"
-                icon-name="flag--chinese"
-                width="24"
-                height="20"
-                viewBox="0 0 460 460"
-              >
-                <icon-china-flag/>
-              </icon-base>
-              <span>中文</span>
-            </div>
-          </div>
-        </transition>
-      </div>
-      <!-- End: Language flag -->
+      
     </div>
     <!-- End: Header Right -->
   </div>

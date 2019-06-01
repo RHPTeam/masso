@@ -1,9 +1,13 @@
 .users--table {
     border-radius: 10px;
     .none--data {
-        color: #999;
-        padding-top: .75rem;
+        color: #777474;
+        line-height: 48px;
         text-align: center;
+        border-bottom-left-radius: .625rem;
+        border-bottom-right-radius: .625rem;
+        background: #fafafa;
+        min-height: 48px;
     }
     .user--table-item {
         display: flex;
@@ -137,27 +141,27 @@
             width: 5%;
         }
         .name {
-            width: calc(95% / 4);
+            // width: calc(95% / 4);
             padding-right: .5rem;
         }
         .updated-date {
-          width: calc(95% / 4);
+        //   width: calc(95% / 4);
             padding-right: .5rem;
         }
         .gender {
-            width: calc(95% / 4);
+            // width: calc(95% / 4);
             padding-right: .5rem;
         }
         .pronoun {
-            width: calc(95% / 4);
+            // width: calc(95% / 4);
             padding-right: .5rem;
         }
         .attributes {
-            width: 12.5%;
+            // width: 12.5%;
             padding-right: .5rem;
         }
         .status {
-            width: 12.5%;
+            // width: 12.5%;
             padding-right: .5rem;
         }
     }
@@ -248,5 +252,9 @@
         .checkbox--control-checkmark {
             border-color: #ebebeb;
         }
+    }
+    .none--data{
+        background: #ffffff29;
+        color: #ccc;
     }
 }

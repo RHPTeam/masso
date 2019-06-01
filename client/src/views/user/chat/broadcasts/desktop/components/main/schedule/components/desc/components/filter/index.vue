@@ -4,14 +4,14 @@
       class="filter--action d_flex align_items_center justify_content_between"
     >
       <!--Start: component filter-->
-      <div class="left mr_3">
+      <div class="left mr_2">
         <app-filter
         />
       </div>
       <!--End: component filter-->
       <!--Start: Filter icon-->
       <div class="filter--icon d_flex ml_auto">
-        <div class="filter--icon-plus text_center">
+        <!-- <div class="filter--icon-plus text_center">
           <icon-base
             class="icon-plus"
             icon-name="plus"
@@ -21,7 +21,7 @@
           >
             <icon-plus />
           </icon-base>
-        </div>
+        </div> -->
         <div class="filter--icon-remove">
           <icon-base
             class="icon-remove"
@@ -36,115 +36,6 @@
       </div>
       <!--End: Filter icon-->
     </div>
-    <!--Start: Result before filter-->
-    <!-- <div v-if="showListUserFilterBefore === true">
-      <div v-if="!userFilter"></div>
-      <div class="filter--result text_left mt_2" v-else>
-        <div>Tìm thấy X người khả dụng</div>
-        <div class="option--user-list d_flex align_items_center mt_3">
-          <div>
-            <div
-              class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-            ></div>
-          </div> -->
-          <!--        Click show data user in item-->
-          <!-- <div
-            class="option--user-more item text_center"
-          >
-            AAAAAA
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!--End: Result before filter-->
-
-    <!--Start: Result done filter-->
-    <!-- <div> -->
-      <!-- Start: show result filter with segment -->
-      <!-- <div>
-        <div></div>
-        <div class="filter--result text_left mt_4"> -->
-          <!-- <div>Tìm thấy XX người khả dụng</div>
-          <div class="option--user-list d_flex align_items_center mt_3">
-            <div>
-              <div
-                class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-              ></div>
-            </div> -->
-            <!--        Click show data user in item-->
-            <!-- <div
-              class="option--user-more item text_center"
-            >
-              BBBB
-            </div>
-          </div>
-        </div> -->
-        <!--    Start: popup show more friend-->
-        <!-- <transition name="more">
-          <more-friend
-          />
-        </transition> -->
-        <!--    End: popup show more friend-->
-      <!-- </div> -->
-      <!--      End: show result filter with segment-->
-      <!--      Start: show result filter attribute with name -->
-      <!-- <div> -->
-        <!-- <div></div>
-        <div class="filter--result text_left mt_4">
-          <div>Tìm thấy XXX người khả dụng</div>
-          <div class="option--user-list d_flex align_items_center mt_3">
-            <div >
-              <div
-                class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-              ></div>
-            </div> -->
-            <!--        Click show data user in item-->
-            <!-- <div
-              class="option--user-more item text_center"
-            >
-              BBBB
-            </div>
-          </div>
-        </div> -->
-        <!--    Start: popup show more friend-->
-        <!-- <transition name="more">
-          <more-friend
-          />
-        </transition> -->
-        <!--    End: popup show more friend-->
-      <!-- </div> -->
-      <!--      End: show result filter attribute with name-->
-      <!--      Start: show result filter attribute with condition is -->
-      <!-- <div> -->
-        <!-- <div></div>
-        <div class="filter--result text_left mt_4">
-          <div>
-            Tìm thấy XXXX người khả dụng
-          </div>
-          <div class="option--user-list d_flex align_items_center mt_3">
-            <div
-            >
-              <div
-                class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-              ></div>
-            </div> -->
-            <!--        Click show data user in item-->
-            <!-- <div
-              class="option--user-more item text_center"
-            >
-              AAAAA
-            </div> -->
-          <!-- </div>
-        </div> -->
-        <!--    Start: popup show more friend-->
-        <!-- <transition name="more">
-          <more-friend
-          />
-        </transition> -->
-        <!--    End: popup show more friend-->
-      <!-- </div> -->
-      <!--      End: show result filter attribute with condition-->
-      <!--      Start: show result filter attribute with condition is not -->
       <div >
         <div></div>
         <div class="filter--result text_left mt_4">

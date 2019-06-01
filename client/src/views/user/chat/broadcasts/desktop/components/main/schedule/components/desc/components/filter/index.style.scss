@@ -16,14 +16,14 @@
             }
         }
         .left {
-            width: calc(100% - 75px);
+            width: calc(100% - 28px);
         }
         // .filter{
         //     border-radius: 5px;
         // }
         .filter--icon {
             cursor: pointer;
-            width: 70px;
+            // width: 70px;
             height: 40px;
             line-height: 40px;
             .filter--icon-and {
@@ -40,7 +40,7 @@
             }
             .filter--icon-remove {
                 display: none;
-                margin-left: 0.75rem;
+                // margin-left: 0.75rem;
             }
             svg {
                 margin-bottom: -5px;
@@ -111,5 +111,14 @@ div[data-theme="dark"] .filter {
     }
     .option--user-more {
         color: #ffffff;
+    }
+}
+
+
+
+// ************ RESPONSIVE
+@media only screen and (max-width: 1200px) and (min-width: 768px){
+    .filter .filter--body-option .filter--attribute{
+        width: 100%;
     }
 }

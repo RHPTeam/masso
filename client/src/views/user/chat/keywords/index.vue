@@ -23,6 +23,7 @@
                 :contenteditable="true"
                 :placeholder="$t('chat.keywords.content.nameSyntax')"
                 v-model="title"
+                :noNL="true"
               />
               <div class="icon--drop ml_auto" @click="isDeleteItemBlock = true">
                 <icon-base

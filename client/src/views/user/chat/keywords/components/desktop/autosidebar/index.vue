@@ -166,6 +166,7 @@ export default {
 @import "../../../index.style";
 .auto--sidebar-wrap {
   .scroll-area{
+    padding: 0 10px;
     height: 570px!important;
     width: 100%;
   }

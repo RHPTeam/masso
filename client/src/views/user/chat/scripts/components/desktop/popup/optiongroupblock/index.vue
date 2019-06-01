@@ -1,6 +1,6 @@
 <template>
   <div class>
-    <div class="position_absolute icon-more" @click="showOptionsSequence">
+    <div class="icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
         icon-name="IconMore"
@@ -53,8 +53,7 @@ export default {
 
 <style lang="scss" scoped>
 .icon-more {
-  right: 1px;
-  z-index: 1;
+  float: right;
   // display: none;
   &[hover="true"] {
     display: block;

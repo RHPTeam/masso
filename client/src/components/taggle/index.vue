@@ -46,10 +46,10 @@
   flex-wrap: wrap;
 }
 .vue-input-tag-wrapper .input-tag {
-  background-color: #cde69c;
+  background-color: #ffba3c;
   border-radius: 2px;
-  border: 1px solid #a5d24a;
-  color: #638421;
+  border: 1px solid #ffba3c;
+  color: #fff;
   display: inline-block;
   font-size: 14px;
   font-weight: 400;
@@ -60,7 +60,7 @@
 .vue-input-tag-wrapper .input-tag .remove {
   cursor: pointer;
   font-weight: bold;
-  color: #638421;
+  color: #666;
 }
 .vue-input-tag-wrapper .input-tag .remove:hover {
   text-decoration: none;

@@ -29,7 +29,7 @@
             height: 100%;
             border-radius: 10px;
             .auto--content-header {
-                max-width: 90%;
+                // max-width: 90%;
                 overflow: hidden;
                 div[contenteditable="true"]:empty:before {
                     color: #444;
@@ -42,7 +42,7 @@
                     border: 1px solid transparent;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    max-width: 80%;
+                    max-width: 50%;
 
                 }
                 .icon--drop {
