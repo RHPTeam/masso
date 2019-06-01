@@ -104,13 +104,18 @@ module.exports = {
     if ( req.query._type && ( req.query._type ).trim() === "status" ) {
       findCampaign.status = !findCampaign.status;
 
+      console.log( findCampaign );
+
       await Promise.all( findCampaign._events.map( async ( event ) => {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id, "status": true } ).lean();
 
-        await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
+        await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
+          console.log( ScheduleClasses.objectKeyExists( eventSchedule._id ) );
           if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-            ScheduleClasses.get( eventSchedule._id ).cancel();
+            console.log( ScheduleClasses.get( eventSchedule._id ) );
+            await ScheduleClasses.get( eventSchedule._id ).cancel();
           }
+          console.log( "-------------------" )
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
         event.status = findCampaign.status;
