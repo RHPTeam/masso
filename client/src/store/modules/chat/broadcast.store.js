@@ -52,6 +52,24 @@ const actions = {
     commit("setBroadcastStatus", "success");
   },
   /**
+   * Create content item on schedule block
+   * @param commit
+   * @param payload
+   * @returns {Promise<void>}
+   */
+  createScheduleBlockItem: async ( { commit }, payload ) => {
+    await BroadcastService.createScheduleBlockItem(
+      state.allBroadcasts[1]._id,
+      payload.scheduleBlockId,
+      payload.type
+    );
+    const resultShowData = await BroadcastService.getScheduleBlockById(
+      state.allBroadcasts[1]._id,
+      payload.scheduleBlockId
+    );
+    commit("setScheduleBlockDetail", resultShowData.data.data[0]);
+  },
+  /**
    * Get all broadcasts and set data for schedule blocks
    * @param commit
    * @returns {Promise<void>}
@@ -108,7 +126,10 @@ const actions = {
   updateTimeSettingScheduleBlockDetail: async ( { commit }, payload ) => {
     // Update
     await BroadcastService.updateTimeSettingScheduleBlock(
-      state.allBroadcasts[1]._id, payload.blockId, payload.type, payload.block
+      state.allBroadcasts[1]._id,
+      payload.blockId,
+      payload.type,
+      payload.block
     );
 
     // Get all broadcasts

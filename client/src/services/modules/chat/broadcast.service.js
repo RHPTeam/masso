@@ -13,7 +13,7 @@ export default {
       item
     );
   },
-  createItemSchedule(broadId, blockId, typeItem) {
+  createScheduleBlockItem(broadId, blockId, typeItem) {
     return Api().post(
       `broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`
     );
@@ -31,7 +31,7 @@ export default {
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
   },
-  showSchedule(broadId, blockId) {
+  getScheduleBlockById(broadId, blockId) {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
   changeStatusBroadcast(broadId, blockId) {

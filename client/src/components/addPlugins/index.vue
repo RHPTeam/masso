@@ -139,6 +139,9 @@ import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
 
 export default {
+  components: {
+    AppTooltip
+  },
   props: {
     showPopupPlugins: Boolean,
     showSubcrible: Boolean,
@@ -195,9 +198,6 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    schedules() {
-      return this.$store.getters.schedules;
     }
   },
   methods: {
@@ -208,41 +208,24 @@ export default {
       this.$emit("showAddAttribute", true);
       this.$emit("closePopupPluginClick", false);
     },
-    async getSchedules() {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      return result[0];
-    },
     async openSubcriblePlugins() {
       this.$emit("showSubcrible", true);
       this.$emit("closePopupPluginClick", false);
-      const schedules = await this.getSchedules();
       const dataSender = {
-        scheduleId: schedules._id,
         type: "subscribe",
-        itemId: this.schedule
+        scheduleBlockId: this.schedule
       };
-      this.$store.dispatch("createItemSchedule", dataSender);
+      this.$store.dispatch("createScheduleBlockItem", dataSender);
     },
     async openUnSubcriblePlugins() {
       this.$emit("showUnSubcrible", true);
       this.$emit("closePopupPluginClick", false);
-      const schedules = await this.getSchedules();
       const dataSender = {
-        scheduleId: schedules._id,
         type: "unsubscribe",
-        itemId: this.schedule
+        scheduleBlockId: this.schedule
       };
-      this.$store.dispatch("createItemSchedule", dataSender);
+      this.$store.dispatch("createScheduleBlockItem", dataSender);
     }
-  },
-  components: {
-    AppTooltip
   }
 };
 </script>
