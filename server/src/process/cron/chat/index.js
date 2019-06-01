@@ -11,6 +11,7 @@ let CronJob = require( "cron" ).CronJob;
 const express = require( "express" ),
   app = express();
 const Account = require( "../../../models/Account.model" );
+const dictionaries = require( "../../../configs/dictionaries" );
 const nodemailer = require( "nodemailer" ),
   // When  upload to server comment 2 line after
   http = require( "http" ).Server( app ),
@@ -243,11 +244,12 @@ let chatAuto = async function( account ) {
       } );
     } );
     // Handle broadcast 1p call cron to send broadcast with per account facebook
-    const findActiveBroadcast = await Broadcast.find( {
-      "_account": account._account
+    const findActiveBroadcast = await Broadcast.findOne( {
+      "_account": account._account,
+      "typeBroadCast": dictionaries.BROADCAST_SCHEDULE
     } );
 
-    await findActiveBroadcast[ 1 ].blocks.map( async ( block ) => {
+    await findActiveBroadcast.blocks.map( async ( block ) => {
       if ( block.status === true ) {
         await BroadcastProcess.handleMessageScheduleBroadcast(
           block,
