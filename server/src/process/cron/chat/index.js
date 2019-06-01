@@ -13,9 +13,27 @@ const express = require( "express" ),
 const Account = require( "../../../models/Account.model" );
 const dictionaries = require( "../../../configs/dictionaries" );
 const nodemailer = require( "nodemailer" ),
-  // When  upload to server comment 2 line after
-  http = require( "http" ).Server( app ),
-  io = require( "socket.io" )( http );
+  fs = require( "fs" ),
+  http = require( "http" ),
+  https = require( "https" );
+
+let server = null, io = null;
+
+if ( process.env.APP_ENV === "production" ) {
+  const option = {
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
+    "passphrase": process.env.HTTPS_PASSWORD
+  };
+
+  server = https.createServer( option, app );
+} else {
+  server = http.createServer( app );
+}
+
+io = require( "socket.io" )( server );
+
+server.listen( process.env.PORT_SOCKET_CHAT );
+
 
 /*
  const fs = require('fs')
@@ -588,7 +606,4 @@ let chatAuto = async function( account ) {
   return account;
 };
 
-// When  upload to server comment line after
-http.listen( 8889 );
-// server.listen( process.env.PORT_SOCKET );
 module.exports = chatAuto;
