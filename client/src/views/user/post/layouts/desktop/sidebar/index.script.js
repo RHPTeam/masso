@@ -9,6 +9,7 @@ export default {
   },
   data() {
     return {
+      isShowFlagDropdown: false,
       menus: [ {
         text: "Bảng điều khiển",
         icon: {
@@ -66,5 +67,13 @@ export default {
       }
       ]
     };
-  }
+  },
+  methods: {    
+    closeFlagDropdown(){
+      this.isShowFlagDropdown = false;
+    },
+    showFlagDropdown(){
+      this.isShowFlagDropdown = true;
+    }
+  },
 };

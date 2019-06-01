@@ -35,30 +35,6 @@
           </icon-base>
         </span>
       </div>
-      <div class="updated-date">
-        <span
-          class="sort"
-        >Nhóm
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
-          <icon-base
-            class="icon--arrow-up ml_1"
-            icon-name="icon-arrow-up"
-            width="12"
-            height="12"
-            viewBox="0 0 26 26"
-          >
-            <icon-arrow-up />
-          </icon-base>
-        </span>
-      </div>
       <div class="gender">
         <span
           class="sort"
@@ -107,7 +83,31 @@
           </icon-base>
         </span>
       </div>
-      <div class="attributes d_none">
+      <div class="updated-date">
+        <span
+          class="sort"
+        >Nhóm
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+          <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+          >
+            <icon-arrow-up />
+          </icon-base>
+        </span>
+      </div>
+      <div class="attributes">
         <span class="sort"
           >Thuộc tính
           <icon-base

@@ -26,6 +26,7 @@ import VocateStore from "./modules/chat/vocate.store";
  */
 import AnalysisStore from "./modules/post/analytic.store";
 import BroadcastStore from "./modules/chat/broadcast.store";
+import Block from "./modules/chat/block.store";
 import CampaignsStore from "./modules/post/campaign.store";
 import CategoriesStore from "./modules/post/category.store";
 import EventsStore from "./modules/post/event.store";
@@ -53,6 +54,7 @@ export default new Vuex.Store( {
      * Store for Page Chat
      */
     AttributeStore,
+    Block,
     BlockStore,
     GroupFriend,
     SequenceFaceBook,

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 
 /**
  * Controller block for project
@@ -70,6 +71,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.find( { "_account": req.uid } );
 
     // num block only exist in block
@@ -83,6 +85,7 @@ module.exports = {
       }
       return true;
     } ).map( ( item ) => parseInt( item.slice( Dictionaries.BLOCK.length ) ) );
+    // eslint-disable-next-line one-var
     const indexCurrent = Math.max( ...nameArr ),
 
       foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": req.uid } ),
@@ -123,6 +126,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": userId } );
 
     if ( !foundBlock ) {
@@ -184,6 +188,7 @@ module.exports = {
       newAttribute.value = "";
       newAttribute._account = userId;
       await newAttribute.save();
+      // eslint-disable-next-line one-var
       const content = {
         "valueText": newAttribute._id,
         "typeContent": "tag"
@@ -207,6 +212,7 @@ module.exports = {
     }
 
     // with type item is text
+    // eslint-disable-next-line one-var
     const content = {
       "valueText": "",
       "typeContent": "text"
@@ -232,6 +238,7 @@ module.exports = {
     if ( JSON.stringify( userId ) !== JSON.stringify( foundUser._id ) ) {
       return res.status( 403 ).json( jsonResponse( "Lỗi truy cập!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findById( req.query._blockId );
 
     if ( !foundBlock ) {
@@ -347,6 +354,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findById( req.query._blockId );
 
     if ( !foundBlock ) {
@@ -379,6 +387,7 @@ module.exports = {
       await foundBlock.save();
       return res.status( 200 ).json( jsonResponse( "Xóa nội dung trong block thành công! ", foundBlock ) );
     }
+    // eslint-disable-next-line one-var
     const foundGroupBlock = await GroupBlock.find( { "_account": userId } );
 
     foundGroupBlock.map( async ( value ) => {

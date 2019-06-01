@@ -21,6 +21,42 @@
     <!-- End: Header Left -->
     <!-- Start: Header Right -->
     <div class="header--right d_flex align_items_center">
+      <!-- Start: Messenger Link-->
+      <div class="messenger--group position_relative">
+        <!-- Start: Btn Messenger -->
+        <router-link :to="{ name: 'messenger' }" class="mess">
+          <div class="btn--messenger position_relative mr_3 d_flex"
+          >
+            <div class="mt_1">
+              <icon-base
+                class="icon--messenger"
+                width="25px"
+                height="20px"
+                viewBox="0 0 12 12"
+              >
+                <icon-messenger></icon-messenger>
+              </icon-base>
+              <!-- <div class="messenger--total position_absolute">
+                <div class="text text_center">0</div>
+              </div> -->
+            </div>
+            <div class="pl_2 open--mess">Mở bằng messenger</div>
+          </div>
+        </router-link>
+        <!-- End: Btn Messenger -->
+        <!-- Start: Messenger Dropdown -->
+        <!-- <div class="messenger--dropdown position_absolute">
+          <transition name="dropdown">
+            <header-messenger
+              v-if="isShowMessengerDropdown"
+              :messages="notifications"
+              @closeDropdown="isShowMessengerDropdown = $event"
+            ></header-messenger>
+          </transition>
+        </div> -->
+        <!-- End: Messenger Dropdown -->
+      </div>
+      <!-- Start: Messenger Link-->
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3"
@@ -29,8 +65,8 @@
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="bell"
-            width="20px"
-            height="20px"
+            width="30px"
+            height="30px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>
@@ -52,6 +88,69 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+      <!-- Start: More Options -->
+      <div class="more--options position_relative pr_2">
+        <div @click="showOptionsMoreDropdown" class="more mt_2">
+          <icon-base
+            icon-name="application"
+            width="30px"
+            height="30px"
+            viewBox="0 0 512 512"
+          >
+            <icon-application />
+          </icon-base>
+        </div>
+        <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+          <div class="d_flex text_center r m_0 application">
+            <div class="zin--post item c_4" @click="gotoHomePost">
+              <icon-base
+                icon-name="bell"
+                width="50px"
+                height="50px"
+                viewBox="0 0 512 512"
+              >
+                <icon-zin-post />
+              </icon-base>
+              <div class="pt_1">Zin Post</div>
+            </div>
+            <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+              <icon-base
+                icon-name="bell"
+                width="50px"
+                height="50px"
+                viewBox="0 0 512 512"
+              >
+                <icon-zin-chat />
+              </icon-base>
+              <div class="pt_1">Zin Chat</div>
+            </div>
+            <div class="zin--post instagram item c_4">
+              <icon-base
+                icon-name="bell"
+                width="50px"
+                height="50px"
+                viewBox="0 0 550 550"
+              >
+                <icon-instagram />
+              </icon-base>
+              <div class="pt_1">Instagram</div>
+            </div>
+            <div class="zin--post zalo item c_4">
+              <icon-base
+                icon-name="bell"
+                width="50px"
+                height="50px"
+                viewBox="0 0 512 512"
+              >
+                <icon-zalo />
+              </icon-base>
+              <div class="pt_1">Zalo</div>
+            </div>
+          </div>
+          <div class="text_center view-more">Xem thêm</div>
+        </div>
+      </div>
+      <!-- End: More Options -->
 
       <!-- Start: Redirect to help -->
 <!--      <div class="help mr_2 ml_1" @click="redirectToHelp">-->

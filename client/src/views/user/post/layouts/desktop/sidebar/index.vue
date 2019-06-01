@@ -51,6 +51,67 @@
         </a>
       </router-link>
     </ul>
+    <div class="position_fixed flag--sidebar">
+      <!-- Start: Language flag -->
+      <div class="flags position_relative ml_3">
+        <div @click="showFlagDropdown">
+          <icon-base
+            class="icon--flag"
+            icon-name="flag--vietnam"
+            width="24"
+            height="20"
+            viewBox="0 0 460 460">
+            <icon-vietnam-flag/>
+          </icon-base>
+          <span class="px_1">Tiếng Việt</span>
+        </div>
+        <transition name="dropdown">
+          <div
+            v-if="isShowFlagDropdown === true"
+            class="position_absolute dropdown--lang"
+            v-click-outside="closeFlagDropdown"
+          >
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--vietnam"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-vietnam-flag/>
+              </icon-base>
+              <span>Tiếng Việt</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--english"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-america-flag/>
+              </icon-base>
+              <span>English</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--chinese"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-china-flag/>
+              </icon-base>
+              <span>中文</span>
+            </div>
+          </div>
+        </transition>
+      </div>
+      <!-- End: Language flag -->
+    </div>
   </div>
 </template>
 
