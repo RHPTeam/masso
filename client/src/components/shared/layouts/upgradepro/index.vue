@@ -55,24 +55,20 @@ export default {
     .modal--dialog {
       width: 100%;
       height: 100%;
-
       .modal--content {
         width: 440px;
         border-radius: 10px;
         padding: 1.25rem;
-
         .modal--header {
+          font-weight: 600;
           padding: 1rem 0;
         }
-
         .modal--body {
-          margin-top: 0.5rem;
+          font-size: .875rem;
         }
-
         .modal--footer {
           margin-top: 1.5rem;
           font-size: 14px;
-
           .btn-contact {
             padding: 0.5rem 0.75rem;
             border-radius: 10px;
@@ -83,12 +79,10 @@ export default {
             transition: all 0.4s ease;
             cursor: pointer;
             outline: none;
-
             &:hover {
               background-color: #ff9e4a;
             }
           }
-
           .btn-skip {
             padding: 0.5rem 0.75rem;
             border-radius: 10px;
@@ -98,7 +92,6 @@ export default {
             font-weight: 600;
             cursor: pointer;
             outline: none;
-
             &:hover {
               background-color: #f7f7f7;
             }

@@ -37,8 +37,6 @@ export default {
       this.$emit("closeAddPopup", false);
     }
   },
-
-  components: {}
 };
 </script>
 
