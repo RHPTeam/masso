@@ -17,7 +17,7 @@ module.exports = {
 
     await defaultPostCategory.save();
 
-    // create group default when signup
+    // create item default when signup
 
     const defaultGroup = await new GroupBlock();
 

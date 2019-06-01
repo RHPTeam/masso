@@ -49,7 +49,7 @@ export default {
         name: this.newGroupFriend
       };
 
-      this.$store.dispatch( "createGroup", dataSender );
+      this.$store.dispatch( "createGroupFriend", dataSender );
       this.$emit( "closePopup", false );
     }
   }

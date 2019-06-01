@@ -26,7 +26,7 @@ const cheerio = require( "cheerio" ),
 
       /**
        * When id of post appear effect background text. Handle duplicate text.
-       * When id of post is new member of group. Handle get like
+       * When id of post is new member of item. Handle get like
        */
 
       request( option, ( err, res, body ) => {
@@ -150,15 +150,15 @@ module.exports = {
         const path = await handleImageUpload( image );
 
         // Check download fail
-        if ( path.errors.code === 1023 ) {
+        if ( path.error.code === 1023 ) {
           return;
         }
         // Check write file issues
-        if ( path.errors.code === 1024 ) {
+        if ( path.error.code === 1024 ) {
           return;
         }
 
-        // Assign variable for "av" author vendor | 0: timeline, 1: group, 2: page
+        // Assign variable for "av" author vendor | 0: timeline, 1: item, 2: page
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           feedObject.privacy = findSubString( cookie, "c_user=", ";" );
         } else if ( feed.location.type === 2 ) {
@@ -197,11 +197,15 @@ module.exports = {
       feedObject.scrape = resultPreviewScrape.results;
     }
 
+    // Check activity
+    if ( feed.activity && feed.activity.type.length > 0 ) {
+      feedObject.activity = feed.activity;
+    }
+
     // Check if user change privacy of feed
     feedObject.privacy = privacy;
 
     // Pass data from original object of client
-    feedObject.activity = feed.activity;
     feedObject.color = feed.color;
     feedObject.content = feed.content;
     feedObject.location = feed.location;

@@ -72,7 +72,7 @@ module.exports = {
       // insert page facebook list to database
       await PageFacebook.insertMany( pageListFixed );
 
-      // Check post group exists old ID
+      // Check post item exists old ID
       await Promise.all( postGroupList.map( ( postGroup ) => {
         postGroup._pages.map( async ( page ) => {
           const pageChecked = await PageFacebook.findOne( { "pageId": page } );

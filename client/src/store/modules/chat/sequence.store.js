@@ -91,9 +91,8 @@ const actions = {
 
   // get all block in a sequence 
   getAllBlockInSequenceById: async ( { commit }, payload ) => {
-    console.log("payload all sequence by id");
-    console.log(payload);
     const rsAllBlockInSequence = await SequenceService.getAllBlockSequenceById( payload );
+    console.log(rsAllBlockInSequence.data.data);
     commit("setAllBlockInSequenceById", rsAllBlockInSequence.data.data);
   },
 

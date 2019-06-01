@@ -4,8 +4,8 @@ export default {
   index() {
     return Api().get( "broadcast" );
   },
-  createSchedule(sId) {
-    return Api().post(`broadcast/addBlock?_bcId=${sId}`);
+  createScheduleBlock( id ) {
+    return Api().post(`broadcast/addBlock?_bcId=${id}`);
   },
   createItem(broadId, blockId, item) {
     return Api().patch(

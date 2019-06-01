@@ -142,6 +142,10 @@ import AppTooltip from "../tooltip";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
+  components: {
+    AppTooltip,
+    VuePerfectScrollbar
+  },
   props: {
     showPopupPlugins: Boolean,
     showSubcrible: Boolean,
@@ -324,10 +328,6 @@ export default {
       };
       this.$store.dispatch("createItemBlock", dataSender);
     }
-  },
-  components: {
-    AppTooltip,
-    VuePerfectScrollbar
   }
 };
 </script>

@@ -13,7 +13,7 @@ export default {
 
   computed: {
     groupFriend() {
-      return this.$store.getters.groupFriend;
+      return this.$store.getters.allGroupFriends;
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
@@ -37,8 +37,10 @@ export default {
       this.isShowBtnCreate = true;
     },
     async createGroup() {
-      const name = this.newGroup;
-      await this.$store.dispatch("createGroupByName", name);
+      const dataSender = {
+        name: this.newGroup
+      };
+      await this.$store.dispatch("createGroupFriend", dataSender);
       this.newGroup = '';
       const newGroupItem = this.groupFriend[this.groupFriend.length - 1];
       this.selectedGroups.push(newGroupItem._id);
@@ -48,9 +50,9 @@ export default {
       this.selectedGroups.forEach(gr_id => {
         const dataSender = {
           gr_id: gr_id,
-          friends: this.selectedUIDs
-        }
-        this.$store.dispatch("addFriendsToGroup", dataSender);
+          friendId: this.selectedUIDs
+        };
+        this.$store.dispatch("addFriendToGroup", dataSender);
       });
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("closeAddPopup", false);
@@ -62,7 +64,7 @@ export default {
   },
 
   async created() {
-    // await this.$store.dispatch("getGroupFriend");
+    await this.$store.dispatch("getAllGroupFriend");
   },
 
   components: {

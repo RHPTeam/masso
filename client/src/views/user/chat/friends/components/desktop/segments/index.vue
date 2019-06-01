@@ -5,6 +5,7 @@
       :groupSelected="groupSelected"
       @updateAccountSelected="accountSelected = $event"
       @updateSearch="keywordSearch = $event"
+      @changeStatusDefault="changeStatusDefault($event)"
     ></segments-content-top>
 
     <segments-content-users-table
@@ -35,7 +36,12 @@ export default {
         name: "Tất cả"
       }
     };
-  }
+  },
+  methods: {
+    changeStatusDefault(val) {
+      this.$emit("changeResultDefault", val);
+    }
+  },
 };
 </script>
 

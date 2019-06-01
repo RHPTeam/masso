@@ -24,14 +24,17 @@
       <div class="scrip--body-image-link">
         <div
           class="default"
+          v-if="item.valueText === '' || item.valueText === undefined"
+          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
-        <!-- <img width="280" height="207" /> -->
+        <img v-else :src="item.valueText" width="280" height="207" />
       </div>
       <div class="script--body-upload-image">
-        <form enctype="multipart/form-data">
+        <form enctype="multipart/form-data" @submit.prevent="sendFile">
           <input
             type="file"
             ref="file"
+            @change="selectFile(item._id)"
             id="upload_image"
           />
         </form>
@@ -68,6 +71,9 @@
 <script>
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
+  components:{
+    DeleteCampaignPopup
+  },
   props: ["item", "block"],
   data() {
     return {
@@ -76,30 +82,28 @@ export default {
       srcDefault: require("@/assets/images/message/logo.png")
     };
   },
-  methods: {
-    // selectFile(id) {
-    //   this.file = this.$refs.file.files[0];
-    //   this.sendFile(id);
-    // },
-    // sendFile(id) {
-    //   const formData = new FormData();
-    //   formData.append("file", this.file);
-    //   const objSender = {
-    //     id: id,
-    //     formData: formData,
-    //     block: this.block
-    //   };
-    //   this.$store.dispatch("updateItemImageBlock", objSender);
-    // }
-  },
-  computed: {    
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
   },
-  components:{
-    DeleteCampaignPopup
+  methods: {
+    selectFile(id) {
+      this.file = this.$refs.file.files[0];
+      this.sendFile(id);
+    },
+    sendFile(id) {
+      const formData = new FormData();
+      formData.append("file", this.file);
+      const objSender = {
+        id: id,
+        formData: formData,
+        block: this.block
+      };
+      this.$store.dispatch("updateItemImageBlock", objSender);
+    }
   }
+
 };
 </script>
 <style lang="scss" scoped>

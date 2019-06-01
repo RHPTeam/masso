@@ -81,7 +81,7 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Check update post if user upload file
@@ -125,7 +125,7 @@ module.exports = {
 
     // Check catch when delete campaign
     if ( !findPost ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Bài đăng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Bài đăng không tồn tại!" } );
     }
 
     // Remove a file attachments in post
@@ -133,11 +133,11 @@ module.exports = {
       const findPostOfAttachment = await Post.findOne( { "attachments._id": req.query._attachmentId } );
 
       if ( !findPostOfAttachment ) {
-        return res.status( 404 ).json( { "status": "errors.js", "message": "Ảnh không tồn tại trong bài đăng này!" } );
+        return res.status( 404 ).json( { "status": "error", "message": "Ảnh không tồn tại trong bài đăng này!" } );
       }
       Post.updateOne( { "_id": req.query._postId }, { "$pull": { "attachments": { "_id": req.query._attachmentId } } }, ( err ) => {
         if ( err ) {
-          return res.status( 500 ).json( { "status": "errors.js", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
+          return res.status( 500 ).json( { "status": "error", "message": "Hệ thống xảy ra lỗi trong quá trình xóa" } );
         }
       } );
       return res.status( 200 ).json( jsonResponse( "success", null ) );

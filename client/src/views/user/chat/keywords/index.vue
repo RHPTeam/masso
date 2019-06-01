@@ -94,10 +94,10 @@ export default {
     // await this.$store.dispatch("getFirstSyntax");
   },
   methods: {
-    // upTypingText(type, group) {
+    // upTypingText(type, item) {
     //   clearTimeout(typingTimer);
     //   if (type === "titlesyntax") {
-    //     typingTimer = setTimeout(this.updateSyntax(group), 1000);
+    //     typingTimer = setTimeout(this.updateSyntax(item), 1000);
     //   }
     // },
     // clear() {

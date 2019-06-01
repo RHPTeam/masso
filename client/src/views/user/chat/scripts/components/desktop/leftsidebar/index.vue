@@ -110,20 +110,29 @@
       <div class="content">
         <div
           class="r m_0 group--items"
-          v-for="(blockInSequence,index) in groupSequence[index].sequences"
+          v-for="(blockInSequence, index) in groupSequence[index].sequences"
           :key="`b-${index}`"
         >
           <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
             <div class="content--item position_relative">              
-              <after-day :sequenceId="sequence._id" :item="blockInSequence" />
+              <after-day
+                :sequenceId="sequence._id"
+                :item="blockInSequence"
+              >
+              </after-day>
             </div>
           </div>
           <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
-            <div class="content--item" @click="showInforBlockSequence(blockInSequence._id)">
+            <div class="content--item" @click="showInfoBlockSequence(blockInSequence._block._id)">
               <div class="text_center name-script">{{ blockInSequence._block.name }}</div>
             </div>
             <div class="option">
-              <options-sequence class="options--sequence" :sequenceId="sequence._id" :item="blockInSequence" />
+              <options-sequence
+                class="options--sequence"
+                :sequenceId="sequence._id"
+                :item="blockInSequence"
+              >
+              </options-sequence>
             </div>
           </div>
         </div>

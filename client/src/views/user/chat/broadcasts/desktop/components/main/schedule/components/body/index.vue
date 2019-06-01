@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div></div>
+    <div>{{ scheduleBlockDetail }}</div>
     <div>
       <div>
         <!--Start: Text item component-->
@@ -95,6 +95,9 @@ export default {
     };
   },
   computed: {
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    }
     // schedules() {
     //   return this.$store.getters.schedules;
     // },

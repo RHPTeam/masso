@@ -122,13 +122,13 @@ const actions = {
     const res = await AccountServices.updateUserByAdmin( payload );
 
     commit( "updateUser", res.data.data );
-    const users = await AccountServices.index1();
+    const users = await AccountServices.index();
 
     await commit( "getUsers", users.data.data );
   },
   deleteUsers: async ( { commit }, payload ) => {
     await AccountServices.deleteUsers( payload );
-    const users = await AccountServices.index1();
+    const users = await AccountServices.index();
 
     await commit( "getUsersFilter", users.data.data );
   },
@@ -189,7 +189,7 @@ const actions = {
     commit( "auth_error" );
   },
   getUsers: async ( { commit } ) => {
-    const users = await AccountServices.index1();
+    const users = await AccountServices.index();
 
     await commit( "getUsers", users.data.data );
   },
@@ -214,7 +214,7 @@ const actions = {
       await AccountServices.active( payload );
       commit( "auth_request_success" );
 
-      const users = await AccountServices.index1();
+      const users = await AccountServices.index();
       await commit( "getUsersFilter", users.data.data );
     }
     catch ( e ) {

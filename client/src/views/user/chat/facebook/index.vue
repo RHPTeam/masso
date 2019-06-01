@@ -44,11 +44,11 @@ export default {
       return this.$store.getters.themeName;
     },
     getAccountsFB() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   },
 
   methods: {

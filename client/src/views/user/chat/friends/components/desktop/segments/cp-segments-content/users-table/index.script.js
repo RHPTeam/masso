@@ -52,8 +52,12 @@ export default {
     // if (this.$store.getters.allFriends.length === 0) {
     //   await this.$store.dispatch("getFriendsBySize", 20);
     // }
-    // await this.$store.dispatch("selectedUIDs", []);
     // await this.$store.dispatch( "getAllFriendFacebook" );
+    await this.$store.dispatch("selectedUIDs", []);
+    /**
+     *  get info friend with page = 1 and size default = 20
+     * @returns array
+     */
     await this.$store.dispatch("getFriendFacebookBySizeDefault", {
       size:  this.perPage,
       page: this.currentPage
@@ -142,16 +146,34 @@ export default {
       if(this.$store.getters.friendFacebook === undefined) return;
       return this.$store.getters.friendFacebook;
     },
+    /**
+     *  get info all friend
+     * @returns array
+     */
     listFriendDefault(){
       if(this.$store.getters.friendFacebookDefault === undefined) return;
       return this.$store.getters.friendFacebookDefault;
     },
+    /**
+     *  get info group friend by id
+     * @returns array
+     */
+    listFriendOfGroup(){
+      if(this.$store.getters.groupFriend === undefined) return;
+      return this.$store.getters.groupFriend;
+    },
+    /**
+     *  get page in results
+     * @returns array
+     */
     numberPageCurrent(){
       return this.$store.getters.numberPageFriendCurrent;
     },
-    usersOfGroup() {
-      return this.$store.getters.groupInfo._friends;
-    },
+    /**
+     *  set, get user when select user add to group friend
+     *  save array in store
+     * @returns array
+     */
     selectedUIDs: {
       get() {
         return this.$store.getters.selectedUIDs;
@@ -159,12 +181,14 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
-    },
-    sizePageFriends() {
-      return this.$store.getters.sizePageFriends;
     }
   },
   methods: {
+    /**
+     *  check currenPage  and dispatch event paginate when load all friend
+     *
+     * @returns array
+     */
     async loadMore(){
       if( this.showLoader === true ) {
         if(this.currentPage > this.numberPageCurrent) {
@@ -183,20 +207,13 @@ export default {
         }
       }
     },
-    showGender(gender) {
-      if (gender === "male_singular") {
-        return "Nam";
-      } else {
-        if (gender === "female_singular") {
-          return "Nữ";
-        } else {
-          return "Chưa xác định";
-        }
-      }
-    },
-    showPronounPopup(uid) {
+    showPronounPopup(val) {
       this.isShowPronounPopup = true;
-      this.userID = uid;
+      const dataSender = {
+        name: "Bạn bè",
+        _friends: val
+      }
+      this.$store.dispatch("setVocateDefault", dataSender);
     },
     sortUsersByProperty(data, index) {
       const attr = data.name;

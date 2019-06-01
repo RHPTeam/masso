@@ -26,7 +26,7 @@ module.exports = {
     const authorization = req.headers.authorization,
       userId = secure( res, authorization );
 
-    // Handle get all group from mongodb
+    // Handle get all item from mongodb
     if ( req.query._id ) {
       dataResponse = await HelpCategory.find( { "_id": req.query._id, "_account": userId } ).lean();
       dataResponse = dataResponse[ 0 ];
@@ -86,9 +86,9 @@ module.exports = {
 
     // Check catch when update post categories
     if ( !findHelpCategory ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Danh mục help không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục help không tồn tại!" } );
     } else if ( findHelpCategory._account.toString() !== userId ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Bạn không có quyền cho danh mục này!" } );
+      return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền cho danh mục này!" } );
     }
     if ( req.body.parent ) {
       const findParentHelpCategory = await HelpCategory.findOne( { "_id": req.body.parent } );
@@ -120,10 +120,10 @@ module.exports = {
     // Check ctach when delete help categories
 
     if ( !findHelpCategory ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Danh mục không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
     }
     if ( !findAccount ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Người dùng không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
 
     // When delete auto which all of help of that auto will deleted

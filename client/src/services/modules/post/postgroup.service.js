@@ -3,10 +3,10 @@ import Api from "@/services";
 
 export default {
   index() {
-    return Api().get( "post-group" );
+    return Api().get( "post-item" );
   },
   create( postGroup ) {
-    return Api().post( "post-group", postGroup );
+    return Api().post( "post-item", postGroup );
   },
   delete( id ) {
     return Api().delete( `post-group?_postGroupId=${id}` );

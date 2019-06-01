@@ -59,7 +59,7 @@ export default {
       return `${hour}:${minutes}, ${date}/${month}/${year}`;
     }
   },
-  props: ["item"],
+  props: ["index.vue"],
   data() {
     return {
       isModalUpdateCookie: false,
