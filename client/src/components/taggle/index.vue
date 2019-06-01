@@ -35,7 +35,7 @@
 .vue-input-tag-wrapper {
   border-radius: 10px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(16, 16, 16, 0.08);
   overflow: hidden;
   padding-left: 7px;
   padding-top: 5px;

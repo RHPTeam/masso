@@ -297,14 +297,15 @@
         cursor: text;
         outline: none;
         padding: 0 0.625rem;
+        box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
         &:focus{
-        box-shadow: 1px 3px 0 rgba(0, 0, 0, 0.07);
-        border: 1px solid rgba(0, 0, 0, 0.33);
+        // box-shadow: 1px 3px 0 rgba(0, 0, 0, 0.07);
+        border: 1px solid rgba(16, 16, 16, 0.08);
         }
     }
     .choose--group{
         border-radius: 7px;
-        border: 1px solid #484848;;
+        border: 1px solid rgba(16, 16, 16, 0.08);
     }
     .main--content {
         background-color: #f7f7f7;
