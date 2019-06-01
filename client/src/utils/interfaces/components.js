@@ -2,6 +2,7 @@ import Vue from "vue";
 
 // Icon Component
 Vue.component("IconAccount", () => import("@/components/icons/IconAccount"));
+Vue.component("IconApplication", () => import("@/components/icons/IconApplication"));
 Vue.component("IconArrowDown", () =>
   import("@/components/icons/IconArrowDown")
 );
@@ -45,6 +46,7 @@ Vue.component( "IconHourglass", () => import( "@/components/icons/IconHourglass"
 Vue.component( "IconImage", () => import( "@/components/icons/IconImage" ) );
 Vue.component( "IconInfo", () => import( "@/components/icons/IconInfo" ) );
 Vue.component( "IconInfinity", () => import( "@/components/icons/IconInfinity" ) );
+Vue.component( "IconInstagram", () => import( "@/components/icons/IconInstagram" ) );
 Vue.component( "IconInputSearch", () =>
   import( "@/components/icons/IconInputSearch" )
 );
@@ -86,6 +88,7 @@ Vue.component( "IconSetting", () => import( "@/components/icons/IconSetting" ) )
 Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadImage" ) );
 Vue.component( "IconMore", () => import( "@/components/icons/IconMore" ) );
+Vue.component( "IconZalo", () => import( "@/components/icons/IconZalo" ) );
 
 
 // Icon Logo

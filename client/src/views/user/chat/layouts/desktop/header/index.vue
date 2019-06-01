@@ -28,8 +28,7 @@
              @click="showMessengerDropdown"
              v-click-outside="closeMessengerDropdown"
         >
-          <div class="pr_1">Mở bằng messenger</div>
-          <div>
+          <div class="mt_1">
             <icon-base
               class="icon--messenger"
               width="25px"
@@ -38,10 +37,11 @@
             >
               <icon-messenger></icon-messenger>
             </icon-base>
-            <div class="messenger--total position_absolute">
+            <!-- <div class="messenger--total position_absolute">
               <div class="text text_center">0</div>
-            </div>
+            </div> -->
           </div>
+          <div class="pl_2 open--mess">Mở bằng messenger</div>
         </div>
         <!-- End: Btn Messenger -->
         <!-- Start: Messenger Dropdown -->
@@ -66,8 +66,8 @@
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="bell"
-            width="20px"
-            height="20px"
+            width="30px"
+            height="30px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>
@@ -91,65 +91,64 @@
       <!-- End: Notification Groups -->
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
-        <div @click="showOptionsMoreDropdown" class="more">
+        <div @click="showOptionsMoreDropdown" class="more mt_2">
           <icon-base
-            icon-name="bell"
-            width="20px"
-            height="20px"
+            icon-name="application"
+            width="30px"
+            height="30px"
             viewBox="0 0 512 512"
           >
-            <icon-bell></icon-bell>
+            <icon-application />
           </icon-base>
         </div>
-        <div class="position_absolute options p_3 pt_3" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
-          <div class="d_flex text_center">
-            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+        <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+          <div class="d_flex text_center r m_0 application">
+            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
               <icon-base
                 icon-name="bell"
-                width="20px"
-                height="20px"
+                width="50px"
+                height="50px"
                 viewBox="0 0 512 512"
               >
-                <icon-bell></icon-bell>
+                <icon-bell />
               </icon-base>
-              <div>Zin Post</div>
+              <div class="pt_1">Zin Post</div>
             </div>
-            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
               <icon-base
                 icon-name="bell"
-                width="20px"
-                height="20px"
+                width="50px"
+                height="50px"
                 viewBox="0 0 512 512"
               >
-                <icon-bell></icon-bell>
+                <icon-bell />
               </icon-base>
-              <div>Zin Chat</div>
+              <div class="pt_1">Zin Chat</div>
             </div>
-          </div>
-          <div class="d_flex text_center">
-            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
               <icon-base
                 icon-name="bell"
-                width="20px"
-                height="20px"
-                viewBox="0 0 512 512"
+                width="50px"
+                height="50px"
+                viewBox="0 0 550 550"
               >
-                <icon-bell></icon-bell>
+                <icon-instagram />
               </icon-base>
-              <div>Instagram</div>
+              <div class="pt_1">Instagram</div>
             </div>
-            <div class="zin--post item" @click="closeOptionsMoreDropdown">
+            <div class="zin--post item c_4" @click="closeOptionsMoreDropdown">
               <icon-base
                 icon-name="bell"
-                width="20px"
-                height="20px"
+                width="50px"
+                height="50px"
                 viewBox="0 0 512 512"
               >
-                <icon-bell></icon-bell>
+                <icon-zalo />
               </icon-base>
-              <div>Zalo</div>
+              <div class="pt_1">Zalo</div>
             </div>
           </div>
+          <div class="text_center view-more">Xem thêm</div>
         </div>
       </div>
       <!-- End: More Options -->

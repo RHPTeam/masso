@@ -34,14 +34,14 @@ export default {
       return this.$store.getters.userInfo;
     },
     allAccountFb() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
     // Get User Info
     await this.$store.dispatch( "getUserInfo" );
     // Get User FB Accounts
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
     async logOut() {

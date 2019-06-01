@@ -1,8 +1,10 @@
 <template>
   <div class="card" v-if="item">
     <div class="card_body">
-      <div class="card--header">
-<!--        <delete-popup :content="item" />  -->
+      <div class="card--header" @click="isDeleteItemAccount = true">
+        <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
+          <icon-remove />
+        </icon-base>
       </div>
       <div class="card--content">
         <div class="avatar">
@@ -40,14 +42,25 @@
         :subBread="descUpdatePopup"
       >
       </update-cookie>
+
+      <delete-item
+        v-if="isDeleteItemAccount === true"
+        title="Delete Account Facebook"
+        @closePopup="isDeleteItemAccount = $event"
+        storeActionName="deleteAccount"
+        :targetData="item"
+        typeName="account"
+      ></delete-item>
     </transition>
   </div>
 </template>
 <script>
 import UpdateCookie from "../popup/updatecookie";
+import DeleteItem from "../popup/delete";
 export default {
   components: {
-    UpdateCookie
+    UpdateCookie,
+    DeleteItem
   },
   filters: {
     covertDateUpdatedAt(d) {
@@ -65,6 +78,7 @@ export default {
   data() {
     return {
       isModalUpdateCookie: false,
+      isDeleteItemAccount: false,
       nameUpdatePopup: "Cập nhật mã kích hoạt",
       descUpdatePopup:
         "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."

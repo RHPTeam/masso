@@ -128,7 +128,7 @@
         </a>
       </router-link>
     </ul>
-    <div class="position_absolute flag--sidebar">
+    <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->
       <div class="flags position_relative ml_3">
         <div @click="showFlagDropdown">
@@ -141,7 +141,6 @@
             <icon-vietnam-flag/>
           </icon-base>
           <span class="px_1">Tiếng Việt</span>
-          <span class="setup">Thiết lập</span>
         </div>
         <transition name="dropdown">
           <div

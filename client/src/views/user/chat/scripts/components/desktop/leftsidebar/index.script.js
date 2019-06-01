@@ -9,137 +9,101 @@ export default {
   props: ["clickShowAfterDay", "closeAfterDay"],
   data() {
     return {
-      title: "AA",
       isAddTypeDropdown: false,
-      // isActionItemDropdown: false,
-      // currentIndexActionItemDropdown: null,
-      // currentIndexGroupItemButton: null,
-      // showItemAction: false,
-      // showActionSequence: false,
-      // showOptionSequence: false,
-      showCopyScripts: false,
-      showOptionsScripts: false,
+      isActionItemDropdown: false,
+      currentIndexActionItemDropdown: null,
+      currentIndexGroupItemButton: null,
+      showItemAction: false,
+      showActionSequence: false,
+      showOptionSequence: false,
       showCopySequenceScripts: false,
-      showAfterDay: false,
-      showOptionsDay: false,
       currentSequenceIndex: "",
       currentAfterDayIndex: ""
     };
   },
   computed: {
+    block() {
+      return this.$store.getters.block;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupBlock() {
+      return this.$store.getters.groups;
     },
     groupSequence() {
       return this.$store.getters.allSequenceScript;
     },
-    groupBlock(){
-      return this.$store.getters.allGroupBlock;
+    status() {
+      return this.$store.getters.statusBlocks;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
     }
   },
   async created() {
-    await this.$store.dispatch("getAllGroupBlockScripts");
+    await this.$store.dispatch("getGroupBlock");
     await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
-    closeShowCopyScripts(){
-      this.showCopyScripts = false;
-    },
-    closeShowOptionsScripts(){
-      this.showOptionsScripts = false;
+    openSequenceDropdown( id ){
+      this.showCopySequenceScripts = true;
+      this.currentSequenceIndex = id;
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
       this.currentSequenceIndex = "";
     },
-    closeShowAfterDay(){
-      this.showAfterDay = false;
-      this.currentAfterDayIndex = "";
-    },
-    closeShowOptionsDay(){
-      this.showOptionsDay = false;
-    },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    openSequenceDropdown( id ){
-      this.showCopySequenceScripts = true;
-      this.currentSequenceIndex = id;
+    showBlock(id) {
+      this.$store.dispatch("getInfoBlock", id);
     },
-    openShowAfterDay( ){
-      this.showAfterDay = true;
+    showItemSqc(SqcId) {
+      this.$store.dispatch("getInfoBlock", SqcId);
+    },
+    createBlock(groupId) {
+      this.$store.dispatch("createBlock", groupId);
+    },
+    createItemSqc(sequenceId) {
+      this.$store.dispatch("createBlockInSequence", sequenceId);
     },
     createSequence() {
       this.$store.dispatch("createSequenceScript");
     },
-    deleteASequence( id ){
-      this.showCopySequenceScripts = false;
-      this.$store.dispatch("deleteASequence", id);
+    createGroup() {
+      this.$store.dispatch("createGroupBlock");
     },
-    async upTypingText(type, group) {
-      await clearTimeout(typingTimer);
-      if (type === "groupfriend") {
-        typingTimer = await setTimeout(this.updateGroupFriend(group), 1000);
-      }
-      if (type === "groupblock") {
-        typingTimer = await setTimeout(this.updateGroupBlock(group), 1000);
+    showActionGroupItem(index) {
+      this.currentIndexGroupItemButton = index;
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "namegroupblock") {
+        typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
+      } else if (type === "namegroupsequence") {
+        typingTimer = setTimeout(this.updateNameSequence(group), 800);
       }
     },
     clear() {
       clearTimeout(typingTimer);
     },
-    // update
-    updateGroupFriend(group) {
+    //Update name group block
+    updateNameGroupBlock(value) {
       const objSender = {
-        _id: group._id,
-        name: group.name
+        gr_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateGroupBlock", objSender);
+    },
+    //Update nam sequence
+    updateNameSequence(value) {
+      const objSender = {
+        sq_id: value._id,
+        name: value.name
       };
       this.$store.dispatch("updateSequence", objSender);
-    },
-
-    // create new block in a sequence
-    createNewBlockInSequence( id ) {
-      this.$store.dispatch("createBlockInSequence", id);
-    },
-
-    // get all block in a sequence
-    getAllBlockInSequence( id ) {
-      this.$store.dispatch("getAllBlockInSequence", id);
-    },
-
-
-    // ************ Group Block
-    createGroupBlock(){
-      this.$store.dispatch("createGroupBlock");
-    },
-
-
-    // update a block group
-    updateGroupBlock(groupBlock){
-      const dataSender = {
-        _id: groupBlock._id,
-        name: groupBlock.name
-      };
-      this.$store.dispatch("updateGroupBlock", dataSender)
-    },
-    // create a block in group 
-    createBlockInAGroup( idGroup ){
-      this.$store.dispatch("createBlockInGroup", idGroup);
-    },
-
-    // // get all block in group block
-    getAllBlockInGroupById( idGroup ){
-      this.$store.dispatch("getAllBlockInAGroupById", idGroup);
-    },
-
-    // show infor a block in sequence
-    showInfoBlockSequence( val ){
-      this.$store.dispatch("getInfoBlock", val);
-    },
-
-    // show infor a block in group block
-    showInforBlockGroup( content ){
-      this.$store.dispatch("getInfoBlock", content);
     }
   },
   sockets: {

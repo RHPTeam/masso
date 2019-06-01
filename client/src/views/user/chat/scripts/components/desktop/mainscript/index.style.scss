@@ -191,6 +191,7 @@ $border_radius: rgb(72, 72, 72);
           height: 30px;
           width: 30px;
           margin-right: 10px;
+          border: 1px solid #666;
         }
   
         &-title {
@@ -288,12 +289,15 @@ $border_radius: rgb(72, 72, 72);
             }
             .tag--created-value {
               width: 100%;
+              .editable{
+                outline: none;
+              }
             }
             .created {
-              //width: 100%;
+              width: 100%;
             }
             &-item {
-              max-width: 100%;
+              width: 100%;
               padding: 0.25rem .5rem;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -305,9 +309,11 @@ $border_radius: rgb(72, 72, 72);
               &[placeholder]:focus:before {
                 color: #e4e4e4;
               }
-              &:focus, &:hover, &:active, &:visited {
-                box-shadow: none;
-                outline: 0;
+              .editable{
+                &:focus, &:hover, &:active, &:visited {
+                  box-shadow: none;
+                  outline: 0;
+                }
               }
             }
             input {

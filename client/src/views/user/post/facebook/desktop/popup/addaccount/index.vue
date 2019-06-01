@@ -57,7 +57,7 @@ export default {
     },
     async addCookie() {
       await this.$emit( "closeAddPopup", false );
-      await this.$store.dispatch( "createAccountFb", this.cookie );
+      await this.$store.dispatch( "addCookie", this.cookie );
     }
   }
 };

@@ -64,7 +64,7 @@
         }
     }
     .flag--sidebar{
-        bottom: 0;
+        bottom: 1.25rem;
         left: 1.75rem;
     }
     .flags{
@@ -107,6 +107,7 @@
         cursor: pointer;
         &.icon--flag {
           vertical-align: top;
+          margin-right: 18px;
         }
       }
     }
