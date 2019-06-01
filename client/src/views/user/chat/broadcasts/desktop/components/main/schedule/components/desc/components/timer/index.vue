@@ -1,14 +1,16 @@
 <template>
   <!--Section option hours-->
-  <div class="timer" :data-theme="currentTheme">
+  <div class="timer" :data-theme="currentTheme" v-if="scheduleBlockDetail.timeSetting !== undefined">
     <!-- Start: Option time -->
-    <div class="option--time py_3 d_flex align_items_center mt_2">
+    <div class="option--time py_3 d_flex align_items_center mt_2"
+    >
       <!-- Start: Day Setting-->
       <date-picker
         class="option--time-days position_relative"
         placeholder="Chọn ngày"
-        v-model=" scheduleBlockDetail.timeSetting.dateMonth"
+        v-model="scheduleBlockDetail.timeSetting.dateMonth"
         format="DD/MM/YYYY"
+        @change="updateScheduleBlockDate($event)"
       ></date-picker>
       <!-- End: Day Setting-->
       <!-- Start: Time Setting -->
@@ -16,6 +18,7 @@
         <time-picker
           class="option--time-item text_center"
           v-model="scheduleBlockHour"
+          @change="updateScheduleBlockHour($event)"
         />
       </div>
       <!-- End: Time Setting-->
@@ -28,7 +31,7 @@
             type="text"
             readonly
             class="form_control option--time-item"
-            :value="'Lặp lại: ' + repeatOptionSelected">
+            :value="'Lặp lại: ' + scheduleBlockDetail.timeSetting.repeat.typeRepeat">
         </div>
         <div class="icon position_absolute">
           <icon-base
@@ -41,9 +44,10 @@
         </div>
         <div class="option--repeat position_absolute text_left" v-show="showOptionRepeat">
           <div class="option--repeat-item"
+               :class="{ active: repeatDaysSelected.includes(index) }"
                v-for="( option, index ) in $t('chat.broadcast.main.scripts.timer.repeatOptions')"
                :key="index"
-               @click="closeShowOptionDays"
+               @click="updateRepeatType( option, index )"
           >
             Lặp lại: {{ option }}
           </div>
@@ -53,9 +57,17 @@
     </div>
     <!-- End: Option time -->
     <!-- Start: Repeat custom option-->
-    <div class="option--custom mb_3" v-if="showOptionDays === true">
+    <div class="option--custom mb_3" v-if="scheduleBlockDetail.timeSetting.repeat.typeRepeat === 'Tùy chỉnh'">
       <div class="option--custom-wrap d_inline_flex">
         <div class="item"
+             @click.prevent="chooseDaysRepeat(index)"
+             :class="[
+                scheduleBlockDetail.timeSetting.repeat.valueRepeat
+                  .split(',')
+                  .includes(index.toString())
+                  ? 'active'
+                  : ''
+              ]"
              v-for="( item, index ) in $t('chat.broadcast.main.scripts.timer.options')"
              :key="index"
         >
@@ -68,49 +80,24 @@
   <!--End Section option hours-->
 </template>
 <script>
-
+import StringFunction from "@/utils/functions/string";
 const currentTimeStamp = new Date();
 
 export default {
   data() {
     return {
-      time: {
-        HH: "10",
-        mm: "05"
-      },
-      showOptionRepeat: false,
-      showOptionDays: false,
-      showCustom: false,
-      repeatOptionSelected: "Không",
-      repeatOptions: [
-        { key: 0, value: "Không" },
-        { key: 1, value: "Hằng ngày" },
-        { key: 2, value: "Cuối tuần" },
-        { key: 3, value: "Hằng tháng" },
-        { key: 4, value: "Ngày làm việc" }
-      ],
-      repeatCustomOptions: [
-        { key: 0, value: "CN" },
-        { key: 1, value: "T2" },
-        { key: 2, value: "T3" },
-        { key: 3, value: "T4" },
-        { key: 4, value: "T5" },
-        { key: 5, value: "T6" },
-        { key: 6, value: "T7" }
-      ],
-      setupHours: "",
-      selectedOption: [],
-      nowTimeStamp: Date.now(),
       disabledDates: {
-        to: new Date(
-          currentTimeStamp.getFullYear(),
-          currentTimeStamp.getMonth(),
-          currentTimeStamp.getDate()
-        ) // Disable all dates up to specific date
-      }
+        to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
+      },
+      repeatDaysSelected: [ 1, 2, 3 ],
+      repeatType: "",
+      showOptionRepeat: false,
     };
   },
   computed: {
+    allBroadcasts() {
+      return this.$store.getters.allBroadcasts;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -132,110 +119,86 @@ export default {
     const scheduleBlockId = this.$route.params.scheduleBlockId;
 
     await this.$store.dispatch( "getScheduleBlockDetailById", scheduleBlockId );
+
+    // Set value for repeatType
+    const type = StringFunction.convertUnicode( this.scheduleBlockDetail.timeSetting.repeat.typeRepeat ).toLowerCase();
+    if ( type === 'khong') {
+      this.repeatType = 0;
+    } else if ( type === 'hang ngay') {
+      this.repeatType = 1;
+    } else if ( type === 'cuoi tuan' ) {
+      this.repeatType = 2;
+    } else if ( type === 'hang thang' ) {
+      this.repeatType = 3;
+    } else if ( type === 'ngay lam viec' ) {
+      this.repeatType = 4;
+    } else {
+      this.repeatType = 5;
+    }
   },
   methods: {
+    async chooseDaysRepeat( id ) {
+      if ( this.repeatDaysSelected.includes( id ) ) {
+        // remove item out ot array
+        this.repeatDaysSelected = this.repeatDaysSelected.filter( item => item !== id );
+      } else {
+        // add item in array
+        this.repeatDaysSelected.push( id );
+      }
+      this.scheduleBlockDetail.timeSetting.repeat.valueRepeat = this.repeatDaysSelected.toString();
+      this.updateTimeSettingScheduleBlock();
+    },
     closeShowOptionRepeat(){
       this.showOptionRepeat = false;
     },
-    showOptionDay(){
-      this.showOptionRepeat = false;
-      this.showOptionDays = true;
+    updateScheduleBlockDate( date ) {
+      const dateTime = new  Date( date ),
+            year = dateTime.getFullYear(),
+            month = dateTime.getMonth() + 1,
+            day = dateTime.getDate();
+
+      this.scheduleBlockDetail.timeSetting.dateMonth = `${year}-${month}-${day}`;
+      this.updateTimeSettingScheduleBlock();
     },
-    closeShowOptionDays(){
-      this.showOptionDays = false;
-      this.showOptionRepeat = false;
+    updateScheduleBlockHour( val ) {
+      this.scheduleBlockDetail.timeSetting.hour = `${val.HH}:${val.mm}`;
+      this.updateTimeSettingScheduleBlock();
     },
-    // async chooseDaysRepeat(id) {
-    //   if (this.selectedOption.includes(id)) {
-    //     // remove item out ot array
-    //     this.selectedOption = this.selectedOption.filter(item => item !== id);
-    //   } else {
-    //     // add item in array
-    //     this.selectedOption.push(id);
-    //   }
-    //   this.schedule.timeSetting.repeat.valueRepeat = this.selectedOption.toString();
-    //   const schedules = await this.getSchedules();
-    //   const objSender = {
-    //     bc_id: schedules._id,
-    //     b_id: this.$route.params.scheduleId,
-    //     type: 5,
-    //     value: this.schedule.timeSetting.repeat.valueRepeat
-    //   };
-    //   this.$store.dispatch("updateSchedule", objSender);
-    // },
-    // async chooseOption(item) {
-    //   let type;
-    //   this.schedule.timeSetting.repeat.typeRepeat = item.value;
-    //   if (item.key === 0) {
-    //     this.schedule.timeSetting.repeat.valueRepeat = "";
-    //     type = 0;
-    //   } else if (item.key === 1) {
-    //     this.schedule.timeSetting.repeat.valueRepeat = "0,1,2,3,4,5,6";
-    //     type = 1;
-    //   } else if (item.key === 2) {
-    //     this.schedule.timeSetting.repeat.valueRepeat = "0,6";
-    //     type = 2;
-    //   } else if (item.key === 3) {
-    //     this.schedule.timeSetting.repeat.valueRepeat = "";
-    //     type = 3;
-    //   } else if (item.key === 4) {
-    //     this.schedule.timeSetting.repeat.valueRepeat = "1,2,3,4,5";
-    //     type = 4;
-    //   }
-    //   let result = await BroadcastService.index();
-    //   result = result.data.data.filter(
-    //     item =>
-    //       StringFunction.convertUnicode(item.typeBroadCast)
-    //         .toLowerCase()
-    //         .trim() === "thiet lap bo hen"
-    //   );
-    //   const objSender = {
-    //     bc_id: result[0]._id,
-    //     b_id: this.$route.params.scheduleId,
-    //     type: type
-    //   };
-    //   this.$store.dispatch("updateSchedule", objSender);
-    //   this.$router.push({
-    //     name: "f_broadcast_schedule",
-    //     params: { scheduleId: this.$route.params.scheduleId }
-    //   });
-    // },
-    // closeOptionRepeat() {
-    //   this.showOptionRepeat = false;
-    // },
-    // async getSchedules() {
-    //   let result = await BroadcastService.index();
-    //   result = result.data.data.filter(
-    //     item =>
-    //       StringFunction.convertUnicode(item.typeBroadCast)
-    //         .toLowerCase()
-    //         .trim() === "thiet lap bo hen"
-    //   );
-    //   return result[0];
-    // },
-    // openCustom() {
-    //   this.showCustom = true;
-    //   this.schedule.timeSetting.repeat.typeRepeat = "Tùy chỉnh";
-    // },
-    // async updateTimeSchedule() {
-    //   const schedules = await this.getSchedules();
-    //   const objSender = {
-    //     bcId: schedules._id,
-    //     blockId: this.schedule._id,
-    //     value: this.schedule.timeSetting.hour
-    //   };
-    //   console.log(objSender);
-    //   this.$store.dispatch("updateTimeSchedule", objSender);
-    // },
-    // async updateDate() {
-    //   const schedules = await this.getSchedules();
-    //   const objSender = {
-    //     bcId: schedules._id,
-    //     blockId: this.schedule._id,
-    //     value: this.schedule.timeSetting.dateMonth
-    //   };
-    //   this.$store.dispatch("updateDateSchedule", objSender);
-    // }
+    updateRepeatType( option, type ) {
+      this.repeatDaysSelected = [];
+      this.scheduleBlockDetail.timeSetting.repeat.typeRepeat = option;
+      this.repeatType = type;
+      this.showOptionRepeat = false;
+      if ( type !== 5 ) {
+        this.updateTimeSettingScheduleBlock();
+      }
+    },
+    updateTimeSettingScheduleBlock() {
+      let dataSender;
+
+      if ( this.repeatType !== 5 ) {
+        dataSender = {
+          blockId: this.scheduleBlockDetail._id,
+          type: this.repeatType,
+          block: {
+            dateMonth: this.scheduleBlockDetail.timeSetting.dateMonth,
+            hour: this.scheduleBlockDetail.timeSetting.hour
+          }
+        };
+      } else {
+        dataSender = {
+          blockId: this.scheduleBlockDetail._id,
+          type: this.repeatType,
+          block: {
+            dateMonth: this.scheduleBlockDetail.timeSetting.dateMonth,
+            hour: this.scheduleBlockDetail.timeSetting.hour,
+            day: this.scheduleBlockDetail.timeSetting.repeat.valueRepeat
+          }
+        };
+      }
+
+      this.$store.dispatch( "updateTimeSettingScheduleBlockDetail", dataSender );
+    }
   }
 };
 </script>

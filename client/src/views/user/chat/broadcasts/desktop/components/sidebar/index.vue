@@ -45,6 +45,7 @@
       <div class="group--item-body r m_0">
         <!--Start: Block Item Loop-->
         <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup"
+             :class="{ active: scheduleBlockSelected === block._id }"
              v-for="( block, index ) in scheduleBlocks"
              :key="index"
              @click="goToScheduleBlock( block )">

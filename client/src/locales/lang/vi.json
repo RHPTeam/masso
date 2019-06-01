@@ -361,8 +361,8 @@
           },
           "timer": {
             "placeholderDay": "Chọn ngày",
-            "repeatOptions": [ "Không", "Hằng ngày", "Ngày làm việc", "Cuối tuần", "Hằng tháng", "Tùy chỉnh" ],
-            "options": [ "T2", "T3", "T4", "T5", "T6", "T7", "CN" ]
+            "repeatOptions": [ "Không", "Hằng ngày", "Cuối tuần", "Hằng tháng", "Ngày làm việc", "Tùy chỉnh" ],
+            "options": [ "CN", "T2", "T3", "T4", "T5", "T6", "T7" ]
           }
         }
       }

@@ -1,3 +1,4 @@
+import StringFunction from "@/utils/functions/string";
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 
 const state = {
@@ -27,6 +28,11 @@ const mutations = {
   },
 };
 const actions = {
+  /**
+   * Create a block of schedule broadcast
+   * @param commit
+   * @param payload is schedule broadcast id
+   */
   createScheduleBlock: async ( { commit }, payload ) => {
     commit("setBroadcastStatus", "loading");
     await BroadcastService.createScheduleBlock( payload );
@@ -39,12 +45,17 @@ const actions = {
 
     // Get all blocks of schedule broadcast
     const scheduleBroadcast = allBroadcasts.filter( ( item ) => {
-      return item.typeBroadCast === "Thiết lập bộ hẹn";
+      return StringFunction.convertUnicode( item.typeBroadCast ).toLowerCase() === "thiet lap bo hen";
     } );
     await commit( "setScheduleBlocks", scheduleBroadcast[0].blocks );
 
     commit("setBroadcastStatus", "success");
   },
+  /**
+   * Get all broadcasts and set data for schedule blocks
+   * @param commit
+   * @returns {Promise<void>}
+   */
   getAllBroadcasts: async ( { commit } ) => {
     commit( "setBroadcastStatus", "loading" );
     // Get all broadcasts
@@ -55,20 +66,16 @@ const actions = {
 
     // Get all blocks of schedule broadcast
     const scheduleBroadcast = allBroadcasts.filter( ( item ) => {
-      return item.typeBroadCast === "Thiết lập bộ hẹn";
+      return StringFunction.convertUnicode( item.typeBroadCast ).toLowerCase() === "thiet lap bo hen";
     } );
     await commit( "setScheduleBlocks", scheduleBroadcast[0].blocks );
 
     commit( "setBroadcastStatus", "success" );
   },
-  getScheduleBlockDetail: ( { commit }, payload ) => {
-    commit( "setScheduleBlockDetail", payload );
-  },
   /**
    * Get schedule block detail by id
    * @param commit
    * @param payload is block detail id
-   * @returns {Promise<void>}
    */
   getScheduleBlockDetailById: async ( { commit }, payload ) => {
     // Get all broadcast
@@ -77,7 +84,7 @@ const actions = {
 
     // Get schedule broadcast
     const scheduleBroadcast = allBroadcasts.filter( ( item ) => {
-      return item.typeBroadCast === "Thiết lập bộ hẹn";
+      return StringFunction.convertUnicode( item.typeBroadCast ).toLowerCase() === "thiet lap bo hen";
     } );
 
     // Find schedule block by id
@@ -86,6 +93,36 @@ const actions = {
     } );
 
     await commit( "setScheduleBlockDetail", scheduleBlock[0] );
+  },
+  /**
+   * Set data for schedule block detail
+   * @param commit
+   * @param payload is a schedule block
+   */
+  setScheduleBlockDetail: ( { commit }, payload ) => {
+    commit( "setScheduleBlockDetail", payload );
+  },
+  /**
+   * Update time setting of schedule block
+   */
+  updateTimeSettingScheduleBlockDetail: async ( { commit }, payload ) => {
+    // Update
+    await BroadcastService.updateTimeSettingScheduleBlock(
+      state.allBroadcasts[1]._id, payload.blockId, payload.type, payload.block
+    );
+
+    // Get all broadcasts
+    const res = await BroadcastService.index(),
+      allBroadcasts = res.data.data;
+
+    await commit( "setAllBroadcasts", allBroadcasts );
+
+    // Get all blocks of schedule broadcast
+    const scheduleBroadcast = allBroadcasts.filter( ( item ) => {
+      return StringFunction.convertUnicode( item.typeBroadCast ).toLowerCase() === "thiet lap bo hen";
+    } );
+
+    await commit( "setScheduleBlocks", scheduleBroadcast[0].blocks );
   }
 };
 export default {

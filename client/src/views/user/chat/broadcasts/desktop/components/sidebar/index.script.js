@@ -1,14 +1,14 @@
+import StringFunction from "@/utils/functions/string";
+
 export default {
   data() {
     return {
+      isActive: "",
+      isShowAlert: false,
       listScriptClose: [],
       showTooltip: false,
-      isActive: "",
-      isShowAlert: false
+      scheduleBlockSelected: "",
     };
-  },
-  async created() {
-    // await this.$store.dispatch("getSchedules");
   },
   computed: {
     currentTheme() {
@@ -24,62 +24,22 @@ export default {
       return this.$store.getters.scheduleBlocks;
     }
   },
+  async created() {
+    const scheduleBlockId = this.$route.params.scheduleBlockId;
+
+    if ( scheduleBlockId !== "" ) {
+      this.scheduleBlockSelected = scheduleBlockId;
+    }
+  },
   methods: {
     createScheduleBlock() {
       const id = this.allBroadcasts[1]._id;
 
       this.$store.dispatch("createScheduleBlock", id );
     },
-    // async showSchedule(schedule) {
-    //   const dateNow = Date.now();
-    //   const scheduleCron =
-    //     schedule.timeSetting.dateMonth + " " + schedule.timeSetting.hour;
-    //   const dateUpdated = new Date(scheduleCron.replace(/-/g, "/"));
-    //   if (Date.parse(dateUpdated) < dateNow) {
-    //     this.isActive = schedule._id;
-    //     this.$router.push({
-    //       name: "f_broadcast_schedule",
-    //       params: { scheduleId: schedule._id }
-    //     });
-    //     let result = await BroadcastService.index();
-    //     result = result.data.data.filter(
-    //       item =>
-    //         StringFunction.convertUnicode(item.typeBroadCast)
-    //           .toLowerCase()
-    //           .trim() === "thiet lap bo hen"
-    //     );
-    //     const objSender = {
-    //       broadId: result[0]._id,
-    //       blockId: schedule._id
-    //     };
-    //     this.$store.dispatch("getSchedule", objSender);
-    //     // this.isShowAlert = true;
-    //     // this.$store.dispatch("getStatusDoneSender");
-    //   } else {
-    //     this.isActive = schedule._id;
-    //     this.$router.push({
-    //       name: "f_broadcast_schedule",
-    //       params: { scheduleId: schedule._id }
-    //     });
-    //     let result = await BroadcastService.index();
-    //     result = result.data.data.filter(
-    //       item =>
-    //         StringFunction.convertUnicode(item.typeBroadCast)
-    //           .toLowerCase()
-    //           .trim() === "thiet lap bo hen"
-    //     );
-    //     const objSender = {
-    //       broadId: result[0]._id,
-    //       blockId: schedule._id
-    //     };
-    //     this.$store.dispatch("getSchedule", objSender);
-    //   }
-    // },
-    // closeAlert() {
-    //   this.isShowAlert = false;
-    // },
     goToScheduleBlock( block ){
-      this.$store.dispatch( "getScheduleBlockDetail", block );
+      this.scheduleBlockSelected = block._id;
+      this.$store.dispatch( "setScheduleBlockDetail", block );
 
       this.$router.push( {
         name: "chat_broadcast_schedule",
@@ -93,41 +53,43 @@ export default {
         date = dateCustom.getDate(),
         dateMonth = `Ngày ${dateCustom.getDate()} tháng ${dateCustom.getMonth() + 1}`;
 
+       const repeatType = StringFunction.convertUnicode( block.repeat.typeRepeat ).toLowerCase();
+
       // Set case for name
-      if ( block.repeat.typeRepeat === "Không") {
+      if ( repeatType === "khong") {
         return `${dateMonth} ${block.hour}`;
-      } else if ( block.repeat.typeRepeat === "Hằng ngày" ) {
+      } else if ( repeatType === "hang ngay" ) {
         return `Hằng ngày ${block.hour}`;
-      } else if ( block.repeat.typeRepeat === "Cuối tuần" ) {
+      } else if ( repeatType === "cuoi tuan" ) {
         return `Cuối tuần ${block.hour}`;
-      } else if ( block.repeat.typeRepeat.toLowerCase() === "Hằng tháng" ) {
+      } else if ( repeatType === "hang thang" ) {
         return `Mỗi ngày ${date} của tháng ${block.hour}`;
-      } else if ( block.repeat.typeRepeat.toLowerCase() === "Ngày làm việc" ) {
+      } else if ( repeatType === "ngay lam viec" ) {
         return `Ngày làm việc ${block.hour}`;
-      } else if ( block.repeat.typeRepeat.toLowerCase() === "Tùy chỉnh" ) {
+      } else if ( repeatType === "tuy chinh" ) {
         if (
-          block.repeat.blockRepeat
+          block.repeat.valueRepeat
             .split(",")
             .sort()
             .toString() === "0,6"
         ) {
           return `Cuối tuần ${block.hour}`;
         } else if (
-          block.repeat.blockRepeat
+          block.repeat.valueRepeat
             .split(",")
             .sort()
             .toString() === "1,2,3,4,5"
         ) {
           return `Ngày làm việc ${block.hour}`;
         } else if (
-          block.repeat.blockRepeat
+          block.repeat.valueRepeat
             .split(",")
             .sort()
             .toString() === "0,1,2,3,4,5,6"
         ) {
           return `Hằng ngày ${block.hour}`;
         } else {
-          let arrDate = block.repeat.blockRepeat.split(",");
+          let arrDate = block.repeat.valueRepeat.split(",");
           let arrOther = [];
           arrDate.sort().map(item => {
             switch (item) {
