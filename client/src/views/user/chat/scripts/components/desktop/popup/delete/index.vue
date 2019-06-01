@@ -106,7 +106,7 @@ export default {
           itemId: this.item._id
         };
         this.$store.dispatch("deleteItemBlock", dataSender);
-        this.$router.push({ name: "scripts" });
+        // this.$router.push({ name: "scripts" });
       }
       this.closePopup();
     }
