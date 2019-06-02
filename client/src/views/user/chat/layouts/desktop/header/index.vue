@@ -22,9 +22,9 @@
     <!-- Start: Header Right -->
     <div class="header--right d_flex align_items_center">
       <!-- Start: Messenger Link-->
-      <div class="messenger--group position_relative">
+      <div class="messenger--group position_relative" @click="goToMessenger">
         <!-- Start: Btn Messenger -->
-        <router-link :to="{ name: 'messenger' }" class="mess">
+        <!-- <router-link :to="{ name: 'messenger' }" class="mess"> -->
           <div class="btn--messenger position_relative mr_3 d_flex"
           >
             <div class="mt_1">
@@ -42,19 +42,11 @@
             </div>
             <div class="pl_2 open--mess">Mở bằng messenger</div>
           </div>
-        </router-link>
+        <!-- </router-link> -->
         <!-- End: Btn Messenger -->
-        <!-- Start: Messenger Dropdown -->
-        <!-- <div class="messenger--dropdown position_absolute">
-          <transition name="dropdown">
-            <header-messenger
-              v-if="isShowMessengerDropdown"
-              :messages="notifications"
-              @closeDropdown="isShowMessengerDropdown = $event"
-            ></header-messenger>
-          </transition>
-        </div> -->
-        <!-- End: Messenger Dropdown -->
+        <!-- Start: Messenger Popup Warn -->
+      
+        <!-- End: Messenger Popup Warn -->
       </div>
       <!-- Start: Messenger Link-->
       <!-- Start: Notification Groups -->
