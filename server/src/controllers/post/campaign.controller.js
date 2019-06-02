@@ -110,7 +110,7 @@ module.exports = {
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-            ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
+            ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
           }
 
         } ) );
@@ -146,10 +146,8 @@ module.exports = {
       const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        console.log( ScheduleService.scheduleJob[ eventSchedule._id ] );
-        console.log( "==========" );
         if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-          ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
+          ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
         }
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );

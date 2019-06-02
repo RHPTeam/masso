@@ -1,12 +1,10 @@
 import HeaderMessenger from "./messenger/index";
 import HeaderNotification from "./notification/index";
-import WarnMessager from "./popup"
 
 export default {
   components: {
     HeaderMessenger,
-    HeaderNotification,
-    WarnMessager
+    HeaderNotification
   },
   data() {
     return {
