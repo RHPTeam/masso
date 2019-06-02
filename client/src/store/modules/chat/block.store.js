@@ -32,9 +32,6 @@ const mutations = {
   block_success: state => {
     state.statusBlocks = "success";
   },
-  block_error: state => {
-    state.statusBlocks = "errors.js";
-  },
   /******************** GROUP BLOCKS *********************/
   setGroupBlock: (state, payload) => {
     state.groups = payload;
@@ -48,7 +45,6 @@ const mutations = {
   },
   setPreviewUpdate: (state, payload) => {
     state.dataPreviewUpdate = payload;
-    // state.dataPreviewUpdate = [...new Set(payload)];
   }
 };
 const actions = {
@@ -183,11 +179,6 @@ const actions = {
       payload.block
     );
   },
-  // updateSubscribleBlock: async ({commit}, payload) => {
-  //   commit("block_request");
-  //   await BlockServices.updateItemBlock(payload.block, payload.itemId, payload.valueText);
-  //   commit("block_success")
-  // },
   updateItemImageBlock: async ({ commit }, payload) => {
     const resultBlock = await BlockServices.updateItemBlock(
       payload.formData,

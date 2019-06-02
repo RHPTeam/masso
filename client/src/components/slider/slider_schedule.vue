@@ -19,13 +19,13 @@
             <span>{{ mintime }}s</span>
             <span>{{ maxtime }}s</span>
           </div>
-          <!-- <div
+           <div
             class="time--value-current position_absolute"
             :style="{ left: percentTime + '%' }"
             v-if="item.valueText > mintime && item.valueText < maxtime"
           >
             {{ item.valueText }}s
-          </div> -->
+          </div>
         </div>
       </div>
       <div class="script--body-delete" @click="isDeleteItemBlock = true">
@@ -65,11 +65,13 @@
   </div>
 </template>
 <script>
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
+
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
-  props: ["index.vue", "schedule"],
+  components: {
+    DeleteCampaignPopup
+  },
+  props: ["item", "schedule", "index"],
   data() {
     return {
       maxtime: 20,
@@ -83,40 +85,31 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  components: {
-    DeleteCampaignPopup
+  watch: {
+    "item.valueText"() {
+      this.percentTime =
+        (parseInt(this.item.valueText) * 100) /
+        (parseInt(this.maxtime) - parseInt(this.mintime));
+    }
   },
-  // watch: {
-  //   "item.valueText"() {
-  //     this.percentTime =
-  //       (parseInt(this.item.valueText) * 100) /
-  //       (parseInt(this.maxtime) - parseInt(this.mintime));
-  //   }
-  // },
   async created() {
     this.percentTime =
       ( 10 * 100) /
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
-  // methods: {
-  //   async changeTime(e, id) {
-  //     this.item.valueText = e.target.value;
-  //     let result = await BroadcastService.index();
-  //     result = result.data.data.filter(
-  //       item =>
-  //         StringFunction.convertUnicode(item.typeBroadCast)
-  //           .toLowerCase()
-  //           .trim() === "thiet lap bo hen"
-  //     );
-  //     const objSender = {
-  //       bcId: result[0]._id,
-  //       blockId: this.$store.getters.schedule._id,
-  //       contentId: id,
-  //       value: e.target.value
-  //     };
-  //     this.$store.dispatch("updateItemSchedule", objSender);
-  //   }
-  // }
+  methods: {
+    async changeTime(e, id) {
+      this.item.valueText = e.target.value;
+
+      const objSender = {
+        bcId: this.index,
+        blockId: this.schedule._id,
+        contentId: id,
+        value: e.target.value
+      };
+      this.$store.dispatch("updateItemSchedule", objSender);
+    }
+  }
 };
 </script>
 <style lang="scss" scoped>

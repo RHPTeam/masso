@@ -45,8 +45,8 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getAllSequenceScript");
+    // await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
     showScriptDefault(){
@@ -77,6 +77,7 @@ export default {
       this.$store.dispatch("getInfoBlock", SqcId);
     },
     createBlock(groupId) {
+      console.log(groupId);
       this.$store.dispatch("createBlock", groupId);
     },
     createItemSqc(sequenceId) {

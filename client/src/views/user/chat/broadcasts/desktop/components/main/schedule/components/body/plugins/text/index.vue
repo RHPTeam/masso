@@ -6,9 +6,11 @@
           <contenteditable
             class="editable"
             tag="div"
+            v-model="item.valueText"
             :placeholder="$t('chat.common.card.text')"
             :contenteditable="true"
-            v-model="title"
+            @keyup="upTypingText('itembroadcasts', item)"
+            @keydown="clear"
           />
         </div>
       </div>
@@ -59,11 +61,13 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 let typingTimer;
 
 export default {
-  props: ["index.vue", "schedule"],
+  components: {
+    DeleteCampaignPopup
+  },
+  props: ["item", "schedule", "index"],
   data() {
     return {
       isDeleteItemBlock: false,
-      title: "AAAAAAAA"
       // showSuggestAttribute: false,
       // listAttribute: null,
       // resultFilterAttr: null,
@@ -74,33 +78,32 @@ export default {
       // ]
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
-    // upTypingText(type, item) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "itembroadcasts") {
-    //     typingTimer = setTimeout(this.updateSchedule(item), 800);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // // Update item schedule
-    // async updateSchedule(item) {
-    //   let result = await BroadcastService.index();
-    //   result = result.data.data.filter(
-    //     item =>
-    //       StringFunction.convertUnicode(item.typeBroadCast)
-    //         .toLowerCase()
-    //         .trim() === "thiet lap bo hen"
-    //   );
-    //   const objSender = {
-    //     bcId: result[0]._id,
-    //     blockId: this.$store.getters.schedule._id,
-    //     contentId: item._id,
-    //     value: item.valueText
-    //   };
-    //   this.$store.dispatch("updateItemSchedule", objSender);
-    // }
+    upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "itembroadcasts") {
+        typingTimer = setTimeout(this.updateSchedule(item), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    // Update item schedule
+    async updateSchedule(item) {
+      const objSender = {
+        bcId: this.index,
+        blockId: this.schedule._id,
+        contentId: item._id,
+        value: item.valueText
+      };
+      console.log(objSender);
+      this.$store.dispatch("updateItemSchedule", objSender);
+    }
     // closeSuggestAttributeInItem() {
     //   this.showSuggestAttribute = false;
     // },
@@ -125,15 +128,6 @@ export default {
     //   console.log(dataSender);
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
-  },
-  computed: {    
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  components: {
-    // VuePerfectScrollbar,
-    DeleteCampaignPopup
   }
 };
 </script>
