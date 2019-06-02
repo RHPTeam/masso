@@ -25,18 +25,19 @@ export default {
     // }
   },
   async created() {
-    // let result = await BroadcastService.index();
-    // result = result.data.data.filter(
-    //   item =>
-    //     StringFunction.convertUnicode(item.typeBroadCast)
-    //       .toLowerCase()
-    //       .trim() === "thiet lap bo hen"
-    // );
-    // const objSender = {
-    //   broadId: result[0]._id,
-    //   blockId: this.$route.params.scheduleId
-    // };
-    // this.$store.dispatch("getSchedule", objSender);
+    let result = await BroadcastService.index();
+    result = result.data.data.filter(
+      item =>
+        StringFunction.convertUnicode(item.typeBroadCast)
+          .toLowerCase()
+          .trim() === "thiet lap bo hen"
+    );
+    const objSender = {
+      broadId: result[0]._id,
+      blockId: this.$route.params.scheduleBlockId
+    };
+    this.$store.dispatch("setIdScheduleDefault", result[0]._id);
+    this.$store.dispatch("getSchedule", objSender);
   },
   components: {
     AppHeader,

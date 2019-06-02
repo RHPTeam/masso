@@ -24,18 +24,18 @@ import AppLeftSidebarScript from "./components/desktop/leftsidebar";
 import AppMainScript from "./components/desktop/mainscript";
 
 export default {
+  components: {
+    AppLeftSidebarScript,
+    AppMainScript,
+    AppBreadCrumb
+  },
   data() {
     return {};
   },
   computed: {},
   async created() {
-    // await this.$store.dispatch("getGroupBlock");
-    // await this.$store.dispatch("getSequence");
-  },
-  components: {
-    AppLeftSidebarScript,
-    AppMainScript,
-    AppBreadCrumb
+    await this.$store.dispatch("getGroupBlock");
+    await this.$store.dispatch("getAllSequenceScript");
   }
 };
 </script>

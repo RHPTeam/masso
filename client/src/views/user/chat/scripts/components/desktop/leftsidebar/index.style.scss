@@ -7,7 +7,7 @@
     border-radius: .625rem;
     cursor: pointer;
     text-align: center;
-    padding: .25rem .5rem;
+    padding: .5rem;
   }
   .change {
     background-color: #ffb94a !important;
@@ -80,7 +80,7 @@
         }
     }
     .content{
-        border-bottom: 1px dotted #fff;
+        //border-bottom: 1px dotted #fff;
         .group--items{
             font-size: 14px;
             padding: 0 4px;
@@ -325,7 +325,7 @@
     width: 100%;
     .type-script {
         &--item {
-            border-bottom: 1px dotted #e4e4e4;
+            //border-bottom: 1px dotted #e4e4e4;
             &.type-script--close {
                 .script--item-add {
                     display: none;
@@ -426,7 +426,7 @@
     }
     .group--sequence {
         font-size: 14px;
-        border-bottom: 1px dotted #e4e4e4;
+        //border-bottom: 1px dotted #e4e4e4;
         .script--item {
             width: 100%;
             .remove {
