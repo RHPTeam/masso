@@ -104,9 +104,15 @@ export default {
       this.isShowOptionsMoreDropdown = false;
     },
     gotoHomeChat(){
-      const routeData = this.$router.resolve( "/chat" );
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "facebook" } );
 
-      window.open(routeData.href, '_blank');
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( { name: "scripts" } );
+
+        window.open(routeData.href, '_blank');
+      }
       this.isShowOptionsMoreDropdown = false;
     }
   },

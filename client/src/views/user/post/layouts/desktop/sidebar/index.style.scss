@@ -39,17 +39,26 @@
             }
         }
     }
-    &.collapseMenu {
-        width: 152px;
-        .sidebar--logo-text {
-            display: none;
-        }
-        .menu--item {
-            .menu--item-text {
-                display: none;
-            }
-        }
-    }
+    .sidebar--logo-icon {
+        display: none;
+      }
+      &.collapseMenu {
+          width: 152px;
+          .sidebar--logo {
+              margin-left: -15px;
+          }
+          .sidebar--logo-text {
+              display: none;
+          }
+          .sidebar--logo-icon {
+            display: block;
+          }
+          .menu--item {
+              .menu--item-text {
+                  display: none;
+              }
+          }
+      }
     .flag--sidebar{
         bottom: 1.25rem;
         left: 1.75rem;
