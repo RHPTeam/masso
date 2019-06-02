@@ -99,7 +99,6 @@ export default {
     },
     async deleteTargets() {
       if(this.typeName.toString().toLowerCase() === 'unsubscrible') {
-        console.log("delete")
       } else if (this.typeName.toString().toLowerCase() === "itemblock") {
         const dataSender = {
           blockId: this.block._id,

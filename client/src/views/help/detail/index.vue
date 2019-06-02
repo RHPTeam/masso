@@ -22,10 +22,9 @@
 </template>
 
 <script>
-export default {  
+export default {
   computed: {
     allBlogHelp(){
-      console.log(this.$store.getters.getAllBlog);
       return this.$store.getters.getAllBlog;
     }
   },

@@ -56,7 +56,6 @@ export default {
   },
   methods: {
     update( value ) {
-      console.log(value);
       const tags = value.map(item => {
         return {
           uid: item.uid,

@@ -12,6 +12,7 @@ const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
 
@@ -184,8 +185,8 @@ module.exports = {
      * Update cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-        ScheduleClasses.get( eventSchedule._id ).cancel();
+      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+        ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
@@ -216,8 +217,8 @@ module.exports = {
      * Delete cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-        ScheduleClasses.get( eventSchedule._id ).cancel();
+      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+        ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );

@@ -117,7 +117,6 @@ const actions = {
     await commit("block_request");
     await BlockServices.deleteItemBlock(payload.blockId, payload.itemId);
     const resultDataUpdate = await BlockServices.show(payload.blockId);
-    // console.log(resultDataUpdate.data.data);
     commit("setBlock", resultDataUpdate.data.data);
     const resultDelItem = await BlockServices.index();
     await commit("setBlock", resultDelItem.data.data);

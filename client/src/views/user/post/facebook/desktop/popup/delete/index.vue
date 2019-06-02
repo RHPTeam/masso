@@ -92,7 +92,6 @@ export default {
       this.$emit( "closePopup", false );
     },
     async deleteTargets() {
-      console.log(this.targetData._id)
       await this.$store.dispatch("deleteAccountFacebook", this.targetData._id);
       // remove localStorage
       localStorage.removeItem("rid");

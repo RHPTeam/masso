@@ -142,7 +142,6 @@ module.exports = {
     // add new block from sequence
     const foundBlock = await Block.find( { "_account": req.uid } );
 
-    console.log( foundBlock );
     // num block only exist in block
     let nameArr = foundBlock.map( ( block ) => {
       if ( block.name.toLowerCase().includes( Dictionaries.BLOCK.toLowerCase() ) === true ) {

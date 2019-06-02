@@ -176,7 +176,6 @@ module.exports = {
     let num = 1;
 
     foundBlock.map( ( val ) => {
-      console.log( val );
       if ( val._groupBlock ) {
         num++;
         return num;

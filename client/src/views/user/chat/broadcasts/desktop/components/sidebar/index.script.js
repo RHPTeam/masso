@@ -34,7 +34,6 @@ export default {
   methods: {
     createScheduleBlock() {
       const id = this.allBroadcasts[1]._id;
-      console.log(id);
       this.$store.dispatch("createScheduleBlock", id );
     },
     goToScheduleBlock( block ){

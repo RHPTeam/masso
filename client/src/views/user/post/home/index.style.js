@@ -65,10 +65,6 @@ export default {
         arrCampaign.push( amount.amount );
       });
       let maxCampaign = Math.max.apply(null, arrCampaign);
-      // if(maxCampaign === 0){
-      //   maxCampaign += 5;
-      // }
-      // console.log(maxCampaign);
 
       // Light theme Custom
       if ( this. currentTheme === "light" ) {

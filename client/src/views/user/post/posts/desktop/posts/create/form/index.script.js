@@ -55,7 +55,6 @@ export default {
       return this.$store.getters.post;
     },
     placesPopular(){
-      console.log(this.$store.getters.places);
       return this.$store.getters.places;
     },
     //Get Categories

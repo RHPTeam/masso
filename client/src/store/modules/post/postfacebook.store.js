@@ -26,7 +26,6 @@ const actions = {
       payload.size,
       payload.page
     );
-    console.log( res );
     commit( "setListPostFacebookDefault", res.data.data.results );
   },
   searchPostsFacebookByKey: async ( { commit }, payload ) => {

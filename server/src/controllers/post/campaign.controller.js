@@ -11,6 +11,7 @@ const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
 
@@ -104,18 +105,14 @@ module.exports = {
     if ( req.query._type && ( req.query._type ).trim() === "status" ) {
       findCampaign.status = !findCampaign.status;
 
-      console.log( findCampaign );
-
       await Promise.all( findCampaign._events.map( async ( event ) => {
-        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id, "status": true } ).lean();
+        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
-          console.log( ScheduleClasses.objectKeyExists( eventSchedule._id ) );
-          if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-            console.log( ScheduleClasses.get( eventSchedule._id ) );
-            await ScheduleClasses.get( eventSchedule._id ).cancel();
+          if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+            ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
           }
-          console.log( "-------------------" )
+
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
         event.status = findCampaign.status;
@@ -146,11 +143,13 @@ module.exports = {
 
     // delete all event in campain
     findCampaign._events.map( async ( event ) => {
-      const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+      const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-          ScheduleClasses.get( eventSchedule._id ).cancel();
+        console.log( ScheduleService.scheduleJob[ eventSchedule._id ] );
+        console.log( "==========" );
+        if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+          ScheduleService.scheduleJob[ eventSchedule._id ].cancel();
         }
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );
