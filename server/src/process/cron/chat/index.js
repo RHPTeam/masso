@@ -91,6 +91,7 @@ let chatAuto = async function( account ) {
   // Get info user facebook by api chat facebook
   const getInfoFB = ( id ) => {
       return new Promise( ( resolve ) => {
+        // eslint-disable-next-line handle-callback-err
         api.getUserInfo( id, ( err, ret ) => {
           resolve( ret[ id ] );
         } );
@@ -199,6 +200,7 @@ let chatAuto = async function( account ) {
         const vocaList = await Vocate.find( { "_account": account._account } );
 
         if ( dataEmit.includes( account._id ) ) {
+          // eslint-disable-next-line handle-callback-err
           api.getFriendsList( ( err, data ) => {
             if ( !data ) {
               data = data

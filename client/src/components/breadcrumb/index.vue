@@ -26,7 +26,7 @@ export default {
     margin-bottom: 5px;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media only screen and (min-width: 768px) and (max-width: 1200px) {
   .main--header {
     display: flex !important;
     flex-direction: column !important;

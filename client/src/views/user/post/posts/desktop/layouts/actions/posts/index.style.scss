@@ -35,6 +35,9 @@
       }
     }
   }
+  .action--right{
+    justify-content: flex-end;
+  }
 }
 
 //CHANGE COLOR THEME
@@ -66,6 +69,18 @@
           color: #666666;
         }
       }
+    }
+  }
+}
+
+
+// ****************** RESPONSIVE ***************
+
+@media only screen and (min-width: 768px) and (max-width: 870px) {
+  .post--action{
+    flex-direction: column;
+    .action--left {
+      margin-bottom: 1rem;;
     }
   }
 }

@@ -80,6 +80,7 @@
           <transition name="dropdown">
             <header-notification
               v-if="isShowNotificationDropdown"
+              v-click-outside="closeNotificationDropdown"
               :notifications="notifications"
               @closeDropdown="isShowNotificationDropdown = $event"
             ></header-notification>
@@ -168,7 +169,7 @@
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
-        @click="showProfileDropdown"
+        @click="showProfileDropdown" v-click-outside="closeProfileDropdown"
       >
         <div class="profile--image">
           <div
