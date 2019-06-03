@@ -34,19 +34,6 @@ io = require( "socket.io" )( server );
 
 server.listen( process.env.PORT_SOCKET_CHAT );
 
-
-/*
- const fs = require('fs')
-
- const https = require('https')
- const options = {
-    pfx: fs.readFileSync(CONFIG.pfx),
-    passphrase: CONFIG.passphrase
- };
- const server = https.createServer(options,app)
- const io = require("socket.io")(server);
- */
-
 /** ***********************************************************************/
 const convertCookieToObject = require( "../../../helpers/utils/facebook/cookie" );
 const cookieFacebook = require( "../../../configs/cookieFacebook" );
