@@ -11,13 +11,12 @@
     height: 100%;
     width: 100%;
     .modal--content {
-      background-color: #fff;
       border-radius: .625rem;
       padding: 1.25rem;
-      width: 440px;
+      width: 660px;
       .modal--header {
         .title {
-          font-size: 1.25rem;
+          font-size: 1rem;
           font-weight: 600;
           text-align: center;
         }
@@ -48,7 +47,6 @@
       .modal--footer {
         font-size: .875rem;
         margin-top: 1.5rem;
-
         .btn--submit {
           background-color: #ffb94a;
           border: 1px solid #ffb94a;
@@ -72,10 +70,14 @@
           font-weight: 600;
           outline: none;
           padding: 0.5rem 0.75rem;
+          transition: background-color .4s ease;
           &:hover {
             background-color: #f7f7f7;
           }
         }
+      }
+      .modal--scroll {
+        max-height: calc(100vh - 24px - 11rem);
       }
     }
   }
@@ -108,7 +110,7 @@
     .modal--footer {
       .btn--skip {
         &:hover {
-          background-color: #f7f7f7;
+          background-color: #F7F7F7;
         }
       }
     }

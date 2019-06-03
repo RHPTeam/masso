@@ -56,12 +56,11 @@
         .card--content {
           margin-top: 1rem;
           text-align: center;
-          margin-bottom: 3rem !important;
           .avatar {
             width: 70px;
             height: 70px;
             position: relative;
-            margin: 0px auto;
+            margin: 0 auto;
             .picture {
               width: 70px;
               height: 70px;
@@ -113,7 +112,6 @@
             font-size: 15px;
             padding: 8px 15px;
           }
-          margin-bottom:70px;
         }
         .card--footer {
           opacity: 0;

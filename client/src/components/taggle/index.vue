@@ -31,14 +31,13 @@
 
 <script src="./main.js"></script>
 
-<style>
+<style lang="scss">
 .vue-input-tag-wrapper {
   border-radius: 10px;
   background-color: #fff;
   border: 1px solid rgba(16, 16, 16, 0.08);
   overflow: hidden;
-  padding-left: 7px;
-  padding-top: 5px;
+  padding: 4px .375rem 0 .375rem;
   cursor: text;
   text-align: left;
   -webkit-appearance: textfield;
@@ -46,21 +45,21 @@
   flex-wrap: wrap;
 }
 .vue-input-tag-wrapper .input-tag {
-  background-color: #ffba3c;
-  border-radius: 2px;
-  border: 1px solid #ffba3c;
-  color: #fff;
+  background-color: #f2f2f2;
+  border-radius: .375rem;
+  color: #444;
   display: inline-block;
-  font-size: 14px;
+  font-size: .875rem;
   font-weight: 400;
+  height: 32px;
+  line-height: 32px;
   margin-bottom: 4px;
   margin-right: 4px;
-  padding: 3px;
+  padding: 0 .5rem;
 }
 .vue-input-tag-wrapper .input-tag .remove {
   cursor: pointer;
-  font-weight: bold;
-  color: #666;
+  color: #999;
 }
 .vue-input-tag-wrapper .input-tag .remove:hover {
   text-decoration: none;
@@ -78,8 +77,10 @@
   margin-top: 1px;
   outline: none;
   padding: 4px;
-  padding-left: 0;
   flex-grow: 1;
+  &::placeholder {
+    color: #ccc;
+  }
 }
 .vue-input-tag-wrapper.read-only {
   cursor: default;

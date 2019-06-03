@@ -55,18 +55,28 @@
     <!-- End: Image Column -->
     <!-- Start: Action Column -->
     <div class="col col--action px_4 text_center">
-      <span class="mx_1" @click="updatePost">
+      <span class="mr_1" @click="updatePost">
         <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
       </span>
-      <span class="mx_1" @click="showDeletePopup()">
+      <span class="mr_1" @click="showDeletePopup()">
         <icon-base
           icon-name="remove"
           width="20"
           height="20"
           viewBox="0 0 15 15"
         >
+          <icon-remove />
+        </icon-base>
+      </span>
+      <span @click="showPostNowPopup">
+         <icon-base
+           icon-name="remove"
+           width="20"
+           height="20"
+           viewBox="0 0 15 15"
+         >
           <icon-remove />
         </icon-base>
       </span>
@@ -92,6 +102,9 @@ export default {
     },
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
+    },
+    showPostNowPopup() {
+      this.$emit( "showPostNowPopup", this.item );
     }
   }
 }

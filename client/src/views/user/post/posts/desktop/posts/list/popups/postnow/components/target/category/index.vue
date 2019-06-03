@@ -7,51 +7,43 @@
           <multiselect
             label="title"
             placeholder="Chọn nhóm muốn đăng"
-            :value="postTargetCategory"
+            :value="selectedPostGroup"
             :clearable="false"
-            :options="facebookGroups"
-            @input="selectFacebookGroup"
+            :options="postGroups"
+            @input="selectPostGroup"
           />
         </div>
         <div class="desc mt_1 px_2">Bao gồm
-          <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
-          <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
+          <span>{{ selectedPostGroup !== {} && selectedPostGroup._pages !== undefined ? selectedPostGroup._pages.length : 0  }} trang</span> và
+          <span>{{ selectedPostGroup !== {} && selectedPostGroup._groups !== undefined ? selectedPostGroup._groups.length : 0  }} nhóm</span> được chọn.
         </div>
       </div>
       <div class="mt_3">
-        <new-feed />
+        <timeline></timeline>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import NewFeed from "../newfeed";
+import Timeline from "../timline";
 export default {
   components: {
-    NewFeed
+    Timeline
   },
   data() {
     return {
-      postTargetCategory: [],
-
+      selectedPostGroup: {}
     }
   },
   computed: {
-    event() {
-      return this.$store.getters.event;
-    },
-    facebookGroups(){
-      return this.$store.getters.facebookGroups;
+    postGroups(){
+      return this.$store.getters.postGroups;
     }
   },
   methods: {
-    selectFacebookGroup( value ) {
-      this.selectedGroups = value;
-      this.$store.dispatch( "setEvent", {
-        key: "target_category",
-        value: value
-      } );
+    selectPostGroup( value ) {
+      this.selectedPostGroup = value;
     }
   },
 }
