@@ -19,15 +19,14 @@
         }
       }
       .btn--messenger {
-        cursor: pointer;
         background: #fff;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 0.875rem;
-        border-radius: 10px;
-        box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
-        // border: 1px solid rgba(16, 16, 16, 0.08);
-        transition: 0.3s;
+        border-radius: .5rem;
+        cursor: pointer;
+        font-size: .85rem;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 0.75rem;
+        transition: all .4s ease;
         &:hover{
           background: #ffb94a;
           color: #fff;
@@ -72,7 +71,7 @@
           font-size: 10px;
           min-width: 16px;
           right: -5px;
-          top: -4px;
+          top: -5px;
           .text {
             padding: 0 1.5px;
           }
@@ -92,43 +91,56 @@
       }
     }
     .more--options{
+      .icon--application {
+        color: #a1a1a1;
+        transition: all .4s ease;
+        &.active {
+          color: #444;
+        }
+        &:hover {
+          color: #444;
+        }
+      }
       .more{
         cursor: pointer;
       }
       .options{
-        z-index: 10;
-        width: 333px;
         background: #fff;
-        box-shadow: 0 2px 10px rgba(0,0,0,.2);
-        color: #000000;
-        border: 1px solid #ccc;
-        border-color: rgba(0,0,0,.2);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, .1);
+        border-radius: .625rem;
+        color: #444;
         font-size: 0.8125rem;
-        right: -143px;
-        top: 46px;
-        // min-height: 300px;
+        right: 0;
+        margin-top: 8px;
+        width: 333px;
+        transform-origin: top;
+        transition: all .4s ease-in-out;
+        z-index: 10;
         .application{
-          padding: 2.5rem 2.5rem 0;
+          padding: 1rem 1rem 0;
         }
         .view-more{
-          cursor: pointer;  
+          cursor: pointer;
           background: rgb(245, 245, 245);
-          color: #000;
+          color: #444;
           height: 40px;
           line-height: 40px;
-          box-shadow: 0 2px 10px rgba(0,0,0,.2);
+          transition: all .4s ease;
+          &:hover {
+            text-decoration: underline;
+          }
         }
         &:before{
           background-color: #fff;
-          // border-radius: 6px 0 0;
+          border-radius: 6px 0 0;
           content: "";
-          height: 12px;
+          height: 15px;
           position: absolute;
-          right: 162px;
+          right: 15px;
           top: -6px;
           -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
-          width: 12px;
+          width: 15px;
           z-index: 3;
         }
         .item{
@@ -140,6 +152,8 @@
           &:hover{
             border: 1px solid #e5e5e5;
             cursor: pointer;
+            // background: #ffb94a;
+            // color: #fff;
           }
           &.instagram, &.zalo{
             &:hover{
@@ -314,6 +328,7 @@
   opacity: 0;
 }
 
+
 /* ChangeColor */
 
 // Light
@@ -467,3 +482,16 @@
   }
 }
 
+
+// ********************** RESPONSIVE ********************8
+
+
+@media only screen and (min-width: 768px) and (max-width: 980px) {
+  .messenger--group{
+    .btn--messenger{
+      .open--mess{
+        display: none;
+      }
+    }
+  }
+}
