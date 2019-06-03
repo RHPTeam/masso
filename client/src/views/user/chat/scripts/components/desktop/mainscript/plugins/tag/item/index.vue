@@ -143,7 +143,6 @@ export default {
       // Suggest name atribute when create
       this.resultSuggestName = this.resultFilterName.filter(item => {
         item.name.toLowerCase().includes(this.attribute[0].name.toLowerCase());
-        // console.log(this.attribute[0].name);
       });
     },
     // show value attribute suggest when click on contenteditable
@@ -186,7 +185,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import "../../index.style";
+  @import "../../../index.style";
   .tag--created-item {
     .editable {
       overflow: hidden;

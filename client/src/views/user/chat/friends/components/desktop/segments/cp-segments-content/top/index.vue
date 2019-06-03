@@ -35,12 +35,12 @@
       <div class="action mr_2 d_none">{{ $t("chat.friends.table.top.right.delete") }}</div>
       <!--End: Delete Member in Group Component-->
       <!--Start: Export Data Component-->
-      <div class="action export disabled position_relative mr_2">
+      <!-- <div class="action export disabled position_relative mr_2">
         {{ $t("chat.friends.table.top.right.exportData") }}
         <div class="action--tooltip">
           <app-tooltip/>
         </div>
-      </div>
+      </div> -->
       <!--End: Export Data Component-->
       <!--Start: Filter Friend By Account Component-->
       <div class="action sequence--menu mr_2">
@@ -61,6 +61,26 @@
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->
+      <!-- Start: Options choose attr or group -->
+      <div class="action sequence--menu mr_2">
+        <div class="btn--sequence" @click="showAttribute">
+          Attribute
+          <icon-base
+            class="ml_1"
+            icon-name="icon-arrow-down"
+            width="14"
+            height="14"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down/>
+          </icon-base>
+        </div>
+        <div class="dropdown text_left" v-if="isShowOptionsAttribute === true" v-click-outside="closeShowAttribute">
+          <div class="dropdown--item px_3" @click="closeShowAttribute">Attribute</div>
+          <div class="dropdown--item px_3" @click="closeShowAttribute">Group</div>
+        </div>
+      </div>
+      <!-- End: Options choose attr or group -->
       <!--Start: Number Displayed of Member Component-->
       <!--      <div class="action sequence&#45;&#45;menu">-->
       <!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->

@@ -1,55 +1,99 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
   <div class="sidebar-scripts group py_3" :data-theme="currentTheme" >
-    <!-- Start Group Scripts -->
-    <div class="group--scripts mb_3 mt_2" v-for="(groupBlock, index) in groupBlock" :key="`c-${index}`">
-      <div class="title d_inline_flex">
-        <div>
-          <icon-base
-            class="icon--sort-down"
-            icon-name="IconSortDown"
-            width="17"
-            height="10"
-            viewBox="0 0 10 10"
+    <div class="header d_flex align_items_center mb_4">
+      <div
+        class="left normal d_flex align_items_center justify_content_center"
+        @click="isAddTypeDropdown = !isAddTypeDropdown"
+        v-click-outside="closeAddTypeDropdown"
+      >
+        <div
+          class="group--item add "
+        >
+          <div class="group--item-name d_flex align_items_center">
+            <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
+              <icon-plus/>
+            </icon-base>
+            <span class="ml_1">Tạo mới</span>
+          </div>
+          <div
+            class="dropdown--menu dropdown--menu-left flipInY animated type"
+            :class="{ show: isAddTypeDropdown }"
           >
-            <icon-sort-down/>
-          </icon-base>
-        </div>
-        <contenteditable
-          class="name--scripts"
-          tag="div"
-          :contenteditable="true"
-          :placeholder="$t('chat.scripts.sidebar.name.placeholder')"
-          v-model="groupBlock.name"
-          @keyup="upTypingText('groupblock', groupBlock)"
-          @keydown="clear"
-        />
-        <option-group :groupId="groupBlock._id" />
-      </div>
-      <div class="content my_3">
-        <div class="name group-scripts r m_0">
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3" v-for="(blockGroup, index) in groupBlock.blocks" :key="`e-${index}`">
-            <div class="content--item position_relative">
-              <div class="text_center name" @click="showInforBlockGroup(blockGroup._id)">
-                {{ blockGroup.name }}
-              </div>
-              <div class="position_absolute icon--more-group-block">
-                <option-group-block />
-              </div>
+        <span class="with--arrow">
+          <span class="bg_light"></span>
+        </span>
+            <div class="dropdown--menu-content">
+              <div
+                class="dropdown--menu-item"
+                @click="createSequence"
+              >{{ $t("chat.scripts.sidebar.add.sequence") }}</div>
+              <div
+                class="dropdown--menu-item"
+                @click="createGroup"
+              >{{ $t("chat.scripts.sidebar.add.group") }}</div>
             </div>
           </div>
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3" @click="createBlockInAGroup(groupBlock._id)">
-            <div class="content--item position_relative">
-              <div class="text_center">
-                <icon-base
-                  class="icon--add"
-                  icon-name="plus"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 60 60"
-                >
-                  <icon-plus/>
-                </icon-base>
+        </div>
+      </div>
+      <div class="center normal" @click="showScriptDefault" :class="isActive === true ? 'change' : 'off'">
+        Kịch bản
+      </div>
+      <div class="right normal" @click="showScriptSequence" :class="{change: isOption}">
+        Trình tự
+      </div>
+    </div>
+    <!-- Start Group Scripts -->
+    <div v-if="isShowScriptDefault === true">
+      <div class="group--scripts mb_2 mt_2" v-for="(group, index) in groupBlock" :key="`c-${index}`">
+        <div class="title d_inline_flex">
+          <div>
+            <icon-base
+              class="icon--sort-down"
+              icon-name="IconSortDown"
+              width="17"
+              height="10"
+              viewBox="0 0 10 10"
+            >
+              <icon-sort-down/>
+            </icon-base>
+          </div>
+          <contenteditable
+            class="name--scripts"
+            tag="div"
+            :contenteditable="true"
+            :placeholder="$t('chat.scripts.sidebar.name.placeholder')"
+            v-model="group.name"
+            @keyup="upTypingText('namegroupblock', group)"
+            @keydown="clear"
+          />
+          <option-group :groupId="group._id" />
+        </div>
+        <div class="content my_2">
+          <div class="name group-scripts r m_0">
+            <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" v-for="(block, index) in group.blocks" :key="`e-${index}`">
+              <div class="content--item position_relative" @click="showBlock(block._id)">
+                <div class="text_center name">
+                  {{ block.name }}
+                </div>
+                <div class="position_absolute icon--more-group-block">
+                  <option-group-block />
+                </div>
+              </div>
+            </div>
+            <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" @click="createBlock(group._id)">
+              <div class="content--item position_relative">
+                <div class="text_center">
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60"
+                  >
+                    <icon-plus/>
+                  </icon-base>
+                </div>
               </div>
             </div>
           </div>
@@ -59,99 +103,102 @@
     <!-- End Group Scripts -->
 
     <!-- Start sequence scripts  -->
-    <div class="sequences--scripts" v-for="(sequence,index) in groupSequence" :key="index">
-      <div class="title d_inline_flex mb_2">
-        <div>
-          <icon-base
-            class="icon--sort-down"
-            icon-name="IconSortDown"
-            width="17"
-            height="10"
-            viewBox="0 0 10 10"
-          >
-            <icon-sort-down/>
-          </icon-base>
-        </div>
-        <contenteditable
-          class="name--sequence"
-          tag="div"
-          :contenteditable="true"
-          :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')"
-          v-model="sequence.name"
-          @keyup="upTypingText('groupfriend', sequence)"
-          @keydown="clear"
-        />
-        <div @click="openSequenceDropdown(sequence._id)">
-          <icon-base
-            class="icon--more"
-            icon-name="IconMore"
-            width="23"
-            height="23"
-            viewBox="0 0 750 750"
-          >
-            <icon-more/>
-          </icon-base>
-        </div>
-        <div
-          class="click--icon dropdown--menu-content"
-          v-if="showCopySequenceScripts === true && currentSequenceIndex === sequence._id"
-          v-click-outside="closeCopySequenceScripts"
-        >
-          <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">{{ $t("chat.scripts.sidebar.sequence.copy.title") }}</div>
-            <div>{{ $t("chat.scripts.sidebar.sequence.copy.desc") }}</div>
+    <div v-if="isShowScriptDefault === false">
+      <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
+      <div class="sequences--scripts" v-for="(sequence,index) in groupSequence" :key="index">
+        <div class="title d_inline_flex mb_2">
+          <div>
+            <icon-base
+              class="icon--sort-down"
+              icon-name="IconSortDown"
+              width="17"
+              height="10"
+              viewBox="0 0 10 10"
+            >
+              <icon-sort-down/>
+            </icon-base>
+          </div>
+          <contenteditable
+            class="name--sequence"
+            tag="div"
+            :contenteditable="true"
+            :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')"
+            v-model="sequence.name"
+            @keyup="upTypingText('namegroupsequence', sequence)"
+            @keydown="clear"
+          />
+          <div @click="openSequenceDropdown(sequence._id)">
+            <icon-base
+              class="icon--more"
+              icon-name="IconMore"
+              width="23"
+              height="23"
+              viewBox="0 0 750 750"
+            >
+              <icon-more/>
+            </icon-base>
           </div>
           <div
-            class="dropdown--menu-item mb_2 pl_3"
-            @click="deleteASequence(sequence._id)"
-          >{{ $t("chat.scripts.sidebar.sequence.copy.delete") }}</div>
-        </div>
-      </div>
-      <div class="content">
-        <div
-          class="r m_0 group--items"
-          v-for="(blockInSequence, index) in groupSequence[index].sequences"
-          :key="`b-${index}`"
-        >
-          <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item position_relative">              
-              <after-day
-                :sequenceId="sequence._id"
-                :item="blockInSequence"
-              >
-              </after-day>
+            class="click--icon dropdown--menu-content"
+            v-if="showCopySequenceScripts === true && currentSequenceIndex === sequence._id"
+            v-click-outside="closeCopySequenceScripts"
+          >
+            <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
+              <div class="copy">{{ $t("chat.scripts.sidebar.sequence.copy.title") }}</div>
+              <div>{{ $t("chat.scripts.sidebar.sequence.copy.desc") }}</div>
             </div>
-          </div>
-          <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
-            <div class="content--item" @click="showInfoBlockSequence(blockInSequence._block._id)">
-              <div class="text_center name-script">{{ blockInSequence._block.name }}</div>
-            </div>
-            <div class="option">
-              <options-sequence
-                class="options--sequence"
-                :sequenceId="sequence._id"
-                :item="blockInSequence"
-              >
-              </options-sequence>
-            </div>
+            <div
+              class="dropdown--menu-item mb_2 pl_3"
+              @click="deleteASequence(sequence._id)"
+            >{{ $t("chat.scripts.sidebar.sequence.copy.delete") }}</div>
           </div>
         </div>
-        <div
-          class="r m_0 group--items mb_3 position_relative"
-          @click="createNewBlockInSequence(sequence._id)"
-        >
-          <div class="c_lg_12 c_xl_12 c_md_12 p_0">
-            <div class="content--item">
-              <div class="text_center name-script">
-                <icon-base
-                  class="icon--add"
-                  icon-name="plus"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 60 60"
+        <div class="content">
+          <div
+            class="r m_0 group--items"
+            v-for="(item, index) in sequence.sequences"
+            :key="`b-${index}`"
+          >
+            <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_2">
+              <div class="content--item position_relative">
+                <after-day
+                  :sequenceId="sequence._id"
+                  :item="item"
                 >
-                  <icon-plus/>
-                </icon-base>
+                </after-day>
+              </div>
+            </div>
+            <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_2 position_relative" @click="showItemSqc(item._block._id)">
+              <div class="content--item">
+                <div class="text_center name-script">{{ item._block.name }}</div>
+              </div>
+              <div class="option">
+                <options-sequence
+                  class="options--sequence"
+                  :sequenceId="sequence._id"
+                  :item="item"
+                >
+                </options-sequence>
+              </div>
+            </div>
+          </div>
+          <div
+            class="r m_0 group--items mb_2 position_relative"
+            @click="createItemSqc(sequence._id)"
+          >
+            <div class="c_lg_12 c_xl_12 c_md_12 p_0">
+              <div class="content--item">
+                <div class="text_center name-script">
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60"
+                  >
+                    <icon-plus/>
+                  </icon-base>
+                </div>
               </div>
             </div>
           </div>
@@ -159,39 +206,6 @@
       </div>
     </div>
     <!-- End sequence scripts  -->
-
-    <!-- Start: Create Sequence or Group -->
-    <div
-      class="group--item add"
-      @click="isAddTypeDropdown = !isAddTypeDropdown"
-      v-click-outside="closeAddTypeDropdown"
-    >
-      <div class="group--item-name d_flex align_items_center">
-        <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
-          <icon-plus/>
-        </icon-base>
-        <span class="ml_3">{{ $t("chat.scripts.sidebar.add.title") }}</span>
-      </div>
-      <div
-        class="dropdown--menu dropdown--menu-left flipInY animated type"
-        :class="{ show: isAddTypeDropdown }"
-      >
-        <span class="with--arrow">
-          <span class="bg_light"></span>
-        </span>
-        <div class="dropdown--menu-content">
-          <div
-            class="dropdown--menu-item"
-            @click="createSequence"
-          >{{ $t("chat.scripts.sidebar.add.sequence") }}</div>
-          <div
-          class="dropdown--menu-item"
-          @click="createGroupBlock"
-          >{{ $t("chat.scripts.sidebar.add.group") }}</div>
-        </div>
-      </div>
-    </div>
-    <!--End: Create Sequence or Group-->
   </div>
 </template>
 <script src="./index.script.js"></script>
@@ -200,7 +214,7 @@
 
 .group--item {
   cursor: pointer;
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
 
   &:first-child {
     margin-top: 0;
@@ -343,15 +357,15 @@
 }
 
 .group--item.add {
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
   position: relative;
 
   .group--item-name {
-    > span {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
+    /*> span {*/
+    /*  font-size: 13px;*/
+    /*  font-weight: 700;*/
+    /*  text-transform: uppercase;*/
+    /*}*/
   }
 }
 

@@ -30,6 +30,10 @@ export default new Router( {
     error500Router,
     guideGeneralRouter,
     {
+      path: "/",
+      redirect: "/welcome"
+    },
+    {
       path: "/signin",
       redirect: "/welcome"
     },

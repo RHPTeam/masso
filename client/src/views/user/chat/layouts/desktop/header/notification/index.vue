@@ -58,7 +58,6 @@
       <!-- Start: Notification Footer -->
       <div class="notification--footer text_center">
         <div class="btn--see-all"
-             @click="seeAllNotifications()"
         >{{ $t("chat.layout.notification.viewAll") }}</div>
       </div>
       <!-- End: Notification Footer -->

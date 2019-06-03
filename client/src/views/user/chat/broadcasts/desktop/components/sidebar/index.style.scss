@@ -1,6 +1,5 @@
 /************* CUSTOM CSS COMPONENT ****************/
 
-
 /**
 * NOTE: U have to code scss with 3 level which mean is 3 indent
  */
@@ -12,12 +11,13 @@
     &:last-child {
       margin-bottom: 0;
     }
-    &-header {}
+    &-header {
+    }
     &-body {
     }
   }
   .title {
-    >span {
+    > span {
       cursor: default;
       font-size: 13px;
       font-weight: 600;
@@ -27,11 +27,11 @@
   }
   .above {
     background-color: #ffb94a;
-    border-radius: .5rem;
+    border-radius: 0.5rem;
     color: #fff;
     bottom: 0;
     left: 0;
-    padding: .5rem;
+    padding: 0.5rem;
     width: 100%;
     z-index: 999;
     &--txt {
@@ -40,13 +40,14 @@
     }
   }
   .box {
-    border-radius: .625rem;
+    border-radius: 0.625rem;
     height: 40px;
     overflow: hidden;
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
     text-align: center;
     text-overflow: ellipsis;
-    transition: box-shadow 80ms ease, border-color 80ms ease, background-color 80ms ease;
+    transition: box-shadow 80ms ease, border-color 80ms ease,
+      background-color 80ms ease;
     white-space: nowrap;
     &.add {
       line-height: 40px;
@@ -54,15 +55,15 @@
         color: #ccc;
       }
     }
-    >span {
+    > span {
       font-size: 12px;
     }
-    >svg {
+    > svg {
       color: #ccc;
     }
     &:hover {
       cursor: pointer;
-      >svg {
+      > svg {
         color: #ffffff;
       }
     }
@@ -80,7 +81,10 @@
     .add {
       background-color: #707070;
       cursor: not-allowed;
-      &:hover, &:focus, &:active, &:visited {
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
         color: #707070 !important;
       }
     }
@@ -88,11 +92,17 @@
       background-color: #ffb94a;
       bottom: 109%;
       border-radius: 1rem;
-      color: #F7F7F7;
+      color: #f7f7f7;
       font-size: 13px;
       left: 0;
       transition: all 1s ease;
       width: 100%;
+      display: none;
+    }
+    &:hover {
+      .tooltip--now {
+        display: block;
+      }
     }
   }
 }
@@ -102,16 +112,16 @@
     .content--setup {
       background-color: #ffb94a !important;
       color: #ffffff !important;
-      transition: all .5s ease !important;
+      transition: all 0.5s ease !important;
     }
   }
-  .content--setup{
+  .content--setup {
     cursor: pointer;
     background: #fff;
-    border-radius: .625rem;
-    font-size: .825rem;
+    border-radius: 0.625rem;
+    font-size: 0.825rem;
     height: 40px;
-    padding: 0 .5rem;
+    padding: 0 0.5rem;
     width: 95%;
     .icon--add {
       color: #ccc;
@@ -121,7 +131,6 @@
 
 /************* CUSTOM CSS THEME ****************/
 
-
 /******** 01. Theme Light *********/
 
 div[data-theme="light"] {
@@ -129,7 +138,7 @@ div[data-theme="light"] {
   .group {
     .box {
       background-color: #fff;
-      >svg {
+      > svg {
         color: #27292c;
       }
     }
@@ -139,10 +148,10 @@ div[data-theme="light"] {
       background-color: #ffffff;
     }
   }
-  .content--setup{
+  .content--setup {
     transition: 0.3s;
-    &:hover{
-      box-shadow: 0 0 6px rgba(0, 0, 0, .15);
+    &:hover {
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
       .icon--add {
         color: #666;
       }
@@ -151,8 +160,8 @@ div[data-theme="light"] {
 }
 
 // LIGHT
-.group[data-theme="light"]{
-  .group--item{
+.group[data-theme="light"] {
+  .group--item {
     color: #666;
   }
 }
@@ -166,9 +175,9 @@ div[data-theme="dark"] {
       background-color: #27292c;
     }
   }
-  .content--setup{
+  .content--setup {
     transition: 0.3s;
-    &:hover{
+    &:hover {
       background: #ffb94a;
       color: #fff;
       border-color: #ffb94a;
@@ -177,23 +186,16 @@ div[data-theme="dark"] {
 }
 
 // DARK
-.group[data-theme="dark"]{
-  .content--setup{
+.group[data-theme="dark"] {
+  .content--setup {
     background: #27292c;
   }
 }
 
-
-
-
-
-
-
-
 // *********** RESPONSIVE
 
-@media only screen and (max-width: 1200px) and (min-width: 768px){
-  .setup{
-    width: 100%!important;
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+  .setup {
+    width: 100% !important;
   }
 }

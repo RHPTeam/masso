@@ -9,13 +9,13 @@ Vue.use( Vuex );
 import DashBoard from "./modules/layout";
 import AccountStore from "./modules/account.store";
 import FacebookFriend from "./modules/friendfacebook.store";
+import AccountFacebook from "./modules/accountfacebook.store";
 
 /**
  * Store for Page Chat
  */
 import AttributeStore from "./modules/chat/attribute.store";
 import BlockStore from "./modules/chat/block.store";
-import FacebookCookie from "./modules/chat/facebookCookie.store";
 import GroupFriend from "./modules/chat/groupfriend.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
 import Syntax from "./modules/chat/syntax.store";
@@ -24,7 +24,6 @@ import VocateStore from "./modules/chat/vocate.store";
 /**
  * Store for Page Post
  */
-import AccountFacebookStore from "./modules/post/accoutfacebook.store";
 import AnalysisStore from "./modules/post/analytic.store";
 import BroadcastStore from "./modules/chat/broadcast.store";
 import CampaignsStore from "./modules/post/campaign.store";
@@ -49,12 +48,12 @@ export default new Vuex.Store( {
     AccountStore,
     DashBoard,
     FacebookFriend,
+    AccountFacebook,
     /**
      * Store for Page Chat
      */
     AttributeStore,
     BlockStore,
-    FacebookCookie,
     GroupFriend,
     SequenceFaceBook,
     Syntax,
@@ -62,7 +61,6 @@ export default new Vuex.Store( {
     /**
      * Store for Page Post
      */
-    AccountFacebookStore,
     AnalysisStore,
     BroadcastStore,
     CampaignsStore,

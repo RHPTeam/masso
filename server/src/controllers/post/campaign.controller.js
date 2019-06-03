@@ -11,6 +11,7 @@ const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
 
@@ -105,14 +106,16 @@ module.exports = {
       findCampaign.status = !findCampaign.status;
 
       await Promise.all( findCampaign._events.map( async ( event ) => {
-        const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
-        await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-          if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-            ScheduleClasses.get( eventSchedule._id ).cancel();
+        await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
+          if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+            ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
           }
+
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
+        event.status = findCampaign.status;
         await EventScheduleController.create( event, findCampaign._id, req.uid );
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
@@ -140,11 +143,11 @@ module.exports = {
 
     // delete all event in campain
     findCampaign._events.map( async ( event ) => {
-      const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+      const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        if ( ScheduleClasses.objectKeyExists( eventSchedule._id ) ) {
-          ScheduleClasses.get( eventSchedule._id ).cancel();
+        if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+          ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
         }
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );

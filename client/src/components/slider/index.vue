@@ -57,16 +57,18 @@
       <delete-campaign-popup
           v-if="isDeleteItemBlock === true"
           :data-theme="currentTheme"
+          :block="block"
+          :item="item"
           title="Delete Time"
           @closePopup="isDeleteItemBlock = $event"
           storeActionName="deleteTime"
-          typeName="TIME"
+          typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
   </div>
 </template>
 <script>
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "@/views/user/chat/scripts/components/desktop/popup/delete";
 export default {
   components: {
     DeleteCampaignPopup

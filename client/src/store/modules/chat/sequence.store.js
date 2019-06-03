@@ -19,7 +19,7 @@ const getters = {
   newSequenceScript: state => state.newSequenceScript,
   inforABlockInSequence: state => state.inforABlockInSequence
 };
-const mutations = {  
+const mutations = {
   /******************** SEQUENCE *********************/
   setAllSequenceScript: (state, payload) => {
     state.allSequenceScript = payload;
@@ -38,7 +38,7 @@ const mutations = {
   setAllBlockInSequence: (state, payload) => {
     state.allBlockInASequence = payload;
   },
-  // set create sequence 
+  // set create sequence
   setCreateSequenceScript: (state, payload) => {
     state.newSequenceScript = payload;
   },
@@ -68,7 +68,7 @@ const actions = {
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
 
-  // delete a sequence 
+  // delete a sequence
   deleteASequence: async ( { commit }, payload ) => {
     await SequenceService.deleteASequence( payload );
     const rsGetAllSequence = await SequenceService.getAllSequence();
@@ -89,10 +89,9 @@ const actions = {
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
 
-  // get all block in a sequence 
+  // get all block in a sequence
   getAllBlockInSequenceById: async ( { commit }, payload ) => {
     const rsAllBlockInSequence = await SequenceService.getAllBlockSequenceById( payload );
-    console.log(rsAllBlockInSequence.data.data);
     commit("setAllBlockInSequenceById", rsAllBlockInSequence.data.data);
   },
 
@@ -111,7 +110,7 @@ const actions = {
       payload.blockId,
       payload.descTime
     );
-    
+
     const rsGetAllSequence = await SequenceService.getAllSequence();
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },

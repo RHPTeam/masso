@@ -43,11 +43,7 @@ export default {
 
       const campaign = this.$store.getters.campaignDetail;
 
-      console.log(campaign);
-
-
-      this.$router.push( { name: "post_campaigns_detail",
-                           params: { campaignId: campaign._id } } );
+      this.$router.push( { name: "post_campaigns_detail", params: { campaignId: campaign._id } } );
 
       this.$emit( "closePopup", false );
     }
