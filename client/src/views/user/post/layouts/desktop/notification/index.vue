@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     accountFacebookList() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   methods: {

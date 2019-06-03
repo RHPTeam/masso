@@ -233,7 +233,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -248,6 +248,7 @@ export default {
         value: []
       } );
 
+      this.$store.dispatch( "setEventReset" );
     },
     async updateEvent() {
       this.error = false;
@@ -294,7 +295,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -308,6 +309,8 @@ export default {
         key: "target_custom",
         value: []
       } );
+
+      this.$store.dispatch( "setEventReset" );
     }
   }
 }

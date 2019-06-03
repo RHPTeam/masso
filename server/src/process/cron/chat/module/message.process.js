@@ -189,8 +189,6 @@ const sendMessageTextTypeInBlock = async ( data, val, api, account ) => {
             "_receiver": userInfoFriend._id,
             "_sender": account._id
           };
-          // console.log(2)
-          // console.log(messageCurrentObject)
           const messageCurrent = new Message( messageCurrentObject );
 
           await messageCurrent.save();
@@ -270,8 +268,6 @@ const sendMessageImageTypeInBlock = async ( message, val, api, account ) => {
             "_receiver": userInfoFriend._id,
             "_sender": account._id
           };
-          // console.log(2)
-          // console.log(messageCurrentObject)
           const messageCurrent = new Message( messageCurrentObject );
 
           await messageCurrent.save();

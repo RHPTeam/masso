@@ -419,6 +419,9 @@ div[data-theme="dark"] .filter {
   .filter--attribute-name {
     border-left: 1px solid #707070;
     border-right: 1px solid #707070;
+    input{
+      color: #ccc;
+    }
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -437,4 +440,15 @@ div[data-theme="dark"] .filter {
     border-color: #27292d;
   }
 }
+
+// ************ RESPONSIVE
+@media only screen and (max-width: 1350px) and (min-width: 768px){
+    .filter .filter--body-option{
+      flex-wrap: wrap;
+      .filter--attribute, .list--filter{
+        width: 100%;
+      }
+    }
+}
+
 </style>

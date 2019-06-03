@@ -4,6 +4,9 @@ export default {
   getAllFriend(){
     return Api().get( "facebook/friends" );
   },
+  getFriendsByChat(){
+    return Api().post( "friend");
+  },
   getAllFriendFB( id ) {
     return Api().get( `friend?_fbId=${id}` );
   },
@@ -11,6 +14,6 @@ export default {
     return Api().get( `friend?_id=${id}` );
   },
   getFriendBySize ( size, page ){
-    return Api().get( `friend?_size=${size}&_page=${page}` );
+    return Api().post( `friend?_size=${size}&_page=${page}` );
   }
 }

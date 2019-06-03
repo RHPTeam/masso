@@ -7,7 +7,7 @@
         />
       </div>
 
-      <div class="attribute--action mr_3">
+      <!-- <div class="attribute--action mr_3">
         <div class="btn--add-attribute">
           <icon-base
             class="icon--add mr_1"
@@ -19,7 +19,7 @@
             <icon-plus />
           </icon-base>
         </div>
-      </div>
+      </div> -->
 
       <div class="attribute--remove">
         <icon-base

@@ -175,7 +175,7 @@
     },
 
     "scripts": {
-      "title": "Kịch bản",
+      "title": "Thiết lập kịch bản",
       "desc": "Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn",
 
       "sidebar": {
@@ -240,7 +240,7 @@
     },
 
     "keywords": {
-      "title": "Trả lời tự động",
+      "title": "Thiết lập từ khóa",
       "desc": "Trang giúp bạn thiết lập nhanh AI tự động trả lời",
       "sidebar": {
         "search": "Nhập tên nhóm, từ khóa, hoặc tên kịch bản"
@@ -269,7 +269,7 @@
     },
 
     "friends": {
-      "title": "Bạn bè",
+      "title": "Khách hàng tiềm năng",
       "titleContent": "Bạn bè Facebook",
       "desc": "Trang giúp bạn thiết lập nhanh các nhóm bạn bè",
 
@@ -328,7 +328,7 @@
     },
 
     "broadcast": {
-      "title": "Chiến dịch",
+      "title": "Thiết lập chiến dịch",
       "desc": "Trang giúp bạn thiết lập các chiến dịch cá nhân hóa khách hàng",
 
       "sidebar": {
@@ -361,8 +361,8 @@
           },
           "timer": {
             "placeholderDay": "Chọn ngày",
-            "repeatOptions": [ "Không", "Hằng ngày", "Ngày làm việc", "Cuối tuần", "Hằng tháng", "Tùy chỉnh" ],
-            "options": [ "T2", "T3", "T4", "T5", "T6", "T7", "CN" ]
+            "repeatOptions": [ "Không", "Hằng ngày", "Cuối tuần", "Hằng tháng", "Ngày làm việc", "Tùy chỉnh" ],
+            "options": [ "CN", "T2", "T3", "T4", "T5", "T6", "T7" ]
           }
         }
       }

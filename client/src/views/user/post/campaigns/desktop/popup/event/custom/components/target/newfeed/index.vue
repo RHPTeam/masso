@@ -41,14 +41,14 @@
 export default {
   computed: {
     allAccountFB() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     },
     event() {
       return this.$store.getters.event;
     }
   },
   async created() {
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   }
 }
 </script>

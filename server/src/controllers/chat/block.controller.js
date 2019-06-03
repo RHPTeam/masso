@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 
 /**
  * Controller block for project
@@ -70,6 +71,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.find( { "_account": req.uid } );
 
     // num block only exist in block
@@ -83,6 +85,7 @@ module.exports = {
       }
       return true;
     } ).map( ( item ) => parseInt( item.slice( Dictionaries.BLOCK.length ) ) );
+    // eslint-disable-next-line one-var
     const indexCurrent = Math.max( ...nameArr ),
 
       foundDefaultGr = await GroupBlock.findOne( { "name": "Mặc Định", "_account": req.uid } ),
@@ -94,7 +97,7 @@ module.exports = {
       if ( !findGroup ) {
         return res.status( 403 ).json( jsonResponse( "Nhóm block không tồn tại!", null ) );
       }
-      block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
+      block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`;
       block._account = req.uid;
       block._groupBlock = req.query._groupId;
       await block.save();
@@ -102,7 +105,7 @@ module.exports = {
       await findGroup.save();
       return res.status( 200 ).json( jsonResponse( "Tạo block thành công!", block ) );
     }
-    block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`,
+    block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`;
     block._account = req.uid;
     block._groupBlock = foundDefaultGr._id;
     await block.save();
@@ -123,6 +126,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": userId } );
 
     if ( !foundBlock ) {
@@ -184,6 +188,7 @@ module.exports = {
       newAttribute.value = "";
       newAttribute._account = userId;
       await newAttribute.save();
+      // eslint-disable-next-line one-var
       const content = {
         "valueText": newAttribute._id,
         "typeContent": "tag"
@@ -207,6 +212,7 @@ module.exports = {
     }
 
     // with type item is text
+    // eslint-disable-next-line one-var
     const content = {
       "valueText": "",
       "typeContent": "text"
@@ -232,6 +238,7 @@ module.exports = {
     if ( JSON.stringify( userId ) !== JSON.stringify( foundUser._id ) ) {
       return res.status( 403 ).json( jsonResponse( "Lỗi truy cập!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findById( req.query._blockId );
 
     if ( !foundBlock ) {
@@ -249,7 +256,7 @@ module.exports = {
       if ( findItem.typeContent === "image" ) {
         if ( findItem.valueText === "" ) {
           if ( req.file === null || req.file === undefined ) {
-            findItem.valueText = "",
+            findItem.valueText = "";
             findItem.typeContent = "image";
             await foundBlock.save();
             return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
@@ -261,7 +268,7 @@ module.exports = {
 
         }
         if ( req.file === null || req.file === undefined ) {
-          findItem.valueText = "",
+          findItem.valueText = "";
           findItem.typeContent = "image";
           await foundBlock.save();
           return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
@@ -275,7 +282,7 @@ module.exports = {
       // With type item is time
       if ( findItem.typeContent === "time" ) {
         if ( ( req.body.valueText ).trim() === "" || req.body.valueText === null ) {
-          findItem.valueText = "5",
+          findItem.valueText = "5";
           findItem.typeContent = "time";
           await foundBlock.save();
           return res.status( 200 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
@@ -283,7 +290,7 @@ module.exports = {
         if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20 ) {
           return res.status( 405 ).json( jsonResponse( "Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!", null ) );
         }
-        findItem.valueText = req.body.valueText,
+        findItem.valueText = req.body.valueText;
         findItem.typeContent = "time";
         await foundBlock.save();
         return res.status( 200 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
@@ -316,14 +323,15 @@ module.exports = {
         if ( checkExist ) {
           return res.status( 405 ).json( jsonResponse( "Bạn đã thêm một trong những chuỗi kịch bản  này!", null ) );
         }
-        findItem.valueText = findItem.valueText === "" ? req.body.valueText.toString() : `${findItem.valueText},${req.body.valueText.toString()}`,
+
+        findItem.valueText = findItem.valueText === "" ? req.body.valueText.toString() : `${findItem.valueText},${req.body.valueText.toString()}`;
         findItem.typeContent = findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
         await foundBlock.save();
         return res.status( 200 ).json( jsonResponse( `Cập nhật nội dung loại ${findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe"} trong block thành công!`, foundBlock ) );
       }
 
       // With type item is text
-      findItem.valueText = req.body.valueText,
+      findItem.valueText = req.body.valueText;
       findItem.typeContent = "text";
       await foundBlock.save();
       return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
@@ -346,6 +354,7 @@ module.exports = {
     if ( !foundUser ) {
       return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
     }
+    // eslint-disable-next-line one-var
     const foundBlock = await Block.findById( req.query._blockId );
 
     if ( !foundBlock ) {
@@ -378,6 +387,7 @@ module.exports = {
       await foundBlock.save();
       return res.status( 200 ).json( jsonResponse( "Xóa nội dung trong block thành công! ", foundBlock ) );
     }
+    // eslint-disable-next-line one-var
     const foundGroupBlock = await GroupBlock.find( { "_account": userId } );
 
     foundGroupBlock.map( async ( value ) => {

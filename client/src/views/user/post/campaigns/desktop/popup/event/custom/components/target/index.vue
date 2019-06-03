@@ -25,7 +25,7 @@
                   width="22px"
                   viewBox="0 0 500 500"
                 >
-                  <icon-group></icon-group>
+                  <icon-profile />
                 </icon-base>
               </div>
               <div class="card--content">
@@ -75,7 +75,7 @@
                   width="22px"
                   viewBox="0 0 500 500"
                 >
-                  <icon-group></icon-group>
+                  <icon-conf />
                 </icon-base>
               </div>
               <div class="card--content">

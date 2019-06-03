@@ -13,8 +13,8 @@ export default {
   },
   created() {
     this.startUpdateTimer();
-     this.$store.dispatch("getUserInfo");
-     this.$store.dispatch("getAccountsFB");
+    this.$store.dispatch("getUserInfo");
+    this.$store.dispatch("getAccountsFB");
     this.$store.dispatch( "getAllFriendFacebook" );
   },
   beforeDestroy() {

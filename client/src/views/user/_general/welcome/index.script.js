@@ -34,14 +34,14 @@ export default {
       return this.$store.getters.userInfo;
     },
     allAccountFb() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
     // Get User Info
     await this.$store.dispatch( "getUserInfo" );
     // Get User FB Accounts
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
     async logOut() {
@@ -66,9 +66,15 @@ export default {
       }
     },
     gotoHomeChat(){
-      const routeData = this.$router.resolve( "/chat" );
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "facebook" } );
 
-      window.open(routeData.href, '_blank');
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( { name: "scripts" } );
+
+        window.open(routeData.href, '_blank');
+      }
     }
   },
   filters: {

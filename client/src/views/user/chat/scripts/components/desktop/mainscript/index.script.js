@@ -7,7 +7,7 @@ import AddText from "./plugins/text";
 import AddImage from "./plugins/images";
 import DeleteCampaignPopup from "@/components/popups/delete";
 
-// import BlockService from "@/services/modules/chat/block.service";
+import BlockService from "@/services/modules/chat/block.service";
 
 let typingTimer;
 
@@ -67,10 +67,10 @@ export default {
     }
   },
   async created() {
-    // const blocks = await BlockService.index();
-    // const firstBlockId = blocks.data.data[0]._id;
-    // this.$store.dispatch("getBlock", firstBlockId);
-    // this.$store.dispatch("getBlocks");
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getInfoBlock", firstBlockId);
+    this.$store.dispatch("getBlocks");
   },
   components: {
     AddTimer,

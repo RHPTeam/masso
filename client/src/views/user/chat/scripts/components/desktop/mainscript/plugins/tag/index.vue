@@ -57,22 +57,29 @@
         </div>
       </div>
     </div>
-    <!--Delete Item Popup-->
-<!--    <delete-item-->
-<!--      v-if="isDeleteItemBlock === true"-->
-<!--      desc="Bạn có thực sự muốn xóa nội dung kịch bản này không?"-->
-<!--      :content="item._id"-->
-<!--      :block="content._id"-->
-<!--      target="itemblock"-->
-<!--      @close="isDeleteItemBlock = $event"-->
-<!--    />-->
+    <!--Start:Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        :block="block"
+        :item="item"
+        title="Delete Tag"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteTag"
+        typeName="itemblock"
+      ></delete-campaign-popup>
+    </transition>
+    <!--End: Delete Item Popup-->
   </div>
 </template>
 <script>
 import ItemTag from "./item";
+import DeleteCampaignPopup from "../../../popup/delete";
 export default {
   components: {
-    ItemTag
+    ItemTag,
+    DeleteCampaignPopup
   },
   props: {
     arrValue: Array,
@@ -109,5 +116,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-  @import "../index.style";
+  @import "../../index.style";
 </style>

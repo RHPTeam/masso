@@ -11,7 +11,7 @@
       </div>
       <div class="group--item-body position_relative">
         <!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
-        <div class="box add" @click.prevent="showTooltip = !showTooltip">
+        <div class="box add">
           <icon-base
             class="icon--add"
             width="20"
@@ -22,7 +22,6 @@
         </div>
         <div
           class="tooltip--now position_absolute p_2"
-          v-if="showTooltip === true"
         >
           {{ $t("chat.broadcast.sidebar.messeger.desc") }}
         </div>
@@ -45,6 +44,7 @@
       <div class="group--item-body r m_0">
         <!--Start: Block Item Loop-->
         <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup"
+             :class="{ active: scheduleBlockSelected === block._id }"
              v-for="( block, index ) in scheduleBlocks"
              :key="index"
              @click="goToScheduleBlock( block )">

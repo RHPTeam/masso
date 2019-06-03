@@ -6,7 +6,6 @@ const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const PostGroup = require( "../../models/post/PostGroup.model" );
-const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" ),
   { agent } = require( "../../configs/crawl" ),
   { createPost } = require( "../../controllers/core/posts.core" ),
@@ -51,7 +50,6 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
     };
   },
   createSchedule = async ( listNewSchedule ) => {
-    console.log( listNewSchedule );
     console.log( "\x1b[34m%s\x1b[0m", "Schedule Service Starting..." );
 
     console.log( "\x1b[32m%s\x1b[0m", "Step 01:", "Start - Get all event's user to handle with cron-schedule" );
@@ -68,11 +66,11 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
 
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
-      ScheduleClasses.set( eventSchedule._id, ScheduleService.scheduleJob( new Date( eventSchedule.started_at ), async function () {
+      ScheduleService.scheduleJob( `rhp${eventSchedule._id}`, new Date( eventSchedule.started_at ), async function () {
         const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
 
         console.log( resFacebookResponse );
-      } ) );
+      } );
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Finished! System again assign schedule for event next..." );
     } ) );
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Finnish - Cron schedule specific date time." );

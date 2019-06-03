@@ -4,8 +4,10 @@
       <div class="image--link">
         <div
           class="default"
+          v-if="item.valueText === '' || item.valueText === undefined"
+          :style="{ backgroundImage: 'url(' + srcDefault + ')' }"
         ></div>
-        <!-- <img width="280px" height="207px" /> -->
+        <img v-else :src="item.valueText" width="280px" height="207px" />
       </div>
       <div class="body--icon ml_2" @click="isDeleteItemBlock = true">
         <div class="icon--delete">
@@ -40,10 +42,11 @@
         </div>
       </div>
       <div class="upload--image position_absolute">
-        <form enctype="multipart/form-data">
+        <form enctype="multipart/form-data" @submit.prevent="sendFile">
           <input
             type="file"
             ref="file"
+            @change="selectFile(item._id)"
             id="upload_image"
           />
         </form>
@@ -78,12 +81,14 @@
   </div>
 </template>
 <script>
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
+
 import DeleteCampaignPopup from "@/components/popups/delete";
 
 export default {
-  props: ["index.vue", "schedule"],
+  components: {
+    DeleteCampaignPopup
+  },
+  props: ["item", "schedule", "index"],
   data() {
     return {
       isDeleteItemBlock: false,
@@ -91,17 +96,12 @@ export default {
       srcDefault: require("@/assets/images/message/logo.png")
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
-    async getSchedules() {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      return result[0];
-    },
     selectFile(id) {
       this.file = this.$refs.file.files[0];
       this.sendFile(id);
@@ -109,23 +109,15 @@ export default {
     async sendFile(id) {
       const formData = new FormData();
       formData.append("file", this.file);
-      const schedules = await this.getSchedules();
       const objSender = {
-        bcId: schedules._id,
+        bcId: this.index,
         blockId: this.schedule._id,
         contentId: id,
         value: formData
       };
+      console.log(objSender);
       this.$store.dispatch("updateItemImageSchedule", objSender);
     }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  components: {
-    DeleteCampaignPopup
   }
 };
 </script>

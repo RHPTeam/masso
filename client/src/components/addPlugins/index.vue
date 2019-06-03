@@ -38,7 +38,7 @@
                     </icon-base>
                   </div>
                 </div>
-                <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
+                <div class="plugin--item-tooltip" v-if="plugin.isActive === false">
                   <app-tooltip/>
                 </div>
               </div>
@@ -120,7 +120,7 @@
                     </icon-base>
                   </div>
                 </div>
-                <div class="plugin--item-tooltip" v-if="plugin.isActive == false">
+                <div class="plugin--item-tooltip" v-if="plugin.isActive === false">
                   <app-tooltip/>
                 </div>
               </div>
@@ -135,15 +135,16 @@
 <script>
 import AppTooltip from "./tooltip_plugin";
 
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
-
 export default {
+  components: {
+    AppTooltip
+  },
   props: {
     showPopupPlugins: Boolean,
     showSubcrible: Boolean,
     showUnSubcrible: Boolean,
-    schedule: String
+    schedule: String,
+    index: String
   },
   data() {
     return {
@@ -208,22 +209,11 @@ export default {
       this.$emit("showAddAttribute", true);
       this.$emit("closePopupPluginClick", false);
     },
-    async getSchedules() {
-      let result = await BroadcastService.index();
-      result = result.data.data.filter(
-        item =>
-          StringFunction.convertUnicode(item.typeBroadCast)
-            .toLowerCase()
-            .trim() === "thiet lap bo hen"
-      );
-      return result[0];
-    },
     async openSubcriblePlugins() {
       this.$emit("showSubcrible", true);
       this.$emit("closePopupPluginClick", false);
-      const schedules = await this.getSchedules();
       const dataSender = {
-        scheduleId: schedules._id,
+        scheduleId: this.index,
         type: "subscribe",
         itemId: this.schedule
       };
@@ -232,17 +222,13 @@ export default {
     async openUnSubcriblePlugins() {
       this.$emit("showUnSubcrible", true);
       this.$emit("closePopupPluginClick", false);
-      const schedules = await this.getSchedules();
       const dataSender = {
-        scheduleId: schedules._id,
+        scheduleId: this.index,
         type: "unsubscribe",
         itemId: this.schedule
       };
       this.$store.dispatch("createItemSchedule", dataSender);
     }
-  },
-  components: {
-    AppTooltip
   }
 };
 </script>

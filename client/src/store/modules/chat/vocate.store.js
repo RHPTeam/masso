@@ -32,7 +32,11 @@ const mutations = {
 const actions = {
   createVocate: async ({commit}, payload) => {
     commit("vocate_request");
-    await VocateServices.createVocate(payload);
+    const dataSender = {
+      name: payload.name,
+      _friends: [payload._friends]
+    };
+    await VocateServices.createVocate(dataSender);
     const result = await VocateServices.getAllVocate();
     commit("setAllVocate", result.data.data);
     commit("vocate_success");

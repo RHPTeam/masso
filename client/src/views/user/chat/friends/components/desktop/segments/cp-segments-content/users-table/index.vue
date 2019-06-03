@@ -24,7 +24,7 @@
           >
             <icon-arrow-down />
           </icon-base>
-          <icon-base
+          <!-- <icon-base
             class="icon--arrow-up ml_1"
             icon-name="icon-arrow-up"
             width="12"
@@ -32,31 +32,7 @@
             viewBox="0 0 26 26"
           >
             <icon-arrow-up />
-          </icon-base>
-        </span>
-      </div>
-      <div class="updated-date">
-        <span
-          class="sort"
-        >Nhóm
-          <icon-base
-            class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
-            width="12"
-            height="12"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down />
-          </icon-base>
-          <icon-base
-            class="icon--arrow-up ml_1"
-            icon-name="icon-arrow-up"
-            width="12"
-            height="12"
-            viewBox="0 0 26 26"
-          >
-            <icon-arrow-up />
-          </icon-base>
+          </icon-base> -->
         </span>
       </div>
       <div class="gender">
@@ -72,7 +48,7 @@
           >
             <icon-arrow-down />
           </icon-base>
-          <icon-base
+          <!-- <icon-base
             class="icon--arrow-up ml_1"
             icon-name="icon-arrow-up"
             width="12"
@@ -80,10 +56,10 @@
             viewBox="0 0 26 26"
           >
             <icon-arrow-up />
-          </icon-base>
+          </icon-base> -->
         </span>
       </div>
-      <div class="pronoun">
+      <div class="pronoun pl_3">
         <span
           class="sort"
           >{{ $t("chat.friends.table.main.nickname") }}
@@ -96,7 +72,7 @@
           >
             <icon-arrow-down />
           </icon-base>
-          <icon-base
+          <!-- <icon-base
             class="icon--arrow-up ml_1"
             icon-name="icon-arrow-up"
             width="12"
@@ -104,7 +80,31 @@
             viewBox="0 0 26 26"
           >
             <icon-arrow-up />
+          </icon-base> -->
+        </span>
+      </div>
+      <div class="updated-date">
+        <span
+          class="sort"
+        >Nhóm
+          <icon-base
+            class="icon--arrow-down ml_1"
+            icon-name="icon-arrow-down"
+            width="12"
+            height="12"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
           </icon-base>
+          <!-- <icon-base
+            class="icon--arrow-up ml_1"
+            icon-name="icon-arrow-up"
+            width="12"
+            height="12"
+            viewBox="0 0 26 26"
+          >
+            <icon-arrow-up />
+          </icon-base> -->
         </span>
       </div>
       <div class="attributes d_none">
@@ -135,9 +135,12 @@
           </icon-base>
         </span>
       </div>
+      <!-- GO MESSAGER -->
+      <div class="go--mess">
+       
+      </div>
     </div>
     <!-- End User Table Header -->
-
     <!--Start: Loading Component-->
     <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
 <!--      <loading-component-->
@@ -173,31 +176,43 @@
                 <div class="name">
                   <div class="name--avatar mr_2">
                     <img
-                      :src="user.photo"
+                      :src="user.profilePicture"
                       alt="ảnh đại diện"
                       width="32px"
                       height="32px"
                     />
                   </div>
                   <div class="name--text">
-                    <span class="btn--action"> {{user.text }}</span>
+                    <span class="btn--action"> {{user.fullName }}</span>
                   </div>
                 </div>
 
-                <div class="updated-date">
-                  <span class="btn--action">Chưa thiết lập</span>
+                <div class="gender">
+                  <span class="btn--action">{{user.gender === 'female_singular' ? 'Nữ' : 'Nam'}}</span>
                 </div>
 
-                <div class="gender">
-                  <span class="btn--action">Gender</span>
-                </div>
                 <div class="pronoun">
                   <span
                     class="btn--action"
-                    @click="showPronounPopup(user.uid)"
+                    @click="showPronounPopup(user.userID)"
                   >
-                    Chọn để thiết lập
+                    {{user.vocate}}
                   </span>
+                </div>
+
+                <div class="updated-date">
+                  <span class="btn--action">0</span>
+                </div>
+                <div class="go--mess">
+                  <icon-base
+                    class="icon--mess"
+                    icon-name="icon-mess"
+                    width="25"
+                    height="20"
+                    viewBox="0 0 12 12"
+                  >
+                    <icon-messenger />
+                  </icon-base>
                 </div>
               </div>
             </div>
@@ -229,13 +244,13 @@
               <div class="name">
                 <div class="name--avatar mr_2">
                   <img
-                    :src="user.photo"
+                    :src="user.profilePicture"
                     width="32px"
                     height="32px"
                   />
                 </div>
                 <div class="name--text">
-                  <span class="btn--action">{{user.text}}</span>
+                  <span class="btn--action">{{user.fullName}}</span>
                 </div>
               </div>
 
@@ -244,12 +259,12 @@
               </div>
 
               <div class="gender">
-                <span class="btn--action">Gender</span>
+                <span class="btn--action">{{user.gender}}</span>
               </div>
               <div class="pronoun">
                 <span
                   class="btn--action"
-                  @click="showPronounPopup(user.uid)"
+                  @click="showPronounPopup(user.userID)"
                 >
                   {{ $t("chat.friends.table.main.setup") }}
                 </span>

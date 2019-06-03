@@ -12,5 +12,9 @@ module.exports = {
 
   objectKeyExists ( key ) {
     return schedule.hasOwnProperty( keyDefault + key );
+  },
+
+  removeKey( key ) {
+    delete schedule[ keyDefault + key ];
   }
 };

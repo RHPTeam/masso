@@ -66,7 +66,7 @@ export default {
   sockets: {
     async statusAccount(value) {
       if (value === 405) {
-        this.$store.dispatch("getAllAccountFb");
+        this.$store.dispatch("getAccountsFB");
       } else if (value === 404) {
         this.statusNetwork = false;
       }
