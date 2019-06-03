@@ -11,7 +11,7 @@
         <div class="overview">
           <!-- Start: General Analytics-->
           <div class="r total mx_0">
-            <div class="c_md_12 c_lg_5 content px_0 pr_lg_3" style="maxHeight: 367px">
+            <div class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3 mb_lg_3" style="maxHeight: 367px">
               <div class="r pd15">
                 <!-- Start: Posts -->
                 <div class="c_6 text_center">
@@ -91,7 +91,7 @@
                 <!-- End: Pages -->
               </div>
             </div>
-            <div class="c_md_12 c_lg_7 line--chart mt_md_3 mt_lg_0 pt_3" style="maxHeight: 367px">
+            <div class="c_md_12 c_lg_12 c_xl_7 line--chart mt_md_3 mt_lg_0 pt_3" style="maxHeight: 367px">
               <VueApexCharts
                 type="line"
                 height="350"
@@ -102,8 +102,8 @@
           </div>
           <!-- End: General Analytics-->
           <!-- Start Post Analytics -->
-          <div class="r order--server-history mx_0 mt_3">
-            <div class="c_md_12 c_lg_6 server px_0 pr_lg_3" style="max-height: 405px;">
+          <div class="r order--server-history mx_0 mt_3 d_flex">
+            <div class="server px_0" style="max-height: 405px;">
               <div class="view--post-day">
                 <VueApexCharts
                   type="line"
@@ -113,7 +113,7 @@
                 ></VueApexCharts>
               </div>
             </div>
-            <div class="c_md_12 c_lg_6 order mt_md_3 mt_lg_0" style="max-height: 405px;">
+            <div class="order mt_md_3 mt_lg_0" style="max-height: 405px;">
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
                 <router-link class="view--all" :to="{ name: 'post_posts' }">Xem tất cả</router-link>

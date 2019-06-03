@@ -27,18 +27,17 @@
         border-radius: 10px;
         box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
         // border: 1px solid rgba(16, 16, 16, 0.08);
+        transition: 0.3s;
         &:hover{
           background: #ffb94a;
           color: #fff;
+          svg{
+            color: #fff;
+          }
         }
         svg {
           color: #999999;
           transition: all .4s ease;
-        }
-        .icon--messenger {
-          &:hover {
-            color: #444;
-          }
         }
         .messenger--total {
           background-color: #F96666;
@@ -457,6 +456,20 @@
             color: #f7f7f7;
           }
         }
+      }
+    }
+  }
+}
+
+
+// ********************** RESPONSIVE ********************8
+
+
+@media only screen and (min-width: 768px) and (max-width: 980px) {
+  .messenger--group{
+    .btn--messenger{
+      .open--mess{
+        display: none;
       }
     }
   }

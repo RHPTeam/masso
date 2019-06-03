@@ -6,6 +6,7 @@
  * team: BE-RHP
  */
 const ObjectId = require( "mongoose" ).Types.ObjectId;
+// eslint-disable-next-line no-unused-vars
 const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );

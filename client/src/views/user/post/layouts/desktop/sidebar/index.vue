@@ -9,9 +9,9 @@
         <div class="sidebar--logo-icon">
           <icon-base
             icon-name="logo"
-            width="59.92"
-            height="49.73"
-            viewBox="0 0 250.446 93.703"
+            width="60"
+            height="50"
+            viewBox="0 0 100 100"
           >
             <icon-logo-short />
           </icon-base>
@@ -63,7 +63,7 @@
             viewBox="0 0 460 460">
             <icon-vietnam-flag/>
           </icon-base>
-          <span class="px_1">Tiếng Việt</span>
+          <span class="px_1 name--language">Tiếng Việt</span>
         </div>
         <transition name="dropdown">
           <div
@@ -81,7 +81,7 @@
               >
                 <icon-vietnam-flag/>
               </icon-base>
-              <span>Tiếng Việt</span>
+              <span class="name--language">Tiếng Việt</span>
             </div>
             <div @click="closeFlagDropdown" class="item pb_1">
               <icon-base
@@ -93,7 +93,7 @@
               >
                 <icon-america-flag/>
               </icon-base>
-              <span>English</span>
+              <span class="name--language">English</span>
             </div>
             <div @click="closeFlagDropdown" class="item pb_1">
               <icon-base
@@ -105,7 +105,7 @@
               >
                 <icon-china-flag/>
               </icon-base>
-              <span>中文</span>
+              <span class="name--language">中文</span>
             </div>
           </div>
         </transition>
