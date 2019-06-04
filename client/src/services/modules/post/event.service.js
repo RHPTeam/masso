@@ -13,5 +13,8 @@ export default {
   },
   updateEvent( eventId, data ) {
     return Api().patch( `events?_eventId=${eventId}`, data );
+  },
+  delete( eventId ){
+    return Api().delete(`events?_eventId=${eventId}`);
   }
 };

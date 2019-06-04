@@ -24,7 +24,7 @@ router.use( "/posts", auth, require( "./modules/post/post.route" ) );
 router.use( "/post-categories", auth, require( "./modules/post/postCategory.route" ) );
 router.use( "/campaigns", auth, require( "./modules/post/campaign.route" ) );
 router.use( "/events", auth, require( "./modules/post/event.route" ) );
-router.use( "/post-item", auth, require( "./modules/post/postGroup.route" ) );
+router.use( "/post-group", auth, require( "./modules/post/postGroup.route" ) );
 router.use( "/group-facebook", auth, require( "./modules/post/groupFacebook.route" ) );
 router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route" ) );
 
