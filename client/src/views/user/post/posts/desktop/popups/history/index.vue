@@ -26,7 +26,12 @@
                :key="index"
           >
             <!-- Start: Post title -->
-            <div class="post--title mb_1">{{ item.postTitle }}</div>
+            <div class="post--title mb_2">
+              <span class="post--status uploading mr_1">
+                Đang tải lên
+              </span>
+              <span>{{ item.postTitle }}</span>
+            </div>
             <!-- End: Post title -->
             <!-- Start: Account group -->
             <div class="account--group mb_1">
@@ -41,11 +46,11 @@
               </div>
             </div>
             <!-- End: Account group -->
-            <!-- Start: Post time -->
+            <!-- Start: Post time & status-->
             <div class="post--time">
-              {{ dateTimeFormat( item.createdAt ) }}
+              Lúc {{ dateTimeFormat( item.createdAt ) }}
             </div>
-            <!-- End: Post time -->
+            <!-- End: Post time & status-->
           </div>
         </div>
       </div>
@@ -146,6 +151,14 @@ export default {
       ]
     }
   },
+  computed: {
+    allPostSchedules() {
+      return this.$store.getters.allPostSchedules;
+    }
+  },
+  async created() {
+    await this.$store.dispatch( "getAllPostSchedules" );
+  },
   methods: {
     dateTimeFormat( date ) {
       const dateTime = new Date( date ),
@@ -155,7 +168,7 @@ export default {
             month = String( dateTime.getMonth() + 1 ).padStart( 2, 0 ),
             year = dateTime.getFullYear();
 
-      return `${hour}:${min} ${day}/${month}/${year}`;
+      return `${hour}:${min}, ${day}/${month}/${year}`;
     },
     close() {
       this.$emit( "close", false );
