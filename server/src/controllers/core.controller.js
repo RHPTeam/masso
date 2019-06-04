@@ -3,7 +3,7 @@ const { categorizedTextFormatPresets } = require( "../databases/cache/facebook" 
 const pagesCore = require( "./core/pages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );
-const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
+const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, loadFans, searchPlaces } = require( "./core/facebook.core" );
 const { createPost, getPost } = require( "./core/posts.core" ),
   CronJob = require( "cron" ).CronJob;
 
@@ -116,5 +116,13 @@ module.exports = {
     }, true, "Asia/Ho_Chi_Minh" );
 
     console.log( cronList.one );
+  },
+  "loadFans": async ( req, res ) => {
+    const result = await loadFans( {
+      "cookie": req.body.cookie,
+      "agent": agent
+    } );
+
+    return res.send( result );
   }
 };

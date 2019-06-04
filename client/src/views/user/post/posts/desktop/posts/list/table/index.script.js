@@ -1,16 +1,19 @@
 import ConvertUnicode from "@/utils/functions/string.js";
 import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item/index";
+import PostNowPopup from "../popups/postnow";
 
 export default {
   components: {
     DeletePopup,
-    ItemPost
+    ItemPost,
+    PostNowPopup
   },
   props: [ "currentPage", "filterCategorySelected", "filterShowSelected", "search" ],
   data() {
     return {
       isShowDeletePopup: false,
+      isShowPostNowPopup: false,
       isSort: [
         {
           name: "title",
@@ -18,7 +21,7 @@ export default {
           desc: false
         }
       ],
-      postDelete: {},
+      postSelected: {},
       targetDataDelete: {}
     }
   },
@@ -75,13 +78,17 @@ export default {
       } );
     },
     showDeletePopup( post ) {
-      this.postDelete = post;
+      this.postSelected = post;
       this.targetDataDelete = {
         id: post._id,
         page: this.currentPage,
         size: this.filterShowSelected.id
       };
       this.isShowDeletePopup = true;
+    },
+    showPostNowPopup( post ) {
+      this.postSelected = post;
+      this.isShowPostNowPopup = true;
     },
     sortPostsByProperty( sortSelected, index ) {
       const attr = sortSelected.name;

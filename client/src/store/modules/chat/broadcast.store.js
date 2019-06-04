@@ -125,8 +125,6 @@ const actions = {
       payload.scheduleId,
       payload.itemId
     );
-    console.log("hello");
-    console.log(resultShowData.data.data);
     commit("setSchedule", resultShowData.data.data[0]);
   },
   /**

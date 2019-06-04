@@ -8,6 +8,7 @@ const { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" );
 const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const cheerio = require( "cheerio" ),
+  fs = require( "fs" ),
   request = require( "request" );
 
 module.exports = {
@@ -206,6 +207,43 @@ module.exports = {
               )}`
             }
           } );
+        }
+        return resolve( {
+          "error": {
+            "code": 404,
+            "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+          },
+          "results": []
+        } );
+      } );
+    } );
+  },
+  "loadFans": ( { cookie, agent } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "GET",
+        "url": `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`,
+        "headers": {
+          "User-Agent": agent,
+          "Cookie": cookie
+        }
+      };
+
+      request( option, ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          const $ = cheerio.load( body );
+
+          if ( body.includes( "https://www.facebook.com/login" ) ) {
+            return resolve( {
+              "error": {
+                "code": 405,
+                "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
+              },
+              "results": []
+            } );
+          }
+
+          fs.writeFile( "temp.html", body, (err) => {} );
         }
         return resolve( {
           "error": {

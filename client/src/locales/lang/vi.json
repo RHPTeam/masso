@@ -148,7 +148,8 @@
       "keyProduct": {
         "title": "Từ khóa sản phẩm dịch vụ",
         "desc": "Chúng tôi sẽ dựa trên những từ khóa này để gợi ý các nội dung phù hợp nhất với bạn.",
-        "placeholder": "Nhập từ khóa của bạn..."
+        "placeholder": "Nhập từ khóa và nhấn phím Enter",
+        "emptyData": "Bạn chưa cung cấp từ khóa cho hệ thống"
       },
 
       "slowConnect": {

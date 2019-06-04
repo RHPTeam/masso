@@ -137,6 +137,8 @@ export default {
   },
   methods: {
     updateToParent(value) {
+      console.log("middle component");
+      console.log(value);
       this.$emit("updateItemFromMiddleComponent", value);
     }
   },

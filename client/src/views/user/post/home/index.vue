@@ -160,6 +160,13 @@
             <!-- End: Content -->
           </div>
           <!-- End: Post Analytics -->
+
+          <!-- Start: Friend Follow -->
+          <friend-follow
+            :currentTheme="currentTheme"
+          >
+          </friend-follow>
+          <!-- End: Friend Follow -->
         </div>
       </div>
       <!-- End: Content -->
