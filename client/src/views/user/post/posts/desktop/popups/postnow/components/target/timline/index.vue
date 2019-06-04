@@ -25,7 +25,8 @@
                 <input
                   type="checkbox"
                   :value="account._id"
-                  v-model="event.timeline"
+                  v-model="postSchedule._facebookId"
+                  @input="updatePostSchedule"
                 />
               </label>
             </div>
@@ -40,6 +41,7 @@
 
 <script>
 export default {
+  props: [ "postSchedule" ],
   computed: {
     allAccountFB() {
       return this.$store.getters.accountsFB;
@@ -50,6 +52,11 @@ export default {
   },
   async created() {
     await this.$store.dispatch( "getAccountsFB" );
+  },
+  methods: {
+    updatePostSchedule() {
+      this.$emit( "updatePostSchedule", this.postSchedule );
+    }
   }
 }
 </script>

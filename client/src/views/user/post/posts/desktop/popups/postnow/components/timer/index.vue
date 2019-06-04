@@ -9,8 +9,10 @@
         <div class="input--item d_flex align_items_center">
           <input class="text_center mr_2"
                  type="number"
-                 min="0"
-                 v-model="postBreakPoint">
+                 min=5
+                 v-model="postSchedule.breakPoint"
+                 @input="updatePostSchedule"
+          >
           <span class="unit">phút</span>
         </div>
         <!-- End: Input -->
@@ -40,29 +42,15 @@
 
 <script>
 export default {
-  data() {
-    return {
-      postBreakPoint: 15,
-      postDate: new Date(),
-      postTime: {
-        HH: new Date().getHours(),
-        mm: new Date().getMinutes()
-      },
-      isActiveHeightPopupTimer: false
-    };
-  },
+  props: [ "postSchedule" ],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
-
   methods: {
-    updatePostDate( date ) {
-      this.postDate = date;
-    },
-    updatePostTime( val ) {
-      this.postTime = val;
+    updatePostSchedule() {
+      this.$emit( "updatePostSchedule", this.postSchedule );
     }
   }
 };

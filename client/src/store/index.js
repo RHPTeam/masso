@@ -35,6 +35,7 @@ import GroupBlock from "./modules/chat/groupblock.store";
 import GroupFacebook from "./modules/post/groupfacebook.store";
 import PageFacebook from "./modules/post/pagefacebook.store";
 import PostStore from "./modules/post/post.store";
+import PostSchedule from "./modules/post/postschedule.store";
 import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 
@@ -71,6 +72,7 @@ export default new Vuex.Store( {
     GroupFacebook,
     PageFacebook,
     PostStore,
+    PostSchedule,
     PostFacebookStore,
     PostGroupStore,
     GroupBlock

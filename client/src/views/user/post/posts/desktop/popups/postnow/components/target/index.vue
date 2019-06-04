@@ -101,7 +101,11 @@
     <!-- End: Show Option Page -->
 
     <!-- Start: Show Option Timeline -->
-    <target-timeline v-else-if="targetType === 3" />
+    <target-timeline
+      v-else-if="targetType === 3"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+    />
     <!-- End: Show Option Timeline -->
   </div>
 </template>
@@ -117,6 +121,7 @@ export default {
     TargetCustom,
     TargetTimeline
   },
+  props: [ "postSchedule" ],
   data() {
     return {
       isShowOptionTarget: "none",
@@ -129,6 +134,9 @@ export default {
   methods: {
     selectTargetType( value ) {
       this.targetType = value;
+    },
+    updatePostSchedule( val ) {
+      this.$emit( "updatePostSchedule", val );
     }
   },
 }
