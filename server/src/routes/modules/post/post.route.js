@@ -42,4 +42,7 @@ router
   .post( PostController.create )
   .patch( upload.array( "attachments", 20 ), PostController.update )
   .delete( PostController.delete );
+router
+  .route( "/now" )
+  .post( PostController.createPostSchedule );
 module.exports = router;
