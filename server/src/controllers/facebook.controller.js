@@ -103,18 +103,14 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", newFacebook ) );
   },
   "update": async ( req, res ) => {
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } ),
+    const accountResult = await Account.findOne( { "_id": req.uid } ),
       userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } ),
       findFacebook = await Facebook.findById( req.query._facebookId );
 
     if ( !accountResult ) {
       return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
     }
-    if ( userId !== req.uid ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
-    }
+
     // Check validator
     if ( !req.body.cookie || req.body.cookie === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "cookie": "Cookie facebook không được để trống!" } } );
