@@ -5,7 +5,7 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
 
 // Other process
 require( "./cron/post/campaign" );
-const chatAuto = require( "./cron/chat/index" );
+// const chatAuto = require( "./cron/chat/index" );
 
 ( async () => {
   const roleList = await Role.find( {} ),
@@ -32,5 +32,5 @@ const chatAuto = require( "./cron/chat/index" );
     console.log( "Sync role successfully!" );
   }
 
-  accountFacebookList.map( ( e ) => chatAuto( e ) );
+  // accountFacebookList.map( ( e ) => chatAuto( e ) );
 } )();
