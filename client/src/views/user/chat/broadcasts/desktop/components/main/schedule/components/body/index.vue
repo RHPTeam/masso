@@ -8,29 +8,53 @@
       >
         <!--Start: Text item component-->
         <div v-if="item.typeContent === 'text'">
-          <add-text :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <add-text
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Text item component-->
+        <!--End: Text item component-->
+
         <!--Start: Image item component-->
         <div v-if="item.typeContent === 'image'">
-          <add-image :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <add-image
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Image item component-->
-        <!--        Start: Time item component-->
+        <!--  End: Image item component-->
+
+        <!--  Start: Time item component-->
         <div v-if="item.typeContent === 'time'">
-          <slider-schedule :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <add-time
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Time item component-->
-        <!--        Start: subcribe item component-->
+        <!-- End: Time item component-->
+
+        <!-- Start: subcribe item component-->
         <div v-if="item.typeContent === 'subscribe'">
-          <subcribe :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <subcribe
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: subcribe item component-->
-        <!--        Start: Unsubcribe item component-->
+        <!--  End: subcribe item component-->
+
+        <!-- Start: Unsubcribe item component-->
         <div v-if="item.typeContent === 'unsubscribe'">
-          <un-subscribe :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <un-subscribe
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Unsubcribe item component-->
+        <!-- End: Unsubcribe item component-->
       </div>
     </div>
     <div class="footer mt_3">
@@ -88,6 +112,7 @@
 </template>
 <script>
 import AddText from "./plugins/text";
+import AddTime from "./plugins/slider";
 import AddImage from "./plugins/images";
 import Subcribe from "./plugins/subcribe";
 import UnSubscribe from "./plugins/unsubcribe";
@@ -96,6 +121,7 @@ import UnSubscribe from "./plugins/unsubcribe";
 export default {
   components: {
     AddText,
+    AddTime,
     AddImage,
     Subcribe,
     UnSubscribe
