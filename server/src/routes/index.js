@@ -12,11 +12,6 @@ router.use( "/password", require( "./modules/forgetPassword.route" ) );
 router.use( "/facebook", auth, require( "./modules/facebook.route" ) );
 router.use( "/roles", auth, require( "./modules/role.route" ) );
 
-// Help Route
-router.use( "/help", auth, require( "./modules/help/help.route" ) );
-router.use( "/help-blogs", auth, require( "./modules/help/blogHelp.route" ) );
-router.use( "/help-categories", auth, require( "./modules/help/helpCategory.route" ) );
-
 // Live Route
 
 // Post Route
