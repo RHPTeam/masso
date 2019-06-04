@@ -8,10 +8,10 @@
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body mb_4">
+    <div class="body mb_4 px_3">
       <div class="r">
         <!-- Start: FB Timeline -->
-        <div class="c_md_4">
+        <div class="c_md_4 pl_0">
           <div class="card"
                :class="{ active: targetType === 3 }"
                @click="selectTargetType( 3 )"
@@ -37,7 +37,7 @@
         </div>
         <!-- Start: FB Timeline -->
         <!-- Start: Target Group -->
-        <div class="c_md_4">
+        <div class="c_md_4 px_2 group">
           <div class="card"
                :class="{ active: targetType === 1 }"
                @click="selectTargetType( 1 )"
@@ -63,7 +63,7 @@
         </div>
         <!-- End: Target Group -->
         <!-- Start: Target Custom -->
-        <div class="c_md_4">
+        <div class="c_md_4 pr_0 option">
           <div class="card"
                :class="{ active: targetType === 2 }"
                @click="selectTargetType( 2 )"

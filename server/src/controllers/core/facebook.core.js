@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 const {
   linkGetActionTypeLoader,
   linkGetItemActionTypeLoader,
@@ -8,7 +9,6 @@ const { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" );
 const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const cheerio = require( "cheerio" ),
-  fs = require( "fs" ),
   request = require( "request" );
 
 module.exports = {
@@ -231,6 +231,7 @@ module.exports = {
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
+          // eslint-disable-next-line no-unused-vars
           const $ = cheerio.load( body );
 
           if ( body.includes( "https://www.facebook.com/login" ) ) {
@@ -242,8 +243,6 @@ module.exports = {
               "results": []
             } );
           }
-
-          fs.writeFile( "temp.html", body, (err) => {} );
         }
         return resolve( {
           "error": {

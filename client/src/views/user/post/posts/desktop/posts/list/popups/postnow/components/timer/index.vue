@@ -1,8 +1,8 @@
 <template>
   <!--Section option hours-->
-  <div class="timer--wrapper" :data-theme="currentTheme">
+  <div class="timer--wrapper" :data-theme="currentTheme" >
     <div class="title mb_2">Thời gian đăng</div>
-    <div class="input--group d_flex align_items_center">
+    <div class="input--group d_flex">
       <!-- Start: Input Time -->
       <div class="input--time mr_3">
         <time-picker
@@ -23,6 +23,21 @@
         ></date-picker>
       </div>
       <!-- End: Input Date -->
+      <!-- Start: Infor timer -->
+      <div class="infor pl_3 d_flex">
+          <div class="name--info">Information time Information time Information time</div>
+          <div class="icon--info d_flex ml_auto">
+            <icon-base
+              icon-name="info"
+              width="14"
+              height="14"
+              viewBox="0 0 18 18"
+            >
+              <icon-info/>
+            </icon-base>
+          </div>
+      </div>
+      <!-- End: Infor timer -->
     </div>
   </div>
   <!--End Section option hours-->
@@ -37,6 +52,7 @@ export default {
         HH: new Date().getHours(),
         mm: new Date().getMinutes()
       },
+      isActiveHeightPopupTimer: false
     };
   },
   computed: {
