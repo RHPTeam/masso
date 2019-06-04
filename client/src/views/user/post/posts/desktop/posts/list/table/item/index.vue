@@ -54,13 +54,8 @@
     </div>
     <!-- End: Image Column -->
     <!-- Start: Action Column -->
-<<<<<<< HEAD
-    <div class="col col--action px_4 text_center">
-      <span class="mr_1" @click="updatePost">
-=======
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_1" @click="updatePost">
->>>>>>> 4f64e56ae008bd4d2352339d2a3ccaaf760335d1
         <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
@@ -75,7 +70,6 @@
           <icon-remove />
         </icon-base>
       </span>
-<<<<<<< HEAD
       <span @click="showPostNowPopup">
          <icon-base
            icon-name="remove"
@@ -84,11 +78,6 @@
            viewBox="0 0 15 15"
          >
           <icon-remove />
-=======
-      <span class="mx_1" @click="isOptionPostToNewFeed">
-        <icon-base icon-name="icon-edit" viewBox="0 0 18 18">
-          <icon-info />
->>>>>>> 4f64e56ae008bd4d2352339d2a3ccaaf760335d1
         </icon-base>
       </span>
     </div>
@@ -114,13 +103,8 @@ export default {
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
     },
-<<<<<<< HEAD
     showPostNowPopup() {
       this.$emit( "showPostNowPopup", this.item );
-=======
-    isOptionPostToNewFeed(){
-      console.log("hola");
->>>>>>> 4f64e56ae008bd4d2352339d2a3ccaaf760335d1
     }
   }
 }
