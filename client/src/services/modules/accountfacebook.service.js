@@ -1,4 +1,5 @@
 import Api from "@/services";
+import request from "axios";
 
 export default {
   index() {

@@ -70,7 +70,7 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1" @click="isOptionPostToNewFeed">
+      <span class="mx_1" @click="showPostNowPopup">
         <icon-base icon-name="icon-edit" viewBox="0 0 18 18">
           <icon-info />
         </icon-base>
@@ -98,8 +98,8 @@ export default {
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
     },
-    isOptionPostToNewFeed(){
-      console.log("hola");
+    showPostNowPopup() {
+      this.$emit( "showPostNowPopup", this.item );
     }
   }
 }

@@ -32,6 +32,13 @@
       cursor: pointer;
       height: 100%;
       transition: all .4s ease;
+      &.disabled {
+        cursor: not-allowed;
+        opacity: .5;
+        &:hover {
+          box-shadow: none;
+        }
+      }
       &.active {
         box-shadow: 0 0 8px rgba(255, 185, 74, 0.5);
         color: #FFB94A;

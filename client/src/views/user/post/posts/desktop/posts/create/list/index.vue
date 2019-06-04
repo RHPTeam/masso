@@ -56,8 +56,10 @@
           <div v-for="(item, index) in listPostFacebookDefault" :key="index">
             <app-item :item="item" />
           </div>
-          <div v-if="listPostFacebookDefault && listPostFacebookDefault.length === 0" class="item--header d_flex align_items_center justify_content_center px_2 py_2" style="border-top: 1px solid #e4e4e4; border-radius: 0;">
-            <span>Không có kết quả tìm kiếm cho từ khóa này...</span>
+          <div v-if="listPostFacebookDefault && listPostFacebookDefault.length === 0"
+               class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+          >
+            Không có dữ liệu
           </div>
         </vue-perfect-scrollbar>
       </div>

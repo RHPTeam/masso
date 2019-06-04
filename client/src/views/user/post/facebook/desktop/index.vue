@@ -32,7 +32,7 @@
            v-for="(item, index) in accountsFB"
            :key="index"
       >
-        <div class="card" v-if="facebookStatus === 'loading'">
+        <div class="card" v-if="facebookStatus === 'loading' && index === accountsFB.length - 1">
           <div class="card_body text_center d_flex align_items_center justify_content_center">
             <loading-component/>
           </div>

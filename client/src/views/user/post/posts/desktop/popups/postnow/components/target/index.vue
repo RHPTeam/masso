@@ -8,10 +8,10 @@
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body mb_4">
+    <div class="body mb_4 px_3">
       <div class="r">
         <!-- Start: FB Timeline -->
-        <div class="c_md_4">
+        <div class="c_md_4 pl_0">
           <div class="card"
                :class="{ active: targetType === 3 }"
                @click="selectTargetType( 3 )"
@@ -37,10 +37,10 @@
         </div>
         <!-- Start: FB Timeline -->
         <!-- Start: Target Group -->
-        <div class="c_md_4">
-          <div class="card"
+        <div class="c_md_4 px_2 group">
+          <div class="card disabled"
                :class="{ active: targetType === 1 }"
-               @click="selectTargetType( 1 )"
+               @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
@@ -63,10 +63,10 @@
         </div>
         <!-- End: Target Group -->
         <!-- Start: Target Custom -->
-        <div class="c_md_4">
-          <div class="card"
+        <div class="c_md_4 pr_0 option">
+          <div class="card disabled"
                :class="{ active: targetType === 2 }"
-               @click="selectTargetType( 2 )"
+               @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
@@ -101,7 +101,11 @@
     <!-- End: Show Option Page -->
 
     <!-- Start: Show Option Timeline -->
-    <target-timeline v-else-if="targetType === 3" />
+    <target-timeline
+      v-else-if="targetType === 3"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+    />
     <!-- End: Show Option Timeline -->
   </div>
 </template>
@@ -117,21 +121,22 @@ export default {
     TargetCustom,
     TargetTimeline
   },
+  props: [ "postSchedule" ],
   data() {
     return {
       isShowOptionTarget: "none",
-      targetType: 0
+      targetType: 3
     }
   },
   computed: {
 
   },
   methods: {
-    resetTargetType() {
-
-    },
     selectTargetType( value ) {
       this.targetType = value;
+    },
+    updatePostSchedule( val ) {
+      this.$emit( "updatePostSchedule", val );
     }
   },
 }
