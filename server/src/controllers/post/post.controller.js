@@ -208,6 +208,11 @@ module.exports = {
     await Post.findOneAndRemove( { "_id": req.query._postId } );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
+  "getPostSchedule": async ( req, res ) => {
+    const findPost = await PostSchedule.find( { "_account": req.uid } ).select( "-cookie -__v " ).lean();
+
+    res.status( 200 ).json( jsonResponse( "success", findPost ) );
+  },
   /**
    * Post now
    * @param req
