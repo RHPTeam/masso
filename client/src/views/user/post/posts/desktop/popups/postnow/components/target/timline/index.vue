@@ -3,24 +3,25 @@
     <div class="body">
       <div class="title mb_2">Chọn tài khoản bạn muốn đăng lên trang cá nhân</div>
       <div class="account--list">
-        <div class="account--list-item d_flex align_items_center"
+        <div class="account--list-item d_flex align_items_center justify_content_between"
              v-for="( account, index ) in allAccountFB"
              :key="index"
         >
           <!-- Start: Avatar Account -->
-          <div class="left"
-               :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
-          >
-          </div>
-          <!-- End: Avatar Account -->
           <!-- Start: Name Account + Action -->
           <div class="right d_flex align_items_center">
+            <div class="avatar"
+                 :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
+            ></div>
             <!-- Start: Name Account -->
             <div class="name ml_2">{{ account.userInfo.name }}</div>
             <!-- End: Name Account -->
+          </div>
+          <!-- Start: Name Account + Action -->
+          <div class="left">
             <!-- Start: Action -->
             <div class="action ml_auto">
-              <label class="custom--checkbox mr_2">
+              <label class="custom--checkbox mb_0 mr_2">
                 <input
                   type="checkbox"
                   :value="account._id"
@@ -30,7 +31,7 @@
             </div>
             <!-- End: Action -->
           </div>
-          <!-- Start: Name Account + Action -->
+          <!-- End: Avatar Account -->
         </div>
       </div>
     </div>
@@ -60,19 +61,8 @@ export default {
         .account--list-item {
           margin-top: .75rem;
           .left {
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: cover;
-            border-radius: 100%;
-            height: 42px;
-            width: 42px;
-          }
-          .right {
-            width: calc(100% - 51px);
-            .name {
-              font-weight: 600;
-            }
             .action {
+              height: 20px;
               .custom--checkbox {
                 input[type="checkbox"] {
                   border-radius: 6px;
@@ -101,6 +91,19 @@ export default {
                   }
                 }
               }
+            }
+          }
+          .right {
+            .name {
+              font-weight: 600;
+            }
+            .avatar {
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+              border-radius: 100%;
+              height: 42px;
+              width: 42px;
             }
           }
         }

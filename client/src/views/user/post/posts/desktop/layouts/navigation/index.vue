@@ -1,5 +1,6 @@
 <template>
   <div class="post--navigation d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
+    <!-- Start: Navigation Left -->
     <div class="nav--left d_flex justify_content_start align_items_center">
       <div class="btn--create mr_3"
            @click="createPost"
@@ -21,21 +22,46 @@
       >Danh mục</router-link
       >
     </div>
+    <!-- End: Navigation Left -->
+    <!-- Start: Navigation Right -->
     <div class="nav--right">
-      <icon-base
-        class="icon--info"
-        width="22px"
-        height="22px"
-        viewBox="0 0 20 20"
+      <div class="btn--history"
+           @click="showHistory"
       >
-        <icon-info></icon-info>
-      </icon-base>
+        <icon-base
+          class="icon--info"
+          width="22px"
+          height="22px"
+          viewBox="0 0 20 20"
+        >
+          <icon-info></icon-info>
+        </icon-base>
+      </div>
     </div>
+    <!-- End: Navigation Right -->
+
+    <!--***********POPUP***********-->
+    <transition name="slide-fade">
+      <post-history
+        v-if="isShowHistory"
+        @close="isShowHistory = $event"
+      ></post-history>
+    </transition>
   </div>
 </template>
 
 <script>
+import PostHistory from "../../popups/history";
+
 export default {
+  components: {
+    PostHistory
+  },
+  data() {
+    return {
+      isShowHistory: false
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -54,6 +80,9 @@ export default {
         params: { id: this.newPost._id }
       } );
     },
+    showHistory() {
+      this.isShowHistory = !this.isShowHistory;
+    }
   }
 };
 </script>

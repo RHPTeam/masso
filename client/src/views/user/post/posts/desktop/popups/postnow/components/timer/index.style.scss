@@ -4,28 +4,24 @@
     font-weight: 600;
   }
   .input--group {
-    .input--time {
-      .time--picker-custom {
+    .input--item {
+      input {
         border: 1px solid;
         border-radius: .625rem;
         height: 40px;
         line-height: 40px;
-      }
-      .time-picker input.display-time{
-        height: 36px;
-        width: 98px;
+        padding-left: .75rem;
+        outline: 0;
+        width: 80px;
       }
     }
-    .infor{
-      .name--info{
-        // flex: 9.5;
-      }
-      .icon--info{
-        // flex: 1;
-        align-items: center;
-        cursor: pointer;
-        justify-content: flex-end;
-      }
+  }
+  .information{
+    .information--text {
+      font-size: .825rem;
+      line-height: 1.25;
+    }
+    .information--icon {
     }
   }
 }
@@ -38,9 +34,22 @@
     color: #666;
   }
   .input--group {
-    .input--time {
-      .time--picker-custom {
+    .input--item {
+      input {
         border-color: #e4e4e4;
+        &:hover, &:focus {
+          border-color: #FFB94A;
+        }
+      }
+    }
+  }
+  .information{
+    .information--text {
+      color: #999;
+    }
+    .information--icon {
+      .icon--info {
+        color: #FFB94A;
       }
     }
   }

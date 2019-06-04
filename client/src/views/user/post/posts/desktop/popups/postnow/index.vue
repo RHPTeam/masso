@@ -4,7 +4,9 @@
       <div class="modal--content px_4 py_4">
         <!-- Start: Modal Header -->
         <div class="modal--header">
-          <div class="title">Đăng bài viết: {{ post.title }}</div>
+          <div class="title">Đăng bài viết
+            <span>&quot;{{ post.title }}&quot;</span>
+          </div>
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->

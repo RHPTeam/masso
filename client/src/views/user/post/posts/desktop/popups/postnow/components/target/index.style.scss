@@ -26,18 +26,19 @@
     }
   }
   .body {
-    .group, .option{
-      .card:hover{
-        cursor: not-allowed;
-        background: #99999926;
-      }
-    }
     .card {
       border: 1px solid #e4e4e4;
       border-radius: .5rem;
       cursor: pointer;
       height: 100%;
       transition: all .4s ease;
+      &.disabled {
+        cursor: not-allowed;
+        opacity: .5;
+        &:hover {
+          box-shadow: none;
+        }
+      }
       &.active {
         box-shadow: 0 0 8px rgba(255, 185, 74, 0.5);
         color: #FFB94A;

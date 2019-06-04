@@ -38,9 +38,9 @@
         <!-- Start: FB Timeline -->
         <!-- Start: Target Group -->
         <div class="c_md_4 px_2 group">
-          <div class="card"
+          <div class="card disabled"
                :class="{ active: targetType === 1 }"
-               @click="selectTargetType( 1 )"
+               @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
@@ -64,9 +64,9 @@
         <!-- End: Target Group -->
         <!-- Start: Target Custom -->
         <div class="c_md_4 pr_0 option">
-          <div class="card"
+          <div class="card disabled"
                :class="{ active: targetType === 2 }"
-               @click="selectTargetType( 2 )"
+               @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
               <div class="card--icon d_flex align_items_center justify_content_center mr_2"
@@ -120,16 +120,13 @@ export default {
   data() {
     return {
       isShowOptionTarget: "none",
-      targetType: 0
+      targetType: 3
     }
   },
   computed: {
 
   },
   methods: {
-    resetTargetType() {
-
-    },
     selectTargetType( value ) {
       this.targetType = value;
     }
