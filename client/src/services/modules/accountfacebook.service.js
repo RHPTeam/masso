@@ -1,4 +1,5 @@
 import Api from "@/services";
+import request from "axios";
 
 export default {
   index() {
@@ -20,6 +21,6 @@ export default {
     return Api().post(`facebook/login?_fbId=${fb_id}`);
   },
   update(fbId, cookie) {
-    return Api().patch(`facebook?_fbId=${fbId}`, cookie);
+    return Api().patch(`facebook?_facebookId=${fbId}`, cookie);
   }
 };

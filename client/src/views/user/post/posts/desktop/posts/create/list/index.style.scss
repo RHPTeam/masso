@@ -62,6 +62,12 @@
     }
   }
 }
+.list--data {
+  .empty--data {
+    color: #999;
+  }
+}
+
 // CHANGE COLOR THEME
 .list[data-theme="light"] {
   .list--header {
