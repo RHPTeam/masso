@@ -42,14 +42,13 @@
         :subBread="descUpdatePopup"
       >
       </update-cookie>
-
       <delete-item
         v-if="isDeleteItemAccount === true"
-        title="Delete Account Facebook"
+        title="Xoá tài khoản Facebook"
         @closePopup="isDeleteItemAccount = $event"
         storeActionName="deleteAccount"
         :targetData="item"
-        typeName="account"
+        typeName="tài khoản"
       ></delete-item>
     </transition>
   </div>

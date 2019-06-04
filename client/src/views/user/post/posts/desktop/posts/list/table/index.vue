@@ -66,6 +66,7 @@
           :key="index"
           :item="item"
           @showDeletePopup="showDeletePopup($event)"
+          @showPostNowPopup="showPostNowPopup($event)"
         ></item-post>
       </div>
     </div>
@@ -78,9 +79,16 @@
         @closePopup="isShowDeletePopup = $event"
         storeActionName="deletePost"
         :targetData="targetDataDelete"
-        :targetName="postDelete.title"
+        :targetName="postSelected.title"
         typeName="bài viết"
       ></delete-popup>
+    </transition>
+    <transition name="popup">
+      <post-now-popup
+        v-if="isShowPostNowPopup === true"
+        @closePopup="isShowPostNowPopup = $event"
+        :post="postSelected"
+      ></post-now-popup>
     </transition>
   </div>
 </template>

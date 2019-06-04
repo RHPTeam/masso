@@ -15,7 +15,9 @@
         class="suggest position_absolute"
         v-if="isShowSuggestDefault === true"
       >
-        <VuePerfectScrollbar class="show">
+        <VuePerfectScrollbar class="show"
+                             v-click-outside="closeSuggestActivityDefault"
+        >
           <div
             v-if="this.$store.getters.faceBStatus === 'loading'"
             class="loading-block d_flex align_items_cente justify_content_center py_3"
@@ -42,7 +44,9 @@
       v-if="isShowActivityDefault === true"
       class="activity--suggets d_flex align_items_center"
     >
-      <div class="activity--desc text_center">
+      <div class="activity--desc text_center"
+           @click="isShowActivityDefault = false"
+      >
         {{ typeActivityDefault }}
       </div>
       <div class="activity--option position_relative">
@@ -149,6 +153,9 @@ export default {
     },
     close(){
       this.isShowSuggestOptionActivity = false;
+    },
+    closeSuggestActivityDefault() {
+      this.isShowSuggestDefault = false;
     },
     showSuggestActivityDefault() {
       this.isShowSuggestDefault = true;

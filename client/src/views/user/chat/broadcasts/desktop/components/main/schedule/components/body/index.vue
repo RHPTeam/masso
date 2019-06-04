@@ -23,7 +23,7 @@
         <!--        End: Time item component-->
         <!--        Start: subcribe item component-->
         <div v-if="item.typeContent === 'subscribe'">
-          <subcribe :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
+          <subscribe :item="item" :schedule="scheduleBlockDetail" :index="idScheduleDefault" />
         </div>
         <!--        End: subcribe item component-->
         <!--        Start: Unsubcribe item component-->
@@ -89,15 +89,13 @@
 <script>
 import AddText from "./plugins/text";
 import AddImage from "./plugins/images";
-import Subcribe from "./plugins/subcribe";
-import UnSubscribe from "./plugins/unsubcribe";
-
-
+import Subscribe from "./plugins/subscribe";
+import UnSubscribe from "./plugins/unsubscribe";
 export default {
   components: {
     AddText,
     AddImage,
-    Subcribe,
+    Subscribe,
     UnSubscribe
   },
   data() {
@@ -136,5 +134,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "index.style";
+  @import "index.style";
 </style>

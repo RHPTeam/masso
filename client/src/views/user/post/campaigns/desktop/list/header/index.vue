@@ -1,7 +1,7 @@
 <template>
-  <div class="r main--header mb_4" :data-theme="currentTheme">
+  <div class="r main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
-    <div class="c_md_12 c_lg_6 main--header-left d_flex">
+    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex mb_3">
       <div class="btn--add-campaign mr_3"
 				@click="isShowCreatCampaignPopup = true"
       >Thêm chiến dịch</div>
@@ -27,7 +27,7 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-    <div class="c_md_12 c_lg_6 main--header-right text_right">
+    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right mb_3">
       <app-filter
         class="mr_2"
         :filterList="filterShowList"

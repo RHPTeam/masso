@@ -3,31 +3,38 @@
     <div class="modal--dialog d_flex justify_content_center">
       <div class="modal--content py_4 px_4">
         <!-- Start: Modal Header -->
-        <div class="header alert alert_success mb_3">
-          Thông báo: Hệ thống yêu cầu bạn cung cấp ít nhất 1 từ khóa trong lĩnh vực mà bạn đang hoạt động,
-          thông qua từ khóa bạn cung cấp để hệ thống giúp bạn có những trải nghiệm tốt hơn cũng như tiết kiệm thời gian tìm kiếm bài viết cho bạn.
+        <div class="header mb_3">
+          <div class="title text_center mb_3">Cung cấp từ khóa sản phẩm dịch vụ</div>
+          <div class="desc">
+            Để nâng cao trải nghiệm cũng như giúp bạn tiếp cận nhanh chóng tới các nội dung phù hợp,
+            chúng tôi mong muốn bạn cung cấp ít nhất một từ khóa về sản phẩm, dịch vụ mà bạn đang quan tâm.
+            (Ví dụ: Mỹ phẩm, Du lịch,...)
+          </div>
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <div class="body">
-          <ol class="list m_0" v-if="listKey.length > 0">
-            <li v-for="(item, index) in listKey" :key="index">{{ item }}</li>
-          </ol>
-          <div v-else class="text_danger"> Bạn chưa cung cấp cho hệ thống từ khóa </div>
           <div class="key mt_3">
-            <input
-              type="text"
-              class="form_control"
-              placeholder="Nhập từ khóa của bạn ..."
-              v-model="keyword"
-              @keydown.enter="updateKey"
-            />
+            <div class="wrapper--content">
+              <taggle class="taggle"
+                      v-model="listKey"
+                      @input="updateKey"
+                      :placeholder="$t('chat.common.keyProduct.placeholder')"
+              />
+            </div>
+<!--            <input-->
+<!--              type="text"-->
+<!--              class="form_control"-->
+<!--              placeholder="Nhập từ khóa của bạn ..."-->
+<!--              v-model="keyword"-->
+<!--              @keydown.enter="updateKey"-->
+<!--            />-->
           </div>
         </div>
         <!-- End: Modal Body -->
         <!-- Start: Modal Footer -->
-        <div class="footer d_flex align_items_center justify_content_center mt_3">
-          <button @click="updateKeyToUserInfo">Cập Nhật</button>
+        <div class="footer d_flex align_items_center mt_3">
+          <button @click="updateKeyToUserInfo">CẬP NHẬT</button>
         </div>
         <!-- End: Modal Footer -->
       </div>
@@ -43,17 +50,15 @@ export default {
   },
   data() {
     return {
-      listKey: [],
-      keyword: ""
+      listKey: []
     }
   },
   computed: {
 
   },
   methods: {
-    updateKey(){
-      this.listKey.push(this.keyword);
-      this.keyword = "";
+    updateKey( val ){
+      this.listKey = val;
     },
     updateKeyToUserInfo(){
       this.user.keywords =  this.listKey;

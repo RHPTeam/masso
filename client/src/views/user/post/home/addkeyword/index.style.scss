@@ -7,21 +7,23 @@
   right: 0;
   top: 0;
   z-index: 999;
-
   .modal--dialog {
     align-items: center;
     display: flex;
     height: 100%;
     justify-content: center;
     width: 100%;
-
     .modal--content {
-      background-color: #fafafa;
+      background-color: #fff;
       border-radius: .625rem;
+      font-size: .875rem;
       max-height: calc( 100vh - 10% );
       width: 50%;
       .header {
-        //color: #00c853;
+        .title {
+          font-size: 1.25rem;
+          font-weight: 600;
+        }
       }
       .body {
         .list {
@@ -46,8 +48,11 @@
           border-radius: .625rem;
           color: #fff;
           cursor: pointer;
-          padding: .375rem 4rem;
+          font-weight: 600;
+          padding: .5rem .75rem;
+          transition: background-color .4s ease;
           &:hover, &:active, &:visited, &:focus {
+            background-color: #FF9E4A;
             box-shadow: none;
             outline: 0;
           }
