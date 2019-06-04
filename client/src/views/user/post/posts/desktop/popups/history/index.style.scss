@@ -30,6 +30,9 @@
   }
   .modal--body {
     font-size: .825rem;
+    .data--empty {
+      color: #999;
+    }
     .history--list {
       .history--list-item {
         background-color: #fff;
