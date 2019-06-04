@@ -44,5 +44,6 @@ router
   .delete( PostController.delete );
 router
   .route( "/now" )
+  .get( PostController.getPostSchedule )
   .post( PostController.createPostSchedule );
 module.exports = router;
