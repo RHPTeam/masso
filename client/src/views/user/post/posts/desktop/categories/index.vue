@@ -13,7 +13,7 @@
           />
           <!-- End: Category Form -->
         </div>
-        <div class="c_12 c_lg_12 c_xl_8">
+        <div class="c_12 c_lg_12 c_xl_8 pl_lg_0 pl_xl_3">
           <!-- Start: Action -->
           <app-action
             :filterShowSelected="filterShowSelected"
