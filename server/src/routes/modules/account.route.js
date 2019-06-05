@@ -41,10 +41,8 @@ const multer = require( "multer" ),
 router.route( "/" ).patch( auth, upload.single( "profileUrl" ), AccountController.update );
 
 router.route( "/change-password" ).patch( auth, AccountController.changePassword );
-router.route( "/create-password" ).post( auth, AccountController.createNewPassword );// final reset password
+router.route( "/create-password" ).post( auth, AccountController.createNewPassword );
 router.route( "/info" ).get( auth, AccountController.show );
-router.route( "/info/code" ).post( AccountController.checkCode ); // check code
-router.route( "/info/reset-password" ).get( AccountController.getUserInfoLostPass ); // get use info by email
-router.route( "/reset-password" ).post( AccountController.resetPassword ); // b1 check mail
+
 
 module.exports = router;
