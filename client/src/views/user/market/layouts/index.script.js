@@ -1,4 +1,11 @@
+import AppFooter from  "./desktop/footer";
+import AppHeader from  "./desktop/header";
+
 export default {
+  components: {
+    AppFooter,
+    AppHeader
+  },
   data() {
     return {
       timer: "",

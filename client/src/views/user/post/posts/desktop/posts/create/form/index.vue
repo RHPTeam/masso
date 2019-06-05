@@ -44,27 +44,51 @@
               <!--Start: Show tag and check in-->
               <div class="tagger--summary mb_1 p_2">
                 <span class="">
-                  <span v-if="post.tags && post.tags.length > 0 || post.activity && post.activity.length > 0 || post.place && post.place.length > 0"> — </span>
+                  <span v-if="post.tags && post.tags.length > 0 ||
+                              post.activity ||
+                              post.place "
+                  > — </span>
                   <!--Start: Show activity -->
                   <span class="pl_1">
                     <span v-if="post.activity === undefined || post.activity === ''"></span>
                     <span v-else class="">
-                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ post.activity.id.photo +')'}"></span> <span class="feel">{{post.activity.typeActivity.text}}</span> <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                      <span>đang</span>
+                      <img class="emoji" :src="post.activity.id.photo" alt>
+                      <span class="feel">{{post.activity.typeActivity.text}} </span>
+                      <span class="text_other"
+                            @click="showOptionPostActivity"
+                      >{{ post.activity.text }}</span>
+                      <span v-if="post.tags && post.tags.length !== 0 "> cùng </span>
                     </span>
                   </span>
                   <!--End: Show activity -->
                   <!--Start: Show tag friend-->
-                  <span class="pl_1">
+                  <span>
                     <span v-if="post.tags && post.tags.length === 0"></span>
                     <span v-else>
                         <!--Start:  If tag 1 friend-->
-                        <span class="result" v-if="post.tags && post.tags.length === 1">với <span v-if="post.tags">{{ post.tags[0].text }}</span></span>
+                        <span class="result" v-if="post.tags && post.tags.length === 1">
+                          <span>với </span>
+                          <span class="text--orange"
+                                v-if="post.tags"
+                                @click="showOptionPostTagsFriend"
+                          >
+                            {{ post.tags[0].text }}
+                          </span>
+                        </span>
                         <!--End: If tag 1 friend-->
                         <!--Start: If tags over 1 friend-->
                         <span v-else class="result">
-                          <span>với <span class="text--orange" v-if="post.tags">{{ post.tags[0].text }}</span></span>
+                          <span>với <span class="text--orange"
+                                          v-if="post.tags"
+                                          @click="showOptionPostTagsFriend"
+                          >
+                            {{ post.tags[0].text }}
+                          </span></span>
                           <span class="more--other position_relative ml_1">
-                            và <span class="text--orange" v-if="post.tags"> {{ post.tags.length - 1 }} người khác</span>
+                            <span>và </span>
+                            <span class="text--orange" v-if="post.tags">{{ post.tags.length - 1 }}</span>
+                            <span> người khác</span>
                             <div class="more--friend position_absolute">
                               <div class="more--wrap">
                                 <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item.text }} </div>
@@ -80,7 +104,11 @@
                   <!--Start: Show check in -->
                   <span class="ml_1">
                     <span v-if="post.place === '' || post.place === undefined"></span>
-                    <span v-else class="result">tại <span class="text--orange">{{ post.place.text }}</span></span>
+                    <span v-else class="result">
+                      <span>tại </span>
+                      <span class="text--orange"
+                            @click="showOptionPostCheckin"
+                      >{{ post.place.text }}</span></span>
                   </span>
                   <!--End: Show check in -->
                 </span>
@@ -134,27 +162,51 @@
               <!--Start: Show tag and check in-->
               <div class="tagger--summary mb_1 p_2">
                 <span class="">
-                  <span v-if="post.tags && post.tags.length > 0 || post.activity && post.activity.length > 0 || post.place && post.place.length > 0"> — </span>
+                  <span v-if="post.tags && post.tags.length > 0 ||
+                              post.activity ||
+                              post.place "
+                  > — </span>
                   <!--Start: Show activity -->
                   <span class="pl_1">
                     <span v-if="post.activity === undefined || post.activity === ''"></span>
                     <span v-else class="">
-                      Đang <span class="emoji" :style="{backgroundImage: 'url('+ post.activity.id.photo +')'}"></span> <span class="feel">{{post.activity.typeActivity.text}}</span> <span class="text_other mx_1">{{ post.activity.text }}</span> cùng
+                      <span>đang</span>
+                      <img class="emoji" :src="post.activity.id.photo" alt>
+                      <span class="feel">{{post.activity.typeActivity.text}} </span>
+                      <span class="text_other"
+                            @click="showOptionPostActivity"
+                      >{{ post.activity.text }}</span>
+                      <span v-if="post.tags && post.tags.length !== 0 "> cùng </span>
                     </span>
                   </span>
                   <!--End: Show activity -->
                   <!--Start: Show tag friend-->
-                  <span class="pl_1">
+                  <span>
                     <span v-if="post.tags && post.tags.length === 0"></span>
                     <span v-else>
                         <!--Start:  If tag 1 friend-->
-                        <span class="result" v-if="post.tags && post.tags.length === 1">với <span v-if="post.tags">{{ post.tags[0].text }}</span></span>
+                        <span class="result" v-if="post.tags && post.tags.length === 1">
+                          <span>với </span>
+                          <span class="text--orange"
+                                v-if="post.tags"
+                                @click="showOptionPostTagsFriend"
+                          >
+                            {{ post.tags[0].text }}
+                          </span>
+                        </span>
                       <!--End: If tag 1 friend-->
                       <!--Start: If tags over 1 friend-->
                         <span v-else class="result">
-                          <span>với <span class="text--orange" v-if="post.tags">{{ post.tags[0].text }}</span></span>
+                          <span>với <span class="text--orange"
+                                          v-if="post.tags"
+                                          @click="showOptionPostTagsFriend"
+                          >
+                            {{ post.tags[0].text }}
+                          </span></span>
                           <span class="more--other position_relative ml_1">
-                            và <span class="text--orange" v-if="post.tags"> {{ post.tags.length - 1 }} người khác</span>
+                            <span>và </span>
+                            <span class="text--orange" v-if="post.tags">{{ post.tags.length - 1 }}</span>
+                            <span> người khác</span>
                             <div class="more--friend position_absolute">
                               <div class="more--wrap">
                                 <div class="more--item" v-for="(item, index) in moreFriend" :key="`f-${index}`"> {{ item.text }} </div>
@@ -170,7 +222,11 @@
                   <!--Start: Show check in -->
                   <span class="ml_1">
                     <span v-if="post.place === '' || post.place === undefined"></span>
-                    <span v-else class="result">tại <span class="text--orange">{{ post.place.text }}</span></span>
+                    <span v-else class="result">
+                      <span>tại </span>
+                      <span class="text--orange"
+                            @click="showOptionPostCheckin"
+                      >{{ post.place.text }}</span></span>
                   </span>
                   <!--End: Show check in -->
                 </span>
@@ -180,7 +236,7 @@
             <!--End: Content Choose Color-->
 
             <!--Start: Choose color text-->
-            <div class="color" v-if="isShowColor === true">
+            <div class="color" v-if="isShowColor === true && post.attachments.length === 0">
               <color-post
                 class="px_2 py_1"
                 @turnOff="isShowColor = $event"
@@ -220,7 +276,6 @@
             v-if="isShowMoreOption === false"
           >
             <li
-              :class="post.color === undefined|| post.color === '' ? '' : 'disable'"
               class="item d_flex align_items_center"
               @click="showOptionPostImages"
             >
@@ -237,7 +292,10 @@
                 <span>Hình ảnh</span>
               </label>
               <form enctype="multipart/form-data" @submit.prevent="sendFile">
-                <input id="upload--images" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
+                <input id="upload--images" hidden type="file"
+                       ref="file"
+                       @change="selectFile(post._id)"
+                       accept="image/x-png,image/gif,image/jpeg" multiple />
               </form>
             </li>
             <li class="item d_flex align_items_center" @click="showOptionPostCheckin">

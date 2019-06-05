@@ -68,6 +68,11 @@ export default {
     selectFile(id) {
       this.file = this.$refs.file.files;
       this.sendFile(id);
+
+      // reset ref
+      const input = this.$refs.file;
+      input.type = 'text';
+      input.type = 'file';
     },
     sendFile() {
       const formData = new FormData();
