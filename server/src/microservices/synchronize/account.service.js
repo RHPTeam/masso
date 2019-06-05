@@ -10,14 +10,6 @@ module.exports = {
       "headers": headers
     } );
   },
-  "createNewPasswordSync": ( url, data, headers ) => {
-    return request( {
-      "method": "patch",
-      "url": urlRequest + url,
-      "data": data,
-      "headers": headers
-    } );
-  },
   "updateUserSync": ( url, data, headers ) => {
     return request( {
       "method": "patch",
