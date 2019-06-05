@@ -2,13 +2,16 @@
   <div class="tag d_flex align_items_center">
     <div class="fixed text_center">Tại</div>
     <div class="option position_relative">
-      <input
-        type="text"
-        placeholder="Bạn đang ở đâu?"
-        v-model="placesName"
-        v-click-outside="close"
-        @click="isShowSuggestDefault = true"
-      />
+      <div class="input--place">
+        <input
+          type="text"
+          placeholder="Bạn đang ở đâu?"
+          v-model="placesName"
+          v-click-outside="close"
+          @click="isShowSuggestDefault = true"
+          @input="searchPlaces"
+        />
+      </div>
       <div class="suggest position_absolute" :data-theme="currentTheme" v-if="isShowSuggestDefault === true">
         <VuePerfectScrollbar class="show">
           <div v-if="this.$store.getters.faceBStatus === 'loading'"
@@ -40,6 +43,8 @@
 </template>
 
 <script>
+import StringFunction from "@/utils/functions/string";
+
 export default {
   props: {
     post: {
@@ -60,11 +65,9 @@ export default {
       return this.$store.getters.places;
     }
   },
-  watch: {
-    placesName(value) {
-      if( value.length !== 0 ) {
-        this.$store.dispatch( "searchPlacesCheckIn", value );
-      }
+  async created() {
+    if ( this.post.place ) {
+      this.placesName = this.post.place.text;
     }
   },
   methods: {
@@ -87,6 +90,14 @@ export default {
     },
     close(){
       this.isShowSuggestDefault = false
+    },
+    searchPlaces() {
+      if ( this.placesName.length !== 0 ) {
+        const dataSender = StringFunction.convertUnicode( this.placesName );
+
+        this.$store.dispatch( "searchPlacesCheckIn", dataSender );
+      }
+      this.isShowSuggestDefault = true;
     }
   }
 };

@@ -122,12 +122,9 @@
         }
         .emoji {
           min-width: 0;
-          max-width: 25px;
-          height: 25px;
-          background-position: center center;
-          background-repeat: no-repeat;
-          background-size: cover;
-          margin: 0 4px;
+          max-width: 16px;
+          height: 16px;
+          margin: 0 .25rem;
         }
         .result {
           font-size: .825rem;
