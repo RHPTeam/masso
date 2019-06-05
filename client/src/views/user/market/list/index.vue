@@ -1,12 +1,18 @@
 <template>
-  <div>
-    this is detail
+  <div class="list--wrapper">
+    <!-- Start: Desktop Component -->
+    <app-desktop></app-desktop>
+    <!-- End: Desktop Component -->
   </div>
 </template>
 
 <script>
-export default {
+import AppDesktop from "./desktop"
 
+export default {
+  components: {
+    AppDesktop
+  }
 }
 </script>
 
