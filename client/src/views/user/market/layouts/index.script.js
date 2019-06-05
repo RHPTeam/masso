@@ -1,4 +1,11 @@
+import AppFooter from  "./desktop/footer";
+import AppHeader from  "./desktop/header";
+
 export default {
+  components: {
+    AppFooter,
+    AppHeader
+  },
   data() {
     return {
       timer: "",
@@ -41,7 +48,7 @@ export default {
       } else if (
         ( parseInt( value.getHours() ) >= 18 && parseInt( value.getHours() ) <= 23 ) || ( parseInt( value.getHours() ) >= 0 && parseInt( value.getHours() ) <= 5 )
       ) {
-        this.$store.dispatch( "changeThemeName", "light" );
+        this.$store.dispatch( "changeThemeName", "dark" );
       }
     }
   }
