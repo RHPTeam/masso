@@ -2,10 +2,10 @@
   <div class="content--header-help d_flex justify_content_between align_items_center" :data-theme="currentTheme">
     <div class="ct">
       <div class="r mx_0 mb_3">
-        <div class="c_md_6 header--left d_flex justify_content_start align_items_center ">
+        <div class="c_md_4 header--left d_flex justify_content_start align_items_center ">
           <!-- Start: Header logo -->
           <div class="logo">
-            <div class="logo d_flex align_items_center">
+            <div class="logo d_flex align_items_center" @click="goToHomeMarket">
               <icon-base
                 icon-name="logo"
                 width="40px"
@@ -21,19 +21,19 @@
           </div>
           <!-- End: Header logo-->
         </div>
-        <div class="c_md_6 header--right d_flex justify_content_end align_items_center">
-          <!-- Start: Redirect to help -->
-                <div class="help mr_2 ml_1" @click="redirectToHelp">
-                  <icon-base
-                    icon-name="menu"
-                    width="25"
-                    height="25"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-help />
-                  </icon-base>
-                </div>
-          <!-- End: Redirect to help -->
+        <div class="c_md_8 header--right d_flex justify_content_end align_items_center">
+          <!-- Start: Favorite -->
+          <router-link class="help mr_2 ml_1" :to="{ name: 'guide_home' }">
+            <icon-base
+              icon-name="menu"
+              width="25"
+              height="25"
+              viewBox="0 0 25 25"
+            >
+              <icon-help />
+            </icon-base>
+          </router-link>
+          <!-- End: Favorite -->
 
           <!-- Start: More Options -->
           <div class="more--options position_relative pr_2">
@@ -101,7 +101,9 @@
             </transition>
           </div>
           <!-- End: More Options -->
-
+          <!-- Start: Sign In -->
+          <div class="btn btn_info">Sign in</div>
+          <!-- End: Sign In -->
           <!-- Start: User Info -->
           <div
             class="profile position_relative d_flex justify_content_end align_items_center"
@@ -192,7 +194,7 @@
         </div>
       </div>
       <div class="bot d_flex align_items_center py_2">
-        <button class="tab btn btn_primary mr_2">Post Popular</button>
+        <router-link class="tab btn btn_primary mr_2" :to="{ name: 'market_list'}">Post Popular</router-link>
         <button class="tab btn btn_dark">Hightlight Post</button>
       </div>
     </div>

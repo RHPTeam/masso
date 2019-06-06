@@ -10,7 +10,7 @@ export default {
     };
   },
   async created() {
-    // await this.$store.dispatch( "getUserInfo" );
+    await this.$store.dispatch( "getUserInfo" );
     // Get User FB Accounts
     this.$store.dispatch( "getAccountsFB" );
   },
@@ -91,6 +91,9 @@ export default {
       }
       this.isShowOptionsMoreDropdown = false;
     },
+    goToHomeMarket(){
+      this.$router.push({ name: 'market_home'});
+    }
   },
 
   filters: {

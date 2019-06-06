@@ -29,6 +29,7 @@ const { agent } = require( "../../../configs/crawl" ),
 
       console.log( resFacebookResponse );
       if ( resFacebookResponse ) {
+        // eslint-disable-next-line space-before-blocks
         if ( resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!" ){
           postSchedule.status = 0;
           await postSchedule.save();

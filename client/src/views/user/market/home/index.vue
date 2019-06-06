@@ -30,15 +30,14 @@
       </div>
       <div class="popular">
         <div class="r">
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2"
-               v-for="( item, index ) in posts"
+          <div class="c_md_6 c_lg_4 mb_3"
+               v-for="( item, index ) in sixNewProducts"
                :key="index"
           >
             <div class="card">
 
               <div class="thumbnail position_relative">
                 <div class="thumbnail--bg"
-                     :style="{ backgroundImage: 'url(' + item.img + ')' }"
                      @click="showDetailPopup( item )"
                 ></div>
                 <div class="icon position_absolute">
@@ -55,439 +54,22 @@
 
               <div class="detail px_3">
                 <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="m_0 name--product">{{ item.name }}</div>
                   <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
+                    <div>by</div>
+                    <div class="avatar mx_1">
                       <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
+                    </div>
+                    <div class="name mr_2">
+                      {{ item._creator.name }}
                     </div>
                   </div>
                 </div>
                 <div class="info d_flex align_items_center">
                   <div class="left">
-                    <p class="price">$23</p>
+                    <p class="price">{{ item.priceCents }} VND</p>
                     <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
-                  </div>
-                  <div class="right d_flex align_items_center ml_auto">
-                    <button class="btn btn_outline_info mr_2">Download</button>
-                    <div class="icon">
-                      <icon-base
-                        icon-name="logo"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 550 550"
-                      >
-                        <icon-copy />
-                      </icon-base>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
-            <div class="card">
-
-              <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
-                <div class="icon position_absolute">
-                  <icon-base
-                    icon-name="logo"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 25 25"
-                  >
-                    <icon-info />
-                  </icon-base>
-                </div>
-              </div>
-
-              <div class="detail px_3">
-                <div class="desc">
-                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
-                  <div class="editor d_flex align_items_center">
-                    <div class="name mr_2">
-                      by Liu Kang
-                    </div>
-                    <div class="avatar">
-                      <img src="https://pixel.nymag.com/imgs/daily/vulture/2018/11/02/02-avatar-2.w700.h700.jpg">
-                    </div>
-                  </div>
-                </div>
-                <div class="info d_flex align_items_center">
-                  <div class="left">
-                    <p class="price">$23</p>
-                    <div class="rate"></div>
-                    <div class="sales">56 sales</div>
+                    <div class="sales">{{ item.numberOfSales }} đã sử dụng</div>
                   </div>
                   <div class="right d_flex align_items_center ml_auto">
                     <button class="btn btn_outline_info mr_2">Download</button>
@@ -548,18 +130,15 @@ export default {
   data() {
     return {
       isShowDetailPopup: false,
-      productSelected: {},
-      posts: [
-        {
-          img: "https://hinhanhdepvai.com/wp-content/uploads/2017/05/hot-girl.jpg",
-          title: "Cho tôi một vé trở về tuổi thơ",
-          editor: "Đặng Yến",
-          price: "100,000",
-          tags: [ "du lịch", "mỹ phẩm" ],
-          sale: 103,
-          updatedAt: "2019-06-05T12:27:39.126+00:00"
-        }
-      ]
+      productSelected: {}
+    }
+  },
+  computed: {
+    products(){
+      return this.$store.getters.allProduct;
+    },
+    sixNewProducts() {
+      return this.products.slice(this.products.length - 6, this.products.length).reverse();
     }
   },
   methods: {
@@ -575,10 +154,17 @@ export default {
       this.productSelected = val;
       this.isShowDetailPopup = true;
     }
-  }
+  },
+  created() {
+    this.$store.dispatch("products");
+  },
 }
 </script>
 
 <style lang="scss" scoped>
-  @import "index.style";
+@import "index.style";
+.thumbnail--bg{
+  background: url("https://hinhanhdepvai.com/wp-content/uploads/2017/05/hot-girl.jpg") no-repeat;
+  background-size: cover;
+}
 </style>
