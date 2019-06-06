@@ -20,14 +20,6 @@
             </div>
           </div>
           <!-- End: Header logo-->
-
-          <!-- Start: Header Post Button-->
-          <button type="button">Post</button>
-          <!-- End: Header Post Button-->
-
-          <!-- Start: Header Campaign Button-->
-          <button type="button">Campaign</button>
-          <!-- End: Header Campaign Button-->
         </div>
         <div class="c_md_6 header--right d_flex justify_content_end align_items_center">
           <!-- Start: Redirect to help -->
@@ -198,6 +190,10 @@
 
 
         </div>
+      </div>
+      <div class="bot d_flex align_items_center py_2">
+        <button class="tab btn btn_primary mr_2">Post Popular</button>
+        <button class="tab btn btn_dark">Hightlight Post</button>
       </div>
     </div>
   </div>

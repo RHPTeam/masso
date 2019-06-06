@@ -1,220 +1,478 @@
 <template>
-  <div class="main--content ct_f">
-    <!-- Start: Search -->
-    <div class="p_4 search d_flex align_content_center justify_content_center ">
-      <div class="d_flex flex_column text_center">
-        <span class="p_2">100 Bài Post và Campaign với giá chỉ từ 10.000 VND</span>
-        <span class="p_2"> Các bài mẫu Post và Campaign bán hàng được dựng sẵn. Giúp bạn tiết kiệm thời gian và bán hàng hiệu quả hơn.</span>
-        <!--<div class="p_2">-->
-          <!--<input type="text">-->
-          <!--<button type="button">search</button>-->
-        <!--</div>-->
-        <div class="form_group d_flex align_content_center justify_content_center p_2">
-          <input
-            type="text"
-            class="form_control"
-            placeholder="Nhập tên Post/Campaign mà bạn tìm kiếm"
-          />
-            <button class="p_2" type="button">Search</button>
+  <div class="main ct">
+    <h3>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem, esse.</h3>
+    <div class="products">
+      <div class="tab d_flex justify_content_center py_3">
+        <div class="d_flex align_items_center">
+          <button class="btn btn_outline_info mr_3">Post Popular</button>
+          <button class="btn btn_outline_info">Campaigns Simple</button>
         </div>
       </div>
-    </div>
-    <!-- End: Search -->
+      <div class="popular">
+        <div class="r">
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
 
-    <!-- Start: Option Tab -->
-    <div class="option--tab p_4">
-      <div class="p_4 d_flex align_content_center justify_content_center">
-        <div @click="isShowDefault = true">
-          <h1>Post</h1>
-        </div>
-        <div @click="isShowDefault = false">
-          <h1>Campaign</h1>
-        </div>
-      </div>
-      <div class="option">
-
-        <!-- Post -->
-        <div v-if="isShowDefault === true">
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="d_flex flex_column">
-                <div>
-                  <img src="https://img.purch.com/w/660/aHR0cDovL3d3dy5saXZlc2NpZW5jZS5jb20vaW1hZ2VzL2kvMDAwLzEwNC84MzAvb3JpZ2luYWwvc2h1dHRlcnN0b2NrXzExMTA1NzIxNTkuanBn" alt="">
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
                 </div>
-                <div class="d_flex flex_column">
-                  <div>
-                    <h3>Mẫu post auto 100 đơn/ngày</h3>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
                   </div>
-                  <div>
-                    <div class="r">
-                      <div class="c">
-                        <div>10.000 VND</div>
-                        <div>10 sales</div>
-                      </div>
-                      <div>
-                        thumbnail
-                      </div>
-                      <div>
-                        <button>preview</button>
-                      </div>
-                      <div>
-                        <button>cart</button>
-                      </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
           </div>
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-          </div>
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Post
-              </div>
-            </div>
-          </div>
-        </div>
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
 
-        <!-- Campaign -->
-        <div v-if="isShowDefault === false">
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="card">
-                Campaign
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
               </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="card">
-                Campaign
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
               </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
-              </div>
-            </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="r p_4">
-            <div class="c_4">
-              <div class="card">
-                Campaign
+
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
+          </div>
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="c_4">
-              <div class="card">
-                Campaign
+          </div>
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+            <div class="card">
+
+              <div class="thumbnail position_relative">
+                <img src="" alt="">
+                <div class="position_absolute">
+                  <icon-base
+                    icon-name="logo"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 25 25"
+                  >
+                    <icon-info />
+                  </icon-base>
+                </div>
+              </div>
+
+              <div class="detail px_3">
+                <div class="desc">
+                  <h4 class="m_0">Lorem ipsum dolor sit amet.</h4>
+                  <div class="editor d_flex align_items_center">
+                    <div class="name">by Liu Kang</div>
+                    <div class="avatar"></div>
+                  </div>
+                </div>
+                <div class="info d_flex align_items_center">
+                  <div class="left">
+                    <p class="price">$23</p>
+                    <div class="rate"></div>
+                    <div class="sales">56 sales</div>
+                  </div>
+                  <div class="right d_flex align_items_center ml_auto">
+                    <button class="btn btn_outline_info mr_2">preview</button>
+                    <div class="icon">
+                      <icon-base
+                        icon-name="logo"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 550 550"
+                      >
+                        <icon-copy />
+                      </icon-base>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- End: Search -->
-
-    <!-- Start: Highlight -->
-    <div class=" highlight p_4">
-      <h1 class="d_flex align_content_center justify_content_center">Highlight</h1>
-      <div class="r p_4">
-        <div class="c_4">
-          <div class="card">
-            Post
-          </div>
+    <div class="join">
+      <div class="r">
+        <div class="c_md_6 c_lg_6 c_xl_6">
+          <div class="mb_2">Nếu bạn chưa có tài khoản, vui lòng đăng ký để có trải nghiệm tốt hơn</div>
+          <form>
+            <div class="form_group">
+              <div class="mb_2">Nhập email của bạn</div>
+              <input type="text" class="form_control" placeholder="Nhập email ..." />
+            </div>
+          </form>
         </div>
-        <div class="c_4">
-          <div class="card">
-            Post
-          </div>
-        </div>
-        <div class="c_4">
-          <div class="card">
-            Post
-          </div>
+        <div class="c_md_6 c_lg_6 c_xl_6">
+          <div class="mb_2">Vui lòng đăng nhập nếu bạn đã có tài khoản của hệ thống zinbee</div>
+          <button class="btn btn_outline_info">Đăng nhập</button>
         </div>
       </div>
     </div>
-    <!-- End: Highlight -->
-    <!-- Start: Join Us -->
-    <div class="join--us p_4 d_flex align_content_center justify_content_center">
-      <div class="d_flex flex_column">
-        <h1 class="text_center">Join Us</h1>
-        <span class="p_4">Community is the heart of Envato! Jump on our busy online forums where experts share their knowledge and you can get help from fellow </span>
-        <button type="button">Bắt Đầu</button>
-      </div>
-    </div>
-    <!-- End: Join Us -->
   </div>
-
 </template>
+
 <script>
-  export default {
-    data() {
-      return {
-        isShowDefault: true
-      }
-    },
-  }
+export default {
+
+}
 </script>
 
-<style lang="scss" scoped>
-  @import "index.style";
+<style scoped>
+
 </style>
