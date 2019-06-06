@@ -1,9 +1,9 @@
 <template>
   <div class="list--wrapper">
-    <div class="r px_3">
+    <div class="r px_3 m_0">
       <app-search/>
     </div>
-    <div class="r">
+    <div class="r m_0">
       <div class="c_md_3">
         <!-- Start: App Sidebar-->
         <app-sidebar></app-sidebar>

@@ -39,6 +39,14 @@ import PostSchedule from "./modules/post/postschedule.store";
 import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 
+/**
+ * Store for Market
+ */
+
+      //  ---------- POST
+
+import ListPost from "./modules/market/product.store";
+
 
 
 export default new Vuex.Store( {
@@ -75,6 +83,12 @@ export default new Vuex.Store( {
     PostSchedule,
     PostFacebookStore,
     PostGroupStore,
-    GroupBlock
+    GroupBlock,
+    /**
+     * Store for Market
+     */
+
+    //  ---------- POST
+    ListPost
   }
 } );
