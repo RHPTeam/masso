@@ -42,6 +42,9 @@ export default {
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );
       this.showDropdown = false
+    },
+    closeShowDropdown(){
+      this.showDropdown = false;
     }
   },
   components: {

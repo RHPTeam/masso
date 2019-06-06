@@ -52,6 +52,7 @@ Vue.component( "IconInputSearch", () =>
   import( "@/components/icons/IconInputSearch" )
 );
 Vue.component("IconLibs", () => import("@/components/icons/IconLibs"));
+Vue.component("IconLike", () => import("@/components/icons/IconLike"));
 Vue.component("IconLink", () => import("@/components/icons/IconLink"));
 Vue.component("IconList", () => import("@/components/icons/IconList"));
 Vue.component("IconLock", () => import("@/components/icons/IconLock"));
@@ -83,6 +84,7 @@ Vue.component( "IconSandClock", () => import( "@/components/icons/IconSandClock"
 Vue.component( "IconScript", () => import( "@/components/icons/IconScript" ) );
 Vue.component( "IconSecurity", () => import( "@/components/icons/IconSecurity" ) );
 Vue.component( "IconSortDown", () => import( "@/components/icons/IconSortDown" ) );
+Vue.component( "IconShare", () => import( "@/components/icons/IconShare" ) );
 Vue.component( "IconSmile", () => import( "@/components/icons/IconSmile" ) );
 Vue.component( "IconStop", () => import( "@/components/icons/IconStop" ) );
 Vue.component( "IconSend", () => import( "@/components/icons/IconSend" ) );

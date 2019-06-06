@@ -148,7 +148,8 @@
       "keyProduct": {
         "title": "Từ khóa sản phẩm dịch vụ",
         "desc": "Chúng tôi sẽ dựa trên những từ khóa này để gợi ý các nội dung phù hợp nhất với bạn.",
-        "placeholder": "Nhập từ khóa của bạn..."
+        "placeholder": "Nhập từ khóa và nhấn phím Enter",
+        "emptyData": "Bạn chưa cung cấp từ khóa cho hệ thống"
       },
 
       "slowConnect": {
@@ -270,7 +271,7 @@
 
     "friends": {
       "title": "Khách hàng tiềm năng",
-      "titleContent": "Bạn bè Facebook",
+      "titleContent": "Khách hàng tiềm năng",
       "desc": "Trang giúp bạn thiết lập nhanh các nhóm bạn bè",
 
       "loading": {

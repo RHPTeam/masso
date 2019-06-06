@@ -138,9 +138,4 @@ export default {
   height: 207px;
   opacity: 0.3;
 }
-
-.upload--image{
-  background: #fff;
-  color: #000;
-}
 </style>

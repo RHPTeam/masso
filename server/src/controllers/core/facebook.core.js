@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 const {
   linkGetActionTypeLoader,
   linkGetItemActionTypeLoader,
@@ -206,6 +207,42 @@ module.exports = {
               )}`
             }
           } );
+        }
+        return resolve( {
+          "error": {
+            "code": 404,
+            "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+          },
+          "results": []
+        } );
+      } );
+    } );
+  },
+  "loadFans": ( { cookie, agent } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "GET",
+        "url": `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`,
+        "headers": {
+          "User-Agent": agent,
+          "Cookie": cookie
+        }
+      };
+
+      request( option, ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          // eslint-disable-next-line no-unused-vars
+          const $ = cheerio.load( body );
+
+          if ( body.includes( "https://www.facebook.com/login" ) ) {
+            return resolve( {
+              "error": {
+                "code": 405,
+                "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
+              },
+              "results": []
+            } );
+          }
         }
         return resolve( {
           "error": {

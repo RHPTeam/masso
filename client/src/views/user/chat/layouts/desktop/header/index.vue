@@ -22,44 +22,49 @@
     <!-- Start: Header Right -->
     <div class="header--right d_flex align_items_center">
       <!-- Start: Messenger Link-->
-      <div class="messenger--group position_relative" @click="goToMessenger">
+      <div class="messenger--group position_relative">
         <!-- Start: Btn Messenger -->
-        <!-- <router-link :to="{ name: 'messenger' }" class="mess"> -->
-          <div class="btn--messenger position_relative mr_3 d_flex"
+        <router-link :to="{ name: 'messenger' }" class="mess">
+          <div class="btn--messenger position_relative mr_3 d_flex align_items_center"
           >
-            <div class="mt_1">
-              <icon-base
-                class="icon--messenger"
-                width="25px"
-                height="20px"
-                viewBox="0 0 12 12"
-              >
-                <icon-messenger></icon-messenger>
-              </icon-base>
-              <!-- <div class="messenger--total position_absolute">
-                <div class="text text_center">0</div>
-              </div> -->
-            </div>
-            <div class="pl_2 open--mess">Mở bằng messenger</div>
+            <icon-base
+              class="icon--messenger"
+              width="24px"
+              height="18px"
+              viewBox="0 0 12 12"
+            >
+              <icon-messenger></icon-messenger>
+            </icon-base>
+            <!-- <div class="messenger--total position_absolute">
+              <div class="text text_center">0</div>
+            </div> -->
+            <div class="pl_2 open--mess">Mở messenger</div>
           </div>
-        <!-- </router-link> -->
+        </router-link>
         <!-- End: Btn Messenger -->
-        <!-- Start: Messenger Popup Warn -->
-      
-        <!-- End: Messenger Popup Warn -->
+        <!-- Start: Messenger Dropdown -->
+        <!-- <div class="messenger--dropdown position_absolute">
+          <transition name="dropdown">
+            <header-messenger
+              v-if="isShowMessengerDropdown"
+              :messages="notifications"
+              @closeDropdown="isShowMessengerDropdown = $event"
+            ></header-messenger>
+          </transition>
+        </div> -->
+        <!-- End: Messenger Dropdown -->
       </div>
       <!-- Start: Messenger Link-->
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3"
              @click="showNotificationDropdown"
-             v-click-outside="closeNotificationDropdown"
         >
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="bell"
-            width="30px"
-            height="30px"
+            width="24px"
+            height="24px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>
@@ -73,6 +78,7 @@
           <transition name="dropdown">
             <header-notification
               v-if="isShowNotificationDropdown"
+              v-click-outside="closeNotificationDropdown"
               :notifications="notifications"
               @closeDropdown="isShowNotificationDropdown = $event"
             ></header-notification>
@@ -85,74 +91,86 @@
       <div class="more--options position_relative pr_2">
         <div @click="showOptionsMoreDropdown" class="more mt_2">
           <icon-base
-            icon-name="application"
-            width="30px"
-            height="30px"
+            class="icon--application"
+            :class="{ active: isShowOptionsMoreDropdown }"
+            width="24px"
+            height="24px"
             viewBox="0 0 512 512"
           >
             <icon-application />
           </icon-base>
         </div>
-        <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
-          <div class="d_flex text_center r m_0 application">
-            <!-- Zin post -->
-            <div class="zin--post item c_4" @click="gotoHomePost">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zin-post />
-              </icon-base>
-              <div class="pt_1">Zin Post</div>
+        <transition name="dropdown">
+          <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+            <div class="d_flex text_center r m_0 application">
+              <div class="zin--post item c_4" @click="gotoHomePost">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zin-post />
+                </icon-base>
+                <div class="pt_1">Zin Post</div>
+              </div>
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zin-chat />
+                </icon-base>
+                <div class="pt_1">Zin Chat</div>
+              </div>
+              <div class="zin--post instagram item c_4">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 550 550"
+                >
+                  <icon-instagram />
+                </icon-base>
+                <div class="pt_1">Instagram</div>
+              </div>
+              <div class="zin--post zalo item c_4">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zalo />
+                </icon-base>
+                <div class="pt_1">Zalo</div>
+              </div>
             </div>
-            <!-- Zin Chat -->
-            <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zin-chat />
-              </icon-base>
-              <div class="pt_1">Zin Chat</div>
-            </div>
-            <!-- Zin instagram -->
-            <div class="zin--post instagram item c_4 position_relative">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 550 550"
-              >
-                <icon-instagram />
-              </icon-base>
-              <div class="pt_1">Instagram</div>
-            </div>
-            <!-- Zin zalo -->
-            <div class="zin--post zalo item c_4 position_relative">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zalo />
-              </icon-base>
-              <div class="pt_1">Zalo</div>
-            </div>
+            <div class="text_center view-more">Xem thêm</div>
           </div>
-          <div class="text_center view-more">Xem thêm</div>
-        </div>
+        </transition>
       </div>
       <!-- End: More Options -->
+
+      <!-- Start: Redirect to help -->
+      <!--      <div class="help mr_2 ml_1" @click="redirectToHelp">-->
+      <!--        <icon-base-->
+      <!--          icon-name="menu"-->
+      <!--          width="25"-->
+      <!--          height="25"-->
+      <!--          viewBox="0 0 25 25"-->
+      <!--        >-->
+      <!--          <icon-help />-->
+      <!--        </icon-base>-->
+      <!--      </div>-->
+      <!-- End: Redirect to help -->
+
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
-        @click="showProfileDropdown"
-        v-click-outside="closeProfileDropdown"
+        @click="showProfileDropdown" v-click-outside="closeProfileDropdown"
       >
         <div class="profile--image">
           <div
@@ -234,7 +252,6 @@
         <!-- End: Dropdown Menu -->
       </div>
       <!-- End: User Info -->
-      
     </div>
     <!-- End: Header Right -->
   </div>
@@ -245,3 +262,4 @@
 <style scoped lang="scss">
 @import "index.style";
 </style>
+

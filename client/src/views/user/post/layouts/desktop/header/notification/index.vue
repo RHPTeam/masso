@@ -89,7 +89,7 @@ export default {
       this.isShowActionDropdown = null;
     },
     seeAllNotifications() {
-      this.$router.push( { name: "notifications" } );
+      this.$router.push( { name: "post_notifications" } );
       this.$emit( "closeDropdown", false );
     },
     showActionDropdown( index ) {

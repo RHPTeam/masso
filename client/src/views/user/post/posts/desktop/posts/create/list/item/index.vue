@@ -25,12 +25,16 @@
       <div class="col col--share px_3">{{ item.share }}</div>
 
       <div class="col col--action px_3 text_center">
-        <span class="mx_1">
+        <span class="mx_1"
+              @click="updatePost"
+        >
           <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
-        <span class="mx_1" @click="openPopupDetail">
+        <span class="mx_1"
+              @click="openPopupDetail"
+        >
           <icon-base icon-name="icon-info" viewBox="0 0 18 18">
             <icon-info />
           </icon-base>
@@ -56,11 +60,17 @@ export default {
   components: {
     PopupDetail
   },
-  props: [ "index.vue" ],
+  props: [ "item" ],
   data() {
     return {
       showDetail: false
     };
+  },
+  computed: {
+    post() {
+      if ( Object.entries( this.$store.getters.post ).length === 0 && this.$store.getters.post.constructor === Object ) return;
+      return this.$store.getters.post;
+    },
   },
   methods: {
     sliceImage(){
@@ -68,6 +78,12 @@ export default {
     },
     openPopupDetail(){
       this.showDetail = true;
+    },
+    updatePost() {
+      this.post.attachments = this.item.attachments;
+      this.post.content = this.item.content;
+
+      this.$store.dispatch( "updatePost", this.post );
     }
   }
 }

@@ -25,22 +25,20 @@
       <div class="messenger--group position_relative">
         <!-- Start: Btn Messenger -->
         <router-link :to="{ name: 'messenger' }" class="mess">
-          <div class="btn--messenger position_relative mr_3 d_flex"
+          <div class="btn--messenger position_relative mr_3 d_flex align_items_center"
           >
-            <div class="mt_1">
-              <icon-base
-                class="icon--messenger"
-                width="25px"
-                height="20px"
-                viewBox="0 0 12 12"
-              >
-                <icon-messenger></icon-messenger>
-              </icon-base>
-              <!-- <div class="messenger--total position_absolute">
-                <div class="text text_center">0</div>
-              </div> -->
-            </div>
-            <div class="pl_2 open--mess">Mở bằng messenger</div>
+            <icon-base
+              class="icon--messenger"
+              width="24px"
+              height="18px"
+              viewBox="0 0 12 12"
+            >
+              <icon-messenger></icon-messenger>
+            </icon-base>
+            <!-- <div class="messenger--total position_absolute">
+              <div class="text text_center">0</div>
+            </div> -->
+            <div class="pl_2 open--mess">Mở messenger</div>
           </div>
         </router-link>
         <!-- End: Btn Messenger -->
@@ -65,8 +63,8 @@
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="bell"
-            width="30px"
-            height="30px"
+            width="24px"
+            height="24px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>
@@ -80,6 +78,7 @@
           <transition name="dropdown">
             <header-notification
               v-if="isShowNotificationDropdown"
+              v-click-outside="closeNotificationDropdown"
               :notifications="notifications"
               @closeDropdown="isShowNotificationDropdown = $event"
             ></header-notification>
@@ -92,63 +91,66 @@
       <div class="more--options position_relative pr_2">
         <div @click="showOptionsMoreDropdown" class="more mt_2">
           <icon-base
-            icon-name="application"
-            width="30px"
-            height="30px"
+            class="icon--application"
+            :class="{ active: isShowOptionsMoreDropdown }"
+            width="24px"
+            height="24px"
             viewBox="0 0 512 512"
           >
             <icon-application />
           </icon-base>
         </div>
-        <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
-          <div class="d_flex text_center r m_0 application">
-            <div class="zin--post item c_4" @click="gotoHomePost">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zin-post />
-              </icon-base>
-              <div class="pt_1">Zin Post</div>
+        <transition name="dropdown">
+          <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+            <div class="d_flex text_center r m_0 application">
+              <div class="zin--post item c_4" @click="gotoHomePost">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zin-post />
+                </icon-base>
+                <div class="pt_1">Zin Post</div>
+              </div>
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zin-chat />
+                </icon-base>
+                <div class="pt_1">Zin Chat</div>
+              </div>
+              <div class="zin--post instagram item c_4">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 550 550"
+                >
+                  <icon-instagram />
+                </icon-base>
+                <div class="pt_1">Instagram</div>
+              </div>
+              <div class="zin--post zalo item c_4">
+                <icon-base
+                  icon-name="bell"
+                  width="50px"
+                  height="50px"
+                  viewBox="0 0 512 512"
+                >
+                  <icon-zalo />
+                </icon-base>
+                <div class="pt_1">Zalo</div>
+              </div>
             </div>
-            <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zin-chat />
-              </icon-base>
-              <div class="pt_1">Zin Chat</div>
-            </div>
-            <div class="zin--post instagram item c_4">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 550 550"
-              >
-                <icon-instagram />
-              </icon-base>
-              <div class="pt_1">Instagram</div>
-            </div>
-            <div class="zin--post zalo item c_4">
-              <icon-base
-                icon-name="bell"
-                width="50px"
-                height="50px"
-                viewBox="0 0 512 512"
-              >
-                <icon-zalo />
-              </icon-base>
-              <div class="pt_1">Zalo</div>
-            </div>
+            <div class="text_center view-more">Xem thêm</div>
           </div>
-          <div class="text_center view-more">Xem thêm</div>
-        </div>
+        </transition>
       </div>
       <!-- End: More Options -->
 
@@ -168,7 +170,7 @@
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
-        @click="showProfileDropdown"
+        @click="showProfileDropdown" v-click-outside="closeProfileDropdown"
       >
         <div class="profile--image">
           <div

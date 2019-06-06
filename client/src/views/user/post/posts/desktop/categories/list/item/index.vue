@@ -55,7 +55,7 @@
 
 <script>
 export default {
-  props: [ "index.vue" ],
+  props: [ "item" ],
   methods: {
     updateCategory() {
       this.$emit( "updateCategory", this.item );

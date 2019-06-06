@@ -7,10 +7,10 @@
           <multiselect
             label="title"
             placeholder="Chọn nhóm muốn đăng"
-            :value="event.target_category"
+            :value="postTargetCategory"
             :clearable="false"
-            :options="groupPost"
-            @input="selectGroupPost"
+            :options="facebookGroups"
+            @input="selectFacebookGroup"
           />
         </div>
         <div class="desc mt_1 px_2">Bao gồm
@@ -33,19 +33,20 @@ export default {
   },
   data() {
     return {
-      selectedGroups: {}
+      postTargetCategory: [],
+
     }
   },
   computed: {
     event() {
       return this.$store.getters.event;
     },
-    groupPost(){
-      return this.$store.getters.postGroups;
+    facebookGroups(){
+      return this.$store.getters.facebookGroups;
     }
   },
   methods: {
-    selectGroupPost( value ) {
+    selectFacebookGroup( value ) {
       this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",

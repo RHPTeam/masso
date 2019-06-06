@@ -46,7 +46,7 @@ export default {
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
-      window.location = process.env.VUE_APP_PARENT_URL;
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;

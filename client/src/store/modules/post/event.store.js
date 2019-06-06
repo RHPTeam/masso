@@ -150,6 +150,14 @@ const actions = {
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
   },
+  deleteEvent: async ({commit}, payload) => {
+    await EventsServices.delete(payload.eventId);
+    const result = await EventsServices.index();
+    await commit( "setEvents", result.data.data );
+    //update campaign detail
+    const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
+    await commit( "setCampaignDetail", campaignDetail.data.data );
+  },
   setEvent: ( { commit }, payload ) => {
     commit( "set_event", payload );
   },

@@ -7,10 +7,9 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} </span>
-            {{ typeName }}
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} {{ typeName }}</span>
             <span class="text--bold pr_1">{{ targetData.userInfo.name }}</span>
-            {{ $t('chat.common.popup.delete.willDelete') }}
+            <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
             <span v-if="description !== '' ">{{ description }}</span>
 
             <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
