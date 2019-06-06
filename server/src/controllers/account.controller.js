@@ -21,7 +21,7 @@ module.exports = {
     const { body, file } = req,
       userInfo = await Account.findOne( { "_id": req.uid } );
 
-    let data, resUserSync;
+    let data, resUserSync, avatar;
 
     // Check update user info if user upload profile
     if ( file ) {
@@ -34,8 +34,8 @@ module.exports = {
         return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
       }
 
-      userInfo.imageAvatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
-      await userInfo.save();
+      avatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
+      await Account.findByIdAndUpdate( userInfo._id, { "$set": { "imageAvatar": avatar } }, { "new": true } ).select( "-password -__v" );
 
       return res.status( 201 ).json( jsonResponse( "success", userInfo ) );
     }
@@ -90,16 +90,12 @@ module.exports = {
     const { password } = req.body,
       userInfo = await Account.findOne( { "_id": req.uid } );
 
-    console.log( req.uid );
-    console.log( req.headers.authorization );
-
     if ( !userInfo ) {
       return res.send( { "status": "error", "message": "Người dùng không tồn tại trên server này" } );
     }
 
     userInfo.password = password;
 
-    // Save
     await userInfo.save();
 
     res.send( { "status": "success", "data": null } );
