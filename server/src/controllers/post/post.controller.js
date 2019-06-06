@@ -447,5 +447,8 @@ module.exports = {
       await createSchedule( listPostSchedule );
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
+  },
+  "createSyncFromMarket": async ( req, res ) => {
+
   }
 };
