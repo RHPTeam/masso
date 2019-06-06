@@ -8,7 +8,12 @@ const marketRouter = {
       path: "",
       name: "market_home",
       component: require( "@/views/user/market/home" ).default
-    }
+    },
+    {
+      path: "list",
+      name: "market_list",
+      component: require( "@/views/user/market/list" ).default
+    },
   ]
 };
 
