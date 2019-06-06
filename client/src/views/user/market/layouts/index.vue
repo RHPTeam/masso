@@ -2,11 +2,29 @@
   <div class="wrapper" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
     <div class="wrap--content d_none d_md_flex">
-      <router-view />
+      <div class="wrap--content-main">
+        <!-- Start: Header-->
+        <div class="main--header">
+          <app-header/>
+        </div>
+        <!-- End: Header-->
+        <!-- Start: Content-->
+        <div class="main--content">
+          <router-view />
+        </div>
+        <!-- End: Content-->
+        <!-- Start: Footer-->
+        <div class="main--footer">
+          <app-footer/>
+        </div>
+        <!-- End: Footer-->
+      </div>
     </div>
     <!-- End: Desktop Component-->
   </div>
 </template>
+
+
 <script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
@@ -14,7 +32,6 @@
     min-height: 100vh;
     .wrap--content-main {
       width: 100%;
-      padding: 30px 60px 60px 0;
     }
     .mobile-scroll {
       height: calc(100vh - 110px);
