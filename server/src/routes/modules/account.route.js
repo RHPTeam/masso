@@ -39,7 +39,6 @@ const multer = require( "multer" ),
   } );
 
 router.route( "/" ).patch( auth, upload.single( "profileUrl" ), AccountController.update );
-
 router.route( "/change-password" ).patch( auth, AccountController.changePassword );
 router.route( "/create-password" ).post( auth, AccountController.createNewPassword );
 router.route( "/info" ).get( auth, AccountController.show );

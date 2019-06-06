@@ -11,6 +11,7 @@ router.use( "/users", require( "./modules/account.route" ) );
 router.use( "/password", require( "./modules/forgetPassword.route" ) );
 router.use( "/facebook", auth, require( "./modules/facebook.route" ) );
 router.use( "/roles", auth, require( "./modules/role.route" ) );
+router.use( "/backup", auth, require( "./modules/backup.route" ) );
 
 // Live Route
 
