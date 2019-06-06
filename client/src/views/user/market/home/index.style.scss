@@ -1,6 +1,7 @@
 .search {
   .form--search {
     width: 50%;
+    height: 60px;
   }
   .icon--search {
     top: 0.4rem;
@@ -8,18 +9,28 @@
   }
   .search--input {
     width : 100%;
+    border-radius: 10px;
   }
 }
 
 .popular {
   .card {
-    img {
-      width: 100%;
-    }
     .icon {
       bottom :1rem;
       right: 1rem;
     }
+  }
+}
+.thumbnail {
+  cursor: pointer;
+  height: 200px;
+  width: 100%;
+  .thumbnail--bg {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
   }
 }
 
@@ -33,6 +44,7 @@
     width: 30px;
     height: 30px;
     img {
+      width: 100%;
       border-radius:50%;
       -moz-border-radius:50%;
       -webkit-border-radius:50%;

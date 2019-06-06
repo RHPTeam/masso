@@ -7,13 +7,7 @@
 
       <div class=" d_flex justify_content_center mt_2">
         <div class="form--search d_flex align_content_center position_relative">
-          <!--<form>-->
-            <!--<div class="form_group mr_3">-->
-              <!--<input type="text" class="form_control" placeholder="Nhập Post/Campaign cần tìm ..." />-->
-            <!--</div>-->
-          <!--</form>-->
-          <!--<button class="btn btn_outline_info">Search</button>-->
-          <div class="icon--search position_absolute">
+          <div class="icon--search position_absolute btn">
             <icon-base
               icon-name="logo"
               width="24"
@@ -36,11 +30,17 @@
       </div>
       <div class="popular">
         <div class="r">
-          <div class="c_md_6 c_lg_4 c_xl_4 mb_2">
+          <div class="c_md_6 c_lg_4 c_xl_4 mb_2"
+               v-for="( item, index ) in posts"
+               :key="index"
+          >
             <div class="card">
 
               <div class="thumbnail position_relative">
-                <img src="https://www.aybu.edu.tr/insanvetoplum/psikoloji/contents/images/facebook-logo.jpg" alt="">
+                <div class="thumbnail--bg"
+                     :style="{ backgroundImage: 'url(' + item.img + ')' }"
+                     @click="showDetailPopup( item )"
+                ></div>
                 <div class="icon position_absolute">
                   <icon-base
                     icon-name="logo"
@@ -527,12 +527,55 @@
         </div>
       </div>
     </div>
+    <!-- *************POPUP************* -->
+    <transition name="popup">
+      <detail-popup
+        v-if="isShowDetailPopup"
+        :product="productSelected"
+        @closePopup="isShowDetailPopup = $event"
+      ></detail-popup>
+    </transition>
   </div>
 </template>
 
 <script>
-export default {
+import DetailPopup from "../layouts/desktop/popups/detail";
 
+export default {
+  components: {
+    DetailPopup
+  },
+  data() {
+    return {
+      isShowDetailPopup: false,
+      productSelected: {},
+      posts: [
+        {
+          img: "https://hinhanhdepvai.com/wp-content/uploads/2017/05/hot-girl.jpg",
+          title: "Cho tôi một vé trở về tuổi thơ",
+          editor: "Đặng Yến",
+          price: "100,000",
+          tags: [ "du lịch", "mỹ phẩm" ],
+          sale: 103,
+          updatedAt: "2019-06-05T12:27:39.126+00:00"
+        }
+      ]
+    }
+  },
+  methods: {
+    dateFormat( date ) {
+      const dateTime = new Date( date ),
+        day = String( dateTime.getDate() ).padStart( 2, 0 ),
+        month = String( dateTime.getMonth() + 1 ).padStart( 2, 0 ),
+        year = dateTime.getFullYear();
+
+      return `${day}/${month}/${year}`;
+    },
+    showDetailPopup( val ) {
+      this.productSelected = val;
+      this.isShowDetailPopup = true;
+    }
+  }
 }
 </script>
 
