@@ -447,5 +447,19 @@ module.exports = {
       await createSchedule( listPostSchedule );
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
+  },
+  "createSyncFromMarket": async ( req, res ) => {
+    req.body._account = req.uid;
+
+    const findPostCategory = new PostCategory( {
+        "_account": req.uid,
+        "title": dictionary.DEFAULT_POSTCATEGORY
+      } ),
+      newPost = await new Post( req.body );
+
+    newPost.categories.push( findPostCategory._id );
+    await newPost.save();
+
+    res.send( { "status": "success", "data": newPost } );
   }
 };
