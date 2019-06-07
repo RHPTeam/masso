@@ -62,12 +62,6 @@ export default {
     this.$store.dispatch( "getFacebookGroups" );
     this.$store.dispatch( "getFacebookPages" );
   },
-  // methods: {
-  //   close() {
-  //     console.log( "cak" );
-  //     this.$emit("close", false);
-  //   }
-  // }
 }
 </script>
 

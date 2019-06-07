@@ -1,5 +1,5 @@
-// import BlockServices from "@/services/modules/chat/block.service";
-// import GroupBlockServices from "@/services/modules/chat/groupBlock.service";
+import BlockServices from "@/services/modules/chat/block.service";
+import GroupBlockServices from "@/services/modules/chat/groupblock.service";
 
 const state = {
   statusGroupBlocks: "",
@@ -32,9 +32,6 @@ const mutations = {
   block_success: state => {
     state.statusBlocks = "success";
   },
-  block_error: state => {
-    state.statusBlocks = "errors.js";
-  },
   /******************** GROUP BLOCKS *********************/
   setGroupBlock: (state, payload) => {
     state.groups = payload;
@@ -47,7 +44,7 @@ const mutations = {
     state.blocks = payload;
   },
   setPreviewUpdate: (state, payload) => {
-    state.dataPreviewUpdate = payload
+    state.dataPreviewUpdate = payload;
   }
 };
 const actions = {
@@ -115,10 +112,10 @@ const actions = {
   deleteItemBlock: async ({ commit }, payload) => {
     await commit("block_request");
     await BlockServices.deleteItemBlock(payload.blockId, payload.itemId);
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data);
     const resultDelItem = await BlockServices.index();
     await commit("setBlock", resultDelItem.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
   deleteItemAttrInBlock: async ({ commit }, payload) => {
@@ -128,29 +125,39 @@ const actions = {
       payload.itemId,
       payload.valueText
     );
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data);
     const resultDelItemAttr = await BlockServices.index();
     await commit("setBlock", resultDelItemAttr.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
     await commit("block_success");
   },
   deleteItemSequenceInBlock: async ({ commit }, payload) => {
     await commit("block_request");
+
     await BlockServices.deleteItemSequenceInBlock(
       payload.blockId,
       payload.itemId,
       payload.sequenceId
     );
+
+    const resultDataUpdate = await BlockServices.show(payload.blockId);
+    commit("setBlock", resultDataUpdate.data.data);
+
     const resultDelItemSequence = await BlockServices.index();
     await commit("setBlock", resultDelItemSequence.data.data);
-    const resultDataUpdate = await BlockServices.show(payload.blockId);
-    commit("setBlock", resultDataUpdate.data.data[0]);
+
     await commit("block_success");
   },
-  getBlock: async ({ commit }, payload) => {
+  /**
+   * Get info block by id
+   * @param commit set status block and set value of block
+   * @param payload : id of block
+   * @returns {Promise<void>}
+   */
+  getInfoBlock: async ({ commit }, payload) => {
     await commit("block_request");
     const result = await BlockServices.show(payload);
-    await commit("setBlock", result.data.data[0]);
+    await commit("setBlock", result.data.data);
     await commit("block_success");
   },
   updateBlock: async ({ commit }, payload) => {
@@ -192,6 +199,7 @@ const actions = {
     await commit("setGroupBlock", resultGroupBlock.data.data);
   }
 };
+
 export default {
   state,
   getters,

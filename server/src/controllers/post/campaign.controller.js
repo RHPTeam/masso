@@ -6,8 +6,13 @@
  * date to: 09/05/2019
  * team: BE-RHP
  */
+// eslint-disable-next-line no-unused-vars
+const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
+const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
 
@@ -23,7 +28,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).lean();
+      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean();
     } else if ( req.query._size && req.query._page ) {
       dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
     } else if ( req.query._size ) {
@@ -90,11 +95,11 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( "_events" );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
     }
 
     // Check switch status of campaign
@@ -102,7 +107,19 @@ module.exports = {
       findCampaign.status = !findCampaign.status;
 
       await Promise.all( findCampaign._events.map( async ( event ) => {
-        await Event.findByIdAndUpdate( event, { "$set": { "status": findCampaign.status } }, { "new": true } );
+        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
+
+        await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
+          if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+            ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+          }
+
+        } ) );
+        await EventSchedule.deleteMany( { "_event": event._id } );
+        event.status = findCampaign.status;
+        await EventScheduleController.create( event, findCampaign._id, req.uid );
+
+        await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
       } ) );
 
       await findCampaign.save();
@@ -118,15 +135,26 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "delete": async ( req, res ) => {
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( "_events" );
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
     }
 
     // delete all event in campain
-    findCampaign._events.map( async ( event ) => await Event.findByIdAndDelete( event ) );
+    findCampaign._events.map( async ( event ) => {
+      const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
+
+      await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
+        if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+          ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+        }
+      } ) );
+      await EventSchedule.deleteMany( { "_event": event._id } );
+
+      await Event.findByIdAndDelete( event );
+    } );
 
     await Campaign.findByIdAndDelete( req.query._campaignId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
@@ -138,19 +166,39 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "duplicate": async ( req, res ) => {
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).populate( { "path": "_events", "select": "-_id -__v -updated_at -created_at" } ).lean(),
+      campaignInfo = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
     }
 
-    findCampaign.title = `${findCampaign.title} Copy`;
+    campaignInfo.title = `${findCampaign.title} Copy`;
 
     // eslint-disable-next-line one-var
-    const newCampaign = new Campaign( findCampaign );
+    const newCampaign = new Campaign( campaignInfo );
+
+    if ( findCampaign._events.length > 0 ) {
+      newCampaign._events = [];
+
+      await Promise.all( findCampaign._events.map( async ( event ) => {
+        const newEvent = new Event( event );
+
+        newCampaign._events.push( newEvent._id );
+        await newEvent.save();
+      } ) );
+    }
 
     await newCampaign.save();
+
+    // eslint-disable-next-line one-var
+    const newCampaignInfo = await Campaign.findOne( { "_id": newCampaign._id } ).populate( "_events" ).lean();
+
+    await Promise.all( newCampaignInfo._events.map( async ( event ) => {
+      // Create to event schedule, Check follow condition
+      await EventScheduleController.create( event, newCampaign._id, req.uid );
+    } ) );
 
 
     // eslint-disable-next-line one-var

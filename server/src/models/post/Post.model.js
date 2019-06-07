@@ -7,6 +7,7 @@ const mongoose = require( "mongoose" ),
     "title": { "type": String, "default": "" },
     "content": { "type": String, "default": "" },
     "color": {
+      "id": String,
       "backgroundColor": String,
       "backgroundImage": String
     },

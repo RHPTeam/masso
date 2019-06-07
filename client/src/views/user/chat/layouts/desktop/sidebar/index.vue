@@ -29,6 +29,25 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
+      <!-- Keywords -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'keywords' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="auto-answer"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-auto-answer />
+          </icon-base>
+          <span class="menu--item-text">{{ $t('chat.keywords.title') }}</span>
+        </a>
+      </router-link>
       <!-- Script -->
       <router-link
         class="menu--item d_flex align_items_center"
@@ -45,25 +64,7 @@
           >
             <icon-script />
           </icon-base>
-          <span class="menu--item-text">Kịch bản</span>
-        </a>
-      </router-link>
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'keywords' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="auto-answer"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-auto-answer />
-          </icon-base>
-          <span class="menu--item-text">Trả lời tự động</span>
+          <span class="menu--item-text">{{ $t('chat.scripts.title') }}</span>
         </a>
       </router-link>
 
@@ -83,7 +84,7 @@
           >
             <icon-friend />
           </icon-base>
-          <span class="menu--item-text">Bạn bè</span>
+          <span class="menu--item-text">{{ $t('chat.friends.title') }}</span>
         </a>
       </router-link>
 
@@ -103,7 +104,7 @@
           >
             <icon-broadcast />
           </icon-base>
-          <span class="menu--item-text">Chiến dịch</span>
+          <span class="menu--item-text">{{ $t('chat.broadcast.title') }}</span>
         </a>
       </router-link>
 
@@ -123,10 +124,71 @@
           >
             <icon-account />
           </icon-base>
-          <span class="menu--item-text">Tài khoản Facebook</span>
+          <span class="menu--item-text">{{ $t('chat.facebook.title') }}</span>
         </a>
       </router-link>
     </ul>
+    <div class="position_fixed flag--sidebar">
+      <!-- Start: Language flag -->
+      <div class="flags position_relative ml_3">
+        <div @click="showFlagDropdown">
+          <icon-base
+            class="icon--flag"
+            icon-name="flag--vietnam"
+            width="24"
+            height="20"
+            viewBox="0 0 460 460">
+            <icon-vietnam-flag/>
+          </icon-base>
+          <span class="px_1">Tiếng Việt</span>
+        </div>
+        <transition name="dropdown">
+          <div
+            v-if="isShowFlagDropdown === true"
+            class="position_absolute dropdown--lang"
+            v-click-outside="closeFlagDropdown"
+          >
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--vietnam"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-vietnam-flag/>
+              </icon-base>
+              <span>Tiếng Việt</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--english"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-america-flag/>
+              </icon-base>
+              <span>English</span>
+            </div>
+            <div @click="closeFlagDropdown" class="item pb_1">
+              <icon-base
+                class="icon--flag mr_2"
+                icon-name="flag--chinese"
+                width="24"
+                height="20"
+                viewBox="0 0 460 460"
+              >
+                <icon-china-flag/>
+              </icon-base>
+              <span>中文</span>
+            </div>
+          </div>
+        </transition>
+      </div>
+      <!-- End: Language flag -->
+    </div>
   </div>
 </template>
 
@@ -134,4 +196,7 @@
 
 <style scoped lang="scss">
 @import "index.style";
+.setup{
+  font-size: 0.8125rem;
+}
 </style>

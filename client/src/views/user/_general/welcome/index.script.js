@@ -34,26 +34,19 @@ export default {
       return this.$store.getters.userInfo;
     },
     allAccountFb() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
     // Get User Info
     await this.$store.dispatch( "getUserInfo" );
     // Get User FB Accounts
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
-      window.location = process.env.VUE_APP_PARENT_URL;
-    },
-    gotoHomePost() {
-      if ( this.allAccountFb.length === 0 ) {
-        this.$router.push( { name: "post_fbaccount" } );
-      } else {
-        this.$router.push( "/post" );
-      }
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
@@ -61,10 +54,27 @@ export default {
     closeDropdownUser() {
       this.showdropdown = false;
     },
+    gotoHomePost() {
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "post_fbaccount" } );
 
-    // go to home chat
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( "/post" );
+
+        window.open(routeData.href, '_blank');
+      }
+    },
     gotoHomeChat(){
-      this.$router.push( "/chat" );
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "facebook" } );
+
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( { name: "scripts" } );
+
+        window.open(routeData.href, '_blank');
+      }
     }
   },
   filters: {

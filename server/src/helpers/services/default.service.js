@@ -10,11 +10,14 @@ const dictionaries = require( "../../configs/dictionaries" );
 module.exports = {
   "defaulSchema": async ( newUser ) => {
     // Create default postcategory
-    const defaultPostCategory = await new PostCategory( { "title": dictionaries.DEFAULT_POSTCATEGORY } );
+    const defaultPostCategory = await new PostCategory( {
+      "title": dictionaries.DEFAULT_POSTCATEGORY,
+      "_account": newUser._id
+    } );
 
     await defaultPostCategory.save();
 
-    // create group default when signup
+    // create item default when signup
 
     const defaultGroup = await new GroupBlock();
 
@@ -53,7 +56,7 @@ module.exports = {
     defaultSchedule.blocks.push( {
       "timeSetting": {
         "dateMonth": `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
-        "hour": date.getHours() + ":0" + date.getMinutes(),
+        "hour": `${date.getHours() }:0${ date.getMinutes()}`,
         "repeat": {
           "typeRepeat": "Không",
           "valueRepeat": ""
@@ -68,6 +71,5 @@ module.exports = {
     newSeq.name = "Chuỗi kịch bản 0";
     newSeq._account = newUser._id;
     await newSeq.save();
-
   }
 };

@@ -1,5 +1,5 @@
 .sidebar {
-    padding: 28px 60px;
+    padding: 1.75rem 3.125rem;
     width: 300px;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
     .sidebar--logo {
@@ -24,7 +24,7 @@
             transition: all 0.4s ease;
             font-weight: normal;
             svg {
-                margin-right: 18px;
+                margin-right: 24px;
                 vertical-align: text-top;
             }
         }
@@ -39,16 +39,80 @@
             }
         }
     }
-    &.collapseMenu {
-        width: 152px;
-        .sidebar--logo-text {
-            display: none;
+    .sidebar--logo-icon {
+        display: none;
+      }
+      &.collapseMenu {
+          width: 152px;
+          .sidebar--logo {
+              margin-left: -15px;
+          }
+          .sidebar--logo-text {
+              display: none;
+          }
+          .sidebar--logo-icon {
+            display: block;
+          }
+          .menu--item {
+              .menu--item-text {
+                  display: none;
+              }
+          }
+          .name--language{
+              display: none;
+          }
+          .flags{
+            .dropdown--lang{
+                width: 50px;
+            }}
+      }
+    .flag--sidebar{
+        bottom: 1.25rem;
+        left: 1.75rem;
+    }
+    .flags{
+      .dropdown--lang{
+        top: -124px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        border-radius: 6px;
+        color: #444;
+        font-size: .875rem;
+        margin-top: 6px;
+        padding: .5rem 0;
+        left: 0;
+        transform-origin: top;
+        transition: all .4s ease-in-out;
+        width: 150px;
+        z-index: 5;
+        &::before {
+          background-color: #fff;
+          border-radius: 6px 0 0;
+          content: "";
+          height: 12px;
+          position: absolute;
+          left: 10px;
+        bottom: -6px;
+          transform: rotate(45deg);
+          width: 12px;
+          z-index: 3;
         }
-        .menu--item {
-            .menu--item-text {
-                display: none;
-            }
+        .item{
+          padding: .375rem .75rem;
+          cursor: pointer;
+          &:hover{
+            background: #ffb94a;
+            color: #fff;
+          }
         }
+      }
+      svg{
+        cursor: pointer;
+        &.icon--flag {
+          vertical-align: top;
+          margin-right: 18px;
+        }
+      }
     }
 }
 
@@ -100,6 +164,21 @@
       color: #f7f7f7;
       font-weight: 600;
     }
+  }
+  .flags{
+      .dropdown--lang{
+          background: #272a2c;
+          color: #ccc;
+          &:before{
+              background: #272a2c;
+          }  
+          .item{
+              transition: 0.3s;
+            &:hover{
+              background: #464545;
+            }
+          }
+      }
   }
 }
 

@@ -5,6 +5,7 @@
       :groupSelected="groupSelected"
       @updateAccountSelected="accountSelected = $event"
       @updateSearch="keywordSearch = $event"
+      @changeStatusDefault="changeStatusDefault($event)"
     ></segments-content-top>
 
     <segments-content-users-table
@@ -22,6 +23,10 @@ import SegmentsContentTop from "./cp-segments-content/top";
 import SegmentsContentUsersTable from "./cp-segments-content/users-table";
 
 export default {
+  components: {
+    SegmentsContentTop,
+    SegmentsContentUsersTable
+  },
   props: ["groupSelected", "selectFilter", "resultsDefault"],
   data() {
     return {
@@ -32,10 +37,11 @@ export default {
       }
     };
   },
-  components: {
-    SegmentsContentTop,
-    SegmentsContentUsersTable
-  }
+  methods: {
+    changeStatusDefault(val) {
+      this.$emit("changeResultDefault", val);
+    }
+  },
 };
 </script>
 

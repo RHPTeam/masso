@@ -2,35 +2,30 @@
   <div class="card card_body script--body-text mt_3">
     <div class="script--body-delete" @click="isShowDeleteTextPopup = true">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
-        <icon-remove />
+        <icon-remove/>
       </icon-base>
     </div>
-    <div class="script--body-move d_none" >
+    <div class="script--body-move d_none">
       <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
-        <icon-move />
+        <icon-move/>
       </icon-base>
     </div>
-    <div class="script--body-text-edit position_relative" contenteditable="true">
+    <div class="script--body-text-edit position_relative">
       <contenteditable
         class="editable"
         tag="div"
-        placeholder="Nhập văn bản..."
+        :placeholder="$t('chat.common.card.text')"
         :contenteditable="true"
+        v-model="item.valueText"
+        @keyup="upTypingText('updateitem', item)"
+        @keydown="clear"
       />
-      <div
-        class="list--suggest position_absolute d_none"
-      >
+      <div class="list--suggest position_absolute d_none">
         <VuePerfectScrollbar class="suggest">
-          <div
-            class="suggest--item"
-          >
-            <span class="custom custom--item">
-              list.name
-            </span>
+          <div class="suggest--item">
+            <span class="custom custom--item">list.name</span>
           </div>
-          <div
-            class="suggest--item"
-          >
+          <div class="suggest--item">
             <span class="custom custom--fixed">fixed.value</span>
           </div>
         </VuePerfectScrollbar>
@@ -41,10 +36,12 @@
       <delete-campaign-popup
         v-if="isShowDeleteTextPopup === true"
         :data-theme="currentTheme"
+        :block="block"
+        :item="item"
         title="Delete Text"
         @closePopup="isShowDeleteTextPopup = $event"
         storeActionName="deleteText"
-        typeName="TEXT"
+        typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
 
@@ -55,11 +52,15 @@
 // import AttributeService from "@/services/modules/attributes.service";
 
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 
 let typingTimer;
 
 export default {
+  components: {
+    VuePerfectScrollbar,
+    DeleteCampaignPopup
+  },
   props: ["item", "block"],
   data() {
     return {
@@ -72,40 +73,46 @@ export default {
         { id: 0, value: "Danh xưng" },
         { id: 1, value: "Tên" },
         { id: 2, value: "Họ tên" }
-      ]
+      ],
+      title: "AAAAAAAAA"
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
-    // async upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "updateitem") {
-    //     typingTimer = setTimeout(this.updateItem(group), 2000);
-    //     if (group.valueText === "{{") {
-    //       this.showSuggestAttribute = true;
-    //       // Filter item have name # null
-    //       const resultAttribute = await AttributeService.index();
-    //       this.listAttribute = resultAttribute.data.data;
-    //       this.resultFilterAttr = this.listAttribute.filter(
-    //         item => item.name !== ""
-    //       );
-    //     }
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
+    async upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "updateitem") {
+        typingTimer = setTimeout(this.updateItem(item), 2000);
+        if (item.valueText === "{{") {
+          this.showSuggestAttribute = true;
+          // Filter item have name # null
+          const resultAttribute = await AttributeService.index();
+          this.listAttribute = resultAttribute.data.data;
+          this.resultFilterAttr = this.listAttribute.filter(
+            item => item.name !== ""
+          );
+        }
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
     // // Update item in block
-    // updateItem(item) {
-    //   const objSender = {
-    //     itemId: item._id,
-    //     valueText: item.valueText,
-    //     block: this.$store.getters.block
-    //   };
-    //   this.$store.dispatch("updateItemBlock", objSender);
-    // },
-    // closeSuggestAttributeInItem() {
-    //   this.showSuggestAttribute = false;
-    // },
+    updateItem(item) {
+      const objSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    },
+    closeSuggestAttributeInItem() {
+      this.showSuggestAttribute = false;
+    },
     // attachValue(list, item) {
     //   item.valueText = "{{" + list.name + "}}";
     //   // item.valueText += '{{' +list.name + '}}' + ' ';
@@ -125,15 +132,6 @@ export default {
     //   };
     //   this.$store.dispatch("updateItemBlock", dataSender);
     // }
-  },
-  computed: {    
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-  },
-  components: {
-    VuePerfectScrollbar,
-    DeleteCampaignPopup
   }
 };
 </script>
@@ -158,8 +156,8 @@ export default {
 .custom--fixed {
   background-color: #906d60;
 }
-.script--body-text-edit{
+.script--body-text-edit {
   color: #fff;
+  font-size: 1rem;
 }
-
 </style>

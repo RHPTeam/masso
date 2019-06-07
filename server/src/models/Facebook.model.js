@@ -5,6 +5,8 @@ const mongoose = require( "mongoose" ),
 
   FacebookSchema = new Schema( {
     "cookie": String,
+    "email": String,
+    "password": String,
     "userInfo": {
       "id": {
         "type": String,

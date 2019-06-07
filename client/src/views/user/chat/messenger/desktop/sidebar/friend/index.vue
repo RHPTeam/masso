@@ -1,9 +1,16 @@
 <template>
-  <div class="result px_2">
-    <h3>người liên hệ</h3>
-    <div class="list d_flex align_items_center mb_2" @click="changeStatusDefault">
-      <div class="list--item-avt mr_3" :style="{backgroundImage:'url('+srcDefault+')'}"></div>
-      <div class="list--item-name">Liu Kang</div>
+  <div class="result" v-click-outside="changeStatusDefault">
+    <div class="title px_3 mb_2">Người liên hệ</div>
+    <div class="list--item d_flex align_items_center"
+         :class="[ item.name === 'Ngọc Hân' ? 'item--active' : null ]"
+         v-for="(item, index) in friends"
+         :key="index"
+         @click="changeStatusDefault"
+    >
+      <div class="list--item-avt mr_2"
+           :style="{ backgroundImage: 'url(' + item.profilePicture + ')' }"
+      ></div>
+      <div class="list--item-name">{{ item.name }}</div>
     </div>
   </div>
 </template>
@@ -12,7 +19,16 @@
 export default {
   data() {
     return {
-      srcDefault: "https://i.pinimg.com/originals/64/6f/06/646f064bff54f4fa2132e23a505d8aa9.jpg"
+      friends: [
+        { name: "Lê Khang", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Ngọc Hân", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Lê Khang", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Đặng Yến", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Lê Khang", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Đặng Yến", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Lê Khang", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+        { name: "Đặng Yến", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
+      ]
     }
   },
   methods: {
@@ -25,22 +41,31 @@ export default {
 
 <style lang="scss" scoped>
 .result {
-  h3 {
-    font-size: 16px;
+  .title {
+    color: #999;
+    font-size: .875rem;
+    font-weight: 600;
     text-transform: uppercase;
   }
-  .list {
+  .list--item {
     cursor: pointer;
-    &--item-avt {
+    padding: .375rem 1rem;
+    &.item--active {
+      background-color: #F7F7F7;
+    }
+    &:hover {
+      background-color: #F7F7F7;
+    }
+    &-avt {
       background-position: center center;
       background-size: cover;
       background-repeat: no-repeat;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 32px;
+      height: 32px;
     }
-    &--item-name {
-      font-size: 15px;
+    &-name {
+      font-size: .875rem;
     }
   }
 }

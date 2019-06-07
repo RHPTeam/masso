@@ -1,14 +1,11 @@
 <template>
-  <div class="main p_3" :data-theme="themeName">
+  <div class="main m_3 p_3" :data-theme="themeName">
     <div class="null--container d_flex">
       <span class="null--image mr_3 mt_2">
         <img :src="nullImage" alt="Null Image" />
       </span>
       <div class="null--text">
-        Tính năng chiến dịch cho phép bạn chủ động tiếp cận với khách hàng của
-        mình. Lọc khách hàng của bạn dựa trên các thuộc tính của họ và gửi tin
-        nhắn được cá nhân hóa. Bắt đầu bằng cách chọn loại chiến dịch bạn muốn
-        gửi ở bên trái.
+        {{ $t("chat.broadcast.main.default.title") }}
       </div>
     </div>
   </div>
@@ -16,15 +13,15 @@
 
 <script>
 export default {
-  computed: {
-    themeName() {
-      return this.$store.getters.themeName;
-    }
-  },
   data() {
     return {
       nullImage: require("@/assets/images/broadcast_null.png")
     };
+  },
+  computed: {
+    themeName() {
+      return this.$store.getters.themeName;
+    }
   }
 };
 </script>
@@ -34,34 +31,34 @@ export default {
 /**
   * NOTE: U have to code scss with 3 level which mean is 3 indent
    */
+.main {
+  border-radius: .625rem;
+  .null--container {
+    font-size: .875rem;
+    padding: 2rem;
+    margin: 0 auto;
+    position: relative;
 
-.null--container {
-  width: 60%;
-  border-radius: 7px;
-  padding: 32px;
-  margin: 0 auto;
-  position: relative;
-
-  .null--image {
-    img {
-      height: 48px;
-      width: 48px;
+    .null--image {
+      img {
+        height: 48px;
+        width: 48px;
+      }
     }
-  }
 
-}
-.null--text {
-  line-height: 2;
-  text-align: left;
-  color: #fff;
+  }
+  .null--text {
+    line-height: 2;
+    text-align: left;
+    color: #fff;
+  }
 }
 
 /************* CUSTOM CSS THEME ****************/
-
 /******** 01. Theme Light *********/
 div[data-theme="light"] {
+  background-color: #fafafa;
   .null--container {
-    background-color: rgba(225, 225, 225, 0.3);
     color: #fff;
   }
   .null--text{
@@ -70,10 +67,9 @@ div[data-theme="light"] {
 }
 
 /******** 02. Theme Dark *********/
-
 div[data-theme="dark"] {
+  background-color: rgba(39, 41, 44, 0.41);
   .null--container {
-    background-color: #27292c;
   }
   .null--text{
     color: #fff;

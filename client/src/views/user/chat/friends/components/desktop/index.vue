@@ -2,6 +2,7 @@
   <div class="segments">
     <segments-list
       @groupSelected="groupSelected = $event"
+      @changeSelectedGroup="groupSelected = $event"
       :groupSelected="groupSelected"
     ></segments-list>
     <segments-attribute
@@ -13,6 +14,7 @@
       :groupSelected="groupSelected"
       :selectFilter="selectFilter"
       :resultsDefault="resultsDefault"
+      @changeResultDefault="resultsDefault = $event"
     ></segments-content>
   </div>
 </template>

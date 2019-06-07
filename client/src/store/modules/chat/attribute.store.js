@@ -1,4 +1,4 @@
-// import AttributeService from "@/services/modules/attributes.services";
+import AttributeService from "@/services/modules/chat/attribute.service";
 
 const state = {
   attr: [],
@@ -18,7 +18,7 @@ const mutations = {
     state.statusAttr = "success";
   },
   attr_error: state => {
-    state.statusAttr = "errors.js";
+    state.statusAttr = "error";
   },
   setAttr: (state, payload) => {
     state.attr = payload;

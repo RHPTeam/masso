@@ -1,55 +1,21 @@
 <template>
   <div class="input textarea cf mb_0" :data-theme="currentTheme">
-    <!-- <ul class="list">
-      <li class="d_flex">
-        <div
-          class="left"
-        ></div>
-        <div
-          class="right item d_flex align_items_center position_relative"
-        >
-          Sequence
-          <div class="remove position_absolute">
-            <icon-base
-              icon-name="remove"
-              width="16"
-              height="16"
-              viewBox="0 0 18 18"
-            >
-              <icon-remove />
-            </icon-base>
-          </div>
-        </div>
-      </li>
-      <li class="position_relative">
-        <div
-          class="item--input"
-        >
-          <span>Nhấn để chọn nhóm</span>
-        </div>
-        <div
-          class="suggest--sequence position_absolute"
-        >
-          <div
-            class="item--suggest"
-          >
-             Sequence
-          </div>
-        </div>
-      </li>
-    </ul>-->
     <multiselect
-      v-model="dataMulti"
       label="name"
       multiple
-      @option="dataMulti"
-      placeholder="Chọn danh mục đăng bài "
-    />
+      @input="updateSubscrible"
+      :options="groupSequence"
+      v-model="convertNameSequence"
+      placeholder="Chọn để đăng ký chuỗi kịch bản"
+    >
+      <template slot="option" slot-scope="option">
+        <span>{{ option.name }}</span>
+      </template>
+    </multiselect>
   </div>
 </template>
 
 <script>
-// import SequenceService from "@/services/modules/chat/sequence.service";
 
 export default {
   props: {
@@ -58,106 +24,51 @@ export default {
   },
   data() {
     return {
-      // listSenquence: null,
-      // showSuggetsNameSequence: false
-      value: null,
-      dataMulti: [
-        { name: "Vue.js", language: "JavaScript" },
-        { name: "Rails", language: "Ruby" },
-        { name: "Sinatra", language: "Ruby" },
-        { name: "Laravel", language: "PHP", $isDisabled: true },
-        { name: "Phoenix", language: "Elixir" }
-      ]
+      value: null
     };
-  },
-  async created() {
-    // await this.$store.dispatch("getSequence");
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    groupSequence() {
+      return this.$store.getters.allSequenceScript;
+    },
+    subscribleDefault(){
+      return this.$store.getters.dataPreviewUpdate;
+    },
+    convertNameSequence(){
+      const arr = this.sequence.valueText.split(",");
+      const nameArr = [];
+      arr.map(id => {
+        this.groupSequence.filter( item => {
+          if(item._id == id) nameArr.push(item.name);
+        })
+      });
+      return nameArr;
     }
-    // Show name sequence from id
-    // nameGroupSequence() {
-    //   let result = this.sequence.valueText;
-    //   if (result === undefined || result === "") {
-    //     return (result = []);
-    //   } else {
-    //     const results = [];
-    //     const arr = result.split(",");
-    //     if (Object.entries(this.listGroupSequence).length === 0) return;
-    //     let arrOther = this.listGroupSequence;
-    //     arr.map(id => {
-    //       return arrOther.map(item => {
-    //         if (item._id === id) results.push(item.name);
-    //       });
-    //     });
-    //     return results;
-    //   }
-    // },
-    // //get name group sequence
-    // listGroupSequence() {
-    //   return this.$store.getters.groupSqc;
-    // }
+  },
+  async created() {
+    await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
-    // attach name sequence item to array
-    //   addNameSequence(item) {
-    //     let other = this.sequence.valueText.split(",");
-    //     other.push(item._id);
-    //     if (this.sequence.valueText.length === 0) {
-    //       this.sequence.valueText += item._id;
-    //     } else {
-    //       this.sequence.valueText += `,${item._id}`;
-    //     }
-    //     let otherChecked = other.toString();
-    //     const objectReStructure = {
-    //       _id: this.sequence._id,
-    //       typeContent: this.sequence.typeContent,
-    //       valueText: otherChecked
-    //     };
-    //     if (otherChecked.charAt(0) === ",") {
-    //       otherChecked = otherChecked.substr(1);
-    //       objectReStructure.valueText = otherChecked;
-    //       // console.log(objectReStructure);
-    //       this.$emit("update", objectReStructure);
-    //     } else {
-    //       // console.log(objectReStructure);
-    //       this.$emit("update", objectReStructure);
-    //     }
-    //     const dataSender = {
-    //       valueText: [item._id],
-    //       itemId: this.sequence._id,
-    //       block: this.block
-    //     };
-    //     this.$store.dispatch("updateItemBlock", dataSender);
-    //   },
-    //   // Delete item sequence
-    //   removeItem(index) {
-    //     // Get id follow index
-    //     const sequencesID = this.sequence.valueText.split(",");
-    //     // console.log(sequencesID)
-    //     // console.log(index)
-    //     // remove item follow index
-    //     const dataSender = {
-    //       sequenceId: sequencesID[index],
-    //       itemId: this.sequence._id,
-    //       blockId: this.block._id
-    //     };
-    //     this.$store.dispatch("deleteItemSequenceInBlock", dataSender);
-    //     sequencesID.splice(index, 1);
-    //     this.sequence.valueText = sequencesID.toString();
-    //   },
-    //   // open suggest name sequence when click on input
-    //   async openSuggestNameSequence() {
-    //     this.showSuggetsNameSequence = true;
-    //     const resultSequence = await SequenceService.index();
-    //     this.listSenquence = resultSequence.data.data;
-    //   },
-    //   // close list suggest name sequence
-    //   closesSuggetsNameSequence() {
-    //     this.showSuggetsNameSequence = false;
-    //   }
+    async updateSubscrible(val){
+      await this.updateValueSubscrible(val);
+      const objSender = {
+        block: this.block,
+        itemId: this.sequence._id,
+        valueText: this.subscribleDefault
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    },
+    updateValueSubscrible( val ){
+      if(val === undefined) return;
+      const dataSender = val.map(item => {
+        return item._id;
+      });
+      const lastId = dataSender.splice(-1);
+      this.$store.dispatch("pushPreviewUpdateItemSubcribe", lastId);
+    }
   }
 };
 </script>
@@ -170,13 +81,13 @@ export default {
   cursor: text;
   margin-bottom: 2em;
   min-height: 60px;
-  padding: 8px;
+  padding: 4px;
   position: relative;
   transition: all 0.25s;
   &.input {
     height: auto;
     min-height: 47px;
-    padding-bottom: 0;
+    // padding-bottom: 0;
   }
   &.cf:before,
   &.cf:after {

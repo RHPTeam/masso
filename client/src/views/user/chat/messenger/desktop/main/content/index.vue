@@ -76,11 +76,11 @@
             <div class="icon mr_2" @click.prevent="$refs.imageFile.click()">
               <icon-base
                 icon-name="menu"
-                width="24"
-                height="24"
+                width="23"
+                height="23"
                 viewBox="0 0 21 21"
               >
-                <icon-upload-image />
+                <icon-image />
               </icon-base>
             </div>
             <div class="icon mr_2">

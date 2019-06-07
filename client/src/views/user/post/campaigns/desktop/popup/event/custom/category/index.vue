@@ -1,26 +1,5 @@
 <template>
   <div class="category">
-    <!-- Start: Top -->
-    <div class="top d_flex align_items_center justify_content_between mb_3">
-      <div class="top--left"
-           @click="resetPostType"
-      >≪ Quay lại</div>
-      <div class="top--right d_flex align_items_center">
-        <div class="mr_2">Đăng bài viết từ danh mục</div>
-        <div class="icon">
-          <icon-base
-            class="icon--categories"
-            :style="[ { color: event.color }, { stroke: event.color } ]"
-            height="20px"
-            width="20px"
-            viewBox="0 0 460 460"
-          >
-            <icon-categories></icon-categories>
-          </icon-base>
-        </div>
-      </div>
-    </div>
-    <!-- End: Top -->
     <!-- Start: Body -->
     <div class="body p_3 mb_4">
       <div class="desc mb_2">

@@ -28,7 +28,7 @@
       <div class="action dropdown--menu mr_2">
         <div
           class="btn--dropdown"
-          @click="showDropdown = !showDropdown"
+          @click="showDropdown = !showDropdown" v-click-outside="closeShowDropdown"
         >
           {{ typeFilterSelected }}
           <icon-base

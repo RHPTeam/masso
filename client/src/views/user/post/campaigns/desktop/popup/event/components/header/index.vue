@@ -26,7 +26,7 @@
             <icon-copy />
           </icon-base>
         </div>-->
-        <div class="button remove mr_2">
+        <div class="button remove mr_2" @click="isDeleteEvent = true">
           <icon-base
             class="ic--remove"
             icon-name="ic--remove"
@@ -119,15 +119,28 @@
       </div>
     </div>
     <!-- End: Row -->
+
+    <!-- Start: POPUP DELETE-->
+    <delete-event
+      v-if="isDeleteEvent === true"
+      title="Xóa sự kiện trong chiến dịch"
+      @closePopup="changeStatusDelete($event)"
+      storeActionName="Xóa sự kiện"
+      :targetData="event"
+      typeName="sự kiện"
+    ></delete-event>
+    <!--End: POPUP DELETE-->
   </div>
 </template>
 
 <script>
 import HeaderTime from "./time";
+import DeleteEvent from "./delete"
 
 export default {
   components: {
-    HeaderTime
+    HeaderTime,
+    DeleteEvent
   },
   props: {
     event: Object
@@ -137,7 +150,8 @@ export default {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ],
       isShowColorDropdown: false,
       error: false,
-      errorData: []
+      errorData: [],
+      isDeleteEvent: false
     }
   },
   methods: {
@@ -205,7 +219,10 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
         }
@@ -230,7 +247,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -245,6 +262,11 @@ export default {
         value: []
       } );
 
+      this.$store.dispatch( "setEventReset" );
+    },
+    changeStatusDelete(val){
+      this.isDeleteEvent = val;
+      this.close();
     },
     async updateEvent() {
       this.error = false;
@@ -263,7 +285,10 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
         }
@@ -288,7 +313,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -302,6 +327,8 @@ export default {
         key: "target_custom",
         value: []
       } );
+
+      this.$store.dispatch( "setEventReset" );
     }
   }
 }

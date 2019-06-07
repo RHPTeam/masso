@@ -59,14 +59,14 @@ export default {
       } else if (
         ( parseInt( value.getHours() ) >= 18 && parseInt( value.getHours() ) <= 23 ) || ( parseInt( value.getHours() ) >= 0 && parseInt( value.getHours() ) <= 5 )
       ) {
-        this.$store.dispatch( "changeThemeName", "dark" );
+        this.$store.dispatch( "changeThemeName", "light" );
       }
     }
   },
   sockets: {
     async statusAccount(value) {
       if (value === 405) {
-        this.$store.dispatch("getAllAccountFb");
+        this.$store.dispatch("getAccountsFB");
       } else if (value === 404) {
         this.statusNetwork = false;
       }

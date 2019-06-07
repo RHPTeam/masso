@@ -42,4 +42,10 @@ router
   .post( PostController.create )
   .patch( upload.array( "attachments", 20 ), PostController.update )
   .delete( PostController.delete );
+router
+  .route( "/now" )
+  .get( PostController.getPostSchedule )
+  .post( PostController.createPostSchedule );
+router.route( "/sync" ).post( PostController.createSyncFromMarket );
+
 module.exports = router;

@@ -11,27 +11,25 @@
       </div>
     </div>
     <!--Nội dung Mobile-->
-    <div class="d_block d_md_none">
-      <transition name="popup">
-        <app-status-notification v-if="0" :data-theme="currentTheme" />
-      </transition>
-      <!-- <div class="main--contentItem">
-        <app-list-account-mobile :accountsFB="getAccountsFB" />
-      </div> -->
-    </div>
+    <!--    <div class="d_block d_md_none">-->
+    <!--      <transition name="popup">-->
+    <!--        <app-status-notification v-if="0" :data-theme="currentTheme" />-->
+    <!--      </transition>-->
+    <!--      <div class="data&#45;&#45;contentItem">-->
+    <!--        <app-list-account-mobile :accountsFB="getAccountsFB" />-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 
 <script>
-import AppBreadCrumb from "@/components/breadcrumb";
-import AppListAccount from "./components/desktop/account";
-// import AppListAccountMobile from "./components/mobile/list_account_mobile";
-import AppStatusNotification from "@/components/shared/status-notification";
-// import Popup from '../scriptfacebook/components/desktop/popup/popup'
+import AppBreadCrumb from "@/components/shared/layouts/breadcrumb";
+import AppListAccount from "./desktop";
 
 export default {
-  async created() {
-    // await this.$store.dispatch("getAccountsFB");
+  components: {
+    AppListAccount,
+    AppBreadCrumb
   },
 
   data() {
@@ -49,77 +47,75 @@ export default {
       return this.$store.getters.accountsFB;
     }
   },
+  async created() {
+    await this.$store.dispatch( "getAccountsFB" );
+  },
 
   methods: {
     async logOut() {
       await this.$store.dispatch("logOut");
       this.$router.push("/signin");
     }
-  },
-  components: {
-    AppListAccount,
-    AppBreadCrumb,
-    AppStatusNotification
   }
 };
 </script>
 
 <style scoped lang="scss">
-.main {
-  font-family: "Open Sans", sans-serif;
+  .main {
+    font-family: "Open Sans", sans-serif;
 
-  .main--header {
-    margin-bottom: 25px;
-    margin-top: 52px;
+    .main--header {
+      margin-bottom: 25px;
+      margin-top: 52px;
 
-    .main--header-title {
-      font-size: 30px;
-      font-weight: 600;
+      .main--header-title {
+        font-size: 30px;
+        font-weight: 600;
+      }
+
+      .main--header-desc {
+        font-size: 14px;
+        font-weight: normal;
+        margin-left: 16px;
+        margin-bottom: 5px;
+      }
     }
 
-    .main--header-desc {
-      font-size: 14px;
-      font-weight: normal;
-      margin-left: 16px;
-      margin-bottom: 5px;
+    .main--contentItem {
+      min-height: calc(100vh - 260px);
+      border-radius: 10px;
     }
   }
 
-  .main--contentItem {
-    min-height: calc(100vh - 260px);
-    border-radius: 10px;
-  }
-}
+  /* ChangeColor */
+  // Light
+  .main[data-theme="light"] {
+    color: #666;
 
-/* ChangeColor */
-// Light
-.main[data-theme="light"] {
-  color: #666;
-
-  .main--content {
-    background-color: #fff;
-  }
-}
-
-//Dark
-.main[data-theme="dark"] {
-  color: #ccc;
-
-  .main--content {
-    background-color: #2f3136;
-  }
-}
-@media screen and (min-width: 768px) and (max-width: 1023px) {
-  .main--header {
-    display: flex;
-    flex-direction: column !important;
-    .main--header-title {
-      width: 100%;
-      margin-bottom: 16px;
-    }
-    .main--header-desc {
-      width: 100%;
+    .main--content {
+      background-color: #fff;
     }
   }
-}
+
+  //Dark
+  .main[data-theme="dark"] {
+    color: #ccc;
+
+    .main--content {
+      background-color: #2f3136;
+    }
+  }
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
+    .main--header {
+      display: flex;
+      flex-direction: column !important;
+      .main--header-title {
+        width: 100%;
+        margin-bottom: 16px;
+      }
+      .main--header-desc {
+        width: 100%;
+      }
+    }
+  }
 </style>

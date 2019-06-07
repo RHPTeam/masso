@@ -19,7 +19,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listAttr"
+            v-for="(item, index) in $t('chat.friends.attribute.listAttr')"
             :key="index"
             @click="showListAttribute(item.value)"
           >
@@ -38,7 +38,7 @@
           v-model="resultFilter"
           class="filter--item filter--body-created"
           @click="showResultFilterDefault"
-          placeholder="Tên thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderAttr')"
           v-click-outside="closeResultListFilter"
         />
         <div
@@ -71,7 +71,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listCondition"
+            v-for="(item, index) in $t('chat.friends.attribute.listCondition')"
             :key="index"
             @click="getCondition = item.value"
           >
@@ -87,7 +87,7 @@
           v-model="valueFilter"
           class="filter--item filter--body-created"
           @click="showValueListFilter = true"
-          placeholder="Giá trị thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderValue')"
           v-click-outside="closeValueListFilter"
         />
         <div
@@ -173,7 +173,7 @@ export default {
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
       if (item.value === undefined) {
-        // dispatch show group friend when choose option segments
+        // dispatch show item friend when choose option segments
         const dataSender = {
           itemId: item._id,
           bcId: this.bcId,
@@ -347,7 +347,7 @@ export default {
   .filter--body-option {
     background: #ffffff;
     border: 1px solid #e4e4e4;
-    /*border-radius: 10px;*/
+    border-radius: 5px;
     font-size: 15px;
   }
   .filter--attribute-option {
@@ -419,6 +419,9 @@ div[data-theme="dark"] .filter {
   .filter--attribute-name {
     border-left: 1px solid #707070;
     border-right: 1px solid #707070;
+    input{
+      color: #ccc;
+    }
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -437,4 +440,15 @@ div[data-theme="dark"] .filter {
     border-color: #27292d;
   }
 }
+
+// ************ RESPONSIVE
+@media only screen and (max-width: 1350px) and (min-width: 768px){
+    .filter .filter--body-option{
+      flex-wrap: wrap;
+      .filter--attribute, .list--filter{
+        width: 100%;
+      }
+    }
+}
+
 </style>

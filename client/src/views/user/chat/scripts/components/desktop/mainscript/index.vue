@@ -3,14 +3,19 @@
   <div class="scripts">
     <!--Component Loading-->
     <loading-component
+      v-if="this.$store.getters.statusBlocks === 'loading'"
     />
     <!--Regions Scripts Header-->
-    <div>
+    <div v-else>
       <div class="script--header d_flex align_items_center">
         <contenteditable
           class="script--header-title"
           tag="div"
           :contenteditable="true"
+          :placeholder="$t('chat.scripts.content.name.placeholder')"
+          v-model="block.name"
+          @keyup="upTypingText('nameblock', block)"
+          @keydown="clear"
         />
         <div class="script--header-copy-link disabled--icon">
           <!-- <icon-base
@@ -99,34 +104,35 @@
       </div>
       <!-- Start: Regions Scripts Body-->
       <div class="script--body">
-        <div>
+        <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
-          <div>
-            <add-text />
+          <div v-if="item.typeContent === 'text'">
+            <add-text :item="item" :block="block"></add-text>
           </div>
           <!--End: Add text-->
           <!--Start: add images-->
-          <div>
-            <add-image />
+          <div v-if="item.typeContent === 'image'">
+            <add-image :item="item" :block="block"></add-image>
           </div>
           <!-- End: add images-->
           <!--Start: add timer-->
-          <add-timer />
+          <div v-if="item.typeContent === 'time'">
+            <add-timer :item="item" :block="block"></add-timer>
+          </div>
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <div>
-            <add-tag />
+          <div v-if="item.typeContent === 'tag'">
+            <add-tag :item="item" :content="block"></add-tag>
           </div>
           <!--End: Add Tag-->
           <!--Start: Subscribe-->
-          <div>
-            <subcrible
-            />
+          <div v-if="item.typeContent === 'subscribe'">
+            <subcrible :item="item" :block="block"></subcrible>
           </div>
           <!--End: Subscribe-->
           <!--Start: Unsubcrible-->
-          <div>
-            <un-subcrible />
+          <div v-if="item.typeContent === 'unsubscribe'">
+            <un-subcrible :item="item" :block="block"></un-subcrible>
           </div>
           <!--End: Unsubcrible-->
         </div>
@@ -134,10 +140,11 @@
       <!--Regions Script Footer-->
       <div class="script--footer">
         <div class="script--footer-addelm">
-          <div class="title">Thêm phần tử</div>
+          <div class="title">{{ $t("chat.common.card.add.title") }}</div>
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
+              @click="createItemBlock('text', block._id)"
             >
               <icon-base
                 class="icon-text"
@@ -146,11 +153,12 @@
                 viewBox="0 0 13.53 20.11"
               >
                 <icon-text /> </icon-base
-              >Văn bản
+              >{{ $t('chat.common.card.add.text') }}
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
+              @click="createItemBlock('image', block._id)"
             >
               <icon-base
                 class="icon-image"
@@ -159,11 +167,12 @@
                 viewBox="0 0 26 26"
               >
                 <icon-image /> </icon-base
-              >Hình ảnh
+              >{{ $t('chat.common.card.add.images') }}
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
+              @click="createItemBlock('time', block._id)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -172,7 +181,7 @@
                 viewBox="0 0 14.41 20.14"
               >
                 <icon-sand-clock /> </icon-base
-              >Thời gian
+              >{{ $t('chat.common.card.add.time') }}
             </div>
 
             <div
@@ -187,7 +196,7 @@
                 viewBox="0 0 60 60"
               >
                 <icon-plus /> </icon-base
-              >Thêm
+              >{{ $t('chat.common.card.add.add') }}
             </div>
           </div>
         </div>
@@ -210,7 +219,8 @@
     <!--Popup filter Attribute-->
     <transition name="popup">
       <popup-plugins
-        v-if="showPopupPlugins == true"
+        v-if="showPopupPlugins === true"
+        :content="block._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
@@ -218,7 +228,8 @@
         @showSubcrible="showSubcrible = $event"
         @showUnSubcrible="showUnSubcrible = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
-      />
+      >
+      </popup-plugins>
     </transition>
    <!-- Start: Delete Item Popup-->
     <transition name="popup">

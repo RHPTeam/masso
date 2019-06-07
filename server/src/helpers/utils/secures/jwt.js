@@ -1,5 +1,6 @@
-const jwt = require( "jsonwebtoken" ),
-  { findSubString } = require( "../../utils/functions/string" );
+const jwt = require( "jsonwebtoken" );
+const { findSubString } = require( "../functions/string" );
+
 
 module.exports = ( res, authorization ) => {
   return jwt.verify( findSubString( authorization, "sid=", ";" ), process.env.APP_KEY, ( err, decoded ) => {

@@ -55,7 +55,6 @@ export default {
       return this.$store.getters.post;
     },
     placesPopular(){
-      console.log(this.$store.getters.places);
       return this.$store.getters.places;
     },
     //Get Categories
@@ -181,6 +180,17 @@ export default {
     selectFile( id ) {
       this.file = this.$refs.file.files;
       this.sendFile( id );
+
+      // reset ref
+      const input = this.$refs.file;
+      input.type = 'text';
+      input.type = 'file';
+
+      this.$store.dispatch("setPostDefault", {
+        key: "color",
+        value: ""
+      });
+      this.$store.dispatch( "updatePostColor", this.post );
     },
     // Update file images to post
     sendFile() {

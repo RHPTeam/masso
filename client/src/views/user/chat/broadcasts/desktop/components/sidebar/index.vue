@@ -5,56 +5,59 @@
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
-          <span>Tin nhắn gửi ngay</span>
+          <span>{{ $t("chat.broadcast.sidebar.messeger.title") }}</span>
         </div>
         <div class="action"></div>
       </div>
       <div class="group--item-body position_relative">
         <!--        @click.prevent="$router.push({ name: 'f_broadcast_now' })"-->
-        <div class="box add" @click.prevent="showTooltip = !showTooltip">
-          <icon-base icon-name="add" width="20" height="20" viewBox="0 0 60 60">
+        <div class="box add">
+          <icon-base
+            class="icon--add"
+            width="20"
+            height="20"
+            viewBox="0 0 60 60">
             <icon-plus />
           </icon-base>
         </div>
         <div
           class="tooltip--now position_absolute p_2"
-          v-if="showTooltip === true"
         >
-          Tính năng này đang được phát triển và được cập nhật trong phiên bản
-          sắp tới.
+          {{ $t("chat.broadcast.sidebar.messeger.desc") }}
         </div>
       </div>
     </div>
     <!--End: Component Deliver your message now-->
-
     <!--Start: Component Trigger-->
     <!--End: Component Trigger-->
-
     <!--Start: Component Schedule later-->
     <div class="group--item schedule">
+      <!--Start: Schedule Header -->
       <div class="group--item-header text_left">
         <div class="title mb_2">
-          <span>Thiết lập bộ hẹn</span>
+          <span>{{ $t("chat.broadcast.sidebar.schedule.title") }}</span>
         </div>
         <div class="action"></div>
       </div>
+      <!--End: Schedule Header -->
+      <!--Start: Schedule Block Item Group-->
       <div class="group--item-body r m_0">
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="goToSchedule">
-          <div class="mx_1 content--setup">
-            <span>Hang ngay</span>
-            <span class="pl_1">xx:xx</span>
+        <!--Start: Block Item Loop-->
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup"
+             :class="{ active: scheduleBlockSelected === block._id }"
+             v-for="( block, index ) in scheduleBlocks"
+             :key="index"
+             @click="goToScheduleBlock( block )">
+          <div class="mx_1 content--setup d_flex align_items_center justify_content_center">
+            <span>{{ block.timeSetting | filteredName }}</span>
           </div>
         </div>
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
-          <div class="content--setup mx_1">
-            <span>Hang ngay</span>
-            <span class="pl_1">12:30</span>
-          </div>
-        </div>
-        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup">
-          <div class="content--setup mx_1">
+        <!--End: Block Item Loop-->
+        <!--Start: Block Item Add-->
+        <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="createScheduleBlock">
+          <div class="content--setup d_flex align_items_center justify_content_center">
             <icon-base
-              icon-name="add"
+              class="icon--add"
               width="20"
               height="20"
               viewBox="0 0 60 60"
@@ -63,10 +66,11 @@
             </icon-base>
           </div>
         </div>
+        <!--End: Block Item Add-->
       </div>
-
+      <!--End: Schedule Block Item Group-->
       <loading-component
-        v-if="this.$store.getters.statusBroadcast === 'loading'"
+        v-if="broadcastStatus === 'loading'"
       />
       <div
         v-else
@@ -102,8 +106,8 @@
   </div>
 </template>
 
-<script type="text/javascript" src="./sidebar.script.js"></script>
+<script type="text/javascript" src="./index.script.js"></script>
 
 <style scoped lang="scss">
-@import "./sidebar.style";
+@import "./index.style";
 </style>

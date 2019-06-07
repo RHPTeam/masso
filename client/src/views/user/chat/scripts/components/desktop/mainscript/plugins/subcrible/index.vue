@@ -6,7 +6,8 @@
       >
         <h3 class="title">
           <img src="@/assets/images/plugins/subscribe.svg" class="" height="30" alt="">
-          Đăng ký trình tự</h3>
+          {{ $t('chat.common.card.subscribe.title') }}
+        </h3>
         <div class="icon--remove ml_auto" @click="isDeleteItemBlock = true">
           <icon-base
             icon-name="remove"
@@ -19,92 +20,12 @@
         </div>
       </div>
       <div class="desc mb_3">
-        Theo dõi người dùng bằng cách nhập các thông tin cần thiết nhằm lọc ra
-        những đối tượng chi tiết tùy vào các thuộc tính mà bạn lựa chọn trong bộ
-        lọc.
+        {{ $t('chat.common.card.subscribe.desc') }}
       </div>
 
-<!--      <div class="subcrible&#45;&#45;filter mb_3">-->
-<!--        <div class="body mb_3" v-if="showFilter === true">-->
-<!--          &lt;!&ndash;Start: Add Filter&ndash;&gt;-->
-<!--          <div-->
-<!--            class="option d_flex align_items_center pb_2 pt_2"-->
-<!--            v-if="addFilter === true"-->
-<!--          >-->
-<!--            <filter-bee />-->
-<!--            <div class="icon d_flex align_items_center">-->
-<!--              <div-->
-<!--                class="add and cp position_relative"-->
-<!--                @click.prevent="showCondition = !showCondition"-->
-<!--              >-->
-<!--                và-->
-<!--                <div-->
-<!--                  class="condition position_absolute"-->
-<!--                  v-if="showCondition === true"-->
-<!--                >-->
-<!--                  <div class="item">và</div>-->
-<!--                  <div class="item">hoặc</div>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--              <div class="icon&#45;&#45;drop cp ml_1">-->
-<!--                <icon-base-->
-<!--                  icon-name="remove"-->
-<!--                  width="18"-->
-<!--                  height="18"-->
-<!--                  viewBox="0 0 18 18"-->
-<!--                >-->
-<!--                  <icon-remove />-->
-<!--                </icon-base>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;End: Add Filter&ndash;&gt;-->
-<!--          &lt;!&ndash;Start:  Filter&ndash;&gt;-->
-<!--          <div class="option d_flex align_items_center pb_2 pt_2">-->
-<!--            <filter-bee />-->
-<!--            <div class="icon d_flex align_items_center">-->
-<!--              <div class="add cp" @click.prevent="addFilter = !addFilter">-->
-<!--                <icon-base-->
-<!--                  icon-name="plus"-->
-<!--                  width="18"-->
-<!--                  height="18"-->
-<!--                  viewBox="0 0 60 60"-->
-<!--                >-->
-<!--                  <icon-plus />-->
-<!--                </icon-base>-->
-<!--              </div>-->
-<!--              <div class="icon&#45;&#45;drop cp ml_1">-->
-<!--                <icon-base-->
-<!--                  icon-name="remove"-->
-<!--                  width="18"-->
-<!--                  height="18"-->
-<!--                  viewBox="0 0 18 18"-->
-<!--                >-->
-<!--                  <icon-remove />-->
-<!--                </icon-base>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;End:  Filter&ndash;&gt;-->
-<!--          &lt;!&ndash;Start: Result Filter&ndash;&gt;-->
-<!--          <div class="result d_flex align_items_center mb_3 mt_3">-->
-<!--            <div class="item text_center">K</div>-->
-<!--            <div class="item text_center">K</div>-->
-<!--            <div class="desc ml_2">Xem những người phù hợp với bộ lọc</div>-->
-<!--          </div>-->
-<!--          &lt;!&ndash;End: Result Filter&ndash;&gt;-->
-<!--        </div>-->
-<!--        <button-->
-<!--          class="btn btn_warning btn&#45;&#45;add"-->
-<!--          @click="showFilter = !showFilter"-->
-<!--        >-->
-<!--          Thêm bộ lọc-->
-<!--        </button>-->
-<!--      </div>-->
-
       <div class="subcrible--edit mb_0">
-        <div class="mb_2"><b>Đăng ký từ</b></div>
-        <list :sequence="item" :block="content" @update="updateToParent($event)" />
+        <div class="mb_2"><b>{{ $t('chat.common.card.subscribe.label') }}</b></div>
+        <list :sequence="item" :block="block" @update="updateToParent($event)" />
       </div>
     </div>
     <!-- Start: Delete Popup Delete -->
@@ -112,10 +33,12 @@
       <delete-campaign-popup
           v-if="isDeleteItemBlock === true"
           :data-theme="currentTheme"
+          :block="block"
+          :item="item"
           title="Delete Subcrible"
           @closePopup="isDeleteItemBlock = $event"
           storeActionName="deleteSubcrible"
-          typeName="Subcrible"
+          typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
     <!-- End: Delete Popup Delete -->
@@ -123,10 +46,14 @@
 </template>
 <script>
 import List from "../sequence";
-import DeleteCampaignPopup from "@/components/popups/delete";
+import DeleteCampaignPopup from "../../../popup/delete";
 export default {
+  components: {
+    List,
+    DeleteCampaignPopup
+  },
   props: {
-    content: Object,
+    block: Object,
     item: Object
   },
   data() {
@@ -146,10 +73,6 @@ export default {
     updateToParent(value) {
       this.$emit("updateItemFromMiddleComponent", value)
     }
-  },
-  components: {
-    List,
-    DeleteCampaignPopup
   }
 };
 </script>
@@ -176,10 +99,17 @@ export default {
   }
 }
 .subcrible[data-theme="dark"]{
-  border: 0;
+  border: 1px solid transparent;
   background: #2f3236;
   border-radius: 10px;
   .title{
+    color: #fff;
+  }
+  &:hover{
+    border: 1px solid $border_radius;
+    box-shadow: 0;
+  }
+  .desc, .subcrible--edit{
     color: #fff;
   }
 }

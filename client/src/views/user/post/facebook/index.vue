@@ -15,7 +15,7 @@
     <!--      <transition name="popup">-->
     <!--        <app-status-notification v-if="0" :data-theme="currentTheme" />-->
     <!--      </transition>-->
-    <!--      <div class="main&#45;&#45;contentItem">-->
+    <!--      <div class="data&#45;&#45;contentItem">-->
     <!--        <app-list-account-mobile :accountsFB="getAccountsFB" />-->
     <!--      </div>-->
     <!--    </div>-->
@@ -44,11 +44,11 @@ export default {
       return this.$store.getters.themeName;
     },
     getAccountsFB() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
-    await this.$store.dispatch( "getAllAccountFb" );
+    await this.$store.dispatch( "getAccountsFB" );
   },
 
   methods: {
@@ -105,7 +105,7 @@ export default {
       background-color: #2f3136;
     }
   }
-  @media screen and (min-width: 768px) and (max-width: 1023px) {
+  @media screen and (min-width: 768px) and (max-width: 1200px) {
     .main--header {
       display: flex;
       flex-direction: column !important;

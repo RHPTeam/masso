@@ -1,53 +1,60 @@
+/* eslint-disable new-cap */
 /* eslint-disable no-nested-ternary */
-/* eslint-disable no-unused-expressions */
+/* eslint-disable no-new */
+/* eslint-disable no-unused-vars */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-param-reassign */
+/* eslint-disable no-shadow */
 /* eslint-disable one-var */
 const login = require( "facebook-chat-api" );
 let CronJob = require( "cron" ).CronJob;
 const express = require( "express" ),
   app = express();
-const Account = require( "../../../../src/models/Account.model" );
-const nodemailer = require( "nodemailer" );
-const CONFIG = require( "./src/configs/configs" ),
+const Account = require( "../../../models/Account.model" );
+const dictionaries = require( "../../../configs/dictionaries" );
+const nodemailer = require( "nodemailer" ),
+  fs = require( "fs" ),
+  http = require( "http" ),
+  https = require( "https" );
 
+let server = null, io = null;
 
-  // When  upload to server comment 2 line after
-  http = require( "http" ).Server( app ),
-  io = require( "socket.io" )( http );
+if ( process.env.APP_ENV === "production" ) {
+  const option = {
+    "pfx": fs.readFileSync( process.env.HTTPS_URL ),
+    "passphrase": process.env.HTTPS_PASSWORD
+  };
 
-/*
- const fs = require('fs')
+  server = https.createServer( option, app );
+} else {
+  server = http.createServer( app );
+}
 
- const https = require('https')
- const options = {
-    pfx: fs.readFileSync(CONFIG.pfx),
-    passphrase: CONFIG.passphrase
- };
- const server = https.createServer(options,app)
- const io = require("socket.io")(server);
- */
+io = require( "socket.io" )( server );
 
-
-/** ***********************************************************************/
-const convertCookieToObject = require( "../../../../src/helpers/utils/facebook/cookie" );
-const cookieFacebook = require( "../../../../src/configs/cookieFacebook" );
-const ConvertUnicode = require( "../../../../src/helpers/utils/functions/unicode" );
-const ErrorText = require( "../../../../src/configs/errors" );
-/** ***********************************************************************/
+server.listen( process.env.PORT_SOCKET_CHAT );
 
 /** ***********************************************************************/
-const VocateProcess = require( "./src/process/vocate.process" );
-const MessageProcess = require( "./src/process/message.process" );
-const SyntaxProcess = require( "./src/process/syntax.process" );
-const BroadcastProcess = require( "./src/process/broadcast.process" );
+const convertCookieToObject = require( "../../../helpers/utils/facebook/cookie" );
+const cookieFacebook = require( "../../../configs/cookieFacebook" );
+const convertUnicode = require( "../../../helpers/utils/functions/unicode" );
+const ErrorText = require( "../../../configs/errors" );
 /** ***********************************************************************/
 
 /** ***********************************************************************/
-const Facebook = require( "./src/models/Facebook.model" );
-const Friend = require( "./src/models/Friends.model" );
-const Message = require( "./src/models/Messages.model" );
-const Vocate = require( "./src/models/Vocate.model" );
-const Syntax = require( "./src/models/Syntax.model" );
-const Broadcast = require( "./src/models/Broadcasts.model" ),
+const VocateProcess = require( "./module/vocate.process" );
+const MessageProcess = require( "./module/message.process" );
+const SyntaxProcess = require( "./module/syntax.process" );
+const BroadcastProcess = require( "./module/broadcast.process" );
+/** ***********************************************************************/
+
+/** ***********************************************************************/
+const Facebook = require( "../../../models/Facebook.model" );
+const Friend = require( "../../../models/chat/Friend.model" );
+const Message = require( "../../../models/chat/Message.model" );
+const Vocate = require( "../../../models/chat/Vocate.model" );
+const Syntax = require( "../../../models/chat/Syntax.model" );
+const Broadcast = require( "../../../models/chat/Broadcast.model" ),
   /** ***********************************************************************/
 
   // Setup login facebook function
@@ -64,23 +71,22 @@ const Broadcast = require( "./src/models/Broadcasts.model" ),
   };
 
 // Start all task process multi thread
-let process = async function( account ) {
+let chatAuto = async function( account ) {
   // Create api contain data of facebook chat plugin
   let api = null;
 
   // Get info user facebook by api chat facebook
   const getInfoFB = ( id ) => {
       return new Promise( ( resolve ) => {
+        // eslint-disable-next-line handle-callback-err
         api.getUserInfo( id, ( err, ret ) => {
           resolve( ret[ id ] );
         } );
       } );
     },
-
-
     // Update info after login
     updateInfoFB = async ( api ) => {
-    // Get user id from api chat facebook
+      // Get user id from api chat facebook
       const facebookID = await api.getCurrentUserID(),
         // Get user info facebook from api chat facebook
         newInfoFB = await getInfoFB( facebookID ),
@@ -94,10 +100,14 @@ let process = async function( account ) {
       await userInfoFB.save();
       return userInfoFB;
     },
-
     // Convert cookie to object which pass to facebook
     cookieObject = convertCookieToObject( account.cookie )[ 0 ],
-    cookie = cookieFacebook( cookieObject.fr, cookieObject.datr, cookieObject.c_user, cookieObject.xs );
+    cookie = cookieFacebook(
+      cookieObject.fr,
+      cookieObject.datr,
+      cookieObject.c_user,
+      cookieObject.xs
+    );
 
   try {
     api = await loginFacebook( cookie );
@@ -107,30 +117,37 @@ let process = async function( account ) {
     if ( account.status == 1 ) {
       account.status = 0;
       account.cookie = "";
-      account.save();
-      io.sockets.emit( "checkLogout", { "account": account, "error": ErrorText.LOGOUT, "code": ErrorText.CODELOGOUT } );
+      await account.save();
+    }
+    io.sockets.emit( "checkLogout", {
+      "account": account,
+      "error": ErrorText.LOGOUT,
+      "code": ErrorText.CODELOGOUT
+    } );
 
-      const foundUser = await Account.findById( account._account ),
-
-        // Use Smtp Protocol to send Email
-        transporter = await nodemailer.createTransport( {
-          "service": "Gmail",
-          "auth": {
-            "user": CONFIG.gmail_email,
-            "pass": CONFIG.gmail_password
-          }
-        } ),
-        html = `
+    const foundUser = await Account.findById( account._account ),
+      // Use Smtp Protocol to send Email
+      transporter = await nodemailer.createTransport( {
+        "service": "Gmail",
+        "auth": {
+          "user": process.env.MAIL_USERNAME,
+          "pass": process.env.MAIL_PASSWORD
+        }
+      } ),
+      html = `
           <div>
             <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
-            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${
+  account.userInfo.name
+} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
             <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
             <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
-            <span style="font-size: 20px">Trân trọng!</span> 
+            <span style="font-size: 20px">Trân trọng!</span>
           </div>`;
 
-      await transporter.sendMail( {
-        "from": CONFIG.gmail_email,
+    await transporter.sendMail(
+      {
+        "from": process.env.MAIL_USERNAME,
         "to": foundUser.email,
         "subject": "Beechat Hot Notification",
         "html": html
@@ -139,12 +156,8 @@ let process = async function( account ) {
         if ( err ) {
           return err;
         }
-      } );
-    }
-    account.status = 0;
-    account.error = ErrorText.LOGOUT;
-    account.cookie = "";
-    account.save();
+      }
+    );
   }
 
   // START ACTION SYSTEM: (Conditional system: api not null)
@@ -157,28 +170,35 @@ let process = async function( account ) {
     io.on( "connection", async ( socket ) => {
       console.log( `Client connected with id: ${socket.id}` );
       // Event: Send message
-      socket.on( "sendMessage", async function ( dataEmit, callback ) {
+      socket.on( "sendMessage", async function( dataEmit, callback ) {
         // get data infinite by
         // console.log(1)
         // console.log(dataEmit)
-        let sendData = await MessageProcess.handleMessage( dataEmit, account, api );
+        let sendData = await MessageProcess.handleMessage(
+          dataEmit,
+          account,
+          api
+        );
 
         return callback( sendData );
       } );
       // Event: Get list friends
-      socket.on( "getListFriends", async function ( dataEmit ) {
+      socket.on( "getListFriends", async function( dataEmit ) {
         const vocaList = await Vocate.find( { "_account": account._account } );
 
         if ( dataEmit.includes( account._id ) ) {
+          // eslint-disable-next-line handle-callback-err
           api.getFriendsList( ( err, data ) => {
             if ( !data ) {
-              data = data.filter( ( e ) => {
-                if ( e.userID !== "0" ) {
-                  return e;
-                }
-              } ).map( ( e ) => {
-                return VocateProcess.getVocate( e, vocaList );
-              } );
+              data = data
+                .filter( ( e ) => {
+                  if ( e.userID !== "0" ) {
+                    return e;
+                  }
+                } )
+                .map( ( e ) => {
+                  return VocateProcess.getVocate( e, vocaList );
+                } );
               socket.emit( "listFriends", { "data": data } );
             }
           } );
@@ -186,7 +206,7 @@ let process = async function( account ) {
         return true;
       } );
       // Event: Send message friends (Cron Job)
-      socket.on( "sendMessageCronFriends", async function ( dataEmit ) {
+      socket.on( "sendMessageCronFriends", async function( dataEmit ) {
         // Check dataEmit of friend before cron
         const filteredData = dataEmit._friends.filter( ( friend ) => {
           if ( friend._friends.includes( account._id ) ) {
@@ -195,40 +215,61 @@ let process = async function( account ) {
         } );
         // Handle Cron job when timer later
 
-        new CronJob( "*****", async function () {
-          // Handle broadcasts from database or event listen from client with 'sendMessageCronFriends' event
-        }, null, true, "Asia/Ho_Chi_Minh" );
+        new CronJob(
+          "*****",
+          async function() {
+            // Handle broadcasts from database or event listen from client with 'sendMessageCronFriends' event
+          },
+          null,
+          true,
+          "Asia/Ho_Chi_Minh"
+        );
       } );
 
       // Event: Stop send message broadcast (Cron)
-      socket.on( "removeCronBroadcast", async function ( dataEmit, callback ) {
+      socket.on( "removeCronBroadcast", async function( dataEmit, callback ) {
         // Handle auto send message in broadcast
         if ( dataEmit.accountId.toString() === account._account.toString() ) {
-          let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast( dataEmit, account, api );
+          let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(
+            dataEmit,
+            account,
+            api
+          );
 
           return callback( sendData );
         }
       } );
       // Event: Send message broadcast (Cron)
-      socket.on( "activeCronBroadcast", async function ( dataEmit, callback ) {
+      socket.on( "activeCronBroadcast", async function( dataEmit, callback ) {
         if ( dataEmit.accountId.toString() === account._account.toString() ) {
-          let sendData = await BroadcastProcess.handleMessageScheduleBroadcast( dataEmit, account, api );
+          let sendData = await BroadcastProcess.handleMessageScheduleBroadcast(
+            dataEmit,
+            account,
+            api
+          );
 
           return callback( sendData );
         }
       } );
     } );
     // Handle broadcast 1p call cron to send broadcast with per account facebook
-    const findActiveBroadcast = await Broadcast.find( { "_account": account._account } );
+    const findActiveBroadcast = await Broadcast.findOne( {
+      "_account": account._account,
+      "typeBroadCast": dictionaries.BROADCAST_SCHEDULE
+    } );
 
-    await findActiveBroadcast[ 1 ].blocks.map( async ( block ) => {
+    await findActiveBroadcast.blocks.map( async ( block ) => {
       if ( block.status === true ) {
-        await BroadcastProcess.handleMessageScheduleBroadcast( block, account, api );
+        await BroadcastProcess.handleMessageScheduleBroadcast(
+          block,
+          account,
+          api
+        );
       }
     } );
 
     // Handle action listen from which api receive from facebook
-    var stopListen = api.listen( async ( err, message ) => {
+    let stopListen = api.listen( async ( err, message ) => {
       // Handle error with api
       if ( err !== null ) {
         if ( err.code !== "ESOCKETTIMEDOUT" ) {
@@ -237,40 +278,50 @@ let process = async function( account ) {
               account.status = 0;
               account.cookie = "";
               account.save();
-              io.sockets.emit( "checkLogout", { "account": account, "error": ErrorText.LOGOUT, "code": ErrorText.CODELOGOUT } );
+              io.sockets.emit( "checkLogout", {
+                "account": account,
+                "error": ErrorText.LOGOUT,
+                "code": ErrorText.CODELOGOUT
+              } );
 
               const foundUser = await Account.findById( account._account ),
-
                 // Use Smtp Protocol to send Email
                 transporter = await nodemailer.createTransport( {
                   "service": "Gmail",
                   "auth": {
-                    "user": CONFIG.gmail_email,
-                    "pass": CONFIG.gmail_password
+                    "user": process.env.MAIL_USERNAME,
+                    "pass": process.env.MAIL_PASSWORD
                   }
                 } ),
                 html = `
           <div>
             <img src="http://zinbee.vn/assets/landing/image/logo/zinbee.png"> <br>
-            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${account.userInfo.name} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
+            <span style="font-size: 20px">Có thể phiên đăng nhập tài khoản facebook ${
+  account.userInfo.name
+} của bạn đã hết hạn do quá trình đăng xuất trên trình duyệt hoặc có lỗi phát sinh trong quá trình sử dụng hệ thống.</span><br>
             <span style="font-size: 20px">Vui lòng lấy lại cookie của tài khoản facebook và cập nhật lại trong hệ thống.</span> <br>
             <span style="font-size: 20px">Kỹ thuật chatbee</span> <br>
             <span style="font-size: 20px">Trân trọng!</span> 
           </div>`;
 
-              await transporter.sendMail( {
-                "from": CONFIG.gmail_email,
-                "to": foundUser.email,
-                "subject": "Beechat Hot Notification",
-                "html": html
-              },
-              ( err, info ) => {
-                if ( err ) {
-                  return err;
+              await transporter.sendMail(
+                {
+                  "from": process.env.MAIL_USERNAME,
+                  "to": foundUser.email,
+                  "subject": "Beechat Hot Notification",
+                  "html": html
+                },
+                ( err, info ) => {
+                  if ( err ) {
+                    return err;
+                  }
                 }
-              } );
+              );
             }
-            io.sockets.emit( "error", { "account": account, "error": ErrorText.LISTEN } );
+            io.sockets.emit( "error", {
+              "account": account,
+              "error": ErrorText.LISTEN
+            } );
           }
           return stopListen();
         }
@@ -325,12 +376,17 @@ let process = async function( account ) {
 
             const dataInfo = Object.values( ret )[ 0 ],
               objSave = {
-                "alternateName": dataInfo.alternateName === undefined ? "" : dataInfo.alternateName,
-                "firstName": dataInfo.firstName === undefined ? "" : dataInfo.firstName,
-                "gender": dataInfo.gender === 1 ? "female_singular" : dataInfo.gender === 2 ? "male_singular" : "",
+                "alternateName":
+                  dataInfo.alternateName === undefined ? "" : dataInfo.alternateName,
+                "firstName":
+                  dataInfo.firstName === undefined ? "" : dataInfo.firstName,
+                "gender":
+                  dataInfo.gender === 1 ? "female_singular" : dataInfo.gender === 2 ? "male_singular" : "",
                 "userID": message.senderID,
                 "fullName": dataInfo.name,
-                "profilePicture": `http://graph.facebook.com/${message.senderID}/picture?type=large`,
+                "profilePicture": `http://graph.facebook.com/${
+                  message.senderID
+                }/picture?type=large`,
                 "profileUrl": dataInfo.profileUrl,
                 "vanity": dataInfo.vanity
               },
@@ -339,13 +395,18 @@ let process = async function( account ) {
             friend._facebook.push( account._id );
             friend._account.push( account._account );
             await friend.save();
-            const messageResult = await Message.findOne( { "_account": account._account, "_sender": account._id, "_receiver": friend._id } ).populate( { "path": "_receiver", "select": "-_account -_facebook" } ).populate( {
-              "path": "_sender",
-              "select": "-cookie"
-            } );
+            const messageResult = await Message.findOne( {
+              "_account": account._account,
+              "_sender": account._id,
+              "_receiver": friend._id
+            } )
+              .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
+              .populate( {
+                "path": "_sender",
+                "select": "-cookie"
+              } );
 
             if ( !messageResult ) {
-
               // Handle message never chat together
               const messageCurrentObject = {
                   "contents": [ messageObject ],
@@ -362,7 +423,6 @@ let process = async function( account ) {
 
               await messageCurrent.save();
             } else {
-
               // Handle message chatted
               messageResult.seen = false;
               messageResult.contents.push( messageObject );
@@ -370,58 +430,83 @@ let process = async function( account ) {
             }
 
             // Handle message  is a script in syntax
-            const foundAllSyntax = await Syntax.find( { "_account": account._account } ),
+            const foundAllSyntax = await Syntax.find( {
+                "_account": account._account
+              } ),
               // found syntax when customer message to
-              foundSyntax = foundAllSyntax.map( ( syntax ) => {
-                if ( syntax._facebook.indexOf( account._id ) >= 0 ) {
-                  return syntax;
-                }
-              } ).filter( ( item ) => {
-                if ( item === undefined ) {
-                  return;
-                }
-                return true;
-              } ).filter( ( item ) => {
-                const filterName = item.name.find( ( name ) => ConvertUnicode( name.toLowerCase() ).toString() === ConvertUnicode( message.body.trim().toLowerCase() ).toString() );
+              foundSyntax = foundAllSyntax
+                .map( ( syntax ) => {
+                  if ( syntax._facebook.indexOf( account._id ) >= 0 ) {
+                    return syntax;
+                  }
+                } )
+                .filter( ( item ) => {
+                  if ( item === undefined ) {
+                    return;
+                  }
+                  return true;
+                } )
+                .filter( ( item ) => {
+                  const filterName = item.name.find(
+                    ( name ) =>
+                      convertUnicode( name.toLowerCase() ).toString() === convertUnicode(
+                        message.body.trim().toLowerCase()
+                      ).toString()
+                  );
 
-                if ( !filterName ) {
-                  return;
-                }
-                return true;
-              } )[ 0 ];
+                  if ( !filterName ) {
+                    return;
+                  }
+                  return true;
+                } )[ 0 ];
 
             if ( foundSyntax !== undefined ) {
-              const data = await SyntaxProcess.handleSyntax( message, foundSyntax, account, api );
+              const data = await SyntaxProcess.handleSyntax(
+                message,
+                foundSyntax,
+                account,
+                api
+              );
             }
 
             // Handle message  is a script in block
             // const foundAllBlock = await Block.find({'_account': account._account})
-            // const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+            // const foundBlock = foundAllBlock.find(val => convertUnicode(val.name).toString().toLowerCase() === convertUnicode(message.body).toString().toLowerCase())
             // if (foundBlock !== undefined) {
             //   const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
             // }
 
             // Get data chat after update listen from api
-            const messageUpdated = await Message.findOne( { "_account": account._account, "_sender": account._id, "_receiver": friend._id } ).populate( { "path": "_receiver", "select": "-_account -_facebook" } ).populate( {
-              "path": "_sender",
-              "select": "-cookie"
-            } );
+            const messageUpdated = await Message.findOne( {
+              "_account": account._account,
+              "_sender": account._id,
+              "_receiver": friend._id
+            } )
+              .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
+              .populate( {
+                "path": "_sender",
+                "select": "-cookie"
+              } );
 
             return io.sockets.emit( "receiveMessage", {
               "message": messageUpdated
             } );
-
           } );
           return;
         }
 
-        const messageResult = await Message.findOne( { "_account": account._account, "_sender": account._id, "_receiver": userInfoFB._id } ).populate( { "path": "_receiver", "select": "-_account -_facebook" } ).populate( {
-          "path": "_sender",
-          "select": "-cookie"
-        } );
+        const messageResult = await Message.findOne( {
+          "_account": account._account,
+          "_sender": account._id,
+          "_receiver": userInfoFB._id
+        } )
+          .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
+          .populate( {
+            "path": "_sender",
+            "select": "-cookie"
+          } );
 
         if ( !messageResult ) {
-
           // Handle message never chat together
           const messageCurrentObject = {
               "contents": [ messageObject ],
@@ -438,7 +523,6 @@ let process = async function( account ) {
 
           await messageCurrent.save();
         } else {
-
           // Handle message chatted
           messageResult.seen = false;
           messageResult.contents.push( messageObject );
@@ -446,57 +530,69 @@ let process = async function( account ) {
         }
 
         // Handle message  is a script in syntax
-        const foundAllSyntax = await Syntax.find( { "_account": account._account } ),
+        const foundAllSyntax = await Syntax.find( {
+            "_account": account._account
+          } ),
           // found syntax when customer message to
-          foundSyntax = foundAllSyntax.map( ( syntax ) => {
-            if ( syntax._facebook.indexOf( account._id ) >= 0 ) {
-              return syntax;
-            }
-          } ).filter( ( item ) => {
-            if ( item === undefined ) {
-              return;
-            }
-            return true;
-          } ).filter( ( item ) => {
-            const filterName = item.name.find( ( name ) => ConvertUnicode( name.toLowerCase() ).toString() === ConvertUnicode( message.body.trim().toLowerCase() ).toString() );
+          foundSyntax = foundAllSyntax
+            .map( ( syntax ) => {
+              if ( syntax._facebook.indexOf( account._id ) >= 0 ) {
+                return syntax;
+              }
+            } )
+            .filter( ( item ) => {
+              if ( item === undefined ) {
+                return;
+              }
+              return true;
+            } )
+            .filter( ( item ) => {
+              const filterName = item.name.find(
+                ( name ) =>
+                  convertUnicode( name.toLowerCase() ).toString() === convertUnicode( message.body.trim().toLowerCase() ).toString()
+              );
 
-            if ( !filterName ) {
-              return;
-            }
-            return true;
-          } )[ 0 ];
+              if ( !filterName ) {
+                return;
+              }
+              return true;
+            } )[ 0 ];
 
         if ( foundSyntax !== undefined ) {
-          const data = await SyntaxProcess.handleSyntax( message, foundSyntax, account, api );
+          const data = await SyntaxProcess.handleSyntax(
+            message,
+            foundSyntax,
+            account,
+            api
+          );
         }
 
         // Handle message  is a script in block
         // const foundAllBlock = await Block.find({'_account': account._account})
-        // const foundBlock = foundAllBlock.find(val => ConvertUnicode(val.name).toString().toLowerCase() === ConvertUnicode(message.body).toString().toLowerCase())
+        // const foundBlock = foundAllBlock.find(val => convertUnicode(val.name).toString().toLowerCase() === convertUnicode(message.body).toString().toLowerCase())
         // if (foundBlock !== undefined) {
         //   const data = await BlockProcess.handleBlock(message, foundBlock, account, api)
         // }
 
         // Get data chat after update listen from api
-        const messageUpdated = await Message.findOne( { "_account": account._account, "_sender": account._id, "_receiver": userInfoFB._id } ).populate( { "path": "_receiver", "select": "-_account -_facebook" } ).populate( {
-          "path": "_sender",
-          "select": "-cookie"
-        } );
+        const messageUpdated = await Message.findOne( {
+          "_account": account._account,
+          "_sender": account._id,
+          "_receiver": userInfoFB._id
+        } )
+          .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
+          .populate( {
+            "path": "_sender",
+            "select": "-cookie"
+          } );
 
         return io.sockets.emit( "receiveMessage", {
           "message": messageUpdated
         } );
-
       }
     } );
-
   }
   return account;
 };
 
-
-// When  upload to server comment line after
-http.listen( 8889 );
-// server.listen(8889);
-
-module.exports = process;
+module.exports = chatAuto;

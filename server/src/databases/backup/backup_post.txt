@@ -1,0 +1,33 @@
+{
+		"id": "952",
+		"uid": "40",
+		"category": "post",
+		"user_category": "53",
+		"user_category_name": "Bài đăng sản phẩm",
+		"type": "images",
+		"name": "serum sonatural",
+		"message": "🍒🍒🍒Tiếp nối thành công của Red peel nay nhà em ra mắt em KÍCH TRẮNG #Skin_Booster_Milk_Oil_Serum #sonatural\r\n🛩 Xuất xứ : Hàn Quốc\r\n\r\n#CÔNGDỤNG \r\n♻Làm bật tông da chỉ sau 1 tuần sử dụng \r\n♻ Điều trị vết thâm - nám - tàn nhang \r\n♻ Tinh dàu thực vật dưỡng ẩm nhưng thẩm thấu cực nhanh , không gây bí lỗ chân lông cho da . Giúp da căng - bóng- khỏe \r\n♻ Tinh chất chống nhăn tương đương botox giup làm đầy nếp nhăn cho da \r\n♻ Protein giúp nuôi da khỏe mạnh từ bên trong, rất tốt cho da nhạy cảm\r\n\r\n#Hướng_dẫn_sử_dụng: Sử dụng vào buổi tối sau các bước toner, emulsion hoặc kem dưỡng\r\n\r\n#Note: serum màu trắng dạng sánh mịn, mùi thơm dịu nhẹ, tan nhanh vào da, ban đầu cho bạn cảm giác mát mát khi mới tiếp xúc, và chỉ sau 1 tuần da đã cải thiện căng bóng, trắng hồng, cải thiện nếp nhăn.",
+		"title": null,
+		"description": null,
+		"caption": null,
+		"url": null,
+		"image": "[\"https:\\\/\\\/srv2.zinbee.vn\\\/uploads\\\/user40\\\/45421442_2145492389101558_6302226279034781696_n.jpg\",\"https:\\\/\\\/srv2.zinbee.vn\\\/uploads\\\/user40\\\/45421903_2145492379101559_7481799082210492416_n.jpg\",\"https:\\\/\\\/srv2.zinbee.vn\\\/uploads\\\/user40\\\/45542385_2145492512434879_8986544924518252544_n.jpg\",\"https:\\\/\\\/srv2.zinbee.vn\\\/uploads\\\/user40\\\/45387112_2145492455768218_6638558407706017792_n.jpg\"]",
+		"status": "1",
+		"created": "2018-11-06 09:27:13"
+	},,{
+		"id": "953",
+		"uid": "45",
+		"category": "post",
+		"user_category": "53",
+		"user_category_name": "Bài đăng sản phẩm",
+		"type": "video",
+		"name": "Kem dưỡng da Muij",
+		"message": "🏆💯Kem dưỡng da Muji nằm trong bộ chăm sóc da Sensitive nổi tiếng và bán chạy của hãng với thành phần nước tự nhiên được lấy từ Kamaishi, Iwate Prefecture, Nhật Bản. Với độ dưỡng ẩm hơn Moisturising Milk, sản phẩm sẽ cung cấp độ ẩm hoàn hảo cho làn da nhạy cảm, da thiếu ẩm nhiều.\r\n\r\n💥💥Kem Dưỡng Ẩm Và Làm Sáng Da Muji Sensitive Moisturising Cream có công dụng nổi bật sau:\r\n\r\n🐝Dưỡng ẩm cao cho làn da, đặc biệt là da khô và nhạy cảm.\r\n\r\n🐝Phân tử acid hyaluronic ngăn ngừa làn da chống lão hóa, ngừa vết nhăn, duy trì độ ẩm cực kỳ hiệu quả, giúp làn da luôn căng bóng và mịn màng.\r\n\r\n🐝Chiết xuất từ các loại dầu tự nhiên giúp dưỡng da hằng ngày.\r\n\r\n🐝Vitamin E và C kết hợp hài hòa trong một sản phẩm là hỗn hợp tuyệt vời giúp da trắng sáng lên trong thời gian ngắn\r\n\r\n💥💥Ưu điểm vượt trội của kem dưỡng ẩm Muji :\r\n\r\n❌Sản phẩm KHÔNG chứa Paraben, KHÔNG chứa hương liệu, màu nhân tạo.\r\n\r\n❌KHÔNG chứa dầu khoáng, KHÔNG chứa cồn và tính axit yếu.\r\n\r\n💜💜Sử dụng kem dưỡng da Muji mỗi ngày để giữ cho làn da của bạn được ngậm đủ nước, trông thật tươi mới và rạng rỡ.\r\n\r\n😍😍Độ kích ứng cực kỳ thấp nên thích hợp cho cả những làn da nhạy cảm nhất.\r\n",
+		"title": null,
+		"description": null,
+		"caption": null,
+		"url": null,
+		"image": "https:\/\/www.facebook.com\/100022637793098\/videos\/333526740745250\/",
+		"status": "1",
+		"created": "2018-11-06 09:28:49"
+	}

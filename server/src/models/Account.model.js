@@ -24,10 +24,6 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
       "type": Number,
       "default": 2
     },
-    "_accountfb": [ {
-      "type": Schema.Types.ObjectId,
-      "ref": "Facebook"
-    } ],
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
     "language": {
@@ -56,6 +52,8 @@ const rcrypt = require( "../helpers/secures/rcrypt" ),
       "type": Date,
       "default": Date.now()
     },
+    "other01": String, // id of phpMyadmin from older server
+    "other02": String,
     "updated_at": Date
   } );
 

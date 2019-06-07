@@ -18,6 +18,7 @@
         background: #fff;
         border-radius: 10px;
         transition: 0.3s;
+        border: 1px solid rgba(0,0,0,.125);
         &:hover{
             box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
         }
@@ -37,7 +38,6 @@
             }
         }
         div[contenteditable="true"]:empty:before {
-            content: 'Nhập văn bản';
             color: #444
         }
     }
@@ -48,26 +48,26 @@
 
 .images {
     height: 207px;
-    // &:hover,
-    // &:focus,
-    // &:visited,
-    // &:active {
-    //     >.upload--image {
-    //         display: block;
-    //     }
-    // }
+     &:hover,
+     &:focus,
+     &:visited,
+     &:active {
+         >.upload--image {
+             display: block;
+         }
+     }
     .image--link {
         border-radius: 10px;
         overflow: hidden;
         width: 280px;
     }
     .upload--image {
-        // background-color: rgba(153, 153, 153, 0.4);
-        background: #fff;
+         background-color: rgba(153, 153, 153, 0.4);
         color: #666;
         border-radius: 10px;
-        // color: #fff;
-        // display: none;
+        border: 1px solid rgba(0,0,0,.125);
+         color: #fff;
+         display: none;
         height: 100%;
         width: 280px;
         top: 0;
@@ -75,7 +75,8 @@
         z-index: 1;
         transition: 0.3s;
         &:hover{
-            // background-color: rgba(153, 153, 153, 0.4);
+             background-color: rgba(153, 153, 153, 0.4);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
             color: #333;
         }
         input#upload_image {
@@ -117,6 +118,24 @@ div[data-theme="dark"] .body {
     .text-edit {
         background: #27292D;
         border-color: #444;
+    }
+    .upload--image {
+        background: #fff;
+        &:hover{
+            // background-color: rgba(153, 153, 153, 0.4);
+            box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+            color: #ccc;
+        }
+        input#upload_image {
+            cursor: pointer;
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            z-index: 2;
+        }
     }
 }
 
@@ -196,3 +215,11 @@ div[data-theme="dark"] .footer {
 
 
 // ****************** RESPONSIVE
+@media (max-width: 1200px) and (min-width: 768px){
+    .footer .group{
+        flex-wrap: wrap;
+        .item {
+            width: calc(50% - 10px);
+        }
+    }
+}

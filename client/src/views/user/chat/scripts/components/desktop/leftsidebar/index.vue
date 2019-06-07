@@ -1,103 +1,99 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
-    <!-- Start Group Scripts -->
-    <div class="group--scripts mb_3 mt_2">
-      <div class="title d_inline_flex">
-        <div>
-          <icon-base
-            class="icon--sort-down"
-            icon-name="IconSortDown"
-            width="17"
-            height="10"
-            viewBox="0 0 10 10"
-          >
-            <icon-sort-down/>
-          </icon-base>
-        </div>
-        <contenteditable class="scripts" tag="div" :contenteditable="true" :placeholder="title"/>
-        <div @click="showCopyScripts = !showCopyScripts" v-click-outside="closeShowCopyScripts">
-          <icon-base
-            class="icon--more"
-            icon-name="IconMore"
-            width="23"
-            height="23"
-            viewBox="0 0 750 750"
-          >
-            <icon-more/>
-          </icon-base>
-        </div>
+  <div class="sidebar-scripts group py_3" :data-theme="currentTheme" >
+    <div class="header d_flex align_items_center mb_4">
+      <div
+        class="left normal d_flex align_items_center justify_content_center"
+        @click="isAddTypeDropdown = !isAddTypeDropdown"
+        v-click-outside="closeAddTypeDropdown"
+      >
         <div
-          class="click--icon dropdown--menu dropdown--menu-content dropdown--menu-left flipInY animated type"
-          v-show="showCopyScripts"
+          class="group--item add "
         >
-          <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">Sao chép</div>
-            <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
+          <div class="group--item-name d_flex align_items_center">
+            <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
+              <icon-plus/>
+            </icon-base>
+            <span class="ml_1">Tạo mới</span>
           </div>
-          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
+          <div
+            class="dropdown--menu dropdown--menu-left flipInY animated type"
+            :class="{ show: isAddTypeDropdown }"
+          >
+        <span class="with--arrow">
+          <span class="bg_light"></span>
+        </span>
+            <div class="dropdown--menu-content">
+              <div
+                class="dropdown--menu-item"
+                @click="createSequence"
+              >{{ $t("chat.scripts.sidebar.add.sequence") }}</div>
+              <div
+                class="dropdown--menu-item"
+                @click="createGroup"
+              >{{ $t("chat.scripts.sidebar.add.group") }}</div>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="content my_3">
-        <div class="name group-scripts r m_0">
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
-            <div class="content--item position_relative">
-              <div class="text_center name-script">Kịch bản 1</div>
-              <div class="position_absolute icon-more">
-                <icon-base
-                  class="icon--more"
-                  icon-name="IconMore"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 760 760"
-                >
-                  <icon-more/>
-                </icon-base>
-              </div>
-              <!-- <div class="infor position_absolute">
-                <ul>
-                  <li>Sao chép</li>
-                  <li>Di chuyển</li>
-                  <li>Xóa</li>
-                </ul>
-              </div>-->
-            </div>
+      <div class="center normal" @click="showScriptDefault" :class="isActive === true ? 'change' : 'off'">
+        Kịch bản
+      </div>
+      <div class="right normal" @click="showScriptSequence" :class="{change: isOption}">
+        Trình tự
+      </div>
+    </div>
+    <!-- Start Group Scripts -->
+    <div v-if="isShowScriptDefault === true">
+      <div class="group--scripts mb_2 mt_2" v-for="(group, index) in groupBlock" :key="`c-${index}`">
+        <div class="title d_inline_flex">
+          <div>
+            <icon-base
+              class="icon--sort-down"
+              icon-name="IconSortDown"
+              width="17"
+              height="10"
+              viewBox="0 0 10 10"
+            >
+              <icon-sort-down/>
+            </icon-base>
           </div>
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
-            <div class="content--item position_relative">
-              <div class="text_center">Kịch bản 2</div>
-              <div class="position_absolute icon-more">
-                <icon-base
-                  class="icon--more"
-                  icon-name="IconMore"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 760 760"
-                >
-                  <icon-more/>
-                </icon-base>
-              </div>
-              <div class="infor position_absolute d_none">
-                <ul>
-                  <li>Sao chép</li>
-                  <li>Di chuyển</li>
-                  <li>Xóa</li>
-                </ul>
+          <contenteditable
+            class="name--scripts"
+            tag="div"
+            :contenteditable="true"
+            :placeholder="$t('chat.scripts.sidebar.name.placeholder')"
+            v-model="group.name"
+            @keyup="upTypingText('namegroupblock', group)"
+            @keydown="clear"
+          />
+          <option-group :groupId="group._id" />
+        </div>
+        <div class="content my_2">
+          <div class="name group-scripts r m_0">
+            <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" v-for="(block, index) in group.blocks" :key="`e-${index}`">
+              <div class="content--item position_relative" @click="showBlock(block._id)">
+                <div class="text_center name">
+                  {{ block.name }}
+                </div>
+                <div class="position_absolute icon--more-group-block">
+                  <option-group-block />
+                </div>
               </div>
             </div>
-          </div>
-          <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_3">
-            <div class="content--item position_relative">
-              <div class="text_center">
-                <icon-base
-                  class="icon--add"
-                  icon-name="plus"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 60 60"
-                >
-                  <icon-plus/>
-                </icon-base>
+            <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" @click="createBlock(group._id)">
+              <div class="content--item position_relative">
+                <div class="text_center">
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60"
+                  >
+                    <icon-plus/>
+                  </icon-base>
+                </div>
               </div>
             </div>
           </div>
@@ -107,157 +103,102 @@
     <!-- End Group Scripts -->
 
     <!-- Start sequence scripts  -->
-    <div class="sequences--scripts">
-      <div class="title d_inline_flex mb_2">
-        <div>
-          <icon-base
-            class="icon--sort-down"
-            icon-name="IconSortDown"
-            width="17"
-            height="10"
-            viewBox="0 0 10 10"
+    <div v-if="isShowScriptDefault === false">
+      <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
+      <div class="sequences--scripts" v-for="(sequence,index) in groupSequence" :key="index">
+        <div class="title d_inline_flex mb_2">
+          <div>
+            <icon-base
+              class="icon--sort-down"
+              icon-name="IconSortDown"
+              width="17"
+              height="10"
+              viewBox="0 0 10 10"
+            >
+              <icon-sort-down/>
+            </icon-base>
+          </div>
+          <contenteditable
+            class="name--sequence"
+            tag="div"
+            :contenteditable="true"
+            :placeholder="$t('chat.scripts.sidebar.sequence.placeholder')"
+            v-model="sequence.name"
+            @keyup="upTypingText('namegroupsequence', sequence)"
+            @keydown="clear"
+          />
+          <div @click="openSequenceDropdown(sequence._id)">
+            <icon-base
+              class="icon--more"
+              icon-name="IconMore"
+              width="23"
+              height="23"
+              viewBox="0 0 750 750"
+            >
+              <icon-more/>
+            </icon-base>
+          </div>
+          <div
+            class="click--icon dropdown--menu-content"
+            v-if="showCopySequenceScripts === true && currentSequenceIndex === sequence._id"
+            v-click-outside="closeCopySequenceScripts"
           >
-            <icon-sort-down/>
-          </icon-base>
+            <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
+              <div class="copy">{{ $t("chat.scripts.sidebar.sequence.copy.title") }}</div>
+              <div>{{ $t("chat.scripts.sidebar.sequence.copy.desc") }}</div>
+            </div>
+            <div
+              class="dropdown--menu-item mb_2 pl_3"
+              @click="deleteASequence(sequence._id)"
+            >{{ $t("chat.scripts.sidebar.sequence.copy.delete") }}</div>
+          </div>
         </div>
-        <contenteditable class="sequence" tag="div" :contenteditable="true"/>
-        <div
-          @click="showCopySequenceScripts = !showCopySequenceScripts"
-          v-click-outside="closeCopySequenceScripts"
-        >
-          <icon-base
-            class="icon--more"
-            icon-name="IconMore"
-            width="23"
-            height="23"
-            viewBox="0 0 750 750"
+        <div class="content">
+          <div
+            class="r m_0 group--items"
+            v-for="(item, index) in sequence.sequences"
+            :key="`b-${index}`"
           >
-            <icon-more/>
-          </icon-base>
-        </div>
-        <div class="click--icon dropdown--menu-content" v-show="showCopySequenceScripts">
-          <div class="px_3 pt_3 pb_2 dropdown--menu-item mb_2">
-            <div class="copy">Sao chép</div>
-            <div>Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
-          </div>
-          <div class="dropdown--menu-item mb_2 pl_3">Xóa</div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="r m_0 group--items ">
-          <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item">
-              <div class="after--day">
-                <span>Sau</span>
-                <span>1</span>
-                <span>Ngày</span>
-              </div>
-            </div>
-          </div>
-          <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
-            <div class="content--item">
-              <div class="text_center name-script">Kịch bản 1</div>
-            </div>
-            <div class="position_absolute icon-more">
-              <icon-base
-                class="icon--more"
-                icon-name="IconMore"
-                width="22"
-                height="22"
-                viewBox="0 0 760 760"
-              >
-                <icon-more/>
-              </icon-base>
-            </div>
-            <div class="infor position_absolute d_none">
-              <ul>
-                <li>Sao chép</li>
-                <li>Di chuyển</li>
-                <li>Xóa</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="r m_0 group--items">
-          <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_3">
-            <div class="content--item position_relative">
-              <div class="after--day"
-                @click="showAfterDay = true"
-                
-              >
-                <span>Sau</span>
-                <span>1</span>
-                <span>Ngày</span>
-              </div>
-              <div
-                class="show--after-day position_absolute text_left"
-                v-if="showAfterDay === true" v-click-outside="closeShowAfterDay"
-              >
-                <div>Send after</div>
-                <div class="d_inline_flex hours--day position_relative my_1">
-                  <div class="text_center number--day" contenteditable="true">12</div>
-                  <div class="day" @click="showOptionsDay = true">
-                    <span>Day</span>
-                    <icon-base
-                      class="icon--sort-down float_right mt_2"
-                      icon-name="IconSortDown"
-                      width="17"
-                      height="10"
-                      viewBox="0 0 10 10"
-                    >
-                      <icon-sort-down/>
-                    </icon-base>
-                  </div>
-                  <div
-                    class="position_absolute options--day"
-                    v-if="showOptionsDay === true"
-                    v-click-outside="closeShowOptionsDay"
-                  >
-                    <ul>
-                      <li class="py_1 pl_1 py_2">Send now</li>
-                      <li class="py_1 pl_1 py_2">Seconds</li>
-                      <li class="py_1 pl_1 py_2">Minute</li>
-                      <li class="py_1 pl_1 py_2">Hours</li>
-                      <li class="py_1 pl_1 py_2">Day</li>
-                      <li class="py_1 pl_1 py_2">Off</li>
-                    </ul>
-                  </div>
-                </div>
-                <div class="follow">Broadcasts Follow</div>
-                <div class="follow">Other Follow</div>
-              </div>
-            </div>
-          </div>
-          <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_3 position_relative">
-            <div class="content--item">
-              <div class="text_center name-script">Kịch bản 1</div>
-            </div>
-            <div class="position_absolute icon-more">
-              <icon-base
-                class="icon--more"
-                icon-name="IconMore"
-                width="22"
-                height="22"
-                viewBox="0 0 760 760"
-              >
-                <icon-more/>
-              </icon-base>
-            </div>
-          </div>
-        </div>
-        <div class="r m_0 group--items mb_3 position_relative">
-          <div class="c_lg_12 c_xl_12 c_md_12 p_0">
-            <div class="content--item">
-              <div class="text_center name-script">
-                <icon-base
-                  class="icon--add"
-                  icon-name="plus"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 60 60"
+            <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_2">
+              <div class="content--item position_relative">
+                <after-day
+                  :sequenceId="sequence._id"
+                  :item="item"
                 >
-                  <icon-plus/>
-                </icon-base>
+                </after-day>
+              </div>
+            </div>
+            <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_2 position_relative" @click="showItemSqc(item._block._id)">
+              <div class="content--item">
+                <div class="text_center name-script">{{ item._block.name }}</div>
+              </div>
+              <div class="option">
+                <options-sequence
+                  class="options--sequence"
+                  :sequenceId="sequence._id"
+                  :item="item"
+                >
+                </options-sequence>
+              </div>
+            </div>
+          </div>
+          <div
+            class="r m_0 group--items mb_2 position_relative"
+            @click="createItemSqc(sequence._id)"
+          >
+            <div class="c_lg_12 c_xl_12 c_md_12 p_0">
+              <div class="content--item">
+                <div class="text_center name-script">
+                  <icon-base
+                    class="icon--add"
+                    icon-name="plus"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 60 60"
+                  >
+                    <icon-plus/>
+                  </icon-base>
+                </div>
               </div>
             </div>
           </div>
@@ -265,135 +206,6 @@
       </div>
     </div>
     <!-- End sequence scripts  -->
-
-    <!-- Start: Group Component -->
-    <loading-component/>
-    <div class="type-script--item group--item">
-      <!-- Item Type -->
-      <div class="type-script--name d_flex mb_2 align_items_center">
-        <div class="type-script--icon d_flex align_items_center">
-          <icon-base
-            icon-name="icon-sort-down"
-            class="icon-sort-down"
-            width="9.431"
-            height="5.506"
-            viewBox="0 0 9.431 5.506"
-          >
-            <icon-sort-down/>
-          </icon-base>
-        </div>
-        <contenteditable class="script--edit-name" tag="div" :contenteditable="true" :placeholder="title"/>
-        <!-- <d-group-script type="groupblock" /> -->
-      </div>
-      <!-- Group Name Scripts -->
-      <div class="scripts--group r no_g align_items_center">
-        <div class="script--item c_xl_6 c_lg_6 c_md_12 mb_3 text_center position_relative">
-          <span class="script--item-name d_flex flex_row align_items_center position_relative">
-            <span>block.name</span>
-          </span>
-          <!-- <d-script class="action--block position_absolute" /> -->
-        </div>
-        <div class="script--item script--item-add c_xl_6 c_lg_6 c_md_12 mb_3 text-center">
-          <span>
-            <icon-base
-              class="icon--add"
-              icon-name="plus"
-              width="16"
-              height="16"
-              viewBox="0 0 60 60"
-            >
-              <icon-plus/>
-            </icon-base>
-          </span>
-        </div>
-      </div>
-    </div>
-    <!-- End: Group Component -->
-    <!--Start: Sequence Name Scripts -->
-    <loading-component/>
-    <div class="type--script--item group--item group--sequence">
-      <!--Item Type-->
-      <!-- <div class="type-script--name d_flex mb_2 align_items_center">
-        <div class="type-script--icon d_flex align_items_center">
-          <icon-base
-            icon-name="icon-sort-down"
-            class="icon-sort-down"
-            width="9.431"
-            height="5.506"
-            viewBox="0 0 9.431 5.506"
-          >
-            <icon-sort-down />
-          </icon-base>
-        </div>
-        <contenteditable
-          class="script--edit-name"
-          tag="div"
-          :contenteditable="true"
-          placeholder="AAAAAAAAAA"
-        />
-        <d-group-script type="sequence" />
-      </div>-->
-      <!--Group Name Scripts-->
-      <!-- <div class="scripts--group r no_g justify_content_between">
-        <div
-          class="script--item d_flex align_items_center c_xl_12 c_lg_12 c_md_12 mb_3 text_center position_relative"
-        >
-          <p-time
-            class="item item--left"
-          />
-          <div
-            class="item item--info text_left ml_3 position_relative"
-          >
-            item._block.name
-      </div>-->
-      <!-- <d-sequence class="remove action--block position_absolute"/> -->
-      <!-- </div> -->
-      <!-- Add item block sequences -->
-      <!-- <div
-          class="script--item script--item-add c_xl_12 c_lg_12 c_md_12 mb_3 text-center"
-        >
-          <span>
-            <icon-base
-              class="icon--add"
-              icon-name="plus"
-              width="16"
-              height="16"
-              viewBox="0 0 60 60"
-            >
-              <icon-plus />
-            </icon-base>
-          </span>
-        </div>
-      </div>-->
-    </div>
-    <!--End: Sequence Name Scripts-->
-
-    <!-- Start: Create Sequence or Group -->
-    <div
-      class="group--item add"
-      @click="isAddTypeDropdown = !isAddTypeDropdown"
-      v-click-outside="closeAddTypeDropdown"
-    >
-      <div class="group--item-name d_flex align_items_center">
-        <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
-          <icon-plus/>
-        </icon-base>
-        <span class="ml_3">Thêm trình tự hoặc nhóm</span>
-      </div>
-      <div
-        class="dropdown--menu dropdown--menu-left flipInY animated type"
-        :class="{ show: isAddTypeDropdown }"
-      >
-        <span class="with--arrow">
-          <span class="bg_light"></span>
-        </span>
-        <div class="dropdown--menu-content">
-          <div class="dropdown--menu-item">Trình tự</div>
-          <div class="dropdown--menu-item">Nhóm</div>
-        </div>
-      </div>
-    </div>
-    <!--End: Create Sequence or Group-->
   </div>
 </template>
 <script src="./index.script.js"></script>
@@ -402,7 +214,7 @@
 
 .group--item {
   cursor: pointer;
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
 
   &:first-child {
     margin-top: 0;
@@ -545,15 +357,15 @@
 }
 
 .group--item.add {
-  margin-top: 2rem;
+  /*margin-top: 2rem;*/
   position: relative;
 
   .group--item-name {
-    > span {
-      font-size: 13px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
+    /*> span {*/
+    /*  font-size: 13px;*/
+    /*  font-weight: 700;*/
+    /*  text-transform: uppercase;*/
+    /*}*/
   }
 }
 

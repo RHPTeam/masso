@@ -106,7 +106,7 @@ module.exports = {
 
     // Check catch when update post categories
     if ( !findPostCategory ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Danh mục không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
     }
 
     res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._categoryId, { "$set": req.body }, { "new": true } ) ) );
@@ -123,9 +123,9 @@ module.exports = {
 
     // Check ctach when delete post categories
     if ( !findPostCategory ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Danh mục không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục không tồn tại!" } );
     } else if ( findPostCategory.title === dictionary.DEFAULT_POSTCATEGORY ) {
-      return res.status( 405 ).json( { "status": "errors.js", "message": "Danh mục mặc định không thể bị xóa!" } );
+      return res.status( 405 ).json( { "status": "error", "message": "Danh mục mặc định không thể bị xóa!" } );
     }
 
     // When delete auto which all of post of that auto will deleted

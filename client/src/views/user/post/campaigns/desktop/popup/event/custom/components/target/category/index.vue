@@ -1,42 +1,52 @@
 <template>
   <div class="group">
+    <div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>
     <div class="body">
-      <!--<div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>-->
-      <div class="main">
-        <multiselect
-          label="title"
-          placeholder="Chọn nhóm muốn đăng"
-          :value="event.target_category"
-          :clearable="false"
-          :options="groupPost"
-          @input="selectGroupPost"
-        />
+      <div class="row--group">
+        <div class="main">
+          <multiselect
+            label="title"
+            placeholder="Chọn nhóm muốn đăng"
+            :value="postTargetCategory"
+            :clearable="false"
+            :options="facebookGroups"
+            @input="selectFacebookGroup"
+          />
+        </div>
+        <div class="desc mt_1 px_2">Bao gồm
+          <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
+          <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
+        </div>
       </div>
-      <div class="desc mt_1 px_2">Bao gồm
-        <span>{{ selectedGroups !== {} && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
-        <span>{{ selectedGroups !== {} && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
+      <div class="mt_3">
+        <new-feed />
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import NewFeed from "../newfeed";
 export default {
+  components: {
+    NewFeed
+  },
   data() {
     return {
-      selectedGroups: {}
+      postTargetCategory: [],
+
     }
   },
   computed: {
     event() {
       return this.$store.getters.event;
     },
-    groupPost(){
-      return this.$store.getters.postGroups;
+    facebookGroups(){
+      return this.$store.getters.facebookGroups;
     }
   },
   methods: {
-    selectGroupPost( value ) {
+    selectFacebookGroup( value ) {
       this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",
@@ -50,9 +60,12 @@ export default {
 <style lang="scss" scoped>
   .group {
     .body {
-      width: 50%;
+      width: 100%;
       .title  {
         color: #666;
+      }
+      .row--group {
+        width: 50%;
       }
       .main {
         border: 1px solid $border-color;

@@ -2,8 +2,8 @@
   <div class="main">
     <div class="d_none d_md_block">
       <app-bread-crumb
-        nameBread="Chiến dịch"
-        subBread="Trang giúp bạn thiết lập các chiến dịch cá nhân hóa khách hàng"
+        :nameBread="$t('chat.broadcast.title')"
+        :subBread="$t('chat.broadcast.desc')"
       />
       <!-- Start: Content -->
       <div class="main--content r">
@@ -22,10 +22,14 @@
 import AppBreadCrumb from "@/components/breadcrumb";
 import AppSidebar from "./desktop/components/sidebar";
 // import AppMobile from "./mobile/index_mobile";
+
 export default {
   components: {
     AppBreadCrumb,
     AppSidebar
+  },
+  async created() {
+    this.$store.dispatch( "getAllBroadcasts" );
   }
 };
 </script>

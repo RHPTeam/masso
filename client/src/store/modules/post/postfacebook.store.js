@@ -1,46 +1,44 @@
 import PostFacebookService from "@/services/modules/post/postfacebook.service";
 
 const state = {
-  allPostsFacebook: [],
-  postsFacebookByKey: [],
-  postPush: []
+  listPostFacebookDefault: [],
+  numberPageCurrent: 2,
+  listPostFacebookByKey: [],
 };
 const getters = {
-  allPostsFacebook: state => state.allPostsFacebook,
-  postsFacebookByKey: state => state.postsFacebookByKey,
-  postPush: state => state.postPush
+  listPostFacebookDefault: state => state.listPostFacebookDefault,
+  listPostFacebookByKey: state => state.listPostFacebookByKey,
+  numberPageCurrent: state => state.numberPageCurrent
 };
 const mutations = {
-  setAllPostsFacebook: ( state, payload ) => {
-    state.allPostsFacebook = payload;
+  setListPostFacebookDefault: ( state, payload ) => {
+    state.listPostFacebookDefault = payload;
   },
-  setPostsFacebookByKey: ( state, payload ) => {
-    state.postsFacebookByKey = payload;
-  },
-  setPostPush: (state, payload) => {
-    payload.map(item => {
-      state.postPush.push(item);
-    })
-    // state.postPush.concat(payload);
+  setListPostFacebookByKey: ( state, payload ) => {
+    state.listPostFacebookDefault = state.listPostFacebookDefault.concat(payload.data);
+    state.numberPageCurrent = payload.number;
   }
 };
 const actions = {
-  getAllPostFacebook: async ( { commit } ) => {
-    const res = await  PostFacebookService.index();
-    commit( "setAllPostsFacebook", res.data.data );
-  },
-  searchPostsFacebookByKey: async ( { commit }, payload ) => {
-    const result = await PostFacebookService.searchByKeyword(
-      payload.key,
+  getListPostFacebookDefault: async ( { commit }, payload ) => {
+    const res = await PostFacebookService.searchByKeyword(
+      payload.keyword,
       payload.size,
       payload.page
     );
-    console.log(result.data.data);
-    commit("setPostPush", result.data.data.results);
-    commit( "setPostsFacebookByKey", result.data.data );
+    commit( "setListPostFacebookDefault", res.data.data.results );
   },
-  setPostSearchDefault: async ({ commit }, payload) => {
-    commit("set_push_post", payload);
+  searchPostsFacebookByKey: async ( { commit }, payload ) => {
+    const result = await PostFacebookService.searchByKeyword(
+      payload.keyword,
+      payload.size,
+      payload.page
+    );
+    console.log( result.data.data );
+    commit( "setListPostFacebookByKey", {
+      data: result.data.data.results,
+      number: result.data.data.page
+    } );
   }
 };
 

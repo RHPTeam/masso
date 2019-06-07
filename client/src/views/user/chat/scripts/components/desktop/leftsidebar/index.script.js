@@ -1,113 +1,124 @@
 let typingTimer;
+
+import AfterDay from "../popup/time";
+import OptionsSequence from "../popup/optionssequence";
+import OptionGroup from "../popup/optiongroup";
+import OptionGroupBlock from "../popup/optiongroupblock";
+
 export default {
+  props: ["clickShowAfterDay", "closeAfterDay"],
   data() {
     return {
-      title: "AAAAAAAAA",
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
+      isShowScriptDefault: true,
+      isActive: true,
+      isOption: false,
       currentIndexActionItemDropdown: null,
       currentIndexGroupItemButton: null,
       showItemAction: false,
       showActionSequence: false,
       showOptionSequence: false,
-      showCopyScripts: false,
-      showOptionsScripts: false,
       showCopySequenceScripts: false,
-      showAfterDay: false,
-      showOptionsDay: false
+      currentSequenceIndex: "",
+      currentAfterDayIndex: ""
     };
   },
   computed: {
-    // block() {
-    //   return this.$store.getters.block;
-    // },
+    block() {
+      return this.$store.getters.block;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    // groupBlock() {
-    //   return this.$store.getters.groups;
-    // },
-    // groupSequence() {
-    //   return this.$store.getters.groupSqc;
-    // },
-    // status() {
-    //   return this.$store.getters.statusBlocks;
-    // },
-    // curConversation() {
-    //   return this.$store.getters.curConversation;
-    // }
+    groupBlock() {
+      return this.$store.getters.groups;
+    },
+    groupSequence() {
+      return this.$store.getters.allSequenceScript;
+    },
+    status() {
+      return this.$store.getters.statusBlocks;
+    },
+    curConversation() {
+      return this.$store.getters.curConversation;
+    }
   },
   async created() {
     // await this.$store.dispatch("getGroupBlock");
-    // await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
-    closeShowCopyScripts(){
-      this.showCopyScripts = false;
+    showScriptDefault(){
+      this.isShowScriptDefault = true;
+      this.isActive = true;
+      this.isOption = false;
     },
-    closeShowOptionsScripts(){
-      this.showOptionsScripts = false;
+    showScriptSequence(){
+      this.isShowScriptDefault = false;
+      this.isActive = false;
+      this.isOption = true;
+    },
+    openSequenceDropdown( id ){
+      this.showCopySequenceScripts = true;
+      this.currentSequenceIndex = id;
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
-    },
-    closeShowAfterDay(){
-      this.showAfterDay = false;
-    },
-    closeShowOptionsDay(){
-      this.showOptionsDay = false;
+      this.currentSequenceIndex = "";
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    // showBlock(id) {
-    //   this.$store.dispatch("getBlock", id);
-    // },
-    // showItemSqc(SqcId) {
-    //   this.$store.dispatch("getItemSqc", SqcId);
-    // },
-    // createBlock(groupId) {
-    //   this.$store.dispatch("createBlock", groupId);
-    // },
-    // createItemSqc(sequenceId) {
-    //   this.$store.dispatch("createItemSequences", sequenceId);
-    // },
-    // createSequence() {
-    //   this.$store.dispatch("createSequence");
-    // },
-    // createGroup() {
-    //   this.$store.dispatch("createGroupBlock");
-    // },
-    // showActionGroupItem(index) {
-    //   this.currentIndexGroupItemButton = index;
-    // },
-    // upTypingText(type, group) {
-    //   clearTimeout(typingTimer);
-    //   if (type === "namegroupblock") {
-    //     typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
-    //   } else if (type === "namegroupsequence") {
-    //     typingTimer = setTimeout(this.updateNameSequence(group), 800);
-    //   }
-    // },
-    // clear() {
-    //   clearTimeout(typingTimer);
-    // },
-    // //Update name group block
-    // updateNameGroupBlock(value) {
-    //   const objSender = {
-    //     gr_id: value._id,
-    //     name: value.name
-    //   };
-    //   this.$store.dispatch("updateGroupBlock", objSender);
-    // },
-    // //Update nam sequence
-    // updateNameSequence(value) {
-    //   const objSender = {
-    //     sq_id: value._id,
-    //     name: value.name
-    //   };
-    //   this.$store.dispatch("updateSequence", objSender);
-    // }
+    showBlock(id) {
+      this.$store.dispatch("getInfoBlock", id);
+    },
+    showItemSqc(SqcId) {
+      this.$store.dispatch("getInfoBlock", SqcId);
+    },
+    createBlock(groupId) {
+      console.log(groupId);
+      this.$store.dispatch("createBlock", groupId);
+    },
+    createItemSqc(sequenceId) {
+      this.$store.dispatch("createBlockInSequence", sequenceId);
+    },
+    createSequence() {
+      this.$store.dispatch("createSequenceScript");
+    },
+    createGroup() {
+      this.$store.dispatch("createGroupBlock");
+    },
+    showActionGroupItem(index) {
+      this.currentIndexGroupItemButton = index;
+    },
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "namegroupblock") {
+        typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
+      } else if (type === "namegroupsequence") {
+        typingTimer = setTimeout(this.updateNameSequence(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    //Update name group block
+    updateNameGroupBlock(value) {
+      const objSender = {
+        gr_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateGroupBlock", objSender);
+    },
+    //Update nam sequence
+    updateNameSequence(value) {
+      const objSender = {
+        sq_id: value._id,
+        name: value.name
+      };
+      this.$store.dispatch("updateSequence", objSender);
+    }
   },
   sockets: {
     // async receiveMessage(value) {
@@ -132,5 +143,11 @@ export default {
     //     _.$refs.audioTone.play();
     //   }
     // }
+  },
+  components: {
+    AfterDay,
+    OptionsSequence,
+    OptionGroup,
+    OptionGroupBlock
   }
 };

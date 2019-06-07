@@ -56,14 +56,13 @@ export default {
   },
   methods: {
     update( value ) {
-      console.log(value);
       const tags = value.map(item => {
         return {
           uid: item.uid,
           text: item.text
         }
       });
-      this.$store.dispatch("setPostArray", {
+      this.$store.dispatch( "setPostArray", {
         key: "tags",
         value: tags
       });

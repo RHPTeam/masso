@@ -1,5 +1,5 @@
 import PronounPopup from "../../../popup/pronoun-popup";
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 
 export default {
   props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault"],
@@ -44,21 +44,30 @@ export default {
       totalCount: null,
       perPage: 20,
       isShowPaginateSearch: false,
-      isShowPaginate: true
+      isShowPaginate: true,
+      showLoader: true
     };
   },
   async created() {
     // if (this.$store.getters.allFriends.length === 0) {
     //   await this.$store.dispatch("getFriendsBySize", 20);
     // }
-    // await this.$store.dispatch("selectedUIDs", []);
+    // await this.$store.dispatch( "getAllFriendFacebook" );
+    await this.$store.dispatch("selectedUIDs", []);
+    /**
+     *  get info friend with page = 1 and size default = 20
+     * @returns array
+     */
+    await this.$store.dispatch("getFriendFacebookBySizeDefault", {
+      size:  this.perPage,
+      page: this.currentPage
+    });
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     friendFilter() {
-      console.log(this.$store.getters.userFilter);
       return this.$store.getters.userFilter;
     },
     filteredUsers() {
@@ -101,44 +110,70 @@ export default {
         });
       }
     },
-    selectAll: {
-      get() {
-        if (this.groupSelected === false) {
-          return this.users
-            ? this.selectedUIDs.length === this.users.length
-            : false;
-        } else {
-          return this.usersOfGroup
-            ? this.selectedUIDs.length === this.usersOfGroup.length
-            : false;
-        }
-      },
-      set(value) {
-        let selected = [];
-        if (this.groupSelected === false) {
-          if (value) {
-            this.users.forEach(function(user) {
-              selected.push(user._id);
-            });
-          }
-        } else {
-          if (value) {
-            this.usersOfGroup.forEach(function(user) {
-              selected.push(user._id);
-            });
-          }
-        }
-
-        this.selectedArr = selected;
-        this.$store.dispatch("selectedUIDs", this.selectedArr);
-      }
-    },
+    // selectAll: {
+    //   get() {
+    //     if (this.groupSelected === false) {
+    //       return this.users
+    //         ? this.selectedUIDs.length === this.users.length
+    //         : false;
+    //     } else {
+    //       return this.usersOfGroup
+    //         ? this.selectedUIDs.length === this.usersOfGroup.length
+    //         : false;
+    //     }
+    //   },
+    //   set(value) {
+    //     let selected = [];
+    //     if (this.groupSelected === false) {
+    //       if (value) {
+    //         this.users.forEach(function(user) {
+    //           selected.push(user._id);
+    //         });
+    //       }
+    //     } else {
+    //       if (value) {
+    //         this.usersOfGroup.forEach(function(user) {
+    //           selected.push(user._id);
+    //         });
+    //       }
+    //     }
+    //
+    //     this.selectedArr = selected;
+    //     this.$store.dispatch("selectedUIDs", this.selectedArr);
+    //   }
+    // },
     users() {
-      return this.$store.getters.allFriends;
+      if(this.$store.getters.friendFacebook === undefined) return;
+      return this.$store.getters.friendFacebook;
     },
-    usersOfGroup() {
-      return this.$store.getters.groupInfo._friends;
+    /**
+     *  get info all friend
+     * @returns array
+     */
+    listFriendDefault(){
+      if(this.$store.getters.friendFacebookDefault === undefined) return;
+      return this.$store.getters.friendFacebookDefault;
     },
+    /**
+     *  get info group friend by id
+     * @returns array
+     */
+    listFriendOfGroup(){
+      if(this.$store.getters.groupFriend === undefined) return;
+      return this.$store.getters.groupFriend;
+    },
+    /**
+     *  get page in results
+     * @returns array
+     */
+    numberPageCurrent(){
+      return this.$store.getters.numberPageFriendCurrent;
+    },
+    /**
+     *  set, get user when select user add to group friend
+     *  save array in store
+     * @returns array
+     */
     selectedUIDs: {
       get() {
         return this.$store.getters.selectedUIDs;
@@ -146,26 +181,39 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
-    },
-    sizePageFriends() {
-      return this.$store.getters.sizePageFriends;
     }
   },
   methods: {
-    showGender(gender) {
-      if (gender === "male_singular") {
-        return "Nam";
-      } else {
-        if (gender === "female_singular") {
-          return "Nữ";
+    /**
+     *  check currenPage  and dispatch event paginate when load all friend
+     *
+     * @returns array
+     */
+    async loadMore(){
+      if( this.showLoader === true ) {
+        if(this.currentPage > this.numberPageCurrent) {
+          return false;
         } else {
-          return "Chưa xác định";
+          this.showLoader = false;
+
+          this.currentPage += 1;
+
+          await this.$store.dispatch("getFriendFacebookBySize", {
+            size: this.perPage,
+            page: this.currentPage
+          });
+
+          this.showLoader = true;
         }
       }
     },
-    showPronounPopup(uid) {
+    showPronounPopup(val) {
       this.isShowPronounPopup = true;
-      this.userID = uid;
+      const dataSender = {
+        name: "Bạn bè",
+        _friends: val
+      }
+      this.$store.dispatch("setVocateDefault", dataSender);
     },
     sortUsersByProperty(data, index) {
       const attr = data.name;

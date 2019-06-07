@@ -21,7 +21,11 @@
             <!-- Start: Action -->
             <div class="action ml_auto">
               <label class="custom--checkbox mr_2">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  :value="account._id"
+                  v-model="event.timeline"
+                />
               </label>
             </div>
             <!-- End: Action -->
@@ -37,12 +41,15 @@
 export default {
   computed: {
     allAccountFB() {
-      return this.$store.getters.allAccountFb;
+      return this.$store.getters.accountsFB;
+    },
+    event() {
+      return this.$store.getters.event;
     }
   },
   async created() {
-    await this.$store.dispatch( "getAllAccountFb" );
-  },
+    await this.$store.dispatch( "getAccountsFB" );
+  }
 }
 </script>
 
@@ -99,8 +106,8 @@ export default {
       }
     }
     .title {
-      color: #999;
-      font-size: .825rem;
+      color: #444;
+      font-size: .875rem;
     }
   }
 }

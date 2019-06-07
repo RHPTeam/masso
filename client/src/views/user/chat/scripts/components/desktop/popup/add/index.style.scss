@@ -5,6 +5,12 @@
     bottom: 0;
     z-index: 99;
     background-color: rgba(153, 153, 153, 0.4);
+    .scroll-popup{
+      height: 80vh;
+      position: relative;
+      border-radius: 10px;
+      margin: auto;
+    }
     .modal--dialog {
       height: 100%;
       width: 100%;
@@ -46,6 +52,7 @@
   }
   
   .plugins--item {
+    cursor: not-allowed;
     .plugin--item-wrap {
       border: 1px solid #ccc;
       border-radius: 0.5rem;
@@ -59,7 +66,8 @@
       transition: all .5s ease;
     }
     .plugin--item-tooltip {
-      opacity: 0;
+      // opacity: 0;
+      display: none;
       visibility: hidden;
       transition: all 0.5s ease;
     }
@@ -78,12 +86,10 @@
         }
       }
     }
-    &:not(.active){
-      cursor: no-drop;
-    }
     &:hover {
       .plugin--item-tooltip {
-        opacity: 1;
+        // opacity: 1;
+        display: block;
         visibility: visible;
       }
     }

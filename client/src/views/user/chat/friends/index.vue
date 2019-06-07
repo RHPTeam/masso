@@ -2,17 +2,16 @@
   <div class="main" :data-theme="currentTheme">
     <div class="d_none d_md_block">
       <app-bread-crumb
-        nameBread="Bạn bè Facebook"
-        subBread="Trang giúp bạn thiết lập nhanh các nhóm bạn bè"
+        :nameBread="$t('chat.friends.titleContent')"
+        :subBread="$t('chat.friends.desc')"
       />
       <div class="main--content">
         <div
           class="alert alert_success text_left"
           v-if="this.$store.getters.friendsStatus === 'loading'"
         >
-          <span>KHUYẾN CÁO!</span> Ở lần đầu, hệ thống sẽ mất nhiều thời gian tải
-          dữ liệu khi số lượng bạn bè lớn. Điều này giúp cho trải
-          nghiệm sau đó trở nên tốt hơn, hãy kiên nhẫn chờ đợi (Thông báo sẽ được ẩn khi dữ liệu tải thành công).
+          <span>{{ $t("chat.friends.loading.name") }}</span>
+          {{ $t("index.vue") }}
         </div>
         <app-segments></app-segments>
       </div>
@@ -35,10 +34,11 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  created() {
+  async created() {
     // if (this.$store.getters.allFriends.length === 0) {
     //   this.$store.dispatch("getFriendsBySize", 20);
     // }
+    await this.$store.dispatch( "getAllFriendFacebook" );
   }
 };
 </script>

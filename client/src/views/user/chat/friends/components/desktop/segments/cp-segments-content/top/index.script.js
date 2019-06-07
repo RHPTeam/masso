@@ -3,6 +3,12 @@ import AddtoGroupPopup from "../../../popup/addto-group-popup";
 import AppTooltip from "./tooltip";
 let typingTimer;
 export default {
+
+  components: {
+    DeleteFriendsPopup,
+    AddtoGroupPopup,
+    AppTooltip
+  },
   props: ["groupSelected", "accountSelected"],
   data() {
     return {
@@ -11,7 +17,10 @@ export default {
       isShowDeleteFrPopup: false,
       isShowAddtoGrPopup: false,
       statusNumberDisplayedDropdown: false,
-      keySearch: ""
+      keySearch: "",
+      size: 20,
+      currentPage: 1,
+      isShowOptionsAttribute: false
     };
   },
   async created() {
@@ -35,6 +44,12 @@ export default {
     }
   },
   methods: {
+    showAttribute(){
+      this.isShowOptionsAttribute = true;
+    },
+    closeShowAttribute(){
+      this.isShowOptionsAttribute = false;
+    },
     closeShowUsers(){
       this.showUsers = false;
     },
@@ -75,6 +90,23 @@ export default {
     },
     updateSearch() {
       this.$emit("updateSearch", this.keySearch);
+    },
+    async searchFriendFacebook(){
+      if(this.keySearch.length !== 0) {
+        const dataSender = {
+          key: this.keySearch,
+          size: this.size,
+          page: this.currentPage
+        };
+        await this.$store.dispatch("searchFriendFacebookByKey", dataSender);
+        this.$emit("changeStatusDefault", false);
+      } else {
+        const dataSender = {
+          size: this.size,
+          page: this.currentPage
+        };
+        this.$store.dispatch("getFriendFacebookBySizeDefault", dataSender);
+      }
     }
   },
   watch: {
@@ -82,13 +114,8 @@ export default {
       const dataSender = {
         name: value,
         size: 20
-      }
+      };
       this.$store.dispatch("searchFriendsByName", dataSender);
     }
-  },
-  components: {
-    DeleteFriendsPopup,
-    AddtoGroupPopup,
-    AppTooltip
   }
 };

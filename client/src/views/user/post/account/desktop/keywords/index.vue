@@ -1,14 +1,13 @@
 <template>
   <div class="keyword--wrapper p_3">
     <div class="wrapper--top mb_3">
-      <div class="title mb_1">Từ khóa sản phẩm dịch vụ</div>
+      <div class="title mb_1">{{ $t('chat.common.keyProduct.title') }}</div>
       <div class="desc">
-        Chúng tôi sẽ dựa trên những từ khóa này để gợi ý các nội dung phù hợp
-        nhất với bạn.
+        {{ $t('chat.common.keyProduct.desc') }}
       </div>
     </div>
-    <div class="wrapper--content" v-if="user">
-      <taggle class="taggle" v-model="user.keywords" @input="updateKey" placeholder="Nhập từ khóa của bạn ..." />
+    <div class="wrapper--content">
+      <taggle class="taggle" v-model="user.keywords" @input="updateKey" :placeholder="$t('chat.common.keyProduct.placeholder')" />
     </div>
   </div>
 </template>
@@ -29,6 +28,7 @@ export default {
     updateKey( val ){
       this.user.keywords = val;
       this.$store.dispatch( "updateUser", this.user );
+      // this.$router.push({name:"post_account"})
     }
   }
 };

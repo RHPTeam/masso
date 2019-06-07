@@ -5,12 +5,19 @@
  * date to: ___
  * team: BE-RHP
  */
+const ObjectId = require( "mongoose" ).Types.ObjectId;
+// eslint-disable-next-line no-unused-vars
+const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
+const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
+
+const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
 
 module.exports = {
   /**
@@ -79,7 +86,7 @@ module.exports = {
     // Check when user get one
     if ( req.query._id ) {
       if ( dataResponse.length === 0 ) {
-        return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
+        return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
       }
       dataResponse = dataResponse[ 0 ];
     }
@@ -109,7 +116,7 @@ module.exports = {
       } else if ( req.body.started_at === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -117,7 +124,7 @@ module.exports = {
 
     // Check catch when update event
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
     }
 
     // Check status of campaign to create status for event
@@ -126,11 +133,12 @@ module.exports = {
     // eslint-disable-next-line one-var
     const newEvent = await new Event( req.body );
 
+    // Create to event schedule, Check follow condition
+    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
     await findCampaign.save();
-
-    // Create Cron Job
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
@@ -154,15 +162,17 @@ module.exports = {
       } else if ( !req.body.started_at ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
       } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "errors.js", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
+        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
-    const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } );
+    const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
+      findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
 
     // Check catch when update event
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
     // Check switch status of event
@@ -171,6 +181,18 @@ module.exports = {
       await findEvent.save();
       return res.status( 201 ).json( jsonResponse( "success", findEvent ) );
     }
+
+    /**
+     * Update cron schedule and event schedule
+     */
+    await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
+      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      }
+    } ) );
+    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+    req.body._id = req.query._eventId;
+    await EventScheduleController.create( req.body, findCampaign._id, req.uid );
 
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
@@ -182,14 +204,25 @@ module.exports = {
    */
   "delete": async ( req, res ) => {
     const findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
-      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } );
+      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
 
     // Check catch when delete campaign
     if ( !findCampaign ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Chiến dịch không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
     } else if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
+
+    /**
+     * Delete cron schedule and event schedule
+     */
+    await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
+      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
+        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      }
+    } ) );
+    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
 
     // delete event of campain
     findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );
@@ -199,18 +232,21 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "duplicate": async ( req, res ) => {
-    const findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
+    const findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
       findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when duplicate
     if ( !findEvent ) {
-      return res.status( 404 ).json( { "status": "errors.js", "message": "Sự kiện không tồn tại!" } );
+      return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
     findEvent.title = `${findEvent.title} Copy`;
 
     // eslint-disable-next-line one-var
     const newEvent = new Event( findEvent );
+
+    // Create to event schedule, Check follow condition
+    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );

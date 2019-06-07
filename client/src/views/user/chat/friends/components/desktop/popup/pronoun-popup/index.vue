@@ -5,36 +5,35 @@
         <div class="modal--header">
           <div class="title">Danh xưng</div>
           <div class="desc mt_2">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            Tạo danh xưng hay tên thường gọi của bạn bè giúp bạn quản lý tốt hơn các phân khúc khách hàng, cũng như những người thường xuyên được bạn quan tâm.
           </div>
         </div>
         <div class="modal--body mt_3">
-          <input type="text"
-                  class="modal--body-input" 
-                  placeholder="Nhập danh xưng"
-                  @click.stop="showSuggestion"
-                  v-model="pronounInput"/>
-          <div class="suggestion--list" 
-                v-if="isShowSuggestion && filterSuggestionList().length > 0"
-          >
-            <VuePerfectScrollbar class="scroll">
-              <div
-                class="suggestion--list-item"
-                v-for="(item, index) in filterSuggestionList()"
-                :key="index"
-                @click="selectPronoun(item)"
-              >
-                {{ item }}
-              </div>
-            </VuePerfectScrollbar>
-          </div>
+          <input
+            type="text"
+            class="modal--body-input"
+            placeholder="Nhập danh xưng"
+            @keydown.enter="createVocate"
+            v-model="pronounInput"
+          />
+        </div>
+        <div class="suggestion--list mt_2">
+          <VuePerfectScrollbar class="scroll">
+            <div
+              class="suggestion--list-item"
+              v-for="(item, index) in allVocate"
+              :key="index"
+              @click="selectPronoun(item.name)"
+            >
+              {{ item.name }}
+            </div>
+          </VuePerfectScrollbar>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
           <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-          <button class="btn-submit" @click="createVocate(pronounInput, userID)">
+          <button class="btn-submit" @click="createVocate">
             LƯU
           </button>
         </div>
@@ -44,7 +43,6 @@
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   props: ["isShowPronounPopup","userID"],
 
@@ -59,53 +57,43 @@ export default {
     groupInfo() {
       return this.$store.getters.groupInfo;
     },
-    vocatesName(){
-      const vocatesNameArr = [];
-      const vocatesArr = this.$store.getters.allVocates;
-      vocatesArr.forEach(item => {
-          vocatesNameArr.push(item.name);
-      });
-      return vocatesNameArr;
+    vocateDefault(){
+      return this.$store.getters.vocateDefault;
     },
+    allVocate(){
+      return this.$store.getters.allVocate;
+    }
+  },
+  async created() {
+    await this.$store.dispatch("getAllVocate");
   },
 
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-    showSuggestion() {
-      this.isShowSuggestion = true;
-    },
-    filterSuggestionList() {
-      return this.vocatesName.filter(item => {
-        return item.toLowerCase().includes(this.pronounInput.toLowerCase())
-      })
-    },
     selectPronoun(val) {
-      this.pronounInput = val[0].toUpperCase() + val.slice(1);
-      this.isShowSuggestion = false;
-    },
-    createVocate(name, uid){
       const dataSender = {
-        name: name,
-        _friends: [`${uid}`],
-        gr_id: (this.groupInfo ? this.groupInfo._id : '') 
-      }
+        name: val,
+        _friends: this.vocateDefault._friends
+      };
+      console.log(dataSender);
       this.$store.dispatch("createVocate", dataSender);
-      this.$emit("closeAddPopup", false);
+      this.closeAddPopup();
+    },
+    createVocate(){
+      const dataSender = {
+        name: this.pronounInput,
+        _friends: this.vocateDefault._friends
+      };
+      this.$store.dispatch("createVocate", dataSender);
+      this.closeAddPopup();
     }
-  },
-  async created() {
-    await this.$store.dispatch("getALlVocates");
-  },
-
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>
 
 <style lang="scss" scoped>
 @import "../index.style";
-@import "./index.style"
+@import "./index.style";
 </style>

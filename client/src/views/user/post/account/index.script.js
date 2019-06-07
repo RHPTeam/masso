@@ -10,7 +10,7 @@ export default {
   },
   computed: {
     user() {
-      if ( this.$store.getters.userInfo === undefined ) {
+      if (this.$store.getters.userInfo === undefined || this.$store.getters.userInfo === '') {
         return;
       }
       return this.$store.getters.userInfo;

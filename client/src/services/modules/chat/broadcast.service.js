@@ -2,10 +2,10 @@ import Api from "@/services";
 
 export default {
   index() {
-    return Api().get("broadcast");
+    return Api().get( "broadcast" );
   },
-  createSchedule(sId) {
-    return Api().post(`broadcast/addBlock?_bcId=${sId}`);
+  createScheduleBlock( id ) {
+    return Api().post(`broadcast/addBlock?_bcId=${id}`);
   },
   createItem(broadId, blockId, item) {
     return Api().patch(
@@ -13,7 +13,7 @@ export default {
       item
     );
   },
-  createItemSchedule(broadId, blockId, typeItem) {
+  createScheduleBlockItem(broadId, blockId, typeItem) {
     return Api().post(
       `broadcast/addBlock?_bcId=${broadId}&_blockId=${blockId}&_typeItem=${typeItem}`
     );
@@ -31,7 +31,7 @@ export default {
   deleteSchedule(bId, sId) {
     return Api().delete(`broadcast?_bcId=${bId}&_blockId=${sId}`);
   },
-  showSchedule(broadId, blockId) {
+  getScheduleBlockById(broadId, blockId) {
     return Api().get(`broadcast?_id=${broadId}&_blockId=${blockId}`);
   },
   changeStatusBroadcast(broadId, blockId) {
@@ -45,10 +45,10 @@ export default {
       content
     );
   },
-  updateSchedule(bc_id, b_id, type, schedule) {
+  updateTimeSettingScheduleBlock(bc_id, b_id, type, block) {
     return Api().patch(
       `broadcast?_bcId=${bc_id}&_blockId=${b_id}&_type=${type}`,
-      schedule
+      block
     );
   },
   updateTimeSchedule(bcId, blockId, content) {

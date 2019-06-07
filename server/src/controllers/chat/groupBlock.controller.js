@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-expressions */
 /* eslint-disable one-var */
 /**
- * Controller group block for project
+ * Controller item block for project
  * author: hocpv
  * date up: 07/03/2019
  * date to: ___
@@ -21,7 +21,7 @@ const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
-   *  get all groupt block & group block by Id
+   *  get all groupt block & item block by Id
    *  @param req
    *  @param res
    *
@@ -105,7 +105,7 @@ module.exports = {
       return res.status( 403 ).json( jsonResponse( "Nhóm block không tồn tại!", null ) );
     }
 
-    // Push block to group block and pull in group block before
+    // Push block to item block and pull in item block before
     if ( req.query._blockId ) {
       const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": userId } );
 
@@ -117,7 +117,7 @@ module.exports = {
       }
       const foundGroup = await GroupBlock.findOne( { "_id": foundBlock._groupBlock, "_account": userId } );
 
-      // Check block is already this group block
+      // Check block is already this item block
       const isInArray = foundGroupBlock.blocks.some( ( id ) => {
         return id.equals( req.query._blockId );
       } );
@@ -176,7 +176,6 @@ module.exports = {
     let num = 1;
 
     foundBlock.map( ( val ) => {
-      console.log( val );
       if ( val._groupBlock ) {
         num++;
         return num;
@@ -188,12 +187,12 @@ module.exports = {
     newBlock._account = userId;
     newBlock._groupBlock = req.query._groupId;
     await newBlock.save();
-    foundGroupBlock.push( newBlock._id );
-    await foundGroupBlock;
+    foundGroupBlock.blocks.push( newBlock._id );
+    await foundGroupBlock.save();
     res.status( 200 ).json( jsonResponse( "Thêm block trong nhóm block thành công!", foundGroupBlock ) );
   },
   /**
-   *  update group block by user
+   *  update item block by user
    *  @param req
    *  @param res
    *
@@ -214,24 +213,26 @@ module.exports = {
     }
     const dataGroupGroupUpdated = await GroupBlock.findOne( { "_id": query._groupId, "_account": userId } );
     const findAllGroup = await GroupBlock.find( { "_account": userId } );
-    // check name group block exists
+    // check name item block exists
     let checkName = false;
 
     findAllGroup.map( ( val ) => {
-      if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
-        checkName = true;
-        return checkName;
+      if ( val._account.toString() !== userId ) {
+        if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
+          checkName = true;
+          return checkName;
+        }
       }
     } );
     if ( checkName ) {
-      return res.status( 403 ).json( jsonResponse( "Tên group đã tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "Tên item đã tồn tại!", null ) );
     }
     dataGroupGroupUpdated.name = body.name;
     await dataGroupGroupUpdated.save();
     res.status( 201 ).json( jsonResponse( "Cập nhật nhóm block thành công!", dataGroupGroupUpdated ) );
   },
   /**
-   *  delete group block by user
+   *  delete item block by user
    *  @param req
    *  @param res
    *
@@ -248,7 +249,7 @@ module.exports = {
     if ( !foundGroupBlock ) {
       return res.status( 404 ).json( jsonResponse( "Nhóm block không tồn tại!", null ) );
     }
-    // Delete block in group block
+    // Delete block in item block
     const foundDefaultGroup = await GroupBlock.findOne( { "name": "Mặc Định", "_account": userId } );
 
     if ( req.query._blockId ) {

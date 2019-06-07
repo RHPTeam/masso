@@ -5,15 +5,27 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
   data() {
     return {
-      isDeleteItemBlock: false
+      isDeleteItemBlock: false,
+      isShowStart: false
     };
   },
   computed: {
-    // schedule() {
-    //   return this.$store.getters.schedule;
-    // }
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    }
+  },
+  async created() {
+    const scheduleBlockId = this.$route.params.scheduleBlockId;
+
+    await this.$store.dispatch( "getScheduleBlockDetailById", scheduleBlockId );
   },
   methods: {
+    startBroadcast(){
+      this.isShowStart = true;
+    },
+    stopBroadcast(){
+      this.isShowStart = false;
+    }
     // async deleteSchedule(scheduleId) {
     //   this.$router.push({ name: "f_broadcast" });
     //   await this.$store.dispatch("deleteSchedule", scheduleId);

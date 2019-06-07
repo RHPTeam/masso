@@ -1,51 +1,89 @@
 <template>
   <div>
-    <div></div>
-    <div>
-      <div>
+    <div v-if="scheduleBlockDetail && scheduleBlockDetail.length === 0"></div>
+    <div v-else>
+      <div
+        v-for="(item, index) in scheduleBlockDetail.content"
+        :key="index"
+      >
         <!--Start: Text item component-->
-        <div>
-          <add-text/>
+        <div v-if="item.typeContent === 'text'">
+          <add-text
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Text item component-->
+        <!--End: Text item component-->
+
         <!--Start: Image item component-->
-        <div>
-          <add-image/>
+        <div v-if="item.typeContent === 'image'">
+          <add-image
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Image item component-->
-        <!--        Start: Time item component-->
-        <slider-schedule/>
-        <!--        End: Time item component-->
-        <!--        Start: subcribe item component-->
-        <div>
-          <subcribe/>
+        <!--  End: Image item component-->
+
+        <!--  Start: Time item component-->
+        <div v-if="item.typeContent === 'time'">
+          <add-time
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: subcribe item component-->
-        <!--        Start: Unsubcribe item component-->
-        <div>
-          <un-subscribe/>
+        <!-- End: Time item component-->
+
+        <!-- Start: subcribe item component-->
+        <div v-if="item.typeContent === 'subscribe'">
+          <subcribe
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
         </div>
-        <!--        End: Unsubcribe item component-->
+        <!--  End: subcribe item component-->
+
+        <!-- Start: Unsubcribe item component-->
+        <div v-if="item.typeContent === 'unsubscribe'">
+          <un-subscribe
+            :item="item"
+            :schedule="scheduleBlockDetail"
+            :index="idScheduleDefault"
+          />
+        </div>
+        <!-- End: Unsubcribe item component-->
       </div>
     </div>
     <div class="footer mt_3">
-      <div class="title text_left">Thêm phần tử</div>
+      <div class="title text_left">{{ $t("chat.common.card.add.title") }}</div>
       <div class="group d_flex align_items_center">
-        <div class="item d_flex align_items_center justify_content_center flex_column">
+        <div
+          class="item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addItemSchedule('text')"
+        >
           <icon-base class="icon-text" width="20" height="20" viewBox="0 0 13.53 20.11">
             <icon-text/>
-          </icon-base>Văn bản
+          </icon-base>{{ $t("chat.common.card.add.text") }}
         </div>
 
-        <div class="item d_flex align_items_center justify_content_center flex_column">
+        <div
+          class="item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addItemSchedule('image')"
+        >
           <icon-base class="icon-image" width="20" height="20" viewBox="0 0 26 26">
             <icon-image/>
-          </icon-base>Hình ảnh
+          </icon-base>{{ $t("chat.common.card.add.images") }}
         </div>
-        <div class="item d_flex align_items_center justify_content_center flex_column">
+        <div
+          class="item d_flex align_items_center justify_content_center flex_column"
+          @click.prevent="addItemSchedule('time')"
+        >
           <icon-base class="icon-sand-clock" width="20" height="20" viewBox="0 0 14.41 20.14">
             <icon-sand-clock/>
-          </icon-base>Thời gian
+          </icon-base>{{ $t("chat.common.card.add.time") }}
         </div>
         <div
           class="item d_flex align_items_center justify_content_center flex_column"
@@ -53,7 +91,7 @@
         >
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus/>
-          </icon-base>Thêm mới
+          </icon-base>{{ $t("chat.common.card.add.add") }}
         </div>
       </div>
     </div>
@@ -61,6 +99,8 @@
     <transition name="popup">
       <add-plugins
         v-if="showPopupPlugins === true"
+        :schedule="scheduleBlockDetail._id"
+        :index="idScheduleDefault"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
@@ -72,18 +112,16 @@
 </template>
 <script>
 import AddText from "./plugins/text";
+import AddTime from "./plugins/slider";
 import AddImage from "./plugins/images";
-import Subcribe from "./plugins/subcribe";
-import UnSubscribe from "./plugins/unsubcribe";
-
-import BroadcastService from "@/services/modules/chat/broadcast.service";
-import StringFunction from "@/utils/functions/string";
-
+import Subscribe from "./plugins/subscribe";
+import UnSubscribe from "./plugins/unsubscribe";
 export default {
   components: {
     AddText,
+    AddTime,
     AddImage,
-    Subcribe,
+    Subscribe,
     UnSubscribe
   },
   data() {
@@ -95,36 +133,32 @@ export default {
     };
   },
   computed: {
-    // schedules() {
-    //   return this.$store.getters.schedules;
-    // },
-    // schedule() {
-    //   return this.$store.getters.schedule;
-    // }
+    scheduleBlockDetail() {
+      return this.$store.getters.scheduleBlockDetail;
+    },
+    schedules() {
+      return this.$store.getters.schedules;
+    },
+    schedule() {
+      return this.$store.getters.schedule;
+    },
+    idScheduleDefault(){
+      return this.$store.getters.idScheduleDefault;
+    }
   },
   methods: {
-    // async addItemSchedule(type, id) {
-    //   const schedules = await this.getSchedules();
-    //   const dataSender = {
-    //     type: type,
-    //     itemId: id,
-    //     scheduleId: schedules._id
-    //   };
-    //   this.$store.dispatch("createItemSchedule", dataSender);
-    // },
-    // async getSchedules() {
-    //   let result = await BroadcastService.index();
-    //   result = result.data.data.filter(
-    //     item =>
-    //       StringFunction.convertUnicode(item.typeBroadCast)
-    //         .toLowerCase()
-    //         .trim() === "thiet lap bo hen"
-    //   );
-    //   return result[0];
-    // }
+    async addItemSchedule(type) {
+      const dataSender = {
+        type: type,
+        itemId: this.$route.params.scheduleBlockId,
+        scheduleId: this.idScheduleDefault
+      };
+      console.log(dataSender);
+      this.$store.dispatch("createItemSchedule", dataSender);
+    }
   }
 };
 </script>
 <style lang="scss" scoped>
-@import "index.style";
+  @import "index.style";
 </style>

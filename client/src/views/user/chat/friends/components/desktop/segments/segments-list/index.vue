@@ -1,59 +1,22 @@
 <template>
   <!-- Segments List-->
-  <div class="segments--list" :data-theme="currentTheme">
+  <div class="segments--list d_flex align_items_center" :data-theme="currentTheme">
     <div
       class="btn--seeall mr_3 mb_2"
       :class="[groupSelected === false ? 'btn--seall-active' : '']"
       @click="seeAllUsers"
     >
-      Xem tất cả
+      {{ $t("chat.friends.view.all") }}
     </div>
 
-    <div
-      class="segments--list-item mr_2 mb_2"
-      :class="[currentIndex === index ? 'active' : '']"
-      v-for="(groupItem, index) in groupFriend"
+    <item-group
+      v-for="(group, index) in allGroupFriends"
       :key="index"
-    >
-      <div @click="getGroupByID(groupItem._id, index)">
-        <contenteditable
-          class="editable"
-          tag="div"
-          placeholder="Nhập tên..."
-          :contenteditable="true"
-          v-model="groupItem.name"
-          @keyup="upTypingText('groupfriend', groupItem)"
-          @keydown="clear"
-        />
-      </div>
-      <div class="btn--delete" @click="showDeletePopup(groupItem)">
-        <icon-base
-          class="icon--add mr_1"
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-          <icon-remove />
-        </icon-base>
-      </div>
-    </div>
+      :group="group"
+      @groupSelected="changeGroupSelected($event)"
+    />
 
-    <div class="segments--list-item mr_2 mb_2 position_relative">
-      <div class="name--group">Name Group</div>
-      <div class="position_absolute remove--group">
-        <icon-base
-          class="icon--remove"
-          icon-name="plus"
-          width="20"
-          height="20"
-          viewBox="0 0 26 26"
-        >
-        <icon-remove /> </icon-base>
-      </div>
-    </div>
-
-    <div class="segments--list-item btn--add-segment mb_2" @click="createGroup">
+    <div class="segments--list-item btn--add-segment mb_2" @click="isShowCreateGroup = true">
       <icon-base
         class="icon--add mr_2"
         icon-name="plus"
@@ -62,62 +25,69 @@
         viewBox="0 0 60 60"
       >
         <icon-plus /> </icon-base
-      >Tạo nhóm mới
+      >{{ $t("chat.friends.view.new") }}
     </div>
 
     <!--*********** POPUP *************-->
+
     <transition name="popup">
-      <delete-group-popup
-        v-if="isShowDeletePopup === true"
+      <create-group
+        v-if="isShowCreateGroup === true"
         :data-theme="currentTheme"
-        title="Xoá nhóm"
-        :isShowDeletePopup="isShowDeletePopup"
-        @closeAddPopup="isShowDeletePopup = $event"
-        :groupTarget="groupDeleted"
-        type="group"
-      />
+        @closePopup="isShowCreateGroup = $event"
+      ></create-group>
     </transition>
   </div>
   <!-- End Segments List -->
 </template>
 
 <script>
-import DeleteGroupPopup from "../../popup/delete-popup";
+import CreateGroup from "../../popup/creategroup";
+import ItemGroup from "./item";
 let typingTimer;
 export default {
+  components: {
+    CreateGroup,
+    ItemGroup,
+  },
   props: ["groupSelected"],
   data() {
     return {
       currentIndex: null,
       isShowDeletePopup: false,
-      groupDeleted: {}
+      groupDeleted: {},
+      isDeleteItemBlock: false,
+      isShowCreateGroup: false
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    groupFriend() {
-      return this.$store.getters.groupFriend;
+    allGroupFriends() {
+      return this.$store.getters.allGroupFriends;
     }
   },
+  async created() {
+    await this.$store.dispatch("getAllGroupFriend");
+  },
   methods: {
-    getGroupByID(group_id, index) {
-      this.currentIndex = index;
-      this.$store.dispatch("getGroupByID", group_id);
+    changeGroupSelected(val){
+      this.$emit("changeSelectedGroup", val);
+    },
+    getGroupById(id_group) {
+      // this.currentIndex = index;
+      this.$store.dispatch("getGroupFriendById", id_group);
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);
     },
-    createGroup() {
-      this.$store.dispatch("createGroup");
-    },
     showDeletePopup(group) {
+      console.log(group);
       this.groupDeleted = group;
-      this.isShowDeletePopup = true;
+      this.isDeleteItemBlock = true;
     },
     seeAllUsers() {
       this.$emit("groupSelected", false);
-      this.currentIndex = null;
     },
     async upTypingText(type, group) {
       await clearTimeout(typingTimer);
@@ -128,19 +98,14 @@ export default {
     clear() {
       clearTimeout(typingTimer);
     },
+    // update
     updateGroupFriend(group) {
       const objSender = {
-        gr_id: group._id,
+        _id: group._id,
         name: group.name
       };
-      this.$store.dispatch("updateGroup", objSender);
+      this.$store.dispatch("updateGroupFriend", objSender);
     }
-  },
-  async created() {
-    // await this.$store.dispatch("getGroupFriend");
-  },
-  components: {
-    DeleteGroupPopup
   }
 };
 </script>

@@ -9,7 +9,7 @@
     content: "";
     height: 15px;
     position: absolute;
-    right: 17px;
+    right: 23px;
     top: -6px;
     transform: rotate(45deg);
     width: 15px;
@@ -63,6 +63,7 @@
               padding: .5rem 0;
               right: .75rem;
               z-index: 9999;
+              top: 0;
               &-item {
                 padding: .375rem .75rem;
                 transition: all .4s ease;
@@ -111,8 +112,11 @@
 }
 
 /* Transition */
-.dropdown-enter, .dropdown-leave-to{
+.dropdown-enter{
   transform: scaleY(0);
+}
+.dropdown-leave-to {
+  opacity: 0;
 }
 
 /* Theme Color */

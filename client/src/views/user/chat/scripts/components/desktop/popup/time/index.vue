@@ -1,159 +1,217 @@
 <template>
   <!--Start: Popup choose option time-->
-  <div class="popup position_relative">
-    <div class="input" @click.prevent="isStartPopup = !isStartPopup">
-      <span>Sau 1 ngày</span>
+  <div>
+    <div class="after--day" @click="showAfterDay">
+      <span>{{ $t("chat.scripts.sidebar.sequence.items.after") }}</span>
+      <span class="px_1">{{ item.time.numberTime }}</span>
+      <span>{{ item.time.descTime }}</span>
     </div>
-    <div class="target p_2 position_absolute" v-if="isStartPopup === true">
-      <div class="header mb_1">send in</div>
-      <!--time on popup-->
-      <div class="body d_flex align_items_center text_center mb_1">
-        <div class="number item item--popup mr_1">1</div>
-        <div
-          class="item item--popup d_flex align_items_center position_relative"
-          @click="isOptionPopup = !isOptionPopup"
-        >
-          <div>Days</div>
-          <div class="action ml_auto">
-            <icon-base
-              icon-name="dropdown"
-              width="18"
-              height="18"
-              viewBox="0 0 25 25"
-            >
-              <icon-drop-down />
-            </icon-base>
-          </div>
+    <div
+      class="show--after-day position_absolute text_left"
+      v-if="isShowAfterDay === true"
+      v-click-outside="closeShowAfterDay"
+    >
+      <div>{{ $t("chat.scripts.sidebar.sequence.items.popup.title") }}</div>
+      <div class="d_inline_flex hours--day position_relative my_1">
+        <contenteditable
+          class="editable input text_center number--day"
+          tag="div"
+          placeholder="..."
+          :contenteditable="true"
+          v-model="item.time.numberTime"
+          @keyup="upTypingText('timesequence', item)"
+          @keydown="clear"
+        />
+        <div class="day" @click="showOptionsDay">
+          <contenteditable
+            class="editable input"
+            tag="span"
+            placeholder="..."
+            :contenteditable="true"
+            v-model="item.time.descTime"
+          />
+          <icon-base
+            class="icon--sort-down float_right mt_2"
+            icon-name="IconSortDown"
+            width="17"
+            height="10"
+            viewBox="0 0 10 10"
+          >
+            <icon-sort-down/>
+          </icon-base>
         </div>
-        <!--action when click days-->
+        <div class="d_none">{{ $t("chat.scripts.sidebar.sequence.items.popup.optionsDay.now") }}</div>
         <div
-          class="option--send border--popup text_left position_absolute"
-          v-if="isOptionPopup === true"
+          class="position_absolute options--day"
+          v-if="isOptionsDay === true"
         >
-          <div class="option--time" v-for="item in dataOption" :key="item">
-            {{ item.value }}
+          <div class="options">
+            <div
+              class="py_1 pl_1 py_2 desc--time"
+              v-for="(option, index) in dataOption"
+              :key="index"
+              @click="updateDescTimeSequence(option)">
+              {{ option.value }}
+            </div>
           </div>
         </div>
       </div>
-      <p class="m_0">Theo dõi chiến dịch</p>
-      <p class="m_0">Theo dõi khác</p>
+      <div class="follow">{{ $t("chat.scripts.sidebar.sequence.items.popup.followBroadcast") }}</div>
+      <div class="follow">{{ $t("chat.scripts.sidebar.sequence.items.popup.followOther") }}</div>
     </div>
   </div>
   <!--End: Popup choose option time-->
 </template>
 
 <script>
+let typingTimer;
 export default {
+  props: {
+    sequenceId: String,
+    item: Object
+  },
   data() {
     return {
-      isStartPopup: false,
-      isOptionPopup: false,
+      isShowAfterDay: false,
+      isOptionsDay: false,
       dataOption: [
-        { key: 1, value: "Days" },
-        { key: 1, value: "Everyday" },
-        { key: 1, value: "Everyweek" },
-        { key: 1, value: "Everymonth" }
+        { key: 0, value: "Gửi ngay" },
+        { key: 1, value: "Giây" },
+        { key: 2, value: "Phút" },
+        { key: 3, value: "Giờ" },
+        { key: 4, value: "Ngày" },
+        { key: 5, value: "Tắt" }
       ]
     };
   },
   methods: {
-    close() {
-      this.isStartPopup = false;
+    showAfterDay() {
+      this.isShowAfterDay = true;
+    },
+    closeShowAfterDay() {
+      this.isShowAfterDay = false;
+    },
+    showOptionsDay() {
+      this.isOptionsDay = true;
+    },
+    closeOptionsDay() {
+      this.isOptionsDay = false;
+    },
+
+    // update time or day
+    upTypingText(type, group) {
+      clearTimeout(typingTimer);
+      if (type === "timesequence") {
+        typingTimer = setTimeout(this.updateTimeSequence(group), 800);
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    updateTimeSequence() {
+      const objSender = {
+        sqId: this.sequenceId,
+        blockId: this.item._id,
+        numberTime: this.item.time.numberTime
+      };
+      this.$store.dispatch("updateNumberTimeItemSqc", objSender);
+    },
+    updateDescTimeSequence( option ) {
+      this.isOptionsDay = false;
+      const objSender = {
+        sqId: this.sequenceId,
+        blockId: this.item._id,
+        descTime: option.value
+      };
+      this.$store.dispatch("updateDescTimeItemSqc", objSender);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.target {
-  background: #ffffff;
-  border-radius: 10px;
+.after--day {
+  padding: 10px 5px;
+  text-overflow: ellipsis;
   cursor: pointer;
-  width: 160px;
-  height: auto;
-  top: 50%;
-  left: 0;
-  transform: scale(0) translateY(-50%);
-  transition: all 500ms ease 0s;
-  z-index: 999;
-
-  p {
-    font-size: 12px;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    text-align: left;
-  }
-  .body {
-    .item {
-      padding: 10px;
-      background: #ffffff;
-      border: 1px solid #e4e4e4;
-      border-radius: 10px;
-      cursor: pointer;
-      width: 50%;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.show--after-day {
+  top: 100%;
+  background: #fff;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  z-index: 5;
+  padding: 6px;
+  width: 170px;
+  color: #262626;
+  .number--day {
+    outline: none;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px 0;
+    width: 60px;
+    margin-right: 5px;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.show--after-day{
+    top: 100%;
+    background: #fff;
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 5;
+    padding: 6px;
+    width: 170px;
+    color: #262626;
+    .number--day{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px 0;
+        width: 60px;
+        margin-right: 5px;
+        text-overflow: ellipsis;
+        cursor: pointer;
+        white-space: nowrap; 
+        overflow: hidden;
     }
-
-    .option--send {
-      background: #ffffff;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100px;
-      top: 25%;
-      right: 0;
-      z-index: 1000;
-      .option--time {
-        padding: 6px 0 6px 6px;
-        &:hover,
-        &:focus,
-        &:active,
-        &:visited {
-          background: #f7f7f7;
-          transition: all 0.5s ease;
+    .follow{
+        font-size: 13px;
+    }
+}
+    .day{
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 5px;
+        width: 90px;
+    }
+.options--day{
+    right: 0;
+    top: 0;
+    font-size: 14px;
+    box-shadow: 0 8px 32px 0 rgba(32, 32, 32, 0.08), 0 0 0 1px rgba(16, 16, 16, 0.04);
+    .options{
+        background: rgba(255, 255, 255, 0.96);
+        border-radius: 5px;
+        list-style: none;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        width: 90px;
+        .desc--time{
+            color: #000;
+            &:hover{
+                background: #ffb94a;
+                color: #fff;
+            }
         }
       }
     }
-    .action {
-      margin-bottom: -3px;
-    }
-  }
-
-  /*ul.list-time {
-          box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.12);
-          border: solid 1px rgba(0, 0, 0, 0.12);
-          border-radius: 10px;
-          list-style-type: none;
-          left: 0;
-          min-width: 100%;
-          max-height: 40px;
-          opacity: 0;
-          overflow: hidden;
-          pointer-events: none;
-          top: -3px;
-          transition: max-height 150ms cubic-bezier(0.22, 0.61, 0.36, 1),
-            opacity 200ms cubic-bezier(0.22, 0.61, 0.36, 1);
-          z-index: -1;
-
-          &.active {
-            max-height: 300px;
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 1;
-          }
-
-          li {
-            cursor: pointer;
-            font-size: 14px;
-            height: 40px;
-            line-height: 40px;
-            padding: 0 20px 0 15px;
-            text-transform: capitalize;
-
-            &:hover {
-              background-color: #f1f2f2 !important;
-            }
-          }
-        }*/
 }
 </style>

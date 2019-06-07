@@ -30,6 +30,7 @@
       </div>
     </div>
     <div v-else>
+      <!-- Start: Post -->
       <div class="card--hover-item">
         <div class="item--left">
           <div class="card--hover-icon icon--post">
@@ -47,7 +48,38 @@
           <div v-else>Tự động đăng bài viết từ danh mục {{ eventData.post_category.title }}</div>
         </div>
       </div>
-      <div class="card--hover-item">
+      <!-- End: Post -->
+      <!-- Start: Timeline -->
+      <div class="card--hover-item item--timeline">
+        <div class="item--left">
+          <div class="card--hover-icon icon--timeline">
+            <icon-base
+              height="20px"
+              width="22px"
+              viewBox="0 0 490 490"
+            >
+              <icon-timeline></icon-timeline>
+            </icon-base>
+          </div>
+        </div>
+        <div class="item--right">
+          <div v-if="eventData.timeline.length === 0">Không áp dụng</div>
+          <div v-else class="">
+            <div class="account--info"
+                 v-for="(account, index) in eventData.timeline"
+                 :key="index"
+            >
+              <img class="avatar mr_2" :src="account.userInfo.thumbSrc" alt="">
+              <div class="name">{{ account.userInfo.name }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End: Timeline -->
+      <!-- Start: Page -->
+      <div class="card--hover-item item--page"
+           :class="eventData.timeline.length === 0 ? 'mt_3': null"
+      >
         <div class="item--left">
           <div class="card--hover-icon icon--page">
             <icon-base
@@ -60,10 +92,14 @@
           </div>
         </div>
         <div class="item--right">
-          <div v-if="eventData.target_custom.length > 0">{{ filterTypeTarget(1) }} trang</div>
+          <div v-if="eventData.target_custom.length > 0 || eventData.target_category === undefined">
+            {{ filterTypeTarget(1) }} trang
+          </div>
           <div v-else>{{ eventData.target_category._pages.length }} trang</div>
         </div>
       </div>
+      <!-- End: Page -->
+      <!-- Start: Group -->
       <div class="card--hover-item">
         <div class="item--left">
           <div class="card--hover-icon icon--group">
@@ -77,10 +113,13 @@
           </div>
         </div>
         <div class="item--right">
-          <div v-if="eventData.target_custom.length > 0">{{ filterTypeTarget(0) }} nhóm</div>
+          <div v-if="eventData.target_custom.length > 0 || eventData.target_category === undefined">
+            {{ filterTypeTarget(0) }} nhóm
+          </div>
           <div v-else>{{ eventData.target_category._groups.length }} nhóm</div>
         </div>
       </div>
+      <!-- End: Group -->
     </div>
   </div>
 </template>
