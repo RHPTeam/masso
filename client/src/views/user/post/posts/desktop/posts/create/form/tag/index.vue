@@ -62,7 +62,7 @@ export default {
           text: item.text
         }
       });
-      this.$store.dispatch("setPostArray", {
+      this.$store.dispatch( "setPostArray", {
         key: "tags",
         value: tags
       });

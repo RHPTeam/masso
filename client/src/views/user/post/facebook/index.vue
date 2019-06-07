@@ -15,7 +15,7 @@
     <!--      <transition name="popup">-->
     <!--        <app-status-notification v-if="0" :data-theme="currentTheme" />-->
     <!--      </transition>-->
-    <!--      <div class="main&#45;&#45;contentItem">-->
+    <!--      <div class="data&#45;&#45;contentItem">-->
     <!--        <app-list-account-mobile :accountsFB="getAccountsFB" />-->
     <!--      </div>-->
     <!--    </div>-->

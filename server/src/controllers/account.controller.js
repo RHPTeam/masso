@@ -86,15 +86,19 @@ module.exports = {
 
     res.status( 201 ).json( jsonResponse( "success", null ) );
   },
-  "createNewPasswordSync": async ( req, res ) => {
+  "createNewPassword": async ( req, res ) => {
     const { password } = req.body,
       userInfo = await Account.findOne( { "_id": req.uid } );
+
+    if ( !userInfo ) {
+      return res.send( { "status": "error", "message": "Người dùng không tồn tại trên server này" } );
+    }
 
     userInfo.password = password;
 
     await userInfo.save();
 
-    res.send( { "status": "success", "message": "Tạo mới mất khẩu thành công!" } );
+    res.send( { "status": "success", "data": null } );
   },
   "signUp": async( req, res ) => {
     const newUser = new Account( req.body );
