@@ -34,9 +34,8 @@ module.exports = {
         return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
       }
 
-      avatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path}`;
+      avatar = `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
       await Account.findByIdAndUpdate( userInfo._id, { "$set": { "imageAvatar": avatar } }, { "new": true } ).select( "-password -__v" );
-
       return res.status( 201 ).json( jsonResponse( "success", userInfo ) );
     }
 

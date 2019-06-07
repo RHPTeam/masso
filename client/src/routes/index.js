@@ -13,8 +13,6 @@ import error500Router from  "./modules/errors/500";
 
 import guideGeneralRouter from "./modules/help";
 
-import marketRouter from "./modules/market";
-
 Vue.use( Router );
 
 export default new Router( {
@@ -30,7 +28,6 @@ export default new Router( {
     error404Router,
     error500Router,
     guideGeneralRouter,
-    marketRouter,
     redirectRouter,
     {
       path: "/",
