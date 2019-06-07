@@ -10,6 +10,7 @@
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
 const ScheduleService = require( "node-schedule" );
 
@@ -111,6 +112,7 @@ module.exports = {
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
             await ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
+            deletedSchedule( eventSchedule, __dirname );
           }
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
@@ -147,6 +149,7 @@ module.exports = {
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
         if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
           ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
+          deletedSchedule( eventSchedule, __dirname );
         }
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );

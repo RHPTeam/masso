@@ -1,5 +1,6 @@
 const ObjectId = require( "mongoose" ).Types.ObjectId;
 const ScheduleService = require( "node-schedule" );
+const { startedSchedule, finishedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
@@ -65,14 +66,19 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
     await Promise.all( listScheduleActive.map( ( eventSchedule ) => {
       console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
-
+      // Log when start cron
+      startedSchedule( eventSchedule, __dirname );
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
-      console.log( `rhp${eventSchedule._id.toString()}` )
       ScheduleService.scheduleJob( `rhp${eventSchedule._id.toString()}`, new Date( eventSchedule.started_at ), async function () {
         const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
 
         console.log( resFacebookResponse );
+        if ( resFacebookResponse.error.code === 200 ) {
+          // Log when finish cron
+          finishedSchedule( eventSchedule, __dirname );
+        }
       } );
+
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Finished! System again assign schedule for event next..." );
     } ) );
 
