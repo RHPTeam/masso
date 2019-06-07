@@ -398,8 +398,7 @@
       </div>
       <!--Start: Show share link user used content -->
       <div>
-        <div v-if="post.scrape === undefined"></div>
-        <div v-else class="item mb_4">
+        <div v-if="post.scrape && post.scrape.length > 0" class="item mb_4">
           <span>Link chia sẻ đang sử dụng</span>
           <div class="mt_2">Bạn đang chia sẻ link dưới đây trong bài viết. </div>
           <div class="wrap p_2 mt_2">
@@ -411,20 +410,22 @@
             </div>
           </div>
         </div>
+        <div v-else></div>
+
       </div>
       <!--End: Show share link user used content -->
 
       <!--Start: if array link content dont undefined-->
-      <div v-if="linkContent">
-        <div v-if="linkContent.length > 0" class="item mb_4">
-          <span>Link chia sẻ</span>
-          <div class="mt_2">Bạn chỉ có thể sử dụng 1 link chia sẻ trong bài viết, hãy cân nhắc trước khi lựa chọn. </div>
+      <div class="question item mb_3" @click="isShowChangeScrape = true"><span>Bạn có muốn thay đổi link chia sẻ sử dụng trong bài viết không ?</span></div>
+      <div v-if="isShowChangeScrape === true">
+        <div v-if="linkContent && linkContent.length > 0" class="item mb_4">
+          <div class="mt_2">Bạn chỉ có thể sử dụng 1 link chia sẻ trong bài viết, hãy cân nhắc trước khi lựa chọn. Click vào link để thay đổi. </div>
           <div class="wrap p_2 mt_2">
             <div class="link d_flex align_items_center" v-for="(item, index) in linkContent" :key="`l-${index}`">
-              <label class="link--name py_1" for="radio1">
+              <label class="link--name py_1" for="radio1" @click="chooseLinkContent(item)">
                 {{ item }}
               </label>
-              <input type="radio" id="radio1" name="link" @click="chooseLinkContent(item)" />
+              <input type="radio" id="radio1" name="link" />
             </div>
           </div>
         </div>
