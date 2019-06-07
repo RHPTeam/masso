@@ -97,6 +97,7 @@ const actions = {
     CookieFunction.removeCookie( "uid" );
     CookieFunction.removeCookie( "cfr" );
     CookieFunction.removeCookie( "token" );
+    CookieFunction.removeCookie( "_sub" );
     CookieFunction.removeCookie( "__v" );
     // delete token on headers
     delete axios.defaults.headers.common.Authorization;
