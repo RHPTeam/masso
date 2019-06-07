@@ -7,7 +7,6 @@
  * team: BE-RHP
  */
 // eslint-disable-next-line no-unused-vars
-const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
@@ -110,10 +109,9 @@ module.exports = {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
-          if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-            ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+          if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+            await ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
           }
-
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
         event.status = findCampaign.status;
@@ -147,8 +145,8 @@ module.exports = {
       const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-          ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+        if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+          ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
         }
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );

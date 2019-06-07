@@ -186,8 +186,8 @@ module.exports = {
      * Update cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
@@ -218,8 +218,8 @@ module.exports = {
      * Delete cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
