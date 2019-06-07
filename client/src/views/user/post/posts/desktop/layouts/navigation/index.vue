@@ -30,6 +30,7 @@
       >
         <icon-base
           class="icon--info"
+          icon-name="Lịch sử đăng bài"
           width="22px"
           height="22px"
           viewBox="0 0 20 20"
