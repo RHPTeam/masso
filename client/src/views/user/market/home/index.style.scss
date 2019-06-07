@@ -100,9 +100,10 @@
   }
 }
 .join {
-    background-image: url(https://bitbucket-marketing-cdn.atlassian.com/dam/jcr:6db86e6a-a05c-414c-a3e9-58db75bce1bb/left_bottom_hero.png?cdnVersion=389) , url(https://bitbucket-marketing-cdn.atlassian.com/dam/jcr:42a7d2a5-669b-44c9-8980-9f83600ab4d9/right_bottom_hero.png?cdnVersion=389);
-    background-position: bottom left , bottom right;
-    background-repeat: no-repeat , no-repeat;
-    background-size: 600px 300px , 600px 300px;
-    min-height: 300px;
+  font-size: 20px;
+  background-image: url(https://bitbucket-marketing-cdn.atlassian.com/dam/jcr:6db86e6a-a05c-414c-a3e9-58db75bce1bb/left_bottom_hero.png?cdnVersion=389) , url(https://bitbucket-marketing-cdn.atlassian.com/dam/jcr:42a7d2a5-669b-44c9-8980-9f83600ab4d9/right_bottom_hero.png?cdnVersion=389);
+  background-position: bottom left , bottom right;
+  background-repeat: no-repeat , no-repeat;
+  background-size: 600px 300px , 600px 300px;
+  min-height: 300px;
 }
