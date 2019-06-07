@@ -7,12 +7,12 @@
  */
 const fs = require( "fs" );
 const jsonResponse = require( "../configs/response" );
-const dictionaries = require( "../configs/dictionaries" )
+const dictionaries = require( "../configs/dictionaries" );
 
 const Account = require( "../models/Account.model" );
 const Post = require( "../models/post/Post.model" );
 const PostCategory = require( "../models/post/PostCategory.model" ),
-  { findSubString } = require( "../helpers/utils/functions/string" )
+  { findSubString } = require( "../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -28,6 +28,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền thực hiện chức năng này!" } );
     }
     // Reading file backup
+    // eslint-disable-next-line handle-callback-err
     fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases\\backup\\backup_category.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_category.txt" ), "utf8", async function ( err, contents ) {
       // Handle per element
       contents.split( ",," ).forEach( async ( item ) => {
@@ -64,6 +65,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền thực hiện chức năng này!" } );
     }
     // Reading file backup
+    // eslint-disable-next-line handle-callback-err
     fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases\\backup\\backup_post.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_post.txt" ), "utf8", async function ( err, contents ) {
       // Handle per element
       contents.split( ",," ).forEach( async ( item ) => {
@@ -81,6 +83,7 @@ module.exports = {
         if ( itemObject.type === "images" ) {
           let resImage = await Promise.all( itemObject.image.replace( /\\\//gi, "/" ).split( "," ).map( ( image ) => {
             return {
+              // eslint-disable-next-line prefer-template
               "link": `${process.env.APP_URL}:${process.env.PORT_BASE}` + image.replace( /[\[\]"]+/g, "" ).replace( "https://srv2.zinbee.vn", "" ),
               "typeAttachment": 1
             };
