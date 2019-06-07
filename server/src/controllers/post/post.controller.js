@@ -160,7 +160,7 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "create": async ( req, res ) => {
-    const findPostCategory = new PostCategory( {
+    const findPostCategory = await PostCategory.findOne( {
         "_account": req.uid,
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),

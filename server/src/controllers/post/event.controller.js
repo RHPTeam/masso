@@ -7,9 +7,9 @@
  */
 const ObjectId = require( "mongoose" ).Types.ObjectId;
 // eslint-disable-next-line no-unused-vars
-const ScheduleClasses = require( "../../helpers/utils/usecases/schedule" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
+const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
@@ -186,8 +186,9 @@ module.exports = {
      * Update cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
+        deletedSchedule( eventSchedule, __dirname );
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
@@ -218,8 +219,9 @@ module.exports = {
      * Delete cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduleJob[ eventSchedule._id ] ) {
-        ScheduleService.scheduleJob[ `rhp${eventSchedule._id}` ].cancel();
+      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
+        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
+        deletedSchedule( eventSchedule, __dirname );
       }
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );

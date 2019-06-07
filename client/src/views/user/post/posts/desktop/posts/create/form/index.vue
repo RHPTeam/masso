@@ -35,7 +35,6 @@
                 tag="div"
                 class="description"
                 :contenteditable="statusContentEditable"
-                :noHTML="statusNoHTML"
                 v-model="post.content"
                 placeholder="Cập nhật nội dung bài viết"
                 @click="showOptionColor"
