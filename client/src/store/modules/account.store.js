@@ -203,7 +203,11 @@ const actions = {
   },
   sendFile: async ( { commit }, payload ) => {
     commit( "setFileAvatar", payload );
-    const result = await AccountServices.upload( payload );
+    await AccountServices.upload( payload );
+
+    const result = await AccountServices.show(
+      CookieFunction.getCookie( "uid" )
+    );
 
     commit( "user_set", result.data.data );
   },

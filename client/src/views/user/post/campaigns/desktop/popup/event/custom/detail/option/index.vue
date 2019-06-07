@@ -4,7 +4,7 @@
     <div class="top d_flex align_items_center justify_content_between mb_3">
       <div class="top--left"
            @click="back"
-      >≪ Quay lại</div>
+      >Tiếp tục >></div>
       <div class="top--right d_flex align_items_center">
         <div class="content">Kho nội dung</div>
       </div>

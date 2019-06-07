@@ -62,6 +62,7 @@ module.exports = {
       userId = secure( res, authorization ),
       accountResult = await Account.findOne( { "_id": userId } ),
       userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } ),
+      countAccountFacebook = await Facebook.find( { "_account": userId } ),
       foundAccountFacebook = await Facebook.find( {
         "userInfo.id": findSubString( req.body.cookie, "c_user=", ";" )
       } );
@@ -72,7 +73,7 @@ module.exports = {
     if ( userId !== req.uid ) {
       return res.status( 405 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
     }
-    if ( accountResult._accountfb.length >= 2 ) {
+    if ( countAccountFacebook.length >= 2 ) {
       return res.status( 403 ).json( { "status": "error", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
     }
     if ( foundAccountFacebook.length > 0 ) {
@@ -96,9 +97,6 @@ module.exports = {
     // Remove cookie when add facebook account
     newFacebook = newFacebook.toObject();
     delete newFacebook.cookie;
-
-    accountResult._accountfb.push( newFacebook._id );
-    await accountResult.save();
 
     res.status( 200 ).json( jsonResponse( "success", newFacebook ) );
   },
@@ -182,10 +180,6 @@ module.exports = {
     // Delete Group and Page of facebook deleted
     await GroupFacebook.deleteMany( { "_facebook": req.query._id } );
     await PageFacebook.deleteMany( { "_facebook": req.query._id } );
-
-    // Remove Id account facebook from account
-    accountResult._accountfb.pull( req.query._id );
-    await accountResult.save();
 
     await Facebook.findByIdAndDelete( req.query._id );
     res.status( 200 ).json( jsonResponse( "success", null ) );
