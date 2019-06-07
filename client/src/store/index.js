@@ -45,8 +45,6 @@ import PostGroupStore from "./modules/post/postgroup.store";
 
       //  ---------- POST
 
-import ListPost from "./modules/market/product.store";
-
 
 
 export default new Vuex.Store( {
@@ -89,6 +87,5 @@ export default new Vuex.Store( {
      */
 
     //  ---------- POST
-    ListPost
   }
 } );
