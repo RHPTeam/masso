@@ -11,7 +11,6 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
   { agent } = require( "../../configs/crawl" ),
   { createPost } = require( "../../controllers/core/posts.core" ),
 
-
   // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
   convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
     let photos;
@@ -165,6 +164,7 @@ module.exports = {
 
       if ( listEventSchedule.length > 0 ) {
 
+        console.log( "Here" );
         await EventSchedule.insertMany( listEventSchedule );
         await createSchedule( listEventSchedule );
         resetEventSchedule();
