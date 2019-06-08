@@ -102,8 +102,8 @@
           </div>
           <!-- End: General Analytics-->
           <!-- Start Post Analytics -->
-          <div class="r order--server-history mx_0 mt_3 d_flex">
-            <div class="server px_0" style="max-height: 405px;">
+          <div class="order--server-history mx_0 mt_3 r">
+            <div class="server px_0 c_md_12 c_lg_12 c_xl_6 px_0 pr_xl_3" style="max-height: 405px;">
               <div class="view--post-day">
                 <VueApexCharts
                   type="line"
@@ -113,7 +113,7 @@
                 ></VueApexCharts>
               </div>
             </div>
-            <div class="order mt_md_3 mt_lg_0" style="max-height: 405px;">
+            <div class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3" style="max-height: 405px;">
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
                 <router-link class="view--all" :to="{ name: 'post_posts' }">Xem tất cả</router-link>
@@ -162,10 +162,10 @@
           <!-- End: Post Analytics -->
 
           <!-- Start: Friend Follow -->
-          <friend-follow
+          <!-- <friend-follow
             :currentTheme="currentTheme"
           >
-          </friend-follow>
+          </friend-follow> -->
           <!-- End: Friend Follow -->
         </div>
       </div>

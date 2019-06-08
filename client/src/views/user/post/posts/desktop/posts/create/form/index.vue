@@ -3,7 +3,7 @@
     <div v-if="post">
       <div class="item mb_4">
         <span>Tên bài viết</span>
-        <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keyup="updateTitlePost(post)" @keydown="clear" />
+        <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keydown="clear" />
       </div>
 
       <div class="item mb_4">
