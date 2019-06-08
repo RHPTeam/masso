@@ -3,13 +3,6 @@
   min-height: 320px;
   .top {
     font-size: .825rem;
-    .top--left {
-      color: #666;
-      cursor: pointer;
-      &:hover {
-        text-decoration: underline;
-      }
-    }
     .top--right {
       color: #666;
     }
@@ -45,6 +38,7 @@
   }
   .body {
     font-size: .85rem;
+    margin-bottom: 2.25rem;
     .result {
       background-color: #ffffff;
       border-top-left-radius: .5rem;
@@ -112,6 +106,49 @@
           }
         }
       }
+    }
+  }
+  .footer--back{
+    background: #fafafa;
+    position: fixed;
+    bottom: 2.75rem;
+    left: 20%;
+    width: 60%;
+    height: 60px;
+    margin: auto;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    .top--left {
+      color: #fff;
+      background: #ffb94a;
+      height: 35px;
+      line-height: 35px;
+      padding: 0 0.625rem;
+      border-radius: 5px;
+      margin-top: 0.625rem;
+      cursor: pointer;
+      &:hover {
+        background: #ff9e4a;
+      }
+    }
+  }
+}
+
+//  ************ RESPONSIVE
+
+@media only screen and (min-width: 990px) and (max-width: 1200px) {
+  .detail{
+    .footer--back{
+      left: 15%;
+      width: 70%;
+    }
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 989px) {
+  .detail{
+    .footer--back{
+      left: 10%;
+      width: 80%;
     }
   }
 }

@@ -21,7 +21,7 @@
       <!-- Start: Information -->
       <div class="information d_flex align_items_center pl_5">
         <div class="information--text mr_2">
-          <i>aaa</i>
+          <i>Để tránh sự cố tiêu chuẩn cộng đồng trên facebook bạn nên xét thời gian giữa các lần đăng cho hợp lý</i>
         </div>
         <div class="information--icon d_flex ml_auto">
           <icon-base

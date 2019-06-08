@@ -1,10 +1,7 @@
 <template>
-  <div class="detail">
+  <div class="detail position_relative">
     <!-- Start: Top -->
     <div class="top d_flex align_items_center justify_content_between mb_3">
-      <div class="top--left"
-           @click="back"
-      >Tiếp tục >></div>
       <div class="top--right d_flex align_items_center">
         <div class="content">Kho nội dung</div>
       </div>
@@ -73,6 +70,11 @@
       </div>
     </div>
     <!-- End: Body -->
+    <div class="footer--back d_flex">
+      <div class="top--left ml_auto mr_4"
+           @click="back"
+      >Tiếp tục</div>
+    </div>
   </div>
 </template>
 

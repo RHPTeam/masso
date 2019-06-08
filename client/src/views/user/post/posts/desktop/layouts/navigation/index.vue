@@ -25,7 +25,7 @@
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
     <div class="nav--right">
-      <div class="btn--history btn btn_info"
+      <div class="btn--history"
            @click="showHistory"
       >
       Lịch sử đăng bài
@@ -125,9 +125,16 @@ export default {
     }
   }
   .nav--right {
-    .icon--info {
+    .btn--history {
+      border: 1px solid #e4e4e4;
+      padding: 0.5rem 0.625rem;
+      border-radius: 10px;
       cursor: pointer;
       transition: all .4s ease;
+      &:hover{
+        border: 1px solid transparent;
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      }
     }
   }
 }
