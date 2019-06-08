@@ -93,11 +93,10 @@
           Chào mừng bạn đến với hệ thống Marketting Online của Zinbee.
         </div>
         <div class="d_flex justify_content_center align_items_center">
-          <div class="tool">
+          <div class="tool" style="opacity: .4; cursor: not-allowed">
             <div
               class="tool--icon"
               :style="{ backgroundImage: 'url(' + imageChat + ')' }"
-              @click="gotoHomeChat"
             ></div>
             <div class="tool--name">Zinbee Chat</div>
           </div>

@@ -24,23 +24,23 @@
       <!-- Start: Messenger Link-->
       <div class="messenger--group position_relative">
         <!-- Start: Btn Messenger -->
-        <router-link :to="{ name: 'messenger' }" class="mess">
+        <a class="mess" :href="marketUrl" target="_blank">
           <div class="btn--messenger position_relative mr_3 d_flex align_items_center"
           >
             <icon-base
               class="icon--messenger"
-              width="24px"
-              height="18px"
-              viewBox="0 0 12 12"
+              width="20px"
+              height="20px"
+              viewBox="0 0 520 520"
             >
-              <icon-messenger></icon-messenger>
+              <icon-shop />
             </icon-base>
             <!-- <div class="messenger--total position_absolute">
               <div class="text text_center">0</div>
             </div> -->
-            <div class="pl_2 open--mess">Mở messenger</div>
+            <div class="pl_2 open--mess">Cửa hàng content</div>
           </div>
-        </router-link>
+        </a>
         <!-- End: Btn Messenger -->
         <!-- Start: Messenger Dropdown -->
         <!-- <div class="messenger--dropdown position_absolute">
@@ -114,7 +114,7 @@
                 </icon-base>
                 <div class="pt_1">Bee Post</div>
               </div>
-              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+              <div class="zin--post zin-chat disallowed item c_4">
                 <icon-base
                   icon-name="bell"
                   width="50px"
@@ -125,7 +125,7 @@
                 </icon-base>
                 <div class="pt_1">Bee Chat</div>
               </div>
-              <div class="zin--post instagram item c_4">
+              <div class="zin--post instagram disallowed item c_4">
                 <icon-base
                   icon-name="bell"
                   width="50px"
@@ -136,7 +136,7 @@
                 </icon-base>
                 <div class="pt_1">Instagram</div>
               </div>
-              <div class="zin--post zalo item c_4">
+              <div class="zin--post zalo disallowed item c_4">
                 <icon-base
                   icon-name="bell"
                   width="50px"

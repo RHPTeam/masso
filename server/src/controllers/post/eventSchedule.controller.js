@@ -1,4 +1,3 @@
-const ObjectId = require( "mongoose" ).Types.ObjectId;
 const ScheduleService = require( "node-schedule" );
 const { startedSchedule, finishedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const Campaign = require( "../../models/post/Campaign.model" );
@@ -62,6 +61,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       console.log( "\x1b[31m%s\x1b[0m", "ERROR:", "Haven't event schedule yet!" );
       return false;
     }
+
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
     await Promise.all( listScheduleActive.map( ( eventSchedule ) => {
       console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
@@ -71,7 +71,6 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       ScheduleService.scheduleJob( `rhp${eventSchedule._id.toString()}`, new Date( eventSchedule.started_at ), async function () {
         const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
 
-        console.log( resFacebookResponse );
         if ( resFacebookResponse.error.code === 200 ) {
           // Log when finish cron
           finishedSchedule( eventSchedule, __dirname );
@@ -82,23 +81,33 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
     } ) );
 
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Finnish - Cron schedule specific date time." );
+  },
+  insertManyEventSchedule = ( data ) => {
+    return new Promise( ( resolve ) => {
+      EventSchedule.insertMany( data, function( error, docs ) {
+        if ( error ) {
+          throw new Error( error );
+        }
+        resolve( docs );
+      } );
+    } );
   };
 
-let listPost, listEventSchedule = [],
+let listPost, listEventSchedule = [], newListEventSchedule = [],
   resetEventSchedule = function () {
     listEventSchedule = [];
+    newListEventSchedule = [];
   };
 
 module.exports = {
   "create": async ( event, campaignId, account ) => {
-    resetEventSchedule();
     let startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
     const campaignContainEvent = await Campaign.findOne( { "_id": campaignId } ).lean();
 
     if ( event.post_custom.length > 0 ) {
       listPost = event.post_custom;
     } else {
-      listPost = ( await Post.find( { "_categories": new ObjectId( event.post_category ) } ).lean() ).map( ( post ) => post._id );
+      listPost = ( await Post.find( { "_categories": event.post_category } ).lean() ).map( ( post ) => post._id );
     }
 
     if ( listPost.length > 0 ) {
@@ -163,10 +172,16 @@ module.exports = {
       }
 
       if ( listEventSchedule.length > 0 ) {
+        // Remove Object
+        listEventSchedule = await Promise.all( listEventSchedule.map( ( eventSchedule ) => {
+          delete eventSchedule._id;
+          return eventSchedule;
+        } ) );
 
-        console.log( "Here" );
-        await EventSchedule.insertMany( listEventSchedule );
-        await createSchedule( listEventSchedule );
+        // insert many
+        newListEventSchedule = await insertManyEventSchedule( listEventSchedule );
+
+        await createSchedule( newListEventSchedule );
         resetEventSchedule();
       } else {
         console.log( "\x1b[31m%s\x1b[0m", "Error: ", "Haven't list event schedule to insert!" );
