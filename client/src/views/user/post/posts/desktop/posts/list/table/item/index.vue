@@ -70,9 +70,9 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1" @click="showPostNowPopup">
-        <icon-base icon-name="icon-edit" viewBox="0 0 18 18">
-          <icon-info />
+      <span class="" @click="showPostNowPopup">
+        <icon-base icon-name="icon--post-now" class="icon--post-now" height="20px" width="23px" viewBox="0 0 500 500">
+          <icon-post-now />
         </icon-base>
       </span>
     </div>

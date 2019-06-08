@@ -112,7 +112,7 @@
                 >
                   <icon-zin-post />
                 </icon-base>
-                <div class="pt_1">Zin Post</div>
+                <div class="pt_1">Bee Post</div>
               </div>
               <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
                 <icon-base
@@ -123,7 +123,7 @@
                 >
                   <icon-zin-chat />
                 </icon-base>
-                <div class="pt_1">Zin Chat</div>
+                <div class="pt_1">Bee Chat</div>
               </div>
               <div class="zin--post instagram item c_4">
                 <icon-base

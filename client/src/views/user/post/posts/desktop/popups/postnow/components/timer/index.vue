@@ -1,7 +1,7 @@
 <template>
   <!--Section option hours-->
   <div class="timer--wrapper" :data-theme="currentTheme" >
-    <div class="title mb_2">Thời gian chờ giữa các lần gửi</div>
+    <div class="title mb_2">Thời gian chờ giữa các lần đăng</div>
     <div class="d_flex align_items_center justify_content_between">
       <!-- Start: Input Group -->
       <div class="input--group d_flex">
@@ -21,7 +21,7 @@
       <!-- Start: Information -->
       <div class="information d_flex align_items_center pl_5">
         <div class="information--text mr_2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eius mod tempor incididunt ut labore et dolore magna aliqua.
+          <i>aaa</i>
         </div>
         <div class="information--icon d_flex ml_auto">
           <icon-base

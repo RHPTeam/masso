@@ -25,17 +25,18 @@
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
     <div class="nav--right">
-      <div class="btn--history"
+      <div class="btn--history btn btn_info"
            @click="showHistory"
       >
-        <icon-base
+      Lịch sử đăng bài
+        <!-- <icon-base
           class="icon--info"
           width="22px"
           height="22px"
           viewBox="0 0 20 20"
         >
-          <icon-info></icon-info>
-        </icon-base>
+          <icon-info></icon-info> 
+        </icon-base> -->
       </div>
     </div>
     <!-- End: Navigation Right -->

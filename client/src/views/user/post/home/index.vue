@@ -162,10 +162,10 @@
           <!-- End: Post Analytics -->
 
           <!-- Start: Friend Follow -->
-          <friend-follow
+          <!-- <friend-follow
             :currentTheme="currentTheme"
           >
-          </friend-follow>
+          </friend-follow> -->
           <!-- End: Friend Follow -->
         </div>
       </div>
