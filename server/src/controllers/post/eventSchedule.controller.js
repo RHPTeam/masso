@@ -92,6 +92,7 @@ let listPost, listEventSchedule = [],
 
 module.exports = {
   "create": async ( event, campaignId, account ) => {
+    resetEventSchedule();
     let startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
     const campaignContainEvent = await Campaign.findOne( { "_id": campaignId } ).lean();
 
@@ -163,6 +164,7 @@ module.exports = {
       }
 
       if ( listEventSchedule.length > 0 ) {
+
         await EventSchedule.insertMany( listEventSchedule );
         await createSchedule( listEventSchedule );
         resetEventSchedule();
