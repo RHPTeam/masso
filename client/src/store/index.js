@@ -40,10 +40,11 @@ import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 
 /**
- * Store for Product
+ * Store for Market
  */
 
-import ProductStore from "./modules/market/product.store";
+      //  ---------- POST
+
 
 
 export default new Vuex.Store( {
@@ -82,8 +83,9 @@ export default new Vuex.Store( {
     PostGroupStore,
     GroupBlock,
     /**
-     * Store for Product
+     * Store for Market
      */
-    ProductStore
+
+    //  ---------- POST
   }
 } );

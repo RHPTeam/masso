@@ -1,5 +1,6 @@
 const ObjectId = require( "mongoose" ).Types.ObjectId;
 const ScheduleService = require( "node-schedule" );
+const { startedSchedule, finishedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
@@ -9,6 +10,7 @@ const PostGroup = require( "../../models/post/PostGroup.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" ),
   { agent } = require( "../../configs/crawl" ),
   { createPost } = require( "../../controllers/core/posts.core" ),
+
 
   // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
   convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
@@ -23,6 +25,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
     }
 
     return {
+      "_id": post._id,
       "cookie": cookie,
       "feed": {
         "photos": ( photos && photos.length > 0 ) ? photos : [],
@@ -60,23 +63,32 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       console.log( "\x1b[31m%s\x1b[0m", "ERROR:", "Haven't event schedule yet!" );
       return false;
     }
-
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
     await Promise.all( listScheduleActive.map( ( eventSchedule ) => {
       console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
-
+      // Log when start cron
+      startedSchedule( eventSchedule, __dirname );
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
-      ScheduleService.scheduleJob( `rhp${eventSchedule._id}`, new Date( eventSchedule.started_at ), async function () {
+      ScheduleService.scheduleJob( `rhp${eventSchedule._id.toString()}`, new Date( eventSchedule.started_at ), async function () {
         const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
 
         console.log( resFacebookResponse );
+        if ( resFacebookResponse.error.code === 200 ) {
+          // Log when finish cron
+          finishedSchedule( eventSchedule, __dirname );
+        }
       } );
+
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Finished! System again assign schedule for event next..." );
     } ) );
+
     console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Finnish - Cron schedule specific date time." );
   };
 
-let listPost, listEventSchedule = [];
+let listPost, listEventSchedule = [],
+  resetEventSchedule = function () {
+    listEventSchedule = [];
+  };
 
 module.exports = {
   "create": async ( event, campaignId, account ) => {
@@ -153,6 +165,7 @@ module.exports = {
       if ( listEventSchedule.length > 0 ) {
         await EventSchedule.insertMany( listEventSchedule );
         await createSchedule( listEventSchedule );
+        resetEventSchedule();
       } else {
         console.log( "\x1b[31m%s\x1b[0m", "Error: ", "Haven't list event schedule to insert!" );
         return false;
