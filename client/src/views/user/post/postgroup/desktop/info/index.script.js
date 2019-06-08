@@ -7,8 +7,7 @@ export default {
     return {
       showDropdown: false,
       isShowDeleteFrPopup: false,
-      isShowAddtoGrPopup: false,
-      search: ""
+      isShowAddtoGrPopup: false
     };
   },
   computed: {

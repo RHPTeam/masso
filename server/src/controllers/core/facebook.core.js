@@ -195,7 +195,7 @@ module.exports = {
             "results": {
               "id": findSubString( cookie, "c_user=", ";" ),
               "fullName": $( "title" ).text(),
-              "thumbSrc": `http://graph.facebook.com/${findSubString(
+              "thumbSrc": `https://graph.facebook.com/${findSubString(
                 cookie,
                 "c_user=",
                 ";"

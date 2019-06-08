@@ -29,7 +29,7 @@ const { agent } = require( "../../../configs/crawl" ),
 
       console.log( resFacebookResponse );
       if ( resFacebookResponse ) {
-        if ( resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!" ){
+        if ( resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!" ) {
           postSchedule.status = 0;
           await postSchedule.save();
         }

@@ -160,7 +160,7 @@ module.exports = {
    * @returns {Promise<*|Promise<any>>}
    */
   "create": async ( req, res ) => {
-    const findPostCategory = new PostCategory( {
+    const findPostCategory = await PostCategory.findOne( {
         "_account": req.uid,
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),
@@ -451,13 +451,13 @@ module.exports = {
   "createSyncFromMarket": async ( req, res ) => {
     req.body._account = req.uid;
 
-    const findPostCategory = new PostCategory( {
+    const findPostCategory = await PostCategory.findOne( {
         "_account": req.uid,
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),
       newPost = await new Post( req.body );
 
-    newPost.categories.push( findPostCategory._id );
+    newPost._categories.push( findPostCategory._id );
     await newPost.save();
 
     res.send( { "status": "success", "data": newPost } );

@@ -21,7 +21,7 @@ const request = require( "request" ),
       };
 
       request( option, function( _err, _res, body ) {
-        if ( body.includes( "https://www.facebook.com/login" ) ) {
+        if ( body && body.includes( "https://www.facebook.com/login" ) ) {
           resolve( {
             "error": {
               "code": 405,

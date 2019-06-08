@@ -48,7 +48,6 @@ const state = {
   actions = {
     addToPostGroup: async ( { commit }, payload ) => {
       const result =await PostGroupServices.updatePostGroup( payload );
-      console.log(result.data.data);
       const res = await PostGroupServices.index();
 
       await commit( "setPostGroups", res.data.data );
@@ -72,6 +71,7 @@ const state = {
       commit( "setPostGroups", res.data.data );
     },
     getAllPostGroups: async ( { commit } ) => {
+
       const res = await PostGroupServices.index();
 
       await commit( "setPostGroups", res.data.data );
