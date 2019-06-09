@@ -154,6 +154,8 @@ export default {
       isDeleteEvent: false
     }
   },
+  computed: {
+  },
   methods: {
     close(){
       this.$store.dispatch( "setCaseEvent", {
