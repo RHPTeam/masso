@@ -8,8 +8,7 @@ const mongoose = require( "mongoose" ),
     "content": { "type": String, "default": "" },
     "color": {
       "id": String,
-      "backgroundColor": String,
-      "backgroundImage": String
+      "value": String
     },
     "attachments": [ {
       "link": String,

@@ -15,10 +15,16 @@ import guideGeneralRouter from "./modules/help";
 
 Vue.use( Router );
 
+const scrollBehavior = (to, from, savedPosition) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve({ x: 0, y: 0 })
+    }, 500)
+  })
+}
+
 export default new Router( {
-  scrollBehavior(){
-    return { x: 0, y: 0 };
-  },
+  scrollBehavior,
   base: process.env.BASE_URL,
   routes: [
     customerGeneralChatRouter,
