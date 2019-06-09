@@ -93,7 +93,7 @@ const state = {
 
       const result = await CampaignsServices.index();
       await commit( "setAllCampaigns", result.data.data );
-    }
+    },
   };
 
 export default {
