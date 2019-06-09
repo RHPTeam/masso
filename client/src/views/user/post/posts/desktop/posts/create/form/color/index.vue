@@ -19,7 +19,7 @@
       <div v-for="(colors, index) in randomColor" :key="index">
         <div
           class="color--item"
-          @click="hiddeOptionColor(colors.bodyStyle)"
+          @click="hiddeOptionColor(colors.bodyStyle, colors.presetID)"
           :style="colors.bodyStyle"
         ></div>
       </div>
@@ -52,7 +52,7 @@
                     <div
                       class="option"
                       :style="color.bodyStyle"
-                      @click="hiddeOptionColor(color.bodyStyle)"
+                      @click="hiddeOptionColor(color.bodyStyle, color.presetID)"
                     >
                     </div>
                   </div>
@@ -95,16 +95,17 @@ export default {
     close(){
       this.isShowMoreColor = false;
     },
-    async hiddeOptionColor( color ) {
+    async hiddeOptionColor( value, id ) {
 
       await this.$emit( "openContentColor", true );
-      await this.$emit( "changeBgColor", color );
-
+      await this.$emit( "changeBgColor", value );
       this.$store.dispatch("setPostDefault", {
         key: "color",
-        value: color
+        value: {
+          id: id,
+          value: value
+        }
       });
-
       this.$store.dispatch( "updatePostColor", this.post );
       this.changeBgColorDefault();
     }

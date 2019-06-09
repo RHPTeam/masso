@@ -79,6 +79,14 @@
       padding-right: 20px;
     }
   }
+
+  .question {
+    cursor: pointer;
+    .item {
+      cursor: pointer;
+    }
+  }
+
   .wrap {
     border: 1px solid $border-color;
     border-radius: calc(.5rem + 2px);
@@ -254,6 +262,7 @@
       }
     }
   }
+
   .aqua_hidden {
     opacity: .5;
   }

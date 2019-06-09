@@ -9,7 +9,7 @@ const state = {
   },
   getters = {
     allCampaigns: ( s ) => {
-      return s.allCampaigns;
+      return s.allCampaigns.reverse();
     },
     campaigns: ( s ) => {
       return s.campaigns;

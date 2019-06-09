@@ -80,7 +80,7 @@ export default {
       }
     },
     checkColor: function () {
-      return this.post.color === '' || this.post.color === undefined;
+      return this.post.color === undefined || this.post.color.length === 0;
     }
 
   },

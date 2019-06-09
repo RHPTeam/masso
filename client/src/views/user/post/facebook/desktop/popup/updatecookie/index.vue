@@ -75,7 +75,7 @@ export default {
           cookie: this.cookie
         });
         await this.$emit("closeAddPopup", false);
-        this.$router.push({name: "post_fbaccount"});
+        this.$router.go({name: "post_fbaccount"});
       } else {
         this.isShowAlert = true;
       }
