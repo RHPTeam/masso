@@ -34,7 +34,6 @@ const actions = {
       payload.size,
       payload.page
     );
-    console.log( result.data.data );
     commit( "setListPostFacebookByKey", {
       data: result.data.data.results,
       number: result.data.data.page

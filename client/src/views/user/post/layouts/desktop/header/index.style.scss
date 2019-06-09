@@ -120,7 +120,7 @@
           padding: 1rem 1rem 0;
         }
         .view-more{
-          cursor: pointer;  
+          cursor: pointer;
           background: rgb(245, 245, 245);
           color: #444;
           height: 40px;
@@ -155,7 +155,7 @@
             // background: #ffb94a;
             // color: #fff;
           }
-          &.instagram, &.zalo{
+          &.disallowed{
             &:hover{
               cursor: not-allowed;
             }

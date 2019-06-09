@@ -65,7 +65,6 @@ const dictionary = require( "../../configs/dictionaries" ),
               "feed": postSchedule.feed
             } );
 
-            console.log( resFacebookResponse );
             if ( resFacebookResponse ) {
               if (
                 resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!"
