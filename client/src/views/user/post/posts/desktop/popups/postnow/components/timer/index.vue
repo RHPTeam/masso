@@ -1,7 +1,7 @@
 <template>
   <!--Section option hours-->
   <div class="timer--wrapper" :data-theme="currentTheme" >
-    <div class="title mb_2">Thời gian chờ giữa các lần đăng</div>
+    <div class="title mb_2">Thời gian chờ giữa các lần đăng <i style="color: red">( ít nhất 5 phút )</i></div>
     <div class="d_flex align_items_center justify_content_between">
       <!-- Start: Input Group -->
       <div class="input--group d_flex">
@@ -9,7 +9,7 @@
         <div class="input--item d_flex align_items_center">
           <input class="text_center mr_2"
                  type="number"
-                 min=5
+                 min="5"
                  v-model="postSchedule.breakPoint"
                  @input="updatePostSchedule"
           >
