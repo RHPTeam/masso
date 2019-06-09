@@ -88,6 +88,7 @@ const actions = {
         cookie: payload.cookie
       };
       await AccountFacebookChatService.update(payload.fbId , dataSender);
+      // If status === true then index account.
       const result = await AccountFacebookChatService.index();
       await commit("addNewAccountFacebook", result.data.data);
       commit("facebook_success");

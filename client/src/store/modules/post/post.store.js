@@ -6,7 +6,10 @@ const state = {
   errorPost: "",
   newPost: [],
   post: {
-    color: "",
+    color: {
+      id: "",
+      value: ""
+    },
     place: {
       id: "",
       text: ""
@@ -23,7 +26,7 @@ const getters = {
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
-  postsPage: ( state ) => state.postsPage,
+  postsPage: ( state ) => state.postsPage.reverse(),
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
 };
@@ -122,11 +125,12 @@ const actions = {
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );
-    commit( "setError", 'errors.js' );
+    commit( "setError", 'error' );
     // commit( "post_success" );
   },
   setPostDefault: async ({ commit }, payload) => {
-    commit("set_post", payload)
+    console.log(payload);
+    commit("set_post", payload);
   },
   setPostArray: async ({commit}, payload) => {
     commit("set_post_array", payload);
@@ -146,7 +150,6 @@ const actions = {
   },
   updatePostColor: async ( { commit }, payload ) => {
     commit( "post_request" );
-
     await PostServices.updatePost( payload._id, payload );
 
     const resultPostById = await PostServices.getById( payload._id );
