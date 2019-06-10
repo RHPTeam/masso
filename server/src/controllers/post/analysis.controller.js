@@ -70,7 +70,7 @@ module.exports = {
       statisticList.push( {
         "date": start,
         "amount": postList.length,
-        "recommend": Math.floor( Math.random() * 10 ) + 7
+        "recommend": Math.floor( Math.random() * 5 ) + 3
       } );
     }
 
@@ -81,7 +81,7 @@ module.exports = {
       statisticList.unshift( {
         "date": start,
         "amount": 0,
-        "recommend": Math.floor( Math.random() * 10 ) + 6
+        "recommend": Math.floor( Math.random() * 5 ) + 5
       } );
     }
 
