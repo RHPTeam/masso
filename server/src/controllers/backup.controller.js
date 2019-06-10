@@ -28,7 +28,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền thực hiện chức năng này!" } );
     }
     // Reading file backup
-    fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases\\backup\\backup_category.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_category.txt" ), "utf8", async function ( err, contents ) {
+    fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases/backup/backup_category.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_category.txt" ), "utf8", async function ( err, contents ) {
       // Handle per element
       contents.split( ",," ).forEach( async ( item ) => {
         const itemObject = JSON.parse( item ),
@@ -64,9 +64,10 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Bạn không có quyền thực hiện chức năng này!" } );
     }
     // Reading file backup
-    fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases\\backup\\backup_post.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_post.txt" ), "utf8", async function ( err, contents ) {
+    fs.readFile( __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases/backup/backup_post.txt" ) : __dirname.replace( "controllers", "databases\\backup\\backup_post.txt" ), "utf8", async function ( err, contents ) {
       // Handle per element
       contents.split( ",," ).forEach( async ( item ) => {
+        console.log( item )
         const itemObject = JSON.parse( item ),
           findUser = await Account.findOne( { "other01": itemObject.uid } ),
           findPostCategory = await PostCategory.findOne( { "title": dictionaries.DEFAULT_POSTCATEGORY, "_account": findUser._id } ).lean();
