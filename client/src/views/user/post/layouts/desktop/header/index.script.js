@@ -18,12 +18,11 @@ export default {
           time: "vừa xong",
           status: true
         }
-      ]
+      ],
+      marketUrl: `${process.env.VUE_APP_PARENT_URL}/#/market`
     };
   },
   async created() {
-    // await this.$store.dispatch( "getUserInfo" );
-    // Get User FB Accounts
     this.$store.dispatch( "getAccountsFB" );
   },
   computed: {
@@ -102,7 +101,7 @@ export default {
         window.open(routeData.href, '_blank');
       }
       this.isShowOptionsMoreDropdown = false;
-    },
+    }
   },
 
   filters: {

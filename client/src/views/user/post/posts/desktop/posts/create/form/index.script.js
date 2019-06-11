@@ -35,7 +35,8 @@ export default {
       isShowCheckIn: false,
       isShowActivity: false,
       isShowMoreOption: false,
-      isActiveImage: false
+      isActiveImage: false,
+      isShowChangeScrape: false
     };
   },
   computed: {
@@ -79,7 +80,7 @@ export default {
       }
     },
     checkColor: function () {
-      return this.post.color === '' || this.post.color === undefined;
+      return this.post.color === undefined || this.post.color.length === 0;
     }
 
   },
@@ -90,16 +91,16 @@ export default {
      */
     "post.content"( value ) {
       //check scrape
-      // this.linkContent = StringFunction.detectUrl(value);
-      // // this.$store.dispatch( "updatePost", this.post  );
-      // // this.post.content = StringFunction.urlify(value);
-      // if( value.length >= 200 ) {
-      //   this.isShowColor = false;
-      //   delete this.post.color;
-      //   this.$store.dispatch( "updatePost", this.post );
-      // } else {
-      //   this.$store.dispatch( "updatePost", this.post );
-      // }
+      this.linkContent = StringFunction.detectUrl(value);
+      // this.$store.dispatch( "updatePost", this.post  );
+      // this.post.content = StringFunction.urlify(value);
+      if( value.length >= 200 ) {
+        this.isShowColor = false;
+        delete this.post.color;
+        this.$store.dispatch( "updatePost", this.post );
+      } else {
+        this.$store.dispatch( "updatePost", this.post );
+      }
     }
   },
   async created() {
@@ -117,6 +118,7 @@ export default {
     chooseLinkContent( val ){
       this.post.scrape = val;
       this.$store.dispatch( "updatePost", this.post );
+      this.isShowChangeScrape = false
     },
     // Update categories post
     updateCate( value ) {

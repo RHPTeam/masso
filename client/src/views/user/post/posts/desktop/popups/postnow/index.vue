@@ -36,7 +36,7 @@
           <button
             class="btn--submit"
             @click="postNow()"
-          > ĐĂNG </button>
+          > ĐĂNG NGAY </button>
         </div>
         <!-- Start: Modal Footer -->
       </div>
@@ -80,7 +80,6 @@ export default {
           "break_point": Number( this.postSchedule.breakPoint )
         }
       };
-      console.log(dataSender)
       this.$store.dispatch( "postNow", dataSender );
       this.$emit( "closePopup", false );
     }

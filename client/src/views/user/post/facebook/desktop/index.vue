@@ -127,5 +127,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "index.style";
+  @import "index.style";
 </style>

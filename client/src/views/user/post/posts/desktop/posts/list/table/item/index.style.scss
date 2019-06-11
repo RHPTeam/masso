@@ -16,6 +16,10 @@
   .col--action {
     width: calc(75px + 3rem);
 
+    svg.icon--post-now{
+      color: #ffb94a;
+    }
+
     svg {
       color: #999;
       cursor: pointer;

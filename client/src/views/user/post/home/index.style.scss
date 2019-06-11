@@ -85,8 +85,8 @@
     }
   }
   .server{
-    margin-right: 1rem;
-    flex: 1;
+    // margin-right: 1rem;
+    // flex: 1;
   }
   .table-container {
     display: block;
@@ -204,13 +204,15 @@
 
 //  ***************** RESPONSIVE  *****************
 
-@media only screen and (min-width: 768px) and (max-width: 1245px) {
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
   .order--server-history{
     .order, .server{
-      width: 100%!important;
-      flex: auto;
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .server{
       margin-bottom: 1rem;
-      margin-right: 0;
+      padding-right: 0!important;
     }
   }
   

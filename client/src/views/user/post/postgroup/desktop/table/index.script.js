@@ -1,6 +1,6 @@
 
 export default {
-  props: [ "groupSelected", "typeFilterSelected" ],
+  props: [ "groupSelected", "typeFilterSelected", "search" ],
   data() {
     return {
       groupsSelectedArr: [],
@@ -19,17 +19,37 @@ export default {
     facebookGroups() {
       return this.$store.getters.facebookGroups;
     },
+    facebookGroupsSearch(){
+      return this.facebookGroups.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
     facebookGroupsStatus() {
       return this.$store.getters.facebookGroupsStatus;
     },
     facebookPages() {
       return this.$store.getters.facebookPages;
     },
+    facebookPagesSearch(){
+      return this.facebookPages.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
     facebookPagesStatus() {
       return this.$store.getters.facebookPagesStatus;
     },
     postGroupDetail() {
       return this.$store.getters.postGroupDetail;
+    },
+    postGroupDetailPage(){
+      return this.postGroupDetail._pages.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
+    postGroupDetailGroup(){
+      return this.postGroupDetail._groups.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
     },
     postGroupDetailStatus() {
       return this.$store.getters.postGroupDetailStatus;

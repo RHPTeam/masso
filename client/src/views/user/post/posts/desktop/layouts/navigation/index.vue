@@ -28,15 +28,16 @@
       <div class="btn--history"
            @click="showHistory"
       >
-        <icon-base
+      Lịch sử đăng bài
+        <!-- <icon-base
           class="icon--info"
           icon-name="Lịch sử đăng bài"
           width="22px"
           height="22px"
           viewBox="0 0 20 20"
         >
-          <icon-info></icon-info>
-        </icon-base>
+          <icon-info></icon-info> 
+        </icon-base> -->
       </div>
     </div>
     <!-- End: Navigation Right -->
@@ -125,9 +126,16 @@ export default {
     }
   }
   .nav--right {
-    .icon--info {
+    .btn--history {
+      border: 1px solid #e4e4e4;
+      padding: 0.5rem 0.625rem;
+      border-radius: 10px;
       cursor: pointer;
       transition: all .4s ease;
+      &:hover{
+        border: 1px solid transparent;
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      }
     }
   }
 }

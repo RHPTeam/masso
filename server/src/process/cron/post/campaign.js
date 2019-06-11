@@ -24,7 +24,7 @@ const { agent } = require( "../../../configs/crawl" ),
     console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
 
     console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
-    ScheduleService.scheduleJob( `rhp${eventSchedule._id}`, new Date( eventSchedule.started_at ), async function () {
+    ScheduleService.scheduleJob( `rhp${eventSchedule._id.toString()}`, new Date( eventSchedule.started_at ), async function () {
       const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
 
       console.log( resFacebookResponse );

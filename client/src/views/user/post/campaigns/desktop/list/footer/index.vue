@@ -49,13 +49,14 @@ export default {
     await this.$store.dispatch( "getAllCampaigns" );
   },
   methods: {
-    goToPage( page ) {
+    async goToPage( page ) {
       const dataSender = {
         size: this.filterShowSelected.id,
         page: page
       };
 
-      this.$store.dispatch( "getCampaignsByPage", dataSender );
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );
