@@ -64,5 +64,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../index.style";
+  @import "../../../list/index.style";
 </style>

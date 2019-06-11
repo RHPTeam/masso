@@ -5,12 +5,14 @@ import PageFacebookServices from "@/services/modules/post/pagefacebook.service";
 const state = {
   addAccountError: "",
   accountsFB: [],
+  fbAccountInfo: {},
   facebookStatus: "",
   statusDeleteFacebook: ""
 };
 const getters = {
   addAccountError: state => state.addAccountError,
   accountsFB: state => state.accountsFB,
+  fbAccountInfo: state => state.fbAccountInfo,
   facebookStatus: state => state.facebookStatus,
   statusDeleteFacebook: state => state.statusDeleteFacebook
 };
@@ -30,6 +32,9 @@ const mutations = {
   },
   setAccountsFB: (state, payload) => {
     state.accountsFB = payload;
+  },
+  setFbAccountInfo: (state, payload) => {
+    state.fbAccountInfo = payload;
   },
   statusDeleteFacebook_request: state =>
     (state.statusDeleteFacebook = "loading"),
@@ -77,6 +82,10 @@ const actions = {
     const accountsFB = await AccountFacebookChatService.index();
     await commit("setAccountsFB", accountsFB.data.data);
     commit("facebook_success");
+  },
+  getFBAccountById: async ({ commit }, payload) => {
+    const res = await AccountFacebookChatService.getFBAccountById( payload );
+    await commit( "setFbAccountInfo", res.data.data );
   },
   setAddAccountErrorEmpty: async ({ commit }) => {
     commit("addAccountError", "");
