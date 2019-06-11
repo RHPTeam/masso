@@ -76,9 +76,9 @@ const generalPostRouter = {
       component: require( "@/views/user/post/facebook" ).default
     },
     {
-      path: "notifications",
-      name: "post_notifications",
-      component: require( "@/views/user/post/notifications" ).default
+      path: "auto",
+      name: "post_auto",
+      component: require( "@/views/user/post/auto" ).default
     }
   ]
 };
