@@ -153,7 +153,6 @@ export default {
         itemId: this.$route.params.scheduleBlockId,
         scheduleId: this.idScheduleDefault
       };
-      console.log(dataSender);
       this.$store.dispatch("createItemSchedule", dataSender);
     }
   }

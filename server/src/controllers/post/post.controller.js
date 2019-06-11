@@ -65,7 +65,6 @@ const dictionary = require( "../../configs/dictionaries" ),
               "feed": postSchedule.feed
             } );
 
-            console.log( resFacebookResponse );
             if ( resFacebookResponse ) {
               if (
                 resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!"
@@ -91,12 +90,6 @@ const dictionary = require( "../../configs/dictionaries" ),
   };
 
 module.exports = {
-  /**
-   * Get All (query or not)
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "index": async ( req, res ) => {
     let page = null,
       dataResponse = null;
@@ -153,12 +146,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
-  /**
-   * Create Post
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "create": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( {
         "_account": req.uid,
@@ -174,12 +161,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
-  /**
-   * Update Post
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "update": async ( req, res ) => {
     const findPost = await Post.findOne( {
         "_id": req.query._postId,
@@ -247,6 +228,8 @@ module.exports = {
     );
     await PostSchedule.deleteMany( { "_post": req.query._postId } );
 
+    req.body.content = req.body.content.replace( /(<br \/>)|(<br>)/gm, "\n" ).replace( /(<\/p>)|(<\/div>)/gm, "\n" ).replace( /(<([^>]+)>)/gm, "" );
+
     res
       .status( 201 )
       .json(
@@ -260,12 +243,6 @@ module.exports = {
         )
       );
   },
-  /**
-   * Delete Post
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "delete": async ( req, res ) => {
     // Check if don't use query
     if ( !req.query._postId || req.query._postId === "" ) {
@@ -360,12 +337,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", resData ) );
   },
-  /**
-   * Post now
-   * @param req
-   * @param res
-   * @returns {Promise<*>}
-   */
   "createPostSchedule": async ( req, res ) => {
     const findPost = await Post.findOne( {
         "_id": req.query._postId,
@@ -451,13 +422,13 @@ module.exports = {
   "createSyncFromMarket": async ( req, res ) => {
     req.body._account = req.uid;
 
-    const findPostCategory = new PostCategory( {
+    const findPostCategory = await PostCategory.findOne( {
         "_account": req.uid,
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),
       newPost = await new Post( req.body );
 
-    newPost.categories.push( findPostCategory._id );
+    newPost._categories.push( findPostCategory._id );
     await newPost.save();
 
     res.send( { "status": "success", "data": newPost } );

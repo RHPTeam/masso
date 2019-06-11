@@ -26,7 +26,7 @@
                 :key="`fbp-header${i}`"
             >Trang</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in facebookPages"
+                v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
             >
               <div class="col col--checkbox px_2">
@@ -46,6 +46,7 @@
                 </span>
               </div>
             </div>
+            <div class="no--group text_center py_3" v-if="facebookPagesSearch.length === 0">Không tìm thấy trang nào</div>
           </div>
           <!-- End: Pages Data -->
           <!-- Start: Groups Data -->
@@ -55,7 +56,7 @@
                 :key="`fbg-header${j}`"
             >Nhóm</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in facebookGroups"
+                v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"
             >
               <div class="col col--checkbox px_2">
@@ -75,12 +76,12 @@
                 </span>
               </div>
             </div>
+            <div class="no--group text_center py_3" v-if="facebookGroupsSearch.length === 0">Không tìm thấy nhóm nào</div>
           </div>
           <!-- End: Groups Data -->
         </div>
       </div>
       <!-- End: Table Body -->
-      <!-- Start: Delete Campaign Popup -->
     </div>
     <!--End: All data-->
     <!--Start: Data of Group-->
@@ -108,7 +109,7 @@
             >Trang
             </div>
             <div class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in postGroupDetail._pages"
+                v-for="( item, index ) in postGroupDetailPage"
                 :key="`fbg-${index}`"
             >
               <div class="col col--checkbox px_2">
@@ -128,6 +129,7 @@
                 </span>
               </div>
             </div>
+            <div class="no--group text_center py_3" v-if="postGroupDetailPage.length === 0">Không tìm thấy trang nào</div>
           </div>
           <!-- End: Pages Data -->
           <!-- Start: Groups Data -->
@@ -137,7 +139,7 @@
                 :key="`fbg-header${j}`"
             >Nhóm</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in postGroupDetail._groups"
+                v-for="( item, index ) in postGroupDetailGroup"
                 :key="`fbp-${index}`"
             >
               <div class="col col--checkbox px_2">
@@ -157,6 +159,7 @@
                 </span>
               </div>
             </div>
+            <div class="no--group text_center py_3" v-if="postGroupDetailGroup.length === 0">Không tìm thấy nhóm nào</div>
           </div>
           <!-- End: Groups Data -->
         </div>

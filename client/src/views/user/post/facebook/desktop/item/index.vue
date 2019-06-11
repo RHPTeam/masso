@@ -7,7 +7,7 @@
         </icon-base>
       </div>
       <div class="card--content">
-        <div class="avatar">
+        <div class="avatar" v-if="item.userInfo.thumbSrc && item.userInfo.thumbSrc.length > 0">
           <img class="picture" :src="item.userInfo.thumbSrc" />
           <span class="status" :class="item.status === true ? 'active' : ''">
           </span>

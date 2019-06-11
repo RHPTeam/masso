@@ -9,7 +9,7 @@ const state = {
   },
   getters = {
     allCampaigns: ( s ) => {
-      return s.allCampaigns;
+      return s.allCampaigns.reverse();
     },
     campaigns: ( s ) => {
       return s.campaigns;
@@ -93,7 +93,7 @@ const state = {
 
       const result = await CampaignsServices.index();
       await commit( "setAllCampaigns", result.data.data );
-    }
+    },
   };
 
 export default {

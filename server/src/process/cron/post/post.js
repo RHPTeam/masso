@@ -27,9 +27,8 @@ const { agent } = require( "../../../configs/crawl" ),
     ScheduleService.scheduleJob( `rhp${postSchedule._id}`, new Date( postSchedule.started_at ), async function () {
       const resFacebookResponse = await createPost( { "cookie": postSchedule.cookie, agent, "feed": postSchedule.feed } );
 
-      console.log( resFacebookResponse );
       if ( resFacebookResponse ) {
-        if ( resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!" ){
+        if ( resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!" ) {
           postSchedule.status = 0;
           await postSchedule.save();
         }

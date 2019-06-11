@@ -5,7 +5,7 @@
   >
     <div class="modal--content p_4">
       <VuePerfectScrollbar class="detail--scroll">
-        <div v-html="item.content"></div>
+        <div style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;" v-html="item.content"></div>
       </VuePerfectScrollbar>
       <div
         class="gallery d_flex justify_content_start align_items_center flex_wrap"
@@ -47,7 +47,7 @@
               <icon-like />
             </icon-base>
           </span>
-          <span class="reaction--item-number ml_1">1018</span>
+          <span class="reaction--item-number ml_1">{{ item.like }}</span>
         </div>
         <div
           class="reaction--item d_flex justify_content_start align_items_center ml_3"
@@ -62,7 +62,7 @@
               <icon-share />
             </icon-base>
           </span>
-          <span class="reaction--item-number ml_1">354</span>
+          <span class="reaction--item-number ml_1">{{ item.share }}</span>
         </div>
       </div>
       <div class="action d_flex justify_content_between align_items_center">

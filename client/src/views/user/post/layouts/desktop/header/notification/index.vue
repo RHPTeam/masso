@@ -58,7 +58,6 @@
       <!-- Start: Notification Footer -->
       <div class="notification--footer text_center">
         <div class="btn--see-all"
-             @click="seeAllNotifications()"
         >Xem tất cả</div>
       </div>
       <!-- End: Notification Footer -->

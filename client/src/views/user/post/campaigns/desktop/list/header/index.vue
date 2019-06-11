@@ -132,7 +132,7 @@ export default {
         height: 40px;
         line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
-        width: calc(100%-24px);
+        // width: calc(100%-24px);
         &:active,
         &:focus,
         &:visited {

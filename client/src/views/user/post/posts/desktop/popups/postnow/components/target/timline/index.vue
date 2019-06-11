@@ -10,6 +10,22 @@
           <!-- Start: Avatar Account -->
           <!-- Start: Name Account + Action -->
           <div class="right d_flex align_items_center">
+            <!-- Start: Name Account + Action -->
+            <div class="left">
+              <!-- Start: Action -->
+              <div class="action ml_auto">
+                <label class="custom--checkbox mb_0 mr_2">
+                  <input
+                    type="checkbox"
+                    :value="account._id"
+                    v-model="postSchedule._facebookId"
+                    @input="updatePostSchedule"
+                  />
+                </label>
+              </div>
+              <!-- End: Action -->
+            </div>
+            <!-- End: Avatar Account -->
             <div class="avatar"
                  :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
             ></div>
@@ -17,22 +33,6 @@
             <div class="name ml_2">{{ account.userInfo.name }}</div>
             <!-- End: Name Account -->
           </div>
-          <!-- Start: Name Account + Action -->
-          <div class="left">
-            <!-- Start: Action -->
-            <div class="action ml_auto">
-              <label class="custom--checkbox mb_0 mr_2">
-                <input
-                  type="checkbox"
-                  :value="account._id"
-                  v-model="postSchedule._facebookId"
-                  @input="updatePostSchedule"
-                />
-              </label>
-            </div>
-            <!-- End: Action -->
-          </div>
-          <!-- End: Avatar Account -->
         </div>
       </div>
     </div>
