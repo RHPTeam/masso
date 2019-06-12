@@ -369,7 +369,7 @@ module.exports = {
         "id": findPost.activity ? findPost.activity.id.id : "",
         "text": ""
       },
-      "color": findPost.color ? findPost.color : "",
+      "color": findPost.color ? findPost.color.id : "",
       "content": findPost.content,
       "location": {
         // eslint-disable-next-line no-nested-ternary

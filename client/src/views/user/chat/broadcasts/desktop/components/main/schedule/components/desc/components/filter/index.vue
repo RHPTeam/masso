@@ -80,6 +80,10 @@ import MoreFriend from "./friend";
 import BroadcastService from "@/services/modules/chat/broadcast.service";
 import StringFunction from "@/utils/functions/string";
 export default {
+  components: {
+    AppFilter,
+    MoreFriend
+  },
   data() {
     return {
       showFilterAttribute: false,
@@ -95,27 +99,6 @@ export default {
       showResultFilterWithConditionIs: false,
       showResultFilterWithConditionIsNot: false
     };
-  },
-  // show result before fiter
-  async created() {
-    // let result = await BroadcastService.index();
-    // result = result.data.data.filter(
-    //   item =>
-    //     StringFunction.convertUnicode(item.typeBroadCast)
-    //       .toLowerCase()
-    //       .trim() === "thiet lap bo hen"
-    // );
-    // this.broadId = result[0]._id;
-    // const dataSender = {
-    //   broadId: result[0]._id,
-    //   blockId: this.$route.params.scheduleId
-    // };
-    // let listUser = await BroadcastService.showSchedule(
-    //   dataSender.broadId,
-    //   dataSender.blockId
-    // );
-    // this.userFilter = listUser.data.data[0]._friends;
-    // this.listUserFilter = this.userFilter.slice(0, 5);
   },
   computed: {
     // Get info item friend when choose segment
@@ -150,6 +133,28 @@ export default {
     // sliceFriendWithConditionIsNot() {
     //   return this.infoFriendWithConditonIsNot.slice(0, 5);
     // }
+  },
+  watch: {},
+  // show result before fiter
+  async created() {
+    // let result = await BroadcastService.index();
+    // result = result.data.data.filter(
+    //   item =>
+    //     StringFunction.convertUnicode(item.typeBroadCast)
+    //       .toLowerCase()
+    //       .trim() === "thiet lap bo hen"
+    // );
+    // this.broadId = result[0]._id;
+    // const dataSender = {
+    //   broadId: result[0]._id,
+    //   blockId: this.$route.params.scheduleId
+    // };
+    // let listUser = await BroadcastService.showSchedule(
+    //   dataSender.broadId,
+    //   dataSender.blockId
+    // );
+    // this.userFilter = listUser.data.data[0]._friends;
+    // this.listUserFilter = this.userFilter.slice(0, 5);
   },
   methods: {
     //Show result default filter
@@ -191,11 +196,6 @@ export default {
     //   this.showResultFilterWithConditionIsNot = false;
     //   this.showResultFilterWithConditionIs = event;
     // }
-  },
-  watch: {},
-  components: {
-    AppFilter,
-    MoreFriend
   }
 };
 </script>
