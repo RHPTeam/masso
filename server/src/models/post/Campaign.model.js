@@ -24,11 +24,22 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+CampaignSchema.index( {
+  "title": "text",
+  "description": "text"
+} );
+
 CampaignSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const Campaign = mongoose.model( "Campaign", CampaignSchema );
+
+CampaignSchema.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = Campaign;
