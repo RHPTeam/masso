@@ -70,6 +70,7 @@ const dictionary = require( "../../configs/dictionaries" ),
                 resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!"
               ) {
                 postSchedule.status = 0;
+                postSchedule.postID = resFacebookResponse.results.postID;
                 await postSchedule.save();
               }
             }
@@ -330,6 +331,7 @@ module.exports = {
             "feed": postSchedule.feed,
             "status": postSchedule.status,
             "started_at": postSchedule.started_at,
+            "postID": postSchedule.postID,
             "_post": postSchedule._post
           }
         };
@@ -367,7 +369,7 @@ module.exports = {
         "id": findPost.activity ? findPost.activity.id.id : "",
         "text": ""
       },
-      "color": findPost.color ? findPost.color : "",
+      "color": findPost.color ? findPost.color.id : "",
       "content": findPost.content,
       "location": {
         // eslint-disable-next-line no-nested-ternary

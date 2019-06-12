@@ -38,6 +38,11 @@ export default {
       isShowCopyScripts: false
     };
   },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+  },
   methods: {
     showCopyScripts() {
       this.isShowCopyScripts = true;
@@ -49,11 +54,6 @@ export default {
       this.isShowCopyScripts = false;
       this.$store.dispatch("deleteGroupBlock", idGroup);
     }
-  },
-  computed: {    
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
   },
 };
 </script>

@@ -86,6 +86,9 @@ export default {
       return string.charAt( 0 ).toUpperCase();
     }
   },
+  components: {
+    DeleteCampaignPopup
+  },
   props: [ "user" ],
   data() {
     return {
@@ -97,9 +100,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }    
-  },
-  components: {
-    DeleteCampaignPopup
   }
 
 };

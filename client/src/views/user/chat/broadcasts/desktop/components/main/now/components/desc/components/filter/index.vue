@@ -52,6 +52,9 @@
 <script>
 import AppFilter from "@/components/shared/filter";
 export default {
+  components: {
+    AppFilter
+  },
   data() {
     return {
       showFilterAttribute: false,
@@ -65,9 +68,6 @@ export default {
     closeFilterOption() {
       this.showFilterOption = false;
     }
-  },
-  components: {
-    AppFilter
   }
 };
 </script>

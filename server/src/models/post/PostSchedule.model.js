@@ -34,6 +34,7 @@ const mongoose = require( "mongoose" ),
     "started_at": {
       "type": Date
     },
+    "postID": String,
     "status": {
       "type": Boolean
     },

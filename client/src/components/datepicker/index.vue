@@ -126,10 +126,10 @@ export default {
   fecha,
   name: 'DatePicker',
   components: { CalendarPanel },
-  mixins: [locale],
   directives: {
     clickoutside
   },
+  mixins: [locale],
   props: {
     value: null,
     valueType: {
@@ -216,20 +216,6 @@ export default {
       userInput: null,
       popupVisible: false,
       position: {}
-    }
-  },
-  watch: {
-    value: {
-      immediate: true,
-      handler: 'handleValueChange'
-    },
-    popupVisible (val) {
-      if (val) {
-        this.initCalendar()
-      } else {
-        this.userInput = null
-        this.blur()
-      }
     }
   },
   computed: {
@@ -338,6 +324,20 @@ export default {
     },
     innerPopupStyle () {
       return { ...this.position, ...this.popupStyle }
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler: 'handleValueChange'
+    },
+    popupVisible (val) {
+      if (val) {
+        this.initCalendar()
+      } else {
+        this.userInput = null
+        this.blur()
+      }
     }
   },
   mounted () {

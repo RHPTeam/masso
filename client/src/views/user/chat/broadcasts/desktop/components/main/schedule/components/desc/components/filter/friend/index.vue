@@ -42,6 +42,9 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  components: {
+    VuePerfectScrollbar
+  },
   // props: ["infoGroupFilter"],
   data() {
     return {};
@@ -51,9 +54,6 @@ export default {
     close() {
       this.$emit("close", false);
     }
-  },
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>
