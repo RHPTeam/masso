@@ -94,6 +94,7 @@ export default {
     }
     .search--input {
     background-clip: padding-box;
+    width: 80%;
     border: 0;
     border-radius: 0.5rem;
     font-size: 0.875rem;

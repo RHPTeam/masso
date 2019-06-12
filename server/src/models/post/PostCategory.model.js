@@ -10,6 +10,8 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
+    "other01": String,
+    "other02": String,
     "created_at": {
       "type": Date,
       "default": Date.now()

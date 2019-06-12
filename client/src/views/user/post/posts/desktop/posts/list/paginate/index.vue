@@ -45,13 +45,14 @@ export default {
     await this.$store.dispatch( "getAllPost" );
   },
   methods: {
-    goToPage( page ) {
+    async goToPage( page ) {
       const dataSender = {
         size: this.filterShowSelected.id,
         page: page
       };
 
-      this.$store.dispatch( "getPostsByPage", dataSender );
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

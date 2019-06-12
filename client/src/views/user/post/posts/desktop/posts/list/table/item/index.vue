@@ -55,14 +55,14 @@
     <!-- End: Image Column -->
     <!-- Start: Action Column -->
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
-      <span class="mx_1" @click="updatePost">
-        <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+      <span class="mx_2" @click="updatePost">
+        <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
       </span>
       <span class="mr_1" @click="showDeletePopup()">
         <icon-base
-          icon-name="remove"
+          icon-name="Xóa"
           width="20"
           height="20"
           viewBox="0 0 15 15"
@@ -70,9 +70,12 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="" @click="showPostNowPopup">
-        <icon-base icon-name="icon--post-now" class="icon--post-now" height="20px" width="23px" viewBox="0 0 500 500">
-          <icon-post-now />
+      <span class="mx_1" @click="showPostNowPopup">
+        <icon-base
+          class="icon--send"
+          icon-name="Đăng ngay"
+          viewBox="0 0 506 506">
+          <icon-send></icon-send>
         </icon-base>
       </span>
     </div>
@@ -106,5 +109,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "index.style";
+@import "./index.style";
 </style>
