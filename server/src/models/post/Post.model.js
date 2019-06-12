@@ -49,11 +49,24 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+PostSchema.index( {
+  "title": "text",
+  "content": "text",
+  "scrape": "text",
+  "tags": "text"
+} );
+
 PostSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const Post = mongoose.model( "Post", PostSchema );
+
+Post.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = Post;

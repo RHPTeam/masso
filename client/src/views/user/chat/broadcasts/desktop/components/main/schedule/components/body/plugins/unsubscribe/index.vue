@@ -118,6 +118,10 @@
 import List from "../sequence";
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
+  components: {
+    List,
+    DeleteCampaignPopup
+  },
   props: {
     schedule: Object,
     item: Object
@@ -139,10 +143,6 @@ export default {
     updateToParent(value) {
       this.$emit("updateItemFromMiddleComponent", value);
     }
-  },
-  components: {
-    List,
-    DeleteCampaignPopup
   }
 };
 </script>

@@ -17,4 +17,9 @@ router
 router
   .route( "/duplicate" )
   .post( CampaignController.duplicate );
+
+router
+  .route( "/search" )
+  .post( CampaignController.search );
+
 module.exports = router;

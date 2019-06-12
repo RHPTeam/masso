@@ -46,6 +46,9 @@ router
   .route( "/now" )
   .get( PostController.getPostSchedule )
   .post( PostController.createPostSchedule );
+router
+  .route( "/search" )
+  .post( PostController.search );
 router.route( "/sync" ).post( PostController.createSyncFromMarket );
 
 module.exports = router;

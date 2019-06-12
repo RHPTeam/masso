@@ -158,6 +158,9 @@
 let typingTimer;
 import DeleteCampaignPopup from "@/components/popups/delete";
 export default {
+  components: {
+    DeleteCampaignPopup
+  },
   data() {
     return {
       isOpenDocument: false,
@@ -165,11 +168,6 @@ export default {
       currentIndexOfUser: null,
       isDeleteItemBlock: false
     };
-  },
-  async created() {
-    await this.$store.dispatch("getAccountsFB");
-    await this.$store.dispatch("getGroupBlock");
-    // await this.$store.dispatch("getSequence");
   },
   computed: {
     accountFacebookList() {
@@ -189,6 +187,11 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
+  },
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
+    await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getSequence");
   },
   methods: {
     createItem(type) {
@@ -226,9 +229,6 @@ export default {
     updateSyntax() {
       this.$store.dispatch("updateSyntax", this.$store.getters.syntax);
     }
-  },
-  components: {
-    DeleteCampaignPopup
   }
 };
 </script>
