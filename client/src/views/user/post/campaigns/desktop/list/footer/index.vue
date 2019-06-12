@@ -2,7 +2,7 @@
   <div class="main--footer campaigns--list-footer">
     <div class="d_flex justify_content_between">
       <div class="">
-          Hiển thị {{ campaigns.length }} trong số {{ allCampaigns.length }}
+          Hiển thị {{ campaigns.length }} trong số {{ filterShowSelected.id }}
       </div>
       <div class="campaigns--list-paginate">
         <paginate
@@ -29,9 +29,6 @@ export default {
     }
   },
   computed: {
-    allCampaigns() {
-      return this.$store.getters.allCampaigns;
-    },
     campaigns() {
       return this.$store.getters.campaigns;
     },

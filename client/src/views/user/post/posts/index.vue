@@ -37,9 +37,6 @@ export default {
     }
   },
   async created() {
-    // await this.$store.dispatch( "getAllFriendFb" );
-    // await this.$store.dispatch( "getPlaceFromFb" );
-    // await this.$store.dispatch( "getAllCategories" );
     await this.$store.dispatch( "getUserInfo" );
   }
 };
