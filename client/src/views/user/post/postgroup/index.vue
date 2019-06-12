@@ -74,11 +74,11 @@ export default {
       search: ""
     }
   },
-  methods: {
-  },
   created() {
     this.$store.dispatch( "postGroupGroupsSelected", [] );
     this.$store.dispatch( "postGroupPagesSelected", [] );
+  },
+  methods: {
   }
 };
 </script>

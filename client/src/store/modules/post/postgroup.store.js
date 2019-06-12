@@ -70,6 +70,14 @@ const state = {
       res = await PostGroupServices.index();
       commit( "setPostGroups", res.data.data );
     },
+    deletePagesNGroupsFromPostGroup: async ( { commit }, payload ) => {
+      await PostGroupServices.deletePagesNGroups( payload );
+      const postGroup = await PostGroupServices.getPostGroupById( payload.id );
+      await commit( "setPostGroupDetail", postGroup.data.data );
+      // reset selected pages and groups
+      commit( "postGroupGroupsSelected", [] );
+      commit( "postGroupPagesSelected", [] );
+    },
     getAllPostGroups: async ( { commit } ) => {
 
       const res = await PostGroupServices.index();
@@ -93,7 +101,7 @@ const state = {
       await PostGroupServices.updatePostGroup( payload );
       const postGroup = await PostGroupServices.getPostGroupById( payload.postGroupId );
       await commit( "setPostGroupDetail", postGroup.data.data );
-    },
+    }
   };
 
 export default {

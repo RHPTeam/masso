@@ -1,13 +1,18 @@
-import DeleteFriendsPopup from "../../../../../../components/popups/delete/index";
+import DeletePopup from "../../../../../../components/popups/delete/index";
 import AddGroupPopup from "../popup/addgroup/index";
 
 export default {
+  components: {
+    DeletePopup,
+    AddGroupPopup
+  },
   props: [ "groupSelected", "typeFilterSelected" ],
   data() {
     return {
       showDropdown: false,
-      isShowDeleteFrPopup: false,
-      isShowAddtoGrPopup: false
+      isShowDeletePopup: false,
+      isShowAddtoGrPopup: false,
+      targetDeletePopupData: {},
     };
   },
   computed: {
@@ -32,8 +37,14 @@ export default {
   },
 
   methods: {
-    showDeleteFrPopup() {
-      this.isShowDeleteFrPopup = true;
+    showDeletePopup() {
+      this.isShowDeletePopup = true;
+
+      this.targetDeletePopupData = {
+        id: this.postGroupDetail._id,
+        _pages: this.postGroupPagesSelected,
+        _groups: this.postGroupGroupsSelected
+      };
     },
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
@@ -45,9 +56,5 @@ export default {
     closeShowDropdown(){
       this.showDropdown = false;
     }
-  },
-  components: {
-    DeleteFriendsPopup,
-    AddGroupPopup
   }
 };
