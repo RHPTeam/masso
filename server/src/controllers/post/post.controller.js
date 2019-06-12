@@ -217,18 +217,6 @@ module.exports = {
         .json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
 
-    /**
-     * Delete cron schedule
-     */
-    await Promise.all(
-      listPostOldSchedule.map( ( postSchedule ) => {
-        if ( ScheduleService.scheduleJob[ postSchedule._id ] ) {
-          ScheduleService.scheduleJob[ `rhp${postSchedule._id}` ].cancel();
-        }
-      } )
-    );
-    await PostSchedule.deleteMany( { "_post": req.query._postId } );
-
     req.body.content = req.body.content.replace( /(<br \/>)|(<br>)/gm, "\n" ).replace( /(<\/p>)|(<\/div>)/gm, "\n" ).replace( /(<([^>]+)>)/gm, "" );
 
     res
@@ -434,5 +422,28 @@ module.exports = {
     await newPost.save();
 
     res.send( { "status": "success", "data": newPost } );
+  },
+  "search": async ( req, res ) => {
+    if ( req.query.keyword === undefined ) {
+      return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
+    }
+
+    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).lean() );
+
+    if ( req.query._size && req.query._page ) {
+      dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+    } else if ( req.query._size ) {
+      dataResponse = data.slice( 0, Number( req.query._size ) );
+    }
+
+    if ( req.query._size ) {
+      if ( data.length % req.query._size === 0 ) {
+        page = Math.floor( data.length / req.query._size );
+      } else {
+        page = Math.floor( data.length / req.query._size ) + 1;
+      }
+    }
+
+    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page } } );
   }
 };
