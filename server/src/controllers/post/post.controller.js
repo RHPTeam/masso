@@ -167,6 +167,7 @@ module.exports = {
         "_id": req.query._postId,
         "_account": req.uid
       } ),
+      // eslint-disable-next-line no-unused-vars
       listPostOldSchedule = await PostSchedule.find( {
         "_post": req.query._postId,
         "_account": req.uid
