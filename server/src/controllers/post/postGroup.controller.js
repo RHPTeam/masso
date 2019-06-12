@@ -86,6 +86,22 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Nhóm nơi đăng không tồn tại!" } );
     }
 
+    // check delete case
+    if ( req.query.type === "remove" ) {
+      // remove pages
+      await Promise.all( req.body._pages.map( ( page ) => {
+        findPostGroup._pages.pull( page );
+      } ) );
+      // remove groups
+      await Promise.all( req.body._groups.map( ( group ) => {
+        findPostGroup._groups.pull( group );
+      } ) );
+      // save to database
+      await findPostGroup.save();
+      // response to client
+      return res.status( 200 ).json( { "status": "success", "data": findPostGroup } );
+    }
+
     // check exists in database
     req.body._groups = req.body._groups.concat( findPostGroup._groups );
     req.body._pages = req.body._pages.concat( findPostGroup._pages );

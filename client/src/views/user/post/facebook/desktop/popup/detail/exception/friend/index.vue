@@ -1,5 +1,5 @@
 <template>
-  <div class="friend--block d_flex align_items_center justify_content_between">
+  <div class="friend--block d_flex align_items_center justify_content_between px_3">
     <div class="friend--info d_flex align_items_center">
       <div class="avatar mr_2">
         <img :src="friend.thumbSrc" alt="">
@@ -20,18 +20,9 @@ export default {
 
 <style scoped lang="scss">
 .friend--block {
-  padding: .25rem 0;
-  .friend--info {
-    .avatar {
-      img {
-        border-radius: 100%;
-        height: 32px;
-        width: 32px;
-      }
-    }
-    .name {
-      font-weight: 600;
-    }
+  padding: .5rem 0;
+  &:hover {
+    background-color: #F7F7F7;
   }
   .checkbox--control {
     input[type="checkbox"] {
@@ -51,7 +42,7 @@ export default {
         height: 2px;
         position: relative;
         left: 3px;
-        top: 42%;
+        top: 48%;
         transition: all .4s ease;
         width: 8px;
       }
@@ -71,10 +62,22 @@ export default {
           height: 2px;
           position: relative;
           left: 4px;
-          top: 42%;
+          top: 48%;
           width: 8px;
         }
       }
+    }
+  }
+  .friend--info {
+    .avatar {
+      img {
+        border-radius: 100%;
+        height: 36px;
+        width: 36px;
+      }
+    }
+    .name {
+      font-weight: 600;
     }
   }
 }

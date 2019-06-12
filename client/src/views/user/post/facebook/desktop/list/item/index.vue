@@ -5,9 +5,14 @@
       <div class="card--header d_flex align_items_center justify_content_between">
         <div class="btn--setting" @click="viewDetail">
           <icon-base
+            class="icon--setting"
+            icon-name="Thiết lập tài khoản"
+            height="20px"
+            width="20px"
+            viewBox="0 0 280 280"
           >
-            <icon-info
-            ></icon-info>
+            <icon-setting
+            ></icon-setting>
           </icon-base>
         </div>
         <div class="btn--remove" @click="isDeleteItemAccount = true">
