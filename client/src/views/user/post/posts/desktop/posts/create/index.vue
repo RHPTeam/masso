@@ -49,13 +49,6 @@ export default {
     currentTheme(){
       return this.$store.getters.themeName;
     }
-  },
-  created (){
-    this.$store.dispatch( "getAllFriendFb" );
-    this.$store.dispatch( "getPlaceFromFb" );
-    this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getActivityFb" );
-    this.$store.dispatch( "getColorFromFb" );
   }
 };
 </script>

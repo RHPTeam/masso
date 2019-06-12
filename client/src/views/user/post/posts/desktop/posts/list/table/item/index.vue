@@ -23,36 +23,7 @@
       </span>
     </div>
     <!-- End: Category Column -->
-    <!-- Start: Image Column -->
-    <div class="col col--image px_2">
-      <div class="" v-if="item.attachments.length === 0"
-      >Không có hình ảnh</div>
-      <div class="d_flex align_items_center justify_content_start"
-            v-else
-      >
-        <div class="image--wrap position_relative mr_2"
-             v-for="( image, index ) in item.attachments.slice(0, 3)"
-             :key="`img-${index}`"
-        >
-          <div class="image--bg"
-               v-if="image.typeAttachment === 1"
-               :style="{ backgroundImage: 'url(' + image.link + ')'}"
-          >
-            <img :src="image.link">
-          </div>
-        </div>
-        <div class="image--wrap position_relative"
-              v-if="item.attachments.length > 3"
-        >
-          <div
-            class="image--wrap-more d_flex align_items_center justify_content_center"
-          >
-            +{{ item.attachments.length - 3 }}
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- End: Image Column -->
+
     <!-- Start: Action Column -->
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="updatePost">
