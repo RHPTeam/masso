@@ -80,6 +80,9 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  components: {
+    VuePerfectScrollbar
+  },
   data() {
     return {
       filtersList: ["Tất cả", "Mọi người", "Nhóm", "Khác"],
@@ -87,9 +90,6 @@ export default {
       searchKeyWord: "",
       isShowSearchRersult: true
     };
-  },
-  async created() {
-    await this.$store.dispatch("getAllFriends");
   },
   computed: {
     allConversationsAcc() {
@@ -125,6 +125,9 @@ export default {
       return this.$store.getters.allFriends;
     }
   },
+  async created() {
+    await this.$store.dispatch("getAllFriends");
+  },
   methods: {
     update() {
       this.$emit("update", this.searchKeyWord);
@@ -155,9 +158,6 @@ export default {
     closeSearch() {
       this.$emit("closeSearch", false);
     }
-  },
-  components: {
-    VuePerfectScrollbar
   }
 };
 </script>

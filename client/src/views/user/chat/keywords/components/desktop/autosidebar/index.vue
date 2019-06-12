@@ -34,6 +34,11 @@ import AutoHeader from "./header";
 import AutoSearch from "./search";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
+  components: {
+    AutoHeader,
+    AutoSearch,
+    VuePerfectScrollbar
+  },
   data() {
     return {
       search: ""
@@ -49,6 +54,9 @@ export default {
       });
     }
   },
+  async created() {
+    await this.$store.dispatch("getSyntaxList");
+  },
   methods: {
     createSyntax() {
       this.$store.dispatch("createSyntax");
@@ -56,14 +64,6 @@ export default {
     showSyntax(syntaxId) {
       this.$store.dispatch("getSyntax", syntaxId);
     }
-  },
-  components: {
-    AutoHeader,
-    AutoSearch,
-    VuePerfectScrollbar
-  },
-  async created() {
-    await this.$store.dispatch("getSyntaxList");
   }
 };
 </script>

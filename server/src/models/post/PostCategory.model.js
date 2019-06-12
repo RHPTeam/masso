@@ -19,11 +19,22 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+PostCategorySchema.index( {
+  "title": "text",
+  "description": "text"
+} );
+
 PostCategorySchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const PostCategory = mongoose.model( "PostCategory", PostCategorySchema );
+
+PostCategorySchema.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = PostCategory;
