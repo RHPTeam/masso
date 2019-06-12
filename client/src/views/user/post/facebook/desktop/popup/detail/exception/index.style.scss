@@ -13,7 +13,6 @@
     .modal--content {
       background-color: #fff;
       border-radius: .625rem;
-      padding: 1.25rem;
       width: 660px;
       .modal--header {
         .title {
@@ -28,6 +27,11 @@
       .modal--body {
         font-size: .875rem;
         margin-top: 0.5rem;
+        .title {
+          color: #999;
+          font-weight: 600;
+          text-transform: uppercase;
+        }
         .search--area {
           &-input {
             border-radius: .625rem;
@@ -49,7 +53,6 @@
           }
         }
       }
-
       .modal--footer {
         font-size: .875rem;
         margin-top: 1.5rem;
@@ -84,6 +87,9 @@
             background-color: #f7f7f7;
           }
         }
+      }
+      .modal--scroll {
+        max-height: calc(100vh - 230px - 6rem);
       }
     }
   }

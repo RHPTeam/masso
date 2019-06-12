@@ -61,6 +61,11 @@
         }
         .post--title {
           font-weight: 600;
+          .see--post {
+            font-size: .75rem;
+            font-style: italic;
+            font-weight: normal;
+          }
         }
         .post--time {
           color: #999;

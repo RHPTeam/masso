@@ -1,11 +1,6 @@
 <template>
   <div class="post--data my_3" :data-theme="currentTheme">
     <div class="item--header d_flex align_items_center px_3 py_2">
-      <!--<div class="col col--checkbox px_2">
-        <label class="detail--checkbox mb_0">
-          <input type="checkbox" />
-        </label>
-      </div>-->
       <div class="col col--name px_2">
         <span
           class="sort"
@@ -47,7 +42,6 @@
         </span>
       </div>
       <div class="col col--category px_2">Danh mục</div>
-      <div class="col col--image px_4">Hình ảnh</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
     <!-- if all post === undefined call component loading -->

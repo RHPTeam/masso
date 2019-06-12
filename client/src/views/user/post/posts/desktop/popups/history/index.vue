@@ -36,6 +36,11 @@
                 {{ item.post.status === false ? "Đã Đăng" : "Chờ tải lên" }}
               </span>
               <span>{{ item.post._post.title }}</span>
+              <span class="see--post" v-if="item.post.status === false">
+                <a target="_blank"
+                   :href="`https://www.facebook.com/${item.facebookInfo.userInfo.id}/posts/${item.post.postID}`"
+                > Xem bài đăng</a>
+              </span>
             </div>
             <!-- End: Post title -->
             <!-- Start: Account group -->
