@@ -25,7 +25,7 @@ const mutations = {
   group_success: (state) => {
     state.groupStatus = "success";
   },
-    // set create item friend
+    // set create item friends
     setCreateGroup: (state, payload) => {
         state.allCreateGroupFriends = payload;
     },
@@ -33,7 +33,7 @@ const mutations = {
     setAllGroupFriend: (state, payload) => {
         state.allGroupFriends = payload;
     },
-    // get id 
+    // get id
     setIdGroupFriend: (state, payload) => {
         state.idGroupFriend = payload;
     },
@@ -49,7 +49,7 @@ const actions = {
   /**
    *
    * @param commit: status, setGroup, setAll item
-   * @param payload: Array id friend
+   * @param payload: Array id friends
    * @returns {Promise<void>}
    */
   addFriendToGroup: async ({commit}, payload) =>  {
@@ -65,7 +65,7 @@ const actions = {
     commit("setAllGroupFriend", resultAllGroup.data.data);
     commit("group_success");
   },
-    // create item friend
+    // create item friends
   createGroupFriend: async ({ commit }, payload) => {
       await GroupFriend.createGroupFriend( payload );
 
@@ -73,12 +73,12 @@ const actions = {
       commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
 
-    // get all item friend
+    // get all item friends
   getAllGroupFriend: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
-    // update Group friend
+    // update Group friends
     updateGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.updateGroupFriend( payload._id, payload );
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
@@ -91,7 +91,7 @@ const actions = {
     commit("setGroupFriend", rsGetId.data.data);
     },
 
-    // delete item friend
+    // delete item friends
     deleteGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.deleteGroupFriends( payload._id );
         const rsDelete = await GroupFriend.getAllGroupFriends();

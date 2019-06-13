@@ -11,7 +11,7 @@ const findDeepVocative = ( vocative, input ) => {
 
 module.exports = {
   /**
-   * Handle vocate before do something with friend receiver
+   * Handle vocate before do something with friends receiver
    * @param  {Object}  receiver     [description]
    * @param  {Array}  vocative [description]
    * @return {Promise}          [description]

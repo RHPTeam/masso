@@ -1,5 +1,5 @@
 /**
- * Create route friend for project
+ * Create route friends for project
  * author: hoc-anms
  * date: 28/05/2019
  * team: BE-RHP

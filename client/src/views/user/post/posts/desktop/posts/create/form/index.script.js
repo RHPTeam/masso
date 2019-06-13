@@ -65,7 +65,7 @@ export default {
     categories() {
       return this.$store.getters.allCategories;
     },
-    //Get friend Facebook
+    //Get friends Facebook
     friendFb() {
       if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
       return this.$store.getters.allFriend;
@@ -76,7 +76,7 @@ export default {
         return this.colorFb[2].textFormats.slice(0, 11);
       }
     },
-    // Get friend from item 1 to end
+    // Get friends from item 1 to end
     moreFriend(){
       if(this.post && this.post.tags && this.post.tags.length > 0) {
         return this.post.tags.slice(1);

@@ -16,7 +16,7 @@
         />
         <!-- End: Group -->
         <!-- Start: Search -->
-        <div class="page--group-search mb_2 mt_3">
+        <div class="page--group-search mb_2 mt_3" :data-theme="currentTheme">
           <span class="ml_2">
             <icon-base
               class="ic--search"
@@ -74,11 +74,14 @@ export default {
       search: ""
     }
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   created() {
     this.$store.dispatch( "postGroupGroupsSelected", [] );
     this.$store.dispatch( "postGroupPagesSelected", [] );
-  },
-  methods: {
   }
 };
 </script>
@@ -110,4 +113,12 @@ export default {
     }
     }
 }
+
+  .page--group-search[data-theme='dark'] {
+    background-color: #27292d;
+    .search--input {
+      background-color: #27292d;
+      color: #FFFFFF;
+    }
+  }
 </style>

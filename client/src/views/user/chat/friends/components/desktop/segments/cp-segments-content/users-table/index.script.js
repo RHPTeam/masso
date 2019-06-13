@@ -55,7 +55,7 @@ export default {
     // await this.$store.dispatch( "getAllFriendFacebook" );
     await this.$store.dispatch("selectedUIDs", []);
     /**
-     *  get info friend with page = 1 and size default = 20
+     *  get info friends with page = 1 and size default = 20
      * @returns array
      */
     await this.$store.dispatch("getFriendFacebookBySizeDefault", {
@@ -147,7 +147,7 @@ export default {
       return this.$store.getters.friendFacebook;
     },
     /**
-     *  get info all friend
+     *  get info all friends
      * @returns array
      */
     listFriendDefault(){
@@ -155,7 +155,7 @@ export default {
       return this.$store.getters.friendFacebookDefault;
     },
     /**
-     *  get info group friend by id
+     *  get info group friends by id
      * @returns array
      */
     listFriendOfGroup(){
@@ -170,7 +170,7 @@ export default {
       return this.$store.getters.numberPageFriendCurrent;
     },
     /**
-     *  set, get user when select user add to group friend
+     *  set, get user when select user add to group friends
      *  save array in store
      * @returns array
      */
@@ -185,7 +185,7 @@ export default {
   },
   methods: {
     /**
-     *  check currenPage  and dispatch event paginate when load all friend
+     *  check currenPage  and dispatch event paginate when load all friends
      *
      * @returns array
      */

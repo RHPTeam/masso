@@ -162,10 +162,10 @@
           <!-- End: Post Analytics -->
 
           <!-- Start: Friend Follow -->
-          <!-- <friend-follow
+          <!-- <friends-follow
             :currentTheme="currentTheme"
           >
-          </friend-follow> -->
+          </friends-follow> -->
           <!-- End: Friend Follow -->
         </div>
       </div>
@@ -179,6 +179,10 @@
       >
       </add-key-word>
       <!-- End: Notification for check key word account-->
+
+      <!-- Start: Notification version updated-->
+      <version-popup v-if="isStatusVersionNotification === false" @close="isReadVersionNotification = $event"></version-popup>
+      <!-- End: Notification version updated-->
 
     </div>
     <!-- End: Desktop Component-->

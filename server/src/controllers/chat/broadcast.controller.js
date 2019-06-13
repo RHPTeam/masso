@@ -779,7 +779,7 @@ module.exports = {
         ( id ) => id.id === req.query._blockId
       )[ 0 ];
 
-      // add friend to block in broadcast
+      // add friends to block in broadcast
       if ( req.query._blockId ) {
         if ( !block ) {
           return res
@@ -906,7 +906,7 @@ module.exports = {
     /**
      *  With type broadcast === tin nhắn gửi ngay
      */
-    // add friend to block in broadcast
+    // add friends to block in broadcast
     if ( req.query._blockId ) {
       const result = foundBroadcast.blocks[ 0 ];
 
@@ -1042,7 +1042,7 @@ module.exports = {
         .json( jsonResponse( "Broadcast không tồn tại!", null ) );
     }
 
-    // delete friend in block
+    // delete friends in block
     if ( req.query._blockId ) {
       const findBlock = foundBroadcast.blocks.filter(
         ( x ) => x.id === req.query._blockId

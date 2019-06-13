@@ -1,5 +1,5 @@
-import DeletePopup from "../../../../../../components/popups/delete/index";
-import AddGroupPopup from "../popup/addgroup/index";
+import DeletePopup from "@/components/popups/delete";
+import AddGroupPopup from "../popup/addgroup";
 
 export default {
   components: {

@@ -46,7 +46,7 @@ export default {
       {
         text: "Nhóm & Trang",
         icon: {
-          iconName: "friend",
+          iconName: "friends",
           tagName: "icon-friend",
           width: 20,
           height: 20,
@@ -68,7 +68,7 @@ export default {
       ]
     };
   },
-  methods: {    
+  methods: {
     closeFlagDropdown(){
       this.isShowFlagDropdown = false;
     },

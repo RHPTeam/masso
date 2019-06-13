@@ -61,11 +61,11 @@
                     </span>
                   </span>
                   <!--End: Show activity -->
-                  <!--Start: Show tag friend-->
+                  <!--Start: Show tag friends-->
                   <span>
                     <span v-if="post.tags && post.tags.length === 0"></span>
                     <span v-else>
-                        <!--Start:  If tag 1 friend-->
+                        <!--Start:  If tag 1 friends-->
                         <span class="result" v-if="post.tags && post.tags.length === 1">
                           <span>với </span>
                           <span class="text--orange"
@@ -75,8 +75,8 @@
                             {{ post.tags[0].text }}
                           </span>
                         </span>
-                        <!--End: If tag 1 friend-->
-                        <!--Start: If tags over 1 friend-->
+                        <!--End: If tag 1 friends-->
+                        <!--Start: If tags over 1 friends-->
                         <span v-else class="result">
                           <span>với <span class="text--orange"
                                           v-if="post.tags"
@@ -95,10 +95,10 @@
                             </div>
                           </span>
                         </span>
-                        <!--End: If tags over 1 friend-->
+                        <!--End: If tags over 1 friends-->
                     </span>
                   </span>
-                  <!--End: Show tag friend-->
+                  <!--End: Show tag friends-->
 
                   <!--Start: Show check in -->
                   <span class="ml_1">
@@ -179,11 +179,11 @@
                     </span>
                   </span>
                   <!--End: Show activity -->
-                  <!--Start: Show tag friend-->
+                  <!--Start: Show tag friends-->
                   <span>
                     <span v-if="post.tags && post.tags.length === 0"></span>
                     <span v-else>
-                        <!--Start:  If tag 1 friend-->
+                        <!--Start:  If tag 1 friends-->
                         <span class="result" v-if="post.tags && post.tags.length === 1">
                           <span>với </span>
                           <span class="text--orange"
@@ -193,8 +193,8 @@
                             {{ post.tags[0].text }}
                           </span>
                         </span>
-                      <!--End: If tag 1 friend-->
-                      <!--Start: If tags over 1 friend-->
+                      <!--End: If tag 1 friends-->
+                      <!--Start: If tags over 1 friends-->
                         <span v-else class="result">
                           <span>với <span class="text--orange"
                                           v-if="post.tags"
@@ -213,10 +213,10 @@
                             </div>
                           </span>
                         </span>
-                      <!--End: If tags over 1 friend-->
+                      <!--End: If tags over 1 friends-->
                     </span>
                   </span>
-                  <!--End: Show tag friend-->
+                  <!--End: Show tag friends-->
 
                   <!--Start: Show check in -->
                   <span class="ml_1">

@@ -1,7 +1,7 @@
 <template>
   <div class="d_flex flex_column position_relative" role="chat">
     <vue-perfect-scrollbar class="p_2" :style="{ height: contentMessengerHeight + 'px' }">
-      <!-- Start: Info friend-->
+      <!-- Start: Info friends-->
       <div class="info d_flex align_items_center p_3" role="above">
         <div class="avatar mr_3" :style="{backgroundImage: 'url('+srcTest+')'}"></div>
         <div role="infomation">
@@ -9,7 +9,7 @@
           <p class="m_0">Các bạn là bạn bè kết nối trên zinbee</p>
         </div>
       </div>
-      <!-- End: Info friend-->
+      <!-- End: Info friends-->
 
       <!-- Start: chat content-->
       <div class="inside py_2">

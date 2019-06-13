@@ -137,14 +137,14 @@
       </div>
       <!-- GO MESSAGER -->
       <div class="go--mess">
-       
+
       </div>
     </div>
     <!-- End User Table Header -->
     <!--Start: Loading Component-->
     <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
 <!--      <loading-component-->
-<!--        class="friend text_center pt_3"-->
+<!--        class="friends text_center pt_3"-->
 <!--      />-->
       <!--End: Loading Component-->
 
