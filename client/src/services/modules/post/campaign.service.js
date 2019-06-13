@@ -17,6 +17,9 @@ export default {
   getCampaignById( id ) {
     return Api().get( `campaigns?_id=${id}` );
   },
+  searchCampaignsByKey( keyword, size, page ) {
+    return Api().post( `campaigns/search?keyword=${keyword}&_size=${size}&_page=${page}` );
+  },
   getCampaignsByPage( size, page ) {
     return Api().get( `campaigns?_size=${size}&_page=${page}` );
   },

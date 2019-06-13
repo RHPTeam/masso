@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected" ],
+  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -36,21 +36,30 @@ export default {
     },
   },
   async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
-    goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+    async goToPage( page ) {
+      if(this.search.length > 0) {
 
-      this.$store.dispatch( "getCategoriesByPage", dataSender );
+        const dataSender = {
+          keyword: this.search,
+          size: this.this.filterShowList.id,
+          page: page
+        };
+
+        await this.$store.dispatch("getCategoriesByKey", dataSender);
+
+      } else {
+
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch( "getCategoriesByPage", dataSender );
+      }
+
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

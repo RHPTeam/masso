@@ -60,6 +60,18 @@ export default {
       return this.$store.getters.categories;
     }
   },
+  watch: {
+    search(val) {
+      if(val.length === 0) {
+        const dataSender = {
+          size: this.sizeDefault,
+          page: this.pageDefault
+        };
+
+        this.$store.dispatch( "getCategoriesByPage", dataSender );
+      }
+    }
+  },
   methods: {
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );

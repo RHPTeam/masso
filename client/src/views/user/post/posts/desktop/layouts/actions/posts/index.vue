@@ -15,10 +15,11 @@
           <icon-input-search />
         </icon-base>
       </span>
-        <input type="text"
-               placeholder="Tìm kiếm"
-               v-model="search"
-               @input="updateSearch()"
+        <input
+          type="text"
+          placeholder="Tìm kiếm"
+          v-model="search"
+          @keydown.enter="updateSearch"
         />
       </div>
     </div>
@@ -29,7 +30,7 @@
         :filterSelected="filterShowSelected"
         @updateFilterSelected="updateFilterShowSelected($event)"
       />
-      <app-filter
+      <app-filter-categories
         :filterList="filterCategoriesList"
         :filterSelected="filterCategorySelected"
         @updateFilterSelected="updateFilterCategorySelected($event)"
@@ -40,12 +41,14 @@
 
 <script>
 import AppFilter from "../../filter/index";
+import AppFilterCategories from "../../filterCategories";
 
 export default {
   components: {
-    AppFilter
+    AppFilter,
+    AppFilterCategories
   },
-  props: [ "filterCategorySelected", "filterShowSelected" ],
+  props: [ "filterCategorySelected", "filterShowSelected", "currentPage" ],
   data() {
     return {
       filterShowList: [
@@ -54,27 +57,28 @@ export default {
         { id: 100, name: "Hiển thị 100" }
       ],
       filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
-      search: ""
+      search: "",
+      sizeDefault: 25,
+      pageDefault: 1
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    allCategories() {
-      return this.$store.getters.allCategories;
+    }
+  },
+  watch: {
+    search(val) {
+      if(val.length === 0) {
+        const dataSender = {
+          size: this.sizeDefault,
+          page: this.currentPage
+        };
+        this.$store.dispatch("getPostsByPage", dataSender);
+      }
     }
   },
   async created() {
-    await this.$store.dispatch( "getAllCategories" );
-    await this.allCategories.forEach( ( item ) => {
-      const data = {
-        id: item._id,
-        name: item.title
-      };
-
-      this.filterCategoriesList.push( data );
-    } );
   },
   methods: {
     updateFilterShowSelected( val ) {
@@ -84,6 +88,13 @@ export default {
       this.$emit( "updateFilterCategorySelected", val );
     },
     updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: this.sizeDefault,
+        page: this.currentPage
+      };
+      this.$store.dispatch("getPostsByKey", dataSender);
+
       this.$emit( "updateSearch", this.search );
     }
   }

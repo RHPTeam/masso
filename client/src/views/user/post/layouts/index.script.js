@@ -37,7 +37,7 @@ export default {
       this.timer = new Date( Date.now() );
     },
     startUpdateTimer() {
-      this.timer = setInterval( this.setTimer, 1000 );
+      this.timer = setInterval( this.setTimer, 5000 );
     },
     stopUpdateTimer() {
       clearInterval( this.timer );
@@ -59,7 +59,7 @@ export default {
       } else if (
         ( parseInt( value.getHours() ) >= 18 && parseInt( value.getHours() ) <= 23 ) || ( parseInt( value.getHours() ) >= 0 && parseInt( value.getHours() ) <= 5 )
       ) {
-        this.$store.dispatch( "changeThemeName", "light" );
+        this.$store.dispatch( "changeThemeName", "dark" );
       }
     }
   },
