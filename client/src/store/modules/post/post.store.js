@@ -23,7 +23,7 @@ const state = {
   newestPost: []
 };
 const getters = {
-  allPost: ( state ) => state.allPost,
+  allPost: ( state ) => state.allPost.reverse(),
   errorPost: ( state ) => state.errorPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
@@ -67,7 +67,7 @@ const mutations = {
     state.setPostByCate = payload;
   },
   setPostsPage: ( state, payload ) => {
-    state.postsPage = payload;
+    state.allPost = payload;
   },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
@@ -75,18 +75,22 @@ const mutations = {
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
   },
-
-  // get newest post
-  setNewestPost: (state, payload) => {
-    state.newestPost = payload;
+  setUpdatePost: (state, payload) => {
+    const position = state.allPost.map((item,index) => {
+      if (payload._id === item._id) return index;
+    });
+    state.allPost[position] = payload;
   }
 };
 const actions = {
   createNewPost: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const resultPostCreate = await PostServices.createNewPost( payload );
 
+    const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
+
+    const resultAllPost = await PostServices.index();
+    commit( "setAllPost", resultAllPost.data.data );
 
     commit( "post_success" );
   },
@@ -129,10 +133,19 @@ const actions = {
     commit( "post_request" );
 
     const res = await PostServices.getPostsByPage( payload.size, payload.page );
-
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
+
+    commit( "post_success" );
+  },
+  getPostsByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
 
     commit( "post_success" );
   },
@@ -142,7 +155,6 @@ const actions = {
     // commit( "post_success" );
   },
   setPostDefault: async ({ commit }, payload) => {
-    console.log(payload);
     commit("set_post", payload);
   },
   setPostArray: async ({commit}, payload) => {
@@ -156,8 +168,7 @@ const actions = {
 
     await PostServices.updatePost( payload._id, payload );
 
-    const resultPost = await PostServices.index();
-    commit( "setAllPost", resultPost.data.data );
+    commit("setUpdatePost", payload);
 
     commit( "post_success" );
   },

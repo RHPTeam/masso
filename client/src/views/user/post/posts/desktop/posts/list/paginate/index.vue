@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ postsPage.length }} trong số {{ totalPost }}
+      Hiển thị {{ allPosts.length }} trong số {{ totalPost }}
     </div>
     <paginate
       :pageCount="postsPageSize"
@@ -17,7 +17,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected" ],
+  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -48,12 +48,25 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+      if(this.search.length > 0) {
 
-      await this.$store.dispatch( "getPostsByPage", dataSender );
+        const dataSender = {
+          keyword: this.search,
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch("getPostsByKey", dataSender);
+      } else  {
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch( "getPostsByPage", dataSender );
+
+      }
+
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
     },
     updateCurrentPage( val ) {

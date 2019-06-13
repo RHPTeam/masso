@@ -17,6 +17,9 @@ export default {
   getPostsByPage( size, page ) {
     return Api().get( `posts?_size=${size}&_page=${page}` );
   },
+  searchByKey(keyword, size, page){
+    return Api().post(`posts/search?keyword=${keyword}&_size=${size}&_page=${page}`);
+  },
   updatePost ( postId, content ) {
     return Api().patch( `posts?_postId=${postId}`, content );
   },

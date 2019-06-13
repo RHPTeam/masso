@@ -4,6 +4,7 @@
     <app-action
       :filterCategorySelected="filterCategorySelected"
       :filterShowSelected="filterShowSelected"
+      :currentPage="currentPage"
       @updateFilterCategorySelected="filterCategorySelected = $event"
       @updateFilterShowSelected="updateFilterShowSelected($event)"
       @updateSearch="search = $event"
@@ -20,6 +21,7 @@
     <!-- Start: pagination post-->
     <div class="mt_3">
       <app-paginate
+        :search="search"
         :currentPage="currentPage"
         :filterShowSelected="filterShowSelected"
       />
@@ -57,7 +59,7 @@ export default {
         page: this.currentPage
       };
 
-      this.$store.dispatch( "getPostsByPage", dataSender );
+      // this.$store.dispatch( "getPostsByPage", dataSender );
     }
   }
 };

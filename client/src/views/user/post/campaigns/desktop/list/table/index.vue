@@ -134,7 +134,7 @@
 		<!-- Start: Table Body Empty Data-->
 		<div
 			class="item--body d_flex align_items_center justify_content_center px_3 py_2"
-			v-if="filteredCampaigns.length === 0"
+			v-if="campaigns.length === 0"
 		>
 			Không có dữ liệu.
 		</div>
@@ -142,7 +142,7 @@
 		<!-- Start: Table Body -->
 		<transition-group v-else name="list-transition">
 			<div class="item--body d_flex align_items_center px_3 py_2"
-			v-for="( campaign, index ) in filteredCampaigns"
+			v-for="( campaign, index ) in campaigns"
 			:key="`cp-${index}`"
 			>
 				<!--<div class="col col--checkbox px_2">
