@@ -3,19 +3,17 @@
     <div class="section d_flex align_items_center mb_4">
       <div class="tabs"
            role="category"
-           :class="isActive === true ? 'active' : 'off'"
-           :style="event.post_category && event.post_category.length > 0 ? 'active' : ''"
+           :style="[ caseEvent.post === 1 ? { borderColor: event.color, color: event.color } : null ]"
            @click="selectPostType( 1 )"
       >
         <div
           class="d_flex align_items_center justify_content_center"
-          :style="[ isActive === true ? { borderColor: event.color, color: event.color } : null ]"
         >
           <div class="title mr_2">Đăng bài viết từ danh mục</div>
           <div class="icon position_relative">
             <icon-base
               class="icon--info"
-              :style="[ isActive === true ? { stroke: event.color, color: event.color } : null ]"
+              :style="[ caseEvent.post === 1 ? { stroke: event.color, color: event.color } : null ]"
               height="14"
               width="14"
               viewBox="0 0 18 18"
@@ -28,19 +26,17 @@
       </div>
       <div class="tabs"
            role="custom"
-           :class="{ active: isOption }"
-           :style="event.post_custom && event.post_custom.length > 0 ? 'active' : ''"
+           :style="[ caseEvent.post === 2 ? { borderColor: event.color, color: event.color } : null ]"
            @click="selectPostType( 2 )"
       >
         <div
           class="d_flex align_items_center justify_content_center"
-          :style="[ isOption === true ? { borderColor: event.color, color: event.color } : null ]"
         >
           <div class="title mr_2">Tùy chọn đăng bài viết cụ thể</div>
           <div class="icon position_relative">
             <icon-base
               class="icon--info"
-              :style="[ isOption === true ? { stroke: event.color, color: event.color } : null ]"
+              :style="[ caseEvent.post === 2 ? { stroke: event.color, color: event.color } : null ]"
               height="14"
               width="14"
               viewBox="0 0 18 18"
@@ -120,13 +116,14 @@ export default {
     border: 1px solid $mainDark;
   }
   .tabs {
+    border-bottom: 2.25px solid transparent;
     background-color: #fff;
     cursor: pointer;
     color: #999;
     font-weight: 600;
     flex: 0.5;
     padding: .65rem;
-    transition: color .4s ease;
+    transition: all .4s ease;
     &:hover{
       color: #666;
       .icon {
@@ -166,9 +163,6 @@ export default {
       width: 300px;
       z-index: 9;
     }
-  }
-  .active {
-    border-bottom: 2.25px solid;
   }
   .off {
     border-bottom: 0 !important;
