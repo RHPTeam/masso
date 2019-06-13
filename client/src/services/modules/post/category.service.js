@@ -11,6 +11,9 @@ export default {
   getByPage(size, page) {
     return Api().get(`post-categories?_size=${size}&_page=${page}`);
   },
+  searchByKey(keyword, size, page) {
+    return Api().post(`post-categories/search?keyword=${keyword}&_size=${size}&_page=${page}`);
+  },
   show( pcId ) {
     return Api().get( `post-categories?_id=${pcId}` );
   },

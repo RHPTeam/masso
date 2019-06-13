@@ -13,13 +13,13 @@ const Account = require( "../models/Account.model" ),
 
 module.exports = {
   "show": async ( req, res ) => {
-    const userInfo = await Account.findOne( { "_id": req.uid } ).lean();
+    const userInfo = await Account.findOne( { "_id": req.uid } ).select( "-password" ).lean();
 
     res.status( 200 ).json( jsonResponse( "success", userInfo ) );
   },
   "update": async ( req, res ) => {
     const { body, file } = req,
-      userInfo = await Account.findOne( { "_id": req.uid } );
+      userInfo = await Account.findOne( { "_id": req.uid } ).select( "-password" );
 
     let data, resUserSync, avatar;
 

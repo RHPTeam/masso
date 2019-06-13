@@ -21,6 +21,7 @@
     <app-footer
       :currentPage="currentPage"
       :filterShowSelected="filterShowSelected"
+      :search="search"
       @updateCurrentPage="currentPage = $event"
     />
     <!-- End: Footer -->

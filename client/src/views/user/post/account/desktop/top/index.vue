@@ -88,6 +88,12 @@ export default {
 
 .main--top[data-theme="dark"] {
   background: $mainDark;
+  button:disabled,
+  button[disabled] {
+    background-color: #282a2d;
+    border: 1px solid #484848;
+    color: #ccc;
+  }
 }
 
 </style>

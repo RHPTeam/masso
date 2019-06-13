@@ -56,7 +56,10 @@ export default {
     };
   },
   async created() {
-    await this.$store.dispatch( "getAllCategories" );
+    const cate = this.$store.getters.allCategories;
+    if(cate.length  === 0) {
+      await this.$store.dispatch( "getAllCategories" );
+    }
   },
   methods: {
     updateCategory( category ) {

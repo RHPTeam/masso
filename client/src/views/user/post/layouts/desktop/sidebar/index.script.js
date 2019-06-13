@@ -64,18 +64,7 @@ export default {
           viewBox: "0 0 24 24"
         },
         to: "post_fbaccount"
-      },
-        {
-          text: "Hỗ trợ tài khoản",
-          icon: {
-            iconName: "auto",
-            tagName: "icon-autopost",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 320 320"
-          },
-          to: "post_support"
-        }
+      }
       ]
     };
   },

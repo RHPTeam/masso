@@ -20,13 +20,13 @@
       </div>
 
       <div class="item--wrap" v-else>
-        <div v-if="filterCategories.length === 0"
+        <div v-if="categories.length === 0"
              class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
           Không có dữ liệu
         </div>
         <div v-else>
           <item-categories
-            v-for="(item, index) in filterCategories"
+            v-for="(item, index) in categories"
             :key="index"
             :item="item"
             @updateCategory="updateCategory($event)"
@@ -37,6 +37,7 @@
       <!-- Start: Paginate Categories -->
       <div class="mt_3">
         <category-paginate
+          :search="search"
           :currentPage="currentPage"
           :filterShowSelected="filterShowSelected"
           @updateCurrentPage="updateCurrentPage($event)"

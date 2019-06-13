@@ -1,5 +1,5 @@
 <template>
-  <div class="profile">
+  <div class="profile" :data-theme="currentTheme">
     <div class="body">
       <div class="title mb_2">Chọn tài khoản bạn muốn đăng lên trang cá nhân</div>
       <div class="account--list">
@@ -43,6 +43,9 @@
 export default {
   props: [ "postSchedule" ],
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     allAccountFB() {
       return this.$store.getters.accountsFB;
     },
@@ -119,6 +122,14 @@ export default {
         color: #444;
         font-size: .875rem;
       }
+    }
+  }
+
+  // ============ CHANGE THEME 
+
+  .profile[data-theme="dark"] {
+    .title {
+      color: #ccc;
     }
   }
 </style>

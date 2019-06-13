@@ -93,6 +93,7 @@ const dictionary = require( "../../configs/dictionaries" ),
 module.exports = {
   "index": async ( req, res ) => {
     let page = null,
+      data = null,
       dataResponse = null;
 
     if ( req.query._id ) {
@@ -104,16 +105,18 @@ module.exports = {
         .populate( { "path": "_categories", "select": "_id title" } )
         .lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Post.find( { "_account": req.uid } )
+      data = ( await Post.find( { "_account": req.uid } )
         .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() ).slice(
+        .lean() );
+      dataResponse = data.slice(
         ( Number( req.query._page ) - 1 ) * Number( req.query._size ),
         Number( req.query._size ) * Number( req.query._page )
       );
     } else if ( req.query._size ) {
-      dataResponse = ( await Post.find( { "_account": req.uid } )
+      data = ( await Post.find( { "_account": req.uid } )
         .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() ).slice( 0, Number( req.query._size ) );
+        .lean() );
+      dataResponse = data.slice( 0, Number( req.query._size ) );
     } else if (
       Object.entries( req.query ).length === 0 && req.query.constructor === Object
     ) {
@@ -123,21 +126,21 @@ module.exports = {
     }
 
     if ( req.query._size ) {
-      if ( dataResponse.length % req.query._size === 0 ) {
-        page = Math.floor( dataResponse.length / req.query._size );
+      if (
+        data.length % req.query._size === 0
+      ) {
+        page = Math.floor(
+          data.length / req.query._size
+        );
       } else {
-        page = Math.floor( dataResponse.length / req.query._size ) + 1;
+        page = Math.floor(
+          data.length / req.query._size
+        ) + 1;
       }
 
       return res
         .status( 200 )
-        .json(
-          jsonResponse( "success", {
-            "results": dataResponse,
-            "page": page,
-            "total": dataResponse.length
-          } )
-        );
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page, "total": data.length } ) );
     }
 
     // Check when user get one
@@ -432,12 +435,7 @@ module.exports = {
         } );
     }
 
-    let page = null,
-      dataResponse = null,
-      data = await Post.find( {
-        "$text": { "$search": req.query.keyword, "$language": "none" },
-        "_account": req.uid
-      } ).lean();
+    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() );
 
     if ( req.query._size && req.query._page ) {
       dataResponse = data.slice(
@@ -456,9 +454,7 @@ module.exports = {
       }
     }
 
-    res
-      .status( 200 )
-      .json( { "status": "success", "data": { "results": dataResponse, "page": page } } );
+    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page, "total": data.length } } );
   },
   "getNewestPosts": async ( req, res ) => {
     const data = await Post.find( { "_account": req.uid } )

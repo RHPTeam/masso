@@ -7,14 +7,14 @@
         <div class="desc mr_3">Bắt đầu:</div>
         <time-picker
           v-if="event.type_event === 0"
-          :value.sync="time"
+          :value="time"
           @change="changeTimeSetup"
         />
         <date-picker
-          v-model="event.started_at"
+          :value="event.started_at"
           class="ml_3"
           format="DD/MM/YYYY"
-          @change="changeDateSetup"
+          @change="changeDateSetup( $event )"
         />
       </div>
       <div class="break d_flex align_items_center" v-if="event.type_event === 0">
@@ -51,8 +51,8 @@ export default {
     },
     time() {
       return {
-        HH: ( new Date( this.event.started_at ) ).getHours(),
-        mm: ( new Date( this.event.started_at ) ).getMinutes()
+        HH: String( ( new Date( this.event.started_at ) ).getHours() ).padStart( 2, 0 ),
+        mm: String( ( new Date( this.event.started_at ) ).getMinutes() ).padStart( 2, 0 )
       }
     }
   },
