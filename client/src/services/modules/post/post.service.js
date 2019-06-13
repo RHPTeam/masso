@@ -31,5 +31,10 @@ export default {
   },
   deletePost( id ) {
     return Api().delete( `posts?_postId=${id}` );
+  },
+
+  // get Newest Post
+  getNewestPost( number ) {
+    return Api().get( `posts/newest?number=${number}` );
   }
 };

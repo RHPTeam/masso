@@ -145,16 +145,13 @@
 @media only screen and (max-width: 1366px) {
   .campaigns--data {
     .col--name {
-      width: calc(82% - 280px - 3rem);
+      width: calc(82% - 280px - 2rem);
     }
     .col--desc {
       display: none;
     }
     .col--start {
-      width: 14%;
-    }
-    .col--finish {
-      width: 14%;
+      width: 18%;
     }
     .col--status {
       width: calc(160px + 1rem);

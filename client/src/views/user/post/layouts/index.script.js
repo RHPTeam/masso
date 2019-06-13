@@ -14,7 +14,6 @@ export default {
   },
   created() {
     this.startUpdateTimer();
-    this.$store.dispatch( "getUserInfo" );
 
     // Check Login
     this.setCheckLogin();
@@ -37,7 +36,7 @@ export default {
       this.timer = new Date( Date.now() );
     },
     startUpdateTimer() {
-      this.timer = setInterval( this.setTimer, 5000 );
+      this.timer = setInterval( this.setTimer, 1000 );
     },
     stopUpdateTimer() {
       clearInterval( this.timer );

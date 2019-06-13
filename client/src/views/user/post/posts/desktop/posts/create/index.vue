@@ -9,7 +9,7 @@
         :to="{ name: 'post_posts' }"
         active-class="active"
         exact
-      >Tất cả bài viết</router-link
+      >Quay lại</router-link
       >
       <div class="divider"></div>
       <router-link

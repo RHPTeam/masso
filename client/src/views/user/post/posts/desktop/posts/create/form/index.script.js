@@ -88,8 +88,8 @@ export default {
 
   },
   async created (){
-    const info = this.$store.getters.post;
-    if (Object.entries(info).length === 0 && info.constructor === Object) {
+    const infoStatus = this.$store.getters.statusOnePost;
+    if (infoStatus !== 'success') {
       await this.$store.dispatch( "getPostById", this.$route.params.id );
     }
 

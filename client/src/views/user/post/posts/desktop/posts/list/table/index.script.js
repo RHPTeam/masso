@@ -34,16 +34,15 @@ export default {
     }
   },
   async created  () {
-    // const post = this.$store.getters.allPost;
-    // if(post.length === 0) {
-    //   await this.$store.dispatch("getAllPost");
-    // }
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-    console.log(dataSender);
-    await this.$store.dispatch( "getPostsByPage", dataSender );
+    const post = this.$store.getters.allPost;
+    if(post.length === 0) {
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+    }
+
   },
   methods: {
     activeCurrentSort( i, type ) {
