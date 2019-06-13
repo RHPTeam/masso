@@ -124,11 +124,11 @@
                   <div class="flex-row" role="columnheader">Danh mục</div>
                   <div class="flex-row" role="columnheader">Hình ảnh</div>
                 </div>
-                <div v-if="allPost.length > 0">
+                <div v-if="newestPost.length > 0">
                   <div
                     class="flex-table row"
                     role="rowgroup"
-                    v-for="(item, index) in fivePost"
+                    v-for="(item, index) in newestPost"
                     :key="index"
                     @click="goToThisPost(item._id)"
                   >

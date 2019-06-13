@@ -85,6 +85,11 @@ const generalPostRouter = {
           component: require( "@/views/user/post/facebook/desktop/detail" ).default
         }
       ]
+    },
+    {
+      path: "support",
+      name: "post_support",
+      component: require( "@/views/user/post/support" ).default
     }
   ]
 };

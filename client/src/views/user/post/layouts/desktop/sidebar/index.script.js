@@ -74,7 +74,7 @@ export default {
             height: 20,
             viewBox: "0 0 320 320"
           },
-          to: "post_auto"
+          to: "post_support"
         }
       ]
     };

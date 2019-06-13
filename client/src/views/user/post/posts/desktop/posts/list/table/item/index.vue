@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     updatePost() {
+      console.log("updatePost");
       this.$store.dispatch( "getPostById", this.item._id );
       this.$router.push( {
         name: "post_update_post",
