@@ -42,9 +42,9 @@
           <svg class="bd--placeholder-img rounded mr_2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img"><rect fill="#007aff" width="100%" height="100%"></rect></svg>
           <strong class="mr_auto">Thông báo</strong>
           <small class="text_muted">vừa xong</small>
-          <button type="button" class="ml_2 mb_1 close" data-dismiss="toast" aria-label="Close">
+          <!-- <button type="button" class="ml_2 mb_1 close" data-dismiss="toast" aria-label="Close">
             <span aria-hidden="true">×</span>
-          </button>
+          </button> -->
         </div>
         <div class="toast--body">
           Chúng tôi nhận thấy rằng, kết nối mạng của bạn bị

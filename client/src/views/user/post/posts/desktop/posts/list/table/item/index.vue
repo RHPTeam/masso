@@ -43,10 +43,10 @@
       </span>
       <span class="mx_1" @click="showPostNowPopup">
         <icon-base
-          class="icon--send"
+          class="icon--post-now"
           icon-name="Đăng ngay"
           viewBox="0 0 506 506">
-          <icon-send></icon-send>
+          <icon-post-now />
         </icon-base>
       </span>
     </div>
@@ -63,6 +63,7 @@ export default {
   },
   methods: {
     updatePost() {
+      console.log("updatePost");
       this.$store.dispatch( "getPostById", this.item._id );
       this.$router.push( {
         name: "post_update_post",

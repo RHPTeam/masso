@@ -28,6 +28,7 @@ Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
 Vue.component( "IconCheck", () => import( "@/components/icons/IconCheck" ) );
 Vue.component( "IconCheckActive", () => import( "@/components/icons/IconCheckActive" ) );
+Vue.component( "IconCookie", () => import( "@/components/icons/IconCookie" ) );
 Vue.component( "IconConf", () => import( "@/components/icons/IconConf" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
 Vue.component( "IconCustom", () => import( "@/components/icons/IconCustom" ) );

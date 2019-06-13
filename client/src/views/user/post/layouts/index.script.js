@@ -14,7 +14,6 @@ export default {
   },
   created() {
     this.startUpdateTimer();
-    this.$store.dispatch( "getUserInfo" );
 
     // Check Login
     this.setCheckLogin();

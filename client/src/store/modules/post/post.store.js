@@ -19,7 +19,8 @@ const state = {
   postsPage: [],
   postsPageSize: 1,
   statusPost: "",
-  totalPost: null
+  totalPost: null,
+  newestPost: []
 };
 const getters = {
   allPost: ( state ) => state.allPost,
@@ -30,7 +31,8 @@ const getters = {
   postsPage: ( state ) => state.postsPage.reverse(),
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
-  totalPost: ( state ) => state.totalPost
+  totalPost: ( state ) => state.totalPost,
+  newestPost: state => state.newestPost
 };
 const mutations = {
   post_request: ( state ) => {
@@ -72,6 +74,11 @@ const mutations = {
   },
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
+  },
+
+  // get newest post
+  setNewestPost: (state, payload) => {
+    state.newestPost = payload;
   }
 };
 const actions = {
@@ -175,7 +182,14 @@ const actions = {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
+  },
+
+  // get newest post -- Khanh 13.06
+  getNewestPosts: async ({ commit }, payload) => {
+    const resGetNewestPost = await PostServices.getNewestPost(payload);
+    commit("setNewestPost", resGetNewestPost.data.data);
   }
+
 };
 
 export default {

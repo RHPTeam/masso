@@ -95,6 +95,7 @@ export default {
     await this.$store.dispatch( "getColorFromFb" );
 
     await this.$store.dispatch( "getPostById", this.$route.params.id );
+    console.log("Created");
   },
   watch: {
     /**
