@@ -69,3 +69,25 @@
 .popup-enter, .popup-leave-to {
   opacity: 0;
 }
+
+
+// CHANEG THEME
+
+.modal--wrapper[data-theme="dark"] {
+  .modal--content {
+    background-color: #282a2d;
+  }
+  .wrapper--content {
+    .taggle {
+      background: #282a2d;
+      border: 1px solid #484848;
+      transition: 0.4s;
+      &:hover {
+        border-color: #999;
+      }
+      .new-tag {
+        color: #ccc;
+      }
+    }
+  }
+}

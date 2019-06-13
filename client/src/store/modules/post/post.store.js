@@ -91,6 +91,10 @@ const mutations = {
       if (payload === item._id) return index;
     });
     state.allPost.slice(position, 1);
+  },
+  // setNewestPost
+  setNewestPost: (state, payload) => {
+    state.newestPost = payload;
   }
 };
 const actions = {

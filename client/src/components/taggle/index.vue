@@ -90,7 +90,9 @@
 
 /* DARK */
 .vue-input-tag-wrapper[data-theme="dark"]{
-  
+  .new-tag {
+    color: #ccc;
+  }
 }
 
 

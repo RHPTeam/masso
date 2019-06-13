@@ -77,3 +77,12 @@
     }
   }
 }
+
+
+// ================ CHANGE THEME 
+
+.target[data-theme="dark"] {
+  .icon {
+    color: #ccc;
+  }
+}

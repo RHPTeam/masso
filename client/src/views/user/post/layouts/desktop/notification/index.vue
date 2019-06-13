@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :data-theme="currentTheme">
     <div class="position_absolute" style="bottom: 1rem; left: 1rem;">
 
       <!-- Then put toasts within -->
@@ -64,6 +64,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     accountFacebookList() {
       return this.$store.getters.accountsFB;
     }
@@ -79,7 +82,6 @@ export default {
   .close {
     font-size: 1.3125rem;
     line-height: 1;
-    color: #000;
     text-shadow: 0 1px 0 #fff;
     opacity: .5;
   }
@@ -118,14 +120,14 @@ export default {
       border-bottom: 1px solid rgba(0,0,0,.05);
     }
     &--body {
-      background-color: rgb(255, 255, 255);
       color: rgba( 0, 0, 0, .6);
       padding: .75rem;
     }
   }
 
-  .toast, .toast--header {
-    background-color: rgba(255,255,255,.85);
+  .toast {
+    background-color: #fff;
+    color: #000;
   }
 
   .fade {
@@ -134,5 +136,23 @@ export default {
 
   .im {
     color: rgba(255, 0, 3, 0.56);
+  }
+
+
+  //  ================== CHANGE THEME 
+
+  div[data-theme="dark"] {
+    .toast {
+      background-color: #27292d;
+      &--header {
+        color: #ccc;
+      }
+      &--body {
+        color: #999;
+      }
+      .im {
+        color: #ffb94a;
+      }
+    }
   }
 </style>
