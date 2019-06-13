@@ -61,6 +61,17 @@ const actions = {
 
     commit( "cate_success"  );
   },
+  getCategoriesByKey: async (  { commit }, payload ) => {
+    commit( "cate_request"  );
+
+    const res = await CategoriesServices.searchByKey( payload.keyword, payload.size, payload.page );
+    console.log(res.data.data);
+
+    commit( "setCategoriesPage", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
+
+    commit( "cate_success"  );
+  },
   createCategory: async ( { commit }, payload ) => {
     try {
       commit( "cate_request" );

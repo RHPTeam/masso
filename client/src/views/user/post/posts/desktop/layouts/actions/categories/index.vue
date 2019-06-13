@@ -18,7 +18,7 @@
         <input type="text"
                placeholder="Tìm kiếm"
                v-model="search"
-               @input="updateSearch()"
+               @keydown.enter="updateSearch"
         />
       </div>
     </div>
@@ -47,7 +47,9 @@ export default {
         { id: 50, name: "Hiển thị 50" },
         { id: 100, name: "Hiển thị 100" }
       ],
-      search: ""
+      search: "",
+      sizeDefault: 25,
+      pageDefault: 1
     }
   },
   computed: {
@@ -62,7 +64,13 @@ export default {
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );
     },
-    updateSearch() {
+    async updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: this.sizeDefault,
+        page: this.pageDefault
+      };
+      await this.$store.dispatch("getCategoriesByKey", dataSender);
       this.$emit( "updateSearch", this.search );
     }
   }
