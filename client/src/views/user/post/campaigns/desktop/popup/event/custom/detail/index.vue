@@ -116,6 +116,8 @@ export default {
         key: "post_custom",
         value: []
       } );
+      // Remove target_category
+      // this.$store.dispatch( "setEventRemove", "target_category" );
     },
     removePostSelect( id ) {
       this.$store.dispatch( "setEventPostRemove", id );

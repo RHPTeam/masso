@@ -64,7 +64,7 @@
             height="25"
             viewBox="0 0 25 25"
           >
-            <icon- />
+            <icon-help />
           </icon-base>
         </a>
       </div>
