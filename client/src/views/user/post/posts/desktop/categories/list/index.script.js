@@ -32,12 +32,12 @@ export default {
     }
   },
   async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getCategoriesByPage", dataSender );
+    // const dataSender = {
+    //   size: this.filterShowSelected.id,
+    //   page: this.currentPage
+    // };
+    //
+    // await this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {

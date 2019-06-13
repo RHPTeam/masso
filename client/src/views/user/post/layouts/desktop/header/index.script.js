@@ -19,7 +19,8 @@ export default {
           status: true
         }
       ],
-      marketUrl: `${process.env.VUE_APP_PARENT_URL}/#/market`
+      marketUrl: `${process.env.VUE_APP_PARENT_URL}/#/market`,
+      urlGetCookie: "https://chrome.google.com/webstore/detail/zinbee/ddeikniimmegijgfmbbjohajkkbmcndp?authuser=1"
     };
   },
   async created() {
@@ -71,6 +72,9 @@ export default {
     },
     redirectToHelp() {
       window.location = `${process.env.VUE_APP_PARENT_URL}help`;
+    },
+    redirectToGetCookie(){
+      window.location.href = "https://chrome.google.com/webstore/detail/zinbee/ddeikniimmegijgfmbbjohajkkbmcndp?authuser=1";
     },
     showOptionsMoreDropdown(){
       this.isShowOptionsMoreDropdown = true;

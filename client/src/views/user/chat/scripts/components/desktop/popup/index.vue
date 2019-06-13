@@ -36,15 +36,15 @@
 import IconBase from "@/components/icons/IconBase";
 import IconLogo from "@/components/icons/IconLogo";
 export default {
+  comments: {
+    IconBase,
+    IconLogo
+  },
   props: ["showModal"],
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     }
-  },
-  comments: {
-    IconBase,
-    IconLogo
   }
 };
 </script>

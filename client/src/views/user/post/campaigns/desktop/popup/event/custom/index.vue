@@ -1,64 +1,50 @@
 <template>
   <div class="main position_relative" v-if="caseEvent">
     <div class="section d_flex align_items_center mb_4">
-      <div class="tabs d_flex align_items_center justify_content_center"
+      <div class="tabs"
            role="category"
-           :class="isActive === true ? 'active' : 'off'"
-           :style="[ isActive === true ? { borderColor: event.color, color: event.color } : null ]"
+           :style="[ caseEvent.post === 1 ? { borderColor: event.color, color: event.color } : null ]"
            @click="selectPostType( 1 )"
       >
-        <!--<div class="icon--left mr_2">
-          <icon-base
-            class="icon--categories"
-            height="16"
-            width="16"
-            viewBox="0 0 420 420"
-          >
-            <icon-categories></icon-categories>
-          </icon-base>
-        </div>-->
-        <div class="title mr_2">Đăng bài viết từ danh mục</div>
-        <div class="icon position_relative">
-          <icon-base
-            class="icon--info"
-            :style="[ isActive === true ? { stroke: event.color, color: event.color } : null ]"
-            height="14"
-            width="14"
-            viewBox="0 0 18 18"
-          >
-            <icon-info/>
-          </icon-base>
-          <div class="card--text position_absolute">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
+        <div
+          class="d_flex align_items_center justify_content_center"
+        >
+          <div class="title mr_2">Đăng bài viết từ danh mục</div>
+          <div class="icon position_relative">
+            <icon-base
+              class="icon--info"
+              :style="[ caseEvent.post === 1 ? { stroke: event.color, color: event.color } : null ]"
+              height="14"
+              width="14"
+              viewBox="0 0 18 18"
+            >
+              <icon-info/>
+            </icon-base>
+            <div class="card--text position_absolute">Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
+          </div>
         </div>
       </div>
-      <div class="tabs d_flex align_items_center justify_content_center"
+      <div class="tabs"
            role="custom"
-           :class="{ active: isOption }"
-           :style="[ isOption === true ? { borderColor: event.color, color: event.color } : null ]"
+           :style="[ caseEvent.post === 2 ? { borderColor: event.color, color: event.color } : null ]"
            @click="selectPostType( 2 )"
       >
-        <!--<div class="icon--left mr_2">
-          <icon-base
-            class="icon--reply-post"
-            height="16"
-            width="16"
-            viewBox="0 0 500 500"
-          >
-            <icon-reply-post></icon-reply-post>
-          </icon-base>
-        </div>-->
-        <div class="title mr_2">Tùy chọn đăng bài viết cụ thể</div>
-        <div class="icon position_relative">
-          <icon-base
-            class="icon--info"
-            :style="[ isOption === true ? { stroke: event.color, color: event.color } : null ]"
-            height="14"
-            width="14"
-            viewBox="0 0 18 18"
-          >
-            <icon-info/>
-          </icon-base>
-          <div class="card--text position_absolute">Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
+        <div
+          class="d_flex align_items_center justify_content_center"
+        >
+          <div class="title mr_2">Tùy chọn đăng bài viết cụ thể</div>
+          <div class="icon position_relative">
+            <icon-base
+              class="icon--info"
+              :style="[ caseEvent.post === 2 ? { stroke: event.color, color: event.color } : null ]"
+              height="14"
+              width="14"
+              viewBox="0 0 18 18"
+            >
+              <icon-info/>
+            </icon-base>
+            <div class="card--text position_absolute">Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
+          </div>
         </div>
       </div>
     </div>
@@ -109,6 +95,7 @@ export default {
       } else if (value === 2) {
         this.isOption = true;
         this.isActive = false;
+        this.$store.dispatch( "setEventRemove", "post_category" );
       }
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
@@ -129,13 +116,14 @@ export default {
     border: 1px solid $mainDark;
   }
   .tabs {
+    border-bottom: 2.25px solid transparent;
     background-color: #fff;
     cursor: pointer;
     color: #999;
     font-weight: 600;
     flex: 0.5;
     padding: .65rem;
-    transition: color .4s ease;
+    transition: all .4s ease;
     &:hover{
       color: #666;
       .icon {
@@ -175,9 +163,6 @@ export default {
       width: 300px;
       z-index: 9;
     }
-  }
-  .active {
-    border-bottom: 2.25px solid;
   }
   .off {
     border-bottom: 0 !important;

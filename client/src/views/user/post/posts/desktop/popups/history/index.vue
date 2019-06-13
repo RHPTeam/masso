@@ -33,9 +33,14 @@
               <span class="post--status mr_1"
                     :class="item.post.status === false ? 'success' : 'uploading' "
               >
-                {{ item.post.status === false ? "Đã Đăng" : "Đang tải lên" }}
+                {{ item.post.status === false ? "Đã Đăng" : "Chờ tải lên" }}
               </span>
               <span>{{ item.post._post.title }}</span>
+              <span class="see--post" v-if="item.post.status === false">
+                <a target="_blank"
+                   :href="`https://www.facebook.com/${item.facebookInfo.userInfo.id}/posts/${item.post.postID}`"
+                > Xem bài đăng</a>
+              </span>
             </div>
             <!-- End: Post title -->
             <!-- Start: Account group -->
@@ -77,8 +82,10 @@ export default {
   },
   methods: {
     dateTimeFormat( date ) {
-      const dateTime = new Date( date ),
-            hour = String( dateTime.getHours() ).padStart( 2, 0 ),
+      let dateTime = new Date( date );
+      dateTime.setMinutes(dateTime.getMinutes() + 1);
+
+      const hour = String( dateTime.getHours() ).padStart( 2, 0 ),
             min = String( dateTime.getMinutes() ).padStart( 2, 0 ),
             day = String( dateTime.getDate() ).padStart( 2, 0 ),
             month = String( dateTime.getMonth() + 1 ).padStart( 2, 0 ),

@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ postsPage.length }} trong số {{ allPosts.length }}
+      Hiển thị {{ postsPage.length }} trong số {{ totalPost }}
     </div>
     <paginate
       :pageCount="postsPageSize"
@@ -33,6 +33,9 @@ export default {
     },
     postsPageSize() {
       return this.$store.getters.postsPageSize;
+    },
+    totalPost(){
+      return this.$store.getters.totalPost;
     }
   },
   async created() {
@@ -42,7 +45,6 @@ export default {
     };
 
     await this.$store.dispatch( "getPostsByPage", dataSender );
-    await this.$store.dispatch( "getAllPost" );
   },
   methods: {
     async goToPage( page ) {

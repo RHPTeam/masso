@@ -72,13 +72,19 @@ const generalPostRouter = {
     },
     {
       path: "f-account",
-      name: "post_fbaccount",
-      component: require( "@/views/user/post/facebook" ).default
-    },
-    {
-      path: "notifications",
-      name: "post_notifications",
-      component: require( "@/views/user/post/notifications" ).default
+      component: require( "@/views/user/post/facebook" ).default,
+      children: [
+        {
+          path: "",
+          name: "post_fbaccount",
+          component: require( "@/views/user/post/facebook/desktop/list" ).default
+        },
+        {
+          path: ":fbAccountId",
+          name: "post_fbaccount_detail",
+          component: require( "@/views/user/post/facebook/desktop/detail" ).default
+        }
+      ]
     }
   ]
 };

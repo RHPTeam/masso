@@ -50,8 +50,11 @@ export default {
     }
   },
   async created() {
-    const campaignId = this.$route.params.campaignId;
-    await this.$store.dispatch( "getCampaignDetail", campaignId );
+    const  camp = this.$store.getters.campaignDetail;
+    if(Object.entries(camp).length === 0 && camp.constructor === Object) {
+      const campaignId = this.$route.params.campaignId;
+      await this.$store.dispatch( "getCampaignDetail", campaignId );
+    }
   },
   methods: {
     async openEventPopup( event ) {

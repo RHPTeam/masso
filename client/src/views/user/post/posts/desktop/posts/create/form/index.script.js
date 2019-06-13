@@ -3,6 +3,7 @@ import ImagePost from "./images/index";
 import TagPost from "./tag/index";
 import CheckinPost from "./checkin/index";
 import ActivityPost from "./activity/index";
+import PostNowPopup from "../../../popups/postnow";
 
 import StringFunction from "@/utils/functions/string";
 
@@ -14,7 +15,8 @@ export default {
     ImagePost,
     TagPost,
     CheckinPost,
-    ActivityPost
+    ActivityPost,
+    PostNowPopup
   },
   data() {
     return {
@@ -36,7 +38,8 @@ export default {
       isShowActivity: false,
       isShowMoreOption: false,
       isActiveImage: false,
-      isShowChangeScrape: false
+      isShowChangeScrape: false,
+      isShowPostNowPopup: false
     };
   },
   computed: {
@@ -84,6 +87,15 @@ export default {
     }
 
   },
+  async created (){
+    await this.$store.dispatch( "getAllFriendFb" );
+    await this.$store.dispatch( "getPlaceFromFb" );
+    await this.$store.dispatch( "getAllCategories" );
+    await this.$store.dispatch( "getActivityFb" );
+    await this.$store.dispatch( "getColorFromFb" );
+
+    await this.$store.dispatch( "getPostById", this.$route.params.id );
+  },
   watch: {
     /**
      * check contetn of post using StringFunction get urls have in content
@@ -102,9 +114,6 @@ export default {
         this.$store.dispatch( "updatePost", this.post );
       }
     }
-  },
-  async created() {
-    await this.$store.dispatch( "getPostById", this.$route.params.id );
   },
   methods: {
     /**
@@ -177,6 +186,11 @@ export default {
     savePost(){
       this.$store.dispatch( "updatePost", this.post );
       this.$router.push( { name: "post_posts" } );
+    },
+    //update post and post now
+    async saveAndPostNow(){
+      await this.$store.dispatch( "updatePost", this.post );
+      this.isShowPostNowPopup = true;
     },
     // Select file images
     selectFile( id ) {

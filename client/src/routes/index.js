@@ -21,7 +21,7 @@ const scrollBehavior = (to, from, savedPosition) => {
       resolve({ x: 0, y: 0 })
     }, 500)
   })
-}
+};
 
 export default new Router( {
   scrollBehavior,

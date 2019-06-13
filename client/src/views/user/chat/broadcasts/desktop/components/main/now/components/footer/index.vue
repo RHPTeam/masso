@@ -61,6 +61,9 @@ export default {
   data() {
     return {};
   },
+  computed: {
+
+  },
   methods: {
     addItemSchedule(type) {
       const dataSender = {
@@ -70,9 +73,6 @@ export default {
       this.$store.dispatch("createBroadcastsNow", dataSender);
       this.$emit("addText", true);
     }
-  },
-  computed: {
-
   }
 };
 </script>

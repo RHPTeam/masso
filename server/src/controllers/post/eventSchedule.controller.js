@@ -155,8 +155,10 @@ module.exports = {
           const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
             pageFacebookInfo = await PageFacebook.find( { "pageId": page } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
 
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
+          console.log(page);
 
+          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
+          console.log(pageFacebookInfo);
           return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
         } ) ) );
 

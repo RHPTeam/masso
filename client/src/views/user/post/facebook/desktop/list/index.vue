@@ -53,12 +53,10 @@
         :showUpgradePro="showUpgradePro"
         @closeAddPopup="showUpgradePro = $event"
       />
-
       <add-account-popup
         v-if="showModal === true"
         @closeAddPopup="showModal = $event"
       ></add-account-popup>
-
       <existed-account-popup
         v-if="this.$store.getters.addAccountError === 'error'"
         :data-theme="currentTheme"
@@ -68,8 +66,8 @@
 </template>
 
 <script>
-import AddAccountPopup from  "./popup/addaccount";
-import ExistedAccountPopup from "./popup/alert/index";
+import AddAccountPopup from "../popup/list/addaccount/index";
+import ExistedAccountPopup from "../popup/list/alert/index";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 import ItemAccount from "./item/index";
 
@@ -80,8 +78,6 @@ export default {
     UpgradeProPopup,
     ItemAccount
   },
-  props: ["accountsFB"],
-
   data() {
     return {
       showModal: false,
@@ -90,8 +86,10 @@ export default {
       subBread: "Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản."
     };
   },
-
   computed: {
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -102,7 +100,9 @@ export default {
       return this.$store.getters.facebookStatus;
     }
   },
-
+  async created() {
+    await this.$store.dispatch( "getAccountsFB" );
+  },
   methods: {
     showPopup() {
       if (this.accountsFB.length >= this.user.maxAccountFb) {
@@ -127,5 +127,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  @import "index.style";
+@import "./index.style";
 </style>

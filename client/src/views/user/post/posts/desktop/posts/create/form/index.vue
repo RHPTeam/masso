@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper py_4 px_3" :data-theme="currentTheme">
+  <div class="wrapper position_relative py_4 px_3" :data-theme="currentTheme">
     <div v-if="post">
       <div class="item mb_4">
         <span>Tên bài viết</span>
@@ -433,10 +433,25 @@
         </div>
       </div>
       <!--End: if array link content dont undefined-->
-      <div class="item" @click="savePost">
-        <button>Lưu</button>
+
+      <div class="footer d_flex align_items_center">
+        <div class="item--button mr_3" @click="savePost">
+          Lưu
+        </div>
+        <div class="item--button" @click="saveAndPostNow">
+          Lưu & Đăng ngay
+        </div>
       </div>
+
     </div>
+
+    <transition name="popup">
+      <post-now-popup
+        v-if="isShowPostNowPopup === true"
+        @closePopup="isShowPostNowPopup = $event"
+        :post="post"
+      ></post-now-popup>
+    </transition>
   </div>
 </template>
 
