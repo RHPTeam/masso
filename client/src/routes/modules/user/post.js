@@ -85,11 +85,6 @@ const generalPostRouter = {
           component: require( "@/views/user/post/facebook/desktop/detail" ).default
         }
       ]
-    },
-    {
-      path: "auto",
-      name: "post_auto",
-      component: require( "@/views/user/post/auto" ).default
     }
   ]
 };

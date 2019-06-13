@@ -136,8 +136,11 @@ export default {
     }
   },
   async created() {
-    const fbAccountId = this.$route.params.fbAccountId;
-    await this.$store.dispatch( "getFBAccountById", fbAccountId );
+    const info = this.$store.getters.fbAccountInfo;
+    if(Object.entries(info).length === 0 && info.constructor === Object) {
+      const fbAccountId = this.$route.params.fbAccountId;
+      await this.$store.dispatch( "getFBAccountById", fbAccountId );
+    }
   },
   methods: {
     formatDate( date ) {

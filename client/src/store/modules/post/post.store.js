@@ -18,7 +18,8 @@ const state = {
   postOfCate: [],
   postsPage: [],
   postsPageSize: 1,
-  statusPost: ""
+  statusPost: "",
+  totalPost: null
 };
 const getters = {
   allPost: ( state ) => state.allPost,
@@ -29,6 +30,7 @@ const getters = {
   postsPage: ( state ) => state.postsPage.reverse(),
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
+  totalPost: ( state ) => state.totalPost
 };
 const mutations = {
   post_request: ( state ) => {
@@ -67,6 +69,9 @@ const mutations = {
   },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
+  },
+  setTotalPost: (state, payload) => {
+    state.totalPost = payload;
   }
 };
 const actions = {
@@ -120,6 +125,7 @@ const actions = {
 
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setTotalPost", res.data.data.total );
 
     commit( "post_success" );
   },

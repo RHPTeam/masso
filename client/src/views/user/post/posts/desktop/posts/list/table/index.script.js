@@ -53,12 +53,12 @@ export default {
     }
   },
   async created  () {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getPostsByPage", dataSender );
+    // const dataSender = {
+    //   size: this.filterShowSelected.id,
+    //   page: this.currentPage
+    // };
+    //
+    // await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
     activeCurrentSort( i, type ) {

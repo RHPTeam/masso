@@ -124,20 +124,20 @@ module.exports = {
 
     if ( req.query._size ) {
       if (
-        ( await Post.find( { "_account": req.uid } ) ).length % req.query._size === 0
+        dataResponse.length % req.query._size === 0
       ) {
         page = Math.floor(
-          ( await Post.find( { "_account": req.uid } ) ).length / req.query._size
+          dataResponse.length / req.query._size
         );
       } else {
         page = Math.floor(
-          ( await Post.find( { "_account": req.uid } ) ).length / req.query._size
+          dataResponse.length / req.query._size
         ) + 1;
       }
 
       return res
         .status( 200 )
-        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page, "total": dataResponse.length } ) );
     }
 
     // Check when user get one
