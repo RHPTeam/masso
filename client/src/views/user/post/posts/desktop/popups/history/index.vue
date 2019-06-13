@@ -74,7 +74,7 @@ export default {
   },
   computed: {
     allPostSchedules() {
-      return this.$store.getters.allPostSchedules.reverse();
+      return this.$store.getters.allPostSchedules;
     }
   },
   async created() {
