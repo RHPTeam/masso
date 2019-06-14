@@ -74,6 +74,7 @@ module.exports = {
     const newCampaign = await new Campaign( {
       "title": req.body.title,
       "description": req.body.description ? req.body.description : "",
+      "status": 1,
       "started_at": req.body.started_at ? req.body.started_at : Date.now(),
       "finished_at": req.body.finished_at ? req.body.finished_at : "",
       "_account": req.uid
@@ -126,7 +127,7 @@ module.exports = {
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
 
-    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events" } ) ) );
   },
   /**
    * Delete campaign

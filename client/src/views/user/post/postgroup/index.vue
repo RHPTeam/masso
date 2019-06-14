@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div class="main" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
@@ -16,7 +16,7 @@
         />
         <!-- End: Group -->
         <!-- Start: Search -->
-        <div class="page--group-search mb_2 mt_3">
+        <div class="page--group-search mb_2 mt_3" :data-theme="currentTheme">
           <span class="ml_2">
             <icon-base
               class="ic--search"
@@ -74,12 +74,22 @@ export default {
       search: ""
     }
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   created() {
     this.$store.dispatch( "postGroupGroupsSelected", [] );
     this.$store.dispatch( "postGroupPagesSelected", [] );
   },
   methods: {
-  }
+  },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
 };
 </script>
 
@@ -109,5 +119,20 @@ export default {
         box-shadow: none;
     }
     }
+}
+
+// =============== CHANGE THEME
+
+.main[data-theme="dark"] {
+  .main--content {
+    .page--group-search {
+      background: #2b2d33;
+      color: #ccc;
+      .search--input {
+        background: #2b2d33;
+        color: #ccc;
+      }
+    }
+  }
 }
 </style>

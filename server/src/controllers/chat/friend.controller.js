@@ -119,7 +119,7 @@ module.exports = {
     }
   },
   /**
-   * Create friend with api facebook
+   * Create friends with api facebook
    * @param req
    * @param res
    *

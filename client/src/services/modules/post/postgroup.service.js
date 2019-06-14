@@ -15,12 +15,9 @@ export default {
     return Api().get( `post-group?_id=${id}` );
   },
   updatePostGroup( data ) {
-    const dataSender = {
-      title: data.title,
-      _pages: data._pages,
-      _groups: data._groups
-    };
-
-    return Api().patch( `post-group?_postGroupId=${data.postGroupId}`, dataSender )
+    return Api().patch( `post-group?_postGroupId=${data.postGroupId}`, data );
+  },
+  deletePagesNGroups( data ) {
+    return Api().patch( `post-group?_postGroupId=${data.id}&type=remove`, data );
   }
 };

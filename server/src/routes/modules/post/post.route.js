@@ -51,4 +51,8 @@ router
   .post( PostController.search );
 router.route( "/sync" ).post( PostController.createSyncFromMarket );
 
+// Get Newest Post
+router
+  .route( "/newest" ).get( PostController.getNewestPosts );
+
 module.exports = router;

@@ -1,5 +1,5 @@
 <template>
-  <div class="perinfo--wrapper">
+  <div class="perinfo--wrapper" :data-theme="currentTheme">
     <div class="title text_left">Thông tin cá nhân</div>
     <div v-if="!user"></div>
     <form v-else class="wrapper--form">

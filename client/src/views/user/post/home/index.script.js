@@ -1,28 +1,36 @@
 import VueApexCharts from 'vue-apexcharts';
-import AddKeyWord from "./addkeyword";
-import FriendFollow from "./friend";
+import AddKeyWord from "./components/keywords";
+import FriendFollow from "./components/friends";
+import VersionPopup from "./components/version";
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    FriendFollow
+    FriendFollow,
+    VersionPopup
   },
   data () {
-    return {};
+    return {
+      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3")
+    };
   },
   computed: {
+    isReadVersionNotification: {
+      set( newValue ) {
+        this.isStatusVersionNotification = newValue;
+      },
+      get() {
+        return this.isStatusVersionNotification
+      }
+    },
     user(){
       return this.$store.getters.userInfo;
     },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    allPost() {
-      return this.$store.getters.allPost;
-    },
-    fivePost() {
-      if(Object.entries(this.allPost).length === 0 && this.allPost.constructor === Object) return;
-      return this.allPost.slice( -5 ).reverse();
+    newestPost() {
+      return this.$store.getters.newestPost;
     },
     allAnalysis() {
       return this.$store.getters.allAnalysis;
@@ -462,11 +470,11 @@ export default {
       }
     }
   },
-  async created() {
-    await this.$store.dispatch("getAllPost" );
-    await this.$store.dispatch("getAllAnalysis" );
-    await this.$store.dispatch("getAllStaticCampagin" ) ;
+  created() {
+    this.$store.dispatch("getAllAnalysis" );
+    this.$store.dispatch("getAllStaticCampagin" ) ;
     this.$store.dispatch("getAllSttPost" );
+    this.$store.dispatch("getNewestPosts", 5);
   },
   methods: {
     goToThisPost( id ) {

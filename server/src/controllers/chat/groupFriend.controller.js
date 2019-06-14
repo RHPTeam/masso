@@ -24,7 +24,7 @@ const checkObjectExist = ( arr, property ) => {
 
 module.exports = {
   /**
-   *  get all item friend & item friend by Id
+   *  get all item friends & item friends by Id
    *  @param req
    *  @param res
    *
@@ -53,7 +53,7 @@ module.exports = {
       .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
   },
   /**
-   *  create item friend
+   *  create item friends
    *  @param req
    *  @param res
    *
@@ -95,7 +95,7 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "Tạo nhóm bạn bè thành công!", newGroupFriend ) );
   },
   /**
-   *  update item friend
+   *  update item friends
    *  @param req
    *  @param res
    *
@@ -111,7 +111,7 @@ module.exports = {
     if ( !foundGroupFriend ) {
       return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
     }
-    // Check name item friend is exist
+    // Check name item friends is exist
     const foundAllGroupFriend = await GroupFriend.find( { "_account": req.uid } );
     let checkName = false;
 
@@ -135,7 +135,7 @@ module.exports = {
     res.status( 201 ).json( jsonResponse( "Cập nhật nhóm bạn bè thành công!", resGroupFriend ) );
   },
   /**
-   *  add friend to item friend
+   *  add friends to item friends
    *  @param req
    *  @param res
    *
@@ -177,7 +177,7 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "Thêm bạn bè vào danh sách bạn bè thành công!", resGroupFriend ) );
   },
   /**
-   *  delete item friend
+   *  delete item friends
    *  @param req
    *  @param res
    *

@@ -1,5 +1,5 @@
 <template>
-  <div class="keyword--wrapper p_3">
+  <div class="keyword--wrapper p_3" :data-theme="currentTheme">
     <div class="wrapper--top mb_3">
       <div class="title mb_1">{{ $t('chat.common.keyProduct.title') }}</div>
       <div class="desc">
@@ -30,7 +30,12 @@ export default {
       this.$store.dispatch( "updateUser", this.user );
       // this.$router.push({name:"post_account"})
     }
-  }
+  },
+  computed: {    
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
 };
 </script>
 
@@ -51,6 +56,24 @@ export default {
   .wrapper--content {
     .taggle {
       border-radius: calc( .5rem + 2px );
+    }
+  }
+}
+
+// CHANEG THEME
+
+// dark
+.keyword--wrapper[data-theme="dark"] {
+  background: #282b2d;
+  .wrapper--content {
+    .taggle {
+      background: #282a2d;
+      color: #ccc;
+      border: 1px solid #484848;
+      transition: 0.4s;
+      &:hover {
+        border-color: #999;
+      }
     }
   }
 }

@@ -6,7 +6,8 @@ const welcomeRouter = {
     requiredAuth: true
   },
   name: "welcome",
-  component: () => import( "@/views/user/_general/welcome" )
+  // component: () => import( "@/views/user/_general/welcome" )
+  redirect: { name: "post_dashboard" }
 };
 
 export default welcomeRouter;

@@ -3,6 +3,7 @@ import ImagePost from "./images/index";
 import TagPost from "./tag/index";
 import CheckinPost from "./checkin/index";
 import ActivityPost from "./activity/index";
+import PostNowPopup from "../../../popups/postnow";
 
 import StringFunction from "@/utils/functions/string";
 
@@ -14,7 +15,8 @@ export default {
     ImagePost,
     TagPost,
     CheckinPost,
-    ActivityPost
+    ActivityPost,
+    PostNowPopup
   },
   data() {
     return {
@@ -36,7 +38,8 @@ export default {
       isShowActivity: false,
       isShowMoreOption: false,
       isActiveImage: false,
-      isShowChangeScrape: false
+      isShowChangeScrape: false,
+      isShowPostNowPopup: false
     };
   },
   computed: {
@@ -62,7 +65,7 @@ export default {
     categories() {
       return this.$store.getters.allCategories;
     },
-    //Get friend Facebook
+    //Get friends Facebook
     friendFb() {
       if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
       return this.$store.getters.allFriend;
@@ -73,7 +76,7 @@ export default {
         return this.colorFb[2].textFormats.slice(0, 11);
       }
     },
-    // Get friend from item 1 to end
+    // Get friends from item 1 to end
     moreFriend(){
       if(this.post && this.post.tags && this.post.tags.length > 0) {
         return this.post.tags.slice(1);
@@ -84,6 +87,18 @@ export default {
     }
 
   },
+  async created (){
+    const infoStatus = this.$store.getters.statusOnePost;
+    if (infoStatus !== 'success') {
+      await this.$store.dispatch( "getPostById", this.$route.params.id );
+    }
+
+    await this.$store.dispatch( "getAllFriendFb" );
+    await this.$store.dispatch( "getPlaceFromFb" );
+    await this.$store.dispatch( "getAllCategories" );
+    await this.$store.dispatch( "getActivityFb" );
+    await this.$store.dispatch( "getColorFromFb" );
+    },
   watch: {
     /**
      * check contetn of post using StringFunction get urls have in content
@@ -102,9 +117,6 @@ export default {
         this.$store.dispatch( "updatePost", this.post );
       }
     }
-  },
-  async created() {
-    await this.$store.dispatch( "getPostById", this.$route.params.id );
   },
   methods: {
     /**
@@ -177,6 +189,11 @@ export default {
     savePost(){
       this.$store.dispatch( "updatePost", this.post );
       this.$router.push( { name: "post_posts" } );
+    },
+    //update post and post now
+    async saveAndPostNow(){
+      await this.$store.dispatch( "updatePost", this.post );
+      this.isShowPostNowPopup = true;
     },
     // Select file images
     selectFile( id ) {

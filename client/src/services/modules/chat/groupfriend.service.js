@@ -4,33 +4,33 @@ export default {
   /**
    *
    * @param grId
-   * @param data has id friend
+   * @param data has id friends
    * @returns {*}
    */
   addFriendGroup( grId, data ){
     return Api().post(`group-friend/addFriend?_groupId=${grId}`, data);
   },
-    // create a item in friend
+    // create a item in friends
     createGroupFriend( name ){
-        return Api().post("group-friend?_name=true", name);
+        return Api().post("group-friends?_name=true", name);
     },
 
-    // get all item friend
+    // get all item friends
     getAllGroupFriends(){
-        return Api().get("group-friend");
+        return Api().get("group-friends");
     },
 
-    // get info group friend by id
+    // get info group friends by id
     getInfoGroupFriend( id ){
       return Api().get(`group-friend?_id=${id}`);
     },
 
-    // update item friend
+    // update item friends
     updateGroupFriend( id, content){
         return Api().patch(`group-friend?_groupId=${id}`, content );
     },
 
-    // delete item friend
+    // delete item friends
     deleteGroupFriends( id ){
         return Api().put(`group-friend?_groupId=${id}`)
     }

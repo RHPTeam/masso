@@ -9,7 +9,7 @@
         :to="{ name: 'post_posts' }"
         active-class="active"
         exact
-      >Tất cả bài viết</router-link
+      >Quay lại</router-link
       >
       <div class="divider"></div>
       <router-link
@@ -49,13 +49,6 @@ export default {
     currentTheme(){
       return this.$store.getters.themeName;
     }
-  },
-  created (){
-    this.$store.dispatch( "getAllFriendFb" );
-    this.$store.dispatch( "getPlaceFromFb" );
-    this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getActivityFb" );
-    this.$store.dispatch( "getColorFromFb" );
   }
 };
 </script>

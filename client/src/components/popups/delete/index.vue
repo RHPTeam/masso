@@ -7,15 +7,20 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} </span>
-              {{ typeName }}
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }}</span>
+            <span>{{ typeName }} </span>
             <span class="text--bold pr_1">{{ targetName }}</span>
-            {{ $t('chat.common.popup.delete.willDelete') }}
-            <span v-if="description !== '' ">{{ description }}</span>
-            
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
+            <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
             <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
+            <span class=""> {{ $t('chat.common.popup.delete.input') }}</span>
+          </div>
+          <div class="desc" v-else>
+            <span>{{ description }}</span>
+            <span class="text--bold pr_1">{{ targetName }}. </span>
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
+            <span class="text--delete">DELETE</span>
+            <span class="pl_1">{{ $t('chat.common.popup.delete.input') }}</span>
           </div>
           <input
             class="modal--body-input mt_3"

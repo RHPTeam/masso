@@ -2,7 +2,7 @@
   <div class="main--footer campaigns--list-footer">
     <div class="d_flex justify_content_between">
       <div class="">
-          Hiển thị {{ campaigns.length }} trong số {{ allCampaigns.length }}
+          Hiển thị {{ campaigns.length }} trong số {{ filterShowSelected.id }}
       </div>
       <div class="campaigns--list-paginate">
         <paginate
@@ -29,9 +29,6 @@ export default {
     }
   },
   computed: {
-    allCampaigns() {
-      return this.$store.getters.allCampaigns;
-    },
     campaigns() {
       return this.$store.getters.campaigns;
     },
@@ -50,12 +47,24 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+      if(this.search.length > 0) {
 
-      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+        const dataSender = {
+          keyword: this.search,
+          size: this.filterShowSelected.id,
+          page: page
+        };
+        await this.$store.dispatch("getCampaignsByKey", dataSender);
+      } else {
+
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch( "getCampaignsByPage", dataSender );
+      }
+
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {

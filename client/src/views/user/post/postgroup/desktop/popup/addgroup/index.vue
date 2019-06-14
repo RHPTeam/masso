@@ -46,5 +46,5 @@
 
 <style lang="scss" scoped>
 @import "../style";
-@import "index.style"
+@import "index.style";
 </style>

@@ -87,9 +87,9 @@ const generalPostRouter = {
       ]
     },
     {
-      path: "auto",
-      name: "post_auto",
-      component: require( "@/views/user/post/auto" ).default
+      path: "support",
+      name: "post_support",
+      component: require( "@/views/user/post/support" ).default
     }
   ]
 };

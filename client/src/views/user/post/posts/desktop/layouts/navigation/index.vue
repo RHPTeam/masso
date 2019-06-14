@@ -1,7 +1,7 @@
 <template>
   <div class="post--navigation d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
     <!-- Start: Navigation Left -->
-    <div class="nav--left d_flex justify_content_start align_items_center">
+    <div class="nav--left d_flex justify_content_start align_items_center mr_auto">
       <div class="btn--create mr_3"
            @click="createPost"
       >Viết bài mới</div>
@@ -24,20 +24,11 @@
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
-    <div class="nav--right">
+    <div class="nav--right d_flex ml_auto">
       <div class="btn--history"
            @click="showHistory"
       >
       Lịch sử đăng bài
-        <!-- <icon-base
-          class="icon--info"
-          icon-name="Lịch sử đăng bài"
-          width="22px"
-          height="22px"
-          viewBox="0 0 20 20"
-        >
-          <icon-info></icon-info> 
-        </icon-base> -->
       </div>
     </div>
     <!-- End: Navigation Right -->
@@ -77,6 +68,7 @@ export default {
       const dataSender = {};
 
       await this.$store.dispatch( "createNewPost", dataSender );
+      await this.$store.dispatch("getPostById", this.newPost._id);
       this.$router.push( {
         name: "post_update_post",
         params: { id: this.newPost._id }
@@ -176,6 +168,31 @@ export default {
     .divider {
       background-color: #666;
     }
+  }
+  .nav--left {
+    button {
+      color: #999999;
+      &:hover,
+      &.active {
+        color: #ffb94a;
+      }
+    }
+    .divider {
+      background-color: #ccc;
+    }
+  }
+}
+
+// ================= RESPONSIVE
+@media screen and (min-width: 768px) and (max-width: 870px) {
+  .post--navigation {
+    flex-direction: column;
+    .nav--left {
+      margin-bottom: 0.875rem;
+    }
+    // .nav--right {
+    //   justify-content: flex-end;
+    // }
   }
 }
 </style>

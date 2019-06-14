@@ -5,7 +5,7 @@ export default {
     return Api().get( "facebook/friends" );
   },
   getFriendsByChat(){
-    return Api().post( "friend");
+    return Api().post( "friends");
   },
   getAllFriendFB( id ) {
     return Api().get( `friend?_fbId=${id}` );

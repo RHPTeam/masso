@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 const state = {
-    themeName: "light",
+    themeName: "",
     collapseMenu: false,
     hideChatSidebar: false
   },

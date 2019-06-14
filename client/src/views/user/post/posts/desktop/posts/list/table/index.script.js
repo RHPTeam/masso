@@ -1,4 +1,4 @@
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item/index";
 import PostNowPopup from "../../../popups/postnow";
@@ -30,35 +30,19 @@ export default {
       return this.$store.getters.themeName;
     },
     allPost() {
-      return this.$store.getters.postsPage;
-    },
-    filterAllPost() {
-      if ( this.filterCategorySelected.id === "all" ) {
-        return this.allPost.filter( ( post ) => {
-          return post.title
-            .toString()
-            .toLowerCase()
-            .includes( this.search.toString().toLowerCase() );
-        } );
-      }
-      return this.allPost.filter( ( post ) => {
-        const checkedArr = post._categories.filter( ( category ) => {
-          return category._id === this.filterCategorySelected.id;
-        } );
-
-        return post.title.toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
-      } );
+      return this.$store.getters.allPost;
     }
   },
   async created  () {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
+    const post = this.$store.getters.allPost;
+    if(post.length === 0) {
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+    }
 
-    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
     activeCurrentSort( i, type ) {

@@ -8,9 +8,15 @@
     .help {
       cursor: pointer;
       > a{
+        margin-top: 5px;
+        display: block;
         svg {
-          fill: #00c853;
-          color: #00c853;
+          // fill: #ffb94a;
+          color: #666;
+          transition: 0.4s;
+          &:hover{
+            color: #ffb94a;
+          }
         }
       }
     }

@@ -1,5 +1,5 @@
 <template>
-  <div class="target mt_4">
+  <div class="target mt_4" :data-theme="currentTheme">
     <div class="header d_flex align_items_center mb_2">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
@@ -129,7 +129,9 @@ export default {
     }
   },
   computed: {
-
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     selectTargetType( value ) {

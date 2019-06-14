@@ -334,7 +334,7 @@ const handleBeforeSendMessageText = async ( data ) => {
   for ( let index = 0; index < attributeList.length; index++ ) {
     // If message exsits keyword in "{{_}}", then we replace keyword to value of that keyword
     if ( data.message.includes( `{{${attributeList[ index ].name}}}` ) ) {
-      // Get friend apply with attribute and check receiver exsits in that friends list
+      // Get friends apply with attribute and check receiver exsits in that friends list
       const applyFriendsList = attributeList[ index ]._friends || [];
 
       if ( applyFriendsList.indexOf( userInfoReceiver._id ) === 0 ) {
@@ -546,7 +546,7 @@ module.exports = {
           let sequence;
           const item = ( val.valueText.split( "," ) )[ Math.floor( Math.random() * ( val.valueText.split( "," ) ).length ) ];
           const foundSequence = await Sequence.findById( item );
-          // Add id friend to sequence
+          // Add id friends to sequence
 
           if ( foundSequence.friends.indexOf( userInfoFriend._id ) < 0 ) {
             foundSequence.friends.push( userInfoFriend._id );

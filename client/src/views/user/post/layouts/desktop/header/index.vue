@@ -59,12 +59,12 @@
       <div class="help mr_2 ml_1">
         <a target="_blank" :href="urlGetCookie">
           <icon-base
-            icon-name="menu"
+            icon-name="extension get cookie"
             width="25"
             height="25"
-            viewBox="0 0 25 25"
+            viewBox="0 0 550 550"
           >
-            <icon- />
+            <icon-cookie />
           </icon-base>
         </a>
       </div>
@@ -76,7 +76,7 @@
         >
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
-            icon-name="bell"
+            icon-name="notifications"
             width="24px"
             height="24px"
             viewBox="0 0 512 512"
