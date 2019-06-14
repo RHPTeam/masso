@@ -1,16 +1,28 @@
 import VueApexCharts from 'vue-apexcharts';
-import AddKeyWord from "./addkeyword";
-import FriendFollow from "./friend";
+import AddKeyWord from "./components/keywords";
+import FriendFollow from "./components/friends";
+import VersionPopup from "./components/version";
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    FriendFollow
+    FriendFollow,
+    VersionPopup
   },
   data () {
-    return {};
+    return {
+      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3")
+    };
   },
   computed: {
+    isReadVersionNotification: {
+      set( newValue ) {
+        this.isStatusVersionNotification = newValue;
+      },
+      get() {
+        return this.isStatusVersionNotification
+      }
+    },
     user(){
       return this.$store.getters.userInfo;
     },
@@ -458,11 +470,10 @@ export default {
       }
     }
   },
-  async created() {
-    // await this.$store.dispatch("getAllPost" );
-    await this.$store.dispatch("getAllAnalysis" );
-    await this.$store.dispatch("getAllStaticCampagin" ) ;
-    await this.$store.dispatch("getAllSttPost" );
+  created() {
+    this.$store.dispatch("getAllAnalysis" );
+    this.$store.dispatch("getAllStaticCampagin" ) ;
+    this.$store.dispatch("getAllSttPost" );
     this.$store.dispatch("getNewestPosts", 5);
   },
   methods: {

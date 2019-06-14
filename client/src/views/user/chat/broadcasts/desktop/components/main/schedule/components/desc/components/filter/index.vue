@@ -59,15 +59,15 @@
             </div>
           </div>
         </div>
-        <!--    Start: popup show more friend-->
+        <!--    Start: popup show more friends-->
         <!-- <transition name="more">
-          <more-friend
+          <more-friends
             v-if="showMoreFriendFilter === true"
             :infoGroupFilter="infoFriendWithConditonIsNot"
             @close="showMoreFriendFilter = $event"
           />
         </transition> -->
-        <!--    End: popup show more friend-->
+        <!--    End: popup show more friends-->
       <!-- </div> -->
       <!--      End: show result filter attribute with condition-->
     </div>
@@ -101,35 +101,35 @@ export default {
     };
   },
   computed: {
-    // Get info item friend when choose segment
+    // Get info item friends when choose segment
     // infoGroupFilter() {
     //   return this.$store.getters.infoGroupFilter._friends;
     // },
-    // // Get info item start 0 to 5 on array item friend
+    // // Get info item start 0 to 5 on array item friends
     // filterMember() {
     //   return this.infoGroupFilter.slice(0, 5);
     // },
-    // // Get info friend when user choose name attribute
+    // // Get info friends when user choose name attribute
     // infoFriendWithNameAttr() {
     //   return this.$store.getters.filterFriendAttribute;
     // },
-    // // Get info item start 0 to 5 on array item friend
+    // // Get info item start 0 to 5 on array item friends
     // sliceFriendWithNameAttr() {
     //   return this.infoFriendWithNameAttr.slice(0, 5);
     // },
-    // // Get info friend when user choose name attribute with condition is value
+    // // Get info friends when user choose name attribute with condition is value
     // infoFriendWithConditonIs() {
     //   return this.$store.getters.filterFriendCondition;
     // },
-    // // Get info item start 0 to 5 on array item friend with condition is
+    // // Get info item start 0 to 5 on array item friends with condition is
     // sliceFriendWithConditionIs() {
     //   return this.infoFriendWithConditonIs.slice(0, 5);
     // },
-    // // Get info friend when user choose name attribute with condition is not value
+    // // Get info friends when user choose name attribute with condition is not value
     // infoFriendWithConditonIsNot() {
     //   return this.$store.getters.filterFriendConditionIsNot;
     // },
-    // // Get info item start 0 to 5 on array item friend with condition is not
+    // // Get info item start 0 to 5 on array item friends with condition is not
     // sliceFriendWithConditionIsNot() {
     //   return this.infoFriendWithConditonIsNot.slice(0, 5);
     // }
@@ -168,28 +168,28 @@ export default {
     //   this.showListUserFilterBefore = false;
     //   this.showListUserFilterDone = event;
     // },
-    // // show result friend when choose segment and hidden option different
+    // // show result friends when choose segment and hidden option different
     // showFriendSegment(event) {
     //   this.showResultFilterSegment = event;
     //   this.showResultFilterNameAttr = false;
     //   this.showResultFilterWithConditionIsNot = false;
     //   this.showResultFilterWithConditionIs = false;
     // },
-    // // show result friend when choose name attribute and hidden option different
+    // // show result friends when choose name attribute and hidden option different
     // showFriendAttr(event) {
     //   this.showResultFilterSegment = false;
     //   this.showResultFilterNameAttr = event;
     //   this.showResultFilterWithConditionIsNot = false;
     //   this.showResultFilterWithConditionIs = false;
     // },
-    // // show result friend when choose condition is attribute and hidden option different
+    // // show result friends when choose condition is attribute and hidden option different
     // showFriendConditionIsNot(event) {
     //   this.showResultFilterSegment = false;
     //   this.showResultFilterNameAttr = false;
     //   this.showResultFilterWithConditionIs = false;
     //   this.showResultFilterWithConditionIsNot = event;
     // },
-    // // show result friend when choose condition is not attribute and hidden option different
+    // // show result friends when choose condition is not attribute and hidden option different
     // showFriendConditionIs(event) {
     //   this.showResultFilterSegment = false;
     //   this.showResultFilterNameAttr = false;

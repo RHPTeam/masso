@@ -207,7 +207,7 @@ let chatAuto = async function( account ) {
       } );
       // Event: Send message friends (Cron Job)
       socket.on( "sendMessageCronFriends", async function( dataEmit ) {
-        // Check dataEmit of friend before cron
+        // Check dataEmit of friends before cron
         const filteredData = dataEmit._friends.filter( ( friend ) => {
           if ( friend._friends.includes( account._id ) ) {
             return friend;
@@ -366,7 +366,7 @@ let chatAuto = async function( account ) {
         }
         // Check if not message, create message and user message
         const userInfoFB = await Friend.findOne( { "userID": receiverID } );
-        // If not friend create message and add to friends
+        // If not friends create message and add to friends
 
         if ( !userInfoFB ) {
           api.getUserInfo( message.senderID, async ( err, ret ) => {

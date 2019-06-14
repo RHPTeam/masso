@@ -58,8 +58,7 @@ export default {
 
         await this.$store.dispatch( "getCategoriesByPage", dataSender );
       }
-
-      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
+      this.$parent.$parent.$parent.$parent.$parent.$el.scrollTop = 0
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

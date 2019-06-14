@@ -3,7 +3,7 @@
     <!-- Start: If create new chat-->
 <!--    <div class="top d_flex align_items_center">-->
 <!--      <div class="" role="to">Đến:</div>-->
-<!--      <div role="right" aria-label="option friend">-->
+<!--      <div role="right" aria-label="option friends">-->
 <!--        <multiselect-->
 <!--          placeholder="Nhập tên của một người hoặc nhóm"-->
 <!--        />-->

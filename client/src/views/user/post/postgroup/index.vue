@@ -16,7 +16,7 @@
         />
         <!-- End: Group -->
         <!-- Start: Search -->
-        <div class="page--group-search mb_2 mt_3">
+        <div class="page--group-search mb_2 mt_3" :data-theme="currentTheme">
           <span class="ml_2">
             <icon-base
               class="ic--search"
@@ -72,6 +72,11 @@ export default {
       groupSelected: false,
       typeFilterSelected: "Tất cả",
       search: ""
+    }
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
     }
   },
   created() {
