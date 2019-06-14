@@ -1,6 +1,14 @@
 .main--header {
   .main--header-top {
     .top--left {
+      .btn--back {
+        cursor: pointer;
+        font-size: .825rem;
+        transition: all .4s ease;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
       .title {
         font-weight: 600;
         .editable {

@@ -3,6 +3,9 @@
     <!-- Start: Header Top -->
     <div class="main--header-top d_flex justify_content_between align_items_center">
       <div class="top--left d_flex align_items_center mr_3">
+        <div class="btn--back mr_3"
+             @click="goBack"
+        >« Quay lại</div>
         <div class="title">
           <contenteditable
             class="editable"
@@ -143,6 +146,9 @@ export default {
             year = dateTime.getFullYear();
 
       return `${date}/${month}/${year}`;
+    },
+    goBack() {
+      this.$router.go(-1);
     },
     openPopupCreateEvent() {
       this.$store.dispatch( "setCaseEvent", {

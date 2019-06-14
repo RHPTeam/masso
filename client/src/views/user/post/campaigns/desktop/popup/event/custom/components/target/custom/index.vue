@@ -21,7 +21,7 @@
               label="name"
               placeholder="Chọn trang muốn đăng"
               :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
-              :options="facePagePost"
+              :options="facebookPages"
               @input="selectPageFacebook"
             />
           </div>
@@ -50,7 +50,7 @@
               label="name"
               placeholder="Chọn nhóm muốn đăng"
               :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
-              :options="faceGroupPost"
+              :options="facebookGroups"
               @input="selectGroupFacebook"
             />
           </div>
@@ -79,15 +79,22 @@ export default {
     }
   },
   computed: {
-
     event () {
       return this.$store.getters.event;
     },
-    faceGroupPost(){
+    facebookGroups(){
       return this.$store.getters.facebookGroups;
     },
-    facePagePost(){
+    facebookPages(){
       return this.$store.getters.facebookPages;
+    }
+  },
+  async created() {
+    if ( this.facebookPages.length === 0 ) {
+      await this.$store.dispatch( "getFacebookPages" );
+    }
+    if ( this.facebookGroups.length === 0 ) {
+      await this.$store.dispatch( "getFacebookGroups" );
     }
   },
   methods: {
@@ -128,69 +135,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.page {
-  .item {
-    .content {
-      flex: 1;
-      .main {
-        border: 1px solid $border-color;
-        border-radius: calc(.5rem + 2px);
-      }
-      .desc {
-        color: #999;
-        font-size: .825rem;
-        span {
-          color: #666;
-          font-weight: 600;
-        }
-      }
-    }
-    .icon {
-      width: 22px;
-      svg {
-        margin-top: 10px;
-      }
-      .icon--group {
-        color: #666;
-        stroke: #666;
-        stroke-width: 8;
-      }
-      .icon--page {
-        color: #6e6e6e;
-        margin-left: 4px;
-      }
-    }
-  }
-  .bottom {
-    .custom--checkbox {
-      input[type="checkbox"] {
-        border-radius: 6px;
-        border: solid 1.5px #cccccc;
-        cursor: pointer;
-        height: 20px;
-        outline: none;
-        width: 20px;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        &:checked {
-          background-color: #ffb94a;
-          border: solid 1px #ffb94a;
-
-          &:before {
-            border-bottom: 2px solid #fff;
-            border-right: 2px solid #fff;
-            content: "";
-            display: block;
-            height: 10px;
-            position: relative;
-            left: 50%;
-            top: 42%;
-            transform: translate(-50%, -50%) rotate(45deg);
-            width: 7px;
-          }
-        }
-      }
-    }
-  }
-}
+@import "./index.style";
 </style>

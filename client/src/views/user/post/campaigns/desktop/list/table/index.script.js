@@ -51,6 +51,9 @@ export default {
     campaigns() {
       return this.$store.getters.campaigns;
     },
+    campaignStatus() {
+      return this.$store.getters.campaignStatus;
+    },
     filteredCampaigns() {
       if ( this.filterStatusSelected.id === "all" ) {
         return this.campaigns.filter( ( item ) => {
@@ -147,8 +150,8 @@ export default {
         this.activeCurrentSort( index, "desc" );
       }
     },
-    viewCampaignDetail( id ) {
-      this.$store.dispatch( "getCampaignDetail", id );
+    async viewCampaignDetail( id ) {
+      await this.$store.dispatch( "getCampaignDetail", id );
       this.$router.push( { name: "post_campaigns_detail",
         params: { campaignId: id } } );
     }

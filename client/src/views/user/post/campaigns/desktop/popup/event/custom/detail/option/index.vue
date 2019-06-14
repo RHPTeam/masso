@@ -131,6 +131,12 @@ export default {
     }
   },
   async created() {
+    if ( this.categories.length === 0 ) {
+      await this.$store.dispatch( "getAllCategories" );
+    }
+    if ( this.allPosts.length === 0 ) {
+      await this.$store.dispatch( "getAllPost" );
+    }
     await this.categories.forEach( ( item ) => {
       const data = {
         id: item._id,

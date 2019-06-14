@@ -131,16 +131,24 @@
 			<div class="col col--action px_4">Hành động</div>
 		</div>
 		<!-- End: Table Header -->
+    <!-- Start: Loading Component -->
+    <div class="p_3"
+         v-if="campaignStatus === 'loading'"
+    >
+      <loading-component></loading-component>
+    </div>
+    <!-- End: Loading Component -->
 		<!-- Start: Table Body Empty Data-->
 		<div
 			class="item--body d_flex align_items_center justify_content_center px_3 py_2"
-			v-if="campaigns.length === 0"
+			v-if="campaignStatus === 'success' && campaigns.length === 0"
 		>
 			Không có dữ liệu.
 		</div>
 		<!-- End: Table Body Empty Data-->
 		<!-- Start: Table Body -->
-		<transition-group v-else name="list-transition">
+		<transition-group v-if="campaignStatus === 'success' && campaigns.length !== 0"
+                      name="list-transition">
 			<div class="item--body d_flex align_items_center px_3 py_2"
 			v-for="( campaign, index ) in campaigns"
 			:key="`cp-${index}`"
