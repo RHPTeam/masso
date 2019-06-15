@@ -35,6 +35,7 @@ export default {
   },
   async created  () {
     const post = this.$store.getters.allPost;
+    console.log(post.length);
     if(post.length === 0) {
       const dataSender = {
         size: this.filterShowSelected.id,
