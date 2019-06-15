@@ -49,7 +49,7 @@
               multiple
               label="name"
               placeholder="Chọn nhóm muốn đăng"
-              :value="event.target_custom.filter( target => target.typeTarget === 0 ).map( item => { if( item.target ) { return { groupId: item.target.groupId, name: item.target.name } } } )"
+              v-model="convertTargetCustomGroups"
               :options="facebookGroups"
               @input="selectGroupFacebook"
             />
@@ -87,6 +87,22 @@ export default {
     },
     facebookPages(){
       return this.$store.getters.facebookPages;
+    },
+    convertTargetCustomGroups: {
+      get() {
+        return this.event.target_custom.filter(
+          target => target.typeTarget === 0
+        ).map( item => {
+          if ( item.target ) {
+            return {
+              groupId: item.target.groupId,
+              name: item.target.name }
+          }
+        } );
+      },
+      set( val ) {
+        this.selectGroupFacebook( val );
+      }
     }
   },
   async created() {

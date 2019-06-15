@@ -7,7 +7,7 @@
           <multiselect
             label="title"
             placeholder="Chọn nhóm muốn đăng"
-            :value="namePostGroup"
+            :value="event.target_category"
             :clearable="false"
             :options="allPostGroups"
             @input="selectFacebookGroup"
@@ -43,23 +43,6 @@ export default {
     },
     allPostGroups(){
       return this.$store.getters.postGroups;
-    },
-    namePostGroup(){
-      let postGroup = {
-        id: "",
-        title: ""
-      };
-      if ( this.event.target_category === undefined ) {
-        return postGroup.name;
-      } else {
-        const id = this.event.target_category;
-        this.allPostGroups.map(item => {
-          if ( item._id === id ) {
-            postGroup.title = item.title;
-          }
-        } );
-        return postGroup.title;
-      }
     }
   },
   async created() {
@@ -72,7 +55,10 @@ export default {
       this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",
-        value: value._id
+        value: {
+          _id: value._id,
+          title: value.title
+        }
       } );
     }
   },

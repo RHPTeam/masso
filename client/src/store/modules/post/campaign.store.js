@@ -102,11 +102,7 @@ const state = {
       await commit( "setCampaignDetail", res.data.data );
     },
     updateCampaignDetail: async ( { commit }, payload ) => {
-      const camp = await CampaignsServices.updateCampaign( payload );
-
-      console.log(camp.data.data);
-      // Get campaign detail
-      const res = await CampaignsServices.getCampaignById( payload.campId );
+      const res = await CampaignsServices.updateCampaign( payload );
       await commit( "setCampaignDetail", res.data.data );
     },
     updateCampaignStatus: async ( { commit }, payload ) => {

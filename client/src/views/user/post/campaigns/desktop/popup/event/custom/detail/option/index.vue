@@ -34,7 +34,9 @@
           ></categories-filter>
         </div>
       </div>
+      <!-- Start: Body -->
       <div class="body">
+        <!-- Start: Header -->
         <div class="result d_flex align_items_center mt_3 px_3 py_2">
           <div class="name text_left pr_3">Tên bài viết</div>
           <div class="categories text_left">Danh mục</div>
@@ -43,14 +45,18 @@
             Hành động
           </div>
         </div>
+        <!-- End: Header -->
         <div v-if="allPosts">
           <div v-if="this.$store.getters.statusPost === 'loading'">
             <loading-component />
           </div>
           <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center" v-if="filterPostsByCategories.length === 0">Không có dữ liệu</div>
           
-          <VuePerfectScrollbar class="scroll-categories">
-            <div class="result--item d_flex align_items_center px_3 py_2" v-for="(post, index) in filterPostsByCategories" :key="`p-${index}`">
+          <VuePerfectScrollbar class="infinite scroll-categories" @ps-y-reach-end="loadMore">
+            <div class="result--item d_flex align_items_center px_3 py_2"
+                 v-for="(post, index) in filterPostsByCategories"
+                 :key="`p-${index}`"
+            >
               <div class="name text_left pr_3">
                 <div class="name--text">{{post.title}}</div>
               </div>
@@ -95,9 +101,12 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
       filterCategorySelected: { id: "all", name: "Tất cả" },
-      search: ""
+      pageSize: 25,
+      search: "",
+      showLoader: true
     }
   },
   computed: {
@@ -128,6 +137,9 @@ export default {
           .toLowerCase()
           .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
       } );
+    },
+    postsPageSize() {
+      return this.$store.getters.postsPageSize;
     }
   },
   async created() {
@@ -135,7 +147,11 @@ export default {
       await this.$store.dispatch( "getAllCategories" );
     }
     if ( this.allPosts.length === 0 ) {
-      await this.$store.dispatch( "getAllPost" );
+      const dataSender = {
+        page: this.currentPage,
+        size: this.pageSize
+      };
+      await this.$store.dispatch( "getPostsByPage", dataSender );
     }
     await this.categories.forEach( ( item ) => {
       const data = {
@@ -157,6 +173,23 @@ export default {
       return this.event.post_custom.filter( ( item ) => {
         return item._id === id;
       }).length > 0
+    },
+    async loadMore() {
+      if ( this.showLoader === true ) {
+        console.log(this.postsPageSize);
+        if ( this.currentPage >= this.postsPageSize ) {
+          console.log("Stop");
+          return false;
+        } else {
+          console.log("Run");
+          this.currentPage += 1;
+
+          await this.$store.dispatch( "getPostsByPage", {
+            page: this.currentPage,
+            size: this.pageSize
+          } );
+        }
+      }
     },
     selectPost( value ) {
       this.$store.dispatch( "setEventPush", {
