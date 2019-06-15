@@ -22,22 +22,15 @@ export default {
     },
     categories() {
       return this.$store.getters.categoriesPage;
-    },
-    filterCategories() {
-      return this.categories.filter( ( category ) => {
-        return category.title.toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() );
-      } );
     }
   },
   async created() {
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-    //
-    // await this.$store.dispatch( "getCategoriesByPage", dataSender );
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {

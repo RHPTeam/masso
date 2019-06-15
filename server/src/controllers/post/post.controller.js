@@ -93,6 +93,7 @@ const dictionary = require( "../../configs/dictionaries" ),
 module.exports = {
   "index": async ( req, res ) => {
     let page = null,
+      data = null,
       dataResponse = null;
 
     if ( req.query._id ) {
@@ -104,16 +105,18 @@ module.exports = {
         .populate( { "path": "_categories", "select": "_id title" } )
         .lean();
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Post.find( { "_account": req.uid } )
+      data = ( await Post.find( { "_account": req.uid } )
         .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() ).slice(
+        .lean() );
+      dataResponse = data.slice(
         ( Number( req.query._page ) - 1 ) * Number( req.query._size ),
         Number( req.query._size ) * Number( req.query._page )
       );
     } else if ( req.query._size ) {
-      dataResponse = ( await Post.find( { "_account": req.uid } )
+      data = ( await Post.find( { "_account": req.uid } )
         .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() ).slice( 0, Number( req.query._size ) );
+        .lean() );
+      dataResponse = data.slice( 0, Number( req.query._size ) );
     } else if (
       Object.entries( req.query ).length === 0 && req.query.constructor === Object
     ) {
@@ -124,20 +127,20 @@ module.exports = {
 
     if ( req.query._size ) {
       if (
-        dataResponse.length % req.query._size === 0
+        data.length % req.query._size === 0
       ) {
         page = Math.floor(
-          dataResponse.length / req.query._size
+          data.length / req.query._size
         );
       } else {
         page = Math.floor(
-          dataResponse.length / req.query._size
+          data.length / req.query._size
         ) + 1;
       }
 
       return res
         .status( 200 )
-        .json( jsonResponse( "success", { "results": dataResponse, "page": page, "total": dataResponse.length } ) );
+        .json( jsonResponse( "success", { "results": dataResponse, "page": page, "total": data.length } ) );
     }
 
     // Check when user get one
@@ -167,6 +170,7 @@ module.exports = {
         "_id": req.query._postId,
         "_account": req.uid
       } ),
+      // eslint-disable-next-line no-unused-vars
       listPostOldSchedule = await PostSchedule.find( {
         "_post": req.query._postId,
         "_account": req.uid
@@ -201,12 +205,10 @@ module.exports = {
 
     // Check validator
     if ( !req.body.title || req.body.title.length === 0 ) {
-      return res
-        .status( 403 )
-        .json( {
-          "status": "fail",
-          "title": "Tiêu đề bài đăng không được bỏ trống!"
-        } );
+      return res.status( 403 ).json( {
+        "status": "fail",
+        "title": "Tiêu đề bài đăng không được bỏ trống!"
+      } );
     } else if (
       req.body.scrape && /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm.test(
         req.body.scrape
@@ -217,7 +219,10 @@ module.exports = {
         .json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
 
-    req.body.content = req.body.content.replace( /(<br \/>)|(<br>)/gm, "\n" ).replace( /(<\/p>)|(<\/div>)/gm, "\n" ).replace( /(<([^>]+)>)/gm, "" );
+    req.body.content = req.body.content
+      .replace( /(<br \/>)|(<br>)/gm, "\n" )
+      .replace( /(<\/p>)|(<\/div>)/gm, "\n" )
+      .replace( /(<([^>]+)>)/gm, "" );
 
     res
       .status( 201 )
@@ -263,24 +268,20 @@ module.exports = {
       } );
 
       if ( !findPostOfAttachment ) {
-        return res
-          .status( 404 )
-          .json( {
-            "status": "error",
-            "message": "Ảnh không tồn tại trong bài đăng này!"
-          } );
+        return res.status( 404 ).json( {
+          "status": "error",
+          "message": "Ảnh không tồn tại trong bài đăng này!"
+        } );
       }
       Post.updateOne(
         { "_id": req.query._postId },
         { "$pull": { "attachments": { "_id": req.query._attachmentId } } },
         ( err ) => {
           if ( err ) {
-            return res
-              .status( 500 )
-              .json( {
-                "status": "error",
-                "message": "Hệ thống xảy ra lỗi trong quá trình xóa"
-              } );
+            return res.status( 500 ).json( {
+              "status": "error",
+              "message": "Hệ thống xảy ra lỗi trong quá trình xóa"
+            } );
           }
         }
       );
@@ -307,23 +308,27 @@ module.exports = {
     const findPostSchedule = await PostSchedule.find( { "_account": req.uid } )
         .populate( { "path": "_post", "select": "title" } )
         .lean(),
-      resData = await Promise.all( findPostSchedule.map( async ( postSchedule ) => {
-        let findAccountFacebook = await Facebook.findOne( {
-          "_account": req.uid,
-          "cookie": postSchedule.cookie
-        } ).select( "-cookie" ).lean();
+      resData = await Promise.all(
+        findPostSchedule.map( async ( postSchedule ) => {
+          let findAccountFacebook = await Facebook.findOne( {
+            "_account": req.uid,
+            "cookie": postSchedule.cookie
+          } )
+            .select( "-cookie" )
+            .lean();
 
-        return {
-          "facebookInfo": findAccountFacebook,
-          "post": {
-            "feed": postSchedule.feed,
-            "status": postSchedule.status,
-            "started_at": postSchedule.started_at,
-            "postID": postSchedule.postID,
-            "_post": postSchedule._post
-          }
-        };
-      } ) );
+          return {
+            "facebookInfo": findAccountFacebook,
+            "post": {
+              "feed": postSchedule.feed,
+              "status": postSchedule.status,
+              "started_at": postSchedule.started_at,
+              "postID": postSchedule.postID,
+              "_post": postSchedule._post
+            }
+          };
+        } )
+      );
 
     res.status( 200 ).json( jsonResponse( "success", resData ) );
   },
@@ -372,13 +377,10 @@ module.exports = {
 
     // check break point
     if ( req.body.break_point < 5 ) {
-      return res
-        .status( 403 )
-        .json( {
-          "status": "fail",
-          "message":
-            "Bạn không thể cài đặt thời gian giữa các lần đăng nhỏ hơn 5p"
-        } );
+      return res.status( 403 ).json( {
+        "status": "fail",
+        "message": "Bạn không thể cài đặt thời gian giữa các lần đăng nhỏ hơn 5p"
+      } );
     }
     if ( req.body._facebookId ) {
       const listPostSchedule = await Promise.all(
@@ -425,13 +427,21 @@ module.exports = {
   },
   "search": async ( req, res ) => {
     if ( req.query.keyword === undefined ) {
-      return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
+      return res
+        .status( 404 )
+        .json( {
+          "status": "fail",
+          "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!"
+        } );
     }
 
-    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).lean() );
+    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() );
 
     if ( req.query._size && req.query._page ) {
-      dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
+      dataResponse = data.slice(
+        ( Number( req.query._page ) - 1 ) * Number( req.query._size ),
+        Number( req.query._size ) * Number( req.query._page )
+      );
     } else if ( req.query._size ) {
       dataResponse = data.slice( 0, Number( req.query._size ) );
     }
@@ -444,6 +454,13 @@ module.exports = {
       }
     }
 
-    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page } } );
+    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page, "total": data.length } } );
+  },
+  "getNewestPosts": async ( req, res ) => {
+    const data = await Post.find( { "_account": req.uid } )
+      .sort( { "$natural": -1 } )
+      .limit( parseInt( req.query.number ) ).populate( { "path": "_categories", "select": "_id title" } );
+    
+    res.status( 200 ).json( jsonResponse( "success", data ) );
   }
 };

@@ -19,10 +19,12 @@ const state = {
   postsPage: [],
   postsPageSize: 1,
   statusPost: "",
-  totalPost: null
+  statusOnePost: "",
+  totalPost: null,
+  newestPost: []
 };
 const getters = {
-  allPost: ( state ) => state.allPost,
+  allPost: ( state ) => state.allPost.reverse(),
   errorPost: ( state ) => state.errorPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
@@ -30,11 +32,16 @@ const getters = {
   postsPage: ( state ) => state.postsPage.reverse(),
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
-  totalPost: ( state ) => state.totalPost
+  statusOnePost: ( state ) => state.statusOnePost,
+  totalPost: ( state ) => state.totalPost,
+  newestPost: state => state.newestPost
 };
 const mutations = {
   post_request: ( state ) => {
     state.statusPost = "loading";
+  },
+  post_request_success: (state, payload) => {
+    state.statusOnePost = payload
   },
   post_success: ( state ) => {
     state.statusPost = "success";
@@ -65,39 +72,43 @@ const mutations = {
     state.setPostByCate = payload;
   },
   setPostsPage: ( state, payload ) => {
-    state.postsPage = payload;
+    state.allPost = payload;
   },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
   },
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
+  },
+  setUpdatePost: (state, payload) => {
+    const position = state.allPost.map((item,index) => {
+      if (payload._id === item._id) return index;
+    });
+    state.allPost[position] = payload;
+  },
+  setDeletePost: (state, payload) => {
+    const position = state.allPost.map( (item, index) => {
+      if (payload === item._id) return index;
+    });
+    state.allPost.slice(position, 1);
   }
 };
 const actions = {
   createNewPost: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const resultPostCreate = await PostServices.createNewPost( payload );
 
+    const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
+
+    const resultAllPost = await PostServices.index();
+    commit( "setAllPost", resultAllPost.data.data );
 
     commit( "post_success" );
   },
   deletePost: async ( { commit }, payload ) => {
-    const posts = state.postsPage.filter( ( post ) => {
-      return post._id = payload.id;
-    } );
-
-    let res;
-
-    await commit( "setPostsPage", posts );
-    await commit( "setPostsPageSize", posts.length );
 
     await PostServices.deletePost( payload.id );
-
-    res = await PostServices.getPostsByPage( payload.size, payload.page );
-    await commit( "setPostsPage", res.data.data.results );
-    await commit( "setPostsPageSize", res.data.data.page );
+    commit("setDeletePost", payload.id);
   },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
@@ -110,6 +121,8 @@ const actions = {
 
     const resultPost = await PostServices.getById( payload );
     commit( "setPost", resultPost.data.data );
+
+    commit("post_request_success", resultPost.data.status);
     commit( "post_success" );
   },
   getPostByCategories: async ( { commit }, payload ) => {
@@ -122,10 +135,19 @@ const actions = {
     commit( "post_request" );
 
     const res = await PostServices.getPostsByPage( payload.size, payload.page );
-
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
+
+    commit( "post_success" );
+  },
+  getPostsByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
 
     commit( "post_success" );
   },
@@ -135,7 +157,6 @@ const actions = {
     // commit( "post_success" );
   },
   setPostDefault: async ({ commit }, payload) => {
-    console.log(payload);
     commit("set_post", payload);
   },
   setPostArray: async ({commit}, payload) => {
@@ -149,8 +170,7 @@ const actions = {
 
     await PostServices.updatePost( payload._id, payload );
 
-    const resultPost = await PostServices.index();
-    commit( "setAllPost", resultPost.data.data );
+    commit("setUpdatePost", payload);
 
     commit( "post_success" );
   },
@@ -161,8 +181,8 @@ const actions = {
     const resultPostById = await PostServices.getById( payload._id );
     commit( "setPost", resultPostById.data.data );
 
-    const resultPost = await PostServices.index();
-    commit( "setAllPost", resultPost.data.data );
+    commit("setPost", payload);
+    commit("setUpdatePost", payload);
 
     commit( "post_success" );
   },
@@ -175,7 +195,14 @@ const actions = {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
+  },
+
+  // get newest post -- Khanh 13.06
+  getNewestPosts: async ({ commit }, payload) => {
+    const resGetNewestPost = await PostServices.getNewestPost(payload);
+    commit("setNewestPost", resGetNewestPost.data.data);
   }
+
 };
 
 export default {

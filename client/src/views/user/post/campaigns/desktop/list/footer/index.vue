@@ -47,12 +47,24 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+      if(this.search.length > 0) {
 
-      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+        const dataSender = {
+          keyword: this.search,
+          size: this.filterShowSelected.id,
+          page: page
+        };
+        await this.$store.dispatch("getCampaignsByKey", dataSender);
+      } else {
+
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch( "getCampaignsByPage", dataSender );
+      }
+
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {

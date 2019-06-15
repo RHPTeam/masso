@@ -88,14 +88,17 @@ export default {
 
   },
   async created (){
+    const infoStatus = this.$store.getters.statusOnePost;
+    if (infoStatus !== 'success') {
+      await this.$store.dispatch( "getPostById", this.$route.params.id );
+    }
+
     await this.$store.dispatch( "getAllFriendFb" );
     await this.$store.dispatch( "getPlaceFromFb" );
     await this.$store.dispatch( "getAllCategories" );
     await this.$store.dispatch( "getActivityFb" );
     await this.$store.dispatch( "getColorFromFb" );
-
-    await this.$store.dispatch( "getPostById", this.$route.params.id );
-  },
+    },
   watch: {
     /**
      * check contetn of post using StringFunction get urls have in content

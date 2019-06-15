@@ -74,6 +74,7 @@ module.exports = {
     const newCampaign = await new Campaign( {
       "title": req.body.title,
       "description": req.body.description ? req.body.description : "",
+      "status": 1,
       "started_at": req.body.started_at ? req.body.started_at : Date.now(),
       "finished_at": req.body.finished_at ? req.body.finished_at : "",
       "_account": req.uid

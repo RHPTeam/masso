@@ -21,7 +21,7 @@
           placeholder="Tìm kiếm"
           type="text"
           v-model="search"
-          @input="updateSearch()"
+          @keydown.enter="updateSearch"
         />
       </div>
     </div>
@@ -77,12 +77,25 @@ export default {
         { id: "deactive", name: "Ngừng hoạt động" }
       ],
       isShowCreatCampaignPopup: false,
-      search: ""
+      search: "",
+      sizeDefault: 25,
+      pageDefault: 1
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    }
+  },
+  watch: {
+    search(val) {
+      if(val.length === 0){
+        const dataSender = {
+          size: this.sizeDefault,
+          page: this.pageDefault
+        }
+        this.$store.dispatch("getCampaignsByPage", dataSender);
+      }
     }
   },
   methods: {
@@ -92,7 +105,14 @@ export default {
     updateFilterStatusSelected( val ) {
       this.$emit( "updateFilterStatusSelected", val );
     },
-    updateSearch() {
+    async updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: this.sizeDefault,
+        page: this.pageDefault
+      };
+      await this.$store.dispatch("getCampaignsByKey", dataSender);
+
       this.$emit( "updateSearch", this.search );
     }
   }

@@ -64,13 +64,17 @@
           .flags{
             .dropdown--lang{
                 width: 50px;
-            }}
+            }
+        }
       }
     .flag--sidebar{
         bottom: 1.25rem;
         left: 1.75rem;
     }
     .flags{
+      .name--language{
+        font-size: 0.875rem;
+      }
       .dropdown--lang{
         top: -124px;
         background-color: #fff;
