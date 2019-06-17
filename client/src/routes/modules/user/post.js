@@ -90,6 +90,11 @@ const generalPostRouter = {
       path: "support",
       name: "post_support",
       component: require( "@/views/user/post/support" ).default
+    },
+    {
+      path: "fb-search",
+      name: "post_fb_search",
+      component: require( "@/views/user/post/search" ).default
     }
   ]
 };

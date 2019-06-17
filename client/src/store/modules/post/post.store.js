@@ -5,6 +5,16 @@ const state = {
   allPost: [],
   errorPost: "",
   newPost: [],
+  defaultPost: {
+    title: "",
+    content: "",
+    _categories: [],
+    attachments: [],
+    place: "",
+    tags: [],
+    activity: "",
+    color: ""
+  },
   post: {
     color: {
       id: "",
@@ -27,6 +37,7 @@ const state = {
 const getters = {
   allPost: ( state ) => state.allPost.reverse(),
   errorPost: ( state ) => state.errorPost,
+  defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
@@ -103,6 +114,10 @@ const mutations = {
   },
   resetPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = payload;
+  },
+  updateDefaultPostByFbPost: ( state, payload ) => {
+    state.defaultPost.content = payload.content;
+    state.defaultPost.attachments = payload.attachments;
   }
 };
 const actions = {
@@ -111,9 +126,6 @@ const actions = {
 
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
-
-    const resultAllPost = await PostServices.index();
-    commit( "setAllPost", resultAllPost.data.data );
 
     commit( "post_success" );
   },
@@ -190,7 +202,6 @@ const actions = {
     commit( "post_success" );
   },
   resetPostsPageInfinite: async ( { commit } ) => {
-    console.log("Reset is running...");
     commit( "resetPostsPageInfinite", [] );
   },
   sendErrorUpdate: async ( { commit } ) => {
@@ -233,6 +244,9 @@ const actions = {
     const resultPost = await PostServices.getById( payload.id );
     commit( "setPost", resultPost.data.data );
   },
+  updateDefaultPostByFbPost: async ( { commit }, payload ) => {
+    commit( "updateDefaultPostByFbPost", payload );
+  },
   deleteAttachmentPost: async ( { commit }, payload ) => {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
@@ -243,7 +257,6 @@ const actions = {
     const resGetNewestPost = await PostServices.getNewestPost(payload);
     commit("setNewestPost", resGetNewestPost.data.data);
   }
-
 };
 
 export default {
