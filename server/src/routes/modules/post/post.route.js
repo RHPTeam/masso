@@ -55,4 +55,7 @@ router.route( "/sync" ).post( PostController.createSyncFromMarket );
 router
   .route( "/newest" ).get( PostController.getNewestPosts );
 
+// Upload
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
+
 module.exports = router;

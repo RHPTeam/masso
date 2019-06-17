@@ -385,5 +385,17 @@ module.exports = {
       .limit( parseInt( req.query.number ) ).populate( { "path": "_categories", "select": "_id title" } );
 
     res.status( 200 ).json( jsonResponse( "success", data ) );
+  },
+  "upload": async ( req, res ) => {
+    if ( !req.files || req.files.length === 0 ) {
+      return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
+    }
+    const attachmentList = req.files.map( ( file ) => {
+      if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
+        return `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
+      }
+    } );
+
+    return res.status( 200 ).json( { "status": "success", "data": attachmentList } );
   }
 };
