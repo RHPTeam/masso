@@ -12,7 +12,7 @@
                 >
               <icon-base
                 class="icon--add mr_2"
-                icon-name="plus"
+                icon-name="Tạo nhóm mới"
                 width="14"
                 height="14"
                 viewBox="0 0 60 60"

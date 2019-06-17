@@ -17,13 +17,13 @@
     >
       <span v-if="item.title === 'Chưa phân loại'">
         <span class="mx_1">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
           <icon-base
-            icon-name="remove"
+            icon-name="Xóa"
             width="20"
             height="20"
             viewBox="0 0 15 15"
@@ -34,13 +34,13 @@
       </span>
       <span v-else>
         <span class="mx_1" @click="updateCategory">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1" @click="showDeletePopup">
           <icon-base
-            icon-name="remove"
+            icon-name="Xóa"
             width="20"
             height="20"
             viewBox="0 0 15 15"

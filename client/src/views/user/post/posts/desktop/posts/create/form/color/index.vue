@@ -11,7 +11,7 @@
     </div>
     <div class="color--box d_flex align_items_center position_relative" v-if="isShowOption === true">
       <div class="color--item back" @click="comeBackDefault">
-        <icon-base class="ic--search" icon-name="copy" width="15" height="15" viewBox="0 0 28 28">
+        <icon-base class="ic--search" icon-name="Arrow" width="15" height="15" viewBox="0 0 28 28">
           <icon-arrow-left/>
         </icon-base>
       </div>

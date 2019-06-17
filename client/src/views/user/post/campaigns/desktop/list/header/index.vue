@@ -9,7 +9,7 @@
         <span class="ml_2">
           <icon-base
             class="ic--search"
-            icon-name="ic--search"
+            icon-name="Tìm kiếm"
             width="20"
             height="20"
             viewBox="0 0 20 20"
