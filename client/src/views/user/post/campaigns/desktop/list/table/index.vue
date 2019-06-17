@@ -17,7 +17,7 @@
         >Tên chiến dịch
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -27,7 +27,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -37,7 +37,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down descending ml_1"
-            icon-name="icon-arrow-up"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -58,7 +58,7 @@
         >Bắt đầu
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -68,7 +68,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -78,7 +78,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down descending ml_1"
-            icon-name="icon-arrow-up"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -98,7 +98,7 @@
         >Trạng thái
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -108,7 +108,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -118,7 +118,7 @@
           </icon-base>
           <icon-base
             class="icon--arrow-down descending ml_1"
-            icon-name="icon-arrow-up"
+            icon-name="Đảo ngược"
             width="12"
             height="12"
             viewBox="0 0 160 160"
@@ -188,7 +188,7 @@
 					<span class="mx_1" @click="showDuplicateCampaignPopup(campaign)">
 						<icon-base
 							class="ic--copy"
-							icon-name="copy"
+							icon-name="Sao chép"
 							width="20"
 							height="20"
 							viewBox="0 0 520 520"
@@ -199,7 +199,7 @@
 					<span @click="showDeleteCampaignPopup(campaign)">
 						<icon-base
 							class="ic--remove"
-							icon-name="remove"
+							icon-name="Xóa"
 							width="20"
 							height="20"
 							viewBox="0 0 16 16"

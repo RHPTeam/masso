@@ -5,7 +5,7 @@
       <div class="title">Ảnh đại diện</div>
       <div class="change--icon ml_auto">
         <div class="icon" @click="isDropZone = true">
-          <icon-base icon-name viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </div>

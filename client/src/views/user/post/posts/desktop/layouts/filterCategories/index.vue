@@ -8,7 +8,7 @@
     {{ filterDefault.title }}
     <icon-base
       class="ml_1"
-      icon-name="icon-sort-down"
+      icon-name="Lựa chọn"
       width="16"
       height="16"
       viewBox="0 0 16 16"

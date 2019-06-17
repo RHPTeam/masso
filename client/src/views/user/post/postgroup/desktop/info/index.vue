@@ -44,7 +44,7 @@
           {{ typeFilterSelected }}
           <icon-base
             class="ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Lựa chọn"
             width="14"
             height="14"
             viewBox="0 0 160 160"

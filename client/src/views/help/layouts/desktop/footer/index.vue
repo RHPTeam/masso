@@ -17,7 +17,7 @@
           <div class="text">Tiếng Việt</div>
           <div class="icon--edit ml_1">
             <icon-base
-              icon-name="edit"
+              icon-name="Chỉnh sửa"
               width="14"
               height="14"
               viewBox="0 0 24 24"
