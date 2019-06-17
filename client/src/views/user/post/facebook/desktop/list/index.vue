@@ -13,7 +13,7 @@
             <div class="item--content">
               <icon-base
                 class="icon--add"
-                icon-name="plus"
+                icon-name="Thêm facebook"
                 width="60"
                 height="60"
                 viewBox="0 0 60 60"

@@ -14,6 +14,7 @@
               height="20px"
               width="20px"
               viewBox="0 0 20 20"
+              icon-name="Tìm kiếm"
             >
               <icon-input-search
               ></icon-input-search>

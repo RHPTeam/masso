@@ -7,7 +7,7 @@
           <multiselect
             label="title"
             placeholder="Chọn nhóm muốn đăng"
-            :value="namePostGroup"
+            :value="event.target_category"
             :clearable="false"
             :options="allPostGroups"
             @input="selectFacebookGroup"
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       postTargetCategory: [],
-      selectedGroups: ""
+      selectedGroups: {}
     }
   },
   computed: {
@@ -43,23 +43,11 @@ export default {
     },
     allPostGroups(){
       return this.$store.getters.postGroups;
-    },
-    namePostGroup(){
-      const arr = {
-        id: "",
-        title: ""
-      };
-      if(this.event.target_category === undefined) {
-        return arr.name;
-      } else {
-        const id = this.event.target_category;
-        this.allPostGroups.map(item => {
-          if(item._id == id) {
-            arr.title = item.title;
-          }
-        })
-        return arr.title;
-      }
+    }
+  },
+  async created() {
+    if ( this.allPostGroups.length === 0 ) {
+      await this.$store.dispatch( "getAllPostGroups" );
     }
   },
   methods: {
@@ -67,7 +55,10 @@ export default {
       this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",
-        value: value._id
+        value: {
+          _id: value._id,
+          title: value.title
+        }
       } );
     }
   },

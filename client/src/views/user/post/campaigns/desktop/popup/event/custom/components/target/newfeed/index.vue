@@ -48,7 +48,9 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch( "getAccountsFB" );
+    if ( this.allAccountFB.length === 0 ) {
+      await this.$store.dispatch( "getAccountsFB" );
+    }
   }
 }
 </script>

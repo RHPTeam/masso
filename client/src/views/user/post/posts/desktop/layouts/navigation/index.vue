@@ -1,7 +1,7 @@
 <template>
   <div class="post--navigation d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
     <!-- Start: Navigation Left -->
-    <div class="nav--left d_flex justify_content_start align_items_center mr_auto">
+    <div class="nav--left d_flex justify_content_start align_items_center">
       <div class="btn--create mr_3"
            @click="createPost"
       >Viết bài mới</div>
@@ -24,7 +24,7 @@
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
-    <div class="nav--right d_flex ml_auto">
+    <div class="nav--right">
       <div class="btn--history"
            @click="showHistory"
       >
@@ -180,19 +180,6 @@ export default {
     .divider {
       background-color: #ccc;
     }
-  }
-}
-
-// ================= RESPONSIVE
-@media screen and (min-width: 768px) and (max-width: 870px) {
-  .post--navigation {
-    flex-direction: column;
-    .nav--left {
-      margin-bottom: 0.875rem;
-    }
-    // .nav--right {
-    //   justify-content: flex-end;
-    // }
   }
 }
 </style>

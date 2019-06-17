@@ -16,7 +16,7 @@
         >
           <span class="ml_3 mt_1">
             <icon-base
-              icon-name="input-search"
+              icon-name="Tìm kiếm"
               width="20"
               height="20"
               viewBox="0 0 20 20"

@@ -28,7 +28,7 @@
         <span class="mx_1"
               @click="updatePost"
         >
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>

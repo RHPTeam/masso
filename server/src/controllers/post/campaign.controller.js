@@ -124,7 +124,7 @@ module.exports = {
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
 
-    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events" } ) ) );
   },
   /**
    * Delete campaign

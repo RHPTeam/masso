@@ -31,6 +31,7 @@
               class="icon--messenger"
               width="20px"
               height="20px"
+              icon-name="Cửa hàng content"
               viewBox="0 0 520 520"
             >
               <icon-shop />
@@ -76,7 +77,7 @@
         >
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
-            icon-name="notifications"
+            icon-name="Thông báo"
             width="24px"
             height="24px"
             viewBox="0 0 512 512"
@@ -108,6 +109,7 @@
             class="icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
             width="24px"
+            icon-name="Lựa chọn"
             height="24px"
             viewBox="0 0 512 512"
           >
@@ -119,7 +121,7 @@
             <div class="d_flex text_center r m_0 application">
               <div class="zin--post item c_4" @click="gotoHomePost">
                 <icon-base
-                  icon-name="bell"
+                  icon-name="Bee Post"
                   width="50px"
                   height="50px"
                   viewBox="0 0 512 512"
@@ -130,7 +132,7 @@
               </div>
               <div class="zin--post zin-chat disallowed item c_4">
                 <icon-base
-                  icon-name="bell"
+                  icon-name="Bee Chat"
                   width="50px"
                   height="50px"
                   viewBox="0 0 512 512"
@@ -141,7 +143,7 @@
               </div>
               <div class="zin--post instagram disallowed item c_4">
                 <icon-base
-                  icon-name="bell"
+                  icon-name="Instagram"
                   width="50px"
                   height="50px"
                   viewBox="0 0 550 550"
@@ -152,7 +154,7 @@
               </div>
               <div class="zin--post zalo disallowed item c_4">
                 <icon-base
-                  icon-name="bell"
+                  icon-name="Zalo"
                   width="50px"
                   height="50px"
                   viewBox="0 0 512 512"
@@ -191,7 +193,7 @@
         <span class="profile--name ml_2 mr_2">{{ user.name }}</span>
         <div class="profile--icon">
           <icon-base
-            icon-name="arrow-down"
+            icon-name="Hiển thị thêm"
             width="10"
             height="10"
             viewBox="0 0 130 130"
