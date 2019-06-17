@@ -25,7 +25,7 @@
     <!-- End: Category Column -->
 
     <!-- Start: Action Column -->
-    <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+    <div v-if="this.$store.getters.infoPostCateDefault === 0" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="updatePost">
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
@@ -50,6 +50,18 @@
         </icon-base>
       </span>
     </div>
+<!--    <div v-if="this.$store.getters.infoPostCateDefault === 1" class="col d_flex align_items_center justify_content_center col&#45;&#45;action px_4 text_center">-->
+<!--      <span class="mx_2" @click="editPostCateDefault">-->
+<!--        <icon-base-->
+<!--          icon-name="duplicate"-->
+<!--          width="20"-->
+<!--          height="20"-->
+<!--          viewBox="0 0 520 520"-->
+<!--        >-->
+<!--          <icon-copy />-->
+<!--        </icon-base>-->
+<!--      </span>-->
+<!--    </div>-->
     <!-- End: Action Column -->
   </div>
 </template>
@@ -69,6 +81,14 @@ export default {
         params: { id: this.item._id }
       } );
     },
+    // async editPostCateDefault(){
+    //   await this.$store.dispatch( "showPostDuplicate", this.item._id );
+    //   // const postId = this.$store.getters.
+    //   this.$router.push( {
+    //     name: "post_update_post",
+    //     params: { id: this.item._id }
+    //   } );
+    // },
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
     },

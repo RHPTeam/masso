@@ -89,9 +89,14 @@ export default {
   },
   async created (){
     const infoStatus = this.$store.getters.statusOnePost;
+    // const infoCateDefault = this.$store.getters.infoPostCateDefault;
+    // const statusCateDefault = this.$store.getters.statusPostCateDefault;
     if (infoStatus !== 'success') {
       await this.$store.dispatch( "getPostById", this.$route.params.id );
     }
+    // else if(infoCateDefault === 1 && statusCateDefault !== "success") {
+    //   await this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
+    // }
 
     await this.$store.dispatch( "getAllFriendFb" );
     await this.$store.dispatch( "getPlaceFromFb" );

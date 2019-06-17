@@ -62,7 +62,12 @@ export default {
   },
   methods: {
     getAllPost(){
-      this.$store.dispatch("getAllPost");
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getPostsByPage", dataSender);
+      // this.$store.dispatch("getAllPost");
     },
     async updateFilterSelected( data ) {
       await this.$store.dispatch("getPostByCategories", data._id);
