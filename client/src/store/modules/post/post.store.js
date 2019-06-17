@@ -92,10 +92,11 @@ const mutations = {
     state.allPost[position] = payload;
   },
   setDeletePost: (state, payload) => {
-    const position = state.allPost.map( (item, index) => {
-      if (payload === item._id) return index;
-    });
-    state.allPost.slice(position, 1);
+    // const position = state.allPost.map( (item, index) => {
+    //   if (payload === item._id) return index;
+    // });
+    // state.allPost.slice(position, 1);
+    state.allPost = payload;
   },
   // setNewestPost
   setNewestPost: (state, payload) => {
@@ -119,8 +120,12 @@ const actions = {
   },
   deletePost: async ( { commit }, payload ) => {
 
+    const allPost = state.allPost.filter(
+      ( allPost ) => allPost._id !== payload.id
+    );
+
+    commit("setDeletePost", allPost.reverse());
     await PostServices.deletePost( payload.id );
-    commit("setDeletePost", payload.id);
   },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );

@@ -134,5 +134,10 @@ export default {
         this.$store.dispatch( "postGroupPagesSelected", this.pagesSelectedArr );
       }
     }
-  }
+  },
+  methods: {
+    seeAllUsers() {
+      this.$emit( "updateGroupSelected", false );
+    }
+  },
 };

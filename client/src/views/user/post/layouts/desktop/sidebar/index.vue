@@ -50,6 +50,19 @@
           <span class="ml_2">{{ menu.text }}</span>
         </a>
       </router-link>
+      <li class="menu--item d_flex align_items_center">
+        <a :href="helpCenterUrl" target="_blank">
+          <icon-base
+            icon-name="Trung tâm trợ giúp"
+            width="24"
+            height="24"
+            viewBox="0 0 550 550"
+          >
+            <icon-support />
+          </icon-base>
+          <span class="ml_2">Trung tâm trợ giúp</span>
+        </a>
+      </li>
     </ul>
     <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->

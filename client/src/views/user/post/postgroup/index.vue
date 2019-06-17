@@ -12,7 +12,6 @@
         <app-group
           :groupSelected="groupSelected"
           @updateGroupSelected="groupSelected = $event"
-
         />
         <!-- End: Group -->
         <!-- Start: Search -->
@@ -47,6 +46,7 @@
           :groupSelected="groupSelected"
           :typeFilterSelected="typeFilterSelected"
           :search="search"
+          @updateGroupSelected="groupSelected = $event"
         />
         <!-- End: List -->
       </div>
