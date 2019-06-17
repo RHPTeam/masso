@@ -13,6 +13,7 @@ const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog"
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+// eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );

@@ -10,13 +10,13 @@ const { agent } = require( "../../../configs/crawl" ),
 
   console.log( "\x1b[34m%s\x1b[0m", "Schedule Service For Post Starting..." );
   // eslint-disable-next-line no-new
-  new CronJob( "* 1 * * * *", async function() {
+  new CronJob( "*/20 * * * * *", async function() {
     let dateTimeCurrent = new Date(), minDateTime = dateTimeCurrent.setTime( dateTimeCurrent.getTime() - 20 * 60000 );
 
     console.log( "\x1b[32m%s\x1b[0m", "Step 01:", "Start - Get all event's user to handle with cron-schedule" );
     listPostSchedule = await PostSchedule.find( { "status": 1, "started_at": {
       "$gte": new Date( minDateTime ).toISOString(),
-      "$lt": dateTimeCurrent.toISOString()
+      "$lt": new Date().toISOString()
     } } );
     console.log( "\x1b[32m%s\x1b[0m", "Step 01:", "Finnish - Get all post's user to handle with cron-schedule" );
 
@@ -34,7 +34,9 @@ const { agent } = require( "../../../configs/crawl" ),
       if ( resFacebookResponse ) {
         if ( resFacebookResponse.error.code === 200 ) {
           postSchedule.status = 0;
+          postSchedule.postID = resFacebookResponse.results.postID;
           await postSchedule.save();
+          console.log( `post To Facebook Success: ${resFacebookResponse.results.postID}` );
         }
       }
     } ) );
