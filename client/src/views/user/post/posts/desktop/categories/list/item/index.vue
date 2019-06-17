@@ -31,6 +31,15 @@
             <icon-remove />
           </icon-base>
         </span>
+        <span class="mx_1">
+          <icon-base
+            width="20"
+            height="20"
+            viewBox="0 0 18 18"
+          >
+            <icon-info />
+          </icon-base>
+        </span>
       </span>
       <span v-else>
         <span class="mx_1" @click="updateCategory">
@@ -48,6 +57,15 @@
             <icon-remove />
           </icon-base>
         </span>
+        <span class="mx_1" @click="showListPostInCategory">
+          <icon-base
+            width="20"
+            height="20"
+            viewBox="0 0 18 18"
+          >
+            <icon-info />
+          </icon-base>
+        </span>
       </span>
     </div>
   </div>
@@ -62,6 +80,10 @@ export default {
     },
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
+    },
+    async showListPostInCategory(){
+      await this.$store.dispatch("getPostByCategories", this.item._id);
+      this.$router.push({name: "post_posts"});
     }
   }
 };

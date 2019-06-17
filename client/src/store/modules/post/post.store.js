@@ -1,4 +1,5 @@
 import PostServices from "@/services/modules/post/post.service";
+import CategoryDefaultService from "@/services/modules/post/categorydefault.service";
 import RemoveFunction  from "@/utils/functions/array";
 
 const state = {
@@ -32,7 +33,9 @@ const state = {
   statusPost: "",
   statusOnePost: "",
   totalPost: null,
-  newestPost: []
+  newestPost: [],
+  infoPostCateDefault: 0,
+  statusPostCateDefault: ""
 };
 const getters = {
   allPost: ( state ) => state.allPost.reverse(),
@@ -47,7 +50,9 @@ const getters = {
   statusPost: ( state ) => state.statusPost,
   statusOnePost: ( state ) => state.statusOnePost,
   totalPost: ( state ) => state.totalPost,
-  newestPost: state => state.newestPost
+  newestPost: state => state.newestPost,
+  infoPostCateDefault: state => state.infoPostCateDefault,
+  statusPostCateDefault: state => state.statusPostCateDefault
 };
 const mutations = {
   post_request: ( state ) => {
@@ -58,6 +63,9 @@ const mutations = {
   },
   post_success: ( state ) => {
     state.statusPost = "success";
+  },
+  post_cate_default_request: (state, payload) => {
+    state.statusPostCateDefault = payload;
   },
   setAllPost: ( state, payload ) => {
     state.allPost = payload;
@@ -160,6 +168,29 @@ const actions = {
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
+
+  showPostCateDefaultById: async ({commit}, payload) => {
+    commit("post_request");
+    const result = await CategoryDefaultService.showInfoCateById(payload);
+    commit( "setAllPost", result.data.data.postList );
+    commit("post_success");
+  },
+  setPostCateDefault:async ({commit}, payload) => {
+    commit("setPostCateDefault", payload);
+  },
+  showPostDuplicate: async ({commit}, payload) => {
+    commit("cate_default_request");
+
+    const result = await CategoryDefaultService.editPost(payload);
+    console.log(result.data.data);
+
+    commit("setPost", result.data.data);
+
+    commit("post_cate_default_request", "success");
+
+    commit("cate_default_success");
+  },
+
   getPostsByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
 

@@ -386,6 +386,15 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", data ) );
   },
+  "syncDuplicatePostInFolderExample": async ( req, res ) => {
+    const findPostCategoryDefault = await PostCategory.findOne( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+      newPost = new Post( req.body );
+
+    newPost._categories.push( findPostCategoryDefault._id );
+    await newPost.save();
+
+    res.send( { "status": "success", "data": "Synchronized..." } );
+  },
   "upload": async ( req, res ) => {
     if ( !req.files || req.files.length === 0 ) {
       return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
