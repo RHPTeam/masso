@@ -62,7 +62,7 @@
           </div>
           <div class="icon--plus mt_1">
             <icon-base
-              icon-name="plus"
+              icon-name="Them"
               width="20"
               height="20"
               viewBox="0 0 64 64"

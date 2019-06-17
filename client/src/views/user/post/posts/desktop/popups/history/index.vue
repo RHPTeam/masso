@@ -55,7 +55,7 @@
             <!-- End: Account group -->
             <!-- Start: Post time & status-->
             <div class="post--time">
-              Lúc {{ dateTimeFormat( item.post.started_at ) }}
+              Thời gian dự kiến {{ dateTimeFormat( item.post.started_at ) }}
             </div>
             <!-- End: Post time & status-->
           </div>

@@ -12,6 +12,7 @@ const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+// eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );

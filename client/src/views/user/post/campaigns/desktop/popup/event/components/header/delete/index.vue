@@ -12,17 +12,20 @@
             <span class="text--bold pr_1">{{ targetName }}</span>
             {{ $t('chat.common.popup.delete.willDelete') }}
             <span v-if="description !== '' ">{{ description }}</span>
-
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
-            <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
+            <span v-if="confirmDelete === true">
+              <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
+              <span class="text--delete">DELETE</span>
+              <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
+            </span>
           </div>
-          <input
-            class="modal--body-input mt_3"
-            placeholder="DELETE"
-            type="text"
-            v-model="deleteText"
-          />
+          <div v-if="confirmDelete === true">
+            <input
+              class="modal--body-input mt_3"
+              placeholder="DELETE"
+              type="text"
+              v-model="deleteText"
+            />
+          </div>
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
           <button
@@ -31,7 +34,6 @@
           > {{ $t('chat.common.popup.delete.cancle') }} </button>
           <button
             class="btn--skip"
-            v-if="deleteConfirm"
             @click="deleteEvent"
           > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
@@ -69,6 +71,10 @@ export default {
     typeName: {
       type: String,
       default: ""
+    },
+    confirmDelete: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

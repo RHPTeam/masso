@@ -39,7 +39,7 @@
             <!-- <div class="messenger--total position_absolute">
               <div class="text text_center">0</div>
             </div> -->
-            <div class="pl_2 open--mess">Cửa hàng content</div>
+            <div class="pl_2 open--mess">Cửa hàng</div>
           </div>
         </a>
         <!-- End: Btn Messenger -->
@@ -60,7 +60,7 @@
       <div class="help mr_2 ml_1">
         <a target="_blank" :href="urlGetCookie">
           <icon-base
-            icon-name="extension get cookie"
+            icon-name="Extension lấy cookie"
             width="25"
             height="25"
             viewBox="0 0 550 550"

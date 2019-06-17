@@ -43,6 +43,18 @@
       border-bottom-right-radius: .625rem;
     }
   }
+  .add--pagegroup {
+    border: 1px solid #484848;
+    padding: 0.7rem 0.625rem;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    transition: all .4s ease;
+    &:hover {
+      border: 1px solid transparent;
+      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+    }
+  }
 }
 .custom--checkbox {
   input[type="checkbox"] {

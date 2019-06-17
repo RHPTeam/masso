@@ -96,9 +96,23 @@
       <!-- Start: Table Body -->
       <div v-else>
         <!--Start: Empty Data-->
-        <div class="alert alert_secondary text_center p_2"
+        <div class="text_center"
              v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0"
-        >Nhóm này hiện chưa có trang hay nhóm Facebook nào.</div>
+        >
+          <div class="alert alert_secondary p_2">Nhóm này hiện chưa có trang hay nhóm Facebook nào.</div>
+          <div class="add--pagegroup" @click="seeAllUsers">
+            <icon-base
+              class="ic--add mr_1"
+              icon-name="Thêm"
+              width="60"
+              height="60"
+              viewBox="0 0 60 60"
+            >
+              <icon-plus />
+            </icon-base>
+            <div>Thêm trang hoặc nhóm</div>
+          </div>
+        </div>
         <!--End: Empty Data-->
         <div v-else>
           <!-- Start: Pages Data -->
