@@ -17,16 +17,16 @@
     width: calc(20px + 1rem);
   }
   .col--category {
-    width: calc(25% + 20px + 1rem );
+    width: 30%;
   }
   .col--posts {
     width: 15%;
   }
   .col--description {
-    width: calc(60% - 95px - 4rem);
+    width: 30%;
   }
   .col--action {
-    width: calc(75px + 3rem);
+    width: 25%;
     svg {
       color: #999;
       cursor: pointer;
