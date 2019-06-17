@@ -101,7 +101,21 @@ export default {
         } );
       },
       set( val ) {
-        this.selectGroupFacebook( val );
+        console.log(val);
+        const groupListSelect = val.map( group => {
+          return {
+            typeTarget: 0,
+            target: {
+              groupId: group.groupId,
+              name: group.name
+            }
+          };
+        } );
+
+        this.$store.dispatch( "setEventSpecial", {
+          key: "target_custom",
+          value: groupListSelect
+        } )
       }
     }
   },

@@ -3,7 +3,8 @@
     <div class="card_body">
       <!-- Start: Card Header -->
       <div class="card--header d_flex align_items_center justify_content_between">
-        <div class="btn--setting" @click="viewDetail">
+        <div></div>
+        <div class="btn--setting" v-if="false" @click="viewDetail">
           <icon-base
             class="icon--setting"
             icon-name="Thiết lập tài khoản"

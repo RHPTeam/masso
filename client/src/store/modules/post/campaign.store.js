@@ -96,6 +96,12 @@ const state = {
 
       commit ( "setCampaignStatus", "success" );
     },
+    getCampaignsByKey: async ( { commit }, payload ) => {
+      const res = await CampaignsServices.searchCampaignsByKey( payload.keyword, payload.size, payload.page );
+
+      await commit( "setCampaigns", res.data.data.results );
+      await commit( "setCampaignsPagesSize", res.data.data.page );
+    },
     getCampaignDetail: async ( { commit }, payload ) => {
       const res = await CampaignsServices.getCampaignById( payload );
 

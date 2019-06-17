@@ -17,6 +17,7 @@ const state = {
   },
   postOfCate: [],
   postsPage: [],
+  postsPageInfinite: [],
   postsPageSize: 1,
   statusPost: "",
   statusOnePost: "",
@@ -30,6 +31,7 @@ const getters = {
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage.reverse(),
+  postsPageInfinite: ( state ) => state.postsPageInfinite,
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
   statusOnePost: ( state ) => state.statusOnePost,
@@ -74,6 +76,9 @@ const mutations = {
   setPostsPage: ( state, payload ) => {
     state.allPost = payload;
   },
+  setPostsPageInfinite: ( state, payload ) => {
+    state.postsPageInfinite = state.postsPageInfinite.concat( payload );
+  },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
   },
@@ -95,6 +100,9 @@ const mutations = {
   // setNewestPost
   setNewestPost: (state, payload) => {
     state.newestPost = payload;
+  },
+  resetPostsPageInfinite: ( state, payload ) => {
+    state.postsPageInfinite = payload;
   }
 };
 const actions = {
@@ -142,7 +150,32 @@ const actions = {
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
+    await commit( "setPostsPageInfinite", res.data.data.results );
 
+    commit( "post_success" );
+  },
+  getPostsPageInfinite: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  getPostsPageInfiniteByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.searchByKey(payload.keyword, payload.size, payload.page );
+    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  getPostsPageInfiniteCategory: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const resultPost = await PostServices.getByCategories( payload );
+    commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
   getPostsByKey: async ( { commit }, payload ) => {
@@ -152,8 +185,13 @@ const actions = {
 
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
 
     commit( "post_success" );
+  },
+  resetPostsPageInfinite: async ( { commit } ) => {
+    console.log("Reset is running...");
+    commit( "resetPostsPageInfinite", [] );
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );
@@ -200,7 +238,6 @@ const actions = {
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
   },
-
   // get newest post -- Khanh 13.06
   getNewestPosts: async ({ commit }, payload) => {
     const resGetNewestPost = await PostServices.getNewestPost(payload);

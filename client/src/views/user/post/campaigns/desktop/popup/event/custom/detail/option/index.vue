@@ -24,7 +24,11 @@
               <icon-input-search />
             </icon-base>
           </div>
-          <input type="text" placeholder="Tìm kiếm" v-model="search"/>
+          <input type="text"
+                 placeholder="Tìm kiếm"
+                 v-model="search"
+                 @keydown.enter="searchPosts"
+          />
         </div>
         <div class="right position_relative">
           <categories-filter
@@ -46,15 +50,14 @@
           </div>
         </div>
         <!-- End: Header -->
-        <div v-if="allPosts">
-          <div v-if="this.$store.getters.statusPost === 'loading'">
-            <loading-component />
+        <div v-if="postsPageInfinite">
+          <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center"
+               v-if="postsPageInfinite.length === 0">Không có dữ liệu
           </div>
-          <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center" v-if="filterPostsByCategories.length === 0">Không có dữ liệu</div>
-          
+
           <VuePerfectScrollbar class="infinite scroll-categories" @ps-y-reach-end="loadMore">
             <div class="result--item d_flex align_items_center px_3 py_2"
-                 v-for="(post, index) in filterPostsByCategories"
+                 v-for="(post, index) in postsPageInfinite"
                  :key="`p-${index}`"
             >
               <div class="name text_left pr_3">
@@ -78,6 +81,9 @@
                     v-else
                 ></div>
               </div>
+            </div>
+            <div v-if="this.$store.getters.statusPost === 'loading'">
+              <loading-component />
             </div>
           </VuePerfectScrollbar>
         </div>
@@ -104,14 +110,16 @@ export default {
       currentPage: 1,
       filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
       filterCategorySelected: { id: "all", name: "Tất cả" },
+      isFirstTime: false,
+      postsArr: [],
       pageSize: 25,
       search: "",
-      showLoader: true
+      isLoadingData: true,
     }
   },
   computed: {
-    allPosts(){
-      return this.$store.getters.allPost;
+    postsPageInfinite(){
+      return this.$store.getters.postsPageInfinite;
     },
     categories(){
       return this.$store.getters.allCategories;
@@ -143,16 +151,22 @@ export default {
     }
   },
   async created() {
+    // Reset posts page infinite
+    if ( this.postsPageInfinite ) {
+      await this.$store.dispatch( "resetPostsPageInfinite" );
+    }
+    // Get all categories
     if ( this.categories.length === 0 ) {
       await this.$store.dispatch( "getAllCategories" );
     }
-    if ( this.allPosts.length === 0 ) {
-      const dataSender = {
-        page: this.currentPage,
-        size: this.pageSize
-      };
-      await this.$store.dispatch( "getPostsByPage", dataSender );
-    }
+    // Get Posts By Page
+    const dataSender = {
+      page: 1,
+      size: this.pageSize
+    };
+    await this.$store.dispatch( "getPostsPageInfinite", dataSender );
+    this.isFirstTime = true;
+    // Convert categories
     await this.categories.forEach( ( item ) => {
       const data = {
         id: item._id,
@@ -161,6 +175,10 @@ export default {
 
       this.filterCategoriesList.push( data );
     } );
+  },
+  beforeDestroy() {
+    this.currentPage = 1;
+    this.isFirstTime = false;
   },
   methods: {
     back(){
@@ -175,19 +193,34 @@ export default {
       }).length > 0
     },
     async loadMore() {
-      if ( this.showLoader === true ) {
-        console.log(this.postsPageSize);
-        if ( this.currentPage >= this.postsPageSize ) {
-          console.log("Stop");
-          return false;
-        } else {
-          console.log("Run");
-          this.currentPage += 1;
+      if ( this.isLoadingData === true ) {
+        if ( this.search === "" ) {
+          if ( this.currentPage >= this.postsPageSize ) {
+            return false;
+          } else if ( this.isFirstTime === true ) {
+            this.isLoadingData = false;
+            this.currentPage += 1;
 
-          await this.$store.dispatch( "getPostsByPage", {
-            page: this.currentPage,
-            size: this.pageSize
-          } );
+            await this.$store.dispatch( "getPostsPageInfinite", {
+              page: this.currentPage,
+              size: this.pageSize
+            } );
+            this.isLoadingData = true;
+          }
+        } else {
+          if ( this.currentPage >= this.postsPageSize ) {
+            return false;
+          } else if ( this.isFirstTime === true ) {
+            this.isLoadingData = false;
+            this.currentPage += 1;
+
+            await this.$store.dispatch( "getPostsPageInfiniteByKey", {
+              keyword: this.search,
+              page: this.currentPage,
+              size: this.pageSize
+            } );
+            this.isLoadingData = true;
+          }
         }
       }
     },
@@ -196,6 +229,18 @@ export default {
         key: "post_custom",
         value: value
       } )
+    },
+    async searchPosts() {
+      // Reset posts page infinite
+      if ( this.postsPageInfinite ) {
+        await this.$store.dispatch( "resetPostsPageInfinite" );
+      }
+      this.currentPage = 1;
+      await this.$store.dispatch( "getPostsPageInfiniteByKey", {
+        page: this.currentPage,
+        size: this.pageSize,
+        keyword: this.search
+      } );
     },
     unselectPost( id ) {
       this.$store.dispatch( "setEventPostRemove", id );
