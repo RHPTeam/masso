@@ -111,10 +111,7 @@ module.exports = {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
-          if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-            await ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-            deletedSchedule( eventSchedule, __dirname );
-          }
+          deletedSchedule( eventSchedule, __dirname );
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
         event.status = findCampaign.status;
@@ -148,10 +145,7 @@ module.exports = {
       const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-          ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-          deletedSchedule( eventSchedule, __dirname );
-        }
+        deletedSchedule( eventSchedule, __dirname );
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );
 
@@ -177,6 +171,7 @@ module.exports = {
     }
 
     campaignInfo.title = `${findCampaign.title} Copy`;
+    campaignInfo.status = false;
 
     // eslint-disable-next-line one-var
     const newCampaign = new Campaign( campaignInfo );
