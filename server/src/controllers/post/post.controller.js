@@ -460,7 +460,16 @@ module.exports = {
     const data = await Post.find( { "_account": req.uid } )
       .sort( { "$natural": -1 } )
       .limit( parseInt( req.query.number ) ).populate( { "path": "_categories", "select": "_id title" } );
-    
+
     res.status( 200 ).json( jsonResponse( "success", data ) );
+  },
+  "syncDuplicatePostInFolderExample": async ( req, res ) => {
+    const findPostCategoryDefault = await PostCategory.findOne( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+      newPost = new Post( req.body );
+
+    newPost._categories.push( findPostCategoryDefault._id );
+    await newPost.save();
+
+    res.send( { "status": "success", "data": "Synchronized..." } );
   }
 };

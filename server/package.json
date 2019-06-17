@@ -6,7 +6,8 @@
   "scripts": {
     "serve": "nodemon -r dotenv/config index.js",
     "lint": "./node_modules/.bin/eslint src",
-    "lint:fix": "./node_modules/.bin/eslint **/*.js --fix"
+    "lint:fix": "./node_modules/.bin/eslint **/*.js --fix",
+    "cwd": "/server"
   },
   "keywords": [],
   "author": "",

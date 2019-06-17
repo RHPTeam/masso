@@ -9,9 +9,11 @@ const express = require( "express" ),
 const api = require( "./src/routes" );
 const mongoose = require( "mongoose" );
 const passport = require( "passport" );
+const dotenv = require( "dotenv" );
 
-let server = null;
+let server = null, directoryLog = null;
 
+dotenv.config( { "path": ".env" } );
 if ( process.env.APP_ENV === "production" ) {
   const options = {
     "pfx": fs.readFileSync( process.env.HTTPS_URL ),
@@ -56,5 +58,22 @@ app.use( "/", ( req, res ) => res.send( "API running!" ) );
 server.listen( process.env.PORT_BASE, () => {
   console.log( `Api server running on ${process.env.APP_URL}:${process.env.PORT_BASE}` );
 } );
+
+directoryLog = __dirname.includes( "/" ) ? `${__dirname }/src/databases/log` : `${__dirname }\\src\\databases\\log`;
+
+if ( !fs.existsSync( directoryLog ) ) {
+  fs.mkdir( directoryLog, ( err ) => {
+    if ( err ) {
+      throw err;
+    }
+    fs.writeFile( __dirname.includes( "/" ) ? directoryLog + "/schedule.txt" : directoryLog + "\\schedule.txt", "Starting Log...\r\n", function ( err ) {
+      if ( err ) {
+        throw err;
+      }
+      console.log( "File log is created successfully." );
+    } );
+  } );
+}
+
 
 module.exports = app;

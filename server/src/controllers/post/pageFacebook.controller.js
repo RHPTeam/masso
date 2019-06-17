@@ -13,7 +13,7 @@ const Facebook = require( "../../models/Facebook.model" );
 const PostGroup = require( "../../models/post/PostGroup.model" );
 
 const { agent } = require( "../../configs/crawl" );
-const getAllPages = require( "../core/pages.core" );
+const getAllPages = require( "../core/getPages.core" );
 const jsonResponse = require( "../../configs/response" );
 
 module.exports = {
@@ -55,9 +55,9 @@ module.exports = {
       // Handle code when fix add other item
       const pageListFixed = pageList.results.map( ( page ) => {
         return {
-          "pageId": page.page_id,
-          "name": page.page_display_name,
-          "profile_picture": page.page_image_src,
+          "pageId": page.id,
+          "name": page.name,
+          "profile_picture": `http://graph.facebook.com/${page.id}/picture?type=large`,
           "_account": req.uid,
           "_facebook": facebook._id
         };

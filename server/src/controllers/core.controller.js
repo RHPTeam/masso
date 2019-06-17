@@ -1,6 +1,6 @@
 const { agent } = require( "../configs/crawl" );
 const { categorizedTextFormatPresets } = require( "../databases/cache/facebook" );
-const pagesCore = require( "./core/pages.core" );
+const pagesCore = require( "./core/getPages.core" );
 const groupsCore = require( "./core/groups.core" );
 const { searchPost } = require( "./core/search.core" );
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, loadFans, searchPlaces } = require( "./core/facebook.core" );

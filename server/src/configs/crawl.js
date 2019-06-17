@@ -38,6 +38,7 @@ module.exports = {
     return `https://m.facebook.com/${id}`;
   },
   "pages": "https://www.facebook.com/unified_nav/pages_menu_items",
+  "linkPages": "https://www.facebook.com/bookmarks/pages",
   "postsSearch": ( keyword, token, page ) => {
     return `https://m.facebook.com/graphsearch/str/${encodeURI(
       keyword
