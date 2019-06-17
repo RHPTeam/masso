@@ -1,6 +1,5 @@
 <template>
   <div class="wrapper position_relative px_4" :data-theme="currentTheme">
-    <div>{{ post }}</div>
     <div>
       <!-- Start: Post Title -->
       <div class="item mb_4">

@@ -178,7 +178,7 @@
   }
 }
 .infinite {
-  max-height: 280px;
+  max-height: calc( 100vh - 360px );
 }
 .infinite--control-block {
   width: 100%;

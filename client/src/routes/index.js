@@ -11,8 +11,6 @@ import redirectRouter from "./modules/user/redirect";
 import error404Router from "./modules/errors/404";
 import error500Router from  "./modules/errors/500";
 
-import guideGeneralRouter from "./modules/help";
-
 Vue.use( Router );
 
 const scrollBehavior = (to, from, savedPosition) => {
@@ -33,7 +31,6 @@ export default new Router( {
     customerMessengerRouter,
     error404Router,
     error500Router,
-    guideGeneralRouter,
     redirectRouter,
     {
       path: "/",
