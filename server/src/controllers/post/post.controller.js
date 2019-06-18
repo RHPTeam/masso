@@ -470,6 +470,6 @@ module.exports = {
     newPost._categories.push( findPostCategoryDefault._id );
     await newPost.save();
 
-    res.send( { "status": "success", "data": "Synchronized..." } );
+    res.send( { "status": "success", "data": newPost } );
   }
 };
