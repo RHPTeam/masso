@@ -13,6 +13,7 @@
           <div class="modal--body">
             <modal-body
               :fbPost="fbPost"
+              :post="post"
             ></modal-body>
           </div>
         </vue-perfect-scrollbar>
@@ -21,7 +22,7 @@
         <div class="modal--footer d_flex justify_content_between align_items_center px_4">
           <button
             class="btn--skip"
-            @click="closeCreatePopup()"
+            @click="closePopup()"
           > {{ $t('chat.common.popup.delete.cancle') }} </button>
           <button
             class="btn--submit"
@@ -49,13 +50,32 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    post() {
+      return this.$store.getters.defaultPost;
     }
   },
   methods: {
-    closeCreatePopup() {
+    resetPost() {
+      this.post.title = "";
+      this.post.content = "";
+    },
+    closePopup() {
       this.$emit( "closePopup", false );
     },
     createPost() {
+      // Map _categories
+      const cate = this.post._categories.map( ( item ) => {
+        return {
+          _id: item._id,
+          title: item.title
+        }
+      } );
+      this.post._categories = cate;
+
+      // Create post request
+      this.$store.dispatch( "createPostByContent", this.post );
+      this.closePopup();
     }
   }
 };

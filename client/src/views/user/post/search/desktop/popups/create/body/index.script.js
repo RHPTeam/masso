@@ -16,7 +16,7 @@ export default {
     CheckinPost,
     ActivityPost
   },
-  props: [ "fbPost" ],
+  props: [ "fbPost", "post" ],
   data() {
     return {
       statusContentEditable: true,
@@ -52,12 +52,11 @@ export default {
     colorFb() {
       return this.$store.getters.colorFb;
     },
-    // Get Post by Id
-    post() {
-      return this.$store.getters.defaultPost;
-    },
     placesPopular(){
       return this.$store.getters.places;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
     },
     //Get Categories
     categories() {
@@ -65,7 +64,7 @@ export default {
     },
     //Get friends Facebook
     friendFb() {
-      if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
+      if ( Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
       return this.$store.getters.allFriend;
     },
     // Get 12 first item from more color
@@ -125,10 +124,6 @@ export default {
       this.$store.dispatch( "updatePost", this.post );
       this.isShowChangeScrape = false
     },
-    // Update categories post
-    // updateCate( value ) {
-    //   this.$store.dispatch( "updatePost", this.post );
-    // },
     updateTitlePost( value ){
       clearTimeout( typingTimer );
       typingTimer = setTimeout(this.updateTitle( value ), 8000);
@@ -142,6 +137,15 @@ export default {
     },
     updateCheckin( val ) {
       this.post.place = val;
+    },
+    updatePostTags( val ) {
+      const tags = val.map( ( item ) => {
+        return {
+          uid: item.uid,
+          text: item.text
+        }
+      } );
+      this.post.tags = tags;
     },
     showOptionColor() {
       this.isShowColor = true;
@@ -166,11 +170,7 @@ export default {
       this.isShowActivity = true;
     },
     changeContentDefault() {
-      this.$store.dispatch("setPostDefault", {
-        key: "color",
-        value: ""
-      });
-      this.$store.dispatch( "updatePostColor", this.post );
+      this.post.color = "";
     },
     showOptionPostImages(){
       this.isShowColor = false;
@@ -181,47 +181,33 @@ export default {
     changeBgColor ( ev ) {
       this.bgColorActive = ev;
     },
-    // Update post when click button Save
-    savePost(){
-      this.$store.dispatch( "updatePost", this.post );
-      this.$router.push( { name: "post_posts" } );
-    },
-    //update post and post now
-    async saveAndPostNow(){
-      await this.$store.dispatch( "updatePost", this.post );
-      this.isShowPostNowPopup = true;
-    },
     // Select file images
-    selectFile( id ) {
+    selectFile() {
       this.file = this.$refs.file.files;
-      this.sendFile( id );
+      this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
       input.type = 'file';
 
-      this.$store.dispatch("setPostDefault", {
-        key: "color",
-        value: ""
-      });
-      this.$store.dispatch( "updatePostColor", this.post );
+      this.post.color = "";
     },
-    // Update file images to post
-    sendFile() {
+    // Upload image
+    async sendFile() {
       const formData = new FormData();
       Array.from( this.file ).forEach(( f ) => {
         formData.append( "attachments", f )
       });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
-      } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
-      }
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };

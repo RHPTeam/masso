@@ -256,17 +256,17 @@
     }
   }
 }
- @media only screen and (max-width: 1366px) {
-   .list--data {
-     .col--content {
-       width: calc(100% - 315px);
-     }
-     .col--image {
-       width: 350px;
-       display: block;
-     }
-   }
- }
+// @media only screen and (max-width: 1366px) {
+//   .list--data {
+//     .col--content {
+//       width: calc(100% - 315px);
+//     }
+//     .col--image {
+//       width: 150px;
+//       display: block;
+//     }
+//   }
+// }
 @media only screen and (max-width: 1280px) {
   .list--data {
     .col--content {

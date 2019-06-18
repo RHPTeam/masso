@@ -8,6 +8,9 @@ export default {
   createNewPost() {
     return Api().post( "posts" );
   },
+  createPostByContent( post ) {
+    return Api().post( "posts/create", post );
+  },
   getById( postId ) {
     return Api().get( `posts?_id=${postId}` );
   },
@@ -31,6 +34,9 @@ export default {
   },
   deletePost( id ) {
     return Api().delete( `posts?_postId=${id}` );
+  },
+  uploadAttachments( files ) {
+    return Api().post( `posts/upload`, files );
   },
 
   // get Newest Post

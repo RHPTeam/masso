@@ -8,8 +8,8 @@
         label="text"
         multiple
         placeholder="Cùng với ai?"
-        @input="update"
-        :value="post.tags"
+        @input="update($event)"
+        v-model="post.tags"
       >
         <template slot="option" slot-scope="option">
           <div class="d_flex align_items_center">
@@ -56,18 +56,7 @@ export default {
   },
   methods: {
     update( value ) {
-      const tags = value.map(item => {
-        return {
-          uid: item.uid,
-          text: item.text
-        }
-      });
-      this.$store.dispatch( "setPostArray", {
-        key: "tags",
-        value: tags
-      });
-
-      this.$store.dispatch( "updatePost", this.post );
+      this.$emit( "updatePostTags", value );
     }
   }
 };

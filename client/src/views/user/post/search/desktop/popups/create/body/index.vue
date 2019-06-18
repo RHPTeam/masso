@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper position_relative px_4" :data-theme="currentTheme">
     <div>
+      <div>{{ post }}</div>
       <!-- Start: Post Title -->
       <div class="item mb_4">
         <span>Tên bài viết</span>
@@ -264,7 +265,11 @@
           <activity-post v-if="isShowActivity === true" :post="post" @sendPhoto="photo = $event" @closeActivity="isShowActivity = $event"></activity-post>
           <!--End: Activity -->
           <!-- Start: Tag-->
-          <tag-post v-if="isShowTag === true" :post="post"></tag-post>
+          <tag-post
+            v-if="isShowTag === true"
+            :post="post"
+            @updatePostTags="updatePostTags($event)"
+          ></tag-post>
           <!--End: Tag-->
           <!-- Start: Checkin-->
           <checkin-post
