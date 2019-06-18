@@ -30,6 +30,7 @@ export default {
   props: [ "item" ],
   methods: {
     async showListPostInCategory(){
+      console.log(this.item._id);
       await this.$store.dispatch("showPostCateDefaultById", this.item._id);
       await this.$store.dispatch("setPostCateDefault", 1);
       this.$router.push({name: "post_posts"});

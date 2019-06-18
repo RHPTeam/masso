@@ -12,14 +12,14 @@
         <div class="col col--description px_2">Mô tả</div>
         <div class="col col--action px_4">Hành động</div>
       </div>
-<!--      <div>-->
-<!--        <div>-->
-<!--          <categories-default-->
-<!--            v-for="(cate, index) in categoriesDefault"-->
-<!--            :key="`c-${index}`"-->
-<!--            :item="cate"></categories-default>-->
-<!--        </div>-->
-<!--      </div>-->
+      <div>
+        <div>
+          <categories-default
+            v-for="(cate, index) in categoriesDefault"
+            :key="`c-${index}`"
+            :item="cate"></categories-default>
+        </div>
+      </div>
       <div class="loading--block mt_3"
            v-if="this.$store.getters.statusCategories === 'loading'"
       >

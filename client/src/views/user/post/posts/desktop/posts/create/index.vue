@@ -3,14 +3,17 @@
     <div
       class="section--header d_flex justify_content_start align_items_center"
     >
-      <router-link
-        class="btn--link mr_2"
-        tag="a"
-        :to="{ name: 'post_posts' }"
-        active-class="active"
-        exact
-      >Quay lại</router-link
-      >
+      <keep-alive>
+        <router-link
+          class="btn--link mr_2"
+          tag="a"
+          :to="{ name: 'post_posts' }"
+          active-class="active"
+          exact
+        >
+          Quay lại
+        </router-link>
+      </keep-alive>
       <div class="divider"></div>
       <router-link
         class="btn--link ml_2"

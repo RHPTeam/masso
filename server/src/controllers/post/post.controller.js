@@ -91,14 +91,9 @@ module.exports = {
   },
   "update": async ( req, res ) => {
     const findPost = await Post.findOne( {
-        "_id": req.query._postId,
-        "_account": req.uid
-      } ),
-      // eslint-disable-next-line no-unused-vars
-      listPostOldSchedule = await PostSchedule.find( {
-        "_post": req.query._postId,
-        "_account": req.uid
-      } ).lean();
+      "_id": req.query._postId,
+      "_account": req.uid
+    } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
@@ -393,6 +388,8 @@ module.exports = {
     newPost._categories.push( findPostCategoryDefault._id );
     await newPost.save();
 
-    res.send( { "status": "success", "data": newPost } );
+    let findPostAfterAdd = await Post.findOne( { "_id": newPost._id } ).populate( { "path": "_categories", "select": "_id title" } );
+
+    res.send( { "status": "success", "data": findPostAfterAdd } );
   }
 };

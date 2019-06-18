@@ -28,7 +28,6 @@ const actions = {
   getCategoryDefault: async ({commit}) => {
     commit("cate_default_request");
     const results = await CategoryDefaultService.index();
-    console.log(results.data.data);
     commit("setAllCateDefault", results.data.data);
     commit("cate_default_success");
   }

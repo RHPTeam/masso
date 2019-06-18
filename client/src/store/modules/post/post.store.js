@@ -121,6 +121,9 @@ const mutations = {
   setNewestPost: (state, payload) => {
     state.newestPost = payload;
   },
+  setPostCateDefault: (state, payload) => {
+    state.infoPostCateDefault = payload;
+  },
   resetPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = payload;
   },
@@ -135,6 +138,9 @@ const actions = {
 
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
+
+    const resultAllPost = await PostServices.index();
+    commit( "setAllPost", resultAllPost.data.data );
 
     commit( "post_success" );
   },
@@ -182,7 +188,6 @@ const actions = {
     commit("cate_default_request");
 
     const result = await CategoryDefaultService.editPost(payload);
-    console.log(result.data.data);
 
     commit("setPost", result.data.data);
 
