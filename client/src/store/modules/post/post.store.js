@@ -105,16 +105,14 @@ const mutations = {
     state.totalPost = payload;
   },
   setUpdatePost: (state, payload) => {
+    //get index of post in all post then filter item
     const position = state.allPost.map((item,index) => {
       if (payload._id === item._id) return index;
-    });
+    }).filter(item => item !== undefined)[0];
+
     state.allPost[position] = payload;
   },
   setDeletePost: (state, payload) => {
-    // const position = state.allPost.map( (item, index) => {
-    //   if (payload === item._id) return index;
-    // });
-    // state.allPost.slice(position, 1);
     state.allPost = payload;
   },
   // setNewestPost
@@ -130,6 +128,9 @@ const mutations = {
   updateDefaultPostByFbPost: ( state, payload ) => {
     state.defaultPost.content = payload.content;
     state.defaultPost.attachments = payload.attachments;
+  },
+  setPostsCategoryInfinite: (state, payload) => {
+    state.postsPageInfinite = payload;
   }
 };
 const actions = {
@@ -228,7 +229,7 @@ const actions = {
   getPostsPageInfiniteCategory: async ( { commit }, payload ) => {
     commit( "post_request" );
     const resultPost = await PostServices.getByCategories( payload );
-    commit( "setAllPost", resultPost.data.data );
+    commit( "setPostsCategoryInfinite", resultPost.data.data );
     commit( "post_success" );
   },
   getPostsByKey: async ( { commit }, payload ) => {
@@ -264,6 +265,11 @@ const actions = {
 
     await PostServices.updatePost( payload._id, payload );
 
+    const resultPostById = await PostServices.getById( payload._id );
+    commit( "setPost", resultPostById.data.data );
+
+    commit("setPost", payload);
+
     commit("setUpdatePost", payload);
 
     commit( "post_success" );
@@ -276,6 +282,7 @@ const actions = {
     commit( "setPost", resultPostById.data.data );
 
     commit("setPost", payload);
+
     commit("setUpdatePost", payload);
 
     commit( "post_success" );

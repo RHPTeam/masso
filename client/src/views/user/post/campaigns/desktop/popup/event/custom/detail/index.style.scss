@@ -124,7 +124,7 @@
       }
     }
     .item--body {
-      font-size: .85rem;
+      font-size: calc(1rem - 3px);
       &:nth-child(even) {
         background-color: #fafafa;
       }
