@@ -11,11 +11,11 @@
           <div class="image--wrap mr_2" v-for="(gallery, index) in item.attachments.slice(0,3)" :key="`i-${index}`">
             <img :src="gallery.link">
           </div>
-          <div class="image--wrap position_absolute" v-if="item.attachments.length > 3">
+          <div class="image--wrap" v-if="item.attachments.length > 3">
             <div
               class="image--wrap-more d_flex align_items_center justify_content_center"
             >
-              +{{ item.attachments.length - 2 }}
+              +{{ item.attachments.length -3 }}
             </div>
           </div>
         </div>
@@ -98,9 +98,9 @@ export default {
       } );
     }
   }
-  }
+}
 </script>
 
 <style scoped lang="scss">
-@import "./index.style";
+@import "../index.style";
 </style>

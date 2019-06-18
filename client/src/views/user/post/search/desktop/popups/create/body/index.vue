@@ -1,7 +1,6 @@
 <template>
   <div class="wrapper position_relative px_4" :data-theme="currentTheme">
     <div>
-      <div>{{ post }}</div>
       <!-- Start: Post Title -->
       <div class="item mb_4">
         <span>Tên bài viết</span>
