@@ -393,18 +393,6 @@ module.exports = {
     newPost._categories.push( findPostCategoryDefault._id );
     await newPost.save();
 
-    res.send( { "status": "success", "data": "Synchronized..." } );
-  },
-  "upload": async ( req, res ) => {
-    if ( !req.files || req.files.length === 0 ) {
-      return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
-    }
-    const attachmentList = req.files.map( ( file ) => {
-      if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
-        return `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
-      }
-    } );
-
-    return res.status( 200 ).json( { "status": "success", "data": attachmentList } );
+    res.send( { "status": "success", "data": newPost } );
   }
 };
