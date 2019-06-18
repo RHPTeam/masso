@@ -55,6 +55,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
     }
   },
   methods: {
@@ -65,25 +68,29 @@ export default {
       };
       this.$store.dispatch("deleteAttachmentPost", dataSender);
     },
-    selectFile(id) {
+    selectFile() {
       this.file = this.$refs.file.files;
-      this.sendFile(id);
+      this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
       input.type = 'file';
     },
-    sendFile() {
+    async sendFile() {
       const formData = new FormData();
       Array.from(this.file).forEach((f) => {
         formData.append("attachments", f)
       });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      this.$store.dispatch( "updateAttachmentPost", objSender );
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };

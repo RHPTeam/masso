@@ -89,14 +89,13 @@ export default {
   },
   async created (){
     const infoStatus = this.$store.getters.statusOnePost;
-    // const infoCateDefault = this.$store.getters.infoPostCateDefault;
-    // const statusCateDefault = this.$store.getters.statusPostCateDefault;
-    if (infoStatus !== 'success') {
+    const infoCateDefault = this.$store.getters.infoPostCateDefault;
+    const statusCateDefault = this.$store.getters.statusPostCateDefault;
+    if (infoCateDefault === 0 && infoStatus !== 'success') {
       await this.$store.dispatch( "getPostById", this.$route.params.id );
+    } else if(infoCateDefault === 1 && statusCateDefault !== "success") {
+      await this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
     }
-    // else if(infoCateDefault === 1 && statusCateDefault !== "success") {
-    //   await this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
-    // }
 
     await this.$store.dispatch( "getAllFriendFb" );
     await this.$store.dispatch( "getPlaceFromFb" );
@@ -114,12 +113,13 @@ export default {
       this.linkContent = StringFunction.detectUrl(value);
       // this.$store.dispatch( "updatePost", this.post  );
       // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
+      if( this.post.color && this.post.color.value !== '' && value.length >= 200 ) {
         this.isShowColor = false;
         delete this.post.color;
-        this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch( "updatePostColor", this.post );
+        // this.$store.dispatch( "updatePost", this.post );
       } else {
-        this.$store.dispatch( "updatePost", this.post );
+        // this.$store.dispatch( "updatePost", this.post );
       }
     }
   },
@@ -194,6 +194,7 @@ export default {
     savePost(){
       this.$store.dispatch( "updatePost", this.post );
       this.$router.push( { name: "post_posts" } );
+      this.$store.dispatch("setPostCateDefault", 0);
     },
     //update post and post now
     async saveAndPostNow(){

@@ -36,7 +36,7 @@ export default {
     };
 
     await this.$store.dispatch( "getCategoriesByPage", dataSender );
-    // await this.$store.dispatch("getCategoryDefault");
+    await this.$store.dispatch("getCategoryDefault");
   },
   methods: {
     updateCategory( val ) {
