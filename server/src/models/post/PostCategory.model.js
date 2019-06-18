@@ -6,17 +6,21 @@ const mongoose = require( "mongoose" ),
   PostCategorySchema = new Schema( {
     "title": String,
     "description": String,
+    "totalPosts": {
+      "type": Number,
+      "default": 0
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
     },
-    "other01": String,
-    "other02": String,
     "created_at": {
       "type": Date,
       "default": Date.now()
     },
-    "updated_at": Date
+    "updated_at": Date,
+    "other01": String,
+    "other02": String
   } );
 
 PostCategorySchema.index( {

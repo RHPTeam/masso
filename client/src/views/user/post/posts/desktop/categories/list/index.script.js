@@ -27,16 +27,23 @@ export default {
     },
     categoriesDefault(){
       return this.$store.getters.allCateDefault;
+    },
+    statusCategories() {
+      return this.$store.getters.statusCategories;
     }
   },
   async created() {
+    const defaultNumberNo = this.$store.getters.allCateDefault;
+
+    if ( defaultNumberNo.length === 0 ) {
+      this.$store.dispatch("getCategoryDefault");
+    }
     const dataSender = {
       size: this.filterShowSelected.id,
       page: this.currentPage
     };
 
-    await this.$store.dispatch( "getCategoriesByPage", dataSender );
-    await this.$store.dispatch("getCategoryDefault");
+    this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {

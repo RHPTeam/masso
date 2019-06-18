@@ -14,8 +14,7 @@
         <!--Start: Empty Data-->
         <div class="alert alert_warning text_center p_2"
              v-if="facebookPages.length === 0 && facebookGroups.length === 0"
-        >Chúng tôi không tìm thấy bất kỳ trang hay nhóm Facebook nào của bạn.
-          Nếu có điều gì đó không đúng, hãy liên lạc với bộ phận CSKH của Zinbee để được trợ giúp.
+        >Nếu không tìm thấy bất kì nhóm hoặc fanpage nào, hãy thử cập nhật lại! Nếu có điều gì đó không đúng, hãy liên lạc với bộ phận CSKH của Zinbee để được trợ giúp.
         </div>
         <!--End: Empty Data-->
         <div v-else>
