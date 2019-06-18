@@ -111,3 +111,17 @@
   transform: translateX(100%);
   opacity: 0;
 }
+
+.modal--wrapper[data-theme="dark"] {
+  background-color: #2f3136;
+  .modal--header {
+    background-color: #2f3136;
+  }
+  .modal--body {
+    .history--list {
+      .history--list-item {
+        background-color: #27292d;
+      }
+    }
+  }
+}
