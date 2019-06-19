@@ -52,7 +52,7 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Campaign.find( { "_account": req.uid, "status": req.query._status }, "title description started_at", query ).lean();
+      dataResponse = await Campaign.find( { "_account": req.uid, "status": req.query._status }, "title description status started_at", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
@@ -75,7 +75,7 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Campaign.find( { "_account": req.uid }, "title description started_at", query ).lean();
+      dataResponse = await Campaign.find( { "_account": req.uid }, "title description status started_at", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
