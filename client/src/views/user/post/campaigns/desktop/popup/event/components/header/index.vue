@@ -51,20 +51,21 @@
     <div class="r mx_0 justify_content_between mt_2">
       <div class="left">
         <div class="d_flex">
-          <toggle-switch
-            class="mr_2"
-            :value="event.type_event === 0 ? false : true"
-            @change="changeStatus($event.value)"
-            :sync="true"
-            :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
-            :switch-color="{
-              checked: event.color,
-              unchecked: '#e4e4e4'
-            }"
-          />
-          <span>
-            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng
-          </span>
+<!--          <toggle-switch-->
+<!--            class="mr_2"-->
+<!--            :value="event.type_event === 0 ? false : true"-->
+<!--            @change="changeStatus($event.value)"-->
+<!--            :sync="true"-->
+<!--            :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"-->
+<!--            :switch-color="{-->
+<!--              checked: event.color,-->
+<!--              unchecked: '#e4e4e4'-->
+<!--            }"-->
+<!--          />-->
+<!--          <span>-->
+<!--            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng-->
+<!--          </span>-->
+          <span>Tên sự kiện giúp bạn phân biệt giữa các sự kiện trong một ngày</span>
         </div>
       </div>
       <div class="right">

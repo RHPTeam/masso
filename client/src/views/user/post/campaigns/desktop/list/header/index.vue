@@ -34,11 +34,11 @@
         :filterSelected="filterShowSelected"
         @updateFilterSelected="updateFilterShowSelected($event)"
       />
-      <app-filter
-        :filterList="filterStatusList"
-        :filterSelected="filterStatusSelected"
-        @updateFilterSelected="updateFilterStatusSelected($event)"
-      />
+<!--      <app-filter-->
+<!--        :filterList="filterStatusList"-->
+<!--        :filterSelected="filterStatusSelected"-->
+<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
+<!--      />-->
     </div>
     <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
@@ -103,6 +103,16 @@ export default {
       this.$emit( "updateFilterShowSelected", val );
     },
     updateFilterStatusSelected( val ) {
+      console.log( val );
+      if ( val.id === "all" ) {
+        const dataSender = {
+          size: this.sizeDefault,
+          page: this.pageDefault
+        }
+        this.$store.dispatch("getCampaignsByPage", dataSender);
+      } else {
+
+      }
       this.$emit( "updateFilterStatusSelected", val );
     },
     async updateSearch() {

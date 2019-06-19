@@ -20,7 +20,10 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "title content" ).lean();
+      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    } else if ( req.query._categoryId ) {
+      dataResponse = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
@@ -42,7 +45,7 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title description" } ).lean();
+      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
@@ -60,8 +63,9 @@ module.exports = {
       } );
 
     newPost._categories.push( findPostCategory._id );
+    findPostCategory.totalPosts++;
     await newPost.save();
-
+    await findPostCategory.save();
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
   "createPost": async ( req, res ) => {
@@ -124,6 +128,15 @@ module.exports = {
       .replace( /(<br \/>)|(<br>)/gm, "\n" )
       .replace( /(<\/p>)|(<\/div>)/gm, "\n" )
       .replace( /(<([^>]+)>)/gm, "" );
+
+    // Handle post category
+    await Promise.all( req.body._categories.map( async ( category ) => {
+      const categoryInfo = await PostCategory.find( { "_id": category } ),
+        totalPostsOfCategory = await Post.countDocuments( { "_categories": category } );
+
+      categoryInfo.totalPosts = totalPostsOfCategory;
+      categoryInfo.save();
+    } ) );
 
     res
       .status( 201 )
@@ -200,6 +213,13 @@ module.exports = {
       } )
     );
     await PostSchedule.deleteMany( { "_post": req.query._postId } );
+
+    await Promise.all( findPost._categories.map( async ( category ) => {
+      const categoryInfo = await PostCategory.find( { "_id": category } );
+
+      categoryInfo.totalPosts -= 1;
+      categoryInfo.save();
+    } ) );
 
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );
