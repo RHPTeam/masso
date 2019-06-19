@@ -68,11 +68,7 @@
 
 <script>
 export default {
-  props: {
-    item: {
-      type: Object
-    }
-  },
+  props: ["item"],
   computed: {
     // post(){
     //   return this.$store.getters.post;

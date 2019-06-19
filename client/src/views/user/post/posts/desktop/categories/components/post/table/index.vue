@@ -45,7 +45,7 @@
       <div class="col col--action px_4">Hành động</div>
     </div>
     <!-- if all post === undefined call component loading -->
-    <div v-if="allPost.length === 0"
+    <div v-if="allPost.length === 0 && this.$store.getters.statusPost === 'success'"
          class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
       Không có dữ liệu
     </div>

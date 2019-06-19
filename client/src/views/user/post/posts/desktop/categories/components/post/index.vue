@@ -19,13 +19,13 @@
     />
     <!-- End: Data List -->
     <!-- Start: pagination post-->
-    <div class="mt_3">
-      <app-paginate
-        :search="search"
-        :currentPage="currentPage"
-        :filterShowSelected="filterShowSelected"
-      />
-    </div>
+<!--    <div class="mt_3">-->
+<!--      <app-paginate-->
+<!--        :search="search"-->
+<!--        :currentPage="currentPage"-->
+<!--        :filterShowSelected="filterShowSelected"-->
+<!--      />-->
+<!--    </div>-->
     <!-- End: pagination post-->
   </div>
 </template>
