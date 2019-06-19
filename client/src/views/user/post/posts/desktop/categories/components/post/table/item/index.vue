@@ -15,12 +15,16 @@
     </div>
     <!-- End: Name Column -->
     <!-- Start: Category Column -->
-    <div class="col col--category px_2">
+    <div class="col col--category px_2" v-if="this.$store.getters.infoPostCateDefault === 0">
       <span v-for="(category, index) in item._categories"
             :key="`c-${index}`"
       >
         {{ category.title + [ index === item._categories.length - 1 ? '' : ', ' ] }}
       </span>
+    </div>
+
+    <div class="col col--category px_2" v-if="this.$store.getters.infoPostCateDefault === 1">
+      {{titleCategory}}
     </div>
     <!-- End: Category Column -->
 
@@ -72,7 +76,10 @@ export default {
   computed: {
     // post(){
     //   return this.$store.getters.post;
-    // }
+    // },
+    titleCategory(){
+      return this.$store.getters.titleCategory;
+    }
   },
   methods: {
     updatePost() {
