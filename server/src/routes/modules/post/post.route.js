@@ -42,6 +42,10 @@ router
   .post( PostController.create )
   .patch( upload.array( "attachments", 20 ), PostController.update )
   .delete( PostController.delete );
+
+// route create post by content
+router.route( "/create" ).post( PostController.createPost );
+
 router
   .route( "/now" )
   .get( PostController.getPostSchedule )
