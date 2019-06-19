@@ -8,7 +8,7 @@ import axios from "axios";
 import CookieFunction from "@/utils/functions/cookie";
 import StringFunction from "@/utils/functions/string";
 export default {
-  created() {
+  async created() {
     const query = this.$route.query;
     if ( query.hasOwnProperty( "authorization" ) ) {
       CookieFunction.setCookie( "sid", StringFunction.findSubString( query.authorization, "sid=", ";" ) );
@@ -18,9 +18,9 @@ export default {
       CookieFunction.setCookie( "__v", "1.0.0" );
 
       axios.defaults.headers.common.Authorization = query.authorization;
-
-      this.$router.push( "/welcome" );
     }
+    await this.$store.dispatch( "getUserInfo" );
+    this.$router.push( "/welcome" );
   }
 }
 </script>
