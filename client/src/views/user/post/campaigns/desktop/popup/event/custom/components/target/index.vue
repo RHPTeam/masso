@@ -1,5 +1,5 @@
 <template>
-  <div class="target p_3 mb_2">
+  <div class="target p_3 mb_2" :data-theme="currentTheme">
     <div class="header d_flex align_items_center mb_3">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
@@ -120,6 +120,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     caseEvent() {
       return this.$store.getters.caseEvent;
     },
@@ -223,6 +226,29 @@ export default {
     }
     .empty {
       border: none !important;
+    }
+  }
+}
+
+
+// ========================= CHANGE THEME
+
+// dark
+.target[data-theme="dark"] {
+  background: #272a2c;
+  .header {
+    .icon {
+      color: #ccc;
+    }
+  }
+  .body {
+    .card {
+      background: none;
+      color: #ccc;
+      border-color: #484848;
+      &:hover {
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      }
     }
   }
 }

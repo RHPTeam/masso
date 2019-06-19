@@ -17,10 +17,11 @@
       max-height: calc( 100vh - 140px - 8rem );
     }
     .modal--content {
-      background-color: #f7f7f7;
+      background-color: rgba(39, 41, 45, 0.8);
       border-radius: .625rem;
       max-height: calc( 100vh - 4rem );
       width: 60%;
+      overflow: hidden;
     }
   }
 }

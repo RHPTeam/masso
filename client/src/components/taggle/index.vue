@@ -45,9 +45,9 @@
   flex-wrap: wrap;
 }
 .vue-input-tag-wrapper .input-tag {
-  background-color: #f2f2f2;
+  background-color: #1c1d1fad;
   border-radius: .375rem;
-  color: #444;
+  color: #ccc;
   display: inline-block;
   font-size: .875rem;
   font-weight: 400;

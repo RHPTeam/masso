@@ -29,7 +29,7 @@
         <div class="button remove mr_2" @click="isDeleteEvent = true">
           <icon-base
             class="ic--remove"
-            icon-name="ic--remove"
+            icon-name="Xóa"
             width="24"
             height="24"
             viewBox="0 0 16 16"

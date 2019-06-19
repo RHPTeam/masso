@@ -1,5 +1,5 @@
 <template>
-  <div class="main position_relative" v-if="caseEvent">
+  <div class="main position_relative" v-if="caseEvent" :data-theme="currentTheme">
     <div class="section d_flex align_items_center mb_4">
       <div class="tabs"
            role="category"
@@ -17,6 +17,7 @@
               height="14"
               width="14"
               viewBox="0 0 18 18"
+              icon-name="Thông tin"
             >
               <icon-info/>
             </icon-base>
@@ -39,6 +40,7 @@
               :style="[ caseEvent.post === 2 ? { stroke: event.color, color: event.color } : null ]"
               height="14"
               width="14"
+              icon-name="Thông tin"
               viewBox="0 0 18 18"
             >
               <icon-info/>
@@ -83,6 +85,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     caseEvent() {
       return this.$store.getters.caseEvent;
     }
@@ -117,15 +122,15 @@ export default {
   }
   .tabs {
     border-bottom: 2.25px solid transparent;
-    background-color: #fff;
+    background-color: #27292d;
     cursor: pointer;
-    color: #999;
+    color: #ccc;
     font-weight: 600;
     flex: 0.5;
     padding: .65rem;
     transition: all .4s ease;
     &:hover{
-      color: #666;
+      color: #999;
       .icon {
         .icon--info {
           color: #666;
@@ -150,10 +155,11 @@ export default {
       }
     }
     .card--text {
-      background: #ffffff;
+      background: #303236;
       box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+      border: 1px solid #484848;
       border-radius: .25rem;
-      color: #444;
+      color: #ccc;
       display: none;
       font-size: .825rem;
       font-weight: normal;
@@ -209,6 +215,15 @@ export default {
         }
       }
     }
+  }
+}
+
+// ========================= CHANGE THEME
+
+// dark
+.main[data-theme="dark"] { 
+  .section {
+    
   }
 }
 </style>

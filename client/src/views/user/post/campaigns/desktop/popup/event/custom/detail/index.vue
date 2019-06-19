@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" :data-theme="currentTheme">
     <div class="custom" v-if="caseEvent.libraries === 0">
       <!-- Start: Body -->
       <div class="body p_3 mb_4">
@@ -34,8 +34,8 @@
               </icon-base>
             </div>-->
           </div>
-          <div>
-            <div class="item--empty text_center pt_3" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
+          <div class="content">
+            <div class="item--empty text_center pt_3 pb_2" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
             <div v-else class="item--body d_flex align_items_center px_3 py_2" v-for="(post, index) in event.post_custom" :key="`d-${index}`">
               <div class="col col--name pr_3">
                 <div class="col col--name-text">
@@ -58,6 +58,7 @@
                   width="18px"
                   height="18px"
                   viewBox="0 0 16 16"
+                  icon-name="Xóa"
                 >
                   <icon-remove></icon-remove>
                 </icon-base>
@@ -94,6 +95,9 @@ export default {
     GlobalOption
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     caseEvent() {
       return this.$store.getters.caseEvent;
     },

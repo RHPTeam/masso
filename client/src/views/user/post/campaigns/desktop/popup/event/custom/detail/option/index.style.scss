@@ -25,6 +25,8 @@
         }
       }
       input {
+        background: #27292d;
+        color: #ccc;
         border: none;
         border-radius: .625rem;
         height: 36px;
@@ -46,7 +48,7 @@
     font-size: .85rem;
     margin-bottom: 2.2rem;
     .result {
-      background-color: #ffffff;
+      background-color: #00000087;
       border-top-left-radius: .5rem;
       border-top-right-radius: .5rem;
       color: #999;
@@ -54,14 +56,15 @@
       height: 38px;
     }
     .result--item {
-      background-color: #fafafa;
+      background-color: #1e1e21;
+      color: #ccc;
       font-size: calc(1rem - 3px);
       &.empty {
         color: #999;
         font-size: .825rem;
       }
       &:hover {
-        background-color: #fff;
+        background-color: #51515257;
       }
       &:last-child {
         border-bottom-left-radius: .5rem;
@@ -119,7 +122,8 @@
     }
   }
   .footer--back{
-    background: #fafafa;
+    // background: #27292d;
+    background: #303236;
     position: absolute;
     bottom: -36px;
     left: 0;
@@ -141,6 +145,15 @@
     }
   }
 }
+
+
+// ================== THEME
+
+// dark 
+.detail[data-theme="dark"] {
+
+}
+
 
 //  ************ RESPONSIVE
 
