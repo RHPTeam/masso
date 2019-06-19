@@ -26,6 +26,7 @@ const state = {
       text: ""
     }
   },
+  postAttachmentsUpload: [],
   postOfCate: [],
   postsPage: [],
   postsPageInfinite: [],
@@ -43,6 +44,7 @@ const getters = {
   defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
+  postAttachmentsUpload: ( state ) => state.postAttachmentsUpload,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage,
   postsPageInfinite: ( state ) => state.postsPageInfinite,
@@ -78,6 +80,9 @@ const mutations = {
   },
   setPost: ( state, payload ) => {
     state.post = payload;
+  },
+  setPostAttachmentsUpload: ( state, payload ) => {
+    state.postAttachmentsUpload = payload;
   },
   set_post: ( state, payload ) => {
     state.post[ payload.key ] = payload.value;
@@ -118,6 +123,7 @@ const mutations = {
   // setNewestPost
   setNewestPost: (state, payload) => {
     state.newestPost = payload;
+    state.allPost.push(payload);
   },
   setPostCateDefault: (state, payload) => {
     state.infoPostCateDefault = payload;
@@ -141,6 +147,10 @@ const actions = {
     commit( "setNewPost", resultPostCreate.data.data );
 
     commit( "post_success" );
+  },
+  createPostByContent: async ( { commit }, payload ) => {
+    const res = await PostServices.createPostByContent( payload );
+    commit( "setNewPost", res.data.data );
   },
   deletePost: async ( { commit }, payload ) => {
 
@@ -292,6 +302,10 @@ const actions = {
   },
   updateDefaultPostByFbPost: async ( { commit }, payload ) => {
     commit( "updateDefaultPostByFbPost", payload );
+  },
+  uploadPostAttachments: async ( { commit }, payload ) => {
+    const res = await PostServices.uploadAttachments(payload);
+    await commit("setPostAttachmentsUpload", res.data.data);
   },
   deleteAttachmentPost: async ( { commit }, payload ) => {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);

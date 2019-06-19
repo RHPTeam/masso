@@ -64,6 +64,13 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
+  "createPost": async ( req, res ) => {
+    req.body._account = req.uid;
+    const newPost = await new Post( req.body );
+
+    await newPost.save();
+    res.status( 201 ).json( jsonResponse( "success", newPost ) );
+  },
   "update": async ( req, res ) => {
     const findPost = await Post.findOne( {
       "_id": req.query._postId,
