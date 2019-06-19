@@ -36,14 +36,6 @@ export default {
       targetDataDelete: {},
     };
   },
-  async created() {
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-    //
-    // await this.$store.dispatch( "getCampaignsByPage", dataSender );
-  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

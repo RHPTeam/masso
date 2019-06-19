@@ -42,7 +42,6 @@ export default {
       };
       await this.$store.dispatch( "getPostsByPage", dataSender );
     }
-
   },
   methods: {
     activeCurrentSort( i, type ) {

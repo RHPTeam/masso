@@ -14,8 +14,7 @@
         <!--Start: Empty Data-->
         <div class="alert alert_warning text_center p_2"
              v-if="facebookPages.length === 0 && facebookGroups.length === 0"
-        >Chúng tôi không tìm thấy bất kỳ trang hay nhóm Facebook nào của bạn.
-          Nếu có điều gì đó không đúng, hãy liên lạc với bộ phận CSKH của Zinbee để được trợ giúp.
+        >Nếu không tìm thấy bất kì nhóm hoặc fanpage nào, hãy thử cập nhật lại! Nếu có điều gì đó không đúng, hãy liên lạc với bộ phận CSKH của Zinbee để được trợ giúp.
         </div>
         <!--End: Empty Data-->
         <div v-else>
@@ -24,7 +23,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Trang</div>
+            >Facebook Fanpage</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
@@ -54,7 +53,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Nhóm</div>
+            >Facebook Group</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"

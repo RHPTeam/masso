@@ -35,9 +35,6 @@ export default {
 
       return isCategoriesRoute || isPostRoute;
     }
-  },
-  async created() {
-    // await this.$store.dispatch( "getUserInfo" );
   }
 };
 </script>

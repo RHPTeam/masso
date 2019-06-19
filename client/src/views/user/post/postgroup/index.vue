@@ -82,14 +82,7 @@ export default {
   created() {
     this.$store.dispatch( "postGroupGroupsSelected", [] );
     this.$store.dispatch( "postGroupPagesSelected", [] );
-  },
-  methods: {
-  },
-  computed: {    
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
+  }
 };
 </script>
 

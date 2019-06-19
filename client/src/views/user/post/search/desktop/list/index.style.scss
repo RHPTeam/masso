@@ -22,26 +22,14 @@
     border-top-right-radius: calc(0.5rem + 2px);
     border-bottom-right-radius: calc(0.5rem + 2px);
     border: 0;
+    color: #fff;
     font-size: 0.875rem;
     height: 100%;
     outline: none;
     width: calc(100% - 48px);
-  }
-  ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: #ccc;
-  }
-  ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #ccc;
-  }
-  :-ms-input-placeholder {
-    /* IE 10+ */
-    color: #ccc;
-  }
-  :-moz-placeholder {
-    /* Firefox 18- */
-    color: #999;
+    &::placeholder {
+      color: #666;
+    }
   }
   svg {
     color: #999;
@@ -129,7 +117,7 @@
     }
   }
   .col--image {
-    width: 175px;
+    width: 225px;
   }
   .col--like,
   .col--share {
@@ -146,34 +134,20 @@
       }
     }
   }
-
   .image--wrap {
     border-radius: 5px;
+    height: 40px;
     overflow: hidden;
     width: 40px;
-    &:before {
-      content: "";
-      display: block;
-      padding-top: 100%;
-    }
-    &-more,
     img {
-      position: absolute;
-      width: 100%;
-    }
-    img {
-      height: auto;
-      left: 50%;
-      max-width: none;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      height: 40px;
+      width: 40px;
     }
     &-more {
       background-color: #e4e4e4;
       color: #999999;
-      height: 100%;
-      left: 0;
-      top: 0;
+      height: 40px;
+      width: 40px;
     }
   }
 }
@@ -230,19 +204,19 @@
       padding: 0 0.5rem !important;
     }
     .col--content {
-      width: calc(100% - 315px);
+      width: calc(100% - 460px);
     }
     .col--image {
-      width: 150px;
+      width: 225px;
     }
     .col--like {
       width: 70px;
     }
     .col--share {
-      display: none;
+      width: 70px;
     }
     .col--action {
-      width: 95px;
+      width: 110px;
     }
   }
 }
@@ -281,14 +255,7 @@
 @media only screen and (max-width: 1200px) {
   .list--data {
     .col--content {
-      width: calc(100% - 375px);
-    }
-    .col--image {
-      display: block;
-    }
-    .col--share {
-      width: 70px;
-      display: block;
+      width: calc(100% - 250px);
     }
   }
 }
@@ -296,19 +263,16 @@
 @media only screen and (max-width: 1024px) {
   .list--data {
     .col--content {
-      width: calc(100% - 315px);
-    }
-    .col--share {
-      display: none;
+      width: calc(100% - 250px);
     }
   }
 }
 @media only screen and (max-width: 992px) {
   .list--data {
     .col--content {
-      width: calc(100% - 165px);
+      width: calc(100% - 180px);
     }
-    .col--image {
+    .col--share {
       display: none;
     }
   }

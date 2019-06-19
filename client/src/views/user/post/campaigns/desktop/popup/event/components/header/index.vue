@@ -48,7 +48,7 @@
     </div>
     <!-- End: Row -->
     <!-- Start: Row -->
-    <div class="r mx_0 justify_content_between mt_3">
+    <div class="r mx_0 justify_content_between mt_2">
       <div class="left">
         <div class="d_flex">
           <toggle-switch
@@ -108,7 +108,7 @@
     </div>
     <!-- End: Row -->
     <!-- Start: Row -->
-    <div class="r mx_0 justify_content_between mt_3">
+    <div class="r mx_0 justify_content_between mt_2">
       <header-time></header-time>
     </div>
     <!-- End: Row -->

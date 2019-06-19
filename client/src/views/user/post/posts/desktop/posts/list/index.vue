@@ -58,8 +58,7 @@ export default {
         size: this.filterShowSelected.id,
         page: this.currentPage
       };
-
-      // this.$store.dispatch( "getPostsByPage", dataSender );
+      this.$store.dispatch( "getPostsByPage", dataSender );
     }
   }
 };

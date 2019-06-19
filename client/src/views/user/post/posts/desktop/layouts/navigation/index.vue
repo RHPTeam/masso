@@ -37,6 +37,7 @@
     <transition name="slide-fade">
       <post-history
         v-if="isShowHistory"
+        :currentTheme="currentTheme"
         @close="isShowHistory = $event"
       ></post-history>
     </transition>

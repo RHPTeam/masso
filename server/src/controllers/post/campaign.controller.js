@@ -26,38 +26,38 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
-    let page = null, dataResponse = null;
+    let dataResponse = null;
 
+    // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await Campaign.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean();
-    } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
-    } else if ( req.query._size ) {
-      dataResponse = ( await Campaign.find( { "_account": req.uid } ).lean() ).slice( 0, Number( req.query._size ) );
-    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Campaign.find( { "_account": req.uid } ).lean();
+      dataResponse = await Campaign.findOne( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
-    if ( req.query._size ) {
-      if ( ( await Campaign.find( { "_account": req.uid } ) ).length % req.query._size === 0 ) {
-        page = Math.floor( ( await Campaign.find( { "_account": req.uid } ) ).length / req.query._size );
-      } else {
-        page = Math.floor( ( await Campaign.find( { "_account": req.uid } ) ).length / req.query._size ) + 1;
+    // Handle get items by pagination from database
+    if ( req.query._size && req.query._page ) {
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await Campaign.countDocuments( { "_account": req.uid } );
+
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
       }
 
-      return res
-        .status( 200 )
-        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+      query.sort = { "$natural": -1 };
+
+      // Handle with mongodb
+      dataResponse = await Campaign.find( { "_account": req.uid }, "title description started_at", query ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    // Check when user get one
-    if ( req.query._id ) {
-      dataResponse = dataResponse[ 0 ];
-    }
-
-    res
-      .status( 200 )
-      .json( jsonResponse( "success", dataResponse ) );
+    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   /**
    * Create campaign

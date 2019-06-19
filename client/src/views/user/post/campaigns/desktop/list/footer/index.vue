@@ -43,7 +43,6 @@ export default {
     };
 
     await this.$store.dispatch( "getCampaignsByPage", dataSender );
-    await this.$store.dispatch( "getAllCampaigns" );
   },
   methods: {
     async goToPage( page ) {

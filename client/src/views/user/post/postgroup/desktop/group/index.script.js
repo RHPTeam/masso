@@ -24,8 +24,11 @@ export default {
       return this.$store.getters.postGroups;
     }
   },
-  async created() {
-    await this.$store.dispatch("getAllPostGroups");
+  created() {
+    const postGroupsNo = this.$store.getters.postGroups;
+    if ( postGroupsNo.length === 0 ) {
+      this.$store.dispatch("getAllPostGroups");
+    }
   },
   methods: {
     clearTypingTimer() {

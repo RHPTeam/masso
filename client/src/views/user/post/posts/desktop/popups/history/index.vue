@@ -1,5 +1,5 @@
 <template>
-  <div class="modal--wrapper">
+  <div class="modal--wrapper" :data-theme="currentTheme">
     <!-- Start: Modal Header -->
     <div class="modal--header d_flex align_items_center justify_content_between">
       <div class="title">Lịch sử đăng bài</div>
@@ -68,6 +68,7 @@
 
 <script>
 export default {
+  props: ["currentTheme"],
   data() {
     return {
     }

@@ -49,12 +49,16 @@
           <div v-for="(item, index) in listPostFacebookDefault" :key="index">
             <app-item :item="item" />
           </div>
-          <div v-if="listPostFacebookDefault && listPostFacebookDefault.length === 0"
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
+            <loading-component></loading-component>
+          </div>
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
                class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
           >
             Không có dữ liệu
           </div>
         </vue-perfect-scrollbar>
+        <!-- Start: List Content -->
       </div>
     </div>
   </div>
@@ -71,7 +75,7 @@ export default {
       currentPage: 1,
       maxPerPage: 12,
       keyword: "",
-      showLoader: true
+      isLoadingData: true,
     }
   },
   computed: {
@@ -100,17 +104,17 @@ export default {
       size: this.maxPerPage,
       page: this.currentPage
     } );
-    this.keyword = keywordDefault
+    this.keyword = keywordDefault;
   },
   methods: {
     async loadMore() {
-      if ( this.showLoader === true ) {
+      if ( this.isLoadingData === true ) {
         if ( this.keyword !== "" ) {
 
           if ( this.currentPage > this.numberPageCurrent ) {
             return false;
           } else {
-            this.showLoader = false;
+            this.isLoadingData = false;
 
             this.currentPage += 1;
 
@@ -119,7 +123,7 @@ export default {
               size: this.maxPerPage,
               page: this.currentPage
             } );
-            this.showLoader = true;
+            this.isLoadingData = true;
           }
         }
       }
@@ -140,11 +144,36 @@ export default {
         size: this.maxPerPage,
         page: this.currentPage
       } );
-    }
+    },
+    // scrollTrigger() {
+    //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
+    //   const observer = new IntersectionObserver( ( entries ) => {
+    //     entries.forEach( ( entry ) => {
+    //       if ( entry.intersectionRatio > 0 && this.currentPage <= this.numberPageCurrent ) {
+    //         console.log("Hú");
+    //         this.showLoader = true;
+    //         setTimeout( () => {
+    //           this.currentPage += 1;
+    //           this.showLoader = false;
+    //           this.getMorePost();
+    //         }, 2000 );
+    //       }
+    //     } );
+    //   } );
+    //   observer.observe(this.$refs.infiniteScrollTrigger);
+    // },
+    // async getMorePost() {
+    //   console.log("get post");
+    //   await this.$store.dispatch( "searchPostsFacebookByKey", {
+    //     keyword: this.keyword,
+    //     size: this.maxPerPage,
+    //     page: this.currentPage
+    //   } );
+    // }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "./index.style";
 </style>

@@ -18,11 +18,7 @@
     <!-- Start: Filter dropdown -->
     <div class="dropdown text_left" v-show="showFilterDropdown">
       <VuePerfectScrollbar class="scroll--control">
-        <div v-if="allCategories && allCategories.length === 0">
-          <loading-component/>
-        </div>
-        <div v-else>
-          <div class="dropdown--item" @click="getAllPost">Tất cả</div>
+        <div>
           <div
             class="dropdown--item"
             v-for="(item, index) in allCategories"
