@@ -180,6 +180,7 @@ const actions = {
   getPostByCategories: async ( { commit }, payload ) => {
     commit( "post_request" );
     const resultPost = await PostServices.getByCategories( payload );
+    console.log(resultPost.data.data);
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },

@@ -87,7 +87,7 @@
   </div>
 </template>
 
-<script src="index.script.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
 @import "index.style";

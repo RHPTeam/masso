@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import AppAction from "../../layouts/actions/posts/index";
+import AppAction from "../../../layouts/actions/posts/index";
 import AppPaginate from "./paginate/index";
 import AppTable from "./table/index";
 

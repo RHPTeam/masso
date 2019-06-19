@@ -1,7 +1,7 @@
 import ConvertUnicode from "@/utils/functions/string";
 import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item/index";
-import PostNowPopup from "../../../popups/postnow";
+import PostNowPopup from "../../../../popups/postnow";
 
 export default {
   components: {
