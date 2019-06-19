@@ -16,63 +16,38 @@ const dictionary = require( "../../configs/dictionaries" ),
 
 module.exports = {
   "index": async ( req, res ) => {
-    let page = null,
-      data = null,
-      dataResponse = null;
+    let dataResponse = null;
 
+    // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await Post.find( { "_id": req.query._id, "_account": req.uid } )
-        .populate( { "path": "_categories", "select": "_id title" } )
-        .lean();
-    } else if ( req.query._categoryId ) {
-      dataResponse = await Post.find( { "_categories": req.query._categoryId } )
-        .populate( { "path": "_categories", "select": "_id title" } )
-        .lean();
-    } else if ( req.query._size && req.query._page ) {
-      data = ( await Post.find( { "_account": req.uid } )
-        .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() );
-      dataResponse = data.slice(
-        ( Number( req.query._page ) - 1 ) * Number( req.query._size ),
-        Number( req.query._size ) * Number( req.query._page )
-      );
-    } else if ( req.query._size ) {
-      data = ( await Post.find( { "_account": req.uid } )
-        .populate( { "path": "_categories", "select": "_id title" } )
-        .lean() );
-      dataResponse = data.slice( 0, Number( req.query._size ) );
-    } else if (
-      Object.entries( req.query ).length === 0 && req.query.constructor === Object
-    ) {
-      dataResponse = await Post.find( { "_account": req.uid } )
-        .populate( { "path": "_categories", "select": "_id title" } )
-        .lean();
+      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "title content" ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
-    if ( req.query._size ) {
-      if (
-        data.length % req.query._size === 0
-      ) {
-        page = Math.floor(
-          data.length / req.query._size
-        );
-      } else {
-        page = Math.floor(
-          data.length / req.query._size
-        ) + 1;
+    // Handle get items by pagination from database
+    if ( req.query._size && req.query._page ) {
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await Post.countDocuments( { "_account": req.uid } );
+
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
       }
 
-      return res
-        .status( 200 )
-        .json( jsonResponse( "success", { "results": dataResponse, "page": page, "total": data.length } ) );
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+      query.sort = { "$natural": -1 };
+
+      // Handle with mongodb
+      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title description" } ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    // Check when user get one
-    if ( req.query._id ) {
-      dataResponse = dataResponse[ 0 ];
-    }
-
-    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( {
@@ -88,6 +63,13 @@ module.exports = {
     await newPost.save();
 
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
+  },
+  "createPost": async ( req, res ) => {
+    req.body._account = req.uid;
+    const newPost = await new Post( req.body );
+
+    await newPost.save();
+    res.status( 201 ).json( jsonResponse( "success", newPost ) );
   },
   "update": async ( req, res ) => {
     const findPost = await Post.findOne( {
@@ -391,5 +373,17 @@ module.exports = {
     let findPostAfterAdd = await Post.findOne( { "_id": newPost._id } ).populate( { "path": "_categories", "select": "_id title" } );
 
     res.send( { "status": "success", "data": findPostAfterAdd } );
+  },
+  "upload": async ( req, res ) => {
+    if ( !req.files || req.files.length === 0 ) {
+      return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
+    }
+    const attachmentList = req.files.map( ( file ) => {
+      if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
+        return `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
+      }
+    } );
+
+    return res.status( 200 ).json( { "status": "success", "data": attachmentList } );
   }
 };

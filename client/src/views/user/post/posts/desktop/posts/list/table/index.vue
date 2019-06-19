@@ -44,15 +44,14 @@
       <div class="col col--category px_2">Danh mục</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
-    <!-- if all post === undefined call component loading -->
-    <div v-if="allPost.length === 0"
-         class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
-      Không có dữ liệu
-    </div>
-    <!-- else call component item post -->
-    <div v-else>
+    <!-- Start: List Data -->
+    <div>
       <div v-if="this.$store.getters.statusPost === 'loading'" class="mt_3">
         <loading-component></loading-component>
+      </div>
+      <div v-if="this.$store.getters.statusPost === 'success' && allPost.length === 0"
+           class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
+        Không có dữ liệu
       </div>
       <div v-else>
         <item-post
@@ -64,6 +63,7 @@
         ></item-post>
       </div>
     </div>
+    <!-- End: List Data -->
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-popup
