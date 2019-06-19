@@ -24,18 +24,18 @@ export default {
 
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
   methods: {
     updateKey( val ){
       this.user.keywords = val;
       this.$store.dispatch( "updateUser", this.user );
       // this.$router.push({name:"post_account"})
     }
-  },
-  computed: {    
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
+  }
 };
 </script>
 

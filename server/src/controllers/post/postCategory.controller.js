@@ -3,7 +3,7 @@
  * author: hoc-anms
  * updater: trantoan
  * date up: 20/04/2019
- * date to: 02/05/2019
+ * date to: 19/06/2019
  * team: BE-RHP
  */
 const Post = require( "../../models/post/Post.model" );
@@ -13,58 +13,39 @@ const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
-  /**
-   * Get post auto (query or not)
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "index": async ( req, res ) => {
-    let page = null, dataResponse = null;
+    let dataResponse = null;
 
+    // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await PostCategory.find( { "_id": req.query._id, "_account": req.uid } ).lean();
-    } else if ( req.query._size && req.query._page ) {
-      dataResponse = ( await PostCategory.find( { "_account": req.uid } ).lean() ).slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
-    } else if ( req.query._size ) {
-      dataResponse = ( await PostCategory.find( { "_account": req.uid } ).lean() ).slice( 0, Number( req.query._size ) );
-    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostCategory.find( { "_account": req.uid } ).lean();
+      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description" ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
-    // Check ammout post of auto
-    dataResponse = dataResponse.map( async ( item ) => {
-      if ( item._account.toString() === req.uid ) {
-        const findPost = await Post.find( { "_account": req.uid } );
+    // Handle get items by pagination from database
+    if ( req.query._size && req.query._page ) {
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await PostCategory.countDocuments( { "_account": req.uid } );
 
-        item.ammout = findPost.filter( ( post ) => post._categories.indexOf( item._id ) > -1 ).length;
-
-        return item;
-      }
-    } );
-    dataResponse = await Promise.all( dataResponse );
-
-    // If get size server will auto paginate and return page ammout
-    if ( req.query._size ) {
-      if ( ( await PostCategory.find( { "_account": req.uid } ) ).length % req.query._size === 0 ) {
-        page = Math.floor( ( await PostCategory.find( { "_account": req.uid } ) ).length / req.query._size );
-      } else {
-        page = Math.floor( ( await PostCategory.find( { "_account": req.uid } ) ).length / req.query._size ) + 1;
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
       }
 
-      return res
-        .status( 200 )
-        .json( jsonResponse( "success", { "results": dataResponse, "page": page } ) );
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+      query.sort = { "$natural": -1 };
+
+      // Handle with mongodb
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", query ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    // Check when user get one
-    if ( req.query._id ) {
-      dataResponse = dataResponse[ 0 ];
-    }
-
-    res
-      .status( 200 )
-      .json( jsonResponse( "success", dataResponse ) );
+    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   /**
    * Create Post Category
@@ -149,22 +130,30 @@ module.exports = {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
 
-    let page = null, dataResponse = null, data = ( await PostCategory.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).lean() );
+    let dataResponse = null;
 
+    // Handle get items by pagination from database
     if ( req.query._size && req.query._page ) {
-      dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );
-    } else if ( req.query._size ) {
-      dataResponse = data.slice( 0, Number( req.query._size ) );
-    }
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await PostCategory.countDocuments( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } );
 
-    if ( req.query._size ) {
-      if ( data.length % req.query._size === 0 ) {
-        page = Math.floor( data.length / req.query._size );
-      } else {
-        page = Math.floor( data.length / req.query._size ) + 1;
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
       }
+
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+
+      // Handle with mongodb
+      dataResponse = await PostCategory.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid }, "title description totalPosts", query ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page } } );
+    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   }
 };

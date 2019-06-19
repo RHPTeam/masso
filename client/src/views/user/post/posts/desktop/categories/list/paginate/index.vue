@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ categoriesPage.length }} trong số  {{ allCategories.length }}
+      Kết quả {{ categoriesPage.length }} bản ghi
     </div>
     <paginate
       :pageCount="categoriesPageSize"
@@ -25,9 +25,6 @@ export default {
     }
   },
   computed: {
-    allCategories() {
-      return this.$store.getters.allCategories;
-    },
     categoriesPage() {
       return this.$store.getters.categoriesPage;
     },

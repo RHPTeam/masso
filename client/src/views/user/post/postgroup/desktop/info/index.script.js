@@ -37,6 +37,9 @@ export default {
   },
 
   methods: {
+    closeShowDropdown(){
+      this.showDropdown = false;
+    },
     showDeletePopup() {
       this.isShowDeletePopup = true;
 
@@ -49,12 +52,13 @@ export default {
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
     },
+    updateGroupsAndPages() {
+      this.$store.dispatch( "getFacebookPages" );
+      this.$store.dispatch( "getFacebookGroups" );
+    },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );
       this.showDropdown = false
-    },
-    closeShowDropdown(){
-      this.showDropdown = false;
     }
   }
 };

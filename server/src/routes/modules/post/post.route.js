@@ -61,7 +61,4 @@ router.route( "/sync/duplicate" ).post( PostController.syncDuplicatePostInFolder
 router
   .route( "/newest" ).get( PostController.getNewestPosts );
 
-// Upload
-router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
-
 module.exports = router;

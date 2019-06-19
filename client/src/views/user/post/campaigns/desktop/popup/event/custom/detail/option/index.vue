@@ -1,16 +1,6 @@
 <template>
   <div class="detail position_relative">
     <div>
-        <!-- Start: Top -->
-      <div class="top d_flex align_items_center justify_content_between mb_3">
-        <!-- <div class="top--left mr_auto"
-            @click="back"
-        >Tiếp tục >></div> -->
-        <div class="top--right d_flex align_items_center">
-          <div class="content">Kho nội dung</div>
-        </div>
-      </div>
-      <!-- End: Top -->
       <!-- Start: Action -->
       <div class="action d_flex align_items_center justify_content_between">
         <div class="left position_relative">
@@ -34,7 +24,7 @@
           <categories-filter
             :filterList="filterCategoriesList"
             :filterSelected="filterCategorySelected"
-            @updateFilterSelected="filterCategorySelected = $event"
+            @updateFilterSelected="searchPostByCategory"
           ></categories-filter>
         </div>
       </div>
@@ -90,7 +80,7 @@
       </div>
       <!-- End: Body -->
     </div>
-    <div class="footer--back d_flex">
+    <div class="footer--back d_flex py_2">
       <div class="top--left ml_auto"
            @click="back"
       >Tiếp tục</div>
@@ -241,6 +231,10 @@ export default {
         size: this.pageSize,
         keyword: this.search
       } );
+    },
+    searchPostByCategory(val){
+      this.filterCategorySelected = val;
+      this.$store.dispatch("getPostsPageInfiniteCategory", val.id);
     },
     unselectPost( id ) {
       this.$store.dispatch( "setEventPostRemove", id );

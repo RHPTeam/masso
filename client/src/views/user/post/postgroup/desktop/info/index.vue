@@ -20,6 +20,11 @@
     <!--End: Info Left Component-->
     <!--Start: Info Right Component-->
     <div class="info--right d_flex">
+      <!--Start: Update again pages & groups-->
+      <div class="action mr_2" @click="updateGroupsAndPages" >
+        Cập nhật
+      </div>
+      <!--End: Update again pages & groups-->
       <!--Start: Remove  selected pages & groups-->
       <div class="action mr_2"
          v-if="postGroupGroupsSelected.length !== 0 && groupSelected === true ||

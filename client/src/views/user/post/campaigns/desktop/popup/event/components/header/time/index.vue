@@ -18,7 +18,7 @@
         />
       </div>
       <div class="break d_flex align_items_center" v-if="event.type_event === 0">
-        <div class="desc mr_3">Chờ giữa các lần gửi:</div>
+        <div class="desc mr_3">Chờ giữa các lần đăng:</div>
         <div class="item d_flex align_items_center mr_2">
           <input class="input--time mr_2"
                  type="number"

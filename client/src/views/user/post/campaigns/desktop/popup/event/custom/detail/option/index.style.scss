@@ -55,6 +55,7 @@
     }
     .result--item {
       background-color: #fafafa;
+      font-size: calc(1rem - 3px);
       &.empty {
         color: #999;
         font-size: .825rem;

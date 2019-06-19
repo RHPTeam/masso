@@ -110,16 +110,14 @@ const mutations = {
     state.totalPost = payload;
   },
   setUpdatePost: (state, payload) => {
+    //get index of post in all post then filter item
     const position = state.allPost.map((item,index) => {
       if (payload._id === item._id) return index;
-    });
+    }).filter(item => item !== undefined)[0];
+
     state.allPost[position] = payload;
   },
   setDeletePost: (state, payload) => {
-    // const position = state.allPost.map( (item, index) => {
-    //   if (payload === item._id) return index;
-    // });
-    // state.allPost.slice(position, 1);
     state.allPost = payload;
   },
   // setNewestPost
@@ -127,12 +125,18 @@ const mutations = {
     state.newestPost = payload;
     state.allPost.push(payload);
   },
+  setPostCateDefault: (state, payload) => {
+    state.infoPostCateDefault = payload;
+  },
   resetPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = payload;
   },
   updateDefaultPostByFbPost: ( state, payload ) => {
     state.defaultPost.content = payload.content;
     state.defaultPost.attachments = payload.attachments;
+  },
+  setPostsCategoryInfinite: (state, payload) => {
+    state.postsPageInfinite = payload;
   }
 };
 const actions = {
@@ -141,6 +145,9 @@ const actions = {
 
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
+
+    const resultAllPost = await PostServices.index();
+    commit( "setAllPost", resultAllPost.data.data );
 
     commit( "post_success" );
   },
@@ -192,7 +199,6 @@ const actions = {
     commit("cate_default_request");
 
     const result = await CategoryDefaultService.editPost(payload);
-    console.log(result.data.data);
 
     commit("setPost", result.data.data);
 
@@ -233,7 +239,7 @@ const actions = {
   getPostsPageInfiniteCategory: async ( { commit }, payload ) => {
     commit( "post_request" );
     const resultPost = await PostServices.getByCategories( payload );
-    commit( "setAllPost", resultPost.data.data );
+    commit( "setPostsCategoryInfinite", resultPost.data.data );
     commit( "post_success" );
   },
   getPostsByKey: async ( { commit }, payload ) => {
@@ -269,6 +275,11 @@ const actions = {
 
     await PostServices.updatePost( payload._id, payload );
 
+    const resultPostById = await PostServices.getById( payload._id );
+    commit( "setPost", resultPostById.data.data );
+
+    commit("setPost", payload);
+
     commit("setUpdatePost", payload);
 
     commit( "post_success" );
@@ -281,6 +292,7 @@ const actions = {
     commit( "setPost", resultPostById.data.data );
 
     commit("setPost", payload);
+
     commit("setUpdatePost", payload);
 
     commit( "post_success" );
