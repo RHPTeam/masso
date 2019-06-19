@@ -6,10 +6,6 @@ const mongoose = require( "mongoose" ),
   PostSchema = new Schema( {
     "title": { "type": String, "default": "" },
     "content": { "type": String, "default": "" },
-    "totalPosts": {
-      "type": Number,
-      "default": 0
-    },
     "color": {
       "id": String,
       "value": String

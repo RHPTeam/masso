@@ -2,7 +2,7 @@
   <div class="main--footer campaigns--list-footer">
     <div class="d_flex justify_content_between">
       <div class="">
-          Hiển thị {{ campaigns.length }} trong số {{ filterShowSelected.id }}
+          Hiển thị {{ campaigns.length }} bản ghi
       </div>
       <div class="campaigns--list-paginate">
         <paginate
