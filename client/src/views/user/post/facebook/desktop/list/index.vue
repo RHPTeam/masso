@@ -32,15 +32,16 @@
            v-for="(item, index) in accountsFB"
            :key="index"
       >
-        <div class="card" v-if="facebookStatus === 'loading' && index === accountsFB.length - 1">
+        <item-account
+          :item="item"
+        />
+      </div>
+      <div class="item c_md_6 c_lg_4 c_xl_3" v-if="facebookStatus === 'loading'">
+        <div class="card">
           <div class="card_body text_center d_flex align_items_center justify_content_center">
             <loading-component/>
           </div>
         </div>
-        <item-account
-          v-else
-          :item="item"
-        />
       </div>
       <!-- End: Account Items Loop -->
     </div>
