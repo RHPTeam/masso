@@ -63,7 +63,7 @@ PostSchema.pre( "save", function( next ) {
 
 const Post = mongoose.model( "Post", PostSchema );
 
-Post.on( "index", function ( error ) {
+Post.on( "index", function (error ) {
   if ( error ) {
     console.log( error.message );
   }
