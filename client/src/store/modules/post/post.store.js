@@ -38,13 +38,13 @@ const state = {
   statusPostCateDefault: ""
 };
 const getters = {
-  allPost: ( state ) => state.allPost.reverse(),
+  allPost: ( state ) => state.allPost,
   errorPost: ( state ) => state.errorPost,
   defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
-  postsPage: ( state ) => state.postsPage.reverse(),
+  postsPage: ( state ) => state.postsPage,
   postsPageInfinite: ( state ) => state.postsPageInfinite,
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
@@ -140,9 +140,6 @@ const actions = {
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
 
-    const resultAllPost = await PostServices.index();
-    commit( "setAllPost", resultAllPost.data.data );
-
     commit( "post_success" );
   },
   deletePost: async ( { commit }, payload ) => {
@@ -164,6 +161,7 @@ const actions = {
     commit( "post_request" );
 
     const resultPost = await PostServices.getById( payload );
+    console.log( resultPost );
     commit( "setPost", resultPost.data.data );
 
     commit("post_request_success", resultPost.data.status);
