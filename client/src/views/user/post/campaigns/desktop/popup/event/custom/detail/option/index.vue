@@ -1,5 +1,5 @@
 <template>
-  <div class="detail position_relative">
+  <div class="detail position_relative" :data-theme="currentTheme">
     <div>
       <!-- Start: Action -->
       <div class="action d_flex align_items_center justify_content_between">
@@ -10,6 +10,7 @@
               width="20"
               height="20"
               viewBox="0 0 20 20"
+              icon-name="Tìm kiếm"
             >
               <icon-input-search />
             </icon-base>
@@ -80,7 +81,7 @@
       </div>
       <!-- End: Body -->
     </div>
-    <div class="footer--back d_flex py_2">
+    <div class="footer--back d_flex pt_2">
       <div class="top--left ml_auto"
            @click="back"
       >Tiếp tục</div>
@@ -108,6 +109,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     postsPageInfinite(){
       return this.$store.getters.postsPageInfinite;
     },

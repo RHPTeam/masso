@@ -76,7 +76,8 @@ export default {
         width: 50%;
       }
       .main {
-        border: 1px solid $border-color;
+        // border: 1px solid $border-color;
+        border: 1px solid #484848;
         border-radius: calc(.5rem + 2px);
       }
       .desc {
