@@ -3,7 +3,7 @@
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <breadcrumb
-        nameBread="Thiết lập bài đăng"
+        nameBread="Thiết lập kho nội dung"
         subBread="Giúp bạn lưu các bài đăng vào thư viện và quản lý bài đăng theo nhóm mong muốn"
       />
       <!-- Start: Content -->

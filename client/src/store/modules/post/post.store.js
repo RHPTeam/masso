@@ -36,7 +36,8 @@ const state = {
   totalPost: null,
   newestPost: [],
   infoPostCateDefault: 0,
-  statusPostCateDefault: ""
+  statusPostCateDefault: "",
+  titleCategory: ""
 };
 const getters = {
   allPost: ( state ) => state.allPost,
@@ -54,7 +55,8 @@ const getters = {
   totalPost: ( state ) => state.totalPost,
   newestPost: state => state.newestPost,
   infoPostCateDefault: state => state.infoPostCateDefault,
-  statusPostCateDefault: state => state.statusPostCateDefault
+  statusPostCateDefault: state => state.statusPostCateDefault,
+  titleCategory: state => state.titleCategory
 };
 const mutations = {
   post_request: ( state ) => {
@@ -137,6 +139,9 @@ const mutations = {
   },
   setPostsCategoryInfinite: (state, payload) => {
     state.postsPageInfinite = payload;
+  },
+  setTitleCategories: (state, payload) => {
+    state.titleCategory = payload;
   }
 };
 const actions = {
@@ -202,6 +207,9 @@ const actions = {
     commit("post_cate_default_request", "success");
 
     commit("cate_default_success");
+  },
+  setTitleCate: async ({commit}, payload) => {
+    commit("setTitleCategories", payload);
   },
 
   getPostsByPage: async ( { commit }, payload ) => {

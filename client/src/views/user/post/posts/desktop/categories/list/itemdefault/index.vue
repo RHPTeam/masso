@@ -32,6 +32,7 @@ export default {
     async showListPostInCategory(){
       await this.$store.dispatch("showPostCateDefaultById", this.item._id);
       await this.$store.dispatch("setPostCateDefault", 1);
+      await this.$store.dispatch("setTitleCate", this.item.title);
       this.$router.push( { name: "post_categories", params: { id: this.item._id} } );
     }
   }
