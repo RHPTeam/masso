@@ -1,10 +1,21 @@
 import PostServices from "@/services/modules/post/post.service";
+import CategoryDefaultService from "@/services/modules/post/categorydefault.service";
 import RemoveFunction  from "@/utils/functions/array";
 
 const state = {
   allPost: [],
   errorPost: "",
   newPost: [],
+  defaultPost: {
+    title: "",
+    content: "",
+    _categories: [],
+    attachments: [],
+    place: "",
+    tags: [],
+    activity: "",
+    color: ""
+  },
   post: {
     color: {
       id: "",
@@ -17,24 +28,31 @@ const state = {
   },
   postOfCate: [],
   postsPage: [],
+  postsPageInfinite: [],
   postsPageSize: 1,
   statusPost: "",
   statusOnePost: "",
   totalPost: null,
-  newestPost: []
+  newestPost: [],
+  infoPostCateDefault: 0,
+  statusPostCateDefault: ""
 };
 const getters = {
   allPost: ( state ) => state.allPost.reverse(),
   errorPost: ( state ) => state.errorPost,
+  defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage.reverse(),
+  postsPageInfinite: ( state ) => state.postsPageInfinite,
   postsPageSize: ( state ) => state.postsPageSize,
   statusPost: ( state ) => state.statusPost,
   statusOnePost: ( state ) => state.statusOnePost,
   totalPost: ( state ) => state.totalPost,
-  newestPost: state => state.newestPost
+  newestPost: state => state.newestPost,
+  infoPostCateDefault: state => state.infoPostCateDefault,
+  statusPostCateDefault: state => state.statusPostCateDefault
 };
 const mutations = {
   post_request: ( state ) => {
@@ -45,6 +63,9 @@ const mutations = {
   },
   post_success: ( state ) => {
     state.statusPost = "success";
+  },
+  post_cate_default_request: (state, payload) => {
+    state.statusPostCateDefault = payload;
   },
   setAllPost: ( state, payload ) => {
     state.allPost = payload;
@@ -74,6 +95,9 @@ const mutations = {
   setPostsPage: ( state, payload ) => {
     state.allPost = payload;
   },
+  setPostsPageInfinite: ( state, payload ) => {
+    state.postsPageInfinite = state.postsPageInfinite.concat( payload );
+  },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
   },
@@ -87,14 +111,22 @@ const mutations = {
     state.allPost[position] = payload;
   },
   setDeletePost: (state, payload) => {
-    const position = state.allPost.map( (item, index) => {
-      if (payload === item._id) return index;
-    });
-    state.allPost.slice(position, 1);
+    // const position = state.allPost.map( (item, index) => {
+    //   if (payload === item._id) return index;
+    // });
+    // state.allPost.slice(position, 1);
+    state.allPost = payload;
   },
   // setNewestPost
   setNewestPost: (state, payload) => {
     state.newestPost = payload;
+  },
+  resetPostsPageInfinite: ( state, payload ) => {
+    state.postsPageInfinite = payload;
+  },
+  updateDefaultPostByFbPost: ( state, payload ) => {
+    state.defaultPost.content = payload.content;
+    state.defaultPost.attachments = payload.attachments;
   }
 };
 const actions = {
@@ -104,15 +136,16 @@ const actions = {
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
 
-    const resultAllPost = await PostServices.index();
-    commit( "setAllPost", resultAllPost.data.data );
-
     commit( "post_success" );
   },
   deletePost: async ( { commit }, payload ) => {
 
+    const allPost = state.allPost.filter(
+      ( allPost ) => allPost._id !== payload.id
+    );
+
+    commit("setDeletePost", allPost.reverse());
     await PostServices.deletePost( payload.id );
-    commit("setDeletePost", payload.id);
   },
   getAllPost: async ( { commit } ) => {
     commit( "post_request" );
@@ -135,6 +168,29 @@ const actions = {
     commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
+
+  showPostCateDefaultById: async ({commit}, payload) => {
+    commit("post_request");
+    const result = await CategoryDefaultService.showInfoCateById(payload);
+    commit( "setAllPost", result.data.data.postList );
+    commit("post_success");
+  },
+  setPostCateDefault:async ({commit}, payload) => {
+    commit("setPostCateDefault", payload);
+  },
+  showPostDuplicate: async ({commit}, payload) => {
+    commit("cate_default_request");
+
+    const result = await CategoryDefaultService.editPost(payload);
+    console.log(result.data.data);
+
+    commit("setPost", result.data.data);
+
+    commit("post_cate_default_request", "success");
+
+    commit("cate_default_success");
+  },
+
   getPostsByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
 
@@ -142,7 +198,32 @@ const actions = {
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
+    await commit( "setPostsPageInfinite", res.data.data.results );
 
+    commit( "post_success" );
+  },
+  getPostsPageInfinite: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  getPostsPageInfiniteByKey: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.searchByKey(payload.keyword, payload.size, payload.page );
+    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  getPostsPageInfiniteCategory: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const resultPost = await PostServices.getByCategories( payload );
+    commit( "setAllPost", resultPost.data.data );
     commit( "post_success" );
   },
   getPostsByKey: async ( { commit }, payload ) => {
@@ -152,8 +233,12 @@ const actions = {
 
     await commit( "setPostsPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageInfinite", res.data.data.results );
 
     commit( "post_success" );
+  },
+  resetPostsPageInfinite: async ( { commit } ) => {
+    commit( "resetPostsPageInfinite", [] );
   },
   sendErrorUpdate: async ( { commit } ) => {
     // commit( "post_request" );
@@ -195,18 +280,19 @@ const actions = {
     const resultPost = await PostServices.getById( payload.id );
     commit( "setPost", resultPost.data.data );
   },
+  updateDefaultPostByFbPost: async ( { commit }, payload ) => {
+    commit( "updateDefaultPostByFbPost", payload );
+  },
   deleteAttachmentPost: async ( { commit }, payload ) => {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
   },
-
   // get newest post -- Khanh 13.06
   getNewestPosts: async ({ commit }, payload) => {
     const resGetNewestPost = await PostServices.getNewestPost(payload);
     commit("setNewestPost", resGetNewestPost.data.data);
   }
-
 };
 
 export default {

@@ -8,7 +8,7 @@
     {{ filterDefault.title }}
     <icon-base
       class="ml_1"
-      icon-name="icon-sort-down"
+      icon-name="Lựa chọn"
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -62,7 +62,12 @@ export default {
   },
   methods: {
     getAllPost(){
-      this.$store.dispatch("getAllPost");
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getPostsByPage", dataSender);
+      // this.$store.dispatch("getAllPost");
     },
     async updateFilterSelected( data ) {
       await this.$store.dispatch("getPostByCategories", data._id);

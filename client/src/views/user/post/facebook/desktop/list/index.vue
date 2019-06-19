@@ -1,10 +1,10 @@
 <template>
   <div class="wrapper">
-    <div class="alert alert_warning text_left">
+    <!-- <div class="alert alert_warning text_left">
       CHÚ Ý! Khi quyết định xóa một tài khoản Facebook khỏi hệ thống, tất cả dữ
       liệu được thiết lập trước đó của tài khoản sẽ bị dừng hoặc xóa. Liên hệ
       với bộ phận CSKH của Zinbee để giải đáp thắc mắc nếu có.
-    </div>
+    </div> -->
     <div class="list r">
       <!-- Start: Add Account Item -->
       <div class="addItem c_md_6 c_lg_4 c_xl_3">
@@ -13,7 +13,7 @@
             <div class="item--content">
               <icon-base
                 class="icon--add"
-                icon-name="plus"
+                icon-name="Thêm facebook"
                 width="60"
                 height="60"
                 viewBox="0 0 60 60"

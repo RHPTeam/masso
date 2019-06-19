@@ -72,8 +72,8 @@ const actions = {
       if (account._id === payload) return list.splice(index, 1);
     });
     await commit("setAccountsFB", state.accountsFB);
-    await AccountFacebookChatService.delete(payload);
-    const accountsFB = await AccountFacebookChatService.index();
+    const accountsFB = await AccountFacebookChatService.delete(payload);
+    //  = await AccountFacebookChatService.index();
     await commit("setAccountsFB", accountsFB.data.data);
     commit("statusDeleteFacebook_success");
   },

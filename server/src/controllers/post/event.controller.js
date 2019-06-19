@@ -13,6 +13,7 @@ const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog"
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+// eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
@@ -186,10 +187,7 @@ module.exports = {
      * Update cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-        deletedSchedule( eventSchedule, __dirname );
-      }
+      deletedSchedule( eventSchedule, __dirname );
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
     req.body._id = req.query._eventId;
@@ -219,10 +217,7 @@ module.exports = {
      * Delete cron schedule and event schedule
      */
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-      if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-        ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-        deletedSchedule( eventSchedule, __dirname );
-      }
+      deletedSchedule( eventSchedule, __dirname );
     } ) );
     await EventSchedule.deleteMany( { "_event": req.query._eventId } );
 

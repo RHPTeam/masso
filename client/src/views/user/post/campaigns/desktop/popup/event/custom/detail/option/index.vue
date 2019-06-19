@@ -24,7 +24,11 @@
               <icon-input-search />
             </icon-base>
           </div>
-          <input type="text" placeholder="Tìm kiếm" v-model="search"/>
+          <input type="text"
+                 placeholder="Tìm kiếm"
+                 v-model="search"
+                 @keydown.enter="searchPosts"
+          />
         </div>
         <div class="right position_relative">
           <categories-filter
@@ -34,7 +38,9 @@
           ></categories-filter>
         </div>
       </div>
+      <!-- Start: Body -->
       <div class="body">
+        <!-- Start: Header -->
         <div class="result d_flex align_items_center mt_3 px_3 py_2">
           <div class="name text_left pr_3">Tên bài viết</div>
           <div class="categories text_left">Danh mục</div>
@@ -43,14 +49,17 @@
             Hành động
           </div>
         </div>
-        <div v-if="allPosts">
-          <div v-if="this.$store.getters.statusPost === 'loading'">
-            <loading-component />
+        <!-- End: Header -->
+        <div v-if="postsPageInfinite">
+          <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center"
+               v-if="postsPageInfinite.length === 0">Không có dữ liệu
           </div>
-          <div class="result--item empty d_flex align_items_center px_3 py_2 justify_content_center" v-if="filterPostsByCategories.length === 0">Không có dữ liệu</div>
-          
-          <VuePerfectScrollbar class="scroll-categories">
-            <div class="result--item d_flex align_items_center px_3 py_2" v-for="(post, index) in filterPostsByCategories" :key="`p-${index}`">
+
+          <VuePerfectScrollbar class="infinite scroll-categories" @ps-y-reach-end="loadMore">
+            <div class="result--item d_flex align_items_center px_3 py_2"
+                 v-for="(post, index) in postsPageInfinite"
+                 :key="`p-${index}`"
+            >
               <div class="name text_left pr_3">
                 <div class="name--text">{{post.title}}</div>
               </div>
@@ -72,6 +81,9 @@
                     v-else
                 ></div>
               </div>
+            </div>
+            <div v-if="this.$store.getters.statusPost === 'loading'">
+              <loading-component />
             </div>
           </VuePerfectScrollbar>
         </div>
@@ -95,14 +107,19 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
       filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
       filterCategorySelected: { id: "all", name: "Tất cả" },
-      search: ""
+      isFirstTime: false,
+      postsArr: [],
+      pageSize: 25,
+      search: "",
+      isLoadingData: true,
     }
   },
   computed: {
-    allPosts(){
-      return this.$store.getters.allPost;
+    postsPageInfinite(){
+      return this.$store.getters.postsPageInfinite;
     },
     categories(){
       return this.$store.getters.allCategories;
@@ -128,9 +145,28 @@ export default {
           .toLowerCase()
           .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
       } );
+    },
+    postsPageSize() {
+      return this.$store.getters.postsPageSize;
     }
   },
   async created() {
+    // Reset posts page infinite
+    if ( this.postsPageInfinite ) {
+      await this.$store.dispatch( "resetPostsPageInfinite" );
+    }
+    // Get all categories
+    if ( this.categories.length === 0 ) {
+      await this.$store.dispatch( "getAllCategories" );
+    }
+    // Get Posts By Page
+    const dataSender = {
+      page: 1,
+      size: this.pageSize
+    };
+    await this.$store.dispatch( "getPostsPageInfinite", dataSender );
+    this.isFirstTime = true;
+    // Convert categories
     await this.categories.forEach( ( item ) => {
       const data = {
         id: item._id,
@@ -139,6 +175,10 @@ export default {
 
       this.filterCategoriesList.push( data );
     } );
+  },
+  beforeDestroy() {
+    this.currentPage = 1;
+    this.isFirstTime = false;
   },
   methods: {
     back(){
@@ -152,11 +192,55 @@ export default {
         return item._id === id;
       }).length > 0
     },
+    async loadMore() {
+      if ( this.isLoadingData === true ) {
+        if ( this.search === "" ) {
+          if ( this.currentPage >= this.postsPageSize ) {
+            return false;
+          } else if ( this.isFirstTime === true ) {
+            this.isLoadingData = false;
+            this.currentPage += 1;
+
+            await this.$store.dispatch( "getPostsPageInfinite", {
+              page: this.currentPage,
+              size: this.pageSize
+            } );
+            this.isLoadingData = true;
+          }
+        } else {
+          if ( this.currentPage >= this.postsPageSize ) {
+            return false;
+          } else if ( this.isFirstTime === true ) {
+            this.isLoadingData = false;
+            this.currentPage += 1;
+
+            await this.$store.dispatch( "getPostsPageInfiniteByKey", {
+              keyword: this.search,
+              page: this.currentPage,
+              size: this.pageSize
+            } );
+            this.isLoadingData = true;
+          }
+        }
+      }
+    },
     selectPost( value ) {
       this.$store.dispatch( "setEventPush", {
         key: "post_custom",
         value: value
       } )
+    },
+    async searchPosts() {
+      // Reset posts page infinite
+      if ( this.postsPageInfinite ) {
+        await this.$store.dispatch( "resetPostsPageInfinite" );
+      }
+      this.currentPage = 1;
+      await this.$store.dispatch( "getPostsPageInfiniteByKey", {
+        page: this.currentPage,
+        size: this.pageSize,
+        keyword: this.search
+      } );
     },
     unselectPost( id ) {
       this.$store.dispatch( "setEventPostRemove", id );

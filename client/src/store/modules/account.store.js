@@ -111,11 +111,7 @@ const actions = {
     commit( "setUser", userInfoRes.data.data );
   },
   updateUser: async ( { commit }, payload ) => {
-    await AccountServices.update( payload );
-
-    const userInfoRes = await AccountServices.show(
-      CookieFunction.getCookie( "uid" )
-    );
+    const userInfoRes = await AccountServices.update( payload );
 
     commit( "updateUser", userInfoRes.data.data );
   },

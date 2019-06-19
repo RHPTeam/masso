@@ -59,13 +59,9 @@ const state = {
         ( postGroup ) => postGroup._id !== payload.id
       );
 
-      let res;
-
       commit( "setPostGroups", postGroups );
 
       await PostGroupServices.delete( payload.id );
-      res = await PostGroupServices.index();
-      commit( "setPostGroups", res.data.data );
     },
     deletePagesNGroupsFromPostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.deletePagesNGroups( payload );

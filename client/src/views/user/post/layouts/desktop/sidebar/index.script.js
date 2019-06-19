@@ -10,10 +10,11 @@ export default {
   data() {
     return {
       isShowFlagDropdown: false,
+      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
       menus: [ {
         text: "Bảng điều khiển",
         icon: {
-          iconName: "home",
+          iconName: "Bảng điều khiển",
           tagName: "icon-home",
           width: 20,
           height: 20,
@@ -24,7 +25,7 @@ export default {
       {
         text: "Kho nội dung",
         icon: {
-          iconName: "script",
+          iconName: "Kho nội dung",
           tagName: "icon-post",
           width: 20,
           height: 20,
@@ -35,7 +36,7 @@ export default {
       {
         text: "Chiến dịch",
         icon: {
-          iconName: "broadcasts",
+          iconName: "Chiến dịch",
           tagName: "icon-broadcast",
           width: 21,
           height: 21,
@@ -46,7 +47,7 @@ export default {
       {
         text: "Nhóm & Trang",
         icon: {
-          iconName: "friends",
+          iconName: "Nhóm & Trang",
           tagName: "icon-friend",
           width: 20,
           height: 20,
@@ -57,7 +58,7 @@ export default {
       {
         text: "Tài khoản Facebook",
         icon: {
-          iconName: "fbaccount",
+          iconName: "Tài khoản Facebook",
           tagName: "icon-account",
           width: 20,
           height: 20,
@@ -65,6 +66,17 @@ export default {
         },
         to: "post_fbaccount"
       }
+      // {
+      //   text: "Facebook tìm kiếm",
+      //   icon: {
+      //     iconName: "Facebook tìm kiếm",
+      //     tagName: "icon-input-search",
+      //     width: 22,
+      //     height: 22,
+      //     viewBox: "0 0 24 24"
+      //   },
+      //   to: "post_fb_search"
+      // }
       ]
     };
   },

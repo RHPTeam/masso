@@ -21,6 +21,7 @@
     .card {
       height: 100%;
       background: #ffffff;
+      transition: 0.4s;
       cursor: pointer;
       .item--content {
         // margin-top: 45%;
@@ -35,7 +36,7 @@
         }
       }
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
       }
     }
   }
@@ -46,6 +47,8 @@
       border-radius: 5px;
       height: 100%;
       background: #ffffff;
+      transition: 0.4s;
+      cursor: pointer;
       .card_body {
         padding: .75rem 1rem !important;
         .card--header {
@@ -154,7 +157,7 @@
         }
       }
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
       }
     }
   }

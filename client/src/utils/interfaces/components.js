@@ -87,6 +87,7 @@ Vue.component( "IconScript", () => import( "@/components/icons/IconScript" ) );
 Vue.component( "IconSecurity", () => import( "@/components/icons/IconSecurity" ) );
 Vue.component( "IconShop", () => import( "@/components/icons/IconShop" ) );
 Vue.component( "IconSortDown", () => import( "@/components/icons/IconSortDown" ) );
+Vue.component( "IconSupport", () => import( "@/components/icons/IconSupport" ) );
 Vue.component( "IconShare", () => import( "@/components/icons/IconShare" ) );
 Vue.component( "IconSmile", () => import( "@/components/icons/IconSmile" ) );
 Vue.component( "IconStop", () => import( "@/components/icons/IconStop" ) );

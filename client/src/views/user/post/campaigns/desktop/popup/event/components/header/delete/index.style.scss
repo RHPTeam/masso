@@ -135,18 +135,14 @@
         }
 
         .btn--skip {
-          background-color: transparent;
+          background-color: #ff0000a3;
           border-radius: 10px;
           border: 0;
           cursor: pointer;
-          color: #999;
+          color: #fff;
           font-weight: 600;
           outline: none;
           padding: 0.5rem 0.75rem;
-
-          &:hover {
-            background-color: #f7f7f7;
-          }
         }
       }
     }
@@ -180,7 +176,7 @@
     .modal--footer {
       .btn--skip {
         &:hover {
-          background-color: #f7f7f7;
+          background-color: #ff0000cf;
         }
       }
     }
@@ -209,7 +205,7 @@
     .modal--footer {
       .btn--skip {
         &:hover {
-          background-color: #2f3136;
+          background-color: #ff0000cf;
         }
       }
     }

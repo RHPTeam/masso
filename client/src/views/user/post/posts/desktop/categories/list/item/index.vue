@@ -17,35 +17,53 @@
     >
       <span v-if="item.title === 'Chưa phân loại'">
         <span class="mx_1">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1">
           <icon-base
-            icon-name="remove"
+            icon-name="Xóa"
             width="20"
             height="20"
             viewBox="0 0 15 15"
           >
             <icon-remove />
+          </icon-base>
+        </span>
+        <span class="mx_1">
+          <icon-base
+            width="20"
+            height="20"
+            viewBox="0 0 18 18"
+          >
+            <icon-info />
           </icon-base>
         </span>
       </span>
       <span v-else>
         <span class="mx_1" @click="updateCategory">
-          <icon-base icon-name="icon-edit" viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </span>
         <span class="mx_1" @click="showDeletePopup">
           <icon-base
-            icon-name="remove"
+            icon-name="Xóa"
             width="20"
             height="20"
             viewBox="0 0 15 15"
           >
             <icon-remove />
+          </icon-base>
+        </span>
+        <span class="mx_1" @click="showListPostInCategory">
+          <icon-base
+            width="20"
+            height="20"
+            viewBox="0 0 18 18"
+          >
+            <icon-info />
           </icon-base>
         </span>
       </span>
@@ -62,6 +80,10 @@ export default {
     },
     showDeletePopup() {
       this.$emit( "showDeletePopup", this.item );
+    },
+    async showListPostInCategory(){
+      await this.$store.dispatch("getPostByCategories", this.item._id);
+      this.$router.push({name: "post_posts"});
     }
   }
 };

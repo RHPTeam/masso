@@ -50,8 +50,7 @@ export default {
     }
   },
   async created() {
-    const  camp = this.$store.getters.campaignDetail;
-    if(Object.entries(camp).length === 0 && camp.constructor === Object) {
+    if ( Object.entries( this.campaignDetail ).length === 0 && this.campaignDetail.constructor === Object ) {
       const campaignId = this.$route.params.campaignId;
       await this.$store.dispatch( "getCampaignDetail", campaignId );
     }

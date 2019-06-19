@@ -41,6 +41,11 @@ export default {
       return this.$store.getters.allCategories;
     }
   },
+  async created(){
+    if ( this.categories.length === 0 ) {
+      await this.$store.dispatch( "getAllCategories" );
+    }
+  },
   methods: {
     resetPostType() {
       this.$store.dispatch( "setCaseEvent", {

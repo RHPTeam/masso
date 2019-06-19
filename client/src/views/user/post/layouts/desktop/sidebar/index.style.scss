@@ -1,5 +1,5 @@
 .sidebar {
-    padding: 1.75rem 3.125rem;
+    padding: 1.75rem 2.7rem 1.75rem 3.125rem;
     width: 300px;
     transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
     .sidebar--logo {
@@ -13,7 +13,7 @@
     .menu--item {
         margin-bottom: 32px;
         font-family: "Open Sans", sans-serif;
-        font-size: 14px;
+        font-size: 1rem;
         white-space: nowrap;
         overflow: hidden;
         &:last-child {
@@ -43,7 +43,7 @@
         display: none;
       }
       &.collapseMenu {
-          width: 152px;
+          width: 142px;
           .sidebar--logo {
               margin-left: -15px;
           }

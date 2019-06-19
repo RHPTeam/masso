@@ -9,86 +9,11 @@ const Post = require( "../../models/post/Post.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
+const fs = require( "fs" );
 
 const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" ),
-  ScheduleService = require( "node-schedule" ),
-  { agent } = require( "../../configs/crawl" ),
-  { createPost } = require( "../../controllers/core/posts.core" ),
-  // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
-  createSchedule = async ( listNewSchedule ) => {
-    console.log( "\x1b[34m%s\x1b[0m", "Schedule Post Service Starting..." );
-
-    console.log(
-      "\x1b[32m%s\x1b[0m",
-      "Step 01:",
-      "Start - Get all post's user to handle with cron-schedule"
-    );
-    const listScheduleActive = listNewSchedule
-      .filter( ( post ) => post.status === true )
-      .filter( ( post ) => new Date( post.started_at ) > new Date() );
-
-    console.log(
-      "\x1b[32m%s\x1b[0m",
-      "Step 01:",
-      "Finnish - Get all post's user to handle with cron-schedule"
-    );
-    if ( listScheduleActive.length === 0 ) {
-      console.log( "\x1b[31m%s\x1b[0m", "ERROR:", "Haven't post schedule yet!" );
-      return false;
-    }
-
-    console.log(
-      "\x1b[32m%s\x1b[0m",
-      "Step 02:",
-      "Start - Cron post schedule specific date time."
-    );
-    await Promise.all(
-      listScheduleActive.map( ( postSchedule ) => {
-        console.log(
-          "\x1b[35m%s\x1b[0m",
-          "Checking... Post Data Input Before Submit To Facebook."
-        );
-
-        console.log(
-          "\x1b[32m%s\x1b[0m",
-          "SUCCESS:",
-          "Passed! Starting post schedule to RAM of system..."
-        );
-        ScheduleService.scheduleJob(
-          `rhp${postSchedule._id}`,
-          new Date( postSchedule.started_at ),
-          async function() {
-            const resFacebookResponse = await createPost( {
-              "cookie": postSchedule.cookie,
-              agent,
-              "feed": postSchedule.feed
-            } );
-
-            if ( resFacebookResponse ) {
-              if (
-                resFacebookResponse.error.code === 200 && resFacebookResponse.error.text === "Trả về id bài viết thành công!"
-              ) {
-                postSchedule.status = 0;
-                postSchedule.postID = resFacebookResponse.results.postID;
-                await postSchedule.save();
-              }
-            }
-          }
-        );
-        console.log(
-          "\x1b[32m%s\x1b[0m",
-          "SUCCESS:",
-          "Finished! System again assign schedule for event next..."
-        );
-      } )
-    );
-    console.log(
-      "\x1b[32m%s\x1b[0m",
-      "Step 02:",
-      "Finnish - Cron schedule specific date time."
-    );
-  };
+  ScheduleService = require( "node-schedule" );
 
 module.exports = {
   "index": async ( req, res ) => {
@@ -383,7 +308,7 @@ module.exports = {
       } );
     }
     if ( req.body._facebookId ) {
-      const listPostSchedule = await Promise.all(
+      await Promise.all(
         req.body._facebookId.map( async ( facebook ) => {
           let findAccountFacebook = await Facebook.findOne( {
               "_id": facebook,
@@ -407,7 +332,6 @@ module.exports = {
         } )
       );
 
-      await createSchedule( listPostSchedule );
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
   },
@@ -470,6 +394,18 @@ module.exports = {
     newPost._categories.push( findPostCategoryDefault._id );
     await newPost.save();
 
-    res.send( { "status": "success", "data": newPost } );
+    res.send( { "status": "success", "data": "Synchronized..." } );
+  },
+  "upload": async ( req, res ) => {
+    if ( !req.files || req.files.length === 0 ) {
+      return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
+    }
+    const attachmentList = req.files.map( ( file ) => {
+      if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
+        return `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
+      }
+    } );
+
+    return res.status( 200 ).json( { "status": "success", "data": attachmentList } );
   }
 };

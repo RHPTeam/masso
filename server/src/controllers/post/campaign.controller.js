@@ -12,6 +12,7 @@ const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+// eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
@@ -111,10 +112,7 @@ module.exports = {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
-          if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-            await ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-            deletedSchedule( eventSchedule, __dirname );
-          }
+          deletedSchedule( eventSchedule, __dirname );
         } ) );
         await EventSchedule.deleteMany( { "_event": event._id } );
         event.status = findCampaign.status;
@@ -148,10 +146,7 @@ module.exports = {
       const listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId } ).lean();
 
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
-        if ( ScheduleService.scheduledJobs && ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ] ) {
-          ScheduleService.scheduledJobs[ `rhp${eventSchedule._id.toString()}` ].cancel();
-          deletedSchedule( eventSchedule, __dirname );
-        }
+        deletedSchedule( eventSchedule, __dirname );
       } ) );
       await EventSchedule.deleteMany( { "_event": event._id } );
 
@@ -177,6 +172,7 @@ module.exports = {
     }
 
     campaignInfo.title = `${findCampaign.title} Copy`;
+    campaignInfo.status = false;
 
     // eslint-disable-next-line one-var
     const newCampaign = new Campaign( campaignInfo );
