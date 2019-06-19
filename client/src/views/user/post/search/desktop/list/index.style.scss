@@ -100,9 +100,9 @@
   .item--body {
     background-color: #fafafa;
     min-height: 48px;
-    &:last-child {
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
+    &:hover, &:active, &:visited, &:focus {
+      background-color: #27292d;
+      transition: all .5s ease;
     }
   }
 
@@ -295,5 +295,9 @@
   }
   .item--body {
     background-color: rgba(39, 41, 45, 0.4);
+    &:hover, &:active, &:visited, &:focus {
+      background-color: #27292c;
+      transition: all .5s ease;
+    }
   }
 }

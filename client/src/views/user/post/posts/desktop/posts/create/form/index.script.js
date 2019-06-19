@@ -138,7 +138,7 @@ export default {
       this.isShowChangeScrape = false
     },
     // Update categories post
-    updateCate( value ) {
+    updateCate() {
       this.$store.dispatch( "updatePost", this.post );
     },
     updateTitlePost( value ){

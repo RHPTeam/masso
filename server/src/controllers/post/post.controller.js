@@ -131,8 +131,10 @@ module.exports = {
 
     // Handle post category
     await Promise.all( req.body._categories.map( async ( category ) => {
-      const categoryInfo = await PostCategory.find( { "_id": category } ),
-        totalPostsOfCategory = await Post.countDocuments( { "_categories": category } );
+      const categoryInfo = await PostCategory.findOne( { "_id": category._id } ),
+        totalPostsOfCategory = await Post.countDocuments( { "_categories": category._id } );
+
+      console.log( categoryInfo);
 
       categoryInfo.totalPosts = totalPostsOfCategory;
       categoryInfo.save();
@@ -215,7 +217,7 @@ module.exports = {
     await PostSchedule.deleteMany( { "_post": req.query._postId } );
 
     await Promise.all( findPost._categories.map( async ( category ) => {
-      const categoryInfo = await PostCategory.find( { "_id": category } );
+      const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
       categoryInfo.totalPosts -= 1;
       categoryInfo.save();

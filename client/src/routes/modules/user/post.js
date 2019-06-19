@@ -35,6 +35,12 @@ const generalPostRouter = {
           name: "post_postCategories",
           component: require( "@/views/user/post/posts/desktop/categories" )
             .default
+        },
+        {
+          path: ":id/categories",
+          name: "post_categories",
+          component: require( "@/views/user/post/posts/desktop/categories/components/post" )
+            .default
         }
       ]
     },

@@ -25,7 +25,7 @@
     <!-- End: Category Column -->
 
     <!-- Start: Action Column -->
-    <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+    <div v-if="this.$store.getters.infoPostCateDefault === 0" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="updatePost">
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
@@ -47,6 +47,18 @@
           icon-name="Đăng ngay"
           viewBox="0 0 506 506">
           <icon-post-now />
+        </icon-base>
+      </span>
+    </div>
+    <div v-if="this.$store.getters.infoPostCateDefault === 1" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+      <span class="mx_2" @click="editPostCateDefault">
+        <icon-base
+          icon-name="duplicate"
+          width="20"
+          height="20"
+          viewBox="0 0 520 520"
+        >
+          <icon-copy />
         </icon-base>
       </span>
     </div>
@@ -89,5 +101,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.style";
+@import "index.style";
 </style>

@@ -171,7 +171,6 @@ const actions = {
     commit( "post_request" );
 
     const resultPost = await PostServices.getById( payload );
-    console.log( resultPost );
     commit( "setPost", resultPost.data.data );
 
     commit("post_request_success", resultPost.data.status);

@@ -31,9 +31,10 @@ export default {
   computed: {
     showNavigation() {
       const isCategoriesRoute = this.$route.name === "post_postCategories",
-            isPostRoute = this.$route.name === "post_posts";
+            isPostRoute = this.$route.name === "post_posts",
+            isPostCategoriesRoute = this.$route.name === "post_categories";
 
-      return isCategoriesRoute || isPostRoute;
+      return isCategoriesRoute || isPostRoute || isPostCategoriesRoute;
     }
   }
 };
