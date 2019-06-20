@@ -10,6 +10,7 @@ const mongoose = require( "mongoose" ),
       "type": Number,
       "default": 0
     },
+    "postExample": Array,
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
