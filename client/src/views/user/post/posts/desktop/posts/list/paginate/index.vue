@@ -4,6 +4,7 @@
       Hiển thị {{ allPosts.length }} bản ghi
     </div>
     <paginate
+      :value="currentPage"
       :pageCount="postsPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
@@ -38,14 +39,6 @@ export default {
       return this.$store.getters.totalPost;
     }
   },
-  async created() {
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-    //
-    // await this.$store.dispatch( "getPostsByPage", dataSender );
-  },
   methods: {
     async goToPage( page ) {
       if(this.search.length > 0) {
@@ -67,7 +60,12 @@ export default {
 
       }
 
-      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
+      this.$router.replace( {
+        name: "post_posts",
+        query: { size: this.filterShowSelected.id, page: page }
+      } );
+
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

@@ -11,6 +11,13 @@
      border-bottom-left-radius: .625rem;
      border-bottom-right-radius: .625rem;
    }
+    .col--category {
+      cursor: pointer;
+      &:hover {
+        color: #FFB94A;
+        text-decoration: underline;
+      }
+    }
   }
   .col--checkbox {
     height: 20px;
@@ -28,7 +35,7 @@
   .col--action {
     width: 25%;
     svg {
-      color: #999;
+      color: #ccc;
       cursor: pointer;
       transition: all 0.4s ease;
       &:hover {
@@ -142,7 +149,7 @@
 .category--data[data-theme="dark"] {
   .item--header {
     background-color: #27292d;
-    color: #999;
+    color: #ccc;
   }
   .item--body {
     background-color: rgba(39, 41, 45, 0.4);

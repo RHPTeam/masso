@@ -14,7 +14,7 @@
             height="20"
             viewBox="0 0 20 20"
           >
-            <icon-input-search />
+            <icon-input-search/>
           </icon-base>
         </span>
         <input class="search--input"
@@ -88,13 +88,13 @@ export default {
     }
   },
   watch: {
-    search(val) {
-      if(val.length === 0){
+    search( val ) {
+      if ( val.length === 0 ) {
         const dataSender = {
           size: this.sizeDefault,
           page: this.pageDefault
-        }
-        this.$store.dispatch("getCampaignsByPage", dataSender);
+        };
+        this.$store.dispatch( "getCampaignsByPage", dataSender );
       }
     }
   },
@@ -108,7 +108,7 @@ export default {
         const dataSender = {
           size: this.sizeDefault,
           page: this.pageDefault
-        }
+        };
         this.$store.dispatch("getCampaignsByPage", dataSender);
       } else {
 

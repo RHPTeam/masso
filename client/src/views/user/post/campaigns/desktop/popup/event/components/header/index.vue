@@ -26,7 +26,9 @@
             <icon-copy />
           </icon-base>
         </div>-->
-        <div class="button remove mr_2" @click="isDeleteEvent = true">
+        <div class="button remove mr_2"
+             v-if="event._id"
+             @click="isDeleteEvent = true">
           <icon-base
             class="ic--remove"
             icon-name="Xóa"

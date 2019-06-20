@@ -36,7 +36,7 @@
         exact
         v-for="(menu, index) in menus"
         :key="index"
-        :to="{ name: menu.to }"
+        :to="menu.to"
       >
         <a href="#">
           <icon-base

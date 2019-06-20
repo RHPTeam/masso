@@ -4,6 +4,7 @@
       Kết quả {{ categoriesPage.length }} bản ghi
     </div>
     <paginate
+      :value="currentPage"
       :pageCount="categoriesPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
@@ -55,7 +56,12 @@ export default {
 
         await this.$store.dispatch( "getCategoriesByPage", dataSender );
       }
-      this.$parent.$parent.$parent.$parent.$parent.$el.scrollTop = 0
+
+      this.$router.replace( {
+        name: "post_postCategories",
+        query: { size: this.filterShowSelected.id, page: page }
+      } );
+      this.$parent.$parent.$parent.$parent.$parent.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );
