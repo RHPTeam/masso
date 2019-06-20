@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ allPosts.length }} bản ghi
+      Hiển thị {{ allPosts.length }} trong số {{ totalPost }}
     </div>
     <paginate
       :pageCount="postsPageSize"

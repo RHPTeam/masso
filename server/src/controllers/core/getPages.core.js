@@ -1,3 +1,5 @@
+/* eslint-disable no-eval */
+/* eslint-disable no-multi-spaces */
 const request = require( "request" );
 const cheerio = require( "cheerio" ),
   { findSubString } = require( "../../helpers/utils/functions/string" ),
@@ -16,6 +18,7 @@ let getPage = ( { cookie, agent } ) => {
 
     };
 
+    // eslint-disable-next-line handle-callback-err
     request( option, function ( err, res, body ) {
 
       let $ = cheerio.load( body ),
@@ -26,8 +29,8 @@ let getPage = ( { cookie, agent } ) => {
       } else {
         let text = findSubString( $( "script:contains('BookmarkSeeAllEntsSectionController')" ).contents()[ "0" ].data, "BookmarkSeeAllEntsSectionController", "]]," ),
           formatText = findSubString( text, "},[", "]]" );
-
-        eval("var pageRes = [" + formatText + "]" );
+          
+        eval( `var pageRes = [${  formatText  }]` );
 
         resolve( { "error": null, "results": pageRes } );
       }

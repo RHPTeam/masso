@@ -86,6 +86,16 @@ const state = {
 
       commit ( "setCampaignStatus", "success" );
     },
+    getCampaignsByPageWithStatus: async ( { commit }, payload ) => {
+      commit ( "setCampaignStatus", "loading" );
+
+      const res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+
+      await commit( "setCampaigns", res.data.data.results );
+      await commit( "setCampaignsPagesSize", res.data.data.page );
+
+      commit ( "setCampaignStatus", "success" );
+    },
     getCampaignsByKey: async ( { commit }, payload ) => {
       commit ( "setCampaignStatus", "loading" );
 
@@ -95,12 +105,6 @@ const state = {
       await commit( "setCampaignsPagesSize", res.data.data.page );
 
       commit ( "setCampaignStatus", "success" );
-    },
-    getCampaignsByKey: async ( { commit }, payload ) => {
-      const res = await CampaignsServices.searchCampaignsByKey( payload.keyword, payload.size, payload.page );
-
-      await commit( "setCampaigns", res.data.data.results );
-      await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     getCampaignDetail: async ( { commit }, payload ) => {
       const res = await CampaignsServices.getCampaignById( payload );

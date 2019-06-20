@@ -43,6 +43,9 @@ const mutations = {
 
   addNewAccountFacebook: (state, payload) => {
     state.accountsFB.push(payload);
+  },
+  setDeleteAccount: (state, payload) => {
+    state.accountsFB = payload;
   }
 };
 
@@ -68,13 +71,15 @@ const actions = {
   },
   deleteAccountFacebook: async ({ commit, state }, payload) => {
     commit("statusDeleteFacebook_request");
-    state.accountsFB.map((account, index, list) => {
-      if (account._id === payload) return list.splice(index, 1);
-    });
-    await commit("setAccountsFB", state.accountsFB);
-    const accountsFB = await AccountFacebookChatService.delete(payload);
-    //  = await AccountFacebookChatService.index();
-    await commit("setAccountsFB", accountsFB.data.data);
+
+    const account = state.accountsFB.filter(
+      ( item ) => item._id !== payload
+    );
+
+    commit("setDeleteAccount", account);
+
+    await AccountFacebookChatService.delete(payload);
+
     commit("statusDeleteFacebook_success");
   },
   getAccountsFB: async ({ commit }) => {

@@ -1,5 +1,5 @@
 <template>
-  <div class="category">
+  <div class="category" :data-theme="currentTheme">
     <!-- Start: Body -->
     <div class="body p_3 mb_4">
       <div class="desc mb_2">
@@ -37,6 +37,9 @@ export default {
     event: Object
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     categories(){
       return this.$store.getters.allCategories;
     }
@@ -108,6 +111,23 @@ export default {
       border: 1px solid #e4e4e4;
       border-radius: calc(.5rem + 2px);
       width: 50%;
+    }
+  }
+}
+
+
+// ========================= CHANGE THEME
+
+// dark
+.category[data-theme="dark"] { 
+  background: #2f3236;
+  .body {
+    background: #272a2c;
+    .desc--text {
+      color: #ccc;
+    }
+    .option {
+      border-color: #484848;
     }
   }
 }

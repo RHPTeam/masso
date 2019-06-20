@@ -34,6 +34,29 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
+    // Handle et items by pagination with status from database
+    if ( req.query._size && req.query._page && req.query._status ) {
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await Campaign.countDocuments( { "_account": req.uid, "status": req.query._status } );
+
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
+      }
+
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+      query.sort = { "$natural": -1 };
+
+      // Handle with mongodb
+      dataResponse = await Campaign.find( { "_account": req.uid, "status": req.query._status }, "title description status started_at", query ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
+    }
+
     // Handle get items by pagination from database
     if ( req.query._size && req.query._page ) {
       const pageNo = parseInt( req.query._page ),
@@ -52,7 +75,7 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Campaign.find( { "_account": req.uid }, "title description started_at", query ).lean();
+      dataResponse = await Campaign.find( { "_account": req.uid }, "title description status started_at", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
@@ -97,7 +120,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( "_events" );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -125,7 +148,7 @@ module.exports = {
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
 
-    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events" } ) ) );
+    res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean() ) );
   },
   /**
    * Delete campaign

@@ -1,7 +1,7 @@
 import ConvertUnicode from "@/utils/functions/string";
 import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item/index";
-import PostNowPopup from "../../../popups/postnow";
+import PostNowPopup from "../../../../popups/postnow";
 
 export default {
   components: {
@@ -34,11 +34,14 @@ export default {
     }
   },
   async created  () {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-    await this.$store.dispatch( "getPostsByPage", dataSender );
+    // const post = this.$store.getters.allPost;
+    // if(post.length === 0) {
+    //   const dataSender = {
+    //     size: this.filterShowSelected.id,
+    //     page: this.currentPage
+    //   };
+    //   await this.$store.dispatch( "getPostsByPage", dataSender );
+    // }
   },
   methods: {
     activeCurrentSort( i, type ) {

@@ -20,6 +20,9 @@ module.exports = {
     if ( req.query._id ) {
       dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description" ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description", { "sort": { "$natural": -1 } } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
     // Handle get items by pagination from database

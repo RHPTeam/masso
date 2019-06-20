@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper" v-if="fbAccountInfo.userInfo !== undefined">
+  <div class="wrapper" v-if="fbAccountInfo.userInfo !== undefined" :data-theme="currentTheme">
     <!-- Start: Top -->
     <div class="wrapper--top d_flex align_items_center justify_content_between p_3 mb_4">
       <!-- Start: Top Left-->
@@ -131,6 +131,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     fbAccountInfo() {
       return this.$store.getters.fbAccountInfo;
     }

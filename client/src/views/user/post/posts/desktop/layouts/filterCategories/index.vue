@@ -18,7 +18,16 @@
     <!-- Start: Filter dropdown -->
     <div class="dropdown text_left" v-show="showFilterDropdown">
       <VuePerfectScrollbar class="scroll--control">
+        <div class="dropdown--item" v-if="statusCategories === 'loading'">
+          <loading-component/>
+        </div>
         <div>
+          <div
+            class="dropdown--item"
+            @click="getAllPost"
+          >
+            Tất cả
+          </div>
           <div
             class="dropdown--item"
             v-for="(item, index) in allCategories"
@@ -54,6 +63,9 @@ export default {
     },
     allCategories() {
       return this.$store.getters.allCategories;
+    },
+    statusCategories() {
+      return this.$store.getters.statusCategories;
     }
   },
   methods: {
@@ -63,7 +75,6 @@ export default {
         page: 1
       };
       this.$store.dispatch("getPostsByPage", dataSender);
-      // this.$store.dispatch("getAllPost");
     },
     async updateFilterSelected( data ) {
       await this.$store.dispatch("getPostByCategories", data._id);
@@ -74,7 +85,9 @@ export default {
       this.showFilterDropdown = false;
     },
     async showOptionCategories(){
-      await this.$store.dispatch("getAllCategories");
+      if ( this.showFilterDropdown === false ) {
+        await this.$store.dispatch("getAllCategories");
+      }
       this.showFilterDropdown = !this.showFilterDropdown;
     }
   }

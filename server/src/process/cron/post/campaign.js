@@ -3,7 +3,8 @@ const CronJob = require( "cron" ).CronJob;
 const EventSchedule = require( "../../../models/post/EventSchedule.model" );
 
 // Facebook Service Core
-const { agent } = require( "../../../configs/crawl" ),
+const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
+  { agent } = require( "../../../configs/crawl" ),
   { createPost } = require( "../../../controllers/core/posts.core" );
 
 /**
@@ -11,12 +12,12 @@ const { agent } = require( "../../../configs/crawl" ),
  */
 
 ( async () => {
-  let listEventSchedule;
+  let listEventSchedule = [];
 
   console.log( "\x1b[34m%s\x1b[0m", "Schedule Service For Campaign Starting..." );
   // eslint-disable-next-line no-new
   new CronJob(
-    "*/20 * * * * *",
+    "1 * * * * *",
     async function() {
       let dateTimeCurrent = new Date(),
         minDateTime = dateTimeCurrent.setTime(
@@ -28,13 +29,13 @@ const { agent } = require( "../../../configs/crawl" ),
         "Step 01:",
         "Start - Get all event's user to handle with cron-schedule"
       );
-      listEventSchedule = await EventSchedule.find( {
+      listEventSchedule = listEventSchedule.concat( await EventSchedule.find( {
         "status": 1,
         "started_at": {
           "$gte": new Date( minDateTime ).toISOString(),
           "$lt": new Date().toISOString()
         }
-      } ).lean();
+      } ).lean() );
 
       console.log(
         "\x1b[32m%s\x1b[0m",
@@ -51,12 +52,12 @@ const { agent } = require( "../../../configs/crawl" ),
         return false;
       }
 
+      console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
+      listEventSchedule = removeObjectDuplicates( listEventSchedule, "_id" );
+
+
       await Promise.all(
         listEventSchedule.map( async ( eventSchedule ) => {
-          console.log(
-            "\x1b[35m%s\x1b[0m",
-            "Checking... Event Data Input Before Submit To Facebook."
-          );
 
           console.log(
             "\x1b[32m%s\x1b[0m",

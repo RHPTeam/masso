@@ -15,17 +15,21 @@
     </div>
     <!-- End: Name Column -->
     <!-- Start: Category Column -->
-    <div class="col col--category px_2">
+    <div class="col col--category px_2" v-if="this.$store.getters.infoPostCateDefault === 0">
       <span v-for="(category, index) in item._categories"
             :key="`c-${index}`"
       >
         {{ category.title + [ index === item._categories.length - 1 ? '' : ', ' ] }}
       </span>
     </div>
+
+    <div class="col col--category px_2" v-if="this.$store.getters.infoPostCateDefault === 1">
+      {{titleCategory}}
+    </div>
     <!-- End: Category Column -->
 
     <!-- Start: Action Column -->
-    <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+    <div v-if="this.$store.getters.infoPostCateDefault === 0" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="updatePost">
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
@@ -50,6 +54,18 @@
         </icon-base>
       </span>
     </div>
+    <div v-if="this.$store.getters.infoPostCateDefault === 1" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+      <span class="mx_2" @click="editPostCateDefault">
+        <icon-base
+          icon-name="duplicate"
+          width="20"
+          height="20"
+          viewBox="0 0 520 520"
+        >
+          <icon-copy />
+        </icon-base>
+      </span>
+    </div>
     <!-- End: Action Column -->
   </div>
 </template>
@@ -60,7 +76,10 @@ export default {
   computed: {
     // post(){
     //   return this.$store.getters.post;
-    // }
+    // },
+    titleCategory(){
+      return this.$store.getters.titleCategory;
+    }
   },
   methods: {
     updatePost() {
@@ -89,5 +108,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "./index.style";
+@import "index.style";
 </style>
