@@ -53,6 +53,8 @@ router.route( "/sync" ).post( PostController.createSyncFromMarket );
 
 router.route( "/sync/duplicate" ).post( PostController.syncDuplicatePostInFolderExample );
 
+router.route( "/sync/duplicate/folder" ).post( PostController.syncDuplicateFolderExample );
+
 // Get Newest Post
 router
   .route( "/newest" ).get( PostController.getNewestPosts );

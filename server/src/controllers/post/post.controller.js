@@ -367,6 +367,42 @@ module.exports = {
 
     res.send( { "status": "success", "data": findPostAfterAdd } );
   },
+  "syncDuplicateFolderExample": async ( req, res ) => {
+    const findCategoryExample = await PostCategory.findOne( { "_id": req.body.categoryPost._id, "_account": req.uid } );
+
+    if ( !findCategoryExample ) {
+      const newCategoryExample = await new PostCategory( req.body.categoryPost );
+
+      newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
+      await newCategoryExample.save();
+      let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+        let newPost = new Post( item );
+
+        newPost._categories.push( newCategoryExample._id );
+        await newPost.save();
+        return newPost;
+      } ) );
+
+      return res.send( { "status": "success", "data": { "category": newCategoryExample, "postList": resData } } );
+    }
+
+    let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+
+      if ( findCategoryExample.postExample.indexOf( item._id ) === -1 ) {
+        let newPost = new Post( item );
+
+        newPost._categories.push( findCategoryExample._id );
+        await newPost.save();
+        return newPost;
+      }
+    } ) );
+
+    findCategoryExample.postExample = [ ...new Set( [ ... findCategoryExample.postExample, ...req.body.postId ] ) ];
+    await findCategoryExample.save();
+    res.send( { "status": "success", "data": { "category": findCategoryExample, "postList": resData.filter( function ( el ) {
+      return el != null;
+    } ) } } );
+  },
   "upload": async ( req, res ) => {
     if ( !req.files || req.files.length === 0 ) {
       return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
