@@ -8,32 +8,21 @@
         <div class="col col--action px_4">Hành động</div>
       </div>
       <div>
-        <div>
+        <div class="loading--block mt_3"
+             v-if="this.$store.getters.cateDefaultStatus === 'loading'"
+        >
+          <loading-component></loading-component>
+        </div>
+        <div v-else>
+          <div v-if="statusCategories === 'success' && categories.length === 0"
+               class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
+            Không có dữ liệu
+          </div>
           <categories-default
+            v-else
             v-for="(cate, index) in categoriesDefault"
             :key="`c-${index}`"
             :item="cate"></categories-default>
-        </div>
-      </div>
-      <div class="loading--block mt_3"
-           v-if="this.$store.getters.statusCategories === 'loading'"
-      >
-        <loading-component></loading-component>
-      </div>
-
-      <div class="item--wrap" v-else>
-        <div v-if="statusCategories === 'success' && categories.length === 0"
-             class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
-          Không có dữ liệu
-        </div>
-        <div v-else>
-          <item-categories
-            v-for="(item, index) in categories"
-            :key="index"
-            :item="item"
-            @updateCategory="updateCategory($event)"
-            @showDeletePopup="showDeletePopup($event)"
-          ></item-categories>
         </div>
       </div>
     </div>

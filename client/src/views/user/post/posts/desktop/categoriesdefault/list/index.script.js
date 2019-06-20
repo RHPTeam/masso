@@ -1,14 +1,10 @@
 import DeletePopup from  "@/components/popups/delete";
-import CategoryPaginate from "./paginate/index";
-import ItemCategories from "./item/index";
 import CategoriesDefault from "./itemdefault";
 
 export default {
   components: {
     DeletePopup,
-    CategoryPaginate,
-    CategoriesDefault,
-    ItemCategories
+    CategoriesDefault
   },
   props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
@@ -29,7 +25,7 @@ export default {
       return this.$store.getters.allCateDefault;
     },
     statusCategories() {
-      return this.$store.getters.statusCategories;
+      return this.$store.getters.cateDefaultStatus;
     }
   },
   async created() {
