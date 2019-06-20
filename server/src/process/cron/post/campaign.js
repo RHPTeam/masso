@@ -57,7 +57,7 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
 
       await Promise.all(
-        listEventSchedule.map( async ( eventSchedule ) => {
+        listEventSchedule.map( async ( eventSchedule, index ) => {
 
           console.log(
             "\x1b[32m%s\x1b[0m",
@@ -72,6 +72,7 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
           if ( resFacebookResponse ) {
             if ( resFacebookResponse.error.code === 200 ) {
+              listEventSchedule.splice( index, 1 );
               await EventSchedule.deleteOne(
                 { "_id": eventSchedule._id },
                 ( error ) => {

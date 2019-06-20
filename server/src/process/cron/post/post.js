@@ -29,12 +29,13 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
     console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
     listPostSchedule = removeObjectDuplicates( listPostSchedule, "_id" );
 
-    await Promise.all( listPostSchedule.map( async ( postSchedule ) => {
+    await Promise.all( listPostSchedule.map( async ( postSchedule, index ) => {
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
       const resFacebookResponse = await createPost( { "cookie": postSchedule.cookie, agent, "feed": postSchedule.feed } );
 
       if ( resFacebookResponse ) {
         if ( resFacebookResponse.error.code === 200 ) {
+          listPostSchedule.splice( index, 1 );
           postSchedule.status = 0;
           postSchedule.postID = resFacebookResponse.results.postID;
           await postSchedule.save();
