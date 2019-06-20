@@ -21,6 +21,14 @@
         active-class="active"
       >Danh mục</router-link
       >
+      <div class="divider"></div>
+      <router-link
+        class="ml_2"
+        tag="button"
+        :to="{ name: 'categories_default' }"
+        active-class="active"
+      >Danh mục mẫu</router-link
+      >
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->

@@ -1,12 +1,10 @@
 import DeletePopup from  "@/components/popups/delete";
-import CategoryPaginate from "./paginate/index";
-import ItemCategories from "./item/index";
+import CategoriesDefault from "./itemdefault";
 
 export default {
   components: {
     DeletePopup,
-    CategoryPaginate,
-    ItemCategories
+    CategoriesDefault
   },
   props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
@@ -27,7 +25,7 @@ export default {
       return this.$store.getters.allCateDefault;
     },
     statusCategories() {
-      return this.$store.getters.statusCategories;
+      return this.$store.getters.cateDefaultStatus;
     }
   },
   async created() {
@@ -36,12 +34,12 @@ export default {
     if ( defaultNumberNo.length === 0 ) {
       this.$store.dispatch("getCategoryDefault");
     }
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    this.$store.dispatch( "getCategoriesByPage", dataSender );
+    // const dataSender = {
+    //   size: this.filterShowSelected.id,
+    //   page: this.currentPage
+    // };
+    //
+    // this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {
