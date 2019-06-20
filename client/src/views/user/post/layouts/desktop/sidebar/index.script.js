@@ -20,7 +20,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "post_dashboard"
+        to: { name: "post_dashboard" }
       },
       {
         text: "Kho nội dung",
@@ -31,7 +31,10 @@ export default {
           height: 20,
           viewBox: "0 0 540 540"
         },
-        to: "post_posts"
+        to: {
+          name: "post_posts",
+          query: { size: 25, page: 1 }
+        }
       },
       {
         text: "Chiến dịch",
@@ -42,7 +45,10 @@ export default {
           height: 21,
           viewBox: "0 0 24 24"
         },
-        to: "post_campaigns"
+        to: {
+          name: "post_campaigns",
+          query: { size: 25, page: 1 }
+        }
       },
       {
         text: "Nhóm & Trang",
@@ -53,7 +59,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "post_group"
+        to: { name: "post_group" }
       },
       {
         text: "Tài khoản Facebook",
@@ -64,7 +70,7 @@ export default {
           height: 20,
           viewBox: "0 0 24 24"
         },
-        to: "post_fbaccount"
+        to: { name: "post_fbaccount" }
       },
       {
         text: "Facebook tìm kiếm",
@@ -75,7 +81,7 @@ export default {
           height: 22,
           viewBox: "0 0 24 24"
         },
-        to: "post_fb_search"
+        to: { name: "post_fb_search" }
       }
       ]
     };
