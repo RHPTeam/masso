@@ -70,6 +70,14 @@ export default {
       } );
     }
   },
+  async created() {
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getCampaignsByPage", dataSender );
+  },
   methods: {
     activeCurrentSort( i, type ) {
       this.isSort.forEach( ( item, index ) => {

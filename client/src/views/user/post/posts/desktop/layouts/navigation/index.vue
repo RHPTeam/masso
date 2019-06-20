@@ -8,7 +8,7 @@
       <router-link
         class="mr_2"
         tag="button"
-        :to="{ name: 'post_posts' }"
+        :to="{ name: 'post_posts', query: { size: 25, page: 1 } }"
         active-class="active"
         exact
       >Tất cả bài viết</router-link
@@ -17,7 +17,7 @@
       <router-link
         class="ml_2"
         tag="button"
-        :to="{ name: 'post_postCategories' }"
+        :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh mục</router-link
       >
@@ -128,14 +128,15 @@ export default {
   }
   .nav--right {
     .btn--history {
-      border: 1px solid #e4e4e4;
-      padding: 0.5rem 0.625rem;
-      border-radius: 10px;
+      background-color: #27292c;
+      border-radius: .625rem;
+      color: #F7F7F7;
       cursor: pointer;
+      font-size: .875rem;
+      padding: 0.5rem 0.75rem;
       transition: all .4s ease;
       &:hover{
-        border: 1px solid transparent;
-        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+        box-shadow: 0 0 8px rgba(153, 153, 153, 0.4);
       }
     }
   }
@@ -168,7 +169,7 @@ export default {
 .post--navigation[data-theme="dark"] {
   .nav--right {
     button {
-      color: #999999;
+      color: #ccc;
       &:hover,
       &.active {
         color: #ffb94a;
@@ -180,14 +181,14 @@ export default {
   }
   .nav--left {
     button {
-      color: #999999;
+      color: #ccc;
       &:hover,
       &.active {
         color: #ffb94a;
       }
     }
     .divider {
-      background-color: #ccc;
+      background-color: #666;
     }
   }
 }

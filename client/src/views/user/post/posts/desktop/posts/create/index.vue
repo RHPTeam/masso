@@ -17,7 +17,7 @@
       <router-link
         class="btn--link ml_2"
         tag="a"
-        :to="{ name: 'post_postCategories' }"
+        :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh mục</router-link
       >

@@ -6,10 +6,11 @@
       </div>
       <div class="campaigns--list-paginate">
         <paginate
+          :value="currentPage"
           :pageCount="campaignsPagesSize"
           :clickHandler="goToPage"
-          :prev-text="'&#8249;'"
-          :next-text="'&#x203A;'"
+          :prev-text="prevText"
+          :next-text="nextText"
           :container-class="'pagination'"
           :page-class="'page-item'"
           @input="updateCurrentPage($event)"
@@ -21,7 +22,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected" ],
+  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -35,14 +36,6 @@ export default {
     campaignsPagesSize() {
       return this.$store.getters.campaignsPagesSize;
     }
-  },
-  async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getCampaignsByPage", dataSender );
   },
   methods: {
     async goToPage( page ) {
@@ -63,6 +56,11 @@ export default {
 
         await this.$store.dispatch( "getCampaignsByPage", dataSender );
       }
+
+      this.$router.replace( {
+        name: "post_campaigns",
+        query: { size: this.filterShowSelected.id, page: page }
+      } );
 
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },

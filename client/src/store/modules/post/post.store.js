@@ -163,7 +163,7 @@ const actions = {
       ( allPost ) => allPost._id !== payload.id
     );
 
-    commit("setDeletePost", allPost.reverse());
+    commit("setDeletePost", allPost);
     await PostServices.deletePost( payload.id );
   },
   getAllPost: async ( { commit } ) => {
