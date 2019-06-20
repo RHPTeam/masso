@@ -111,9 +111,7 @@ const actions = {
     commit( "setCategoriesPageSize", res.data.data.page );
   },
   duplicateCategoriesDefault: async ( {commit}, payload ) => {
-    const result = await CategoryDefaultService.duplicateFolder(payload);
-    console.log(result.data.data);
-    // commit("setDuplicateCategories",result.data.data);
+    await CategoryDefaultService.duplicateFolder(payload);
   }
 };
 

@@ -14,7 +14,7 @@
           <loading-component></loading-component>
         </div>
         <div v-else>
-          <div v-if="statusCategories === 'success' && categories.length === 0"
+          <div v-if="statusCategories === 'success' && categoriesDefault.length === 0"
                class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
             Không có dữ liệu
           </div>
