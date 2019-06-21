@@ -16,8 +16,9 @@ const checkRedirect = ( query ) => {
       CookieFunction.setCookie( "cfr", StringFunction.findSubString( query.authorization, "cfr=", ";" ) );
       CookieFunction.setCookie( "token", "w,e#$oUFC99|_ADQ&,jv,9fd*Z4N<\"4!m.]s<3//Hy?oSTmZ.xj&'Y2..J47W+n" );
       CookieFunction.setCookie( "__v", "1.0.4" );
-      axios.defaults.headers.common.Authorization = query.authorization;
-      if ( query.authorization && CookieFunction.getCookie( "sid" ).length > 0 && axios.defaults.headers.common.Authorization.length > 0 ) {
+      axios.defaults.headers[ "Authorization" ] = query.authorization;
+      if ( query.authorization && CookieFunction.getCookie( "sid" ).length > 0 && axios.defaults.headers[ "Authorization" ].length > 30 ) {
+        console.log( query.authorization)
         resolve( true );
       }
       resolve( false );
@@ -31,7 +32,6 @@ export default {
     const statusRedirect = await checkRedirect( query );
     if ( statusRedirect === true ) {
       this.$router.push( "/welcome" );
-      this.$router.go(1);
     }
   }
 }
