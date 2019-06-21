@@ -10,8 +10,11 @@
 const Campaign = require( "../../models/post/Campaign.model" );
 const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const Facebook = require( "../../models/Facebook.model" );
+const Post = require( "../../models/post/Post.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const dictionary = require( "../../configs/dictionaries" );
 // eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
@@ -249,5 +252,101 @@ module.exports = {
     }
 
     res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page } } );
+  },
+  "duplicateSyncCampaignExample": async ( req, res ) => {
+    const findFacebook = await Facebook.findOne( { "_id": req.body.facebookId, "_account": req.uid } ).lean(),
+      dataCampaign = {
+        "title": req.body.campaignExample.title + "Copy",
+        "description": req.body.campaignExample.description,
+        "status": 0,
+        "started_at": Date.now(),
+        "finished_at": "",
+        "_account": req.uid
+      },
+      newCampaign = await new Campaign( dataCampaign );
+
+    await newCampaign.save();
+    let date = new Date(),
+      count = 0;
+
+    console.log( date.getDate() )
+    // Handle campaign
+    for ( let i = 0; i < req.body.campaignExample.postList.length; i++ ) {
+      // Post in 20h
+      if ( i % 2 === 0 ) {
+        count++;
+        let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
+            return {
+              "link": image,
+              "typeAttachment": 1
+            };
+          } ) ),
+          dataPost = {
+            "title": req.body.campaignExample.postList[ i ].title,
+            "content": req.body.campaignExample.postList[ i ].content,
+            "attachments": attachments,
+            "_account": req.uid
+          },
+          newPost = await new Post( dataPost );
+
+        await newPost.save();
+        date.setDate( date.getDate() + count );
+        date.setHours( 20, 0, 0 );
+        const dataEvent = {
+            "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
+            "status": 0,
+            "_account": req.uid,
+            "started_at": date
+          },
+          newEvent = await new Event( dataEvent );
+
+        // Create to event schedule, Check follow condition
+        newEvent.timeline.push( findFacebook._id );
+        newEvent.post_custom.push( newPost._id );
+        await EventScheduleController.create( newEvent.toObject(), newCampaign._id, req.uid );
+
+        await newEvent.save();
+        newCampaign._events.push( newEvent._id );
+        await newCampaign.save();
+      } else {
+        // Post in 8h30
+        let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
+            return {
+              "link": image,
+              "typeAttachment": 1
+            };
+          } ) ),
+          dataPost = {
+            "title": req.body.campaignExample.postList[ i ].title,
+            "content": req.body.campaignExample.postList[ i ].content,
+            "attachments": attachments,
+            "_account": req.uid
+          },
+          newPost = await new Post( dataPost );
+
+        await newPost.save();
+        date.setDate( date.getDate() + count );
+        date.setHours( 8, 30, 0 );
+        const dataEvent = {
+            "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
+            "status": 0,
+            "_account": req.uid,
+            "started_at": date
+          },
+          newEvent = await new Event( dataEvent );
+
+        // Create to event schedule, Check follow condition
+        newEvent.timeline.push( findFacebook._id );
+        newEvent.post_custom.push( newPost._id );
+        await EventScheduleController.create( newEvent.toObject(), newCampaign._id, req.uid );
+
+        await newEvent.save();
+        newCampaign._events.push( newEvent._id );
+        await newCampaign.save();
+      }
+    }
+    const findCampaign = await Campaign.findOne( { "_id": newCampaign._id, "_account": req.uid } ).populate( "_events" ).lean();
+
+    res.send( { "status": "success", "data": findCampaign } );
   }
 };
