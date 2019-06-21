@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div class="top--right">
+      <div class="top--right d_flex align_items_center">
         <div class="time--duration">
           <icon-base
             class="ic--calendar mr_2"
@@ -31,6 +31,7 @@
           </icon-base>
           <span>{{ formatDate( campaignDetail.started_at ) + ' - Chưa xác định'  }}</span>
         </div>
+        <div class="history ml_2" @click="showHistory">Hoạt động</div>
       </div>
     </div>
     <!-- End: Header Top -->
@@ -97,11 +98,19 @@
         />
       </transition>
       <!--	End: Create Campaign Popup	-->
+      <transition name="slide-fade">
+        <app-history
+          v-if="isShowHistory"
+          :currentTheme="currentTheme"
+          @close="isShowHistory = $event"
+        ></app-history>
+      </transition>
     </div>
   </div>
 </template>
 
 <script>
+  import AppHistory from "../../history";
 import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
 
 let typingTimer;
@@ -109,15 +118,17 @@ let typingTimer;
 
 export default {
   components: {
-    AppEvent
+    AppEvent,
+    AppHistory
   },
   props: [ "view" ],
-  // data() {
-  //   return {
-  //     isShowCreateEvent: false,
-  //     event: 1
-  //   }
-  // },
+  data() {
+    return {
+      isShowHistory: false,
+      // isShowCreateEvent: false,
+      // event: 1
+    }
+  },
   computed: {
     campaignDetail() {
       return this.$store.getters.campaignDetail;
@@ -177,6 +188,9 @@ export default {
         }
       };
       this.$store.dispatch( "updateCampaignDetail", objSender );
+    },
+    showHistory() {
+      this.isShowHistory = !this.isShowHistory;
     }
   }
 };
