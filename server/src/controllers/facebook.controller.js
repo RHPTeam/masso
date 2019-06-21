@@ -73,8 +73,8 @@ module.exports = {
     if ( userId !== req.uid ) {
       return res.status( 405 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
     }
-    if ( countAccountFacebook.length >= 2 ) {
-      return res.status( 403 ).json( { "status": "error", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
+    if ( countAccountFacebook.length >= accountResult.maxAccountFb ) {
+      return res.status( 406 ).json( { "status": "error", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
     }
     if ( foundAccountFacebook.length > 0 ) {
       return res.status( 403 ).json( { "status": "error", "message": "Tài khoản facebook với cookie này trùng với một tài khoản ở 1 cookie khác!" } );
