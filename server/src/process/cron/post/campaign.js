@@ -1,6 +1,8 @@
 // Core Service
 const CronJob = require( "cron" ).CronJob;
 const EventSchedule = require( "../../../models/post/EventSchedule.model" );
+const Campaign = require( "../../../models/post/Campaign.model" );
+const Event = require( "../../../models/post/Event.model" );
 
 // Facebook Service Core
 const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
@@ -58,6 +60,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
       await Promise.all(
         listEventSchedule.map( async ( eventSchedule, index ) => {
+          const campaignInfo = await Campaign.findOne( { "_id": eventSchedule._campaign } ),
+            eventInfo = await Event.findOne( { "_id": eventSchedule._event } );
 
           console.log(
             "\x1b[32m%s\x1b[0m",
@@ -72,6 +76,12 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
           if ( resFacebookResponse ) {
             if ( resFacebookResponse.error.code === 200 ) {
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
+                "createdAt": new Date()
+              } );
+
               listEventSchedule.splice( index, 1 );
               await EventSchedule.deleteOne(
                 { "_id": eventSchedule._id },
@@ -79,7 +89,16 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
                   return new Error( error );
                 }
               );
+              console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
+            } else {
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại tại địa điểm có ID: ${eventSchedule.feed.location.value}. Lỗi: ${resFacebookResponse.error.text}`,
+                "createdAt": new Date()
+              } );
+              console.log( `Have error: ${resFacebookResponse.error.text}` );
             }
+            await campaignInfo.save();
           }
         } )
       );
