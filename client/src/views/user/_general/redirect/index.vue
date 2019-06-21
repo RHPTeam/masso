@@ -18,7 +18,7 @@ export default {
       CookieFunction.setCookie( "__v", "1.0.0" );
 
       axios.defaults.headers.common.Authorization = query.authorization;
-      this.$router.go( "/" );
+      this.$router.push( "/welcome" );
     }
   }
 }
