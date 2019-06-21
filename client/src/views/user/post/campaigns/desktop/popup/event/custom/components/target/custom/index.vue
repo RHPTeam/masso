@@ -20,7 +20,7 @@
               multiple
               label="name"
               placeholder="Chọn trang muốn đăng"
-              :value="event.target_custom.filter( target => target.typeTarget === 1 ).map( item => { if( item.target ) { return { pageId: item.target.pageId, name: item.target.name } } } )"
+              :value="convertTargetCustomPages"
               :options="facebookPages"
               @input="selectPageFacebook"
             />
@@ -49,7 +49,7 @@
               multiple
               label="name"
               placeholder="Chọn nhóm muốn đăng"
-              v-model="convertTargetCustomGroups"
+              :value="convertTargetCustomGroups"
               :options="facebookGroups"
               @input="selectGroupFacebook"
             />
@@ -88,35 +88,28 @@ export default {
     facebookPages(){
       return this.$store.getters.facebookPages;
     },
-    convertTargetCustomGroups: {
-      get() {
-        return this.event.target_custom.filter(
-          target => target.typeTarget === 0
-        ).map( item => {
-          if ( item.target ) {
-            return {
-              groupId: item.target.groupId,
-              name: item.target.name }
-          }
-        } );
-      },
-      set( val ) {
-        console.log(val);
-        const groupListSelect = val.map( group => {
+    convertTargetCustomGroups() {
+      return this.event.target_custom.filter(
+        target => target.typeTarget === 0
+      ).map( item => {
+        if ( item.target ) {
           return {
-            typeTarget: 0,
-            target: {
-              groupId: group.groupId,
-              name: group.name
-            }
-          };
-        } );
-
-        this.$store.dispatch( "setEventSpecial", {
-          key: "target_custom",
-          value: groupListSelect
-        } )
-      }
+            groupId: item.target.groupId,
+            name: item.target.name }
+        }
+      } );
+    },
+    convertTargetCustomPages() {
+      return this.event.target_custom.filter(
+        target => target.typeTarget === 1
+      ).map( item => {
+        if ( item.target ) {
+          return {
+            pageId: item.target.pageId,
+            name: item.target.name
+          }
+        }
+      } );
     }
   },
   async created() {
@@ -141,6 +134,7 @@ export default {
 
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
+        typeTarget: 0,
         value: groupListSelect
       } )
     },
@@ -157,6 +151,7 @@ export default {
 
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
+        typeTarget: 1,
         value: pageListSelect
       } );
     }

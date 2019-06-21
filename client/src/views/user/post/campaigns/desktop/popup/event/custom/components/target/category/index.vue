@@ -84,7 +84,7 @@ export default {
         color: #999;
         font-size: .825rem;
         span {
-          color: #666;
+          color: #F7F7F7;
           font-weight: 600;
         }
       }
