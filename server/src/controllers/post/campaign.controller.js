@@ -12,11 +12,9 @@ const Event = require( "../../models/post/Event.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
-// eslint-disable-next-line no-unused-vars
-const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
-
+const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 module.exports = {
   /**
@@ -99,6 +97,12 @@ module.exports = {
       "title": req.body.title,
       "description": req.body.description ? req.body.description : "",
       "status": 1,
+      "logs": {
+        "content": [ {
+          "message": `Khởi tạo chiến dịch "${req.body.title}" thành công.`,
+          "createdAt": new Date()
+        } ]
+      },
       "started_at": req.body.started_at ? req.body.started_at : Date.now(),
       "finished_at": req.body.finished_at ? req.body.finished_at : "",
       "_account": req.uid
@@ -142,7 +146,23 @@ module.exports = {
         await EventScheduleController.create( event, findCampaign._id, req.uid );
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
+
+        // Handle logs campaign when update status
+        findCampaign.logs.total += 1;
+        findCampaign.logs.content.push( {
+          "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+          "createdAt": new Date()
+        } );
       } ) );
+
+      // Check name if update name
+      if ( convertUnicode( findCampaign.title ).toString().toLowerCase() !== convertUnicode( req.body.title ).toString().toLowerCase() ) {
+        findCampaign.logs.total += 1;
+        findCampaign.logs.content.push( {
+          "message": `Thay đổi tên chiến dịch từ ${findCampaign.title} sang ${req.body.title} thành công.`,
+          "createdAt": new Date()
+        } );
+      }
 
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
@@ -196,6 +216,14 @@ module.exports = {
 
     campaignInfo.title = `${findCampaign.title} Copy`;
     campaignInfo.status = false;
+
+    // Handle logs
+    campaignInfo.logs = {
+      "content": [ {
+        "message": `Sao chép từ chiến dịch "${campaignInfo.title}" thành công.`,
+        "createdAt": new Date()
+      } ]
+    };
 
     // eslint-disable-next-line one-var
     const newCampaign = new Campaign( campaignInfo );
