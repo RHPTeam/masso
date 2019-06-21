@@ -110,7 +110,7 @@
 </template>
 
 <script>
-  import AppHistory from "../../history";
+import AppHistory from "../history";
 import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
 
 let typingTimer;
@@ -189,7 +189,9 @@ export default {
       };
       this.$store.dispatch( "updateCampaignDetail", objSender );
     },
-    showHistory() {
+    async showHistory() {
+      const campaignId = this.$route.params.campaignId;
+      await this.$store.dispatch( "getCampaignDetail", campaignId );
       this.isShowHistory = !this.isShowHistory;
     }
   }

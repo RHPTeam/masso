@@ -126,12 +126,10 @@ module.exports = {
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
-    findCampaign.logs = {
-      "content": [ {
-        "message": `Tạo sự kiện "${newEvent.title}" ở ${findCampaign.title} thành công.`,
-        "createdAt": new Date()
-      } ]
-    };
+    findCampaign.logs.content.push( {
+      "message": `Tạo sự kiện "${newEvent.title}" ở ${findCampaign.title} thành công.`,
+      "createdAt": new Date()
+    } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
 
@@ -184,19 +182,15 @@ module.exports = {
     // Handle logs campaign
     findCampaign.logs.total += 1;
     if ( convertUnicode( req.body.title ).toString().toLowerCase() !== convertUnicode( findEvent.title ).toString().toLowerCase() ) {
-      findCampaign.logs = {
-        "content": [ {
-          "message": `Thay đổi tên sự kiện  từ "${findEvent.title}" sang "${req.body.title}" thành công.`,
-          "createdAt": new Date()
-        } ]
-      };
+      findCampaign.logs.content.push( {
+        "message": `Thay đổi tên sự kiện  từ "${findEvent.title}" sang "${req.body.title}" thành công.`,
+        "createdAt": new Date()
+      } );
     } else {
-      findCampaign.logs = {
-        "content": [ {
-          "message": `Cập nhật sự kiện "${findEvent.title}" thành công.`,
-          "createdAt": new Date()
-        } ]
-      };
+      findCampaign.logs.content.push( {
+        "message": `Cập nhật sự kiện "${findEvent.title}" thành công.`,
+        "createdAt": new Date()
+      } );
     }
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
@@ -222,12 +216,10 @@ module.exports = {
 
     // delete event of campain
     findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );
-    findCampaign.logs = {
-      "content": [ {
-        "message": `Xóa sự kiện "${findEvent.title}" thành công.`,
-        "createdAt": new Date()
-      } ]
-    };
+    findCampaign.logs.content.push( {
+      "message": `Xóa sự kiện "${findEvent.title}" thành công.`,
+      "createdAt": new Date()
+    } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
 

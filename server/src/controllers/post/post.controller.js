@@ -395,29 +395,28 @@ module.exports = {
     res.send( { "status": "success", "data": findPostAfterAdd } );
   },
   "syncDuplicateFolderExample": async ( req, res ) => {
-    const findCategoryExample = await PostCategory.findOne( { "_id": req.body.categoryPost._id, "_account": req.uid } );
+    const findCategoryExample = await PostCategory.findOne( { "idFolderExample": req.body.categoryPost._id.toString(), "_account": req.uid } );
 
     // Category not exist
     if ( !findCategoryExample ) {
+      const idFolderExample = req.body.categoryPost._id;
+
+      delete req.body.categoryPost._id;
+
       const newCategoryExample = await new PostCategory( req.body.categoryPost );
 
       newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
       newCategoryExample.totalPosts = newCategoryExample.postExample.length;
+      newCategoryExample.idFolderExample = idFolderExample.toString();
       await newCategoryExample.save();
       let resData = await Promise.all( req.body.postList.map( async ( item ) => {
-        let findPost = await Post.findOne( { "_id": item._id, "_account": item._account } );
 
-        // check if post exist then add category if not create new
-        if ( !findPost ) {
-          let newPost = new Post( item );
+        delete item._id;
+        let newPost = new Post( item );
 
-          newPost._categories.push( newCategoryExample._id );
-          await newPost.save();
-          return newPost;
-        }
-        findPost._categories.push( newCategoryExample._id );
-        await findPost.save();
-        return findPost;
+        newPost._categories.push( newCategoryExample._id );
+        await newPost.save();
+        return newPost;
       } ) );
 
       return res.send( { "status": "success", "data": { "category": newCategoryExample, "postList": resData } } );
@@ -428,19 +427,13 @@ module.exports = {
 
       // check id exist in category in field post example
       if ( findCategoryExample.postExample.indexOf( item._id ) === -1 ) {
-        let findPost = await Post.findOne( { "_id": item._id, "_account": item._account } );
+        delete item._id;
+        let newPost = new Post( item );
 
-        // check if post exist then add category if not create new
-        if ( !findPost ) {
-          let newPost = new Post( item );
+        newPost._categories.push( findCategoryExample._id );
+        await newPost.save();
+        return newPost;
 
-          newPost._categories.push( findCategoryExample._id );
-          await newPost.save();
-          return newPost;
-        }
-        findPost._categories.push( findCategoryExample._id );
-        await findPost.save();
-        return findPost;
       }
     } ) );
 
