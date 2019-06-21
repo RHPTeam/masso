@@ -32,16 +32,16 @@
            v-for="(item, index) in accountsFB"
            :key="index"
       >
-        <item-account
-          :item="item"
-        />
-      </div>
-      <div class="item c_md_6 c_lg_4 c_xl_3" v-if="facebookStatus === 'loading'">
-        <div class="card">
+        <div class="card" v-if="facebookStatus === 'loading'">
           <div class="card_body text_center d_flex align_items_center justify_content_center">
             <loading-component/>
           </div>
         </div>
+        <item-account
+          v-else
+          :item="item"
+          @showDeletePopup="showDeletePopup($event)"
+        />
       </div>
       <!-- End: Account Items Loop -->
     </div>
@@ -62,6 +62,14 @@
         v-if="this.$store.getters.addAccountError === 'error'"
         :data-theme="currentTheme"
       />
+      <delete-account-popup
+        v-if="isShowDeletePopup === true"
+        title="Xoá tài khoản Facebook"
+        @closePopup="isShowDeletePopup = $event"
+        storeActionName="deleteAccount"
+        :targetData="accountSelected"
+        typeName="tài khoản"
+      ></delete-account-popup>
     </transition>
   </div>
 </template>
@@ -69,6 +77,7 @@
 <script>
 import AddAccountPopup from "../popup/list/addaccount/index";
 import ExistedAccountPopup from "../popup/list/alert/index";
+import DeleteAccountPopup from "../popup/list/delete";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 import ItemAccount from "./item/index";
 
@@ -76,11 +85,14 @@ export default {
   components: {
     AddAccountPopup,
     ExistedAccountPopup,
+    DeleteAccountPopup,
     UpgradeProPopup,
     ItemAccount
   },
   data() {
     return {
+      accountSelected: {},
+      isShowDeletePopup: false,
       showModal: false,
       showUpgradePro: false,
       nameBread: "Thêm tài khoản Facebook",
@@ -105,6 +117,10 @@ export default {
     await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
+    showDeletePopup( val ) {
+      this.isShowDeletePopup = true;
+      this.accountSelected = val;
+    },
     showPopup() {
       if (this.accountsFB.length >= this.user.maxAccountFb) {
         this.showUpgradePro = true;

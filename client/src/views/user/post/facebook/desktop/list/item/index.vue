@@ -16,7 +16,7 @@
             ></icon-setting>
           </icon-base>
         </div>
-        <div class="btn--remove" @click="isDeleteItemAccount = true">
+        <div class="btn--remove" @click="deleteAccount()">
           <icon-base
             class="icon--remove"
             icon-name="Xóa tài khoản"
@@ -63,6 +63,8 @@
       </div>
       <!-- End: Card Footer-->
     </div>
+
+    <!--****************POPUP*****************-->
     <transition name="popup">
       <update-cookie
         :item="item"
@@ -73,24 +75,16 @@
         :subBread="descUpdatePopup"
       >
       </update-cookie>
-      <delete-item
-        v-if="isDeleteItemAccount === true"
-        title="Xoá tài khoản Facebook"
-        @closePopup="isDeleteItemAccount = $event"
-        storeActionName="deleteAccount"
-        :targetData="item"
-        typeName="tài khoản"
-      ></delete-item>
     </transition>
+
   </div>
 </template>
 <script>
 import UpdateCookie from "../../popup/list/updatecookie/index";
-import DeleteItem from "../../popup/list/delete/index";
+
 export default {
   components: {
-    UpdateCookie,
-    DeleteItem
+    UpdateCookie
   },
   filters: {
     covertDateUpdatedAt(d) {
@@ -108,13 +102,15 @@ export default {
   data() {
     return {
       isModalUpdateCookie: false,
-      isDeleteItemAccount: false,
       nameUpdatePopup: "Cập nhật mã kích hoạt",
       descUpdatePopup:
         "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
     };
   },
   methods: {
+    deleteAccount() {
+      this.$emit( "showDeletePopup", this.item );
+    },
     viewDetail() {
       this.$store.dispatch( "getFBAccountById", this.item._id );
       this.$router.push( { name: "post_fbaccount_detail",

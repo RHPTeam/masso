@@ -42,6 +42,35 @@
 .modal--wrapper[data-theme="dark"] {
   .modal--dialog {
     .modal--content {
+      .loading--block {
+        .desc {
+          color: #ccc;
+          font-size: .875rem;
+        }
+        .loading--bar {
+          background-color: transparent;
+          border: 1px solid #444;
+          border-radius: 8px;
+          height: 16px;
+          overflow: hidden;
+          width: 320px;
+          .percent {
+            background-color: rgb(88, 206, 65);
+            background-size: 16px 16px;
+            height: 100%;
+            width: 40%;
+            animation: animate 1.2s linear infinite;
+          }
+          @keyframes animate {
+            0% {
+              transform: translateX(-100%);
+            }
+            100% {
+              transform: translateX(200%);
+            }
+          }
+        }
+      }
       .modal--body {
         color: #cccccc;
         .desc {
@@ -62,6 +91,8 @@
     }
   }
 }
+
+
 .modal--wrapper {
   background-color: rgba(153, 153, 153, 0.4);
   bottom: 0;

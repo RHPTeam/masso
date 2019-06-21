@@ -152,8 +152,6 @@ export default {
     },
     async viewCampaignDetail( id ) {
       await this.$store.dispatch( "getCampaignDetail", id );
-      this.$router.push( { name: "post_campaigns_detail",
-        params: { campaignId: id } } );
     }
   },
   components: {
