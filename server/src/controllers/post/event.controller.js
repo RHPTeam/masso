@@ -192,6 +192,7 @@ module.exports = {
         "createdAt": new Date()
       } );
     }
+    await findCampaign.save();
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
   "delete": async ( req, res ) => {
