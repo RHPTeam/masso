@@ -16,15 +16,21 @@
             ></icon-setting>
           </icon-base>
         </div>
-        <div class="btn--remove" @click="deleteAccount()">
-          <icon-base
-            class="icon--remove"
-            icon-name="Xóa tài khoản"
-            width="20"
-            height="20"
-            viewBox="0 0 15 15">
-            <icon-remove />
-          </icon-base>
+        <div class="btn--remove position_relative">
+          <div class="more" @click="isShowAction = !isShowAction" v-click-outside="closeAction">
+            <icon-base
+              class="icon--remove"
+              icon-name="Xóa tài khoản"
+              width="25"
+              height="20"
+              viewBox="0 0 550 550">
+              <icon-three-dots-horiz />
+            </icon-base>
+          </div>
+          <div class="action position_absolute" v-if="isShowAction === true">
+            <div class="action--item" @click="deleteAccount()">Xóa tài khoản</div>
+            <div class="action--item" @click="updateAccount()">Cập nhật tài khoản</div>
+          </div>
         </div>
       </div>
       <!-- End: Card Header -->
@@ -102,12 +108,16 @@ export default {
   data() {
     return {
       isModalUpdateCookie: false,
+      isShowAction: false,
       nameUpdatePopup: "Cập nhật mã kích hoạt",
       descUpdatePopup:
         "Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật lại mã kích hoạt tài khoản."
     };
   },
   methods: {
+    closeAction(){
+      this.isShowAction = false;
+    },
     deleteAccount() {
       this.$emit( "showDeletePopup", this.item );
     },
@@ -115,6 +125,9 @@ export default {
       this.$store.dispatch( "getFBAccountById", this.item._id );
       this.$router.push( { name: "post_fbaccount_detail",
                            params: { fbAccountId: this.item._id } } );
+    },
+    updateAccount(){
+      this.isModalUpdateCookie = true;
     }
   }
 };

@@ -68,9 +68,25 @@
           .btn--remove {
             .icon--remove {
               color: #999;
+              margin-bottom: -5px;
               transition: all .4s ease;
               &:hover {
                 color: #f96666;
+              }
+            }
+            .action {
+              background-color: #2f3136;
+              border: 1px solid #2f3136;
+              border-radius: .5rem;
+              font-size: calc(1rem - 3px);
+              width: 150px;
+              text-align: left;
+              z-index: 99;
+              &--item {
+                padding: .5rem;
+                &:hover, &:active, &:visited, &:focus {
+                  color: #ffb94a;
+                }
               }
             }
           }
