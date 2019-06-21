@@ -23,8 +23,9 @@ export default {
         CookieFunction.setCookie( "cfr", StringFunction.findSubString( query.authorization, "cfr=", ";" ) );
         CookieFunction.setCookie( "token", "w,e#$oUFC99|_ADQ&,jv,9fd*Z4N<\"4!m.]s<3//Hy?oSTmZ.xj&'Y2..J47W+n" );
         CookieFunction.setCookie( "__v", "1.0.4" );
-        axios.defaults.headers.common.Authorization = query.authorization;
-        return true;
+        if ( CookieFunction.getCookie( "sid" ).length > 0 ) {
+          return true;
+        }
       } else {
         return false;
       }
