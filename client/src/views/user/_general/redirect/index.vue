@@ -24,6 +24,7 @@ export default {
         CookieFunction.setCookie( "token", "w,e#$oUFC99|_ADQ&,jv,9fd*Z4N<\"4!m.]s<3//Hy?oSTmZ.xj&'Y2..J47W+n" );
         CookieFunction.setCookie( "__v", "1.0.4" );
         if ( CookieFunction.getCookie( "sid" ).length > 0 ) {
+          axios.defaults.headers.common.Authorization = query.authorization;
           return true;
         }
       } else {
