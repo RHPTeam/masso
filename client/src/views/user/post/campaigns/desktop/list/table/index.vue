@@ -159,9 +159,12 @@
 					</label>
 				</div>-->
 				<div class="col col--name px_2">
-					<span class="col col--name-text" @click="viewCampaignDetail( campaign._id )">
+					<router-link
+            class="col col--name-text"
+            :to="{ name: 'post_campaigns_detail', params: { campaignId: campaign._id } }"
+            @click.native="viewCampaignDetail( campaign._id )">
 						{{ campaign.title }}
-					</span>
+					</router-link>
 				</div>
 				<div class="col col--desc px_4">
 					<div class="col--desc-text">
