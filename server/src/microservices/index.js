@@ -24,4 +24,5 @@ server.listen( process.env.PORT_SOCKET );
 
 io.on( "connection", async ( socket ) => {
   console.log( `Client from ${process.env.APP_URL}:${process.env.PORT_BASE} connected with id: ${socket.id}` );
+
 } );
