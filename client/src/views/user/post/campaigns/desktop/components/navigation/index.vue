@@ -1,42 +1,31 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
-      <div class="campaign--search">
-        <span class="ml_2">
-          <icon-base
-            class="ic--search"
-            icon-name="Tìm kiếm"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-          >
-            <icon-input-search/>
-          </icon-base>
-        </span>
-        <input class="search--input"
-          placeholder="Tìm kiếm"
-          type="text"
-          v-model="search"
-          @keydown.enter="updateSearch"
-        />
+    <!-- Start: Header Left-->
+    <div class="nav--left d_flex justify_content_start align_items_center c_md_12 c_lg_12 c_xl_12 mb_3">
+        <div
+          class="btn--add-campaign mr_3"
+          @click="isShowCreatCampaignPopup = true"
+        >
+          Thêm chiến dịch
+        </div>
+
+        <router-link
+          class="ml_2"
+          tag="button"
+          :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
+          active-class="active"
+        >Danh sách chiến dịch</router-link
+        >
+        <div class="divider"></div>
+        <router-link
+          class="ml_2"
+          tag="button"
+          :to="{ name: 'campaigns_default' }"
+          active-class="active"
+        >Chiến dịch mẫu</router-link
+        >
       </div>
-    </div>
-    <!-- End: Header Left-->
-    <!-- Start: Header Right-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right">
-      <app-filter
-        class="mr_2"
-        :filterList="filterShowList"
-        :filterSelected="filterShowSelected"
-        @updateFilterSelected="updateFilterShowSelected($event)"
-      />
-<!--      <app-filter-->
-<!--        :filterList="filterStatusList"-->
-<!--        :filterSelected="filterStatusSelected"-->
-<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
-<!--      />-->
-    </div>
-    <!-- End: Header Right-->
+
 		<!--	Start: Create Campaign Popup	-->
 		<transition name="popup">
 			<create-campaign-popup
@@ -51,12 +40,10 @@
 </template>
 
 <script>
-import AppFilter from "./filter/index";
 import CreateCampaignPopup from "../../popup/campaigns/create/index";
 
 export default {
   components: {
-    AppFilter,
     CreateCampaignPopup
   },
   props: [ "filterShowSelected", "filterStatusSelected" ],

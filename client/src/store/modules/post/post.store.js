@@ -275,6 +275,9 @@ const actions = {
   setPostRemove: ( { commit }, payload ) => {
     commit( "set_post_remove", payload );
   },
+  setPageSizeDefault: async ({commit}, payload) => {
+    await commit("setPostsPageSize", payload);
+  },
   updatePost: async ( { commit }, payload ) => {
     commit( "post_request" );
 

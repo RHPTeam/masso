@@ -38,6 +38,11 @@ export default {
       size: this.filterShowSelected.id,
       page: this.currentPage
     };
+    // const page = this.$store.getters.postsPageSize;
+    // if(page === undefined || page === '') {
+    //   await this.$store.dispatch("setPageSizeDefault", 1);
+    // }
+    await this.$store.dispatch("setPageSizeDefault", 1);
     await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {

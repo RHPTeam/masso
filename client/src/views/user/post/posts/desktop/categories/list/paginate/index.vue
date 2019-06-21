@@ -31,7 +31,7 @@ export default {
     },
     categoriesPageSize() {
       return this.$store.getters.categoriesPageSize;
-    },
+    }
   },
   async created() {
   },

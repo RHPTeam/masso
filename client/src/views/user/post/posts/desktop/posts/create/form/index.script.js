@@ -192,6 +192,9 @@ export default {
     },
     // Update post when click button Save
     savePost(){
+      if(this.linkContent.length > 0) {
+        this.post.scrape = this.linkContent[0];
+      }
       this.$store.dispatch( "updatePost", this.post );
       this.$router.push( { name: "post_posts" } );
       this.$store.dispatch("setPostCateDefault", 0);

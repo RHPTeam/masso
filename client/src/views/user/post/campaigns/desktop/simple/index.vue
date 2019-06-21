@@ -17,27 +17,17 @@
       :search="search"
     />
     <!-- End: Data Table -->
-    <!-- Start: Footer -->
-    <app-footer
-      :currentPage="currentPage"
-      :filterShowSelected="filterShowSelected"
-      :search="search"
-      @updateCurrentPage="currentPage = $event"
-    />
-    <!-- End: Footer -->
   </div>
 </template>
 
 <script>
-import AppHeader from "./header";
+import AppHeader from "./header/index";
 import AppTable from "./table/index";
-import AppFooter from "../components/footer";
 
 export default {
   components: {
     AppHeader,
-    AppTable,
-    AppFooter
+    AppTable
   },
   data() {
     return {

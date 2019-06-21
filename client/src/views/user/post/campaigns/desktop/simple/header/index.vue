@@ -1,5 +1,6 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
+    <!-- Start: Header Left-->
     <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
       <div class="campaign--search">
         <span class="ml_2">
@@ -127,35 +128,7 @@ export default {
 
 <style lang="scss" scoped>
 .main--header {
-  .nav--left {
-    height: 40px;
-    > button {
-      background-color: transparent;
-      border: 0;
-      border-radius: .625rem;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      height: 100%;
-      outline: none;
-      padding: 0 .5rem;
-      transition: all 0.4s ease;
-    }
-    .btn--create {
-      background-color: #ffb94a;
-      border-radius: 0.5rem;
-      color: #fff;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      height: 40px;
-      line-height: 40px;
-      padding: 0 .75rem;
-      transition: all 0.4s ease;
-      &:hover {
-        background-color: #FF9E4A;
-      }
-    }
+  .main--header-left {
     .btn--add-campaign {
       border-radius: 0.5rem;
       cursor: pointer;
@@ -171,12 +144,6 @@ export default {
         box-shadow: none;
       }
     }
-    .divider {
-      height: 16px;
-      width: 2px;
-    }
-  }
-  .main--header-left {
     .campaign--search {
       background-clip: padding-box;
       border: 0;
@@ -232,17 +199,7 @@ export default {
   }
 }
 .main--header[data-theme="dark"] {
-  .nav--left {
-    button {
-      color: #ccc;
-      &:hover,
-      &.active {
-        color: #ffb94a;
-      }
-    }
-    .divider {
-      background-color: #666;
-    }
+  .main--header-left {
     .btn--add-campaign {
       background-color: #ffb94a;
       color: #fff;
@@ -250,8 +207,6 @@ export default {
         background-color: #ff9e4a;
       }
     }
-  }
-  .main--header-left {
     .campaign--search {
       background-color: #27292d ;
       svg.ic--search {

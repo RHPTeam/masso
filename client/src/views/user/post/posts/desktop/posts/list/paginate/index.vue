@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ allPosts.length }} bản ghi
+      Hiển thị {{ allPosts.length }} bản ghi {{postsPageSize}}
     </div>
     <paginate
       :value="currentPage"
@@ -38,6 +38,12 @@ export default {
     totalPost(){
       return this.$store.getters.totalPost;
     }
+  },
+  async created(){
+    // const page = this.$store.getters.postsPageSize;
+    // if(page === undefined || page === '') {
+    // }
+    await this.$store.dispatch("setPageSizeDefault", 1);
   },
   methods: {
     async goToPage( page ) {

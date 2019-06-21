@@ -53,23 +53,30 @@ const generalPostRouter = {
     {
       path: "campaigns",
       component: require( "@/views/user/post/campaigns" ).default,
-      children: [ {
-        path: "",
-        name: "post_campaigns",
-        component: require( "@/views/user/post/campaigns/desktop/list" )
-          .default
-      },
+      children: [
+        {
+          path: "",
+          name: "post_campaigns",
+          component: require( "@/views/user/post/campaigns/desktop/list" )
+            .default
+        },
         {
           path: "history",
           name: "post_campaign_history",
           component: require( "@/views/user/post/campaigns/desktop/history" ).default
         },
-      {
-        path: ":campaignId",
-        name: "post_campaigns_detail",
-        component: require( "@/views/user/post/campaigns/desktop/detail" )
-          .default
-      }
+        {
+          path: ":campaignId",
+          name: "post_campaigns_detail",
+          component: require( "@/views/user/post/campaigns/desktop/detail" )
+            .default
+        },
+        {
+          path: "campaigns-default",
+          name: "campaigns_default",
+          component: require( "@/views/user/post/campaigns/desktop/simple" )
+            .default
+        }
       ]
     },
     {
