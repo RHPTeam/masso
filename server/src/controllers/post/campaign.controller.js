@@ -295,20 +295,19 @@ module.exports = {
       newCampaign = await new Campaign( dataCampaign );
 
     await newCampaign.save();
-    let date = new Date(),
-      count = 0;
+    let count = 0;
 
     // Handle campaign
     for ( let i = 0; i < req.body.campaignExample.postList.length; i++ ) {
       // Post in 20h
       if ( i % 2 !== 0 ) {
-        count++;
         let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
             return {
               "link": image,
               "typeAttachment": 1
             };
           } ) ),
+          date = new Date(),
           dataPost = {
             "title": req.body.campaignExample.postList[ i ].title,
             "content": req.body.campaignExample.postList[ i ].content,
@@ -323,6 +322,7 @@ module.exports = {
         const dataEvent = {
             "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
             "status": 0,
+            "type_event": 0,
             "_account": req.uid,
             "started_at": date
           },
@@ -336,6 +336,7 @@ module.exports = {
         await newEvent.save();
         newCampaign._events.push( newEvent._id );
         await newCampaign.save();
+        count++;
       } else {
         // Post in 8h30
         let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
@@ -344,6 +345,7 @@ module.exports = {
               "typeAttachment": 1
             };
           } ) ),
+          date = new Date(),
           dataPost = {
             "title": req.body.campaignExample.postList[ i ].title,
             "content": req.body.campaignExample.postList[ i ].content,
@@ -358,6 +360,7 @@ module.exports = {
         const dataEvent = {
             "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
             "status": 0,
+            "type_event": 0,
             "_account": req.uid,
             "started_at": date
           },
