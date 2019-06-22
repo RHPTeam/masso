@@ -215,6 +215,8 @@
       <duplicate-campaign-popup
         v-if="isShowDuplicateCampaignPopup"
         :campaignDuplicate="campaignDuplicate"
+        :isShow="showDuplicateSimple"
+        @setDefault="showDuplicateSimple = $event"
         @closePopup="isShowDuplicateCampaignPopup = $event"
       ></duplicate-campaign-popup>
     </transition>
