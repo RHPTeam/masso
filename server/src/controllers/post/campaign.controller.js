@@ -14,9 +14,11 @@ const Facebook = require( "../../models/Facebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const dictionary = require( "../../configs/dictionaries" );
+// eslint-disable-next-line no-unused-vars
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
-const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 module.exports = {
   /**
@@ -283,7 +285,7 @@ module.exports = {
   "duplicateSyncCampaignExample": async ( req, res ) => {
     const findFacebook = await Facebook.findOne( { "_id": req.body.facebookId, "_account": req.uid } ).lean(),
       dataCampaign = {
-        "title": req.body.campaignExample.title + "Copy",
+        "title": req.body.campaignExample.title + " Copy",
         "description": req.body.campaignExample.description,
         "status": 0,
         "started_at": Date.now(),
@@ -296,11 +298,10 @@ module.exports = {
     let date = new Date(),
       count = 0;
 
-    console.log( date.getDate() )
     // Handle campaign
     for ( let i = 0; i < req.body.campaignExample.postList.length; i++ ) {
       // Post in 20h
-      if ( i % 2 === 0 ) {
+      if ( i % 2 !== 0 ) {
         count++;
         let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
             return {
