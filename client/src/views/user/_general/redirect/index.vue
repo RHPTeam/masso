@@ -18,7 +18,6 @@ const checkRedirect = ( query ) => {
       CookieFunction.setCookie( "__v", "1.0.4" );
       axios.defaults.headers[ "Authorization" ] = query.authorization;
       if ( query.authorization && CookieFunction.getCookie( "sid" ).length > 0 && axios.defaults.headers[ "Authorization" ].length > 30 ) {
-        console.log( query.authorization)
         resolve( true );
       }
       resolve( false );

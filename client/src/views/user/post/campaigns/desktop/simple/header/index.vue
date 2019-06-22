@@ -100,7 +100,6 @@ export default {
       this.$emit( "updateFilterShowSelected", val );
     },
     updateFilterStatusSelected( val ) {
-      console.log( val );
       if ( val.id === "all" ) {
         const dataSender = {
           size: this.sizeDefault,

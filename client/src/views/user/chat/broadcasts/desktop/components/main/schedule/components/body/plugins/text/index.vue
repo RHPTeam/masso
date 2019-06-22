@@ -101,7 +101,6 @@ export default {
         contentId: item._id,
         value: item.valueText
       };
-      console.log(objSender);
       this.$store.dispatch("updateItemSchedule", objSender);
     }
     // closeSuggestAttributeInItem() {

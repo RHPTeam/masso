@@ -296,7 +296,6 @@ module.exports = {
     let date = new Date(),
       count = 0;
 
-    console.log( date.getDate() )
     // Handle campaign
     for ( let i = 0; i < req.body.campaignExample.postList.length; i++ ) {
       // Post in 20h
