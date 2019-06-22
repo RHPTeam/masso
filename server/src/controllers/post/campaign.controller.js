@@ -14,9 +14,11 @@ const Facebook = require( "../../models/Facebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
+const dictionary = require( "../../configs/dictionaries" );
+// eslint-disable-next-line no-unused-vars
+const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
-const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 module.exports = {
   /**
@@ -283,7 +285,7 @@ module.exports = {
   "duplicateSyncCampaignExample": async ( req, res ) => {
     const findFacebook = await Facebook.findOne( { "_id": req.body.facebookId, "_account": req.uid } ).lean(),
       dataCampaign = {
-        "title": req.body.campaignExample.title + "Copy",
+        "title": req.body.campaignExample.title + " Copy",
         "description": req.body.campaignExample.description,
         "status": 0,
         "started_at": Date.now(),
@@ -293,20 +295,19 @@ module.exports = {
       newCampaign = await new Campaign( dataCampaign );
 
     await newCampaign.save();
-    let date = new Date(),
-      count = 0;
+    let count = 0;
 
     // Handle campaign
     for ( let i = 0; i < req.body.campaignExample.postList.length; i++ ) {
       // Post in 20h
-      if ( i % 2 === 0 ) {
-        count++;
+      if ( i % 2 !== 0 ) {
         let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
             return {
               "link": image,
               "typeAttachment": 1
             };
           } ) ),
+          date = new Date(),
           dataPost = {
             "title": req.body.campaignExample.postList[ i ].title,
             "content": req.body.campaignExample.postList[ i ].content,
@@ -321,6 +322,7 @@ module.exports = {
         const dataEvent = {
             "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
             "status": 0,
+            "type_event": 0,
             "_account": req.uid,
             "started_at": date
           },
@@ -334,6 +336,7 @@ module.exports = {
         await newEvent.save();
         newCampaign._events.push( newEvent._id );
         await newCampaign.save();
+        count++;
       } else {
         // Post in 8h30
         let attachments = await Promise.all( req.body.campaignExample.postList[ i ].photos.map( ( image ) => {
@@ -342,6 +345,7 @@ module.exports = {
               "typeAttachment": 1
             };
           } ) ),
+          date = new Date(),
           dataPost = {
             "title": req.body.campaignExample.postList[ i ].title,
             "content": req.body.campaignExample.postList[ i ].content,
@@ -356,6 +360,7 @@ module.exports = {
         const dataEvent = {
             "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
             "status": 0,
+            "type_event": 0,
             "_account": req.uid,
             "started_at": date
           },

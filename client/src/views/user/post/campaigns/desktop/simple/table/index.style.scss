@@ -34,32 +34,14 @@
       }
     }
   }
-  .col--checkbox {
-    height: 20px;
-    width: calc(20px + 1rem);
-  }
   .col--name {
-    width: calc(46% - 140px - 3.5rem);
+    width: 50%;
     &-text {
       cursor: pointer;
     }
   }
-  .col--desc {
-    width: calc(48% - 140px - 3.5rem);
-    &-text {
-      // overflow: hidden;
-      // text-overflow: ellipsis;
-      // white-space: nowrap;
-    }
-  }
-  .col--start {
-    width: 12%;
-  }
-  .col--finish {
-    width: 12%;
-  }
   .col--status {
-    width: calc(160px + 3rem);
+    width: 40%;
     .status--content {
     	.status--dot {
     		border-radius: 100%;
@@ -76,7 +58,7 @@
   }
   .col--action {
   	text-align: center;
-    width: calc(160px + 3rem);
+    width: 10%;
     svg {
       color: #999;
       cursor: pointer;
@@ -143,49 +125,49 @@
 
 // RESPONSIVE
 @media only screen and (max-width: 1366px) {
-  .campaigns--data {
-    .col--name {
-      width: calc(82% - 280px - 2rem);
-    }
-    .col--desc {
-      display: none;
-    }
-    .col--start {
-      width: 18%;
-    }
-    .col--status {
-      width: calc(160px + 1rem);
-      padding: 0 0.5rem !important;
-    }
-    .col--action {
-      width: calc(100px + 1rem);
-      padding: 0 0.5rem !important;
-    }
-  }
+  //.campaigns--data {
+  //  .col--name {
+  //    width: calc(82% - 280px - 2rem);
+  //  }
+  //  .col--desc {
+  //    display: none;
+  //  }
+  //  .col--start {
+  //    width: 18%;
+  //  }
+  //  .col--status {
+  //    width: calc(160px + 1rem);
+  //    padding: 0 0.5rem !important;
+  //  }
+  //  .col--action {
+  //    width: calc(100px + 1rem);
+  //    padding: 0 0.5rem !important;
+  //  }
+  //}
 }
 @media only screen and (max-width: 1024px) {
-  .campaigns--data {
-    .col--name {
-      width: calc(100% - 250px - 2rem);
-    }
-    .col--start,
-    .col--finish {
-    	display: none;
-  	}
-  	.col--status {
-      width: 160px;
-    }
-  }
+  //.campaigns--data {
+  //  .col--name {
+  //    width: calc(100% - 250px - 2rem);
+  //  }
+  //  .col--start,
+  //  .col--finish {
+  //  	display: none;
+  //	}
+  //	.col--status {
+  //    width: 160px;
+  //  }
+  //}
 }
 @media only screen and (max-width: 992px) {
-  .campaigns--data {
-    .col--name {
-      width: calc(100% - 95px - 2rem);
-    }
-    .col--status {
-      display: none !important;
-    }
-  }
+  //.campaigns--data {
+  //  .col--name {
+  //    width: calc(100% - 95px - 2rem);
+  //  }
+  //  .col--status {
+  //    display: none !important;
+  //  }
+  //}
 }
 
 // TRANSITION

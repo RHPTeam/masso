@@ -95,7 +95,7 @@ module.exports = {
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
     } else if ( req.body.type_event === undefined ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [1: Auto, 0: Custom]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );

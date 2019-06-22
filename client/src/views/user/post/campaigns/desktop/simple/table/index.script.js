@@ -11,6 +11,7 @@ export default {
       campaignDuplicate: {},
       isShowDeleteCampaignPopup: false,
       isShowDuplicateCampaignPopup: false,
+      showDuplicateSimple: false,
       isSort: [
         {
           name: "title",
@@ -41,7 +42,7 @@ export default {
       return this.$store.getters.themeName;
     },
     campaigns() {
-      return this.$store.getters.campaigns;
+      return this.$store.getters.campSimple;
     },
     campaignStatus() {
       return this.$store.getters.campaignStatus;
@@ -71,12 +72,7 @@ export default {
     }
   },
   async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getCampaignsByPage", dataSender );
+    await this.$store.dispatch( "getCampaignSimple" );
   },
   methods: {
     activeCurrentSort( i, type ) {
@@ -113,6 +109,7 @@ export default {
       };
     },
     showDuplicateCampaignPopup( campaign ) {
+      this.showDuplicateSimple = true;
       this.isShowDuplicateCampaignPopup = true;
       this.campaignDuplicate = campaign;
     },
