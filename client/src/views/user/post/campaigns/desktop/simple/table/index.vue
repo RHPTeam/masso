@@ -47,8 +47,8 @@
           </icon-base>
         </span>
       </div>
-			<div class="col col--desc px_4">Mô tả</div>
-			<div class="col col--start px_2">
+			<div class="col col--desc d_none px_4">Mô tả</div>
+			<div class="col col--start d_none px_2">
         <span
           class="sort"
           @click="sortCampaignsByProperty(isSort[1], 1)"
@@ -163,12 +163,12 @@
 						{{ campaign.title }}
 					</span>
 				</div>
-				<div class="col col--desc px_4">
+				<div class="col col--desc d_none px_4">
 					<div class="col--desc-text">
 						{{ campaign.description }}
 					</div>
 				</div>
-				<div class="col col--start px_2">
+				<div class="col col--start d_none px_2">
 					{{ formatDate(campaign.started_at) }}
 				</div>
 				<div class="col col--status px_2">

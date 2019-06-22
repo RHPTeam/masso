@@ -11,10 +11,11 @@ export default {
       }
     } );
   },
-  duplicateCampaign(campaignId){
+  duplicateCampaign(campaignId, facebookId){
     return request( {
       "method": "post",
       "url": `${process.env.VUE_APP_API_MAIN_URL}/campaign-default/duplicate?_campaignId=${campaignId}`,
+      "data": facebookId,
       "headers": {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }

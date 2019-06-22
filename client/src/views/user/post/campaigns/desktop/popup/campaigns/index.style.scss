@@ -57,10 +57,35 @@
             margin-top: .75rem;
             .action {
               .custom--checkbox {
-                padding: .5rem 1rem;
-                border: 1px solid #e4e4e4;
-                border-radius: .5rem;
-                cursor: pointer;
+                input[type="checkbox"] {
+                  border-radius: 6px;
+                  border: solid 1.5px #cccccc;
+                  cursor: pointer;
+                  height: 20px;
+                  outline: none;
+                  width: 20px;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  &:checked {
+                    background-color: #ffb94a;
+                    border: solid 1px #ffb94a;
+                    &:before {
+                      border-bottom: 2px solid #fff;
+                      border-right: 2px solid #fff;
+                      content: "";
+                      display: block;
+                      height: 10px;
+                      position: relative;
+                      left: 50%;
+                      top: 42%;
+                      transform: translate(-50%, -50%) rotate(45deg);
+                      width: 7px;
+                    }
+                  }
+                }
+              }
+              .active {
+                background-color: #ffb94a;
               }
             }
             .left {

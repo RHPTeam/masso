@@ -11,14 +11,6 @@
             sẽ được sao chép sang một chiến dịch mới.
           </div>
           <div class="duplicate" v-if="isShow === true">
-            <div class="time mt_3">
-              <h5 class="mb_3">Chọn ngày bắt đầu chiến dịch</h5>
-              <date-picker
-                format="DD/MM/YYYY"
-                @change="changeDateSetup"
-                v-model="setup.timeStart"
-              />
-            </div>
             <div class="account mt_3">
               <h5 class="mb_3">Chọn tài khoản sử dụng chiến dịch</h5>
               <div class="account--list-item d_flex align_items_center"
@@ -39,8 +31,12 @@
                 </div>
                 <!-- Start: Action -->
                 <div class="action ml_auto">
-                  <label class="custom--checkbox" @click="chooseAccount(account.userInfo.id)">
-                    Chọn
+                  <label class="custom--checkbox">
+                    <input
+                      type="checkbox"
+                      :value="account._id"
+                      @click="chooseAccount(account._id)"
+                    />
                   </label>
                 </div>
                 <!-- End: Action -->
@@ -110,10 +106,9 @@ export default {
     async duplicateCampaignSimple(){
       const dataSender = {
         campaignId: this.campaignDuplicate._id,
-        facebookId: this.setup.accountId,
-        started_at: this.setup.timeStart
+        facebookId: this.setup.accountId
       };
-      console.log(dataSender)
+      console.log(dataSender);
       await this.$store.dispatch("duplicateCampaignSimple", dataSender);
       await this.$emit("setDefault", false);
       this.closePopup();
@@ -128,7 +123,6 @@ export default {
         0 )
     },
     chooseAccount(val){
-      console.log(val);
       this.setup.accountId = val;
     }
   }

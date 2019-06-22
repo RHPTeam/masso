@@ -23,15 +23,13 @@ const actions = {
   getCampaignSimple: async ({commit}) => {
     commit("camp_request");
     const result = await CampaignDefaultService.index();
-    console.log(result.data.data);
     commit("setCampaignSimple", result.data.data);
     commit("camp_success");
   },
   duplicateCampaignSimple: async ({commit}, payload) => {
     commit("camp_request");
     const objSender = {
-      facebookId: payload.facebookId,
-      started_at: payload.started_at
+      facebookId: payload.facebookId
     };
     await CampaignDefaultService.duplicateCampaign(payload.campaignId, objSender);
     commit("camp_success");
