@@ -6,7 +6,7 @@ const mongoose = require( "mongoose" ),
   EventSchema = new Schema( {
     "title": { "type": String, "required": true },
     "color": { "type": String, "default": "#85CFFF" },
-    "type_event": Number,
+    "type_event": Number, // 0: Custom, 1: Auto
     "status": Boolean,
     "post_category": {
       "type": Schema.Types.ObjectId,
