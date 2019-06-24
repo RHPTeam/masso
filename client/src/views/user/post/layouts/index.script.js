@@ -4,6 +4,10 @@ import AppNotification from "./desktop/notification";
 
 import CookieFunction from "@/utils/functions/cookie";
 
+import HeaderMobile from "./mobile/header";
+import SearchMobile from "./mobile/search";
+import FooterMobile from "./mobile/footer";
+
 export default {
   data() {
     return {
@@ -37,6 +41,9 @@ export default {
   components: {
     AppHeader,
     AppSidebar,
-    AppNotification
+    AppNotification,
+    HeaderMobile,
+    SearchMobile,
+    FooterMobile
   }
 };

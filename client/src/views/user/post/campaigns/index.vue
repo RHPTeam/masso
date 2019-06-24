@@ -13,12 +13,22 @@
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+
+    <!--Start: Mobile Component-->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
+    <!--End: Mobile Component-->
   </div>
 </template>
 
 <script>
+import AppMobile from "./mobile"
 export default {
-};
+  components: {
+    AppMobile
+  },
+}
 </script>
 
 <style lang="scss" scoped></style>

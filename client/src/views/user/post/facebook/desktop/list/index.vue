@@ -7,7 +7,7 @@
     </div> -->
     <div class="list r">
       <!-- Start: Add Account Item -->
-      <div class="addItem c_md_6 c_lg_4 c_xl_3">
+      <div class="addItem c_md_6 c_lg_4 c_xl_3 c_sm_6">
         <div class="card" @click="showPopup" :class="disabledClass()">
           <div class="card_body d_flex align_items_center justify_content_center">
             <div class="item--content">
@@ -28,7 +28,7 @@
       </div>
       <!-- End: Add Account Item -->
       <!-- Start: Account Items Loop -->
-      <div class="item c_md_6 c_lg_4 c_xl_3"
+      <div class="item c_md_6 c_lg_4 c_xl_3 c_sm_6"
            v-for="(item, index) in accountsFB"
            :key="index"
       >

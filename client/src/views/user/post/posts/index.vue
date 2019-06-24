@@ -19,14 +19,23 @@
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+
+    <!--Start: Mobile Component-->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
+    <!--End: Mobile Component-->
   </div>
 </template>
 
 <script>
 import AppNavigation from "./desktop/layouts/navigation/index";
+import AppMobile from "./mobile"
+
 export default {
   components: {
-    AppNavigation
+    AppNavigation,
+    AppMobile
   },
   computed: {
     showNavigation() {

@@ -1,0 +1,113 @@
+.form-wrapper {
+    font-size: .875rem;
+    background: #666;
+    .form--title {
+      font-weight: 600;
+    }
+    .category--form {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      border-radius: .625rem;
+    }
+    .item {
+      > input,
+      > textarea {
+        border: 1px solid;
+        border-radius: 0.625rem;
+        margin-top: 0.5rem;
+        outline: none;
+        transition: all 0.4s ease;
+        width: 100%;
+        &:focus {
+          border-color: #ffb94a;
+        }
+      }
+      > input {
+        padding: 0 0.75rem;
+        height: 40px;
+      }
+      > textarea {
+        height: 120px;
+        padding: 0.75rem;
+        resize: none;
+      }
+      button {
+        text-transform: uppercase;
+        color: #fff;
+        cursor: pointer;
+        font-size: .875rem;
+        font-weight: 600;
+        height: 40px;
+        padding: 0 .75rem;
+        transition: all 0.4s ease;
+        background: none;
+        border: 0;
+      }
+    }
+    .text--error {
+      color: red;
+      font-size: .825rem;
+      padding: 0 .75rem;
+    }
+  }
+  
+  /* Theme Color */
+  /* Light */
+  .form-wrapper[data-theme="light"] {
+    color: #444444;
+    .category--new-desc {
+      color: #444;
+    }
+    .category--form {
+      background-color: #fff;
+    }
+    .item {
+      > span {
+        color: #666666;
+      }
+      input,
+      textarea {
+        background-color: #fff;
+        border-color: #e4e4e4;
+        color: #444;
+        &::placeholder {
+          color: #ccc;
+        }
+      }
+    }
+  }
+  
+  /* Dark */
+  .form-wrapper[data-theme="dark"] {
+    color: #f7f7f7;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #27292d;
+    z-index: 10;
+    .category--new-desc {
+      color: #cccccc;
+    }
+    .category--form {
+      background-color: #27292d;
+      margin: 0 1rem;
+    }
+    .item {
+      > span {
+        color: #cccccc;
+      }
+      input,
+      textarea {
+        background-color: #27292d;
+        border-color: #444;
+        color: #f7f7f7;
+        &::placeholder {
+          color: #666;
+        }
+      }
+    }
+  }
+  

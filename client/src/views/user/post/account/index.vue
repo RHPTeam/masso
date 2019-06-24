@@ -21,6 +21,12 @@
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+
+    <!--Start: Mobile Component-->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
+    <!--End: Mobile Component-->
   </div>
 </template>
 

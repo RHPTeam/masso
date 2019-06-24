@@ -1,0 +1,67 @@
+.table--mobile {
+    .tab--page-group {
+        .items {
+            flex: 1;
+            font-size: 0.93rem;
+            padding: 0.4rem 0;
+            border-bottom: 1px solid #484848;
+            &.active {
+                color: #ffb94a;
+                border-color: #ffb94a;
+            }
+        }
+    }
+    .content--table {
+      font-size: 0.875rem;
+        .page, .group {
+          .item--body {
+            border-bottom: 1px solid #484848;
+          }
+          .col--checkbox {
+              height: 20px;
+          }
+          .custom--checkbox {
+            input[type="checkbox"] {
+              border-radius: 6px;
+              border: solid 1.5px #cccccc;
+              cursor: pointer;
+              height: 20px;
+              outline: none;
+              width: 20px;
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              &:checked {
+                background-color: #ffb94a;
+                border: solid 1px #ffb94a;
+          
+                &:before {
+                  border-bottom: 2px solid #fff;
+                  border-right: 2px solid #fff;
+                  content: "";
+                  display: block;
+                  height: 10px;
+                  position: relative;
+                  left: 50%;
+                  top: 42%;
+                  transform: translate(-50%, -50%) rotate(45deg);
+                  width: 7px;
+                }
+              }
+            }
+          }
+          .col--name {
+            width: 100%;
+            overflow: hidden;
+            .avatar .img {
+              border-radius: 50%;
+            }
+            &-text {
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 90%;
+            }
+          } 
+        }
+    }
+}
