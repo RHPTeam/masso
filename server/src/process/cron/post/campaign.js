@@ -75,6 +75,9 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
           } );
 
           if ( resFacebookResponse ) {
+
+            console.log( resFacebookResponse );
+
             if ( resFacebookResponse.error.code === 200 ) {
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
