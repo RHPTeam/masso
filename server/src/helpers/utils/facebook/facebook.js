@@ -402,9 +402,9 @@ module.exports = {
 
       download( urlFixed )
         .then( ( data ) => {
-          const pathFileImage = `${__dirname}/${randomstring.generate()}.png`;
+          const pathFileImage = `${__dirname}/${randomstring.generate()}.jpg`;
 
-          fs.writeFileSync( pathFileImage, data, ( err ) => {
+          fs.writeFile( pathFileImage, data, ( err ) => {
             if ( err ) {
               return resolve( {
                 "error": writeFileImageFail,
