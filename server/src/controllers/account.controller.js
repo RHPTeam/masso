@@ -85,6 +85,14 @@ module.exports = {
 
     res.status( 201 ).json( jsonResponse( "success", null ) );
   },
+  "changeStatusSync": async ( req, res ) => {
+    const { id } = req.body,
+      userInfo = await Account.findOne( { "_id": id } );
+
+    userInfo.status = !userInfo.status;
+    await Account.findByIdAndUpdate( id, { "$set": { "status": userInfo.status } }, { "new": true } ).select( "-password" );
+    res.send( { "status": "success", "data": "Synchronized..." } );
+  },
   "createNewPassword": async ( req, res ) => {
     const { password } = req.body,
       userInfo = await Account.findOne( { "_id": req.uid } );
@@ -109,14 +117,14 @@ module.exports = {
     defaulSchema( newUser );
   },
   "activeAccountById": async ( req, res ) => {
-    const { expireDate, id } = req.body,
+    const { maxAccountFb, expireDate, id } = req.body,
       userInfo = await Account.findOne( { "_id": id } );
 
     if ( !userInfo ) {
       res.send( { "status": "error", "message": "Tài không được đồng bộ trên server!" } );
     }
 
-    await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": expireDate } }, { "new": true } ).select( "-password -__v" );
+    await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": expireDate, "maxAccountFb": maxAccountFb } }, { "new": true } ).select( "-password -__v" );
 
     res.send( { "status": "success", "data": "Synchronized..." } );
   }

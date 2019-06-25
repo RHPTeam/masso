@@ -20,7 +20,10 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "title content" ).lean();
+      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    } else if ( req.query._categoryId ) {
+      dataResponse = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
@@ -42,7 +45,7 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title description" } ).lean();
+      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
@@ -60,8 +63,9 @@ module.exports = {
       } );
 
     newPost._categories.push( findPostCategory._id );
+    findPostCategory.totalPosts++;
     await newPost.save();
-
+    await findPostCategory.save();
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
   "createPost": async ( req, res ) => {
@@ -124,6 +128,15 @@ module.exports = {
       .replace( /(<br \/>)|(<br>)/gm, "\n" )
       .replace( /(<\/p>)|(<\/div>)/gm, "\n" )
       .replace( /(<([^>]+)>)/gm, "" );
+
+    // Handle post category
+    await Promise.all( req.body._categories.map( async ( category ) => {
+      const categoryInfo = await PostCategory.findOne( { "_id": category._id } ),
+        totalPostsOfCategory = await Post.countDocuments( { "_categories": category._id } );
+
+      categoryInfo.totalPosts = totalPostsOfCategory;
+      categoryInfo.save();
+    } ) );
 
     res
       .status( 201 )
@@ -200,6 +213,13 @@ module.exports = {
       } )
     );
     await PostSchedule.deleteMany( { "_post": req.query._postId } );
+
+    await Promise.all( findPost._categories.map( async ( category ) => {
+      const categoryInfo = await PostCategory.findOne( { "_id": category } );
+
+      categoryInfo.totalPosts -= 1;
+      categoryInfo.save();
+    } ) );
 
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );
@@ -373,6 +393,57 @@ module.exports = {
     let findPostAfterAdd = await Post.findOne( { "_id": newPost._id } ).populate( { "path": "_categories", "select": "_id title" } );
 
     res.send( { "status": "success", "data": findPostAfterAdd } );
+  },
+  "syncDuplicateFolderExample": async ( req, res ) => {
+    const findCategoryExample = await PostCategory.findOne( { "idFolderExample": req.body.categoryPost._id.toString(), "_account": req.uid } );
+
+    // Category not exist
+    if ( !findCategoryExample ) {
+      const idFolderExample = req.body.categoryPost._id;
+
+      delete req.body.categoryPost._id;
+
+      // eslint-disable-next-line one-var
+      const newCategoryExample = await new PostCategory( req.body.categoryPost );
+
+      newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
+      newCategoryExample.totalPosts = newCategoryExample.postExample.length;
+      newCategoryExample.idFolderExample = idFolderExample.toString();
+      await newCategoryExample.save();
+      let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+
+        delete item._id;
+        let newPost = new Post( item );
+
+        newPost._categories.push( newCategoryExample._id );
+        await newPost.save();
+        return newPost;
+      } ) );
+
+      return res.send( { "status": "success", "data": { "category": newCategoryExample, "postList": resData } } );
+    }
+
+    // Category is existed
+    let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+
+      // check id exist in category in field post example
+      if ( findCategoryExample.postExample.indexOf( item._id ) === -1 ) {
+        delete item._id;
+        let newPost = new Post( item );
+
+        newPost._categories.push( findCategoryExample._id );
+        await newPost.save();
+        return newPost;
+
+      }
+    } ) );
+
+    findCategoryExample.postExample = [ ...new Set( [ ... findCategoryExample.postExample, ...req.body.postId ] ) ];
+    findCategoryExample.totalPosts = findCategoryExample.postExample.length;
+    await findCategoryExample.save();
+    res.send( { "status": "success", "data": { "category": findCategoryExample, "postList": resData.filter( function ( el ) {
+      return el != null;
+    } ) } } );
   },
   "upload": async ( req, res ) => {
     if ( !req.files || req.files.length === 0 ) {

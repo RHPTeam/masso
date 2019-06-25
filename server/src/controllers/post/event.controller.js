@@ -13,20 +13,13 @@ const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog"
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
-// eslint-disable-next-line no-unused-vars
-const ScheduleService = require( "node-schedule" );
 
 const jsonResponse = require( "../../configs/response" );
+const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
 
 module.exports = {
-  /**
-   * Get All (query)
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "index": async ( req, res ) => {
     let page = null, dataResponse = null;
 
@@ -97,18 +90,12 @@ module.exports = {
       .json( jsonResponse( "success", dataResponse ) );
 
   },
-  /**
-   * Create event
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "create": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
     } else if ( req.body.type_event === undefined ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Auto, 1: Custom]" } } );
+      return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [1: Auto, 0: Custom]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "content": "Nội dung tối thiểu chọn ít nhất một bài đăng hoặc một danh mục! [post_category | post_custom]" } } );
@@ -139,16 +126,15 @@ module.exports = {
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
+    findCampaign.logs.content.push( {
+      "message": `Tạo sự kiện "${newEvent.title}" ở ${findCampaign.title} thành công.`,
+      "createdAt": new Date()
+    } );
+    findCampaign.logs.total += 1;
     await findCampaign.save();
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
-  /**
-   * Update event
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "update": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -169,7 +155,7 @@ module.exports = {
 
     const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
       findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
-      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": findCampaign.status } ).lean();
 
     // Check catch when update event
     if ( !findEvent ) {
@@ -186,21 +172,35 @@ module.exports = {
     /**
      * Update cron schedule and event schedule
      */
+
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
       deletedSchedule( eventSchedule, __dirname );
     } ) );
-    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+
+    await EventSchedule.deleteMany( { "_event": req.query._eventId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
     req.body._id = req.query._eventId;
     await EventScheduleController.create( req.body, findCampaign._id, req.uid );
 
+    // Handle logs campaign
+    findCampaign.logs.total += 1;
+    if ( convertUnicode( req.body.title ).toString().toLowerCase() !== convertUnicode( findEvent.title ).toString().toLowerCase() ) {
+      findCampaign.logs.content.push( {
+        "message": `Thay đổi tên sự kiện  từ "${findEvent.title}" sang "${req.body.title}" thành công.`,
+        "createdAt": new Date()
+      } );
+    } else {
+      findCampaign.logs.content.push( {
+        "message": `Cập nhật sự kiện "${findEvent.title}" thành công.`,
+        "createdAt": new Date()
+      } );
+    }
+    await findCampaign.save();
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
-  /**
-   * Delete Event
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "delete": async ( req, res ) => {
     const findCampaign = await Campaign.findOne( { "_events": req.query._eventId } ),
       findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
@@ -223,7 +223,12 @@ module.exports = {
 
     // delete event of campain
     findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );
-    findCampaign.save();
+    findCampaign.logs.content.push( {
+      "message": `Xóa sự kiện "${findEvent.title}" thành công.`,
+      "createdAt": new Date()
+    } );
+    findCampaign.logs.total += 1;
+    await findCampaign.save();
 
     await Event.findByIdAndDelete( req.query._eventId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

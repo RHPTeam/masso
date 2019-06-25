@@ -49,7 +49,7 @@
             <div class="block">
               <!-- Start: Add Block or Text Component -->
               <div class="block--body">
-                <div class="block--body-item" 
+                <div class="block--body-item"
                   v-for="(item, index) in syntax.content"
                   :key="index">
                   <contenteditable
@@ -174,7 +174,6 @@ export default {
       return this.$store.getters.accountsFB;
     },
     groupBlock() {
-      console.log("this.$store.getters.groups;");
       console.log(this.$store.getters.groups);
       return this.$store.getters.groups;
     },

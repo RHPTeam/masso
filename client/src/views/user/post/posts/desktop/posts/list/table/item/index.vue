@@ -1,10 +1,5 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
-    <!--<div class="col col--checkbox px_2">
-      <label class="detail--checkbox mb_0">
-        <input type="checkbox" checked />
-      </label>
-    </div>-->
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
       <div class="col col--name-text"
@@ -25,7 +20,7 @@
     <!-- End: Category Column -->
 
     <!-- Start: Action Column -->
-    <div v-if="this.$store.getters.infoPostCateDefault === 0" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
+    <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="updatePost">
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
@@ -47,18 +42,6 @@
           icon-name="Đăng ngay"
           viewBox="0 0 506 506">
           <icon-post-now />
-        </icon-base>
-      </span>
-    </div>
-    <div v-if="this.$store.getters.infoPostCateDefault === 1" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
-      <span class="mx_2" @click="editPostCateDefault">
-        <icon-base
-          icon-name="duplicate"
-          width="20"
-          height="20"
-          viewBox="0 0 520 520"
-        >
-          <icon-copy />
         </icon-base>
       </span>
     </div>

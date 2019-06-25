@@ -88,20 +88,20 @@ export default {
 
   },
   async created (){
+    this.$store.dispatch( "getAllCategories" );
     const infoStatus = this.$store.getters.statusOnePost;
     const infoCateDefault = this.$store.getters.infoPostCateDefault;
     const statusCateDefault = this.$store.getters.statusPostCateDefault;
     if (infoCateDefault === 0 && infoStatus !== 'success') {
-      await this.$store.dispatch( "getPostById", this.$route.params.id );
+      this.$store.dispatch( "getPostById", this.$route.params.id );
     } else if(infoCateDefault === 1 && statusCateDefault !== "success") {
-      await this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
+      this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
     }
 
-    await this.$store.dispatch( "getAllFriendFb" );
-    await this.$store.dispatch( "getPlaceFromFb" );
-    await this.$store.dispatch( "getAllCategories" );
-    await this.$store.dispatch( "getActivityFb" );
-    await this.$store.dispatch( "getColorFromFb" );
+    this.$store.dispatch( "getAllFriendFb" );
+    this.$store.dispatch( "getPlaceFromFb" );
+    this.$store.dispatch( "getActivityFb" );
+    this.$store.dispatch( "getColorFromFb" );
     },
   watch: {
     /**
@@ -138,7 +138,7 @@ export default {
       this.isShowChangeScrape = false
     },
     // Update categories post
-    updateCate( value ) {
+    updateCate() {
       this.$store.dispatch( "updatePost", this.post );
     },
     updateTitlePost( value ){
@@ -192,6 +192,9 @@ export default {
     },
     // Update post when click button Save
     savePost(){
+      if(this.linkContent.length > 0) {
+        this.post.scrape = this.linkContent[0];
+      }
       this.$store.dispatch( "updatePost", this.post );
       this.$router.push( { name: "post_posts" } );
       this.$store.dispatch("setPostCateDefault", 0);

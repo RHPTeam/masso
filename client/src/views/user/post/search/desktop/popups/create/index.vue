@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content py_4">
+      <div class="modal--content py_4" v-click-outside="closePopup">
         <!-- Start: Modal Header -->
         <div class="modal--header px_4">
           <div class="title">Thêm vào kho nội dung

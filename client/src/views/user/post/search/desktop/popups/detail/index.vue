@@ -3,7 +3,7 @@
     class="modal--wrapper position_fixed d_flex justify_content_center align_items_center"
     :data-theme="currentTheme"
   >
-    <div class="modal--content p_4">
+    <div class="modal--content p_4" v-click-outside="closePopupDetail">
       <VuePerfectScrollbar class="detail--scroll">
         <div style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;" v-html="item.content"></div>
       </VuePerfectScrollbar>
@@ -65,9 +65,9 @@
           <span class="reaction--item-number ml_1">{{ item.share }}</span>
         </div>
       </div>
-      <div class="action d_flex justify_content_between align_items_center">
-        <button class="btn--cancel" @click="closePopupDetail">Hủy</button>
-        <button class="btn--edit ml_4" @click="updatePost">Chỉnh sửa</button>
+      <div class="action d_flex align_items_center align_items_center">
+        <button class="btn--cancel ml_auto" @click="closePopupDetail">Hủy</button>
+<!--        <button class="btn&#45;&#45;edit ml_4" @click="updatePost">Chỉnh sửa</button>-->
       </div>
     </div>
   </div>
@@ -93,12 +93,17 @@ export default {
     closePopupDetail() {
       this.$emit( "closePopupDetail", false );
     },
-    updatePost() {
-      this.post.attachments = this.item.attachments;
-      this.post.content = this.item.content;
+    async updatePost() {
+      // this.post._id = this.item._id;
+      // this.post.attachments = this.item.attachments;
+      // this.post.content = this.item.content;
+      //
+      // this.$store.dispatch( "updatePost", this.post );
+      // this.$emit( "closePopupDetail", false );
 
-      this.$store.dispatch( "updatePost", this.post );
-      this.$emit( "closePopupDetail", false );
+      await this.$emit("openCreatePost", true);
+      this.closePopupDetail();
+
     }
   }
 };

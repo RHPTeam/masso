@@ -55,6 +55,14 @@ export default {
       search: ""
     };
   },
+  created() {
+    const page = this.$route.query.page,
+          size = this.$route.query.size;
+
+    this.currentPage = Number( page );
+    this.filterShowSelected.id = Number( size );
+    this.filterShowSelected.name = `Hiển thị ${size}`;
+  },
   methods: {
     updateCategory( category ) {
       this.isUpdateCategory = true;

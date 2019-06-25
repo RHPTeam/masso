@@ -36,11 +36,12 @@ const mutations = {
   setFbAccountInfo: (state, payload) => {
     state.fbAccountInfo = payload;
   },
-  statusDeleteFacebook_request: state =>
-    (state.statusDeleteFacebook = "loading"),
-  statusDeleteFacebook_success: state =>
-    (state.statusDeleteFacebook = "success"),
-
+  statusDeleteFacebook_request: state => {
+    state.statusDeleteFacebook = "loading";
+  },
+  statusDeleteFacebook_success: state => {
+    state.statusDeleteFacebook = "success";
+  },
   addNewAccountFacebook: (state, payload) => {
     state.accountsFB.push(payload);
   },

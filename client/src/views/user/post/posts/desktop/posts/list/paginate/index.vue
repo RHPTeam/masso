@@ -1,9 +1,10 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ allPosts.length }} trong số {{ totalPost }}
+      Hiển thị {{ allPosts.length }} bản ghi {{postsPageSize}}
     </div>
     <paginate
+      :value="currentPage"
       :pageCount="postsPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
@@ -38,13 +39,11 @@ export default {
       return this.$store.getters.totalPost;
     }
   },
-  async created() {
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-    //
-    // await this.$store.dispatch( "getPostsByPage", dataSender );
+  async created(){
+    // const page = this.$store.getters.postsPageSize;
+    // if(page === undefined || page === '') {
+    // }
+    await this.$store.dispatch("setPageSizeDefault", 1);
   },
   methods: {
     async goToPage( page ) {
@@ -67,7 +66,12 @@ export default {
 
       }
 
-      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0
+      this.$router.replace( {
+        name: "post_posts",
+        query: { size: this.filterShowSelected.id, page: page }
+      } );
+
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

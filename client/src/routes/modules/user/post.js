@@ -35,29 +35,43 @@ const generalPostRouter = {
           name: "post_postCategories",
           component: require( "@/views/user/post/posts/desktop/categories" )
             .default
+        },
+        {
+          path: "categories-default",
+          name: "categories_default",
+          component: require( "@/views/user/post/posts/desktop/categoriesdefault" )
+            .default
+        },
+        {
+          path: ":id/categories",
+          name: "post_categories",
+          component: require( "@/views/user/post/posts/desktop/categories/components/post" )
+            .default
         }
       ]
     },
     {
       path: "campaigns",
       component: require( "@/views/user/post/campaigns" ).default,
-      children: [ {
-        path: "",
-        name: "post_campaigns",
-        component: require( "@/views/user/post/campaigns/desktop/list" )
-          .default
-      },
+      children: [
         {
-          path: "history",
-          name: "post_campaign_history",
-          component: require( "@/views/user/post/campaigns/desktop/history" ).default
+          path: "",
+          name: "post_campaigns",
+          component: require( "@/views/user/post/campaigns/desktop/list" )
+            .default
         },
-      {
-        path: ":campaignId",
-        name: "post_campaigns_detail",
-        component: require( "@/views/user/post/campaigns/desktop/detail" )
-          .default
-      }
+        {
+          path: ":campaignId",
+          name: "post_campaigns_detail",
+          component: require( "@/views/user/post/campaigns/desktop/detail" )
+            .default
+        },
+        {
+          path: "campaigns-default",
+          name: "campaigns_default",
+          component: require( "@/views/user/post/campaigns/desktop/simple" )
+            .default
+        }
       ]
     },
     {

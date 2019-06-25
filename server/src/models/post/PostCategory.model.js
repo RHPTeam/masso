@@ -10,6 +10,8 @@ const mongoose = require( "mongoose" ),
       "type": Number,
       "default": 0
     },
+    "postExample": Array, // check post in folder example exist create
+    "idFolderExample": String, // check user have copy folder example?
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

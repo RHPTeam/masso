@@ -29,6 +29,7 @@ $max-height: $vs-dropdown-max-height;
   border-radius: 0 0 $border-radius $border-radius;
   text-align: left;
   list-style: none;
+  color: #cccccc;
   background: $bg-color;
   &:hover {
     overflow-y: scroll;

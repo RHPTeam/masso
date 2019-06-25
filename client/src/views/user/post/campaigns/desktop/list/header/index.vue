@@ -1,10 +1,6 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
-    <!-- Start: Header Left-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex mb_3">
-      <div class="btn--add-campaign mr_3"
-				@click="isShowCreatCampaignPopup = true"
-      >Thêm chiến dịch</div>
+    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
       <div class="campaign--search">
         <span class="ml_2">
           <icon-base
@@ -14,7 +10,7 @@
             height="20"
             viewBox="0 0 20 20"
           >
-            <icon-input-search />
+            <icon-input-search/>
           </icon-base>
         </span>
         <input class="search--input"
@@ -27,18 +23,18 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right mb_3">
+    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right">
       <app-filter
         class="mr_2"
         :filterList="filterShowList"
         :filterSelected="filterShowSelected"
         @updateFilterSelected="updateFilterShowSelected($event)"
       />
-      <app-filter
-        :filterList="filterStatusList"
-        :filterSelected="filterStatusSelected"
-        @updateFilterSelected="updateFilterStatusSelected($event)"
-      />
+<!--      <app-filter-->
+<!--        :filterList="filterStatusList"-->
+<!--        :filterSelected="filterStatusSelected"-->
+<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
+<!--      />-->
     </div>
     <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
@@ -88,13 +84,13 @@ export default {
     }
   },
   watch: {
-    search(val) {
-      if(val.length === 0){
+    search( val ) {
+      if ( val.length === 0 ) {
         const dataSender = {
           size: this.sizeDefault,
           page: this.pageDefault
-        }
-        this.$store.dispatch("getCampaignsByPage", dataSender);
+        };
+        this.$store.dispatch( "getCampaignsByPage", dataSender );
       }
     }
   },
@@ -103,6 +99,15 @@ export default {
       this.$emit( "updateFilterShowSelected", val );
     },
     updateFilterStatusSelected( val ) {
+      if ( val.id === "all" ) {
+        const dataSender = {
+          size: this.sizeDefault,
+          page: this.pageDefault
+        };
+        this.$store.dispatch("getCampaignsByPage", dataSender);
+      } else {
+
+      }
       this.$emit( "updateFilterStatusSelected", val );
     },
     async updateSearch() {
@@ -121,7 +126,35 @@ export default {
 
 <style lang="scss" scoped>
 .main--header {
-  .main--header-left {
+  .nav--left {
+    height: 40px;
+    > button {
+      background-color: transparent;
+      border: 0;
+      border-radius: .625rem;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      height: 100%;
+      outline: none;
+      padding: 0 .5rem;
+      transition: all 0.4s ease;
+    }
+    .btn--create {
+      background-color: #ffb94a;
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 .75rem;
+      transition: all 0.4s ease;
+      &:hover {
+        background-color: #FF9E4A;
+      }
+    }
     .btn--add-campaign {
       border-radius: 0.5rem;
       cursor: pointer;
@@ -137,6 +170,12 @@ export default {
         box-shadow: none;
       }
     }
+    .divider {
+      height: 16px;
+      width: 2px;
+    }
+  }
+  .main--header-left {
     .campaign--search {
       background-clip: padding-box;
       border: 0;
@@ -192,7 +231,17 @@ export default {
   }
 }
 .main--header[data-theme="dark"] {
-  .main--header-left {
+  .nav--left {
+    button {
+      color: #ccc;
+      &:hover,
+      &.active {
+        color: #ffb94a;
+      }
+    }
+    .divider {
+      background-color: #666;
+    }
     .btn--add-campaign {
       background-color: #ffb94a;
       color: #fff;
@@ -200,6 +249,8 @@ export default {
         background-color: #ff9e4a;
       }
     }
+  }
+  .main--header-left {
     .campaign--search {
       background-color: #27292d ;
       svg.ic--search {

@@ -155,7 +155,7 @@ export default {
       }
     }
     .card--text {
-      background: #303236;
+      background: #2f3136;
       box-shadow: 0 0 10px rgba(0, 0, 0, .1);
       border: 1px solid #484848;
       border-radius: .25rem;

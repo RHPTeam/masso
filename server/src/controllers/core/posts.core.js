@@ -174,11 +174,16 @@ module.exports = {
           "av": feedObject.privacy
         } );
 
+        // Check error ( if user use image for feed now, check if facebook return error or return null array )
+        if ( photoID.error && photoID.error.code === 404 ) {
+          photoID = undefined;
+        }
+
         await fs.unlinkSync( path.results );
         return photoID;
       } );
 
-      feedObject.photos = await Promise.all( sources );
+      feedObject.photos = ( await Promise.all( sources ) ).filter( ( source ) => source !== undefined && source !== null );
     }
 
     // Check if user want scrape / share something

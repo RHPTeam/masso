@@ -1,4 +1,5 @@
 import CategoriesServices from "@/services/modules/post/category.service";
+import CategoryDefaultService from "@/services/modules/post/categorydefault.service";
 
 const state = {
   allCategories: [],
@@ -108,6 +109,9 @@ const actions = {
     res = await CategoriesServices.getByPage( payload.size, payload.page );
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
+  },
+  duplicateCategoriesDefault: async ( {commit}, payload ) => {
+    await CategoryDefaultService.duplicateFolder(payload);
   }
 };
 

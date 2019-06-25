@@ -7,10 +7,20 @@
 
       </div>
     </div>
-    <div class="col col--action px_4 text_center"
-
+    <div class="col col--action px_4"
     >
       <span>
+        <span class="mx_1" @click="duplicateCategories">
+          <icon-base
+            icon-name="duplicate"
+            width="20"
+            height="20"
+            viewBox="0 0 520 520"
+          >
+            <icon-copy />
+          </icon-base>
+        </span>
+
         <span class="mx_1" @click="showListPostInCategory">
           <icon-base
             width="20"
@@ -32,7 +42,12 @@ export default {
     async showListPostInCategory(){
       await this.$store.dispatch("showPostCateDefaultById", this.item._id);
       await this.$store.dispatch("setPostCateDefault", 1);
-      this.$router.push({name: "post_posts"});
+      await this.$store.dispatch("setTitleCate", this.item.title);
+      this.$router.push( { name: "post_categories", params: { id: this.item._id} } );
+    },
+    async duplicateCategories(){
+      await this.$store.dispatch("duplicateCategoriesDefault", this.item._id);
+      this.$router.push({name: "post_postCategories"});
     }
   }
 };

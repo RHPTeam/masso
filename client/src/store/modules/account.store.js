@@ -100,7 +100,7 @@ const actions = {
     CookieFunction.removeCookie( "_sub" );
     CookieFunction.removeCookie( "__v" );
     // delete token on headers
-    delete axios.defaults.headers.common.Authorization;
+    delete axios.defaults.headers["Authorization"];
   },
   getUserInfo: async ( { commit } ) => {
     commit( "auth_request" );

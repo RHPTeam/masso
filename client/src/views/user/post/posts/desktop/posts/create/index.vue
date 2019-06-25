@@ -4,21 +4,20 @@
       class="section--header d_flex justify_content_start align_items_center"
     >
       <keep-alive>
-        <router-link
+        <a
           class="btn--link mr_2"
-          tag="a"
-          :to="{ name: 'post_posts' }"
+          @click="$router.go(-1)"
           active-class="active"
           exact
         >
           Quay lại
-        </router-link>
+        </a>
       </keep-alive>
       <div class="divider"></div>
       <router-link
         class="btn--link ml_2"
         tag="a"
-        :to="{ name: 'post_postCategories' }"
+        :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh mục</router-link
       >

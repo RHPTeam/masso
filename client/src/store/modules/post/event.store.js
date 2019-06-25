@@ -53,16 +53,21 @@ const mutations = {
     state.event[ payload.key ] = payload.value;
   },
   set_event_special: ( state, payload ) => {
-    let tempPage = [], temGroup = [];
-    state.event[ payload.key ] = state.event[ payload.key ].concat( payload.value );
-
-    tempPage = state.event[ payload.key ].filter( target => target.typeTarget === 1 );
-    tempPage = ArrayFunction.removeDuplicateObject( tempPage, "target", "pageId" );
-
-    temGroup = state.event[ payload.key ].filter( target => target.typeTarget === 0 );
-    temGroup = ArrayFunction.removeDuplicateObject( temGroup, "target", "groupId" );
-
-    state.event[ payload.key ] = tempPage.concat( temGroup );
+    if ( payload.typeTarget === 0 ) {
+      // remove all old selected groups
+      const arr = state.event[ payload.key ].filter( ( target ) => {
+        return target.typeTarget === 1;
+      } );
+      // update new selected groups
+      state.event[ payload.key ] = arr.concat( payload.value );
+    } else {
+      // remove all old selected pages
+      const arr = state.event[ payload.key ].filter( ( target ) => {
+        return target.typeTarget === 0;
+      } );
+      // update new selected pages
+      state.event[ payload.key ] = arr.concat( payload.value );
+    }
   },
   set_event_push: ( state, payload ) => {
     state.event[ payload.key ].push( payload.value );
@@ -73,6 +78,7 @@ const mutations = {
   },
   set_event_remove: ( state, payload ) => {
     delete state.event[ payload ];
+    console.log( state.event );
   },
   set_event_post_remove: ( state, payload ) => {
     const postCustom = state.event.post_custom,

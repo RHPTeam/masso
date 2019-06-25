@@ -29,9 +29,9 @@
 </template>
 
 <script>
-import AppHeader from "./header/index";
+import AppHeader from "./header";
 import AppTable from "./table/index";
-import AppFooter from "./footer/index";
+import AppFooter from "../components/footer";
 
 export default {
   components: {
@@ -46,6 +46,14 @@ export default {
       filterStatusSelected: { id: "all", name: "Tất cả trạng thái" },
       search: ""
     };
+  },
+  created() {
+    const page = this.$route.query.page,
+          size = this.$route.query.size;
+
+    this.currentPage = Number( page );
+    this.filterShowSelected.id = Number( size );
+    this.filterShowSelected.name = `Hiển thị ${size}`;
   },
   methods: {
     updateFilterShowSelected( val ) {

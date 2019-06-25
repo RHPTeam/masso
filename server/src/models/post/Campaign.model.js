@@ -9,6 +9,16 @@ const mongoose = require( "mongoose" ),
     "started_at": Date,
     "finished_at": Date,
     "status": { "type": Boolean, "default": 0 },
+    "logs": {
+      "content": [ {
+        "message": String,
+        "createdAt": Date
+      } ],
+      "total": {
+        "type": Number,
+        "default": 0
+      }
+    },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"

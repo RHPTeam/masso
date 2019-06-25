@@ -160,13 +160,13 @@
             color: #ccc;
             &.active,
             &:hover {
-                color: #f7f7f7;
+                color: $color-active;
             }
         }
     }
   .menu--item.active {
     a {
-      color: #f7f7f7;
+      color: $color-active;
       font-weight: 600;
     }
   }
@@ -176,7 +176,7 @@
           color: #ccc;
           &:before{
               background: #272a2c;
-          }  
+          }
           .item{
               transition: 0.3s;
             &:hover{

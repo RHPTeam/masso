@@ -25,6 +25,11 @@ const mongoose = require( "mongoose" ),
         "default": ""
       }
     },
+    "token": {
+      "agent": String,
+      "privacy": String,
+      "token": String
+    },
     "status": { "type": Boolean, "default": 0 },
     "_account": {
       "type": Schema.Types.ObjectId,

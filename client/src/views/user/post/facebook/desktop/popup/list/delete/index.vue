@@ -1,7 +1,27 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content px_3 py_4">
+      <!-- Start: Deleting Data -->
+      <div class="modal--content px_3 py_4"
+           v-if="deleteStatus === 'loading'"
+      >
+        <div class="modal--header mb_3">
+          <div class="title">{{ title }}</div>
+        </div>
+        <div class="loading--block mt_4 mb_4">
+          <div class="mx_auto">
+            <div class="loading--bar position_relative mx_auto">
+              <div class="percent position_absolute"></div>
+            </div>
+          </div>
+          <div class="desc text_center mt_2">Vui lòng chờ, dữ liệu đang được xóa...</div>
+        </div>
+      </div>
+      <!-- End: Deleting Data -->
+      <!-- Start: Delete Popup -->
+      <div class="modal--content px_3 py_4"
+           v-else
+      >
         <div class="modal--header">
           <div class="title">{{ title }}</div>
         </div>
@@ -35,6 +55,7 @@
           > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
       </div>
+      <!-- End: Delete Popup -->
     </div>
   </div>
 </template>
@@ -73,7 +94,8 @@ export default {
   data() {
     return {
       deleteConfirm: false,
-      deleteText: ""
+      deleteText: "",
+      deleteStatus: ""
     };
   },
   computed: {
@@ -91,9 +113,19 @@ export default {
       this.$emit( "closePopup", false );
     },
     async deleteTargets() {
+      this.deleteStatus = "loading";
+
       await this.$store.dispatch("deleteAccountFacebook", this.targetData._id);
+
       // remove localStorage
       await localStorage.removeItem("rid");
+
+      // update fb pages & groups on state
+      await this.$store.dispatch( "getFacebookGroups" );
+      await this.$store.dispatch( "getFacebookPages" );
+
+      this.deleteStatus = "success";
+
       this.closePopup();
     }
   }
@@ -101,7 +133,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "index.style";
+@import "index.style";
 </style>
 
 

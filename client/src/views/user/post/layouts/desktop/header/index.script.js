@@ -24,7 +24,6 @@ export default {
     };
   },
   async created() {
-    // this.$store.dispatch( "getAccountsFB" );
     await this.$store.dispatch( "getUserInfo" );
   },
   computed: {

@@ -36,6 +36,18 @@
           vertical-align: text-top;
         }
       }
+      .history {
+        background-color: #27292c;
+        border-radius: .625rem;
+        color: #F7F7F7;
+        cursor: pointer;
+        font-size: .875rem;
+        padding: 0.5rem 0.75rem;
+        transition: all .4s ease;
+        &:hover{
+          box-shadow: 0 0 8px rgba(153, 153, 153, 0.4);
+        }
+      }
     }
   }
   .main--header-action {

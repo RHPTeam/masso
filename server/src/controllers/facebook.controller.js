@@ -1,8 +1,9 @@
 /**
  * Controller facebook for project
  * author: hocpv
+ * updater: sky albert
  * date up: 22/04/2019
- * date to: ___
+ * date to: 21/06/2019
  * team: BE-RHP
  */
 const Account = require( "../models/Account.model" );
@@ -14,78 +15,62 @@ const PostGroup = require( "../models/post/PostGroup.model" );
 const { getAllActionTypeLoader, getAllItemActionTypeLoader, getAllFriends, getUserInfo, searchPlaces } = require( "./core/facebook.core" );
 const { findSubString } = require( "../helpers/utils/functions/string" );
 const { agent } = require( "../configs/crawl" );
+const { getDtsgAg, getFullDtsgFB } = require( "../helpers/utils/facebook/dtsgfb" );
 const jsonResponse = require( "../configs/response" );
-const secure = require( "../helpers/utils/secures/jwt" );
 
 module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
 
-    if ( !accountResult ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
-    }
-    if ( userId !== req.uid ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
-    }
     if ( req.query._id ) {
-      dataResponse = await Facebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
-      dataResponse = dataResponse[ 0 ];
+      dataResponse = await Facebook.findOne( { "_id": req.query._id, "_account": req.uid }, "-cookie -token -_account -_created_at -_updated_at" ).lean();
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Facebook.find( { "_account": req.uid } ).lean();
+      dataResponse = await Facebook.find( { "_account": req.uid }, "-cookie -token -_account -_created_at -_updated_at" ).lean();
     }
 
-    // Remove cookie when get facebook account
-    if ( req.query._id ) {
-      delete dataResponse.cookie;
-    } else {
-      dataResponse = dataResponse.map( ( facebook ) => {
-        delete facebook.cookie;
-        return facebook;
-      } );
-      dataResponse = await Promise.all( dataResponse );
-    }
-
-    res
-      .status( 200 )
-      .json( jsonResponse( "success", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "create": async ( req, res ) => {
     // Check validator
     if ( !req.body.cookie || req.body.cookie === "" ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "cookie": "Cookie facebook không được để trống!" } } );
     }
-    const authorization = req.headers.authorization,
 
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } ),
+    const accountResult = await Account.findOne( { "_id": req.uid } ),
       userInfoCore = await getUserInfo( { "cookie": req.body.cookie, agent } ),
-      countAccountFacebook = await Facebook.find( { "_account": userId } ),
-      foundAccountFacebook = await Facebook.find( {
+      countAccountFacebook = await Facebook.countDocuments( { "_account": req.uid } ),
+      foundAccountFacebook = await Facebook.findOne( {
         "userInfo.id": findSubString( req.body.cookie, "c_user=", ";" )
       } );
 
-    if ( !accountResult ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Người dùng không tồn tại!" } );
+    if ( countAccountFacebook.length >= accountResult.maxAccountFb ) {
+      return res.status( 406 ).json( { "status": "error", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
     }
-    if ( userId !== req.uid ) {
-      return res.status( 405 ).json( { "status": "error", "message": "Xem lại quyền người dùng!" } );
-    }
-    if ( countAccountFacebook.length >= 2 ) {
-      return res.status( 403 ).json( { "status": "error", "message": "Bạn đã tạo tối đa số tài khoản facebook!" } );
-    }
-    if ( foundAccountFacebook.length > 0 ) {
+    if ( foundAccountFacebook ) {
       return res.status( 403 ).json( { "status": "error", "message": "Tài khoản facebook với cookie này trùng với một tài khoản ở 1 cookie khác!" } );
     }
 
-    let newFacebook = await new Facebook( { "cookie": req.body.cookie ? req.body.cookie : null, "status": 1, "_account": req.uid, "userInfo": {
-      "id": userInfoCore.results.id,
-      "name": userInfoCore.results.fullName,
-      "thumbSrc": userInfoCore.results.thumbSrc,
-      "profileUrl": userInfoCore.results.profileUrl
-    } } );
+    /* eslint-disable-next-line one-var */
+    const agentToken = await getDtsgAg( { "cookie": req.body.cookie, agent } ),
+      fullToken = await getFullDtsgFB( { "cookie": req.body.cookie, agent } );
+
+
+    let newFacebook = await new Facebook( {
+      "cookie": req.body.cookie,
+      "status": 1,
+      "_account": req.uid,
+      "userInfo": {
+        "id": userInfoCore.results.id,
+        "name": userInfoCore.results.fullName,
+        "thumbSrc": userInfoCore.results.thumbSrc,
+        "profileUrl": userInfoCore.results.profileUrl
+      },
+      "token": {
+        "agent": agentToken,
+        "privacy": fullToken.privacy,
+        "token": fullToken.token
+      }
+    } );
 
     // Check errors
     if ( userInfoCore.error.code !== 200 ) {
@@ -94,9 +79,10 @@ module.exports = {
 
     await newFacebook.save();
 
-    // Remove cookie when add facebook account
+    // Remove cookie and token when add facebook account
     newFacebook = newFacebook.toObject();
     delete newFacebook.cookie;
+    delete newFacebook.token;
 
     res.status( 200 ).json( jsonResponse( "success", newFacebook ) );
   },
@@ -116,13 +102,23 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "_facebookId": "Vui lòng cung cấp query _facebookId!" } } );
     }
 
+    /* eslint-disable-next-line one-var */
+    const agentToken = await getDtsgAg( { "cookie": req.body.cookie, agent } ),
+      fullToken = await getFullDtsgFB( { "cookie": req.body.cookie, agent } );
+
     let newFacebook = {
-        "cookie": req.body.cookie ? req.body.cookie : null,
-        "status": 1, "_account": req.uid, "userInfo": {
+        "cookie": req.body.cookie,
+        "status": 1,
+        "_account": req.uid, "userInfo": {
           "id": userInfoCore.results.id,
           "name": userInfoCore.results.fullName,
           "thumbSrc": userInfoCore.results.thumbSrc,
           "profileUrl": userInfoCore.results.profileUrl
+        },
+        "token": {
+          "agent": agentToken,
+          "privacy": fullToken.privacy,
+          "token": fullToken.token
         }
       },
       dataResponse = null;
@@ -138,10 +134,9 @@ module.exports = {
 
     dataResponse = dataResponse.toObject();
     delete dataResponse.cookie;
+    delete dataResponse.token;
 
-    res
-      .status( 200 )
-      .json( jsonResponse( "success", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "delete": async ( req, res ) => {
     const accountResult = await Account.findOne( { "_id": req.uid } ),

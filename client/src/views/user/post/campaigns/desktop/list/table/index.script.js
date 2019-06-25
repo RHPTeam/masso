@@ -70,6 +70,14 @@ export default {
       } );
     }
   },
+  async created() {
+    const dataSender = {
+      size: this.filterShowSelected.id,
+      page: this.currentPage
+    };
+
+    await this.$store.dispatch( "getCampaignsByPage", dataSender );
+  },
   methods: {
     activeCurrentSort( i, type ) {
       this.isSort.forEach( ( item, index ) => {
@@ -144,8 +152,6 @@ export default {
     },
     async viewCampaignDetail( id ) {
       await this.$store.dispatch( "getCampaignDetail", id );
-      this.$router.push( { name: "post_campaigns_detail",
-        params: { campaignId: id } } );
     }
   },
   components: {

@@ -33,7 +33,6 @@
 .wrapper {
   min-height: 100vh;
   .wrap--content-main {
-    // width: calc(100% - 300px);
     width: 100%;
     padding: 30px 60px 60px 0;
   }

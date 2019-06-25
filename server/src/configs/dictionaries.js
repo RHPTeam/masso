@@ -14,5 +14,6 @@ module.exports = {
   "VOCATEDEFAULT": "Bạn",
   "MALE": "Anh",
   "FEMALE": "Chị",
-  "BROADCAST_SCHEDULE": "Thiết lập bộ hẹn"
+  "BROADCAST_SCHEDULE": "Thiết lập bộ hẹn",
+  "NAME_EVENT_EXAMPLE": "Sự kiện mẫu"
 };
