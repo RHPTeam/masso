@@ -73,7 +73,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -81,7 +81,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -111,7 +111,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -119,7 +119,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -145,7 +145,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -153,7 +153,7 @@ module.exports = {
             "results": bodyJson.payload ? bodyJson.payload.entries : []
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -179,7 +179,7 @@ module.exports = {
           const $ = cheerio.load( body );
 
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            return resolve( {
+            resolve( {
               "error": {
                 "code": 405,
                 "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
@@ -187,7 +187,7 @@ module.exports = {
               "results": []
             } );
           }
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -208,7 +208,7 @@ module.exports = {
             }
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -235,7 +235,7 @@ module.exports = {
           const $ = cheerio.load( body );
 
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            return resolve( {
+            resolve( {
               "error": {
                 "code": 405,
                 "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
@@ -244,7 +244,7 @@ module.exports = {
             } );
           }
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -275,7 +275,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -283,7 +283,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
