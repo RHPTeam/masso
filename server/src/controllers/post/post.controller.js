@@ -9,6 +9,7 @@ const Post = require( "../../models/post/Post.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
+const request = require( "axios" );
 
 const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" ),
@@ -455,5 +456,28 @@ module.exports = {
     } );
 
     return res.status( 200 ).json( { "status": "success", "data": attachmentList } );
+  },
+  "removeImageNotExist": async ( req, res ) => {
+    const findPost = await Post.find( {} );
+
+    for ( let i = 0; i < findPost.length ; i++ ) {
+
+      findPost[ i ].attachments.map( async ( item ) => {
+        if ( item.typeAttachment === 1 ) {
+          try {
+            let response = await request.get( item.link );
+
+            if ( response.data === "API running!" ) {
+              findPost[ i ].attachments.pull( item );
+              await findPost[ i ].save();
+            }
+          } catch ( error ) {
+            console.error( error );
+          }
+        }
+      } );
+    }
+    return res.status( 200 ).json( { "status": "success", "data": null } );
+
   }
 };
