@@ -100,6 +100,17 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
               );
               console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
             } else if ( resFacebookResponse.error.code === 8188 ) {
+              listEventSchedule.splice( index, 1 );
+              await EventSchedule.deleteOne(
+                { "_id": eventSchedule._id },
+                ( err ) => {
+                  if ( err ) {
+                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+                  }
+                }
+              );
+              console.log( `Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :)) Bọn Facebook tả về là: ${resFacebookResponse.error.text}` );
+            } else {
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
                 "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại tại địa điểm có ID: ${eventSchedule.feed.location.value}. Lỗi: ${resFacebookResponse.error.text}`,
@@ -124,17 +135,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
               );
 
               console.log( `Have error: ${resFacebookResponse.error.text}` );
-            } else {
-              listEventSchedule.splice( index, 1 );
-              await EventSchedule.deleteOne(
-                { "_id": eventSchedule._id },
-                ( err ) => {
-                  if ( err ) {
-                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-                  }
-                }
-              );
-              console.log( "Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :))" );
             }
             await campaignInfo.save();
           }
