@@ -20,7 +20,7 @@ module.exports = {
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            await Facebook.update( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
+            await Facebook.updateOne( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
             resolve( false );
           } else {
             resolve( findSubString( body, 'name="fb_dtsg" value="', '"' ) );
@@ -53,7 +53,7 @@ module.exports = {
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            await Facebook.update( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
+            await Facebook.updateOne( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
             resolve( false );
           } else {
             resolve( {
@@ -89,7 +89,7 @@ module.exports = {
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            await Facebook.update( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
+            await Facebook.updateOne( { "cookie": cookie }, { "status": false }, ( error ) => console.log( error ) );
             resolve( false );
           } else {
             resolve( findSubString( body, '"async_get_token":"', '"' ) );

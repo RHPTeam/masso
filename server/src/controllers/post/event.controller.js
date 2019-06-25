@@ -155,7 +155,7 @@ module.exports = {
 
     const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
       findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
-      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": findCampaign.status } ).lean();
 
     // Check catch when update event
     if ( !findEvent ) {
@@ -172,10 +172,16 @@ module.exports = {
     /**
      * Update cron schedule and event schedule
      */
+
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
       deletedSchedule( eventSchedule, __dirname );
     } ) );
-    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+
+    await EventSchedule.deleteMany( { "_event": req.query._eventId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
     req.body._id = req.query._eventId;
     await EventScheduleController.create( req.body, findCampaign._id, req.uid );
 

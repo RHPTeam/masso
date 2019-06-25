@@ -175,21 +175,15 @@ module.exports = {
         } );
 
         // Check error ( if user use image for feed now, check if facebook return error or return null array )
-        if ( photoID.error.code === 404 ) {
-          return {
-            "error": {
-              "code": 1036,
-              "text": "Ảnh upload lên facebook có vấn đề, có thể ảnh có dính bản quyền, hoặc nội dung không phù hợp!"
-            },
-            "results": []
-          };
+        if ( photoID.error && photoID.error.code === 404 ) {
+          photoID = undefined;
         }
 
         await fs.unlinkSync( path.results );
         return photoID;
       } );
 
-      feedObject.photos = await Promise.all( sources );
+      feedObject.photos = ( await Promise.all( sources ) ).filter( ( source ) => source !== undefined && source !== null );
     }
 
     // Check if user want scrape / share something
