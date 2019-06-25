@@ -139,6 +139,17 @@ module.exports = {
       privacy = tokenFull.privacy,
       feedObject = {};
 
+    // Check catch if cookie logged out
+    if ( tokenFull === false ) {
+      return {
+        "error": {
+          "code": 1037,
+          "text": "Tài khoản của bạn đã bị đăng xuất, vui lòng cung cấp lại mã kích hoạt để tiêp tục!"
+        },
+        "results": null
+      };
+    }
+
     // Check if user upload image or paste link image
     if ( feed.photos ) {
       // Case 01: When user post images to facebook

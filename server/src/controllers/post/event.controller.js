@@ -194,11 +194,13 @@ module.exports = {
     await findCampaign.save();
 
     // Check exception update event
-    if ( req.body.target_custom.length > 0 ) {
-      delete findEvent.target_category;
+    if ( req.body.target_category === undefined ) {
+      // eslint-disable-next-line camelcase
+      findEvent.target_category = undefined;
     }
-    if ( req.body.post_custom.length > 0 ) {
-      delete findEvent.post_category;
+    if ( req.body.post_category === undefined ) {
+      // eslint-disable-next-line camelcase
+      findEvent.post_category = undefined;
     }
 
     // Save to db mongodb ( Resolve :D )
