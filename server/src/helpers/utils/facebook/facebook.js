@@ -216,14 +216,14 @@ const {
           } else if ( type === 2 ) {
             postID = findSubString( body, '"contentID":"', '"' );
           }
-          return resolve( {
+          resolve( {
             "errors": getIdPostSuccess,
             "results": {
               "postID": postID
             }
           } );
         }
-        return resolve( {
+        resolve( {
           "errors": requestGetIdPost,
           "results": null
         } );
@@ -254,7 +254,7 @@ module.exports = {
       };
 
       if ( option.form.fb_dtsg === undefined ) {
-        return resolve( {
+        resolve( {
           "error": {
             "code": 8188,
             "text": "Tài khoản đã bị đăng xuất! Vui lòng cập nhật lại cookie."
@@ -267,8 +267,8 @@ module.exports = {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
 
           if ( bodyJson.errors ) {
-            return resolve( {
-              "errors": {
+            resolve( {
+              "error": {
                 "code": 8188,
                 "text": bodyJson.errors[ 0 ].description
               },
@@ -287,7 +287,7 @@ module.exports = {
             } );
 
             if ( result.errors.code !== 200 ) {
-              return resolve( {
+              resolve( {
                 "error": {
                   "code": result.errors.code,
                   "text": result.errors.text
@@ -296,7 +296,7 @@ module.exports = {
               } );
             }
 
-            return resolve( {
+            resolve( {
               "error": callbackGetIdPostSuccess,
               "results": {
                 "postID": result.results.postID,
@@ -304,14 +304,14 @@ module.exports = {
               }
             } );
           } else if ( bodyJson === undefined ) {
-            return resolve( {
-              "errors": requestMissInfo,
+            resolve( {
+              "error": requestMissInfo,
               "results": null
             } );
           }
         }
-        return resolve( {
-          "errors": requestNewFeedFail,
+        resolve( {
+          "error": requestNewFeedFail,
           "results": null
         } );
       } );
@@ -348,7 +348,7 @@ module.exports = {
               "},"
             );
 
-            return resolve( {
+            resolve( {
               "errors": {
                 "code": 200,
                 "text": "Lấy thông tin từ link facebook chia sẻ thành công!"
@@ -368,7 +368,7 @@ module.exports = {
               }
             } );
           }
-          return resolve( {
+          resolve( {
             "errors": {
               "code": 200,
               "text": "Lấy thông tin từ link chia sẻ thành công!"
@@ -396,7 +396,7 @@ module.exports = {
             }
           } );
         }
-        return resolve( {
+        resolve( {
           "errors": requestGetPreviewScrapeFail,
           "results": null
         } );
@@ -414,21 +414,21 @@ module.exports = {
 
           fs.writeFile( pathFileImage, data, ( err ) => {
             if ( err ) {
-              return resolve( {
+              resolve( {
                 "error": writeFileImageFail,
                 "results": null
               } );
             }
           } );
 
-          return resolve( {
+          resolve( {
             "error": handleImageSuccess,
             "results": pathFileImage
           } );
         } )
         .catch( ( error ) => {
           if ( error.name === "RequestError" ) {
-            return resolve( {
+            resolve( {
               "error": downloadImageFail,
               "results": null
             } );
@@ -461,7 +461,7 @@ module.exports = {
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           if ( findSubString( body, '"photoID":"', '"' ).length === 0 ) {
-            return resolve( {
+            resolve( {
               "error": {
                 "code": 404,
                 "text": "Ảnh không tồn tại!"
@@ -469,9 +469,9 @@ module.exports = {
               "results": []
             } );
           }
-          return resolve( findSubString( body, '"photoID":"', '"' ) );
+          resolve( findSubString( body, '"photoID":"', '"' ) );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
