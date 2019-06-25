@@ -115,7 +115,6 @@ export default {
         contentId: id,
         value: formData
       };
-      console.log(objSender);
       this.$store.dispatch("updateItemImageSchedule", objSender);
     }
   }

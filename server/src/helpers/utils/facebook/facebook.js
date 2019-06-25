@@ -253,6 +253,15 @@ module.exports = {
         }
       };
 
+      if ( option.form.fb_dtsg === undefined ) {
+        return resolve( {
+          "error": {
+            "code": 8188,
+            "text": "Tài khoản đã bị đăng xuất! Vui lòng cập nhật lại cookie."
+          },
+          "results": null
+        } );
+      }
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
@@ -400,9 +409,10 @@ module.exports = {
 
       download( urlFixed )
         .then( ( data ) => {
-          const pathFileImage = `${__dirname}/${randomstring.generate()}.png`;
 
-          fs.writeFileSync( pathFileImage, data, ( err ) => {
+          const pathFileImage = `${__dirname}/${randomstring.generate()}.jpg`;
+
+          fs.writeFile( pathFileImage, data, ( err ) => {
             if ( err ) {
               return resolve( {
                 "error": writeFileImageFail,
@@ -410,6 +420,7 @@ module.exports = {
               } );
             }
           } );
+
           return resolve( {
             "error": handleImageSuccess,
             "results": pathFileImage
@@ -449,6 +460,15 @@ module.exports = {
 
       request( option, ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
+          if ( findSubString( body, '"photoID":"', '"' ).length === 0 ) {
+            return resolve( {
+              "error": {
+                "code": 404,
+                "text": "Ảnh không tồn tại!"
+              },
+              "results": []
+            } );
+          }
           return resolve( findSubString( body, '"photoID":"', '"' ) );
         }
         return resolve( {

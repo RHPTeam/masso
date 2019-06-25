@@ -87,11 +87,7 @@ export default {
       this.isShowPopupWarnMesseger = true;
     },
     closeShowWarnMessager( value ){
-      console.log("AAAAAAAAAAAAAAAAAAAA");
       this.isShowPopupWarnMesseger = false;
-      console.log("value");
-      console.log(value);
-      console.log("this.isShowPopupWarnMesseger");
       console.log(this.isShowPopupWarnMesseger);
     },
     async logOut() {

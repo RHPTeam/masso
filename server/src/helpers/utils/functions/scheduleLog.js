@@ -12,7 +12,6 @@ module.exports = {
       if ( err ) {
         throw err;
       }
-      console.log( "Saved!" );
     } );
   },
   "finishedSchedule": ( obj, path ) => {
@@ -36,7 +35,6 @@ module.exports = {
       if ( err ) {
         throw err;
       }
-      console.log( "Saved!" );
     } );
   }
 };

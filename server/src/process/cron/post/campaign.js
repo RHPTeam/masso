@@ -57,7 +57,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
       console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
       listEventSchedule = removeObjectDuplicates( listEventSchedule, "_id" );
 
-
       await Promise.all(
         listEventSchedule.map( async ( eventSchedule, index ) => {
           const campaignInfo = await Campaign.findOne( { "_id": eventSchedule._campaign } ),
@@ -68,6 +67,7 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
             "SUCCESS:",
             "Passed! Starting schedule to RAM of system..."
           );
+          // eslint-disable-next-line one-var
           const resFacebookResponse = await createPost( {
             "cookie": eventSchedule.cookie,
             agent,
@@ -76,8 +76,7 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
           if ( resFacebookResponse ) {
 
-            console.log( resFacebookResponse );
-
+            // Handle when post feed successfully
             if ( resFacebookResponse.error.code === 200 ) {
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
@@ -88,8 +87,10 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
               listEventSchedule.splice( index, 1 );
               await EventSchedule.deleteOne(
                 { "_id": eventSchedule._id },
-                ( error ) => {
-                  return new Error( error );
+                ( err ) => {
+                  if ( err ) {
+                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+                  }
                 }
               );
               console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
@@ -99,6 +100,24 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
                 "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại tại địa điểm có ID: ${eventSchedule.feed.location.value}. Lỗi: ${resFacebookResponse.error.text}`,
                 "createdAt": new Date()
               } );
+
+              // Handle when account facebook is logged out
+              await Campaign.updateOne( { "_id": eventSchedule._campaign }, { "status": false }, ( err ) => {
+                if ( err ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+                }
+              } );
+
+              listEventSchedule.splice( index, 1 );
+              await EventSchedule.deleteOne(
+                { "_id": eventSchedule._id },
+                ( err ) => {
+                  if ( err ) {
+                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+                  }
+                }
+              );
+
               console.log( `Have error: ${resFacebookResponse.error.text}` );
             }
             await campaignInfo.save();

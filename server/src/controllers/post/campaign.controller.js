@@ -140,6 +140,7 @@ module.exports = {
     if ( req.query._type && ( req.query._type ).trim() === "status" ) {
       findCampaign.status = !findCampaign.status;
 
+      // Check event list in campaign...
       await Promise.all( findCampaign._events.map( async ( event ) => {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
 
