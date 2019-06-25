@@ -57,6 +57,11 @@ export default {
             year = dateTime.getFullYear();
 
       return `${hour}:${min}, ${day}/${month}/${year}`;
+    },
+    getIDByFacebook(value){
+      var numberPattern = /\d+/g;
+
+      'value'.match( numberPattern );
     }
   },
   props: ["currentTheme"],

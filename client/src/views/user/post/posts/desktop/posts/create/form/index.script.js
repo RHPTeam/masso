@@ -194,7 +194,7 @@ export default {
     },
     // Update post when click button Save
     savePost(){
-      if(this.post.content.length === 0 && this.post.attachments.length === 0) {
+      if(this.post.content.length === 0) {
         this.isShowAlert = true;
       } else {
         if(this.linkContent.length > 0) {
