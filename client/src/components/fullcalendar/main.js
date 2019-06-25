@@ -5,10 +5,7 @@ import RcTimeGridView from "./components/views/time-grid-view/index";
 
 export default {
   props: {
-    events: {
-      type: Array,
-      default: [],
-    },
+    events: [ Array, Object ],
     theme: {
       type: String,
       default: "light"
@@ -112,7 +109,7 @@ export default {
       return (
         `${String( firstDay.getDate() ).padStart( 2, "0" ) }/${ String( firstDay.getMonth() + 1 ).padStart( 2, "0" ) }/${ firstDay.getFullYear() } - ${ String( lastDay.getDate() ).padStart( 2, "0" ) }/${ String( lastDay.getMonth() + 1 ).padStart( 2, "0" ) }/${ lastDay.getFullYear()}`
       );
-      
+
     },
     eventOfDay() {
       return this.events.filter( ( event ) => {
