@@ -397,6 +397,10 @@
         </div>
       </div>
 
+      <!--Start: Show error when content or attachment have length === 0 -->
+      <div class="alert_danger px_2 mb_3" v-if="isShowAlert === true">Bài viết phải có nội dung hoặc ít nhất bao gồm 1 hình ảnh.</div>
+      <!--End: Show error when content or attachment have length === 0-->
+
       <div class="footer d_flex align_items_center">
         <div class="item--button mr_3" @click="savePost">
           Lưu

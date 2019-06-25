@@ -39,7 +39,8 @@ export default {
       isShowMoreOption: false,
       isActiveImage: false,
       isShowChangeScrape: false,
-      isShowPostNowPopup: false
+      isShowPostNowPopup: false,
+      isShowAlert: false
     };
   },
   computed: {
@@ -118,7 +119,8 @@ export default {
         delete this.post.color;
         this.$store.dispatch( "updatePostColor", this.post );
         // this.$store.dispatch( "updatePost", this.post );
-      } else {
+      } else if(value.length > 0) {
+        this.isShowAlert = false;
         // this.$store.dispatch( "updatePost", this.post );
       }
     }
@@ -192,12 +194,16 @@ export default {
     },
     // Update post when click button Save
     savePost(){
-      if(this.linkContent.length > 0) {
-        this.post.scrape = this.linkContent[0];
+      if(this.post.content.length === 0 && this.post.attachments.length === 0) {
+        this.isShowAlert = true;
+      } else {
+        if(this.linkContent.length > 0) {
+          this.post.scrape = this.linkContent[0];
+        }
+        this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        this.$router.go(-1);
       }
-      this.$store.dispatch( "updatePost", this.post );
-      this.$router.push( { name: "post_posts" } );
-      this.$store.dispatch("setPostCateDefault", 0);
     },
     //update post and post now
     async saveAndPostNow(){
