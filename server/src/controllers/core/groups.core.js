@@ -38,7 +38,7 @@ const request = require( "request" ),
             };
           } ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -46,7 +46,7 @@ const request = require( "request" ),
             "results": groupListNode
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"

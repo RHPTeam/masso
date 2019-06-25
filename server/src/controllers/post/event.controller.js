@@ -162,13 +162,6 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
-    // Check switch status of event
-    if ( req.query._type && req.query._type.trim() === "status" ) {
-      findEvent.status = !findEvent.status;
-      await findEvent.save();
-      return res.status( 201 ).json( jsonResponse( "success", findEvent ) );
-    }
-
     /**
      * Update cron schedule and event schedule
      */
@@ -199,6 +192,18 @@ module.exports = {
       } );
     }
     await findCampaign.save();
+
+    // Check exception update event
+    if ( req.body.target_custom.length > 0 ) {
+      delete findEvent.target_category;
+    }
+    if ( req.body.post_custom.length > 0 ) {
+      delete findEvent.post_category;
+    }
+
+    // Save to db mongodb ( Resolve :D )
+    await findEvent.save();
+
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
   "delete": async ( req, res ) => {
