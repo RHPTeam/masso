@@ -185,7 +185,7 @@ module.exports = {
           };
         }
 
-        await fs.unlink( path.results );
+        await fs.unlinkSync( path.results );
         return photoID;
       } );
 
