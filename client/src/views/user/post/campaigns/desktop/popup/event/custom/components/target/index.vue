@@ -143,12 +143,12 @@ export default {
       } );
     },
     selectTargetType( value ) {
-      if ( value === 0 ) {
+      if ( value === 1 ) {
         this.$store.dispatch( "setEvent", {
           key: "target_custom",
           value: []
         } );
-      } else if ( value === 1 ) {
+      } else if ( value === 2 ) {
         this.$store.dispatch( "setEventRemove", "target_category" );
       }
       this.$store.dispatch( "setCaseEvent", {
@@ -204,7 +204,6 @@ export default {
           border-radius: 100%;
           height: 36px;
           width: 36px;
-          opacity: .75;
           transition: all 1s ease;
           svg {
             color: #fff;
