@@ -6,9 +6,16 @@
       </label>
     </div>-->
     <!-- Start: Name Column -->
-    <div class="col col--name px_2">
+    <div class="col col--name px_2" v-if="this.$store.getters.infoPostCateDefault === 0">
       <div class="col col--name-text"
           @click="updatePost()"
+      >
+        {{ item.title }}
+      </div>
+    </div>
+
+    <div class="col col--name px_2" v-if="this.$store.getters.infoPostCateDefault === 1">
+      <div class="col col--name-text"
       >
         {{ item.title }}
       </div>
