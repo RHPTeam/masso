@@ -78,7 +78,6 @@ const mutations = {
   },
   set_event_remove: ( state, payload ) => {
     delete state.event[ payload ];
-    console.log( state.event );
   },
   set_event_post_remove: ( state, payload ) => {
     const postCustom = state.event.post_custom,

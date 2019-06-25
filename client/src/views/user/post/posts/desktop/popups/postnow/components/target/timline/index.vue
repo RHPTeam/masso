@@ -14,7 +14,7 @@
             <div class="left">
               <!-- Start: Action -->
               <div class="action ml_auto">
-                <label class="custom--checkbox mb_0 mr_2">
+                <label class="custom--checkbox mb_0 mr_3">
                   <input
                     type="checkbox"
                     :value="account._id"
@@ -76,7 +76,7 @@ export default {
               .custom--checkbox {
                 input[type="checkbox"] {
                   border-radius: 6px;
-                  border: solid 1.5px #cccccc;
+                  border: solid 1.5px #666;
                   cursor: pointer;
                   height: 20px;
                   outline: none;
