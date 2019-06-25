@@ -24,19 +24,14 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right">
-      <app-filter
-        class="mr_2"
-        :filterList="filterShowList"
-        :filterSelected="filterShowSelected"
-        @updateFilterSelected="updateFilterShowSelected($event)"
-      />
+<!--    <div class="c_md_12 c_lg_12 c_xl_6 main&#45;&#45;header-right text_right">-->
 <!--      <app-filter-->
-<!--        :filterList="filterStatusList"-->
-<!--        :filterSelected="filterStatusSelected"-->
-<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
+<!--        class="mr_2"-->
+<!--        :filterList="filterShowList"-->
+<!--        :filterSelected="filterShowSelected"-->
+<!--        @updateFilterSelected="updateFilterShowSelected($event)"-->
 <!--      />-->
-    </div>
+<!--    </div>-->
     <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
 		<transition name="popup">
@@ -100,7 +95,6 @@ export default {
       this.$emit( "updateFilterShowSelected", val );
     },
     updateFilterStatusSelected( val ) {
-      console.log( val );
       if ( val.id === "all" ) {
         const dataSender = {
           size: this.sizeDefault,
@@ -148,6 +142,7 @@ export default {
       background-clip: padding-box;
       border: 0;
       border-radius: 0.5rem;
+      width: 100%;
       svg.ic--search {
         vertical-align: middle;
       }

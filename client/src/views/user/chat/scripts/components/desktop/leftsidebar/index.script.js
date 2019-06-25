@@ -77,7 +77,6 @@ export default {
       this.$store.dispatch("getInfoBlock", SqcId);
     },
     createBlock(groupId) {
-      console.log(groupId);
       this.$store.dispatch("createBlock", groupId);
     },
     createItemSqc(sequenceId) {

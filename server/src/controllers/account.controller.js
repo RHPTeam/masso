@@ -23,7 +23,6 @@ module.exports = {
 
     let data, resUserSync, avatar;
 
-    console.log( req.body );
     // Check update user info if user upload profile
     if ( file ) {
       // Custom link

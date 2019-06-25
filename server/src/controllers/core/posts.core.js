@@ -174,7 +174,18 @@ module.exports = {
           "av": feedObject.privacy
         } );
 
-        await fs.unlinkSync( path.results );
+        // Check error ( if user use image for feed now, check if facebook return error or return null array )
+        if ( photoID.error.code === 404 ) {
+          return {
+            "error": {
+              "code": 1036,
+              "text": "Ảnh upload lên facebook có vấn đề, có thể ảnh có dính bản quyền, hoặc nội dung không phù hợp!"
+            },
+            "results": []
+          };
+        }
+
+        await fs.unlink( path.results );
         return photoID;
       } );
 

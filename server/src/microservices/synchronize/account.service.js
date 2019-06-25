@@ -4,7 +4,7 @@ module.exports = {
   "changePasswordSync": ( url, data, headers ) => {
     return request( {
       "method": "patch",
-      "url": `${process.env.APP_PARENT_URL }/api/v1/${url}`,
+      "url": `${process.env.APP_PARENT_URL}/api/v1/${url}`,
       "data": data,
       "headers": headers
     } );
@@ -12,7 +12,7 @@ module.exports = {
   "updateUserSync": ( url, data, headers ) => {
     return request( {
       "method": "patch",
-      "url": `${process.env.APP_PARENT_URL }/api/v1/${url}`,
+      "url": `${process.env.APP_PARENT_URL}/api/v1/${url}`,
       "data": data,
       "headers": headers
     } );
