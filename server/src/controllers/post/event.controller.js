@@ -155,27 +155,26 @@ module.exports = {
 
     const findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ),
       findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
-      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": true } ).lean();
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.query._eventId, "status": findCampaign.status } ).lean();
 
     // Check catch when update event
     if ( !findEvent ) {
       return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
-    // Check switch status of event
-    if ( req.query._type && req.query._type.trim() === "status" ) {
-      findEvent.status = !findEvent.status;
-      await findEvent.save();
-      return res.status( 201 ).json( jsonResponse( "success", findEvent ) );
-    }
-
     /**
      * Update cron schedule and event schedule
      */
+
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
       deletedSchedule( eventSchedule, __dirname );
     } ) );
-    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+
+    await EventSchedule.deleteMany( { "_event": req.query._eventId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
     req.body._id = req.query._eventId;
     await EventScheduleController.create( req.body, findCampaign._id, req.uid );
 
@@ -193,6 +192,18 @@ module.exports = {
       } );
     }
     await findCampaign.save();
+
+    // Check exception update event
+    if ( req.body.target_custom.length > 0 ) {
+      delete findEvent.target_category;
+    }
+    if ( req.body.post_custom.length > 0 ) {
+      delete findEvent.post_category;
+    }
+
+    // Save to db mongodb ( Resolve :D )
+    await findEvent.save();
+
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },
   "delete": async ( req, res ) => {
