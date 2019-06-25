@@ -88,7 +88,7 @@
       </div>
     </div>
     <!-- End: Option Post detail -->
-
+    <div style="color: #fff" >{{ caseEvent.target }}</div>
     <!-- Start: Show Option Group -->
     <target-group v-if="caseEvent.target === 1" />
     <!-- End: Show Option Group -->
@@ -149,6 +149,12 @@ export default {
           value: []
         } );
       } else if ( value === 2 ) {
+        this.$store.dispatch( "setEventRemove", "target_category" );
+      } else if ( value === 3 ) {
+        this.$store.dispatch( "setEvent", {
+          key: "target_custom",
+          value: []
+        } );
         this.$store.dispatch( "setEventRemove", "target_category" );
       }
       this.$store.dispatch( "setCaseEvent", {
