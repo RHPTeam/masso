@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /**
  * Controller campaign (profile) for project
  * author: hoc-anms
