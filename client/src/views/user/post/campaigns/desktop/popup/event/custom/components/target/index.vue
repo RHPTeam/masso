@@ -150,6 +150,12 @@ export default {
         } );
       } else if ( value === 2 ) {
         this.$store.dispatch( "setEventRemove", "target_category" );
+      } else if ( value === 3 ) {
+        this.$store.dispatch( "setEvent", {
+          key: "target_custom",
+          value: []
+        } );
+        this.$store.dispatch( "setEventRemove", "target_category" );
       }
       this.$store.dispatch( "setCaseEvent", {
         key: "target",
