@@ -127,5 +127,14 @@ module.exports = {
     await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": expireDate, "maxAccountFb": maxAccountFb } }, { "new": true } ).select( "-password -__v" );
 
     res.send( { "status": "success", "data": "Synchronized..." } );
+  },
+  "searchKeyword": async ( req, res ) => {
+    const userInfo = await Account.findOne( { "_id": req.uid } );
+
+    if ( !userInfo ) {
+      res.send( { "status": "error", "message": "Tài không được đồng bộ trên server!" } );
+    }
+    await await Account.findByIdAndUpdate( { "_id": req.uid }, { "$push": { "keywordSearch": { "content": req.body.content, "time": req.body.time } } }, { "new": true } ).select( "-password" );
+    res.send( { "status": "success", "data": "Synchronized..." } );
   }
 };
