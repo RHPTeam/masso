@@ -2,7 +2,7 @@
   <div class="main--header mb_3" :data-theme="currentTheme">
     <!-- Start: Header Top -->
     <div class="main--header-top d_flex justify_content_between align_items_center">
-      <div class="top--left d_flex align_items_center mr_3">
+      <div class="top--left d_flex align_items_center mr_auto">
         <div class="btn--back mr_3"
              @click="goBack"
         >« Quay lại</div>
@@ -18,7 +18,7 @@
           />
         </div>
       </div>
-      <div class="top--right d_flex align_items_center">
+      <div class="top--right d_flex align_items_center ml_auto">
         <div class="time--duration">
           <icon-base
             class="ic--calendar mr_2"
@@ -37,7 +37,7 @@
     <!-- End: Header Top -->
     <!-- Start: Header Action -->
     <div class="r main--header-action mt_3">
-      <div class="c_md_6 action--left d_flex align_items_center">
+      <div class="c_md_12 c_lg_6 mb_md_3 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
           <button class="btn btn--orange" @click="openPopupCreateEvent"
           >Thêm sự kiện</button>
@@ -57,7 +57,7 @@
           />
         </div>
       </div>
-      <div class="c_md_6 acion--right">
+      <div class="c_md_12 c_lg_6 acion--right">
         <div class="btn--group">
           <button
             class="btn btn--custom"

@@ -62,4 +62,7 @@ router.route( "/remove/image" ).post( PostController.removeImageNotExist );
 router
   .route( "/newest" ).get( PostController.getNewestPosts );
 
+// Upload image
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
+
 module.exports = router;

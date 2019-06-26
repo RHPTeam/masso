@@ -31,7 +31,7 @@
       font-size: 0.875rem;
       text-align: right;
       .time--duration {
-        padding-top: .375rem;
+        //padding-top: .375rem;
         .ic--calendar {
           vertical-align: text-top;
         }
@@ -180,6 +180,17 @@
         background-color: #27292D;
         color: #f7f7f7;
       }
+    }
+  }
+}
+
+
+// ============ RESPONSIVE
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .main--header {
+    .main--header-top, .main--header-action {
+      flex-direction: column;
     }
   }
 }
