@@ -23,7 +23,6 @@ const {
     convertUnicodeToCharacter,
     findSubString
   } = require( "../functions/string" ),
-  pathRoot = require( "path" ),
   fs = require( "fs" ),
   request = require( "request" ),
   download = require( "download" ),
