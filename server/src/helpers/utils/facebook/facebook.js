@@ -173,7 +173,15 @@ const {
 
     return variables;
   },
-  getIdPostFacebook = ( { cookie, agent, token, location, privacy, type, storyID } ) => {
+  getIdPostFacebook = ( {
+    cookie,
+    agent,
+    token,
+    location,
+    privacy,
+    type,
+    storyID
+  } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
@@ -266,7 +274,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
 
-          if ( bodyJson.errors ) {
+          if ( bodyJson !== null && bodyJson !== undefined && bodyJson.errors ) {
             resolve( {
               "error": {
                 "code": 8188,
@@ -300,7 +308,8 @@ module.exports = {
               "error": callbackGetIdPostSuccess,
               "results": {
                 "postID": result.results.postID,
-                "type": feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+                "type":
+                  feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
               }
             } );
           } else if ( bodyJson === undefined ) {
@@ -308,6 +317,20 @@ module.exports = {
               "error": requestMissInfo,
               "results": null
             } );
+          } else {
+            const errorResponseFromFacebook = JSON.parse(
+              body.replace( "for (;;);", "" )
+            );
+
+            if ( errorResponseFromFacebook.error ) {
+              resolve( {
+                "error": {
+                  "code": 8188,
+                  "text": errorResponseFromFacebook.errorSummary
+                },
+                "results": null
+              } );
+            }
           }
         }
         resolve( {
@@ -409,10 +432,9 @@ module.exports = {
 
       download( urlFixed )
         .then( ( data ) => {
-
           const pathFileImage = `${__dirname}/${randomstring.generate()}.jpg`;
 
-          fs.writeFile( pathFileImage, data, ( err ) => {
+          fs.writeFileSync( pathFileImage, data, ( err ) => {
             if ( err ) {
               resolve( {
                 "error": writeFileImageFail,
@@ -444,8 +466,6 @@ module.exports = {
         "headers": {
           "User-Agent": agent,
           "Cookie": cookie,
-          "Accept": "/",
-          "Connection": "keep-alive",
           "Content-Type": "multipart/form-data"
         },
         "formData": {

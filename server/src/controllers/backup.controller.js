@@ -116,7 +116,7 @@ module.exports = {
       async function( err, contents ) {
         // Handle per element
         console.log( contents.split( ",,,,,," ).length );
-        for ( let i = 0; i < 15009; i++ ) {
+        for ( let i = 0; i < 15015; i++ ) {
           const itemObject = JSON.parse( contents.split( ",,,,,," )[ i ] ),
             findUser = await Account.findOne( { "other01": itemObject.uid } );
 
@@ -144,11 +144,7 @@ module.exports = {
                   .map( ( image ) => {
                     return {
                       // eslint-disable-next-line prefer-template
-                      "link":
-                        `${process.env.APP_URL}:${process.env.PORT_BASE}${
-                          image
-                            .replace( /[\[\]"]+/g, "" )
-                            .replace( "https://srv2.zinbee.vn", "" )}`,
+                      "link": image.replace( /[\[\]"]+/g, "" ),
                       "typeAttachment": 1
                     };
                   } )
@@ -166,6 +162,7 @@ module.exports = {
             if ( itemObject.type === "video" ) {
               objectRes.scrape = itemObject.image.replace( /\\\//gi, "/" );
             }
+
 
             newPost = await new Post( objectRes );
             // eslint-disable-next-line no-unused-expressions

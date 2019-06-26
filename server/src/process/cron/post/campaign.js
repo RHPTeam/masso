@@ -4,6 +4,7 @@ const Facebook = require( "../../../models/Facebook.model" );
 const EventSchedule = require( "../../../models/post/EventSchedule.model" );
 const Campaign = require( "../../../models/post/Campaign.model" );
 const Event = require( "../../../models/post/Event.model" );
+const { startedSchedule, finishedSchedule, deletedScheduleProcess } = require( "../../../helpers/utils/functions/scheduleLog" );
 
 // Facebook Service Core
 const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
@@ -71,6 +72,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
             "SUCCESS:",
             "Passed! Starting schedule to RAM of system..."
           );
+          // Log when start cron
+          startedSchedule( eventSchedule, __dirname );
           // eslint-disable-next-line one-var
           const resFacebookResponse = await createPost( {
             "cookie": eventSchedule.cookie,
@@ -85,12 +88,17 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
             // Handle when post feed successfully
             if ( resFacebookResponse.error.code === 200 ) {
               campaignInfo.logs.total += 1;
+              // Log when finish cron
+              finishedSchedule( eventSchedule, __dirname );
+
               campaignInfo.logs.content.push( {
                 "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
                 "createdAt": new Date()
               } );
 
               listEventSchedule.splice( index, 1 );
+              // Log when finish cron
+              deletedScheduleProcess( eventSchedule, __dirname );
               await EventSchedule.deleteOne(
                 { "_id": eventSchedule._id },
                 ( err ) => {
