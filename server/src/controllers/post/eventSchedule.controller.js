@@ -49,6 +49,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       "_campaign": campaign._id
     };
   },
+  // eslint-disable-next-line no-unused-vars
   createSchedule = async ( listNewSchedule ) => {
     console.log( "\x1b[34m%s\x1b[0m", "Schedule Service Starting..." );
 
