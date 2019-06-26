@@ -28,7 +28,7 @@ const multer = require( "multer" ),
   upload = multer( {
     "storage": storage,
     "limits": {
-      "fileSize": 1024 * 1024 * 5
+      "fileSize": 1024 * 1024 * 25
     },
     "fileFilter": function( req, file, cb ) {
       if ( !file.originalname.match( /\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/ ) ) {

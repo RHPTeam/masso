@@ -1,8 +1,10 @@
 // Core Service
 const CronJob = require( "cron" ).CronJob;
+const Facebook = require( "../../../models/Facebook.model" );
 const EventSchedule = require( "../../../models/post/EventSchedule.model" );
 const Campaign = require( "../../../models/post/Campaign.model" );
 const Event = require( "../../../models/post/Event.model" );
+const { startedSchedule, finishedSchedule, deletedScheduleProcess } = require( "../../../helpers/utils/functions/scheduleLog" );
 
 // Facebook Service Core
 const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
@@ -67,6 +69,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
             "SUCCESS:",
             "Passed! Starting schedule to RAM of system..."
           );
+          // Log when start cron
+          startedSchedule( eventSchedule, __dirname );
           // eslint-disable-next-line one-var
           const resFacebookResponse = await createPost( {
             "cookie": eventSchedule.cookie,
@@ -81,8 +85,31 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
             // Handle when post feed successfully
             if ( resFacebookResponse.error.code === 200 ) {
               campaignInfo.logs.total += 1;
+              // Log when finish cron
+              finishedSchedule( eventSchedule, __dirname );
+
               campaignInfo.logs.content.push( {
                 "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
+                "createdAt": new Date()
+              } );
+
+              listEventSchedule.splice( index, 1 );
+              // Log when finish cron
+              deletedScheduleProcess( eventSchedule, __dirname );
+              await EventSchedule.deleteOne(
+                { "_id": eventSchedule._id },
+                ( err ) => {
+                  if ( err ) {
+                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+                  }
+                }
+              );
+              console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
+            } else if ( resFacebookResponse.error.code === 8188 ) {
+              // Check other error facebook return if error when request to facebook
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Facebook] ${resFacebookResponse.error.text}`,
                 "createdAt": new Date()
               } );
 
@@ -95,7 +122,34 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
                   }
                 }
               );
-              console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
+              console.log( `Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :)) Bọn Facebook trả về là: ${resFacebookResponse.error.text}` );
+            } else if ( resFacebookResponse.error.code === 1037 ) {
+              // Check if account logged out
+              const facebookInfo = await Facebook.findOne( { "cookie": eventSchedule.cookie } );
+
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
+                "createdAt": new Date()
+              } );
+
+              await Campaign.updateOne( { "_id": eventSchedule._campaign }, { "status": false }, ( err ) => {
+                if ( err ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+                }
+              } );
+
+              listEventSchedule.splice( index, 1 );
+              await EventSchedule.deleteOne(
+                { "_id": eventSchedule._id },
+                ( err ) => {
+                  if ( err ) {
+                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+                  }
+                }
+              );
+
+              console.log( `Have error: ${resFacebookResponse.error.text}` );
             } else {
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {

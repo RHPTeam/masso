@@ -45,7 +45,7 @@ const cheerio = require( "cheerio" ),
                 .each( function() {
                   images.push( $( this ).attr( "data-ploi" ) );
                 } );
-              return resolve( {
+              resolve( {
                 "results": {
                   "content": $( "div.permalinkPost" )
                     .find( "div.userContentWrapper" )
@@ -77,7 +77,7 @@ const cheerio = require( "cheerio" ),
                     } );
                 }
               } );
-            return resolve( {
+            resolve( {
               "results": {
                 "content": $( "div" )
                   .find( "div.userContent" )
@@ -103,7 +103,7 @@ const cheerio = require( "cheerio" ),
               }
             } );
 
-          return resolve( {
+          resolve( {
             "results": {
               "like": parseInt(
                 $( "div" )
@@ -121,7 +121,7 @@ const cheerio = require( "cheerio" ),
             "next": false
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -138,6 +138,17 @@ module.exports = {
       token = tokenFull.value,
       privacy = tokenFull.privacy,
       feedObject = {};
+
+    // Check catch if cookie logged out
+    if ( tokenFull === false ) {
+      return {
+        "error": {
+          "code": 1037,
+          "text": "Tài khoản của bạn đã bị đăng xuất, vui lòng cung cấp lại mã kích hoạt để tiêp tục!"
+        },
+        "results": null
+      };
+    }
 
     // Check if user upload image or paste link image
     if ( feed.photos ) {

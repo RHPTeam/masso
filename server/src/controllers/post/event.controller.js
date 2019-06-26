@@ -194,20 +194,17 @@ module.exports = {
     await findCampaign.save();
 
     // Check exception update event
-    if ( req.body.target_category === undefined || !req.body.target_category ) {
-      console.log( "cek" );
+    if ( req.body.target_category === undefined ) {
+      // eslint-disable-next-line camelcase
       findEvent.target_category = undefined;
     }
-    if ( req.body.post_category === undefined || !req.body.post_category ) {
+    if ( req.body.post_category === undefined ) {
+      // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();
-
-    console.log( findEvent );
-    console.log( "-------" );
-    console.log( req.body );
 
     res.status( 201 ).json( jsonResponse( "success", await Event.findByIdAndUpdate( req.query._eventId, { "$set": req.body }, { "new": true } ) ) );
   },

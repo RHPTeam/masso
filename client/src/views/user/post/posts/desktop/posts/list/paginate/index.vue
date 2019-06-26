@@ -1,7 +1,7 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ allPosts.length }} bản ghi {{postsPageSize}}
+      Hiển thị {{ allPosts.length }} bản ghi
     </div>
     <paginate
       :value="currentPage"
@@ -63,7 +63,6 @@ export default {
         };
 
         await this.$store.dispatch( "getPostsByPage", dataSender );
-
       }
 
       this.$router.replace( {
