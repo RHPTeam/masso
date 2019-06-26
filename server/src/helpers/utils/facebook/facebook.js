@@ -268,7 +268,7 @@ module.exports = {
           console.log( body );
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
 
-          if ( bodyJson.errors ) {
+          if ( bodyJson !== null && bodyJson !== undefined && bodyJson.errors ) {
             resolve( {
               "error": {
                 "code": 8188,
@@ -310,6 +310,18 @@ module.exports = {
               "error": requestMissInfo,
               "results": null
             } );
+          } else {
+            const errorResponseFromFacebook = JSON.parse( body.replace( "for (;;);", "" ) );
+
+            if ( errorResponseFromFacebook.error ) {
+              resolve( {
+                "error": {
+                  "code": 8188,
+                  "text": errorResponseFromFacebook.errorSummary
+                },
+                "results": null
+              } );
+            }
           }
         }
         resolve( {
