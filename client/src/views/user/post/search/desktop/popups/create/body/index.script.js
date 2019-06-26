@@ -190,14 +190,11 @@ export default {
       const input = this.$refs.file;
       input.type = 'text';
       input.type = 'file';
-
-      this.post.color = "";
     },
-    // Upload image
     async sendFile() {
       const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
+      Array.from(this.file).forEach((f) => {
+        formData.append("attachments", f)
       });
 
       await this.$store.dispatch( "uploadPostAttachments", formData );

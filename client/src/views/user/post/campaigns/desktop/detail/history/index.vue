@@ -27,7 +27,8 @@
           >
             <!-- Start: Post title -->
             <div class="post--title mb_2">
-              <span>{{ item.message }}</span>
+              <span>{{item.message}}</span>
+              <a class="link--post ml_1" @click="redirectPostInFacebook(item)">Xem thêm</a>
             </div>
             <!-- End: Post title -->
             <!-- Start: Post time & status-->
@@ -44,6 +45,7 @@
 </template>
 
 <script>
+import FunctionString from "@/utils/functions/string";
 export default {
   filters: {
     dateTimeFormat( date ) {
@@ -57,11 +59,6 @@ export default {
             year = dateTime.getFullYear();
 
       return `${hour}:${min}, ${day}/${month}/${year}`;
-    },
-    getIDByFacebook(value){
-      var numberPattern = /\d+/g;
-
-      'value'.match( numberPattern );
     }
   },
   props: ["currentTheme"],
@@ -74,6 +71,18 @@ export default {
   methods: {
     close() {
       this.$emit( "close", false );
+    },
+    redirectPostInFacebook(value){
+      let res = FunctionString.findSubString(value.message, "ID: ");
+      console.log(typeof res);
+      console.log(res.length);
+      if(res.length < 20) {
+        console.log(res);
+      } else {
+        const route = 'https://facebook.com/' + res;
+
+        window.open(route, '_blank');
+      }
     }
   }
 }

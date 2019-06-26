@@ -85,6 +85,9 @@ export default {
     },
     checkColor: function () {
       return this.post.color === undefined || this.post.color.length === 0;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
     }
 
   },
@@ -210,37 +213,31 @@ export default {
       await this.$store.dispatch( "updatePost", this.post );
       this.isShowPostNowPopup = true;
     },
-    // Select file images
-    selectFile( id ) {
+
+    selectFile() {
       this.file = this.$refs.file.files;
-      this.sendFile( id );
+      this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
       input.type = 'file';
-
-      this.$store.dispatch("setPostDefault", {
-        key: "color",
-        value: ""
-      });
-      this.$store.dispatch( "updatePostColor", this.post );
     },
-    // Update file images to post
-    sendFile() {
+    async sendFile() {
       const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
+      Array.from(this.file).forEach((f) => {
+        formData.append("attachments", f)
       });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
-      } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
-      }
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };
