@@ -404,7 +404,8 @@ module.exports = {
 
       delete req.body.categoryPost._id;
 
-      const newCategoryExample = await new PostCategory( req.body.categoryPost );
+      // eslint-disable-next-line one-var
+      const newCategoryExample = new PostCategory( req.body.categoryPost );
 
       newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
       newCategoryExample.totalPosts = newCategoryExample.postExample.length;
