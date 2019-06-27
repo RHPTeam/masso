@@ -57,7 +57,7 @@ module.exports = {
         return {
           "pageId": page.id,
           "name": page.name,
-          "profile_picture": `http://graph.facebook.com/${page.id}/picture?type=large`,
+          "profile_picture": `https://graph.facebook.com/${page.id}/picture?type=large`,
           "_account": req.uid,
           "_facebook": facebook._id
         };

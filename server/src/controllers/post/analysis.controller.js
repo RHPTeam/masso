@@ -68,7 +68,7 @@ module.exports = {
       } } );
 
       statisticList.push( {
-        "date": start,
+        "date": new Date( start.setDate( start.getDate() + 1 ) ),
         "amount": postList.length,
         "recommend": Math.floor( Math.random() * 5 ) + 3
       } );
@@ -79,7 +79,7 @@ module.exports = {
 
       start.setHours( 0, 0, 0, 0 );
       statisticList.unshift( {
-        "date": start,
+        "date": new Date( start.setDate( start.getDate() + 1 ) ),
         "amount": 0,
         "recommend": Math.floor( Math.random() * 5 ) + 5
       } );
