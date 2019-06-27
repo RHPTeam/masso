@@ -36,6 +36,17 @@ export default {
           query: { size: 25, page: 1 }
         }
       },
+        {
+          text: "Facebook tìm kiếm",
+          icon: {
+            iconName: "Facebook tìm kiếm",
+            tagName: "icon-input-search",
+            width: 22,
+            height: 22,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_fb_search" }
+        },
       {
         text: "Chiến dịch",
         icon: {
@@ -71,17 +82,6 @@ export default {
           viewBox: "0 0 24 24"
         },
         to: { name: "post_fbaccount" }
-      },
-      {
-        text: "Facebook tìm kiếm",
-        icon: {
-          iconName: "Facebook tìm kiếm",
-          tagName: "icon-input-search",
-          width: 22,
-          height: 22,
-          viewBox: "0 0 24 24"
-        },
-        to: { name: "post_fb_search" }
       }
       ]
     };

@@ -151,6 +151,7 @@ export default {
       }
     },
     async viewCampaignDetail( id ) {
+      this.$store.dispatch("setCampainControl", 1);
       await this.$store.dispatch( "getCampaignDetail", id );
     }
   },
