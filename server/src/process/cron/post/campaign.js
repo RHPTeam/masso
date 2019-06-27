@@ -28,6 +28,7 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
           dateTimeCurrent.getTime() - 20 * 60000
         );
 
+
       console.log(
         "\x1b[32m%s\x1b[0m",
         "Step 01:",
@@ -40,6 +41,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
           "$lt": new Date().toISOString()
         }
       } ).lean() );
+
+      console.log( listEventSchedule.map( ( item ) => item._id ) );
 
       console.log(
         "\x1b[32m%s\x1b[0m",

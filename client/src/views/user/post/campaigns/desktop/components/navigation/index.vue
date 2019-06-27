@@ -2,28 +2,33 @@
   <div class="r main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
     <div class="nav--left d_flex justify_content_start align_items_center c_md_12 c_lg_12 c_xl_12 mb_3">
-        <div
-          class="btn--add-campaign mr_3"
-          @click="isShowCreatCampaignPopup = true"
-        >
-          Thêm chiến dịch
+        <div class="add--campaign">
+          <div
+            class="btn--add-campaign mr_3"
+            @click="isShowCreatCampaignPopup = true"
+          >
+            Thêm chiến dịch
+          </div>
         </div>
 
-        <router-link
-          class="ml_2"
-          tag="button"
-          :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
-          active-class="active"
-        >Danh sách chiến dịch</router-link
-        >
-        <div class="divider"></div>
-        <router-link
-          class="ml_2"
-          tag="button"
-          :to="{ name: 'campaigns_default' }"
-          active-class="active"
-        >Chiến dịch mẫu</router-link
-        >
+        <div class="action--campagin d_flex">
+          <router-link
+            class="ml_2"
+            tag="button"
+            :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
+            active-class="active"
+          >Danh sách chiến dịch</router-link
+          >
+          <div class="divider"></div>
+          <router-link
+            class="ml_2"
+            tag="button"
+            :to="{ name: 'campaigns_default' }"
+            active-class="active"
+          >Chiến dịch mẫu</router-link
+          >
+        </div>
+
       </div>
 
 		<!--	Start: Create Campaign Popup	-->
@@ -115,7 +120,7 @@ export default {
 .main--header {
   .nav--left {
     height: 40px;
-    > button {
+    .action--campagin button {
       background-color: transparent;
       border: 0;
       border-radius: .625rem;
@@ -249,6 +254,24 @@ export default {
         &::placeholder {
           color: #666;
         }
+      }
+    }
+  }
+}
+
+
+/*  ======== RESPONSIVE ======*/
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .main--header {
+    .nav--left {
+      flex-direction: column;
+      height: auto;
+      .add--campaign {
+        margin-right: auto;
+        margin-bottom: 1rem;
+      }
+      .action--campagin {
+        margin-left: auto;
       }
     }
   }

@@ -36,14 +36,14 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1" @click="showPostNowPopup">
-        <icon-base
-          class="icon--post-now"
-          icon-name="Đăng ngay"
-          viewBox="0 0 506 506">
-          <icon-post-now />
-        </icon-base>
-      </span>
+<!--      <span class="mx_1" @click="showPostNowPopup">-->
+<!--        <icon-base-->
+<!--          class="icon&#45;&#45;post-now"-->
+<!--          icon-name="Đăng ngay"-->
+<!--          viewBox="0 0 506 506">-->
+<!--          <icon-post-now />-->
+<!--        </icon-base>-->
+<!--      </span>-->
     </div>
     <!-- End: Action Column -->
   </div>

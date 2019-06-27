@@ -397,13 +397,17 @@
         </div>
       </div>
 
+      <!--Start: Show error when content or attachment have length === 0 -->
+      <div class="error alert_danger px_2 py_2 mb_3" v-if="isShowAlert === true">Nội dung bài viết không được bỏ trống, vui lòng thêm nội dung cho bài viết để có thể cập nhật.</div>
+      <!--End: Show error when content or attachment have length === 0-->
+
       <div class="footer d_flex align_items_center">
         <div class="item--button mr_3" @click="savePost">
           Lưu
         </div>
-        <div class="item--button" @click="saveAndPostNow">
-          Lưu & Đăng ngay
-        </div>
+<!--        <div class="item&#45;&#45;button" @click="saveAndPostNow">-->
+<!--          Lưu & Đăng ngay-->
+<!--        </div>-->
       </div>
 
     </div>
