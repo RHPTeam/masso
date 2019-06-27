@@ -63,7 +63,7 @@
     <div v-if="this.$store.getters.infoPostCateDefault === 1" class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <span class="mx_2" @click="editPostCateDefault">
         <icon-base
-          icon-name="duplicate"
+          icon-name="Sao chép"
           width="20"
           height="20"
           viewBox="0 0 520 520"
