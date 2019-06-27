@@ -65,27 +65,29 @@
               }
             }
           }
-          .btn--remove {
-            .icon--remove {
-              color: #999;
+          .btn--more {
+            .icon--more {
+              color: #666;
               margin-bottom: -5px;
               transition: all .4s ease;
               &:hover {
-                color: #f96666;
+                color: #ccc;
               }
             }
-            .action {
-              background-color: #2f3136;
-              border: 1px solid #2f3136;
+            .action--dropdown {
+              background-color: #27292c;
+              box-shadow: 0 0 10px rgba(255, 255, 255, .1);
               border-radius: .5rem;
-              font-size: calc(1rem - 3px);
-              width: 150px;
+              font-size: .875rem;
+              padding: .375rem 0;
               text-align: left;
+              min-width: 136px;
               z-index: 99;
-              &--item {
-                padding: .5rem;
+              &-item {
+                padding: .375rem .75rem;
                 &:hover, &:active, &:visited, &:focus {
-                  color: #ffb94a;
+                  background-color: #2f3136;
+                  color: #fff;
                 }
               }
             }

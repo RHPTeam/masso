@@ -12,18 +12,22 @@
         <!-- Start: Modal Body -->
         <vue-perfect-scrollbar class="modal--scroll my_3">
           <div class="modal--body">
-            <!-- Start: Timer -->
-            <timer
-              :postSchedule="postSchedule"
-              @updatePostSchedule="postSchedule = $event"
-            ></timer>
-            <!-- End: Timer -->
             <!-- Start: Target -->
             <target
               :postSchedule="postSchedule"
               @updatePostSchedule="postSchedule = $event"
             ></target>
             <!-- End: Target -->
+            <!-- Start: Timer -->
+            <transition name="faded">
+              <timer
+                class="mt_4"
+                v-if="postSchedule._facebookId.length > 1"
+                :postSchedule="postSchedule"
+                @updatePostSchedule="postSchedule = $event"
+              ></timer>
+            </transition>
+            <!-- End: Timer -->
           </div>
         </vue-perfect-scrollbar>
         <!-- End: Modal Body -->

@@ -478,7 +478,6 @@ export default {
   methods: {
     async goToThisPost( id ) {
       await this.$store.dispatch( "getPostById", id );
-      return this.$router.push({ params: { id }, name: "post_update_post" } );
     }
   }
 }

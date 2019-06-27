@@ -1,7 +1,7 @@
 <template>
   <!--Section option hours-->
   <div class="timer--wrapper" :data-theme="currentTheme" >
-    <div class="title mb_2">Thời gian chờ giữa các lần đăng <i class="note">( ít nhất 5 phút )</i></div>
+    <div class="title mb_2">Thời gian chờ giữa các lần đăng <i class="note">(ít nhất 5 phút)</i></div>
     <div class="d_flex align_items_center justify_content_between">
       <!-- Start: Input Group -->
       <div class="input--group d_flex">

@@ -62,7 +62,7 @@ export default {
     updateCurrentPage( page ) {
       this.currentPage = page;
     },
-    updateFilterShowSelected( selected) {
+    async updateFilterShowSelected( selected) {
       this.filterShowSelected = selected;
       this.currentPage = 1;
 
@@ -70,7 +70,15 @@ export default {
         size: this.filterShowSelected.id,
         page: this.currentPage
       };
-      this.$store.dispatch( "getPostsByPage", dataSender );
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+
+      this.$router.replace( {
+        name: "post_posts",
+        query: {
+          size: this.filterShowSelected.id,
+          page: this.currentPage
+        }
+      } );
     }
   }
 };
