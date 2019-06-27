@@ -31,7 +31,8 @@ const getters = {
   usersFilter: ( state ) => state.usersFilter,
   fileAvatar: ( state ) => state.fileAvatar,
   roles: ( state ) => state.roles,
-  activeAccountError: ( state ) => state.activeAccountError
+  activeAccountError: ( state ) => state.activeAccountError,
+  keywordRecentList: ( state ) => state.user.keywordSearch.reverse().splice( 0, 8 )
 };
 
 const mutations = {

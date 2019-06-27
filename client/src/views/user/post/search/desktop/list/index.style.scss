@@ -10,6 +10,35 @@
     font-size: .875rem;
   }
 }
+.list--content {
+  .history {
+    background-color: #27292d;
+    color: #fff;
+    top: 40px;
+    width: 100%;
+    z-index: 99;
+    &--header {
+      border-bottom: 1px solid #3f3f3f;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 0.75rem;
+      text-transform: uppercase;
+    }
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      li {
+        cursor: pointer;
+        padding: 0.75rem 1rem;
+        &:hover {
+          background-color: #ffb94a;
+          color: #FFFFFF;
+        }
+      }
+    }
+  }
+}
 .list--input {
   border-radius: 10px;
   font-size: 0.875rem;
