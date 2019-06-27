@@ -13,6 +13,7 @@
         <!-- Start: FB Profile -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 3 ? 'active' : null"
                @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -38,6 +39,7 @@
         <!-- Start: Target Group -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 1 ? 'active' : null"
                @click="selectTargetType( 1 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -63,6 +65,7 @@
         <!-- Start: Target Custom -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 2 ? 'active' : null"
                @click="selectTargetType( 2 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -88,7 +91,6 @@
       </div>
     </div>
     <!-- End: Option Post detail -->
-    <div style="color: #fff" >{{ caseEvent.target }}</div>
     <!-- Start: Show Option Group -->
     <target-group v-if="caseEvent.target === 1" />
     <!-- End: Show Option Group -->
@@ -148,15 +150,27 @@ export default {
           key: "target_custom",
           value: []
         } );
+
+        this.$store.dispatch( "setEvent", {
+          key: "timeline",
+          value: []
+        } );
       } else if ( value === 2 ) {
         this.$store.dispatch( "setEventRemove", "target_category" );
+
+        this.$store.dispatch( "setEvent", {
+          key: "timeline",
+          value: []
+        } );
       } else if ( value === 3 ) {
         this.$store.dispatch( "setEvent", {
           key: "target_custom",
           value: []
         } );
+
         this.$store.dispatch( "setEventRemove", "target_category" );
       }
+
       this.$store.dispatch( "setCaseEvent", {
         key: "target",
         value: value
@@ -201,6 +215,9 @@ export default {
       cursor: pointer;
       height: 100%;
       transition: all .4s ease;
+      &.active {
+        box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+      }
       &:hover {
         box-shadow: 0 0 8px rgba(0, 0, 0, .1);
       }
@@ -250,9 +267,14 @@ export default {
     .card {
       background: none;
       color: #ccc;
-      border-color: #484848;
+      border-color: #444;
+      &.active {
+        box-shadow: 0 0 10px rgba(255, 255, 255, .15);
+        font-weight: 600;
+        transition: all .4s ease;
+      }
       &:hover {
-        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+        box-shadow: 0 0 10px rgba(255, 255, 255, .15);
       }
     }
   }

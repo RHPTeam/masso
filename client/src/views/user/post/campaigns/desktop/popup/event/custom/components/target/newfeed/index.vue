@@ -68,7 +68,7 @@ export default {
           .custom--checkbox {
             input[type="checkbox"] {
               border-radius: 6px;
-              border: solid 1.5px #cccccc;
+              border: solid 1.5px #999;
               cursor: pointer;
               height: 20px;
               outline: none;
@@ -105,6 +105,8 @@ export default {
         .right {
           width: calc(100% - 51px);
           .name {
+            color: #F7F7F7;
+            font-size: 0.875rem;
             font-weight: 600;
           }
         }

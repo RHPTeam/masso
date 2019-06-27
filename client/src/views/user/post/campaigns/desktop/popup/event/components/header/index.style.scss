@@ -37,6 +37,10 @@
   }
   .left {
     flex: 1;
+    .desc {
+      font-size: .825rem;
+      opacity: .8;
+    }
   }
   .right {
     .action div[role=color] {
