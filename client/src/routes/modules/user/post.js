@@ -19,7 +19,7 @@ const generalPostRouter = {
       component: require( "@/views/user/post/posts" ).default,
       children: [
         {
-          path: "",
+          path: "list",
           name: "post_posts",
           component: require( "@/views/user/post/posts/desktop/posts/list" )
             .default
@@ -55,7 +55,7 @@ const generalPostRouter = {
       component: require( "@/views/user/post/campaigns" ).default,
       children: [
         {
-          path: "",
+          path: "list",
           name: "post_campaigns",
           component: require( "@/views/user/post/campaigns/desktop/list" )
             .default

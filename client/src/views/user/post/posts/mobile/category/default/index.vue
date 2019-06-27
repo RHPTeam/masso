@@ -8,11 +8,11 @@
       <!-- <div class="loading--block mt_3" v-if="this.$store.getters.statusCategories === 'loading'">
         <loading-component></loading-component>
       </div> -->
-      <VuePerfectScrollbar class="list--category">
+      <VuePerfectScrollbar class="list--category-default">
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -32,12 +32,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -57,12 +57,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -82,12 +82,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -107,12 +107,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -132,12 +132,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -157,12 +157,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -182,12 +182,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -207,12 +207,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -232,12 +232,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -257,12 +257,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -282,12 +282,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -307,12 +307,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -332,12 +332,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -357,12 +357,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -382,12 +382,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -407,12 +407,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -432,12 +432,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -457,12 +457,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -482,12 +482,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -507,12 +507,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -532,12 +532,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -557,12 +557,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -582,12 +582,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -607,12 +607,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -632,12 +632,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -657,12 +657,12 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
         <div class="item--body d_flex align_items_center">
-          <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
-          <!-- <div class="action align_items_center">
+          <div class="col col--category pl_3 pr_2">Chưa loại</div>
+          <div class="col col--posts text_center">3</div>          
+          <div class="action d_none align_items_center">
             <span class="mx_1">
               <icon-base
                 icon-name="Xóa"
@@ -682,7 +682,7 @@
                 <icon-info />
               </icon-base>
             </span>
-          </div> -->
+          </div>
         </div>
       </VuePerfectScrollbar>
     </div>

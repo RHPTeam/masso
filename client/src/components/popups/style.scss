@@ -140,3 +140,22 @@
     }
   }
 }
+
+
+// ============== RESPONSIVE ==============
+
+@media only screen and (max-width: 479px) {
+  .modal--wrapper {
+    .modal--dialog {
+      .modal--content {
+        width: 300px;
+        .modal--footer {
+          .btn--skip, .btn--submit {
+            border: 0;
+            background: none;
+          }
+        }
+      }
+    }
+  }
+}

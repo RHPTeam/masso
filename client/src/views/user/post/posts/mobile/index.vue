@@ -24,20 +24,25 @@
       </div>
       <!-- End: Search -->
 
-      <!-- Start: Tabs - All Posts and Category -->
+      <!-- Start: Tabs - Posts and Category -->
       <div class="tabs--post-category text_center d_flex align_items_center">
         <div
           class="posts items"
           @click="showPosts"
           :class="isShowPosts === true ? 'active' : '' "
-        >Tất cả bài viết</div>
+        >Tất cả</div>
         <div
           class="category items"
           @click="showCategory"
           :class="isShowCategory === true ? 'active' : '' "
         >Danh mục</div>
+        <div
+          class="category--form items"
+          @click="showCategoryForm"
+          :class="isShowCategoryForm === true ? 'active' : '' "
+        >Danh mục mẫu</div>
       </div>
-      <!-- End: Tabs - All Posts and Category -->
+      <!-- End: Tabs - Posts and Category -->
 
       <!-- Start: List Posts -->
       <div class="list--post pt_2" v-if="isShowPosts === true">
@@ -45,13 +50,21 @@
       </div>
       <!-- End: List Posts -->
 
-      <!-- Start: List Posts -->
+      <!-- Start: List Category -->
       <div class="category" v-if="isShowCategory === true">
         <VuePerfectScrollbar class="scroll-category" ref="scroll">
           <category/>
         </VuePerfectScrollbar>
       </div>
-      <!-- End: List Posts -->
+      <!-- End: List Category -->
+      <div class="category--form" v-if="isShowCategoryForm === true">
+        <VuePerfectScrollbar class="scroll--category-form" ref="scroll">
+          <category-form />
+        </VuePerfectScrollbar>
+      </div>
+      <!-- Start: List Category Form -->
+
+      <!-- End: List Category Form -->
 
       <!-- Start: Create new post -->
       <!-- <div class="new--post position_fixed">
@@ -74,17 +87,20 @@
 <script>
 import ListPost from "./posts/list";
 import Category from "./category";
+import CategoryForm from "./category/default";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   components: {
     ListPost,
     Category,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
+    CategoryForm
   },
   data() {
     return {
       isShowCategory: false,
-      isShowPosts: true
+      isShowPosts: true,
+      isShowCategoryForm: false
     };
   },
   computed: {
@@ -96,10 +112,17 @@ export default {
     showPosts() {
       this.isShowCategory = false;
       this.isShowPosts = true;
+      this.isShowCategoryForm = false;
     },
     showCategory() {
       this.isShowPosts = false;
       this.isShowCategory = true;
+      this.isShowCategoryForm = false;
+    },
+    showCategoryForm() {
+      this.isShowCategoryForm = true;
+      this.isShowPosts = false;
+      this.isShowCategory = false;
     }
   }
 };
@@ -145,14 +168,22 @@ export default {
     }
   }
   .tabs--post-category {
-    .items {
-      flex: 1;
+    .items {      
       font-size: 0.93rem;
       padding: 0.4rem 0;
       border-bottom: 1px solid #484848;
       &.active {
         color: #ffb94a;
         border-color: #ffb94a;
+      }
+      &.posts {
+        width: 22%;
+      }
+      &.category {
+        width: 33%;
+      }
+      &.category--form {
+        width: 45%;
       }
     }
   }
@@ -169,7 +200,7 @@ export default {
     }
   }
   .scroll-category {
-    max-height: 63vh;
+    // max-height: 63vh;
   }
 }
 .slide-fade-enter-active {

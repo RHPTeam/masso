@@ -2,13 +2,15 @@ import DeletePopup from  "@/components/popups/delete";
 import CategoryPaginate from "./paginate/index";
 import ItemCategories from "./item/index";
 import CategoriesDefault from "./itemdefault";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
   components: {
     DeletePopup,
     CategoryPaginate,
     CategoriesDefault,
-    ItemCategories
+    ItemCategories,
+    VuePerfectScrollbar
   },
   props: [ "currentPage", "filterShowSelected", "search" ],
   data() {

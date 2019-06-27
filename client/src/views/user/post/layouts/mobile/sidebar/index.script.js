@@ -80,17 +80,6 @@ export default {
         //   },
         //   // to: "f_account",
         //   IconComp: "IconUser"
-        // },
-        // {
-        //   text: "Thư viện",
-        //   icon: {
-        //     name: "icon-libs",
-        //     width: 20,
-        //     height: 20,
-        //     viewBox: "0 0 25 25"
-        //   },
-        //   // to: "f_libraries",
-        //   IconComp: "IconLibs"
         // }
       ],
       privateData: [

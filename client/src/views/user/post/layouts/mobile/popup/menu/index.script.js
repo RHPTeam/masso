@@ -29,6 +29,10 @@ export default {
             viewBox: "0 0 24 24"
           },
           to: "post_posts"
+          // to: {
+          //   name: "post_posts",
+          //   query: { size: 25, page: 1 }
+          // }
         },
         {
           text: "Chiến dịch",
@@ -39,7 +43,11 @@ export default {
             height: 20,
             viewBox: "0 0 24 24"
           },
-          to: "post_campaigns"
+          to: "post_campaigns",
+          // to: {
+          //   name: "post_posts",
+          //   query: { size: 25, page: 1 }
+          // }
         },
         {
           text: "Nhóm & Trang",

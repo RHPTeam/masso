@@ -2,7 +2,7 @@
   <div class="form-wrapper" :data-theme="currentTheme">
     <!-- Start: Create Form -->
     <div class="category--form p_3">
-      <div class="form--title mb_3">Thêm danh mục mới</div>
+      <div class="form--title mb_3 text_center">Thêm danh mục mới</div>
       <div class="item">
         <span>Tên danh mục</span>
         <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategory" />
