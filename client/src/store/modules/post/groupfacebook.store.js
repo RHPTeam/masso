@@ -29,8 +29,14 @@ const state = {
       await commit( "setFacebookGroups", res.data.data );
       commit( "setFacebookGroupsStatus", "success" );
     },
-    updateFacebookGroups: () => {
-      GroupFacebookServices.update();
+    updateFacebookGroups: async ({commit}) => {
+      commit("setFacebookGroupsStatus", "loading")
+      await GroupFacebookServices.update();
+
+      const res = await GroupFacebookServices.index();
+
+      await commit( "setFacebookGroups", res.data.data );
+      commit( "setFacebookGroupsStatus", "success" );
     }
   };
 
