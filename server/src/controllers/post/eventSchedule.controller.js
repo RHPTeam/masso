@@ -1,4 +1,3 @@
-const { startedSchedule, finishedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const Campaign = require( "../../models/post/Campaign.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
@@ -6,8 +5,6 @@ const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" ),
-  { agent } = require( "../../configs/crawl" ),
-  { createPost } = require( "../../controllers/core/posts.core" ),
 
   // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
   convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
@@ -26,7 +23,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       "cookie": cookie,
       "feed": {
         "photos": ( photos && photos.length > 0 ) ? photos : [],
-        "scrape": post.scrape ? post.scrape : "",
+        "scrape": post.scrape.length > 0 ? post.scrape : "",
         "activity": {
           "type": post.activity ? post.activity.typeActivity.id : "",
           "id": post.activity ? post.activity.id.id : "",
@@ -48,38 +45,6 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       "_event": event._id,
       "_campaign": campaign._id
     };
-  },
-  createSchedule = async ( listNewSchedule ) => {
-    console.log( "\x1b[34m%s\x1b[0m", "Schedule Service Starting..." );
-
-    console.log( "\x1b[32m%s\x1b[0m", "Step 01:", "Start - Get all event's user to handle with cron-schedule" );
-    const listScheduleActive = listNewSchedule.filter( ( event ) => event.status === true ).filter( ( event ) => ( new Date( event.started_at ) > new Date() ) );
-
-    console.log( "\x1b[32m%s\x1b[0m", "Step 01:", "Finnish - Get all event's user to handle with cron-schedule" );
-    if ( listScheduleActive.length === 0 ) {
-      console.log( "\x1b[31m%s\x1b[0m", "ERROR:", "Haven't event schedule yet!" );
-      return false;
-    }
-
-    console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Start - Cron schedule specific date time." );
-    await Promise.all( listScheduleActive.map( ( eventSchedule ) => {
-      console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
-      // Log when start cron
-      startedSchedule( eventSchedule, __dirname );
-      console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
-      ScheduleService.scheduleJob( `rhp${eventSchedule._id.toString()}`, new Date( eventSchedule.started_at ), async function () {
-        const resFacebookResponse = await createPost( { "cookie": eventSchedule.cookie, agent, "feed": eventSchedule.feed } );
-
-        if ( resFacebookResponse.error.code === 200 ) {
-          // Log when finish cron
-          finishedSchedule( eventSchedule, __dirname );
-        }
-      } );
-
-      console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Finished! System again assign schedule for event next..." );
-    } ) );
-
-    console.log( "\x1b[32m%s\x1b[0m", "Step 02:", "Finnish - Cron schedule specific date time." );
   },
   insertManyEventSchedule = ( data ) => {
     return new Promise( ( resolve ) => {

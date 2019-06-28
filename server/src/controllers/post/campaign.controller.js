@@ -21,12 +21,6 @@ const ScheduleService = require( "node-schedule" );
 const jsonResponse = require( "../../configs/response" );
 
 module.exports = {
-  /**
-   * Get all (query)
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "index": async ( req, res ) => {
     let dataResponse = null;
 
@@ -84,12 +78,6 @@ module.exports = {
 
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
-  /**
-   * Create campaign
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "create": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -117,12 +105,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
   },
-  /**
-   * update campaign
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "update": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -161,27 +143,12 @@ module.exports = {
         } );
       } ) );
 
-      // Check name if update name
-      // if ( convertUnicode( findCampaign.title ).toString().toLowerCase() !== convertUnicode( req.body.title ).toString().toLowerCase() ) {
-      //   findCampaign.logs.total += 1;
-      //   findCampaign.logs.content.push( {
-      //     "message": `Thay đổi tên chiến dịch từ ${findCampaign.title} sang ${req.body.title} thành công.`,
-      //     "createdAt": new Date()
-      //   } );
-      // }
-
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
 
     res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean() ) );
   },
-  /**
-   * Delete campaign
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "delete": async ( req, res ) => {
     const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( "_events" );
 
@@ -205,12 +172,6 @@ module.exports = {
     await Campaign.findByIdAndDelete( req.query._campaignId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
-  /**
-   * Duplicate new campaign
-   * @param req
-   * @param res
-   * @returns {Promise<void>}
-   */
   "duplicate": async ( req, res ) => {
     const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).populate( { "path": "_events", "select": "-_id -__v -updated_at -created_at" } ).lean(),
       campaignInfo = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
@@ -377,8 +338,35 @@ module.exports = {
         await newCampaign.save();
       }
     }
+
+    // eslint-disable-next-line one-var
     const findCampaign = await Campaign.findOne( { "_id": newCampaign._id, "_account": req.uid } ).populate( "_events" ).lean();
 
     res.send( { "status": "success", "data": findCampaign } );
+  },
+  "backupEventSchedule": async ( req, res ) => {
+    const listCampaign = await Campaign.find( {}, "_id" ).lean();
+
+    console.log( listCampaign );
+
+    await Promise.all( listCampaign.map( async ( campaign ) => {
+      const findCampaign = await Campaign.findOne( { "_id": campaign._id } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at _account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
+
+      // Check event list in campaign...
+      await Promise.all( findCampaign._events.map( async ( event ) => {
+        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
+
+        await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
+          deletedSchedule( eventSchedule, __dirname );
+        } ) );
+        await EventSchedule.deleteMany( { "_event": event._id } );
+        event.status = findCampaign.status;
+        await EventScheduleController.create( event, findCampaign._id, findCampaign._account );
+
+        await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
+      } ) );
+    } ) );
+
+    res.status( 201 ).json( { "status": "success", "data": "Data cái con kẹc!" } );
   }
 };
