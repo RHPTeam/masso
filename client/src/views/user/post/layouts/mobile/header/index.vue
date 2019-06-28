@@ -59,7 +59,7 @@
         <!-- End: Action in PostGroup -->
 
         <!-- Start: Action in Posts -->
-        <div class="action mr_1">
+        <!-- <div class="action mr_1">
           <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
             <icon-history />
           </icon-base>
@@ -83,15 +83,15 @@
           <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
           <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
           <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
-        </div>
+        </div> -->
         <!-- End: Action in Posts -->
 
         <!-- Start: Action in Acount FB -->
-        <!-- <div class="add action" @click="showPopupAddAccountFb">
+        <div class="add action" @click="showPopupAddAccountFb">
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
           </icon-base>
-        </div> -->
+        </div>
         <!-- End: Action in Acount FB -->
       </div>
      <!-- <div

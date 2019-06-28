@@ -2,7 +2,10 @@
 import AppTop from "./desktop/top/index";
 import UserInfo from "./desktop/info/index";
 import UserKeywords from "./desktop/keywords/index";
-import AppMobile from "./mobile"
+// -- App Mobile
+import AppTopMobile from "./mobile/top/index";
+import UserInfoMobile from "./mobile/info/index";
+import UserKeywordsMobile from "./mobile/keywords/index";
 
 export default {
   data() {
@@ -21,6 +24,8 @@ export default {
     AppTop,
     UserInfo,
     UserKeywords,
-    AppMobile
+    AppTopMobile,
+    UserInfoMobile,
+    UserKeywordsMobile
   }
 };

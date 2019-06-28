@@ -81,6 +81,17 @@ export default {
             viewBox: "0 0 24 24"
           },
           to: "post_fb_search"
+        },
+        {
+          text: "Thiết lập tài khoản",
+          icon: {
+            iconName: "account",
+            tagName: "icon-account",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 24 24"
+          },
+          to: "post_account"
         }
       ]
     };

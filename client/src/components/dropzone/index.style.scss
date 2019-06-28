@@ -66,9 +66,9 @@
 
   //Drop Zone
   .zone {
-    color: #1b1e21;
+    color: #ccc;
     input[type="file"] {
-      color: #1b1e21;
+      color: #ccc;
     }
   }
 }
@@ -82,7 +82,7 @@
     background: #ffffff;
   }
   .modal--desc {
-    color: #1b1e21;
+    color: #ccc;
   }
 }
 
@@ -94,5 +94,22 @@
   }
   .modal--desc {
     color: #cccccc;
+  }
+}
+
+// =========== RESPONSIVE ============
+
+@media screen and (max-width: 767px) {
+  .modal--wrapper {
+    .modal--content {
+      width: 290px;
+      padding: 41px 15px;
+      .file--cta-icon {
+        svg {
+          height: 50px;
+          width: 50px;
+        }
+      }
+    }
   }
 }

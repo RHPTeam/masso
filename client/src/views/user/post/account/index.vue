@@ -23,8 +23,19 @@
     <!-- End: Desktop Component-->
 
     <!--Start: Mobile Component-->
-    <div class="d_block d_md_none">
-      <app-mobile />
+    <div class="d_block d_md_none px_3">
+      <!-- Start: Top -->
+      <app-top-mobile :user="user" />
+      <!-- End: Top -->
+      <!-- Start: Content -->
+      <div class="main--content">
+        <!-- Start: User Expire -->
+        <user-info-mobile :user="user" />
+        <!-- End: User Info -->
+        <!-- Start: User Keywords -->
+        <user-keywords-mobile :user="user" />
+        <!-- End: User Keywords -->
+      </div>
     </div>
     <!--End: Mobile Component-->
   </div>
