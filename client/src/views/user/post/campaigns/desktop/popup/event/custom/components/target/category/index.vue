@@ -77,6 +77,9 @@ export default {
 
 <style lang="scss" scoped>
 .group {
+  .title {
+    color: #ccc;
+  }
   .body {
     width: 100%;
     .title  {

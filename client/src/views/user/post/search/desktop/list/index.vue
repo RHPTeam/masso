@@ -1,26 +1,44 @@
 <template>
   <div class="list" :data-theme="currentTheme">
     <div class="list--header">
+
     </div>
     <div class="list--content">
       <div class="list--filter mb_3">
         <div
-          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2"
+          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2 position_relative"
+          v-click-outside="closeKeywordRecentList"
         >
-          <span class="ml_3 mt_1">
-            <icon-base
-              icon-name="Tìm kiếm"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-            >
-              <icon-input-search />
-            </icon-base>
-          </span>
+            <span class="ml_3 mt_1">
+              <icon-base
+                icon-name="Tìm kiếm"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+              >
+                <icon-input-search />
+              </icon-base>
+            </span>
           <input type="text"
                  placeholder="Tìm kiếm"
                  v-model="keyword"
+                 @click="isStatusKeywordHistory = true"
                  @keydown.enter="searchPost(keyword)" />
+          <div class="history position_absolute" v-if="isStatusKeywordHistory === true">
+            <div class="history--header">
+              <div class="d_flex justify_content_between">
+                <span>Tìm kiếm gần đây</span>
+              </div>
+            </div>
+            <div class="history--body">
+              <ul v-if="keywordRecentList.length > 0">
+                <li v-for="( keyword, index ) in keywordRecentList" :key="index" @click="searchPostFromKeywordHistory( keyword.content )">{{ keyword.content }}</li>
+              </ul>
+              <ul v-if="keywordRecentList.length === 0">
+                <li>Bạn không có từ khóa tìm kiếm nào trước đây...</li>
+              </ul>
+            </div>
+          </div>
         </div>
         <div
           class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
@@ -76,6 +94,7 @@ export default {
       maxPerPage: 12,
       keyword: "",
       isLoadingData: true,
+      isStatusKeywordHistory: false
     }
   },
   computed: {
@@ -94,6 +113,9 @@ export default {
     },
     user(){
       return this.$store.getters.userInfo;
+    },
+    keywordRecentList() {
+      return this.$store.getters.keywordRecentList;
     }
   },
   async created () {
@@ -129,6 +151,7 @@ export default {
       }
     },
     async searchPost() {
+      this.isStatusKeywordHistory = false;
       this.currentPage = 1;
       this.$store.dispatch( "getListPostFacebookDefault", {
         keyword: this.keyword,
@@ -145,6 +168,13 @@ export default {
         page: this.currentPage
       } );
     },
+    searchPostFromKeywordHistory( keyword ) {
+      this.keyword = keyword;
+      this.searchPost();
+    },
+    closeKeywordRecentList () {
+      this.isStatusKeywordHistory = false;
+    }
     // scrollTrigger() {
     //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
     //   const observer = new IntersectionObserver( ( entries ) => {

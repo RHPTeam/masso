@@ -221,7 +221,8 @@ export default {
 // ========================= CHANGE THEME
 
 // dark
-.main[data-theme="dark"] { 
+.main[data-theme="dark"] {
+  background-color: #2f3136;
   .section {
     
   }

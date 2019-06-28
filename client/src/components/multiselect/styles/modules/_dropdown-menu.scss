@@ -37,7 +37,7 @@ $max-height: $vs-dropdown-max-height;
   &::-webkit-scrollbar-track
   {
     border-radius: 10px;
-    background-color: #f2f2f2;
+    background-color: #444;
     transition: background-color 1s linear, opacity 1s linear;
     -webkit-transition: background-color 1s linear, opacity 1s linear;
   }
@@ -46,7 +46,7 @@ $max-height: $vs-dropdown-max-height;
   {
     width: 8px;
     border-radius: 10px;
-    background-color: #f2f2f2;
+    background-color: #444;
     transition: background-color 1s linear, opacity 1s linear;
     -webkit-transition: background-color 1s linear, opacity 1s linear;
     &:hover {
@@ -57,13 +57,13 @@ $max-height: $vs-dropdown-max-height;
   &::-webkit-scrollbar-thumb
   {
     border-radius: 10px;
-    background-color: #d6d6d6;
+    background-color: #666;
     transition: background-color 1s linear, opacity 1s linear;
     -webkit-transition: background-color 1s linear, opacity 1s linear;
     &:hover {
       width: 12px;
       border-radius: 10px;
-      background-color: #c7c7c7;
+      background-color: #999;
     }
   }
 }

@@ -106,8 +106,8 @@ const actions = {
       // If status === true then index account.
       const result = await AccountFacebookChatService.index();
       await commit("addNewAccountFacebook", result.data.data);
-      commit("facebook_success");
 
+      commit("facebook_success");
     } catch (e) {
       if (e.response.status === 403) commit("addAccountError", "error");
       commit("facebook_success");

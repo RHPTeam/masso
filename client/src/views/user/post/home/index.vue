@@ -95,8 +95,8 @@
               <VueApexCharts
                 type="line"
                 height="350"
-                :options="chartOptionsLine"
-                :series="allStaticCompaign"
+                :options="campaignDataChart"
+                :series="allStaticCampaign"
               ></VueApexCharts>
             </div>
           </div>
@@ -108,7 +108,7 @@
                 <VueApexCharts
                   type="line"
                   height="350"
-                  :options="chartOptions"
+                  :options="postRecommendDataChart"
                   :series="allSttPost"
                 ></VueApexCharts>
               </div>
@@ -125,12 +125,13 @@
                   <div class="flex-row" role="columnheader">Hình ảnh</div>
                 </div>
                 <div v-if="newestPost.length > 0">
-                  <div
+                  <router-link
                     class="flex-table row"
                     role="rowgroup"
                     v-for="(item, index) in newestPost"
                     :key="index"
-                    @click="goToThisPost(item._id)"
+                    :to="{ name: 'post_update_post', params: { id: item._id } }"
+                    @click.native="goToThisPost(item._id)"
                   >
                     <div class="flex-row first" role="cell">{{ item.title }}</div>
                     <div class="flex-row" role="cell">
@@ -152,7 +153,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </router-link>
                 </div>
                 <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
               </div>

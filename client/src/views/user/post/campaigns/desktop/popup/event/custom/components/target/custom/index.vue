@@ -1,6 +1,6 @@
 <template>
   <div class="page">
-    <div class="mb_3">Tùy chọn đăng vào các nhóm và trang mà bạn có mặt trên facebook.</div>
+    <div class="title mb_3">Tùy chọn đăng vào các nhóm và trang mà bạn có mặt trên facebook.</div>
     <div class="body">
       <!-- Start: Pages Selected -->
       <div class="item d_flex mb_3">

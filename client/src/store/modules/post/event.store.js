@@ -20,7 +20,7 @@ const state = {
   statusEvent: "",
   caseEvent: {
     post: 1, // 0: None, 1: Category, 2: Custom
-    target: 0, // 0: None, 1: Category, 2: Custom
+    target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
     libraries: 0, // 0: All, 1: Libraries
     popup: false
   }
@@ -78,7 +78,6 @@ const mutations = {
   },
   set_event_remove: ( state, payload ) => {
     delete state.event[ payload ];
-    console.log( state.event );
   },
   set_event_post_remove: ( state, payload ) => {
     const postCustom = state.event.post_custom,
@@ -129,9 +128,23 @@ const actions = {
       key: "post",
       value: res.data.data.post_custom.length > 0 ? 2 : 1
     } );
+
+    // check case event target
+    let targetType = 0;
+    if ( res.data.data.target_custom.length === 0 ) {
+      if ( res.data.data.hasOwnProperty( "target_category" ) ) {
+        targetType = 1;
+      } else {
+        if ( res.data.data.timeline.length > 0 ) {
+          targetType = 3;
+        }
+      }
+    } else {
+      targetType = 2;
+    }
     commit( "set_caseEvent", {
       key: "target",
-      value: res.data.data.target_custom.length > 0 ? 2 : 1
+      value: targetType
     } );
   },
   updateEvent: async ( { commit }, payload ) => {
@@ -195,7 +208,7 @@ const actions = {
     } );
     commit( "setCaseEvent", {
       post: 1, // 0: None, 1: Category, 2: Custom
-      target: 0, // 0: None, 1: Category, 2: Custom
+      target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
       libraries: 0, // 0: All, 1: Libraries
       popup: false
     } );
