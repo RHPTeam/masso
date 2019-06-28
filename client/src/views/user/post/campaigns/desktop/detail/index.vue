@@ -54,6 +54,7 @@ export default {
       const campaignId = this.$route.params.campaignId;
       await this.$store.dispatch( "getCampaignDetail", campaignId );
     }
+    await this.$store.dispatch("setCampainControl", 1);
   },
   methods: {
     async openEventPopup( event ) {

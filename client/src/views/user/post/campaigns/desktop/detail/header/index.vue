@@ -160,6 +160,7 @@ export default {
     },
     goBack() {
       this.$router.go(-1);
+      this.$store.dispatch("setCampainControl", 0);
     },
     openPopupCreateEvent() {
       this.$store.dispatch( "setCaseEvent", {

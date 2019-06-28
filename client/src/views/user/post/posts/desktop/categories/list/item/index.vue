@@ -30,6 +30,7 @@
         </span>
         <span class="mx_1">
           <icon-base
+            icon-name="Chi tiết"
             width="20"
             height="20"
             viewBox="0 0 18 18"
@@ -56,6 +57,7 @@
         </span>
         <span class="mx_1" @click="showListPostInCategory">
           <icon-base
+            icon-name="Chi tiết"
             width="20"
             height="20"
             viewBox="0 0 18 18"

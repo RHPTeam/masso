@@ -53,8 +53,8 @@ export default {
       this.isShowAddtoGrPopup = true;
     },
     updateGroupsAndPages() {
-      this.$store.dispatch( "getFacebookPages" );
-      this.$store.dispatch( "getFacebookGroups" );
+      this.$store.dispatch( "updateFacebookPages" );
+      this.$store.dispatch( "updateFacebookGroups" );
     },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );

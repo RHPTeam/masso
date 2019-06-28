@@ -7,6 +7,7 @@ const state = {
   campaignDetail: {},
   campaignsPagesSize: 1,
   campaignStatus: "",
+    variableControl: 0,
   },
   getters = {
     allCampaigns: ( s ) => {
@@ -23,7 +24,8 @@ const state = {
     },
     campaignStatus: ( s ) => {
       return s.campaignStatus;
-    }
+    },
+    variableControl: state => state.variableControl
   },
   mutations = {
     createCampaign: ( s, payload ) => {
@@ -44,6 +46,9 @@ const state = {
     },
     setCampaignStatus: ( s, payload ) => {
       s.campaignStatus = payload;
+    },
+    setVariableControl: (state, payload) => {
+      state.variableControl = payload;
     }
   },
   actions = {
@@ -118,6 +123,9 @@ const state = {
       const res = await CampaignsServices.updateStatus( payload );
       await commit( "setCampaignDetail", res.data.data );
     },
+    setCampainControl: async ({commit}, payload) => {
+      await commit("setVariableControl", payload);
+    }
   };
 
 export default {

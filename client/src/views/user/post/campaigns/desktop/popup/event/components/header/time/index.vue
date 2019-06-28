@@ -20,29 +20,42 @@
       <div class="break d_flex align_items_center" v-if="event.type_event === 0">
         <div class="desc mr_3">Chờ giữa các lần đăng:</div>
         <div class="item d_flex align_items_center mr_2">
-          <input class="input--time mr_2"
-                 type="number"
-                 min="5"
-                 v-model="event.break_point"
-                 @input="changeTimeWaitDefault()"
+          <input
+            class="input--time mr_2"
+            type="number"
+            min="5"
+            v-model="event.break_point"
+            @input="changeTimeWaitDefault()"
           />
           <span>{{ timeDescDefault }}</span>
         </div>
       </div>
     </div>
+    <!-- Start: Modal Show Alert Error Break Poin -->
+    <app-alert
+      v-if="isShowAlertBreakPoin === true"
+      @closeAlert="isShowAlertBreakPoin = $event"
+    />
+    <!-- End: Modal Show Alert Error Break Poin -->
   </div>
 </template>
 
 <script>
+import AppAlert from "../alert";
+
 const currentTimeStamp = new Date();
 export default {
+  components: {
+    AppAlert
+  },
   data() {
     return {
       disabledDates: {
         to: new Date(currentTimeStamp.getFullYear(), currentTimeStamp.getMonth(), currentTimeStamp.getDate()) // Disable all dates up to specific date
       },
       timeDescDefault: "phút",
-      currrentDefault: new Date()
+      currrentDefault: new Date(),
+      isShowAlertBreakPoin: false
     }
   },
   computed: {
@@ -53,6 +66,13 @@ export default {
       return {
         HH: String( ( new Date( this.event.started_at ) ).getHours() ).padStart( 2, 0 ),
         mm: String( ( new Date( this.event.started_at ) ).getMinutes() ).padStart( 2, 0 )
+      }
+    }
+  },
+  watch: {
+    "event.break_point"(value){
+      if(value < 5) {
+        this.isShowAlertBreakPoin = true;
       }
     }
   },
