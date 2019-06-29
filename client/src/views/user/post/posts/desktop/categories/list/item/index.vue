@@ -3,12 +3,12 @@
     <div class="col col--category px_2"
          @click="showListPostInCategory"
     >{{ item.title }}</div>
-    <div class="col col--posts text_center px_2">{{ item.totalPosts }}</div>
     <div class="col col--description px_2">
       <div class="col--description-text">
         {{ item.description }}
       </div>
     </div>
+    <div class="col col--posts text_center px_2">{{ item.totalPosts }}</div>
     <div class="col col--action px_4 text_center"
          :class="[ item.title === 'Chưa phân loại' ? 'action--disabled' : null ]"
     >

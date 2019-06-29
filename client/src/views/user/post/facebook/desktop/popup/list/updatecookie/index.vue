@@ -81,7 +81,7 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     async updateCookie() {
-      const newUserId = StringFuntion.findSubString(
+      const newUserId = StringFunction.findSubString(
         this.cookie,
         "c_user=",
         ";"

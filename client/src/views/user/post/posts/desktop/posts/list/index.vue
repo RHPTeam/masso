@@ -5,6 +5,7 @@
       :filterCategorySelected="filterCategorySelected"
       :filterShowSelected="filterShowSelected"
       :currentPage="currentPage"
+      @updateCurrentPage="updateCurrentPage($event)"
       @updateFilterCategorySelected="filterCategorySelected = $event"
       @updateFilterShowSelected="updateFilterShowSelected($event)"
       @updateSearch="search = $event"
@@ -52,11 +53,15 @@ export default {
   },
   created() {
     const page = this.$route.query.page,
-          size = this.$route.query.size;
+          size = this.$route.query.size,
+          search = this.$route.query.search;
 
     this.currentPage = Number( page );
     this.filterShowSelected.id = Number( size );
     this.filterShowSelected.name = `Hiển thị ${size}`;
+    if ( search !== undefined ) {
+      this.search = search;
+    }
   },
   methods: {
     updateCurrentPage( page ) {

@@ -2,7 +2,7 @@
   <div class="main--footer campaigns--list-footer">
     <div class="d_flex justify_content_between">
       <div class="">
-          Hiển thị {{ campaigns.length }} bản ghi
+        Hiển thị {{ campaigns.length }} bản ghi
       </div>
       <div class="campaigns--list-paginate">
         <paginate
@@ -39,28 +39,34 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      if(this.search.length > 0) {
-
+      if ( this.search.length > 0 ) {
         const dataSender = {
           keyword: this.search,
           size: this.filterShowSelected.id,
           page: page
         };
-        await this.$store.dispatch("getCampaignsByKey", dataSender);
-      } else {
+        await this.$store.dispatch( "getCampaignsByKey", dataSender );
 
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: {
+            search: this.search,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
+      } else {
         const dataSender = {
           size: this.filterShowSelected.id,
           page: page
         };
-
         await this.$store.dispatch( "getCampaignsByPage", dataSender );
-      }
 
-      this.$router.replace( {
-        name: "post_campaigns",
-        query: { size: this.filterShowSelected.id, page: page }
-      } );
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: { size: this.filterShowSelected.id, page: page }
+        } );
+      }
 
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
@@ -72,56 +78,56 @@ export default {
 </script>
 
 <style lang="scss">
-.main--footer.campaigns--list-footer {
-  font-size: .875rem;
-  .campaigns--list-paginate {
-    .pagination {
-      margin-bottom: 0;
-      li {
-        border-radius: 14px;
-        height: 30px;
-        font-size: 1.5rem;
-        margin: 0 0.25rem;
-        line-height: 24px;
-        a {
-          color: #666;
-          outline: none;
-          text-decoration: none;
-        }
-
-        &.disabled {
-          opacity: 0.5;
-          pointer-events: none;
-        }
-        &.page-item {
-          font-size: 0.875rem;
-          line-height: 30px;
-          text-align: center;
-          transition: all 0.4s ease;
-          width: 30px;
+  .main--footer.campaigns--list-footer {
+    font-size: .875rem;
+    .campaigns--list-paginate {
+      .pagination {
+        margin-bottom: 0;
+        li {
+          border-radius: 14px;
+          height: 30px;
+          font-size: 1.5rem;
+          margin: 0 0.25rem;
+          line-height: 24px;
+          a {
+            color: #666;
+            outline: none;
+            text-decoration: none;
+          }
 
           &.disabled {
-            opacity: 1;
+            opacity: 0.5;
+            pointer-events: none;
           }
-          &:hover,
-          &.active {
-            background-color: #ffb94a;
-            a {
-              color: #fff;
+          &.page-item {
+            font-size: 0.875rem;
+            line-height: 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            width: 30px;
+
+            &.disabled {
+              opacity: 1;
+            }
+            &:hover,
+            &.active {
+              background-color: #ffb94a;
+              a {
+                color: #fff;
+              }
             }
           }
-        }
-        &:first-child {
-          text-align: left;
-          width: 20px;
-        }
-        &:last-child {
-          margin-right: 0;
-          text-align: right;
-          width: 20px;
+          &:first-child {
+            text-align: left;
+            width: 20px;
+          }
+          &:last-child {
+            margin-right: 0;
+            text-align: right;
+            width: 20px;
+          }
         }
       }
     }
   }
-}
 </style>

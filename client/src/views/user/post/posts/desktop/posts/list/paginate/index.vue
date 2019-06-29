@@ -4,6 +4,7 @@
       Hiển thị {{ allPosts.length }} bản ghi
     </div>
     <paginate
+      v-if="allPosts.length > 0"
       :value="currentPage"
       :pageCount="postsPageSize"
       :clickHandler="goToPage"
@@ -47,28 +48,34 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      if(this.search.length > 0) {
-
+      if ( this.search.length > 0 ) {
         const dataSender = {
           keyword: this.search,
           size: this.filterShowSelected.id,
           page: page
         };
-
         await this.$store.dispatch("getPostsByKey", dataSender);
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            search: this.search,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
       } else  {
         const dataSender = {
           size: this.filterShowSelected.id,
           page: page
         };
-
         await this.$store.dispatch( "getPostsByPage", dataSender );
-      }
 
-      this.$router.replace( {
-        name: "post_posts",
-        query: { size: this.filterShowSelected.id, page: page }
-      } );
+        this.$router.replace( {
+          name: "post_posts",
+          query: { size: this.filterShowSelected.id, page: page }
+        } );
+      }
 
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },

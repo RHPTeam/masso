@@ -58,8 +58,6 @@ export default {
       ],
       filterCategoriesList: [ { id: "all", name: "Tất cả" } ],
       search: "",
-      sizeDefault: 25,
-      pageDefault: 1
     }
   },
   computed: {
@@ -68,17 +66,33 @@ export default {
     }
   },
   watch: {
-    search(val) {
-      if(val.length === 0) {
+    search ( val ) {
+      if ( val.length === 0 ) {
         const dataSender = {
-          size: this.sizeDefault,
-          page: this.currentPage
+          size: this.filterShowSelected.id,
+          page: 1
         };
         this.$store.dispatch("getPostsByPage", dataSender);
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            size: this.filterShowSelected.id,
+            page: 1
+          }
+        } );
+
+        this.$emit( "updateCurrentPage", 1 );
+        this.$emit( "updateSearch", this.search );
       }
     }
   },
-  async created() {
+  created() {
+    const search = this.$route.query.search;
+
+    if ( search !== undefined ) {
+      this.search = search;
+    }
   },
   methods: {
     updateFilterShowSelected( val ) {
@@ -90,10 +104,19 @@ export default {
     updateSearch() {
       const dataSender = {
         keyword: this.search,
-        size: this.sizeDefault,
-        page: this.currentPage
+        size: this.filterShowSelected.id,
+        page: 1
       };
       this.$store.dispatch("getPostsByKey", dataSender);
+
+      this.$router.replace( {
+        name: "post_posts",
+        query: {
+          search: this.search,
+          size: this.filterShowSelected.id,
+          page: 1
+        }
+      } );
 
       this.$emit( "updateSearch", this.search );
     }

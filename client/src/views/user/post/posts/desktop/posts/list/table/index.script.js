@@ -34,16 +34,21 @@ export default {
     }
   },
   async created  () {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-    // const page = this.$store.getters.postsPageSize;
-    // if(page === undefined || page === '') {
-    //   await this.$store.dispatch("setPageSizeDefault", 1);
-    // }
+    if ( this.search.length === 0 ) {
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+    } else {
+      const dataSender = {
+        keyword: this.search,
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      this.$store.dispatch("getPostsByKey", dataSender);
+    }
     await this.$store.dispatch("setPageSizeDefault", 1);
-    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
     activeCurrentSort( i, type ) {
