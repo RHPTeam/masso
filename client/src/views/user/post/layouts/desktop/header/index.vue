@@ -57,18 +57,18 @@
       </div>
       <!-- Start: Messenger Link-->
       <!-- Start: Redirect to help -->
-      <div class="help mr_2 ml_1">
-        <a target="_blank" :href="urlGetCookie">
-          <icon-base
-            icon-name="Extension lấy cookie"
-            width="25"
-            height="25"
-            viewBox="0 0 550 550"
-          >
-            <icon-cookie />
-          </icon-base>
-        </a>
-      </div>
+      <!--<div class="help mr_2 ml_1">-->
+        <!--<a target="_blank" :href="urlGetCookie">-->
+          <!--<icon-base-->
+            <!--icon-name="Extension lấy cookie"-->
+            <!--width="25"-->
+            <!--height="25"-->
+            <!--viewBox="0 0 550 550"-->
+          <!--&gt;-->
+            <!--<icon-cookie />-->
+          <!--</icon-base>-->
+        <!--</a>-->
+      <!--</div>-->
       <!-- End: Redirect to help -->
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
