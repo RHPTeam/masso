@@ -26,6 +26,4 @@ router
   .route( "/search" )
   .post( CampaignController.search );
 
-router.route( "/admin/c/backup/hot" ).post( CampaignController.backupEventSchedule );
-
 module.exports = router;

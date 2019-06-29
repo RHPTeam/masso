@@ -23,7 +23,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       "cookie": cookie,
       "feed": {
         "photos": ( photos && photos.length > 0 ) ? photos : [],
-        "scrape": post.scrape.length > 0 ? post.scrape : "",
+        "scrape": post.scrape && post.scrape.length > 0 ? post.scrape : "",
         "activity": {
           "type": post.activity ? post.activity.typeActivity.id : "",
           "id": post.activity ? post.activity.id.id : "",
