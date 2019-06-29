@@ -61,7 +61,7 @@ const generalPostRouter = {
             .default
         },
         {
-          path: ":campaignId",
+          path: "detail/:campaignId",
           name: "post_campaigns_detail",
           component: require( "@/views/user/post/campaigns/desktop/detail" )
             .default

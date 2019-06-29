@@ -18,10 +18,10 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description" ).lean();
+      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description totalPosts" ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description", { "sort": { "$natural": -1 } } ).lean();
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", { "sort": { "$natural": -1 } } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
