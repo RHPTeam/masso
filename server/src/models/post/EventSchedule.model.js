@@ -24,7 +24,7 @@ const mongoose = require( "mongoose" ),
       "place": {
         "type": String
       },
-      "scape": {
+      "scrape": {
         "type": String
       },
       "tags": {
