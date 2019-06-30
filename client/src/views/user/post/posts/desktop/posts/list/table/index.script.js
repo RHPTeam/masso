@@ -34,7 +34,15 @@ export default {
     }
   },
   async created  () {
-    if ( this.search.length === 0 ) {
+    const categoryId = this.$route.query.categoryId;
+
+    if ( categoryId !== undefined ) {
+      await this.$store.dispatch("getPostByCategories", {
+        categoryId: categoryId,
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      } );
+    } else if ( this.search.length === 0 ) {
       const dataSender = {
         size: this.filterShowSelected.id,
         page: this.currentPage
@@ -48,7 +56,6 @@ export default {
       };
       this.$store.dispatch("getPostsByKey", dataSender);
     }
-    await this.$store.dispatch("setPageSizeDefault", 1);
   },
   methods: {
     activeCurrentSort( i, type ) {

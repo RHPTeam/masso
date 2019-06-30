@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected", "search" ],
+  props: [ "currentPage", "filterShowSelected", "filterCategorySelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -48,7 +48,22 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      if ( this.search.length > 0 ) {
+      if ( this.filterCategorySelected.id !== "all" ) {
+        await this.$store.dispatch("getPostByCategories", {
+          categoryId: this.filterCategorySelected.id,
+          size: this.filterShowSelected.id,
+          page: page
+        } );
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            categoryId: this.filterCategorySelected.id,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
+      } else if ( this.search.length > 0 ) {
         const dataSender = {
           keyword: this.search,
           size: this.filterShowSelected.id,

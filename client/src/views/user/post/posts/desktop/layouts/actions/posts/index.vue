@@ -33,6 +33,8 @@
       <app-filter-categories
         :filterList="filterCategoriesList"
         :filterSelected="filterCategorySelected"
+        :filterShowSelected="filterShowSelected"
+        @updateCurrentPage="updateCurrentPage($event)"
         @updateFilterSelected="updateFilterCategorySelected($event)"
       />
     </div>
@@ -84,6 +86,10 @@ export default {
 
         this.$emit( "updateCurrentPage", 1 );
         this.$emit( "updateSearch", this.search );
+        this.updateFilterCategorySelected( {
+          id: "all",
+          title: "Tất cả"
+        } );
       }
     }
   },
@@ -95,6 +101,9 @@ export default {
     }
   },
   methods: {
+    updateCurrentPage( val ) {
+      this.$emit( "updateCurrentPage", val );
+    },
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );
     },
@@ -119,6 +128,10 @@ export default {
       } );
 
       this.$emit( "updateSearch", this.search );
+      this.updateFilterCategorySelected( {
+        id: "all",
+        title: "Tất cả"
+      } );
     }
   }
 };

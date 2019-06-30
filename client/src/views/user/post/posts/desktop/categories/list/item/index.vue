@@ -1,8 +1,14 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
-    <div class="col col--category px_2"
-         @click="showListPostInCategory"
-    >{{ item.title }}</div>
+    <router-link
+      class="col col--category px_2"
+      :to="{ name: 'post_posts', query: {
+        categoryId: item._id,
+        size: 25,
+        page: 1
+      } }"
+      @click.native="showListPostInCategory"
+    >{{ item.title }}</router-link>
     <div class="col col--description px_2">
       <div class="col--description-text">
         {{ item.description }}
@@ -81,9 +87,11 @@ export default {
       this.$emit( "showDeletePopup", this.item );
     },
     async showListPostInCategory(){
-      await this.$store.dispatch("getPostByCategories", this.item._id);
-      await this.$store.dispatch("setPostCateDefault", 0);
-      this.$router.push( { name: "post_categories", params: { id: this.item._id} } );
+      await this.$store.dispatch("getPostByCategories", {
+        categoryId: item._id,
+        size: 25,
+        page: 1
+      } );
     }
   }
 };
