@@ -1,7 +1,6 @@
 <template>
   <div class="list" :data-theme="currentTheme">
     <div class="list--header">
-
     </div>
     <div class="list--content">
       <div class="list--filter mb_3">
@@ -24,6 +23,7 @@
                  v-model="keyword"
                  @click="isStatusKeywordHistory = true"
                  @keydown.enter="searchPost(keyword)" />
+          <!-- Start: History Search -->
           <div class="history position_absolute" v-if="isStatusKeywordHistory === true">
             <div class="history--header">
               <div class="d_flex justify_content_between">
@@ -39,13 +39,15 @@
               </ul>
             </div>
           </div>
+          <!-- End: History Search -->
         </div>
+        <!-- Start: User Keywords -->
         <div
-          class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
+          class="list--keywords d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
           <span
             v-show="keyPopular && keyPopular.length > 0"
-            class="list--keywork-item py_1 m_1"
+            class="list--keywords-item py_1 m_1"
             v-for="(item, index) in keyPopular"
             :key="index"
             @click="searchPostByKeyword(item)"
@@ -53,6 +55,7 @@
             {{ item }}
           </span>
         </div>
+        <!-- End: User Keywords -->
       </div>
       <div class="list--data my_3">
         <div class="item--header d_flex align_items_center px_2 py_2">
@@ -132,13 +135,11 @@ export default {
     async loadMore() {
       if ( this.isLoadingData === true ) {
         if ( this.keyword !== "" ) {
-
-          if ( this.currentPage > this.numberPageCurrent ) {
+          this.currentPage += 1;
+          if ( this.currentPage >= this.numberPageCurrent ) {
             return false;
           } else {
             this.isLoadingData = false;
-
-            this.currentPage += 1;
 
             await this.$store.dispatch( "searchPostsFacebookByKey", {
               keyword: this.keyword,
@@ -153,11 +154,12 @@ export default {
     async searchPost() {
       this.isStatusKeywordHistory = false;
       this.currentPage = 1;
-      this.$store.dispatch( "getListPostFacebookDefault", {
+      await this.$store.dispatch( "getListPostFacebookDefault", {
         keyword: this.keyword,
         size: this.maxPerPage,
         page: this.currentPage
       } );
+      await this.$store.dispatch("getUserInfo");
     },
     async searchPostByKeyword(keyword) {
       this.currentPage = 1;

@@ -32,10 +32,16 @@
           <div class="modal--body">
             <div class="modal--title text_center">Thêm tài khoản Facebook</div>
             <div class="modal--desc">
-              Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.
+              <span>Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. Xem hướng dẫn chi tiết </span>
+              <a
+                class="link--here"
+                target="_blank"
+                href="http://localhost:8080/#/help"
+              >tại đây</a>
+              <span>.</span>
             </div>
             <textarea
-              placeholder="Nhập mã kích hoạt tại đây ..."
+              placeholder="Nhập mã kích hoạt"
               v-model="cookie"
               @keydown.enter.exact.prevent
               @keyup.enter.exact="addCookie"
@@ -115,5 +121,8 @@ export default {
       }
     }
   }
+}
+.link--here {
+  color: #eee;
 }
 </style>
