@@ -34,7 +34,7 @@ export default {
           to: { name: "post_fbaccount" }
         },
         {
-          text: "Tìm kiếm bài viết",
+          text: "Facebook Tìm kiếm",
           icon: {
             iconName: "Facebook tìm kiếm",
             tagName: "icon-input-search",
@@ -70,7 +70,7 @@ export default {
           to: { name: "post_group" }
         },
       {
-        text: "Chiến dịch",
+        text: "Đăng bài tự động",
         icon: {
           iconName: "Chiến dịch",
           tagName: "icon-broadcast",
