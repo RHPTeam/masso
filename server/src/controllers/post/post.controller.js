@@ -294,6 +294,11 @@ module.exports = {
       } );
     }
 
+    // Check if feed contain text and scrape link
+    if ( findPost.scrape && findPost.scrape.length > 0 && photos.length > 0 ) {
+      findPost.scrape = "";
+    }
+
     // Define object save to post schedule collection
     objectFeed = {
       "activity": {
@@ -310,7 +315,7 @@ module.exports = {
       },
       "photos": photos && photos.length > 0 ? photos : [],
       "place": findPost.place ? findPost.place.id : "",
-      "scrape": findPost.scrape ? findPost.scrape : "",
+      "scrape": findPost.scrape && findPost.scrape.length > 0 ? findPost.scrape : "",
       "tags": findPost.tags ? findPost.tags.map( ( tag ) => tag.uid ) : ""
     };
 

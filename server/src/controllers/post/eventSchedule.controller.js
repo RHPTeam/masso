@@ -10,12 +10,18 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
   convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
     let photos;
 
+    // Check convert images to array format
     if ( post.attachments.length > 0 ) {
       photos = post.attachments.map( ( file ) => {
         if ( file.typeAttachment === 1 ) {
           return file.link;
         }
       } );
+    }
+
+    // Check if feed contain text and scrape link
+    if ( post.scrape && post.scrape.length > 0 && photos.length > 0 ) {
+      post.scrape = "";
     }
 
     return {

@@ -34,9 +34,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
       const resFacebookResponse = await createPost( { "cookie": postSchedule.cookie, agent, "feed": postSchedule.feed } );
 
       if ( resFacebookResponse ) {
-        // Handle when upload image error or issues
-        // if ( resFacebookResponse.error.code === 1036 ) {}
-
         // Handle when post feed successfully
         if ( resFacebookResponse.error.code === 200 ) {
           listPostSchedule.splice( index, 1 );
@@ -44,6 +41,12 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
           postSchedule.postID = resFacebookResponse.results.postID;
           await postSchedule.save();
           console.log( `post To Facebook Success: ${resFacebookResponse.results.postID}` );
+        } else {
+          listPostSchedule.splice( index, 1 );
+          postSchedule.status = 0;
+          postSchedule.postID = resFacebookResponse.results.postID;
+          await postSchedule.save();
+          console.log( `post To Facebook Fail: ${resFacebookResponse.results.postID}` );
         }
       }
     } ) );
