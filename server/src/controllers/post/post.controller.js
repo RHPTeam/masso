@@ -76,7 +76,7 @@ module.exports = {
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),
       newPost = await new Post( {
-        "title": dictionary.DEFAULT_NAMEPOST,
+        "title": "",
         "_account": req.uid
       } );
 

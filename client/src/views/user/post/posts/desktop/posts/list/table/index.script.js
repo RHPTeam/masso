@@ -33,17 +33,13 @@ export default {
       return this.$store.getters.allPost;
     }
   },
-  async created  () {
+  created() {
     const dataSender = {
       size: this.filterShowSelected.id,
       page: this.currentPage
     };
-    // const page = this.$store.getters.postsPageSize;
-    // if(page === undefined || page === '') {
-    //   await this.$store.dispatch("setPageSizeDefault", 1);
-    // }
-    await this.$store.dispatch("setPageSizeDefault", 1);
-    await this.$store.dispatch( "getPostsByPage", dataSender );
+    this.$store.dispatch("setPageSizeDefault", 1);
+    this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
     activeCurrentSort( i, type ) {

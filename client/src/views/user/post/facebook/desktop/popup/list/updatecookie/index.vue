@@ -34,6 +34,9 @@
             <div class="modal--desc">
               Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.
             </div>
+            <div class="modal--error mb_3">
+              <span class="text_danger" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === false">Mã kích hoạt facebook không đúng định dạng!</span>
+            </div>
             <textarea
               placeholder="Nhập mã kích hoạt tại đây ..."
               v-model="cookie"
@@ -46,7 +49,7 @@
             class="modal--footer d_flex justify_content_between align_items_center"
           >
             <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-            <button class="btn-add" @click="updateCookie">
+            <button class="btn-add" @click="updateCookie" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === true">
               XONG
             </button>
           </div>
@@ -65,7 +68,8 @@ export default {
     return {
       updateFbStatus: "",
       cookie: "",
-      isShowAlert: false
+      isShowAlert: false,
+      isStatusCookieFacebookFormat: false
     };
   },
   computed: {
@@ -74,6 +78,11 @@ export default {
     },
     facebookStatus() {
       return this.$store.getters.facebookStatus;
+    }
+  },
+  watch: {
+    cookie( newValue ) {
+      this.isStatusCookieFacebookFormat = !!(newValue.length > 0 && newValue.includes("sb=") && newValue.includes("datr=") && newValue.includes("c_user="));
     }
   },
   methods: {
