@@ -183,8 +183,16 @@ const actions = {
   },
   getPostByCategories: async ( { commit }, payload ) => {
     commit( "post_request" );
-    const resultPost = await PostServices.getByCategories( payload );
-    commit( "setAllPost", resultPost.data.data );
+
+    const res = await PostServices.getByCategories(
+      payload.categoryId,
+      payload.size,
+      payload.page
+    );
+    await commit( "setPostsPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setTotalPost", res.data.data.total );
+
     commit( "post_success" );
   },
 

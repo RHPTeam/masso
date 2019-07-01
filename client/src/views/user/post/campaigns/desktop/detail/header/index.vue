@@ -5,6 +5,7 @@
       <div class="top--left d_flex align_items_center mr_auto">
         <div class="btn--back mr_3"
              @click="goBack"
+             v-if="historyRouteLength > 1"
         >« Quay lại</div>
         <div class="title">
           <contenteditable
@@ -125,6 +126,7 @@ export default {
   data() {
     return {
       isShowHistory: false,
+      historyRouteLength: 0
       // isShowCreateEvent: false,
       // event: 1
     }
@@ -139,6 +141,9 @@ export default {
     caseEvent() {
       return this.$store.getters.caseEvent;
     }
+  },
+  created() {
+    this.historyRouteLength = window.history.length;
   },
   methods: {
     clearTypingTimer() {

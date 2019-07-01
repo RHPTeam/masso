@@ -1,7 +1,7 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
-      <div class="campaign--search">
+    <div class="c_md_6 main--header-left d_flex">
+      <div class="campaign--search d_flex align_items_center">
         <span class="ml_2">
           <icon-base
             class="ic--search"
@@ -23,7 +23,7 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-right text_right">
+    <div class="c_md_6 main--header-right text_right">
       <app-filter
         class="mr_2"
         :filterList="filterShowList"
@@ -74,8 +74,6 @@ export default {
       ],
       isShowCreatCampaignPopup: false,
       search: "",
-      sizeDefault: 25,
-      pageDefault: 1
     };
   },
   computed: {
@@ -87,11 +85,29 @@ export default {
     search( val ) {
       if ( val.length === 0 ) {
         const dataSender = {
-          size: this.sizeDefault,
-          page: this.pageDefault
+          size: this.filterShowSelected.id,
+          page: 1
         };
         this.$store.dispatch( "getCampaignsByPage", dataSender );
+
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: {
+            size: this.filterShowSelected.id,
+            page: 1
+          }
+        } );
+
+        this.$emit( "updateCurrentPage", 1 );
+        this.$emit( "updateSearch", this.search );
       }
+    }
+  },
+  created() {
+    const search = this.$route.query.search;
+
+    if ( search !== undefined ) {
+      this.search = search;
     }
   },
   methods: {
@@ -113,10 +129,19 @@ export default {
     async updateSearch() {
       const dataSender = {
         keyword: this.search,
-        size: this.sizeDefault,
-        page: this.pageDefault
+        size: this.filterShowSelected.id,
+        page: 1
       };
       await this.$store.dispatch("getCampaignsByKey", dataSender);
+
+      this.$router.replace( {
+        name: "post_campaigns",
+        query: {
+          search: this.search,
+          size: this.filterShowSelected.id,
+          page: 1
+        }
+      } );
 
       this.$emit( "updateSearch", this.search );
     }
@@ -191,6 +216,7 @@ export default {
         height: 40px;
         line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
+        max-width: 100%;
         // width: calc(100%-24px);
         &:active,
         &:focus,
