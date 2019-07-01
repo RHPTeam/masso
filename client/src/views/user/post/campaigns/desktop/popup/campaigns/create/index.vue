@@ -58,7 +58,7 @@ export default {
     async createCampaign() {
       await this.$store.dispatch( "createCampaign", this.newCampaign );
       const campaign = this.$store.getters.campaignDetail;
-      this.$router.push( campaign._id );
+      this.$router.push( {name: 'post_campaigns_detail', params: {campaignId: campaign._id}} );
       this.$emit( "closePopup", false );
     }
   }
