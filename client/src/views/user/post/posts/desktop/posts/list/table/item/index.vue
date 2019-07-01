@@ -1,5 +1,5 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
+  <div class="item--body d_flex align_items_center px_3 py_2" v-if="item">
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
       <router-link
@@ -7,7 +7,7 @@
         :to="{ name: 'post_update_post', params: { id: item._id } }"
         @click.native="updatePost()"
       >
-        {{ item.title }}
+        {{ item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}
       </router-link>
     </div>
     <!-- End: Name Column -->
@@ -38,14 +38,14 @@
           <icon-remove />
         </icon-base>
       </span>
-<!--      <span class="mx_1" @click="showPostNowPopup">-->
-<!--        <icon-base-->
-<!--          class="icon&#45;&#45;post-now"-->
-<!--          icon-name="Đăng ngay"-->
-<!--          viewBox="0 0 506 506">-->
-<!--          <icon-post-now />-->
-<!--        </icon-base>-->
-<!--      </span>-->
+      <span class="mx_1" @click="showPostNowPopup">
+        <icon-base
+          class="icon--post-now"
+          icon-name="Đăng ngay"
+          viewBox="0 0 506 506">
+          <icon-post-now />
+        </icon-base>
+      </span>
     </div>
     <!-- End: Action Column -->
   </div>

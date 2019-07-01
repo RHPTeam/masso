@@ -3,20 +3,18 @@
     <div
       class="section--header d_flex justify_content_start align_items_center"
     >
-      <keep-alive>
-        <a
-          class="btn--link mr_2"
-          @click="$router.go(-1)"
-          active-class="active"
-          exact
-        >
-          Quay lại
-        </a>
-      </keep-alive>
-      <div class="divider"></div>
+      <a
+        class="btn--back mr_2"
+        @click="$router.go(-1)"
+        v-if="historyRouteLength > 1"
+      >
+        « Quay lại
+      </a>
+      <div class="divider mr_3"
+           v-if="historyRouteLength > 1"
+      ></div>
       <router-link
-        class="btn--link ml_2"
-        tag="a"
+        class="nav--link"
         :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh mục</router-link
@@ -45,12 +43,16 @@ export default {
   },
   data() {
     return {
+      historyRouteLength: 0
     };
   },
   computed: {
     currentTheme(){
       return this.$store.getters.themeName;
     }
+  },
+  created() {
+    this.historyRouteLength = window.history.length;
   }
 };
 </script>
@@ -63,24 +65,25 @@ export default {
       font-size: 18px;
       font-weight: 600;
     }
-    a {
-      text-decoration: none;
-    }
     span.space {
       height: 1rem;
       margin: 0 0.75rem 0 1rem;
       width: 1px;
     }
-    .btn--link {
-      background-color: transparent;
-      border: 0;
-      border-radius: .625rem;
+    .btn--back {
       cursor: pointer;
+      font-size: .825rem;
+      padding-right: .5rem;
+      transition: all .4s ease;
+      &:hover {
+        color: #F7F7F7;
+        text-decoration: underline;
+      }
+    }
+    .nav--link {
       font-size: .95rem;
       font-weight: 600;
-      height: 100%;
-      outline: none;
-      padding: 0 .5rem;
+      text-decoration: none;
       transition: all 0.4s ease;
     }
     .divider {
@@ -97,7 +100,7 @@ export default {
     span.space {
       background-color: #666;
     }
-    > a {
+    .nav--link {
       color: #666;
       &:hover {
         color: #ffb94a;
@@ -114,7 +117,7 @@ export default {
     span.space {
       background-color: #999999;
     }
-    > a {
+    .nav--link {
       color: #999999;
       &:hover {
         color: #ffb94a;

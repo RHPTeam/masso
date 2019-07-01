@@ -281,7 +281,12 @@ export default {
       border-bottom: 1px solid #666;
     }
     .item--body {
-      background-color: #27292d;
+      background-color: rgba(39, 41, 45, 0.4);
+      color: #F7F7F7;
+      &:hover, &:active, &:visited, &:focus {
+        background-color: #27292c;
+        transition: all .5s ease;
+      }
     }
   }
 </style>

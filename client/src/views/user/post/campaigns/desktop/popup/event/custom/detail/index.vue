@@ -19,6 +19,8 @@
         </div>
         <!--Start: Results Option Post detail -->
         <div class="wrapper">
+          <div class="text_warning mb_3">Khuyên dùng! Một bài viết không được đăng quá 5 vị trí khác nhau. Điều này, giúp tài khoản của bạn an toàn, spam, vi phạm tiêu chuẩn công động, v.v</div>
+
           <div class="item--header d_flex align_items_center px_3 py_2">
             <div class="col col--name pr_3">Tên bài viết</div>
             <div class="col col--category pr_3">Danh mục</div>

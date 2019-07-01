@@ -1,34 +1,28 @@
 <template>
-  <div class="r main--header" :data-theme="currentTheme">
+  <div class="main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
-    <div class="nav--left d_flex justify_content_start align_items_center c_md_12 c_lg_12 c_xl_12 mb_3">
+    <div class="nav--left d_flex align_items_center mb_4">
         <div class="add--campaign">
           <div
-            class="btn--add-campaign mr_3"
+            class="btn--add-campaign mr_2"
             @click="isShowCreatCampaignPopup = true"
           >
             Thêm chiến dịch
           </div>
         </div>
-
-        <div class="action--campagin d_flex">
+        <div class="action--campaign d_flex align_items_center">
           <router-link
-            class="ml_2"
-            tag="button"
+            class="action--link"
             :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
             active-class="active"
-          >Danh sách chiến dịch</router-link
-          >
+          >Tất cả chiến dịch</router-link>
           <div class="divider"></div>
           <router-link
-            class="ml_2"
-            tag="button"
+            class="action--link"
             :to="{ name: 'campaigns_default' }"
             active-class="active"
-          >Chiến dịch mẫu</router-link
-          >
+          >Chiến dịch mẫu</router-link>
         </div>
-
       </div>
 
 		<!--	Start: Create Campaign Popup	-->
@@ -120,17 +114,14 @@ export default {
 .main--header {
   .nav--left {
     height: 40px;
-    .action--campagin button {
-      background-color: transparent;
-      border: 0;
-      border-radius: .625rem;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      height: 100%;
-      outline: none;
-      padding: 0 .5rem;
-      transition: all 0.4s ease;
+    .action--campaign {
+      .action--link {
+        font-size: .95rem;
+        font-weight: 600;
+        padding: 0 .75rem;
+        text-decoration: none;
+        transition: all 0.4s ease;
+      }
     }
     .btn--create {
       background-color: #ffb94a;
@@ -224,7 +215,7 @@ export default {
 }
 .main--header[data-theme="dark"] {
   .nav--left {
-    button {
+    .action--link {
       color: #ccc;
       &:hover,
       &.active {
@@ -259,21 +250,4 @@ export default {
   }
 }
 
-
-/*  ======== RESPONSIVE ======*/
-@media screen and (min-width: 768px) and (max-width: 991px) {
-  .main--header {
-    .nav--left {
-      flex-direction: column;
-      height: auto;
-      .add--campaign {
-        margin-right: auto;
-        margin-bottom: 1rem;
-      }
-      .action--campagin {
-        margin-left: auto;
-      }
-    }
-  }
-}
 </style>
