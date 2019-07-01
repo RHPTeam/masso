@@ -7,7 +7,7 @@
         :to="{ name: 'post_update_post', params: { id: item._id } }"
         @click.native="updatePost()"
       >
-        {{ item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}
+        {{ item.title !== undefined && item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}
       </router-link>
     </div>
     <!-- End: Name Column -->
