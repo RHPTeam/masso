@@ -66,6 +66,10 @@ export default {
   methods: {
     async updatePost() {
       await this.$store.dispatch( "getPostById", this.item._id );
+      this.$router.push( {
+        name: "post_update_post",
+        params: { id: this.item._id }
+      } );
     },
     async editPostCateDefault(){
       await this.$store.dispatch( "showPostDuplicate", this.item._id );
