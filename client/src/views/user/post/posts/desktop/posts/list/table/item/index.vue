@@ -23,11 +23,15 @@
 
     <!-- Start: Action Column -->
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
-      <span class="mx_2" @click="updatePost">
+      <router-link
+        class="mx_2"
+        :to="{ name: 'post_update_post', params: { id: item._id } }"
+        @click.native="updatePost"
+      >
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
-      </span>
+      </router-link>
       <span class="mr_1" @click="showDeletePopup()">
         <icon-base
           icon-name="Xóa"

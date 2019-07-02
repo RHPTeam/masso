@@ -99,14 +99,14 @@ export default {
 
       await this.$emit( "openContentColor", true );
       await this.$emit( "changeBgColor", value );
-      this.$store.dispatch("setPostDefault", {
-        key: "color",
-        value: {
-          id: id,
-          value: value
-        }
-      });
-      this.$store.dispatch( "updatePostColor", this.post );
+      // this.$store.dispatch( "setPostDefault", {
+      //   key: "color",
+      //   value: {
+      //     id: id,
+      //     value: value
+      //   }
+      // });
+      // this.$store.dispatch( "updatePostColor", this.post );
       this.changeBgColorDefault();
     }
   }
