@@ -75,6 +75,11 @@ export default {
       };
       this.$store.dispatch("getPostsByPage", dataSender);
 
+      this.$emit( "updateFilterSelected", {
+        id: 0,
+        title: "Tất cả"
+      } );
+
       this.$router.replace( {
         name: "post_posts",
         query: {
