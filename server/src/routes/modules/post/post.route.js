@@ -57,6 +57,7 @@ router.route( "/sync" ).post( PostController.createSyncFromMarket );
 router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
 router.route( "/sync/duplicate" ).post( PostController.syncDuplicatePostInFolderExample );
 router.route( "/sync/duplicate/folder" ).post( PostController.syncDuplicateFolderExample );
+
 router.route( "/remove/image" ).post( PostController.removeImageNotExist );
 
 // Get Newest Post
