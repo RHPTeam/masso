@@ -54,12 +54,15 @@ router
   .route( "/search" )
   .post( PostController.search );
 router.route( "/sync" ).post( PostController.createSyncFromMarket );
-
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
 router.route( "/sync/duplicate" ).post( PostController.syncDuplicatePostInFolderExample );
 router.route( "/remove/image" ).post( PostController.removeImageNotExist );
 
 // Get Newest Post
 router
   .route( "/newest" ).get( PostController.getNewestPosts );
+
+// Upload image
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
 
 module.exports = router;

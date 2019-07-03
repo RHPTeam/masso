@@ -41,6 +41,9 @@ import PostSchedule from "./modules/post/postschedule.store";
 import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 
+// ------ Action cursor Store for post in mobile
+import ActionCursorStore from "./modules/post/cursor.store";
+
 /**
  * Store for Market
  */
@@ -86,6 +89,7 @@ export default new Vuex.Store( {
     PostFacebookStore,
     PostGroupStore,
     GroupBlock,
+    ActionCursorStore
     /**
      * Store for Market
      */

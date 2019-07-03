@@ -54,14 +54,20 @@
         :showUpgradePro="showUpgradePro"
         @closeAddPopup="showUpgradePro = $event"
       />
+    </transition>
+    <transition name="popup">
       <add-account-popup
         v-if="showModal === true"
         @closeAddPopup="showModal = $event"
       ></add-account-popup>
+    </transition>
+    <transition name="popup">
       <existed-account-popup
         v-if="this.$store.getters.addAccountError === 'error'"
         :data-theme="currentTheme"
       />
+    </transition>
+    <transition name="popup">
       <delete-account-popup
         v-if="isShowDeletePopup === true"
         title="Xoá tài khoản Facebook"

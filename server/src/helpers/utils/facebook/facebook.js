@@ -173,7 +173,15 @@ const {
 
     return variables;
   },
-  getIdPostFacebook = ( { cookie, agent, token, location, privacy, type, storyID } ) => {
+  getIdPostFacebook = ( {
+    cookie,
+    agent,
+    token,
+    location,
+    privacy,
+    type,
+    storyID
+  } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "POST",
@@ -302,7 +310,8 @@ module.exports = {
               "error": callbackGetIdPostSuccess,
               "results": {
                 "postID": result.results.postID,
-                "type": feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+                "type":
+                  feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
               }
             } );
           } else if ( bodyJson === undefined ) {
@@ -311,7 +320,9 @@ module.exports = {
               "results": null
             } );
           } else {
-            const errorResponseFromFacebook = JSON.parse( body.replace( "for (;;);", "" ) );
+            const errorResponseFromFacebook = JSON.parse(
+              body.replace( "for (;;);", "" )
+            );
 
             if ( errorResponseFromFacebook.error ) {
               resolve( {
@@ -423,10 +434,9 @@ module.exports = {
 
       download( urlFixed )
         .then( ( data ) => {
-
           const pathFileImage = `${__dirname}/${randomstring.generate()}.jpg`;
 
-          fs.writeFile( pathFileImage, data, ( err ) => {
+          fs.writeFileSync( pathFileImage, data, ( err ) => {
             if ( err ) {
               resolve( {
                 "error": writeFileImageFail,
@@ -458,8 +468,6 @@ module.exports = {
         "headers": {
           "User-Agent": agent,
           "Cookie": cookie,
-          "Accept": "/",
-          "Connection": "keep-alive",
           "Content-Type": "multipart/form-data"
         },
         "formData": {

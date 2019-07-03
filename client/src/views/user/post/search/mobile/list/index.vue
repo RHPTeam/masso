@@ -21,7 +21,7 @@
     </div>
     <!-- Start: List Search -->
 
-    <div class="list--data my_3">
+    <div class="list--data mt_3">
       <!-- <div class="item--header d_flex align_items_center px_2 py_2">
         <div class="col col--content">Nội dung</div>
       </div> -->

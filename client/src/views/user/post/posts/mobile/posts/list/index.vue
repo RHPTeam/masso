@@ -204,6 +204,9 @@ export default {
   }
   .list--post-group {
     max-height: calc(100vh - 227px);
+    &.ps.ps--active-x>.ps__scrollbar-x-rail, &.ps.ps--active-y>.ps__scrollbar-y-rail {
+      display: none!important;
+    }
     .item--body {
       border-bottom: 1px solid #484848;
       background: rgba(39, 41, 45, 0.4);

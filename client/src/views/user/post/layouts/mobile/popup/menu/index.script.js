@@ -6,94 +6,7 @@ export default {
   },
   data() {
     return {
-      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
-      menus: [
-        {
-          text: "Bảng điều khiển",
-          icon: {
-            iconName: "home",
-            tagName: "icon-home",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_dashboard"
-        },
-        {
-          text: "Kho nội dung",
-          icon: {
-            iconName: "script",
-            tagName: "icon-script",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_posts"
-          // to: {
-          //   name: "post_posts",
-          //   query: { size: 25, page: 1 }
-          // }
-        },
-        {
-          text: "Chiến dịch",
-          icon: {
-            iconName: "chat",
-            tagName: "icon-chat",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_campaigns",
-          // to: {
-          //   name: "post_posts",
-          //   query: { size: 25, page: 1 }
-          // }
-        },
-        {
-          text: "Nhóm & Trang",
-          icon: {
-            iconName: "auto-answer",
-            tagName: "icon-auto-answer",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_group"
-        },
-        {
-          text: "Tài khoản Facebook",
-          icon: {
-            iconName: "friend",
-            tagName: "icon-friend",
-            width: 22,
-            height: 22,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_fbaccount"
-        },
-        {
-          text: "Facebook tìm kiếm",
-          icon: {
-            iconName: "broadcast",
-            tagName: "icon-broadcast",
-            width: 21,
-            height: 21,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_fb_search"
-        },
-        {
-          text: "Thiết lập tài khoản",
-          icon: {
-            iconName: "account",
-            tagName: "icon-account",
-            width: 20,
-            height: 20,
-            viewBox: "0 0 24 24"
-          },
-          to: "post_account"
-        }
-      ]
+      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`
     };
   },
   computed: {
@@ -103,6 +16,42 @@ export default {
   },
   methods: {
     closePopup() {
+      this.$emit("closePopup", false);
+    },
+    showDashboard() {
+      this.$store.dispatch("actionCursorMenu", 0);
+      this.$router.push({ name: "post_dashboard" });
+      this.$emit("closePopup", false);
+    },
+    showPosts() {
+      this.$store.dispatch("actionCursorMenu", 1);
+      this.$store.dispatch("actionCursor", 11);
+      this.$router.push({ name: "post_posts", query: { size: 25, page: 1 } });
+      this.$emit("closePopup", false);
+    },
+    showCampaign() {
+      this.$store.dispatch("actionCursorMenu", 2);
+      this.$router.push({ name: "post_campaigns", query: { size: 25, page: 1 } });
+      this.$emit("closePopup", false);
+    },
+    showPostgroup() {
+      this.$store.dispatch("actionCursorMenu", 3);
+      this.$router.push({ name: 'post_group' });
+      this.$emit("closePopup", false);
+    },
+    showAccountFb() {
+      this.$store.dispatch("actionCursorMenu", 4);
+      this.$router.push({ name: 'post_fbaccount' });
+      this.$emit("closePopup", false);
+    },
+    showSearchFb() {
+      this.$store.dispatch("actionCursorMenu", 5);
+      this.$router.push({ name: 'post_fb_search' });
+      this.$emit("closePopup", false);
+    },
+    showSetupAccount() {
+      this.$store.dispatch("actionCursorMenu", 6);
+      this.$router.push({ name: 'post_account' });
       this.$emit("closePopup", false);
     }
   },

@@ -11,90 +11,124 @@
         v-if="isShowPopupCreateNewCategory === true"
         @closePopupNewCategory="isShowPopupCreateNewCategory = $event"
       />
-      <popup-create-new-post 
+      <popup-create-new-post
         v-if="isShowPopupCreateNewPost === true"
         @closePopupCreateNewPost="isShowPopupCreateNewPost = $event"
       />
-      <popup-add-account-facebook 
+      <popup-add-account-facebook
         v-if="isShowPopupAddAccountFb === true"
         @closeAddPopup="isShowPopupAddAccountFb = $event"
       />
+      <popup-create-new-campaign
+        v-if="isShowPopupCreateNewCampaign=== true"
+        @closePopupCreateNewCampaign="isShowPopupCreateNewCampaign = $event"
+      />
+      <popup-add-group
+        v-if="isShowPopupAddGroup === true"
+        @closePopupAddGroup="isShowPopupAddGroup = $event"
+      />
     </transition>
-    <div
-      class="header--mobile-top d_flex justify_content_between align_items_center"
-    >
+    <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
-        <div
-          class="header--mobile-img text_left"
-          @click.prevent="isShowPopup = true"
-        >
+        <div class="header--mobile-img text_left" @click.prevent="isShowPopup = true">
           <div
             v-if="user.imageAvatar"
             class="avatar--content avatar--img position_relative d_block"
             :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
           ></div>
-          <div
-            v-else
-            class="avatar--content avatar--default position_relative d_block"
-          >
-            <span class="position_absolute">{{
+          <div v-else class="avatar--content avatar--default position_relative d_block">
+            <span class="position_absolute">
+              {{
               user.name | getFirstLetter
-            }}</span>
+              }}
+            </span>
           </div>
         </div>
         <div class="header--mobile-title text_left">{{ changeTitlePage }}</div>
       </div>
       <div class="d_flex align_items_center ml_auto action--right position_relative">
-        <!-- Start: Action in PostGroup -->
-        <!-- <div class="update action mr_1">
-          <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
-            <icon-update />
-          </icon-base>
-        </div>
-        <div class="add action">
-          <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-            <icon-plus />
-          </icon-base>
-        </div> -->
-        <!-- End: Action in PostGroup -->
-
         <!-- Start: Action in Posts -->
-        <!-- <div class="action mr_1">
-          <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
-            <icon-history />
-          </icon-base>
+        <div class="posts d_flex align_items_center" v-if="gestureCursorMenuUser === 1">
+          <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11">
+            <div class="action mr_1">
+              <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
+                <icon-history/>
+              </icon-base>
+            </div>
+            <div class="add posts action mx_1" @click="showPopupCreateNewPost">
+              <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+                <icon-plus/>
+              </icon-base>
+            </div>
+            <div class="filter--posts" @click="showDropdownFilterPost">
+              <icon-base
+                class="mt_1"
+                icon-name="Create new"
+                width="24"
+                height="24"
+                viewBox="0 0 450 450"
+              >
+                <icon-filter/>
+              </icon-base>
+            </div>
+            <div
+              class="dropdown--filter-post position_absolute"
+              v-if="isShowDropdownFilterPost === true"
+              v-click-outside="closeDropdownFilterPost"
+            >
+              <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
+              <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
+              <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
+            </div>
+          </div>
+          <div
+            class="add category action mx_1"
+            @click="showPopupCreateNewCategory"
+            v-if="gestureUser === 12"
+          >
+            <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+              <icon-plus/>
+            </icon-base>
+          </div>
         </div>
-        <div class="add posts action mx_1" @click="showPopupCreateNewPost">
-          <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-            <icon-plus />
-          </icon-base>
-        </div>
-        <div class="add category action mx_1" @click="showPopupCreateNewCategory">
-          <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-            <icon-plus />
-          </icon-base>
-        </div>
-        <div class="filter--posts" @click="showDropdownFilterPost">
-          <icon-base class="mt_1" icon-name="Create new" width="24" height="24" viewBox="0 0 450 450">
-            <icon-filter />
-          </icon-base>
-        </div>
-        <div class="dropdown--filter-post position_absolute" v-if="isShowDropdownFilterPost === true" v-click-outside="closeDropdownFilterPost">
-          <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
-          <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
-          <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
-        </div> -->
         <!-- End: Action in Posts -->
 
+        <!-- Start: Action in campaign -->
+        <div
+          class="add action campaign"
+          @click="showPopupCreateNewCampaign"
+          v-if="gestureCursorMenuUser === 2"
+        >
+          <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+            <icon-plus/>
+          </icon-base>
+        </div>
+        <!-- End: Action in campaign -->
+
+        <!-- Start: Action in PostGroup -->
+        <div class="post--group d_flex align_items_center" v-if="gestureCursorMenuUser === 3">
+          <div class="update action mr_1">
+            <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
+              <icon-update/>
+            </icon-base>
+          </div>
+          <div class="add action" @click="showPopupAddGroup">
+            <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+              <icon-plus/>
+            </icon-base>
+          </div>
+        </div>
+        <!-- End: Action in PostGroup -->
+
         <!-- Start: Action in Acount FB -->
-        <div class="add action" @click="showPopupAddAccountFb">
+        <div class="add action account--fb" @click="showPopupAddAccountFb" v-if="gestureCursorMenuUser === 4">
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
           </icon-base>
         </div>
         <!-- End: Action in Acount FB -->
       </div>
-     <!-- <div
+      <!-- <div
         class="d_flex justify_content_end align_items_center"
         v-if="this.$route.path === '/messenger'"
       >
@@ -123,23 +157,23 @@
         <icon-base icon-name="plus" width="24" height="24" viewBox="0 0 64 64">
           <icon-plus />
         </icon-base>
-      </div> -->
+      </div>-->
     </div>
-   <!-- Start: change account
+    <!-- Start: change account
     <transition name="popup">
       <change-account
         v-if="showChangeAccount === true"
         @closeModal="showChangeAccount = $event"
       />
-    </transition> -->
-<!--    End: change account-->
+    </transition>-->
+    <!--    End: change account-->
     <!--    Start: Add new message-->
     <!-- <transition name="popup">
       <new-message
         v-if="showNewMessage === true"
         @closeAddNewMessage="showNewMessage = $event"
       />
-    </transition> -->
+    </transition>-->
     <!--    End: Add new message-->
     <!--    Start: Add new script-->
     <!-- <transition name="popup">
@@ -147,15 +181,17 @@
         v-if="showNewScript === true"
         @closeModal="showNewScript = $event"
       />
-    </transition> -->
+    </transition>-->
     <!--    End: Add new script-->
   </div>
 </template>
 <script>
 import AppSidebarMobile from "../popup/menu";
-import PopupCreateNewCategory from "../popup/create/posts/category";
-import PopupCreateNewPost from "../popup/create/posts/post";
-import PopupAddAccountFacebook from "../popup/create/facebook/addaccount";
+import PopupCreateNewCategory from "../popup/posts/category";
+import PopupCreateNewPost from "../popup/posts/post";
+import PopupAddAccountFacebook from "../popup/facebook/addaccount";
+import PopupCreateNewCampaign from "../popup/campaigns/create";
+import PopupAddGroup from "../popup/postgroup/addgroup";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
 export default {
@@ -163,7 +199,9 @@ export default {
     AppSidebarMobile,
     PopupCreateNewCategory,
     PopupCreateNewPost,
-    PopupAddAccountFacebook
+    PopupAddAccountFacebook,
+    PopupCreateNewCampaign,
+    PopupAddGroup
   },
   data() {
     return {
@@ -171,7 +209,9 @@ export default {
       isShowDropdownFilterPost: false,
       isShowPopupCreateNewCategory: false,
       isShowPopupCreateNewPost: false,
-      isShowPopupAddAccountFb: false
+      isShowPopupAddAccountFb: false,
+      isShowPopupCreateNewCampaign: false,
+      isShowPopupAddGroup: false
     };
   },
   computed: {
@@ -200,6 +240,15 @@ export default {
       if (this.$route.name === "post_fb_search") {
         return "Facebook Tìm Kiếm";
       }
+      if (this.$route.name === "post_account") {
+        return "Thiết lập tài khoản";
+      }
+    },
+    gestureUser() {
+      return this.$store.getters.gestureUser;
+    },
+    gestureCursorMenuUser() {
+      return this.$store.getters.gestureCursorMenuUser;
     }
   },
   filters: {
@@ -209,7 +258,7 @@ export default {
       return string.charAt(0).toUpperCase();
     }
   },
-  methods: { 
+  methods: {
     showDropdownFilterPost() {
       this.isShowDropdownFilterPost = true;
     },
@@ -224,8 +273,14 @@ export default {
     },
     showPopupAddAccountFb() {
       this.isShowPopupAddAccountFb = true;
+    },
+    showPopupCreateNewCampaign() {
+      this.isShowPopupCreateNewCampaign = true;
+    },
+    showPopupAddGroup() {
+      this.isShowPopupAddGroup = true;
     }
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

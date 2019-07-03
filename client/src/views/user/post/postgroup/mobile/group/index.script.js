@@ -1,4 +1,4 @@
-import CreateGroupPopup from "../../desktop/popup/creategroup/index";
+import CreateGroupPopup from "../popup/creategroup";
 import DeleteGroupPopup from "@/components/popups/delete";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 

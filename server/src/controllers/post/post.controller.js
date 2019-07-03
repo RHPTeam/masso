@@ -356,7 +356,7 @@ module.exports = {
         } );
     }
 
-    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() );
+    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() );
 
     if ( req.query._size && req.query._page ) {
       dataResponse = data.slice(
@@ -405,7 +405,7 @@ module.exports = {
       delete req.body.categoryPost._id;
 
       // eslint-disable-next-line one-var
-      const newCategoryExample = await new PostCategory( req.body.categoryPost );
+      const newCategoryExample = new PostCategory( req.body.categoryPost );
 
       newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
       newCategoryExample.totalPosts = newCategoryExample.postExample.length;

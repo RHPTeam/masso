@@ -24,7 +24,7 @@
 </template>
 <script>
 import AppHeader from "./desktop/components/navigation";
-import AppMobile from "./mobile"
+import AppMobile from "./mobile/components/navigation"
 export default {
   components: {
     AppHeader,

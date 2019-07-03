@@ -56,7 +56,7 @@ export default {
     this.filterShowSelected.name = `Hiển thị ${size}`;
   },
   methods: {
-    updateFilterShowSelected( val ) {
+    async updateFilterShowSelected( val ) {
       this.filterShowSelected = val;
       this.currentPage = 1;
 
@@ -65,7 +65,15 @@ export default {
         page: this.currentPage
       };
 
-      this.$store.dispatch( "getCampaignsByPage", dataSender );
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+
+      this.$router.replace( {
+        name: "post_campaigns",
+        query: {
+          size: this.filterShowSelected.id,
+          page: this.currentPage
+        }
+      } );
     }
   }
 };

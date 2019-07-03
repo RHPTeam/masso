@@ -1,618 +1,82 @@
 <template>
-  <div class="main--list-campaign">
-    <VuePerfectScrollbar class="list--campaign">
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-      <div class="item--body d_flex align_items_center">
-        <div class="items col--category pl_3 pr_2">Danh muc 1</div>
-        <div class="items col--total text_center">3</div>
-        <!-- <div class="action align_items_center">
-            <span class="mx_1">
-              <icon-base
-                icon-name="Xóa"
-                width="20"
-                height="20"
-                viewBox="0 0 15 15"
-              >
-                <icon-remove />
-              </icon-base>
-            </span>
-            <span class="mx_1">
-              <icon-base
-                width="20"
-                height="20"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-            </span>
-        </div> -->
-      </div>
-    </VuePerfectScrollbar>
+  <div class="campaigns--wrapper">
+    <!-- Start: Header -->
+    <!-- <app-header
+      :filterShowSelected="filterShowSelected"
+      :filterStatusSelected="filterStatusSelected"
+      @updateFilterShowSelected="updateFilterShowSelected($event)"
+      @updateFilterStatusSelected="filterStatusSelected = $event"
+      @updateSearch="search = $event"
+    /> -->
+    <!-- End: Header -->
+    <!-- Start: Data Table -->
+    <app-table
+      :currentPage="currentPage"
+      :filterShowSelected="filterShowSelected"
+      :filterStatusSelected="filterStatusSelected"
+      :search="search"
+    />
+    <!-- End: Data Table -->
+    <!-- Start: Footer -->
+    <!-- <app-footer
+      :currentPage="currentPage"
+      :filterShowSelected="filterShowSelected"
+      :search="search"
+      @updateCurrentPage="currentPage = $event"
+    /> -->
+    <!-- End: Footer -->
   </div>
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import AppHeader from "./header";
+import AppTable from "./table/index";
+import AppFooter from "../components/footer";
+
 export default {
   components: {
-    VuePerfectScrollbar
+    AppHeader,
+    AppTable,
+    AppFooter
+  },
+  data() {
+    return {
+      currentPage: 1,
+      filterShowSelected: { id: 25, name: "Hiển thị 25" },
+      filterStatusSelected: { id: "all", name: "Tất cả trạng thái" },
+      search: ""
+    };
+  },
+  created() {
+    const page = this.$route.query.page,
+          size = this.$route.query.size;
+
+    this.currentPage = Number( page );
+    this.filterShowSelected.id = Number( size );
+    this.filterShowSelected.name = `Hiển thị ${size}`;
+  },
+  methods: {
+    async updateFilterShowSelected( val ) {
+      this.filterShowSelected = val;
+      this.currentPage = 1;
+
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+
+      this.$router.replace( {
+        name: "post_campaigns",
+        query: {
+          size: this.filterShowSelected.id,
+          page: this.currentPage
+        }
+      } );
+    }
   }
 };
 </script>
 
-<style lang="scss" scoped>
-.main--list-campaign {
-  color: #fff;
-  .list--campaign {
-    max-height: calc(100vh - 227px);
-    .item--body {
-      background-color: rgba(39, 41, 45, 0.4);
-      min-height: 48px;
-      font-size: 0.875rem;
-      border-bottom: 1px solid #484848;
-      &:last-child {
-        border-bottom-left-radius: 0.625rem;
-        border-bottom-right-radius: 0.625rem;
-      }
-    }
-    .col--category {
-      width: 100%;
-    }
-    .col--total {
-      padding: 0 0.375rem;
-      margin: 0 0.5rem 0 1rem;
-      background: #ffb94a;
-      border-radius: 20px;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>

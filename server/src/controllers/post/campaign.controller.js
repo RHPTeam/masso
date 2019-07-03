@@ -266,7 +266,7 @@ module.exports = {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
 
-    let page = null, dataResponse = null, data = ( await Campaign.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } ).lean() );
+    let page = null, dataResponse = null, data = ( await Campaign.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } ).lean() );
 
     if ( req.query._size && req.query._page ) {
       dataResponse = data.slice( ( Number( req.query._page ) - 1 ) * Number( req.query._size ), Number( req.query._size ) * Number( req.query._page ) );

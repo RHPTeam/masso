@@ -1,21 +1,11 @@
 <template>
   <div class="px_2">
-    <VuePerfectScrollbar
-      class="gallery justify_content_start align_items_center flex_wrap m_n1"
-      :data-theme="currentTheme"
-    >
-      <div
-        class="gallery--block position_relative m_1"
-        v-for="(item, index) in post.attachments"
-        :key="index"
-      >
+    <VuePerfectScrollbar class="gallery justify_content_start align_items_center flex_wrap m_n1" :data-theme="currentTheme">
+      <div class="gallery--block position_relative m_1" v-for="(item, index) in post.attachments" :key="index">
         <div class="block--img">
           <img :src="item.link" alt>
         </div>
-        <div
-          class="block--bg position_absolute d_flex align_items_center justify_content_center"
-          @click="deleteImageAttachmentPost(item._id)"
-        >
+        <div class="block--bg position_absolute d_flex align_items_center justify_content_center" @click="deleteImageAttachmentPost(item._id)">
           <icon-base
             class="icon--remove"
             icon-name="remove"
@@ -32,20 +22,18 @@
           for="file-upload"
           class="gallery--block-add d_flex align_items_center justify_content_center"
         >
-          <icon-base class="icon--add" icon-name="plus" width="30" height="30" viewBox="0 0 60 60">
+          <icon-base
+            class="icon--add"
+            icon-name="plus"
+            width="30"
+            height="30"
+            viewBox="0 0 60 60"
+          >
             <icon-plus/>
           </icon-base>
         </label>
         <form enctype="multipart/form-data" @submit.prevent="sendFile">
-          <input
-            id="file-upload"
-            hidden
-            type="file"
-            ref="file"
-            @change="selectFile(post._id)"
-            accept="image/x-png, image/gif, image/jpeg"
-            multiple
-          >
+          <input id="file-upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
         </form>
       </div>
     </VuePerfectScrollbar>
@@ -67,6 +55,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
     }
   },
   methods: {
@@ -77,29 +68,33 @@ export default {
       };
       this.$store.dispatch("deleteAttachmentPost", dataSender);
     },
-    selectFile(id) {
+    selectFile() {
       this.file = this.$refs.file.files;
-      this.sendFile(id);
+      this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = "text";
       input.type = "file";
     },
-    sendFile() {
+    async sendFile() {
       const formData = new FormData();
       Array.from(this.file).forEach(f => {
         formData.append("attachments", f);
       });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      this.$store.dispatch("updateAttachmentPost", objSender);
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };
 </script>
 <style lang="scss" scoped>
-@import "../index.style";
+  @import "../index.style";
 </style>

@@ -44,6 +44,7 @@ router.route( "/change-password" ).patch( auth, AccountController.changePassword
 router.route( "/create-password" ).post( auth, AccountController.createNewPassword );
 router.route( "/info" ).get( auth, AccountController.show );
 router.route( "/sync/change-status" ).patch( auth, AccountController.changeStatusSync );
+router.route( "/search" ).patch( auth, AccountController.searchKeyword );
 
 
 module.exports = router;

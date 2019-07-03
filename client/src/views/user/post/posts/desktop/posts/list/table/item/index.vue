@@ -2,11 +2,13 @@
   <div class="item--body d_flex align_items_center px_3 py_2">
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
-      <div class="col col--name-text"
-          @click="updatePost()"
+      <router-link
+        class="col col--name-text"
+        :to="{ name: 'post_update_post', params: { id: item._id } }"
+        @click.native="updatePost()"
       >
         {{ item.title }}
-      </div>
+      </router-link>
     </div>
     <!-- End: Name Column -->
     <!-- Start: Category Column -->
@@ -36,14 +38,14 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1" @click="showPostNowPopup">
-        <icon-base
-          class="icon--post-now"
-          icon-name="Đăng ngay"
-          viewBox="0 0 506 506">
-          <icon-post-now />
-        </icon-base>
-      </span>
+<!--      <span class="mx_1" @click="showPostNowPopup">-->
+<!--        <icon-base-->
+<!--          class="icon&#45;&#45;post-now"-->
+<!--          icon-name="Đăng ngay"-->
+<!--          viewBox="0 0 506 506">-->
+<!--          <icon-post-now />-->
+<!--        </icon-base>-->
+<!--      </span>-->
     </div>
     <!-- End: Action Column -->
   </div>
@@ -58,12 +60,8 @@ export default {
     // }
   },
   methods: {
-    updatePost() {
-      this.$store.dispatch( "getPostById", this.item._id );
-      this.$router.push( {
-        name: "post_update_post",
-        params: { id: this.item._id }
-      } );
+    async updatePost() {
+      await this.$store.dispatch( "getPostById", this.item._id );
     },
     async editPostCateDefault(){
       await this.$store.dispatch( "showPostDuplicate", this.item._id );

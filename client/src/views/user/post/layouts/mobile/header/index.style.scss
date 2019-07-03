@@ -16,6 +16,13 @@
             font-weight: 600;
         }
         .action--right {
+            .posts {
+                .all-posts {
+                    &.active {
+                        display: none!important;
+                    }
+                }
+            }
             .icon--filter {
                 margin-top: 3px;
             }

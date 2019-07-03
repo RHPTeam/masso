@@ -1,5 +1,5 @@
 <template>
-  <div class="target mt_4" :data-theme="currentTheme">
+  <div class="target" :data-theme="currentTheme">
     <div class="header d_flex align_items_center mb_2">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">

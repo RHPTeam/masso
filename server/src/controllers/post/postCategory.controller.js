@@ -140,7 +140,7 @@ module.exports = {
       const pageNo = parseInt( req.query._page ),
         size = parseInt( req.query._size ),
         query = {},
-        totalPosts = await PostCategory.countDocuments( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid } );
+        totalPosts = await PostCategory.countDocuments( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } );
 
       // Check catch
       if ( pageNo < 0 || pageNo === 0 ) {
@@ -152,7 +152,7 @@ module.exports = {
       query.limit = size;
 
       // Handle with mongodb
-      dataResponse = await PostCategory.find( { "$text": { "$search": req.query.keyword, "$language": "none" }, "_account": req.uid }, "title description totalPosts", query ).lean();
+      dataResponse = await PostCategory.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid }, "title description totalPosts", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }

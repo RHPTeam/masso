@@ -39,7 +39,8 @@ export default {
       isShowMoreOption: false,
       isActiveImage: false,
       isShowChangeScrape: false,
-      isShowPostNowPopup: false
+      isShowPostNowPopup: false,
+      isShowAlert: false
     };
   },
   computed: {
@@ -84,6 +85,9 @@ export default {
     },
     checkColor: function () {
       return this.post.color === undefined || this.post.color.length === 0;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
     }
 
   },
@@ -118,7 +122,8 @@ export default {
         delete this.post.color;
         this.$store.dispatch( "updatePostColor", this.post );
         // this.$store.dispatch( "updatePost", this.post );
-      } else {
+      } else if(value.length > 0) {
+        this.isShowAlert = false;
         // this.$store.dispatch( "updatePost", this.post );
       }
     }
@@ -192,49 +197,47 @@ export default {
     },
     // Update post when click button Save
     savePost(){
-      if(this.linkContent.length > 0) {
-        this.post.scrape = this.linkContent[0];
+      if(this.post.content.length === 0) {
+        this.isShowAlert = true;
+      } else {
+        if(this.linkContent.length > 0) {
+          this.post.scrape = this.linkContent[0];
+        }
+        this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        this.$router.go(-1);
       }
-      this.$store.dispatch( "updatePost", this.post );
-      this.$router.push( { name: "post_posts" } );
-      this.$store.dispatch("setPostCateDefault", 0);
     },
     //update post and post now
     async saveAndPostNow(){
       await this.$store.dispatch( "updatePost", this.post );
       this.isShowPostNowPopup = true;
     },
-    // Select file images
-    selectFile( id ) {
+
+    selectFile() {
       this.file = this.$refs.file.files;
-      this.sendFile( id );
+      this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
       input.type = 'file';
-
-      this.$store.dispatch("setPostDefault", {
-        key: "color",
-        value: ""
-      });
-      this.$store.dispatch( "updatePostColor", this.post );
     },
-    // Update file images to post
-    sendFile() {
+    async sendFile() {
       const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
+      Array.from(this.file).forEach((f) => {
+        formData.append("attachments", f)
       });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
-      } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
-      }
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };

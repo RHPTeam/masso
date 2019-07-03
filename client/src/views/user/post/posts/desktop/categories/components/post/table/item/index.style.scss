@@ -23,6 +23,14 @@
       }
     }
   }
+  .col--alert {
+    background-color: #ffb94a;
+    border-radius: .625rem;
+    padding: .5rem 1rem;
+    top: 105%;
+    left: 1rem;
+    z-index: 9;
+  }
   .custom--checkbox {
     input[type="checkbox"] {
       border-radius: 6px;

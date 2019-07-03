@@ -35,7 +35,7 @@ export default {
     allAnalysis() {
       return this.$store.getters.allAnalysis;
     },
-    allStaticCompaign() {
+    allStaticCampaign() {
       const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
         return campaign.amount;
       });
@@ -46,18 +46,17 @@ export default {
       }];
     },
     allSttPost(){
-      const campaingRecommend = [], campaignCurrent = [];
-
+      const campaignRecommended = [], campaignCurrent = [];
 
       this.$store.getters.getAllSttPost.map( ( current ) => {
-        campaingRecommend.push( current.recommend );
+        campaignRecommended.push( current.recommend );
         campaignCurrent.push( current.amount );
       });
 
       return [
         {
           name: "Số bài viết bạn nên có",
-          data: campaingRecommend
+          data: campaignRecommended
         },
         {
           name: "Số bài viết của bạn",
@@ -65,7 +64,7 @@ export default {
         }
       ];
     },
-    chartOptionsLine() {
+    campaignDataChart() {
       const timeCampaign = this.$store.getters.getAllStaticCampaign.map( ( date ) => {
         return date.date;
       } );
@@ -285,16 +284,16 @@ export default {
         },
       }
     },
-    chartOptions() {
-      const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
+    postRecommendDataChart() {
+      const dayRecommendCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
         return date.date.slice( 0, 10 );
       });
-      let maxCompaign = [];
+      let maxCampaign = [];
       this.$store.getters.getAllSttPost.map( ( amount ) => {
-        maxCompaign.push( amount.recommend );
-        maxCompaign.push( amount.amount );
+        maxCampaign.push( amount.recommend );
+        maxCampaign.push( amount.amount );
       });
-      const maxChart = Math.max.apply(null, maxCompaign ) * 1.5;
+      const maxChart = Math.max.apply(null, maxCampaign ) * 1.5;
 
       // Light theme custom
       if ( this.currentTheme === "light" ) {
@@ -334,7 +333,7 @@ export default {
             theme: "light"
           },
           xaxis: {
-            categories: dayRecommandCampaign,
+            categories: dayRecommendCampaign,
             labels: {
               style: {
                 colors: [ "#444", "#444", "#444", "#444", "#444", "#444", "#444" ]
@@ -420,7 +419,7 @@ export default {
           theme: "dark"
         },
         xaxis: {
-          categories: dayRecommandCampaign,
+          categories: dayRecommendCampaign,
           labels: {
             style: {
               colors: [ "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc" ]
@@ -479,7 +478,6 @@ export default {
   methods: {
     async goToThisPost( id ) {
       await this.$store.dispatch( "getPostById", id );
-      return this.$router.push({ params: { id }, name: "post_update_post" } );
     }
   }
 }

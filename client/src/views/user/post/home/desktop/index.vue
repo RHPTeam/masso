@@ -95,8 +95,8 @@
               <VueApexCharts
                 type="line"
                 height="350"
-                :options="chartOptionsLine"
-                :series="allStaticCompaign"
+                :options="campaignDataChart"
+                :series="allStaticCampaign"
               ></VueApexCharts>
             </div>
           </div>
@@ -108,7 +108,7 @@
                 <VueApexCharts
                   type="line"
                   height="350"
-                  :options="chartOptions"
+                  :options="postRecommendDataChart"
                   :series="allSttPost"
                 ></VueApexCharts>
               </div>

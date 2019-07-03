@@ -14,30 +14,42 @@
       <h3>{{ user.name }}</h3>
       <div class="popup--close position_absolute" @click="closePopup">Đóng</div>
     </div>
-    <div class="popup--main text_left mt_4">
+    <div class="popup--main text_left">
       <h4>Chức năng</h4>
       <VuePerfectScrollbar class="scroll-function">
         <ul class="p_0 m_0">
-          <router-link
-            class="align_items_center"
-            tag="li"
-            active-class="active"
-            exact
-            v-for="(menu, index) in menus"
-            :key="index"
-            @click.native="closePopup"
-            :to="{ name: menu.to }"
-          >
-            <a href="#" class="d_flex">
+          <li @click="showDashboard" class="d_flex align_items_center">
+            <icon-base
+              icon-name="Bảng điều khiển"
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+            >
+              <icon-home/>
+            </icon-base>
+            <span class="ml_2">Bảng điều khiển</span>
+            <span class="ml_auto">
               <icon-base
-                :icon-name="menu.icon.iconName"
-                :width="menu.icon.width"
-                :height="menu.icon.height"
-                :viewBox="menu.icon.viewBox"
+                class="icon--go-to"
+                icon-name="Submit"
+                width="22"
+                height="22"
+                viewBox="0 0 33 33"
               >
-                <component :is="menu.icon.tagName"/>
+                <icon-arrow-right />
               </icon-base>
-              <span class="ml_2">{{ menu.text }}</span>
+            </span>
+          </li>
+          <li @click="showPosts" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Kho nội dung"
+                width="20"
+                height="20"
+                viewBox="0 0 540 540"
+              >
+                <icon-post/>
+              </icon-base>
+              <span class="ml_2">Kho nội dung</span>
               <span class="ml_auto">
                 <icon-base
                   class="icon--go-to"
@@ -49,10 +61,119 @@
                   <icon-arrow-right />
                 </icon-base>
               </span>
-            </a>
-          </router-link>
+          </li>
+          <li @click="showCampaign" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Chiến dịch"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <icon-broadcast/>
+              </icon-base>
+              <span class="ml_2">Chiến dịch</span>
+              <span class="ml_auto">
+                <icon-base
+                  class="icon--go-to"
+                  icon-name="Submit"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 33 33"
+                >
+                  <icon-arrow-right />
+                </icon-base>
+              </span>
+          </li>
+          <li @click="showPostgroup" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Nhóm Trang"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <icon-friend/>
+              </icon-base>
+              <span class="ml_2">Nhóm & Trang</span>
+              <span class="ml_auto">
+                <icon-base
+                  class="icon--go-to"
+                  icon-name="Submit"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 33 33"
+                >
+                  <icon-arrow-right />
+                </icon-base>
+              </span>
+          </li>
+          <li @click="showAccountFb" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Tài khoản Facebook"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <icon-account/>
+              </icon-base>
+              <span class="ml_2">Tài khoản Facebook</span>
+              <span class="ml_auto">
+                <icon-base
+                  class="icon--go-to"
+                  icon-name="Submit"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 33 33"
+                >
+                  <icon-arrow-right />
+                </icon-base>
+              </span>
+          </li>
+          <li @click="showSearchFb" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Facebook tìm kiếm"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <icon-input-search/>
+              </icon-base>
+              <span class="ml_2">Facebook tìm kiếm</span>
+              <span class="ml_auto">
+                <icon-base
+                  class="icon--go-to"
+                  icon-name="Submit"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 33 33"
+                >
+                  <icon-arrow-right />
+                </icon-base>
+              </span>
+          </li>
+          <li @click="showSetupAccount" class="d_flex align_items_center">
+            <icon-base
+                icon-name="Thiết lập tài khoản"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+              >
+                <icon-friend/>
+              </icon-base>
+              <span class="ml_2">Thiết lập tài khoản</span>
+              <span class="ml_auto">
+                <icon-base
+                  class="icon--go-to"
+                  icon-name="Submit"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 33 33"
+                >
+                  <icon-arrow-right />
+                </icon-base>
+              </span>
+          </li>
           <li class="align_items_center">
-            <a :href="helpCenterUrl" target="_blank" class="d_flex">
+            <a :href="helpCenterUrl" target="_blank" class="d_flex help--center">
               <icon-base
                 icon-name="Trung tâm trợ giúp"
                 width="24"

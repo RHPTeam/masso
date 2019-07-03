@@ -43,25 +43,26 @@
         }
     }
     .popup--main {
-        padding: 0 24px;
         color: #ccc;
         h4 {
+            padding: 0 1rem;
             font-size: 12px;
             color: #999999;
             text-transform: uppercase;
         }
         .scroll-function {
             max-height: 60vh;
+            padding: 0 1rem;
         }
         ul {
             list-style: none;
             li {
                 color: #ccc;
-                a {
-                    font-size: 1rem;
-                    padding: 0.625rem 0;
-                    border-bottom: 1px solid #484848;
-                    width: 100%;
+                padding: 0.625rem 0;
+                border-bottom: 1px solid #484848;
+                font-size: 1rem;
+                .help--center {
+                    display: block;
                     text-decoration: none;
                 }
                 &:first-child {

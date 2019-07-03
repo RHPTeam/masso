@@ -72,6 +72,8 @@ export default {
       this.file = this.$refs.file.files;
       this.sendFile();
 
+      console.log(this.post.attachments);
+
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
@@ -84,12 +86,14 @@ export default {
       });
 
       await this.$store.dispatch( "uploadPostAttachments", formData );
+
       const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
         return {
           link: item,
           typeAttachment: 1
         }
       } );
+
       this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }

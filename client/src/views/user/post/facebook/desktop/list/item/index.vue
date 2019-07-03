@@ -16,20 +16,20 @@
             ></icon-setting>
           </icon-base>
         </div>
-        <div class="btn--remove position_relative">
+        <div class="btn--more position_relative">
           <div class="more" @click="isShowAction = !isShowAction" v-click-outside="closeAction">
             <icon-base
-              class="icon--remove"
+              class="icon--more"
               icon-name="Xóa tài khoản"
               width="25"
               height="20"
-              viewBox="0 0 550 550">
+              viewBox="0 0 580 580">
               <icon-three-dots-horiz />
             </icon-base>
           </div>
-          <div class="action position_absolute" v-if="isShowAction === true">
-            <div class="action--item" @click="deleteAccount()">Xóa tài khoản</div>
-            <div class="action--item" @click="updateAccount()">Cập nhật tài khoản</div>
+          <div class="action--dropdown position_absolute" v-if="isShowAction === true">
+            <div class="action--dropdown-item" @click="updateAccount()">Cập nhật</div>
+            <div class="action--dropdown-item" @click="deleteAccount()">Xóa tài khoản</div>
           </div>
         </div>
       </div>

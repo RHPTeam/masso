@@ -1,10 +1,5 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
-    <!--<div class="col col--checkbox px_2">
-      <label class="detail--checkbox mb_0">
-        <input type="checkbox" checked />
-      </label>
-    </div>-->
     <!-- Start: Name Column -->
     <div class="col col--name px_2" v-if="this.$store.getters.infoPostCateDefault === 0">
       <div class="col col--name-text"
@@ -14,10 +9,14 @@
       </div>
     </div>
 
-    <div class="col col--name px_2" v-if="this.$store.getters.infoPostCateDefault === 1">
+    <div class="col col--name position_relative px_2" v-if="this.$store.getters.infoPostCateDefault === 1">
       <div class="col col--name-text"
+           @click="isShowAlert = !isShowAlert"
       >
         {{ item.title }}
+      </div>
+      <div class="col--alert position_absolute" v-if="isShowAlert === true" v-click-outside="closeAlert">
+        Bạn không có quyền xem chi tiết khi chưa copy bài viết về kho nội dung.
       </div>
     </div>
     <!-- End: Name Column -->
@@ -80,6 +79,11 @@
 <script>
 export default {
   props: ["item"],
+  data() {
+    return {
+      isShowAlert: false
+    }
+  },
   computed: {
     // post(){
     //   return this.$store.getters.post;
@@ -109,6 +113,9 @@ export default {
     },
     showPostNowPopup() {
       this.$emit( "showPostNowPopup", this.item );
+    },
+    closeAlert(){
+      this.isShowAlert = false;
     }
   }
 }

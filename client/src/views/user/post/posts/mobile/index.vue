@@ -29,35 +29,35 @@
         <div
           class="posts items"
           @click="showPosts"
-          :class="isShowPosts === true ? 'active' : '' "
+          :class="gestureUser === 11 ? 'active' : '' "
         >Tất cả</div>
         <div
           class="category items"
           @click="showCategory"
-          :class="isShowCategory === true ? 'active' : '' "
+          :class="gestureUser === 12 ? 'active' : '' "
         >Danh mục</div>
         <div
           class="category--form items"
           @click="showCategoryForm"
-          :class="isShowCategoryForm === true ? 'active' : '' "
+          :class="gestureUser === 13 ? 'active' : '' "
         >Danh mục mẫu</div>
       </div>
       <!-- End: Tabs - Posts and Category -->
 
       <!-- Start: List Posts -->
-      <div class="list--post pt_2" v-if="isShowPosts === true">
+      <div class="list--post pt_2" v-if="gestureUser === 11">
         <list-post/>
       </div>
       <!-- End: List Posts -->
 
       <!-- Start: List Category -->
-      <div class="category" v-if="isShowCategory === true">
+      <div class="category" v-if="gestureUser === 12">
         <VuePerfectScrollbar class="scroll-category" ref="scroll">
           <category/>
         </VuePerfectScrollbar>
       </div>
       <!-- End: List Category -->
-      <div class="category--form" v-if="isShowCategoryForm === true">
+      <div class="category--form" v-if="gestureUser === 13">
         <VuePerfectScrollbar class="scroll--category-form" ref="scroll">
           <category-form />
         </VuePerfectScrollbar>
@@ -106,25 +106,28 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    gestureUser() {
+      return this.$store.getters.gestureUser;
+    },
+    gestureCursorMenuUser() {
+      return this.$store.getters.gestureCursorMenuUser;
     }
   },
   methods: {
     showPosts() {
-      this.isShowCategory = false;
-      this.isShowPosts = true;
-      this.isShowCategoryForm = false;
+      this.$store.dispatch("actionCursor", 11);
     },
     showCategory() {
-      this.isShowPosts = false;
-      this.isShowCategory = true;
-      this.isShowCategoryForm = false;
+      this.$store.dispatch("actionCursor", 12);
     },
     showCategoryForm() {
-      this.isShowCategoryForm = true;
-      this.isShowPosts = false;
-      this.isShowCategory = false;
+      this.$store.dispatch("actionCursor", 13);
     }
-  }
+  },
+  created() {
+    
+  },
 };
 </script>
 
