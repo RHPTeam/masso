@@ -13,6 +13,8 @@ const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog"
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const { logUserAction } = require( "../../microservices/synchronize/log.service" );
+
 
 const jsonResponse = require( "../../configs/response" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
@@ -132,6 +134,40 @@ module.exports = {
     } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng tạo sự kiện "${newEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": newEvent._id
+              },
+              "status": 0
+            }
+          },
+          {
+            "logs": {
+              "content": `Người dùng cài đặt sự kiện "${newEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${newEvent.break_point} được đăng trên ${ newEvent.timeline.length > 0 ? "profile cá nhân với ID:" + newEvent.timeline.toString() : "" } ${newEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + newEvent.target_category : ""} ${newEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + newEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ newEvent.started_at }`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": newEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
@@ -202,6 +238,41 @@ module.exports = {
       // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng cập nhật sự kiện "${findEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          },
+          {
+            "logs": {
+              "content": `Người dùng cài đặt sự kiện "${findEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${findEvent.break_point} được đăng trên ${ findEvent.timeline.length > 0 ? "profile cá nhân với ID:" + findEvent.timeline.toString() : "" } ${findEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + findEvent.target_category : ""} ${findEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + findEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ findEvent.started_at }`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
+
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();
@@ -236,6 +307,29 @@ module.exports = {
     } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng xóa sự kiện "${findEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
 
     await Event.findByIdAndDelete( req.query._eventId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

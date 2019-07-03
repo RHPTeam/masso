@@ -106,14 +106,16 @@ module.exports = {
 
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {
-        "logs": {
-          "content": `Người dùng tạo chiến dịch "${ newCampaign.title }" thành công!`,
-          "createdAt": new Date(),
-          "info": {
-            "campaignId": newCampaign._id
-          },
-          "status": 0
-        },
+        "data": [ {
+          "logs": {
+            "content": `Người dùng tạo chiến dịch "${ newCampaign.title }" thành công!`,
+            "createdAt": new Date(),
+            "info": {
+              "campaignId": newCampaign._id
+            },
+            "status": 0
+          }
+        } ],
         "_account": req.uid
       },
       resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
@@ -157,14 +159,16 @@ module.exports = {
 
         /** ********************** Log Action Of User For Admin ****************************** **/
         let objectLog = {
-            "logs": {
-              "content": `Chuyển trạng thái chiến dịch "${!findCampaign.title}" từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
-              "createdAt": new Date(),
-              "info": {
-                "campaignId": findCampaign._id
-              },
-              "status": 0
-            },
+            "data": [ {
+              "logs": {
+                "content": `Chuyển trạng thái chiến dịch "${!findCampaign.title}" từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+                "createdAt": new Date(),
+                "info": {
+                  "campaignId": findCampaign._id
+                },
+                "status": 0
+              }
+            } ],
             "_account": req.uid
           },
           resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
@@ -189,9 +193,9 @@ module.exports = {
     }
 
     /** ********************** Log Action Of User For Admin ****************************** **/
-    let objectLog = {
+    let objectLog = [ {
         "logs": {
-          "content": `Cập nhật chiến dịch "${findCampaign.title}" thành công.`,
+          "content": `Người dùng cập nhật chiến dịch "${findCampaign.title}" thành công.`,
           "createdAt": new Date(),
           "info": {
             "campaignId": findCampaign._id
@@ -199,7 +203,7 @@ module.exports = {
           "status": 0
         },
         "_account": req.uid
-      },
+      } ],
       resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
 
     if ( resLogSync.data.status !== "success" ) {
@@ -228,6 +232,24 @@ module.exports = {
       await Event.findByIdAndDelete( event );
     } );
 
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = [ {
+        "logs": {
+          "content": `Người dùng xóa chiến dịch "${findCampaign.title}" thành công.`,
+          "createdAt": new Date(),
+          "info": {
+            "campaignId": findCampaign._id
+          },
+          "status": 0
+        },
+        "_account": req.uid
+      } ],
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
     await Campaign.findByIdAndDelete( req.query._campaignId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
