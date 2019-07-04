@@ -92,8 +92,15 @@
       </div>
       <!-- End: Header Action -->
       <!--	Start: Create Campaign Popup	-->
+<!--      <transition name="popup">-->
+<!--        <app-event-->
+<!--          v-if="caseEvent.popup === true"-->
+<!--          @close="close( $event )"-->
+<!--        />-->
+<!--      </transition>-->
+      <!--	Start: Create Campaign Popup Test Again	-->
       <transition name="popup">
-        <app-event
+        <app-events
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
@@ -112,14 +119,17 @@
 
 <script>
 import AppHistory from "../history";
-import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
+// import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
+
+import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
 
 let typingTimer;
 
 
 export default {
   components: {
-    AppEvent,
+    // AppEvent,
+    AppEvents,
     AppHistory
   },
   props: [ "view" ],

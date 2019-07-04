@@ -19,7 +19,7 @@ const state = {
   errorEvent: [],
   statusEvent: "",
   caseEvent: {
-    post: 1, // 0: None, 1: Category, 2: Custom
+    post: 0, // 0: None, 1: Category, 2: Custom
     target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
     libraries: 0, // 0: All, 1: Libraries
     popup: false

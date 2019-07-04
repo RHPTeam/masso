@@ -72,7 +72,7 @@ const generalPostRouter = {
           component: require( "@/views/user/post/campaigns/desktop/simple" )
             .default
         }
-      ]
+        ]
     },
     {
       path: "account",
