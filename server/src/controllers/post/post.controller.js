@@ -10,6 +10,7 @@ const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const request = require( "axios" );
+const { logUserAction } = require( "../../microservices/synchronize/log.service" );
 
 const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" ),
@@ -347,6 +348,30 @@ module.exports = {
           // eslint-disable-next-line camelcase
           newPostSchedule.started_at = startAt;
           await newPostSchedule.save();
+
+          /** ********************** Log Action Of User For Admin ****************************** **/
+          const objectLog = {
+              "data": [
+                {
+                  "logs": {
+                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${findPost._id} trên tài khoản facebook có ID: ${facebook} ${req.body.break_point ? "thời gian giữa các lần gửi là: " + req.body.break_point + " phút " : "" } được bắt đầu lúc ${newPostSchedule.started_at}`,
+                    "createdAt": new Date(),
+                    "info": {
+                      "postNowId": newPostSchedule._id
+                    },
+                    "status": 0
+                  }
+                } ],
+              "_account": req.uid
+            },
+
+            resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+          if ( resLogSync.data.status !== "success" ) {
+            return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+          }
+          /** **************************************************************************** **/
+
           return newPostSchedule;
         } )
       );
