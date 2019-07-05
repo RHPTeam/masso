@@ -3,13 +3,22 @@
     <div class="left">
       <input type="text" class="form_control" placeholder="Tìm kiếm" />
     </div>
-    <div class="right btn btn_primary">Tạo mới</div>
+    <div class="right btn btn_primary" @click="openCreateMember">Tạo mới</div>
   </div>
 </template>
 
 <script>
 export default {
-
+  data() {
+    return {
+      key: ""
+    }
+  },
+  methods: {
+    openCreateMember() {
+      this.$emit("openPopup", true);
+    }
+  },
 }
 </script>
 

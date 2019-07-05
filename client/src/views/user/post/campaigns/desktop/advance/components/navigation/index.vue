@@ -1,42 +1,30 @@
 <template>
-  <div class="r main--header" :data-theme="currentTheme">
-    <div class="c_md_6 main--header-left d_flex">
-      <div class="campaign--search d_flex align_items_center">
-        <span class="ml_2">
-          <icon-base
-            class="ic--search"
-            icon-name="Tìm kiếm"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
+  <div class="main--header" :data-theme="currentTheme">
+    <!-- Start: Header Left-->
+    <div class="nav--left d_flex align_items_center mb_4">
+        <div class="add--campaign">
+          <div
+            class="btn--add-campaign mr_2"
+            @click="isShowCreatCampaignPopup = true"
           >
-            <icon-input-search/>
-          </icon-base>
-        </span>
-        <input class="search--input"
-          placeholder="Tìm kiếm"
-          type="text"
-          v-model="search"
-          @keydown.enter="updateSearch"
-        />
+            Thêm chiến dịch
+          </div>
+        </div>
+        <div class="action--campaign d_flex align_items_center">
+          <router-link
+            class="action--link"
+            :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
+            active-class="active"
+          >Tất cả chiến dịch</router-link>
+          <div class="divider"></div>
+          <router-link
+            class="action--link"
+            :to="{ name: 'campaigns_default' }"
+            active-class="active"
+          >Chiến dịch mẫu</router-link>
+        </div>
       </div>
-    </div>
-    <!-- End: Header Left-->
-    <!-- Start: Header Right-->
-    <div class="c_md_6 main--header-right text_right">
-      <app-filter
-        class="mr_2"
-        :filterList="filterShowList"
-        :filterSelected="filterShowSelected"
-        @updateFilterSelected="updateFilterShowSelected($event)"
-      />
-<!--      <app-filter-->
-<!--        :filterList="filterStatusList"-->
-<!--        :filterSelected="filterStatusSelected"-->
-<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
-<!--      />-->
-    </div>
-    <!-- End: Header Right-->
+
 		<!--	Start: Create Campaign Popup	-->
 		<transition name="popup">
 			<create-campaign-popup
@@ -51,12 +39,10 @@
 </template>
 
 <script>
-import AppFilter from "./filter/index";
-import CreateCampaignPopup from "../../popup/campaigns/create/index";
+import CreateCampaignPopup from "../../../popup/campaigns/create/index";
 
 export default {
   components: {
-    AppFilter,
     CreateCampaignPopup
   },
   props: [ "filterShowSelected", "filterStatusSelected" ],
@@ -74,6 +60,8 @@ export default {
       ],
       isShowCreatCampaignPopup: false,
       search: "",
+      sizeDefault: 25,
+      pageDefault: 1
     };
   },
   computed: {
@@ -85,29 +73,11 @@ export default {
     search( val ) {
       if ( val.length === 0 ) {
         const dataSender = {
-          size: this.filterShowSelected.id,
-          page: 1
+          size: this.sizeDefault,
+          page: this.pageDefault
         };
         this.$store.dispatch( "getCampaignsByPage", dataSender );
-
-        this.$router.replace( {
-          name: "post_campaigns",
-          query: {
-            size: this.filterShowSelected.id,
-            page: 1
-          }
-        } );
-
-        this.$emit( "updateCurrentPage", 1 );
-        this.$emit( "updateSearch", this.search );
       }
-    }
-  },
-  created() {
-    const search = this.$route.query.search;
-
-    if ( search !== undefined ) {
-      this.search = search;
     }
   },
   methods: {
@@ -129,19 +99,10 @@ export default {
     async updateSearch() {
       const dataSender = {
         keyword: this.search,
-        size: this.filterShowSelected.id,
-        page: 1
+        size: this.sizeDefault,
+        page: this.pageDefault
       };
       await this.$store.dispatch("getCampaignsByKey", dataSender);
-
-      this.$router.replace( {
-        name: "post_campaigns",
-        query: {
-          search: this.search,
-          size: this.filterShowSelected.id,
-          page: 1
-        }
-      } );
 
       this.$emit( "updateSearch", this.search );
     }
@@ -153,17 +114,14 @@ export default {
 .main--header {
   .nav--left {
     height: 40px;
-    > button {
-      background-color: transparent;
-      border: 0;
-      border-radius: .625rem;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      height: 100%;
-      outline: none;
-      padding: 0 .5rem;
-      transition: all 0.4s ease;
+    .action--campaign {
+      .action--link {
+        font-size: .95rem;
+        font-weight: 600;
+        padding: 0 .75rem;
+        text-decoration: none;
+        transition: all 0.4s ease;
+      }
     }
     .btn--create {
       background-color: #ffb94a;
@@ -216,7 +174,6 @@ export default {
         height: 40px;
         line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
-        max-width: 100%;
         // width: calc(100%-24px);
         &:active,
         &:focus,
@@ -258,7 +215,7 @@ export default {
 }
 .main--header[data-theme="dark"] {
   .nav--left {
-    button {
+    .action--link {
       color: #ccc;
       &:hover,
       &.active {
@@ -292,4 +249,5 @@ export default {
     }
   }
 }
+
 </style>

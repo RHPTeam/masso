@@ -2,8 +2,7 @@
   <div class="category" :data-theme="currentTheme">
     <!-- Start: Top -->
     <div class="top mb_3">
-      <div class="back mb_3" @click="comebackOption"> << Thay đổi</div>
-      <div>Tùy chọn đăng bài viết trong danh mục của bạn</div>
+      <div class="font_weight_bold">Tùy chọn đăng bài viết trong danh mục của bạn</div>
     </div>
     <!-- End: Top -->
     <!-- Start: Body -->

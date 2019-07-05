@@ -1,46 +1,47 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
+  <div class="item--body d_flex align_items_center px_3 py_2" v-if="member">
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
       <div
         class="col col--name-text"
       >
-        Le Khang
+        {{member.user.name}}
       </div>
     </div>
     <!-- End: Name Column -->
-    <!-- Start: Category Column -->
+    <!-- Start: Email Column -->
     <div class="col col--category px_2">
       <span>
-        khangle0608@gmail.com
+        {{member.user.email}}
       </span>
     </div>
-    <!-- End: Category Column -->
-    <!-- Start: Category Column -->
+    <!-- End: Email Column -->
+    <!-- Start: Phone Column -->
     <div class="col col--category px_2">
       <span>
-        0986 167 832
+        {{member.user.phone}}
       </span>
     </div>
-    <!-- End: Category Column -->
-    <!-- Start: Category Column -->
+    <!-- End: Phone Column -->
+    <!-- Start: Type Column -->
     <div class="col col--category px_2">
       <span>
-        1
+        {{member.typeUser}}
       </span>
     </div>
-    <!-- End: Category Column -->
+    <!-- End: Type Column -->
 
     <!-- Start: Action Column -->
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
       <div
         class="mx_2"
+        @click="editMember"
       >
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
       </div>
-      <span class="mr_1">
+      <span class="mr_1" @click="deleteMember">
         <icon-base
           icon-name="Xóa"
           width="20"
@@ -50,14 +51,6 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1">
-        <icon-base
-          class="icon--post-now"
-          icon-name="Đăng ngay"
-          viewBox="0 0 506 506">
-          <icon-post-now />
-        </icon-base>
-      </span>
     </div>
     <!-- End: Action Column -->
   </div>
@@ -65,7 +58,17 @@
 
 <script>
 export default {
-
+  props: {
+    member: Object
+  },
+  methods: {
+    editMember() {
+      console.log("edit");
+    },
+    deleteMember(){
+      console.log("delete");
+    }
+  },
 }
 </script>
 

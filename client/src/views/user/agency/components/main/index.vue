@@ -10,7 +10,13 @@
       <div class="col col--action px_4">Hành động</div>
     </div>
     <div>
-      <app-item />
+      <div v-if="!agency">Không có dữ liệu</div>
+      <app-item
+        v-else
+        v-for="(member, index) in agency.customer.listOfUser"
+        :key="index"
+        :member="member"
+      />
     </div>
   </div>
 </template>

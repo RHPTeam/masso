@@ -1,18 +1,17 @@
 <template>
   <div class="select">
     <div class="top mb_3">
-      <div class="back" @click="comeBackOption"><< Thay đổi</div>
     </div>
     <!-- Start: Body -->
     <div class="body mb_3">
       <div class="desc mb_2 text_left">
-        <span class="desc--text">Lựa chọn bài viết từ kho nội dung</span>
+        <span class="desc--text font_weight_bold">Lựa chọn bài viết từ kho nội dung</span>
       </div>
       <div class="option mb_3">
         <multiselect
           label="title"
           :clearable="false"
-          :options="categories"
+          :options="allPost"
           @input="selectCategory"
           placeholder="Chọn bài viết"
         />
@@ -36,22 +35,16 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    categories(){
-      return this.$store.getters.allCategories;
+    allPost() {
+      return this.$store.getters.allPost;
     }
   },
   async created(){
-    if ( this.categories.length === 0 ) {
-      await this.$store.dispatch( "getAllCategories" );
+    if ( this.allPost.length === 0 ) {
+      await this.$store.dispatch( "getAllPost" );
     }
   },
   methods: {
-    comeBackOption(){
-      this.$store.dispatch( "setCaseEvent", {
-        key: "post",
-        value: 0
-      } );
-    },
     resetPostType() {
       this.$store.dispatch( "setCaseEvent", {
         key: "target",

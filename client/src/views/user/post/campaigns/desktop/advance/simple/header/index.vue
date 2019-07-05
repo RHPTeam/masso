@@ -1,30 +1,38 @@
 <template>
-  <div class="main--header" :data-theme="currentTheme">
+  <div class="r main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
-    <div class="nav--left d_flex align_items_center mb_4">
-        <div class="add--campaign">
-          <div
-            class="btn--add-campaign mr_2"
-            @click="isShowCreatCampaignPopup = true"
+    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
+      <div class="campaign--search">
+        <span class="ml_2">
+          <icon-base
+            class="ic--search"
+            icon-name="Tìm kiếm"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
           >
-            Thêm chiến dịch
-          </div>
-        </div>
-        <div class="action--campaign d_flex align_items_center">
-          <router-link
-            class="action--link"
-            :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
-            active-class="active"
-          >Tất cả chiến dịch</router-link>
-          <div class="divider"></div>
-          <router-link
-            class="action--link"
-            :to="{ name: 'campaigns_default' }"
-            active-class="active"
-          >Chiến dịch mẫu</router-link>
-        </div>
+            <icon-input-search/>
+          </icon-base>
+        </span>
+        <input class="search--input"
+          placeholder="Tìm kiếm"
+          type="text"
+          v-model="search"
+          @keydown.enter="updateSearch"
+        />
       </div>
-
+    </div>
+    <!-- End: Header Left-->
+    <!-- Start: Header Right-->
+<!--    <div class="c_md_12 c_lg_12 c_xl_6 main&#45;&#45;header-right text_right">-->
+<!--      <app-filter-->
+<!--        class="mr_2"-->
+<!--        :filterList="filterShowList"-->
+<!--        :filterSelected="filterShowSelected"-->
+<!--        @updateFilterSelected="updateFilterShowSelected($event)"-->
+<!--      />-->
+<!--    </div>-->
+    <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
 		<transition name="popup">
 			<create-campaign-popup
@@ -39,10 +47,12 @@
 </template>
 
 <script>
-import CreateCampaignPopup from "../../popup/campaigns/create/index";
+import AppFilter from "./filter/index";
+import CreateCampaignPopup from "../../../popup/campaigns/create/index";
 
 export default {
   components: {
+    AppFilter,
     CreateCampaignPopup
   },
   props: [ "filterShowSelected", "filterStatusSelected" ],
@@ -112,32 +122,7 @@ export default {
 
 <style lang="scss" scoped>
 .main--header {
-  .nav--left {
-    height: 40px;
-    .action--campaign {
-      .action--link {
-        font-size: .95rem;
-        font-weight: 600;
-        padding: 0 .75rem;
-        text-decoration: none;
-        transition: all 0.4s ease;
-      }
-    }
-    .btn--create {
-      background-color: #ffb94a;
-      border-radius: 0.5rem;
-      color: #fff;
-      cursor: pointer;
-      font-size: .95rem;
-      font-weight: 600;
-      height: 40px;
-      line-height: 40px;
-      padding: 0 .75rem;
-      transition: all 0.4s ease;
-      &:hover {
-        background-color: #FF9E4A;
-      }
-    }
+  .main--header-left {
     .btn--add-campaign {
       border-radius: 0.5rem;
       cursor: pointer;
@@ -153,16 +138,11 @@ export default {
         box-shadow: none;
       }
     }
-    .divider {
-      height: 16px;
-      width: 2px;
-    }
-  }
-  .main--header-left {
     .campaign--search {
       background-clip: padding-box;
       border: 0;
       border-radius: 0.5rem;
+      width: 100%;
       svg.ic--search {
         vertical-align: middle;
       }
@@ -214,17 +194,7 @@ export default {
   }
 }
 .main--header[data-theme="dark"] {
-  .nav--left {
-    .action--link {
-      color: #ccc;
-      &:hover,
-      &.active {
-        color: #ffb94a;
-      }
-    }
-    .divider {
-      background-color: #666;
-    }
+  .main--header-left {
     .btn--add-campaign {
       background-color: #ffb94a;
       color: #fff;
@@ -232,8 +202,6 @@ export default {
         background-color: #ff9e4a;
       }
     }
-  }
-  .main--header-left {
     .campaign--search {
       background-color: #27292d ;
       svg.ic--search {
@@ -249,5 +217,4 @@ export default {
     }
   }
 }
-
 </style>

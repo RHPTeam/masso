@@ -1,7 +1,7 @@
 
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 import DeleteCampaignPopup from "@/components/popups/delete";
-import DuplicateCampaignPopup from "../../popup/campaigns/duplicate/index";
+import DuplicateCampaignPopup from "../../../popup/campaigns/duplicate/index";
 
 export default {
   props: [ "currentPage", "filterShowSelected", "filterStatusSelected", "search" ],

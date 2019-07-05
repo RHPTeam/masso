@@ -1,8 +1,7 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
-    <!-- Start: Header Left-->
-    <div class="c_md_12 c_lg_12 c_xl_6 main--header-left d_flex">
-      <div class="campaign--search">
+    <div class="c_md_6 main--header-left d_flex">
+      <div class="campaign--search d_flex align_items_center">
         <span class="ml_2">
           <icon-base
             class="ic--search"
@@ -24,14 +23,19 @@
     </div>
     <!-- End: Header Left-->
     <!-- Start: Header Right-->
-<!--    <div class="c_md_12 c_lg_12 c_xl_6 main&#45;&#45;header-right text_right">-->
+    <div class="c_md_6 main--header-right text_right">
+      <app-filter
+        class="mr_2"
+        :filterList="filterShowList"
+        :filterSelected="filterShowSelected"
+        @updateFilterSelected="updateFilterShowSelected($event)"
+      />
 <!--      <app-filter-->
-<!--        class="mr_2"-->
-<!--        :filterList="filterShowList"-->
-<!--        :filterSelected="filterShowSelected"-->
-<!--        @updateFilterSelected="updateFilterShowSelected($event)"-->
+<!--        :filterList="filterStatusList"-->
+<!--        :filterSelected="filterStatusSelected"-->
+<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
 <!--      />-->
-<!--    </div>-->
+    </div>
     <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
 		<transition name="popup">
@@ -48,7 +52,7 @@
 
 <script>
 import AppFilter from "./filter/index";
-import CreateCampaignPopup from "../../popup/campaigns/create/index";
+import CreateCampaignPopup from "../../../popup/campaigns/create/index";
 
 export default {
   components: {
@@ -70,8 +74,6 @@ export default {
       ],
       isShowCreatCampaignPopup: false,
       search: "",
-      sizeDefault: 25,
-      pageDefault: 1
     };
   },
   computed: {
@@ -83,11 +85,29 @@ export default {
     search( val ) {
       if ( val.length === 0 ) {
         const dataSender = {
-          size: this.sizeDefault,
-          page: this.pageDefault
+          size: this.filterShowSelected.id,
+          page: 1
         };
         this.$store.dispatch( "getCampaignsByPage", dataSender );
+
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: {
+            size: this.filterShowSelected.id,
+            page: 1
+          }
+        } );
+
+        this.$emit( "updateCurrentPage", 1 );
+        this.$emit( "updateSearch", this.search );
       }
+    }
+  },
+  created() {
+    const search = this.$route.query.search;
+
+    if ( search !== undefined ) {
+      this.search = search;
     }
   },
   methods: {
@@ -109,10 +129,19 @@ export default {
     async updateSearch() {
       const dataSender = {
         keyword: this.search,
-        size: this.sizeDefault,
-        page: this.pageDefault
+        size: this.filterShowSelected.id,
+        page: 1
       };
       await this.$store.dispatch("getCampaignsByKey", dataSender);
+
+      this.$router.replace( {
+        name: "post_campaigns",
+        query: {
+          search: this.search,
+          size: this.filterShowSelected.id,
+          page: 1
+        }
+      } );
 
       this.$emit( "updateSearch", this.search );
     }
@@ -122,7 +151,35 @@ export default {
 
 <style lang="scss" scoped>
 .main--header {
-  .main--header-left {
+  .nav--left {
+    height: 40px;
+    > button {
+      background-color: transparent;
+      border: 0;
+      border-radius: .625rem;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      height: 100%;
+      outline: none;
+      padding: 0 .5rem;
+      transition: all 0.4s ease;
+    }
+    .btn--create {
+      background-color: #ffb94a;
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+      font-size: .95rem;
+      font-weight: 600;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 .75rem;
+      transition: all 0.4s ease;
+      &:hover {
+        background-color: #FF9E4A;
+      }
+    }
     .btn--add-campaign {
       border-radius: 0.5rem;
       cursor: pointer;
@@ -138,11 +195,16 @@ export default {
         box-shadow: none;
       }
     }
+    .divider {
+      height: 16px;
+      width: 2px;
+    }
+  }
+  .main--header-left {
     .campaign--search {
       background-clip: padding-box;
       border: 0;
       border-radius: 0.5rem;
-      width: 100%;
       svg.ic--search {
         vertical-align: middle;
       }
@@ -154,6 +216,7 @@ export default {
         height: 40px;
         line-height: 40px;
         padding: 0.375rem 0.75rem 0.375rem 0.25rem;
+        max-width: 100%;
         // width: calc(100%-24px);
         &:active,
         &:focus,
@@ -194,7 +257,17 @@ export default {
   }
 }
 .main--header[data-theme="dark"] {
-  .main--header-left {
+  .nav--left {
+    button {
+      color: #ccc;
+      &:hover,
+      &.active {
+        color: #ffb94a;
+      }
+    }
+    .divider {
+      background-color: #666;
+    }
     .btn--add-campaign {
       background-color: #ffb94a;
       color: #fff;
@@ -202,6 +275,8 @@ export default {
         background-color: #ff9e4a;
       }
     }
+  }
+  .main--header-left {
     .campaign--search {
       background-color: #27292d ;
       svg.ic--search {

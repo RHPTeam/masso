@@ -1,6 +1,6 @@
 <template>
   <div class="location mt_4">
-    <div class="top">
+    <div class="top font_weight_bold">
       Bạn có thể lựa chọn các tùy chỉnh dưới đây để đăng lên facebook
     </div>
     <div class="body">
@@ -21,13 +21,21 @@
             <div class="content">
               <div class="main">
                 <multiselect
-                  label="title"
-                  placeholder="Chọn nhóm muốn đăng"
-                  :value="event.target_category"
+                  class="tag--multi"
+                  label="name"
+                  placeholder="Chọn tài khoản cá nhân muốn đăng"
+                  :value="event.timeline"
                   :clearable="false"
-                  :options="allPostGroups"
+                  :options="allAccountFB"
                   @input="selectFacebookGroup"
-                />
+                >
+                  <template slot="option" slot-scope="option">
+                    <div class="d_flex align_items_center">
+                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.userInfo.thumbSrc + ')' }"></div>
+                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.userInfo.name }}</div>
+                    </div>
+                  </template>
+                </multiselect>
               </div>
             </div>
           </div>
@@ -90,7 +98,14 @@
                   :value="convertTargetCustomPages"
                   :options="facebookPages"
                   @input="selectPageFacebook"
-                />
+                >
+                  <template slot="option" slot-scope="option">
+                    <div class="d_flex align_items_center">
+                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                    </div>
+                  </template>
+                </multiselect>
               </div>
 
             </div>
@@ -121,7 +136,14 @@
                   :value="convertTargetCustomGroups"
                   :options="facebookGroups"
                   @input="selectGroupFacebook"
-                />
+                >
+                  <template slot="option" slot-scope="option">
+                    <div class="d_flex align_items_center">
+                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                    </div>
+                  </template>
+                </multiselect>
               </div>
             </div>
           </div>
@@ -147,13 +169,19 @@ export default {
     allPostGroups(){
       return this.$store.getters.postGroups;
     },
+    allAccountFB() {
+      return this.$store.getters.accountsFB;
+    },
     event () {
       return this.$store.getters.event;
     },
     facebookGroups(){
+      console.log(this.$store.getters.facebookGroups)
       return this.$store.getters.facebookGroups;
     },
     facebookPages(){
+      console.log("page");
+      console.log(this.$store.getters.facebookPages);
       return this.$store.getters.facebookPages;
     },
     convertTargetCustomGroups() {
@@ -189,6 +217,9 @@ export default {
     }
     if ( this.allPostGroups.length === 0 ) {
       await this.$store.dispatch( "getAllPostGroups" );
+    }
+    if ( this.allAccountFB.length === 0 ) {
+      await this.$store.dispatch( "getAccountsFB" );
     }
   },
   methods: {
