@@ -67,11 +67,11 @@ module.exports = {
       dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v" ).populate( { "path": "_categories", "select": "title" } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
-
-    dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v" ).populate( { "path": "_categories", "select": "title" } ).lean();
-
-    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( {
