@@ -69,7 +69,9 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v" ).populate( { "path": "_categories", "select": "title" } ).lean();
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "create": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( {
