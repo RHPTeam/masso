@@ -180,17 +180,9 @@
             </button>
             <button
               class="btn bg_primary"
-              v-if="this.$store.getters.variableControlAgency === 0"
               @click="createNewMember"
             >
               Tạo mới
-            </button>
-            <button
-              class="btn bg_primary"
-              v-if="this.$store.getters.variableControlAgency === 1"
-              @click="updateMember"
-            >
-              Cập nhật
             </button>
           </div>
         </div>

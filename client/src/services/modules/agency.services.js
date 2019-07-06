@@ -24,7 +24,17 @@ export default {
   getInfoMember(agencyId) {
     return request( {
       "method": "get",
-      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user?_account=${agencyId}`,
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/users/info?_id=${agencyId}`,
+      "headers": {
+        "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
+      }
+    } );
+  },
+  expireInfoMember(userId, info) {
+    return request( {
+      "method": "patch",
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user?_account=${userId}`,
+      "data": info,
       "headers": {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }

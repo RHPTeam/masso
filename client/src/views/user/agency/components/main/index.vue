@@ -13,9 +13,10 @@
       <div v-if="!agency">Không có dữ liệu</div>
       <app-item
         v-else
-        v-for="(member, index) in agency.customer.listOfUser"
+        v-for="(member, index) in agency"
         :key="index"
         :member="member"
+        @openEdit="openPopupEditInfoMember($event)"
       />
     </div>
   </div>
@@ -29,12 +30,17 @@ export default {
   },
   computed: {
     agency(){
-      return this.$store.getters.agency;
+      return this.$store.getters.memberAgency;
     }
   },
   async created(){
     await this.$store.dispatch("getInfoAgency");
-  }
+  },
+  methods: {
+    openPopupEditInfoMember(val) {
+      this.$emit("openPopupEdit", val);
+    }
+  },
 }
 </script>
 

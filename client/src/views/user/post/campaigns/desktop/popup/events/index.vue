@@ -9,8 +9,9 @@
         />
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <div class="body" v-if="event">
-          <custom-post />
+        <div class="body p_4" v-if="event">
+          <post-custom />
+          <post-location />
         </div>
         <!-- End: Modal Body -->
         <div class="bottom d_flex align_items_center justify_content_end py_4 px_3">
@@ -31,14 +32,16 @@
 
 <script>
 import AppHeader from "./components/header/index";
-import CustomPost from "./components/custompost";
-import SelectTime from "./components/time";
+import SelectTime from "./components/popup/time";
+import PostCustom from "./components/select";
+import PostLocation from "./components/postlocation";
 
 export default {
   components: {
     AppHeader,
-    CustomPost,
-    SelectTime
+    SelectTime,
+    PostCustom,
+    PostLocation
   },
   data() {
     return {

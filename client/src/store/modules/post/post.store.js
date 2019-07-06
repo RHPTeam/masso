@@ -170,7 +170,6 @@ const actions = {
     commit( "post_request" );
     const resultAllPost = await PostServices.index();
     commit( "setAllPost", resultAllPost.data.data );
-    console.log(resultAllPost.data.data);
     commit( "post_success" );
   },
   getPostById: async ( { commit }, payload ) => {

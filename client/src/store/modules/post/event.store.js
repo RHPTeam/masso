@@ -13,6 +13,7 @@ const state = {
     break_point: 15,
     started_at: new Date,
     post_custom: [],
+    post_category: [],
     target_custom: [],
     timeline: []
   },
@@ -21,7 +22,9 @@ const state = {
   caseEvent: {
     post: 0, // 0: None, 1: Category, 2: Custom
     target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
-    libraries: 0, // 0: All, 1: Libraries
+    libraries: 0, // 0: All, 1: Libraries,
+    active: 1, // 0: Active
+    listPost: 1, // 0: Active
     popup: false
   }
 };

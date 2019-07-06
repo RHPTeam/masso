@@ -4,6 +4,7 @@
     <div class="col col--name px_2">
       <div
         class="col col--name-text"
+        @click="editMember"
       >
         {{member.user.name}}
       </div>
@@ -41,16 +42,6 @@
           <icon-edit />
         </icon-base>
       </div>
-      <span class="mr_1" @click="deleteMember">
-        <icon-base
-          icon-name="Xóa"
-          width="20"
-          height="20"
-          viewBox="0 0 15 15"
-        >
-          <icon-remove />
-        </icon-base>
-      </span>
     </div>
     <!-- End: Action Column -->
   </div>
@@ -62,11 +53,9 @@ export default {
     member: Object
   },
   methods: {
-    editMember() {
-      console.log("edit");
-    },
-    deleteMember(){
-      console.log("delete");
+    async editMember() {
+      await this.$store.dispatch("getInfoMember", this.member.user._id);
+      this.$emit("openEdit", true);
     }
   },
 }

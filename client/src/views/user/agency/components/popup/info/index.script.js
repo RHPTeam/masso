@@ -154,14 +154,12 @@ export default {
     }
   },
   methods: {
-    createNewMember() {
-      this.$store.dispatch("createNewMember", this.user);
+    async createNewMember() {
+      await this.$store.dispatch("createNewMember", this.user);
+      this.close();
     },
     close(){
       this.$emit("closePopup", false);
-    },
-    updateMember(){
-      console.log("con cac");
     }
   },
 }

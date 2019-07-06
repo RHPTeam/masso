@@ -22,12 +22,12 @@
               <div class="main">
                 <multiselect
                   class="tag--multi"
+                  multiple
                   label="name"
                   placeholder="Chọn tài khoản cá nhân muốn đăng"
                   :value="event.timeline"
-                  :clearable="false"
                   :options="allAccountFB"
-                  @input="selectFacebookGroup"
+                  @input="selectFacebookAccount"
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d_flex align_items_center">
@@ -176,12 +176,9 @@ export default {
       return this.$store.getters.event;
     },
     facebookGroups(){
-      console.log(this.$store.getters.facebookGroups)
       return this.$store.getters.facebookGroups;
     },
     facebookPages(){
-      console.log("page");
-      console.log(this.$store.getters.facebookPages);
       return this.$store.getters.facebookPages;
     },
     convertTargetCustomGroups() {
@@ -223,6 +220,14 @@ export default {
     }
   },
   methods: {
+    selectFacebookAccount(value){
+      const listAccount = value.map(item => item._id);
+      console.log(listAccount);
+      this.$store.dispatch("setEvent", {
+        key: "timeline",
+        value: listAccount
+      })
+    },
     selectGroupFacebook( value ) {
       const groupListSelect = value.map( group => {
         return {

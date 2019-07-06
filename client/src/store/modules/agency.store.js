@@ -4,12 +4,14 @@ import CookieFunction from "@/utils/functions/cookie";
 const state = {
   agency: {},
   agencyStatus: "",
-  variableControlAgency: 0
+  memberAgency: [],
+  memberInfo: {}
 };
 const getters = {
   agency: state => state.agency,
   agencyStatus: state => state.agencyStatus,
-  variableControlAgency: state => state.variableControlAgency
+  memberInfo: state => state.memberInfo,
+  memberAgency: state => state.memberAgency
 };
 const mutations = {
   agency_request: state =>  {
@@ -20,6 +22,12 @@ const mutations = {
   },
   setAgency: (state, payload) => {
     state.agency = payload;
+  },
+  setMemberAgency: (state, payload) => {
+    state.memberInfo = payload;
+  },
+  setMemberOfAgency: (state, payload) => {
+    state.memberAgency = payload;
   }
 };
 const actions = {
@@ -36,13 +44,22 @@ const actions = {
     const agencyId = CookieFunction.getCookie("uid");
     const result = await AgencyServices.getInfo(agencyId);
     commit("setAgency", result.data.data);
+    commit("setMemberOfAgency", result.data.data.customer.listOfUser);
     commit("agency_success");
   },
   getInfoMember: async ({commit}, payload) => {
     commit("agency_request");
     const result = await AgencyServices.getInfoMember(payload);
-    console.log(result.data.data);
-    commit("setAgency", result.data.data);
+    commit("setMemberAgency", result.data.data);
+    commit("agency_success");
+  },
+  expireMember: async ({commit}, payload) => {
+    commit("agency_request");
+    const objSender = {
+      expireDate: payload.expireDate
+    };
+    const result = await AgencyServices.expireInfoMember(payload.userId, objSender);
+    commit("setMemberAgency", result.data.data);
     commit("agency_success");
   }
 };

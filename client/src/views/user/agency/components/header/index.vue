@@ -1,6 +1,6 @@
 <template>
   <div class="header mb_3">
-    <div v-if="!agency"></div>
+    <div v-if="!agency.expire"></div>
     <div v-else class="d_flex align_items_center">
       <div class="item mr_3">{{agency.expire.leftTime}} (tháng)</div>
       <div class="item">{{agency.expire.usedTime}} (tháng)</div>

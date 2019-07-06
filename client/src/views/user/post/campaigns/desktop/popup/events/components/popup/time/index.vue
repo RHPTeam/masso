@@ -50,7 +50,7 @@
 </template>
 
 <script>
-import AppAlert from "../alert/index";
+import AppAlert from "../alert";
 
 const currentTimeStamp = new Date();
 export default {

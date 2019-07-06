@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import DeleteEvent from "./delete"
+import DeleteEvent from "../popup/delete"
 
 export default {
   components: {

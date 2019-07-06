@@ -6,7 +6,9 @@
     />
     <app-header/>
     <app-navigation @openPopup="isShowPopupInfo = $event"/>
-    <app-main />
+    <app-main
+      @openPopupEdit="isShowPopupEdit = $event"
+    />
 
     <!--************* POPUP SIGNUP AND UPDATE ***************-->
     <transition name="popup">
@@ -14,6 +16,12 @@
         v-if="isShowPopupInfo === true"
         @closePopup="isShowPopupInfo = $event"
       />
+
+      <app-edit
+        v-if="isShowPopupEdit === true"
+        @closeAddEdit="isShowPopupEdit = $event"
+      />
+
       <app-delete
         v-if="isShowPopupDelete === true"
       />
@@ -28,18 +36,21 @@ import AppNavigation from "./components/navigation";
 import AppMain from "./components/main";
 import AppInfo from "./components/popup/info";
 import AppDelete from "./components/popup/delete";
+import AppEdit from "./components/popup/edit";
 export default {
   components: {
     AppHeader,
     AppNavigation,
     AppMain,
     AppInfo,
-    AppDelete
+    AppDelete,
+    AppEdit
   },
   data() {
     return {
       isShowPopupInfo: false,
-      isShowPopupDelete: false
+      isShowPopupDelete: false,
+      isShowPopupEdit: false
     }
   },
   async created(){
