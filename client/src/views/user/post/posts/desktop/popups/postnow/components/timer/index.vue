@@ -36,13 +36,28 @@
       </div>
       <!-- End: Information -->
     </div>
+    <!-- Start: Modal Show Alert Error Break Poin -->
+    <app-alert
+      v-if="isShowAlertBreakPoin === true"
+      @closeAlert="isShowAlertBreakPoin = $event"
+    />
+    <!-- End: Modal Show Alert Error Break Poin -->
   </div>
   <!--End Section option hours-->
 </template>
 
 <script>
+import AppAlert from "../alert";
 export default {
+  components: {
+    AppAlert
+  },
   props: [ "postSchedule" ],
+  data() {
+    return {
+      isShowAlertBreakPoin: false
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

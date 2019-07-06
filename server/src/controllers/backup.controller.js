@@ -178,4 +178,50 @@ module.exports = {
         jsonResponse( "Backup dữ liệu bài đăng của người dùng thành công!", null )
       );
   }
+  // "backupPostU981": async ( req, res ) => {
+  //   await fs.readFile(
+  //     __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases/backup/postwrite.txt" ) : __dirname.replace(
+  //       "controllers",
+  //       "databases\\backup\\postwrite.txt"
+  //     ),
+  //     "utf8",
+  //     // eslint-disable-next-line handle-callback-err
+  //     async function( err, contents ) {
+  //       // Handle per element
+  //       let data = contents.split( ",,,,,," );
+  //
+  //       for ( let i = 0; i < 508; i++ ) {
+  //         const itemObject = JSON.parse( contents.split( ",,,,,," )[ i ] );
+  //
+  //         let findExistPost = await Post.findOne( { "_account": "5cfe56d99bda01c8901801c2", "title": itemObject.title } );
+  //
+  //
+  //         if ( !findExistPost ) {
+  //           let objectSave = {
+  //               "title": itemObject.title,
+  //               "content": itemObject.content,
+  //               "_account": "5cfe56d99bda01c8901801c2",
+  //               "tags": itemObject.tags
+  //             },
+  //             newPost = await new Post( objectSave );
+  //
+  //           if ( itemObject._categories.length > 0 ) {
+  //             newPost._categories.push( itemObject._categories[ 0 ].$oid );
+  //           }
+  //           if ( itemObject.attachments.length > 0 ) {
+  //             newPost.attachments.push( { "link": itemObject.attachments[ 0 ].link, "typeAttachment": 1 } );
+  //           }
+  //           await newPost.save();
+  //           console.log( newPost._id );
+  //         }
+  //       }
+  //
+  //     }
+  //   );
+  //   res
+  //     .status( 200 )
+  //     .json(
+  //       jsonResponse( "Backup dữ liệu bài đăng của người dùng thành công!", null )
+  //     );
+  // }
 };

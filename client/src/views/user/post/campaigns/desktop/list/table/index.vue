@@ -159,11 +159,13 @@
 					</label>
 				</div>-->
 				<div class="col col--name px_2">
+          <div class="status--dot mr_2"
+               :class="[ campaign.status ? 'dot--active' : 'dot--deactive' ]"
+          ></div>
 					<router-link
             class="col col--name-text"
             :to="{ name: 'post_campaigns_detail', params: { campaignId: campaign._id } }"
-            @click.native="viewCampaignDetail( campaign._id )">
-						{{ campaign.title }}
+            @click.native="viewCampaignDetail( campaign._id )">{{ campaign.title }}
 					</router-link>
 				</div>
 				<div class="col col--desc px_4">

@@ -1,5 +1,5 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
+  <div class="item--body d_flex align_items_center px_3 py_2" v-if="item">
     <!-- Start: Name Column -->
     <div class="col col--name px_2">
       <router-link
@@ -7,7 +7,7 @@
         :to="{ name: 'post_update_post', params: { id: item._id } }"
         @click.native="updatePost()"
       >
-        {{ item.title }}
+        {{ item.title !== undefined && item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}
       </router-link>
     </div>
     <!-- End: Name Column -->
@@ -23,11 +23,15 @@
 
     <!-- Start: Action Column -->
     <div class="col d_flex align_items_center justify_content_center col--action px_4 text_center">
-      <span class="mx_2" @click="updatePost">
+      <router-link
+        class="mx_2"
+        :to="{ name: 'post_update_post', params: { id: item._id } }"
+        @click.native="updatePost"
+      >
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>
-      </span>
+      </router-link>
       <span class="mr_1" @click="showDeletePopup()">
         <icon-base
           icon-name="Xóa"
@@ -38,14 +42,14 @@
           <icon-remove />
         </icon-base>
       </span>
-<!--      <span class="mx_1" @click="showPostNowPopup">-->
-<!--        <icon-base-->
-<!--          class="icon&#45;&#45;post-now"-->
-<!--          icon-name="Đăng ngay"-->
-<!--          viewBox="0 0 506 506">-->
-<!--          <icon-post-now />-->
-<!--        </icon-base>-->
-<!--      </span>-->
+      <span class="mx_1" @click="showPostNowPopup">
+        <icon-base
+          class="icon--post-now"
+          icon-name="Đăng ngay"
+          viewBox="0 0 506 506">
+          <icon-post-now />
+        </icon-base>
+      </span>
     </div>
     <!-- End: Action Column -->
   </div>
@@ -62,6 +66,10 @@ export default {
   methods: {
     async updatePost() {
       await this.$store.dispatch( "getPostById", this.item._id );
+      this.$router.push( {
+        name: "post_update_post",
+        params: { id: this.item._id }
+      } );
     },
     async editPostCateDefault(){
       await this.$store.dispatch( "showPostDuplicate", this.item._id );

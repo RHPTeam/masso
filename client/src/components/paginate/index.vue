@@ -35,6 +35,7 @@
         page.disabled ? disabledClass : '',
         page.breakView ? breakViewClass : ''
       ]"
+      @click="handlePageSelected(page.index + 1)"
     >
       <a
         v-if="page.breakView"
@@ -156,6 +157,11 @@
 <script src="./main.js"></script>
 
 <style lang="scss" scoped>
+  ul {
+    li {
+      cursor: pointer;
+    }
+  }
 a {
   cursor: pointer;
 }

@@ -12,29 +12,49 @@
     <div class="list--content">
       <div class="list--filter mb_3">
         <div
-          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2"
+          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2 position_relative"
+          v-click-outside="closeKeywordRecentList"
         >
-          <span class="ml_3 mt_1">
-            <icon-base
-              icon-name="Tìm kiếm"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-            >
-              <icon-input-search />
-            </icon-base>
-          </span>
+            <span class="ml_3 mt_1">
+              <icon-base
+                icon-name="Tìm kiếm"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+              >
+                <icon-input-search />
+              </icon-base>
+            </span>
           <input type="text"
                  placeholder="Tìm kiếm"
                  v-model="keyword"
+                 @click="isStatusKeywordHistory = true"
                  @keydown.enter="searchPost(keyword)" />
+          <!-- Start: History Search -->
+          <div class="history position_absolute" v-if="isStatusKeywordHistory === true">
+            <div class="history--header">
+              <div class="d_flex justify_content_between">
+                <span>Tìm kiếm gần đây</span>
+              </div>
+            </div>
+            <div class="history--body">
+              <ul v-if="keywordRecentList.length > 0">
+                <li v-for="( keyword, index ) in keywordRecentList" :key="index" @click="searchPostFromKeywordHistory( keyword.content )">{{ keyword.content }}</li>
+              </ul>
+              <ul v-if="keywordRecentList.length === 0">
+                <li>Bạn không có từ khóa tìm kiếm nào trước đây...</li>
+              </ul>
+            </div>
+          </div>
+          <!-- End: History Search -->
         </div>
+        <!-- Start: User Keywords -->
         <div
-          class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
+          class="list--keywords d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
           <span
             v-show="keyPopular && keyPopular.length > 0"
-            class="list--keywork-item py_1 m_1"
+            class="list--keywords-item py_1 m_1"
             v-for="(item, index) in keyPopular"
             :key="index"
             @click="searchPostByKeyword(item)"
@@ -42,6 +62,7 @@
             {{ item }}
           </span>
         </div>
+        <!-- End: User Keywords -->
       </div>
       <div class="list--data my_3">
         <div class="item--header d_flex align_items_center px_2 py_2">
@@ -56,12 +77,16 @@
           <div v-for="(item, index) in listPostFacebookDefault" :key="index">
             <app-item :item="item" />
           </div>
-          <div v-if="listPostFacebookDefault && listPostFacebookDefault.length === 0"
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
+            <loading-component></loading-component>
+          </div>
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
                class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
           >
             Không có dữ liệu
           </div>
         </vue-perfect-scrollbar>
+        <!-- Start: List Content -->
       </div>
     </div>
   </div>
@@ -78,7 +103,8 @@ export default {
       currentPage: 1,
       maxPerPage: 12,
       keyword: "",
-      showLoader: true
+      isLoadingData: true,
+      isStatusKeywordHistory: false
     }
   },
   computed: {
@@ -97,6 +123,9 @@ export default {
     },
     user(){
       return this.$store.getters.userInfo;
+    },
+    keywordRecentList() {
+      return this.$store.getters.keywordRecentList;
     }
   },
   async created () {
@@ -107,37 +136,37 @@ export default {
       size: this.maxPerPage,
       page: this.currentPage
     } );
-    this.keyword = keywordDefault
+    this.keyword = keywordDefault;
   },
   methods: {
     async loadMore() {
-      if ( this.showLoader === true ) {
+      if ( this.isLoadingData === true ) {
         if ( this.keyword !== "" ) {
-
-          if ( this.currentPage > this.numberPageCurrent ) {
+          this.currentPage += 1;
+          if ( this.currentPage >= this.numberPageCurrent ) {
             return false;
           } else {
-            this.showLoader = false;
-
-            this.currentPage += 1;
+            this.isLoadingData = false;
 
             await this.$store.dispatch( "searchPostsFacebookByKey", {
               keyword: this.keyword,
               size: this.maxPerPage,
               page: this.currentPage
             } );
-            this.showLoader = true;
+            this.isLoadingData = true;
           }
         }
       }
     },
     async searchPost() {
+      this.isStatusKeywordHistory = false;
       this.currentPage = 1;
-      this.$store.dispatch( "getListPostFacebookDefault", {
+      await this.$store.dispatch( "getListPostFacebookDefault", {
         keyword: this.keyword,
         size: this.maxPerPage,
         page: this.currentPage
       } );
+      await this.$store.dispatch("getUserInfo");
     },
     async searchPostByKeyword(keyword) {
       this.currentPage = 1;
@@ -147,7 +176,39 @@ export default {
         size: this.maxPerPage,
         page: this.currentPage
       } );
+    },
+    searchPostFromKeywordHistory( keyword ) {
+      this.keyword = keyword;
+      this.searchPost();
+    },
+    closeKeywordRecentList () {
+      this.isStatusKeywordHistory = false;
     }
+    // scrollTrigger() {
+    //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
+    //   const observer = new IntersectionObserver( ( entries ) => {
+    //     entries.forEach( ( entry ) => {
+    //       if ( entry.intersectionRatio > 0 && this.currentPage <= this.numberPageCurrent ) {
+    //         console.log("Hú");
+    //         this.showLoader = true;
+    //         setTimeout( () => {
+    //           this.currentPage += 1;
+    //           this.showLoader = false;
+    //           this.getMorePost();
+    //         }, 2000 );
+    //       }
+    //     } );
+    //   } );
+    //   observer.observe(this.$refs.infiniteScrollTrigger);
+    // },
+    // async getMorePost() {
+    //   console.log("get post");
+    //   await this.$store.dispatch( "searchPostsFacebookByKey", {
+    //     keyword: this.keyword,
+    //     size: this.maxPerPage,
+    //     page: this.currentPage
+    //   } );
+    // }
   },
 };
 </script>

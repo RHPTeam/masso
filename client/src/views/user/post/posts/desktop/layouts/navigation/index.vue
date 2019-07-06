@@ -6,8 +6,7 @@
            @click="createPost"
       >Viết bài mới</div>
       <router-link
-        class="mr_2"
-        tag="button"
+        class="nav--link mr_2"
         :to="{ name: 'post_posts', query: { size: 25, page: 1 } }"
         active-class="active"
         exact
@@ -15,16 +14,14 @@
       >
       <div class="divider"></div>
       <router-link
-        class="ml_2"
-        tag="button"
+        class="nav--link ml_2"
         :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh mục</router-link
       >
       <div class="divider"></div>
       <router-link
-        class="ml_2"
-        tag="button"
+        class="nav--link ml_2"
         :to="{ name: 'categories_default' }"
         active-class="active"
       >Danh mục mẫu</router-link
@@ -94,16 +91,11 @@ export default {
 .post--navigation {
   .nav--left {
     height: 40px;
-    button {
-      background-color: transparent;
-      border: 0;
-      border-radius: .625rem;
-      cursor: pointer;
+    .nav--link {
       font-size: .95rem;
       font-weight: 600;
-      height: 100%;
-      outline: none;
       padding: 0 .5rem;
+      text-decoration: none;
       transition: all 0.4s ease;
     }
     .btn--create {
@@ -145,7 +137,7 @@ export default {
 /* Theme Color */
 .post--navigation[data-theme="light"] {
   .nav--left {
-    button {
+    .nav--link {
       color: #999999;
       &:hover,
       &.active {
@@ -180,7 +172,7 @@ export default {
     }
   }
   .nav--left {
-    button {
+    .nav--link {
       color: #ccc;
       &:hover,
       &.active {

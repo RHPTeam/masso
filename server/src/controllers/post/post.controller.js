@@ -23,9 +23,26 @@ module.exports = {
     if ( req.query._id ) {
       dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
-    } else if ( req.query._categoryId ) {
-      dataResponse = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
-      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    } else if ( req.query._categoryId && req.query._size && req.query._page ) {
+      const pageNo = parseInt( req.query._page ),
+        size = parseInt( req.query._size ),
+        query = {},
+        totalPosts = await Post.countDocuments( { "_account": req.uid, "_categories": req.query._categoryId } );
+
+      // Check catch
+      if ( pageNo < 0 || pageNo === 0 ) {
+        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
+      }
+
+      // Handle input data before connect to mongodb
+      query.skip = size * ( pageNo - 1 );
+      query.limit = size;
+      query.sort = { "$natural": -1 };
+
+      // Handle with mongodb
+      dataResponse = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
     // Handle get items by pagination from database
@@ -59,7 +76,7 @@ module.exports = {
         "title": dictionary.DEFAULT_POSTCATEGORY
       } ),
       newPost = await new Post( {
-        "title": dictionary.DEFAULT_NAMEPOST,
+        "title": "",
         "_account": req.uid
       } );
 
@@ -277,6 +294,11 @@ module.exports = {
       } );
     }
 
+    // Check if feed contain text and scrape link
+    if ( findPost.scrape && findPost.scrape.length > 0 && photos.length > 0 ) {
+      findPost.scrape = "";
+    }
+
     // Define object save to post schedule collection
     objectFeed = {
       "activity": {
@@ -293,7 +315,7 @@ module.exports = {
       },
       "photos": photos && photos.length > 0 ? photos : [],
       "place": findPost.place ? findPost.place.id : "",
-      "scrape": findPost.scrape ? findPost.scrape : "",
+      "scrape": findPost.scrape && findPost.scrape.length > 0 ? findPost.scrape : "",
       "tags": findPost.tags ? findPost.tags.map( ( tag ) => tag.uid ) : ""
     };
 

@@ -10,6 +10,40 @@
     font-size: .875rem;
   }
 }
+.list--content {
+  .history {
+    background-color: #27292d;
+    border-radius: 0 0 .625rem .625rem;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #F7F7F7;
+    top: 40px;
+    width: 100%;
+    z-index: 99;
+    &--header {
+      border-bottom: 1px solid #444;
+      height: 40px;
+      line-height: 40px;
+      padding: 0 0.75rem;
+      text-transform: uppercase;
+    }
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      li {
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        transition: all .4s ease;
+        &:hover {
+          background-color: #2f3136;;
+        }
+        &:last-child {
+          border-radius: 0 0 .625rem .625rem;
+        }
+      }
+    }
+  }
+}
 .list--input {
   border-radius: 10px;
   font-size: 0.875rem;
@@ -47,11 +81,11 @@
     color: #999;
   }
 }
-.list--keywork {
+.list--keywords {
   &-item {
     cursor: pointer;
-    color: $color-dark-2;
-    font-size: calc(1rem - 3px);
+    color: #999;
+    font-size: .825rem;
     font-weight: 500;
     text-decoration: underline;
     &:hover,
@@ -89,7 +123,7 @@
     background-color: #27292d;
     input[type="text"] {
       background: #27292d;
-      color: #ccc;
+      color: #F7F7F7;
     }
   }
 }
@@ -329,9 +363,13 @@
 .list[data-theme="dark"] {
   .item--header {
     background-color: #27292d;
-    border-bottom: 1px solid #666;
+    color: #ccc;
   }
   .item--body {
-    background-color: #27292d;
+    background-color: rgba(39, 41, 45, 0.4);
+    &:hover, &:active, &:visited, &:focus {
+      background-color: #27292c;
+      transition: all .5s ease;
+    }
   }
 }

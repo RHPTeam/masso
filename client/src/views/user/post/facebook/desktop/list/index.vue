@@ -41,6 +41,7 @@
           v-else
           :item="item"
           @showDeletePopup="showDeletePopup($event)"
+          @showUpdatePopup="showUpdatePopup($event)"
         />
       </div>
       <!-- End: Account Items Loop -->
@@ -77,6 +78,14 @@
         typeName="tài khoản"
       ></delete-account-popup>
     </transition>
+    <transition name="popup">
+      <update-cookie
+        :item="accountSelected"
+        v-if="isShowUpdatePopup === true"
+        @closeAddPopup="isShowUpdatePopup = $event"
+      >
+      </update-cookie>
+    </transition>
   </div>
 </template>
 
@@ -84,6 +93,7 @@
 import AddAccountPopup from "../popup/list/addaccount/index";
 import ExistedAccountPopup from "../popup/list/alert/index";
 import DeleteAccountPopup from "../popup/list/delete";
+import UpdateCookie from "../popup/list/updatecookie/index";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 import ItemAccount from "./item/index";
 
@@ -92,6 +102,7 @@ export default {
     AddAccountPopup,
     ExistedAccountPopup,
     DeleteAccountPopup,
+    UpdateCookie,
     UpgradeProPopup,
     ItemAccount
   },
@@ -99,6 +110,7 @@ export default {
     return {
       accountSelected: {},
       isShowDeletePopup: false,
+      isShowUpdatePopup: false,
       showModal: false,
       showUpgradePro: false,
       nameBread: "Thêm tài khoản Facebook",
@@ -125,6 +137,10 @@ export default {
   methods: {
     showDeletePopup( val ) {
       this.isShowDeletePopup = true;
+      this.accountSelected = val;
+    },
+    showUpdatePopup( val ) {
+      this.isShowUpdatePopup = true;
       this.accountSelected = val;
     },
     showPopup() {

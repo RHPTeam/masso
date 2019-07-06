@@ -14,8 +14,8 @@ export default {
   getById( postId ) {
     return Api().get( `posts?_id=${postId}` );
   },
-  getByCategories( categoryId ) {
-    return Api().get( `posts?_categoryId=${categoryId}` );
+  getByCategories( categoryId, size, page ) {
+    return Api().get( `posts?_categoryId=${categoryId}&_size=${size}&_page=${page}` );
   },
   getPostsByPage( size, page ) {
     return Api().get( `posts?_size=${size}&_page=${page}` );

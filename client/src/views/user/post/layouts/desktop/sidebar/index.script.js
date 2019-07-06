@@ -22,6 +22,28 @@ export default {
         },
         to: { name: "post_dashboard" }
       },
+        {
+          text: "Tài khoản Facebook",
+          icon: {
+            iconName: "Tài khoản Facebook",
+            tagName: "icon-account",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_fbaccount" }
+        },
+        {
+          text: "Facebook Tìm kiếm",
+          icon: {
+            iconName: "Facebook tìm kiếm",
+            tagName: "icon-input-search",
+            width: 22,
+            height: 22,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_fb_search" }
+        },
       {
         text: "Kho nội dung",
         icon: {
@@ -36,8 +58,19 @@ export default {
           query: { size: 25, page: 1 }
         }
       },
+        {
+          text: "Nhóm & Trang",
+          icon: {
+            iconName: "Nhóm & Trang",
+            tagName: "icon-friend",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_group" }
+        },
       {
-        text: "Chiến dịch",
+        text: "Đăng bài tự động",
         icon: {
           iconName: "Chiến dịch",
           tagName: "icon-broadcast",
@@ -49,39 +82,6 @@ export default {
           name: "post_campaigns",
           query: { size: 25, page: 1 }
         }
-      },
-      {
-        text: "Nhóm & Trang",
-        icon: {
-          iconName: "Nhóm & Trang",
-          tagName: "icon-friend",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 24 24"
-        },
-        to: { name: "post_group" }
-      },
-      {
-        text: "Tài khoản Facebook",
-        icon: {
-          iconName: "Tài khoản Facebook",
-          tagName: "icon-account",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 24 24"
-        },
-        to: { name: "post_fbaccount" }
-      },
-      {
-        text: "Facebook tìm kiếm",
-        icon: {
-          iconName: "Facebook tìm kiếm",
-          tagName: "icon-input-search",
-          width: 22,
-          height: 22,
-          viewBox: "0 0 24 24"
-        },
-        to: { name: "post_fb_search" }
       }
       ]
     };

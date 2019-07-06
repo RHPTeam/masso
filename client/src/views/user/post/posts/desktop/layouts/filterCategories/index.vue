@@ -5,7 +5,7 @@
     :data-theme="currentTheme"
     v-click-outside="closeFilterDropdown"
   >
-    {{ filterDefault.title }}
+    {{ filterSelected.title }}
     <icon-base
       class="ml_1"
       icon-name="Lựa chọn"
@@ -50,11 +50,10 @@ export default {
   components: {
     VuePerfectScrollbar
   },
-  props: [ "filterList", "filterSelected" ],
+  props: [ "filterList", "filterSelected", "filterShowSelected" ],
   data() {
     return {
       showFilterDropdown: false,
-      filterDefault: { id: 0, title: "Tất cả"}
     };
   },
   computed: {
@@ -71,15 +70,47 @@ export default {
   methods: {
     getAllPost(){
       const dataSender = {
-        size: 25,
+        size: this.filterShowSelected.id,
         page: 1
       };
       this.$store.dispatch("getPostsByPage", dataSender);
+
+      this.$emit( "updateFilterSelected", {
+        id: 0,
+        title: "Tất cả"
+      } );
+
+      this.$router.replace( {
+        name: "post_posts",
+        query: {
+          size: this.filterShowSelected.id,
+          page: 1
+        }
+      } );
+
+      this.$emit( "updateCurrentPage", 1 );
     },
     async updateFilterSelected( data ) {
-      await this.$store.dispatch("getPostByCategories", data._id);
-      this.$emit( "updateFilterSelected", data );
-      this.filterDefault.title = data.title;
+      this.$emit( "updateFilterSelected", {
+        id: data._id,
+        title: data.title
+      } );
+      this.$emit( "updateCurrentPage", 1 );
+
+      await this.$store.dispatch("getPostByCategories", {
+        categoryId: data._id,
+        size: this.filterShowSelected.id,
+        page: 1
+      } );
+
+      this.$router.replace( {
+        name: "post_posts",
+        query: {
+          categoryId: data._id,
+          size: this.filterShowSelected.id,
+          page: 1
+        }
+      } );
     },
     closeFilterDropdown(){
       this.showFilterDropdown = false;

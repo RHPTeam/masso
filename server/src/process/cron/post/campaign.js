@@ -42,8 +42,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
         }
       } ).lean() );
 
-      console.log( listEventSchedule.map( ( item ) => item._id ) );
-
       console.log(
         "\x1b[32m%s\x1b[0m",
         "Step 01:",
