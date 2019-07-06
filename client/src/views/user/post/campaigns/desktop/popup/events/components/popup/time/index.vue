@@ -1,26 +1,24 @@
 <template>
-  <div class="time p_2" v-click-outside="close">
-    <div class="body d_flex flex_column align_items_center">
-      <div class="date mb_2">
-        <div class="d_flex align_items_center justify_content_between mb_2">
-          <div class="desc">Chọn ngày:</div>
-          <date-picker
-            :value="event.started_at"
-            class="ml_3"
-            format="DD/MM/YYYY"
-            @change="changeDateSetup( $event )"
-          />
-        </div>
-        <div class="d_flex align_items_center justify_content_between">
-          <div class="desc mr_3">Bắt đầu:</div>
-          <time-picker
-            v-if="event.type_event === 0"
-            :value="time"
-            @change="changeTimeSetup"
-          />
-        </div>
+  <div class="time">
+    <div class="header mb_3">
+      <div class="font_weight_bold">Tùy chỉnh thời gian đăng bài</div>
+    </div>
+    <div class="body d_flex align_items_center">
+      <div class="date d_flex align_items_center mr_5">
+        <div class="desc mr_3">Bắt đầu:</div>
+        <time-picker
+          v-if="event.type_event === 0"
+          :value="time"
+          @change="changeTimeSetup"
+        />
+        <date-picker
+          :value="event.started_at"
+          class="ml_3"
+          format="DD/MM/YYYY"
+          @change="changeDateSetup( $event )"
+        />
       </div>
-      <div class="break d_flex align_items_center justify_content_between" v-if="event.type_event === 0">
+      <div class="break d_flex align_items_center" v-if="event.type_event === 0">
         <div class="desc mr_3">Chờ giữa các lần đăng:</div>
         <div class="item d_flex align_items_center mr_2">
           <input
@@ -39,12 +37,6 @@
       v-if="isShowAlertBreakPoin === true"
       @closeAlert="isShowAlertBreakPoin = $event"
     />
-    <!-- End: Modal Show Alert Error Break Poin -->
-
-    <!-- Start: Modal Show Alert Error Break Poin -->
-    <div class="bottom text_center py_2 mt_2">
-      <label @click="close">Xong</label>
-    </div>
     <!-- End: Modal Show Alert Error Break Poin -->
   </div>
 </template>

@@ -5,8 +5,12 @@
     </div>
     <div class="body">
       <div class="r">
+        <!-- Start: Timeline -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 font_weight_bold"> Chọn trang cá nhân bạn muốn đăng</div>
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="font_weight_bold">Chọn trang cá nhân</span>
+            <span class="small">đã chọn {{ event.timeline.length }} tài khoản</span>
+          </div>
           <div class="item d_flex align_items_center mb_3">
             <div class="icon mr_2">
               <icon-base
@@ -21,31 +25,32 @@
             <div class="content">
               <div class="main">
                 <multiselect
-                  class="tag--multi"
                   multiple
                   label="name"
-                  placeholder="Chọn tài khoản cá nhân muốn đăng"
-                  :clearable="false"
-                  :value="convertNameFacebookAccount"
+                  placeholder="Chọn trang cá nhân muốn đăng"
+                  :value="event.timeline"
                   :options="allAccountFB"
                   @input="selectFacebookAccount"
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.userInfo.thumbSrc + ')' }"></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.userInfo.name }}</div>
+                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"></div>
+                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                     </div>
                   </template>
                 </multiselect>
               </div>
             </div>
           </div>
-          <div class="desc text_right mt_1 px_2">Bao gồm
-            <span>{{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} tài khoản</span> được chọn.
-          </div>
         </div>
+        <!-- End: Timeline -->
+        <!-- Start: Post Group -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 font_weight_bold">Chọn nhóm đã lưu của</div>
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="font_weight_bold">Chọn nhóm đã lưu</span>
+            <span class="small">đã chọn {{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang và
+            {{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span>
+          </div>
           <div class="item d_flex align_items_center mb_3">
             <div class="icon mr_2">
               <icon-base
@@ -70,15 +75,16 @@
               </div>
             </div>
           </div>
-          <div class="desc text_right mt_1 px_2">Bao gồm
-            <span>{{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang</span> và
-            <span>{{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span> được chọn.
-          </div>
         </div>
+        <!-- Start: Post Group -->
       </div>
       <div class="r">
+        <!-- Start: Pages -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 font_weight_bold">Chọn trang bạn muốn đăng</div>
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="font_weight_bold">Chọn trang</span>
+            <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>
+          </div>
           <div class="item d_flex align_items_center mb_3">
             <div class="icon mr_2">
               <icon-base
@@ -111,12 +117,14 @@
 
             </div>
           </div>
-          <div class="desc text_right px_2 mt_1">Bao gồm
-            <span>{{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span> được chọn.
-          </div>
         </div>
+        <!-- End: Pages -->
+        <!-- Start: Groups -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 font_weight_bold">Chọn nhóm bạn muốn đăng</div>
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="font_weight_bold">Chọn nhóm trên facebook</span>
+            <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>
+          </div>
           <div class="item d_flex align_items_center mb_3">
             <div class="icon mr_2">
               <icon-base
@@ -148,10 +156,8 @@
               </div>
             </div>
           </div>
-          <div class="desc text_right px_2 mt_1">Bao gồm
-            <span>{{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm</span> được chọn.
-          </div>
         </div>
+        <!-- Enđ: Groups -->
       </div>
     </div>
   </div>
@@ -171,7 +177,7 @@ export default {
       return this.$store.getters.postGroups;
     },
     allAccountFB() {
-      return this.$store.getters.accountsFB;
+      return this.$store.getters.facebookAccountMultiSelect;
     },
     event () {
       return this.$store.getters.event;
@@ -205,15 +211,6 @@ export default {
         }
       } );
     },
-    convertNameFacebookAccount(){
-      return this.event.timeline.map( item => {
-        if ( item ) {
-          return {
-            name: item.userInfo.name,
-            id: item._id }
-        }
-      } );
-    }
   },
   async created() {
     if ( this.facebookPages.length === 0 ) {
@@ -228,15 +225,35 @@ export default {
     if ( this.allAccountFB.length === 0 ) {
       await this.$store.dispatch( "getAccountsFB" );
     }
+
+    // convert fb accounts in timeline
+    const fbAcounts = this.event.timeline.map( ( account ) => {
+      return {
+        "_id": account._id,
+        "name": account.userInfo.name,
+        "thumbSrc": account.userInfo.thumbSrc
+      };
+    } );
+
+    await this.$store.dispatch("setEvent", {
+      key: "timeline",
+      value: fbAcounts
+    })
   },
   methods: {
     selectFacebookAccount(value){
+      if(value) {
+        this.$emit("setErrorLocation", false);
+      }
       this.$store.dispatch("setEvent", {
         key: "timeline",
         value: value
       })
     },
     selectGroupFacebook( value ) {
+      if(value) {
+        this.$emit("setErrorLocation", false);
+      }
       const groupListSelect = value.map( group => {
         return {
           typeTarget: 0,
@@ -254,6 +271,9 @@ export default {
       } )
     },
     selectPageFacebook( value ) {
+      if(value) {
+        this.$emit("setErrorLocation", false);
+      }
       const pageListSelect = value.map( page => {
         return {
           typeTarget: 1,
@@ -271,6 +291,9 @@ export default {
       } );
     },
     selectFacebookGroup( value ) {
+      if(value) {
+        this.$emit("setErrorLocation", false);
+      }
       this.selectedGroups = value;
       this.$store.dispatch( "setEvent", {
         key: "target_category",
@@ -300,8 +323,13 @@ export default {
     }
     .main {
       width: 100%;
-      border: 1px solid #e4e4e4;
+      border: 1px solid #444;
       border-radius: .625rem;
+    }
+  }
+  .title {
+    span.small {
+      font-size: 12px;
     }
   }
 }

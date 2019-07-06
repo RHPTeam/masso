@@ -12,6 +12,15 @@ const state = {
 const getters = {
   addAccountError: state => state.addAccountError,
   accountsFB: state => state.accountsFB,
+  facebookAccountMultiSelect: ( state ) => {
+    return state.accountsFB.map( ( account ) => {
+      return {
+        "_id": account._id,
+        "name": account.userInfo.name,
+        "thumbSrc": account.userInfo.thumbSrc
+      }
+    } );
+  },
   fbAccountInfo: state => state.fbAccountInfo,
   facebookStatus: state => state.facebookStatus,
   statusDeleteFacebook: state => state.statusDeleteFacebook

@@ -1,11 +1,6 @@
 <template>
   <div class="select">
     <div class="category">
-      <!-- Start: Top -->
-      <div class="top mb_3">
-        <div class="font_weight_bold">Tùy chọn đăng bài viết trong danh mục của bạn</div>
-      </div>
-      <!-- End: Top -->
       <!-- Start: Body Category -->
       <div class="body--category mb_3" :class="caseEvent.active === 0 ? 'active' : ''">
         <div class="desc mb_3 text_left">
@@ -107,6 +102,9 @@ export default {
       this.$store.dispatch( "setEventRemove", "post_category" );
     },
     async selectPost( value ){
+      if(value) {
+        await this.$emit("setErrorPost", false);
+      }
       if(value.length === 0)  {
         this.isShowError = true;
       } else {
@@ -127,7 +125,13 @@ export default {
       }
     },
     async selectCategory( category ){
-      if(category.totalPost === 0) {
+      if(category) {
+        await this.$emit("setErrorPost", false);
+      }
+      if (category.totalPosts !== 0) {
+        this.isShowError = false;
+      }
+      if(category.totalPosts === 0) {
         this.isShowError = true;
       } else {
         await this.$store.dispatch( "setCaseEvent", {
@@ -170,7 +174,7 @@ export default {
       }
     }
     .option {
-      border: 1px solid #e4e4e4;
+      border: 1px solid #444;
       border-radius: calc(.5rem + 2px);
       width: 100%;
     }
@@ -194,9 +198,8 @@ export default {
         }
       }
       .option {
-        border: 1px solid #e4e4e4;
+        border: 1px solid #444;
         border-radius: calc(.5rem + 2px);
-        width: 50%;
       }
     }
     .bottom {

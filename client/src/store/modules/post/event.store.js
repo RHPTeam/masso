@@ -128,7 +128,7 @@ const actions = {
     if( payload.event.timeline && payload.event.timeline.length > 0)  {
       payload.event.timeline  =  payload.event.timeline.map(item => item._id);
     }
-    console.log(payload);
+
     await EventsServices.create(payload.campaignId, payload.event);
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
@@ -180,19 +180,15 @@ const actions = {
         }
       } );
     }
-    if( payload.event.post_category.length === 0) {
+    if( payload.event.post_category  && payload.event.post_category.length === 0) {
       delete payload.event.post_category;
     }
-    if( payload.event.post_custom.length === 0) {
+    if( payload.event.post_custom && payload.event.post_custom.length === 0) {
       delete payload.event.post_custom;
     }
     if( payload.event.post_custom && payload.event.post_custom.length > 0)  {
       payload.event.post_custom  =  payload.event.post_custom.map(item => item._id);
     }
-    if( payload.event.timeline && payload.event.timeline.length > 0)  {
-      payload.event.timeline  =  payload.event.timeline.map(item => item._id);
-    }
-    console.log(payload);
     const res = await EventsServices.updateEvent( payload.event._id, payload.event );
     await  commit( "setEvent", res.data.data );
     //update campaign detail
