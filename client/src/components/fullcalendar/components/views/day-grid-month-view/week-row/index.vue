@@ -18,6 +18,7 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
+              @click="addEventFromSection( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             ></td>
           </tr>
         </tbody>
@@ -38,6 +39,7 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
+              @click="addEventFromSection( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             >
               <a class="rc--day-number">{{
                 monthDays[rowIndex * 7 + i].text

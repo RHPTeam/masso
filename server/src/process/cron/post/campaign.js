@@ -23,6 +23,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
   new CronJob(
     "1 * * * * *",
     async function() {
+
+      // Get 20 minutes from past to present
       let dateTimeCurrent = new Date(),
         minDateTime = dateTimeCurrent.setTime(
           dateTimeCurrent.getTime() - 20 * 60000
@@ -34,6 +36,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
         "Step 01:",
         "Start - Get all event's user to handle with cron-schedule"
       );
+
+      // Get all event schedule from mongodb after concat with event schedule of system
       listEventSchedule = listEventSchedule.concat( await EventSchedule.find( {
         "status": 1,
         "started_at": {
