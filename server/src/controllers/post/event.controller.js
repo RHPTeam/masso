@@ -26,7 +26,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -44,7 +44,7 @@ module.exports = {
         }
       } ) );
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -94,9 +94,7 @@ module.exports = {
   },
   "create": async ( req, res ) => {
     // Check validator
-    if ( req.body.title === "" ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.type_event === undefined ) {
+    if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [1: Auto, 0: Custom]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
@@ -124,7 +122,7 @@ module.exports = {
     const newEvent = new Event( req.body );
 
     // Create to event schedule, Check follow condition
-    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+    // await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
@@ -173,9 +171,7 @@ module.exports = {
   },
   "update": async ( req, res ) => {
     // Check validator
-    if ( req.body.title === "" ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.type_event === undefined ) {
+    if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Custom, 1: Auto]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
@@ -212,7 +208,7 @@ module.exports = {
       }
     } );
     req.body._id = req.query._eventId;
-    await EventScheduleController.create( req.body, findCampaign._id, req.uid );
+    // await EventScheduleController.create( req.body, findCampaign._id, req.uid );
 
     // Handle logs campaign
     findCampaign.logs.total += 1;

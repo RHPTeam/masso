@@ -21,7 +21,7 @@
               placeholder="Chọn danh mục đăng bài "
             />
           </div>
-        <div class="desc--alert mt_2" v-if="isShowError === true">Thằng ngu chọn danh mục không có bài viết kìa</div>
+        <div class="desc--alert mt_2" v-if="isShowError === true">Danh mục không có bài viết, vui lòng chọn lại danh mục</div>
       </div>
       <!-- End: Body Category -->
     </div>
@@ -33,14 +33,16 @@
       </div>
         <div class="option">
           <multiselect
-            label="title"
             multiple
+            label="title"
+            :clearable="false"
             :options="allPost"
             :value="event.post_custom"
             @input="selectPost"
             placeholder="Chọn bài viết"
           />
         </div>
+      <div class="desc--alert mt_2" v-if="isShowError === true">Vui lòng chọn bài viết để tiếp tục</div>
       <div class="desc--alert mt_2">
         Khuyên dùng! Một bài viết không được đăng quá 5 vị trí khác nhau.
         Điều này, giúp tài khoản của bạn an toàn, spam, vi phạm tiêu chuẩn công động, v.v
@@ -72,6 +74,15 @@ export default {
     },
     caseEvent() {
       return this.$store.getters.caseEvent;
+    },
+    convertNameCategories(){
+      let cateId = this.event.post_category;
+      return this.categories.filter(cate => {
+        if(cate._id === cateId) return {
+          title: cate.title,
+          id: cate._id
+        }
+      })
     }
   },
   async created(){
@@ -95,15 +106,27 @@ export default {
       // Remove post_category
       this.$store.dispatch( "setEventRemove", "post_category" );
     },
-    selectPost( value ){
-      const listPost = value.map(item => item._id);
-      this.$store.dispatch( "setEventPush", {
-        key: "post_custom",
-        value: listPost
-      } );
+    async selectPost( value ){
+      if(value.length === 0)  {
+        this.isShowError = true;
+      } else {
+        // Active Option
+        await this.$store.dispatch( "setCaseEvent", {
+          key: "listPost",
+          value: 0
+        } );
+        // Attach Post Category Empty
+        await this.$store.dispatch( "setEvent", {
+          key: "post_category",
+          value: []
+        } );
+        this.$store.dispatch( "setEvent", {
+          key: "post_custom",
+          value: value
+        } );
+      }
     },
     async selectCategory( category ){
-      console.log(category);
       if(category.totalPost === 0) {
         this.isShowError = true;
       } else {
@@ -112,15 +135,15 @@ export default {
           value: 0
         } );
         await this.$store.dispatch( "setEvent", {
+          key: "post_custom",
+          value: []
+        } );
+        this.$store.dispatch( "setEvent", {
           key: "post_category",
           value: {
             _id: category._id,
             title: category.title
           }
-        } );
-        this.$store.dispatch( "setEvent", {
-          key: "post_custom",
-          value: []
         } );
       }
     }

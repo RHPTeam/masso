@@ -67,7 +67,7 @@
 <!--          <span>-->
 <!--            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng-->
 <!--          </span>-->
-          <div class="desc">Tên sự kiện giúp bạn phân biệt giữa các sự kiện trong một ngày</div>
+          <div class="desc">Khuyên dùng: Tên sự kiện giúp bạn phân biệt giữa các sự kiện trong một ngày</div>
         </div>
       </div>
       <div class="right">

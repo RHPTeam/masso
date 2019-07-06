@@ -25,7 +25,8 @@
                   multiple
                   label="name"
                   placeholder="Chọn tài khoản cá nhân muốn đăng"
-                  :value="event.timeline"
+                  :clearable="false"
+                  :value="convertNameFacebookAccount"
                   :options="allAccountFB"
                   @input="selectFacebookAccount"
                 >
@@ -203,6 +204,15 @@ export default {
           }
         }
       } );
+    },
+    convertNameFacebookAccount(){
+      return this.event.timeline.map( item => {
+        if ( item ) {
+          return {
+            name: item.userInfo.name,
+            id: item._id }
+        }
+      } );
     }
   },
   async created() {
@@ -221,11 +231,9 @@ export default {
   },
   methods: {
     selectFacebookAccount(value){
-      const listAccount = value.map(item => item._id);
-      console.log(listAccount);
       this.$store.dispatch("setEvent", {
         key: "timeline",
-        value: listAccount
+        value: value
       })
     },
     selectGroupFacebook( value ) {
