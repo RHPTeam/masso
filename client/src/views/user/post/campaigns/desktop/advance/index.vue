@@ -3,7 +3,7 @@
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
       <!-- Start: Content -->
-      <app-header v-if="variableControl === 0"/>
+      <app-navigation/>
       <div class="main--content">
         <router-view/>
       </div>
@@ -14,14 +14,14 @@
 </template>
 
 <script>
-import AppHeader from "./components/navigation";
+import AppNavigation from "./components/navigation";
 export default {
   components: {
-    AppHeader
+    AppNavigation
   },
   computed: {
     variableControl(){
-      return this.$store.getters.variableControl;
+      return this.$store.getters.variableControlCampaign;
     }
   },
   async created(){

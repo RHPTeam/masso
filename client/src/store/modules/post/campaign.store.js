@@ -7,7 +7,7 @@ const state = {
   campaignDetail: {},
   campaignsPagesSize: 1,
   campaignStatus: "",
-    variableControl: 0,
+    variableControlCampaign: 0,
   },
   getters = {
     allCampaigns: ( s ) => {
@@ -25,7 +25,7 @@ const state = {
     campaignStatus: ( s ) => {
       return s.campaignStatus;
     },
-    variableControl: state => state.variableControl
+    variableControlCampaign: state => state.variableControlCampaign
   },
   mutations = {
     createCampaign: ( s, payload ) => {
@@ -48,7 +48,7 @@ const state = {
       s.campaignStatus = payload;
     },
     setVariableControl: (state, payload) => {
-      state.variableControl = payload;
+      state.variableControlCampaign = payload;
     }
   },
   actions = {
