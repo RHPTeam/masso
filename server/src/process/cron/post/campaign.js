@@ -14,7 +14,7 @@ const { agent } = require( "../../../configs/crawl" ),
 
 // Function Support Core
 const convertDataPostFacebook = async ( location, post, targetID ) => {
-  let photos;
+  let photos = [];
 
   // Check convert images to array format
   if ( post.attachments.length > 0 ) {
@@ -72,7 +72,6 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
 
       // Get all event schedule from mongodb after concat with event schedule of system
       const listEventSchedule = await EventSchedule.find( {
-        "status": 1,
         "started_at": {
           "$gte": new Date( minDateTime ).toISOString(),
           "$lt": new Date().toISOString()

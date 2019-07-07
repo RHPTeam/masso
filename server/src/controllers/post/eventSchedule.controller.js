@@ -30,7 +30,7 @@ module.exports = {
         // Check target profile
         if ( event && event.timeline.length > 0 ) {
           listTarget = listTarget.concat( await Promise.all( event.timeline.map( async ( profile ) => {
-            return convert( 0, profile );
+            return convert( 0, profile._id );
           } ) ) );
         }
 
@@ -96,6 +96,8 @@ module.exports = {
 
             facebookID = pageInfo._facebook;
           }
+
+          console.log( event );
 
           // new value from model to insertMany() to mongodb
           newEventSchedule = new EventSchedule( {

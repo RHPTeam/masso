@@ -133,7 +133,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "timeline", "select": "userInfo" } } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -147,6 +147,8 @@ module.exports = {
       // Check event list in campaign...
       await Promise.all( findCampaign._events.map( async ( event ) => {
         const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
+
+        console.log( listEventOldSchedule );
 
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           deletedSchedule( eventSchedule, __dirname );
