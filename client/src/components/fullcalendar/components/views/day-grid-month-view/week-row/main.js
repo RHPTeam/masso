@@ -130,6 +130,9 @@ export default {
       }
       this.$emit( "showMorePopover", true );
       this.$emit( "getEvents", events);
+    },
+    addEventFromSection( date ) {
+      console.log( date );
     }
   },
   beforeDestroy() {

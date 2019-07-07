@@ -2,40 +2,21 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   EventScheduleSchema = new Schema( {
-    "cookie": {
-      "type": String
+    "facebookID": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Facebook"
     },
-    "feed": {
-      "activity": {
-        "type": Object
-      },
-      "color": {
-        "type": String
-      },
-      "content": {
-        "type": String
-      },
-      "location": {
-        "type": Object
-      },
-      "photos": {
-        "type": Object
-      },
-      "place": {
-        "type": String
-      },
-      "scrape": {
-        "type": String
-      },
-      "tags": {
-        "type": Array
-      }
+    "postID": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Post"
+    },
+    "location": Number, // 0: Timeline, 1: Group, 2: Page
+    "targetID": {
+      "type": String,
+      "default": ""
     },
     "started_at": {
       "type": Date
-    },
-    "status": {
-      "type": Boolean
     },
     "_account": {
       "type": Schema.Types.ObjectId,

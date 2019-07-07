@@ -82,7 +82,21 @@ export default {
           name: "post_campaigns",
           query: { size: 25, page: 1 }
         }
-      }
+      },
+        {
+          text: "Quản lý đại lý",
+          icon: {
+            iconName: "Đại lý",
+            tagName: "icon-broadcast",
+            width: 21,
+            height: 21,
+            viewBox: "0 0 24 24"
+          },
+          to: {
+            name: "post_agency"
+            // query: { size: 25, page: 1 }
+          }
+        }
       ]
     };
   },
