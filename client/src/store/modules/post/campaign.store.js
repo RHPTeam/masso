@@ -8,6 +8,7 @@ const state = {
   campaignsPagesSize: 1,
   campaignStatus: "",
     variableControlCampaign: 0,
+    variableCampaign: 0
   },
   getters = {
     allCampaigns: ( s ) => {
@@ -25,7 +26,8 @@ const state = {
     campaignStatus: ( s ) => {
       return s.campaignStatus;
     },
-    variableControlCampaign: state => state.variableControlCampaign
+    variableControlCampaign: state => state.variableControlCampaign,
+    variableCampaign: state => state.variableCampaign
   },
   mutations = {
     createCampaign: ( s, payload ) => {
@@ -49,6 +51,9 @@ const state = {
     },
     setVariableControl: (state, payload) => {
       state.variableControlCampaign = payload;
+    },
+    setVariableCampaign: (state, payload) => {
+      state.variableCampaign = payload;
     }
   },
   actions = {
@@ -125,6 +130,9 @@ const state = {
     },
     setCampainControl: async ({commit}, payload) => {
       await commit("setVariableControl", payload);
+    },
+    setVariableDuplicateCampaign: async ({commit}, payload) => {
+      await commit("setVariableCampaign", payload);
     }
   };
 

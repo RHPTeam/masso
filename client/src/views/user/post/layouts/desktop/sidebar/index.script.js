@@ -1,12 +1,5 @@
+import CookieFunction from "@/utils/functions/cookie";
 export default {
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    collapseMenu() {
-      return this.$store.getters.collapseMenu;
-    }
-  },
   data() {
     return {
       isShowFlagDropdown: false,
@@ -82,23 +75,21 @@ export default {
           name: "post_campaigns",
           query: { size: 25, page: 1 }
         }
-      },
-        {
-          text: "Quản lý đại lý",
-          icon: {
-            iconName: "Đại lý",
-            tagName: "icon-broadcast",
-            width: 21,
-            height: 21,
-            viewBox: "0 0 24 24"
-          },
-          to: {
-            name: "post_agency"
-            // query: { size: 25, page: 1 }
-          }
-        }
+      }
       ]
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    collapseMenu() {
+      return this.$store.getters.collapseMenu;
+    }
+  },
+  async created() {
+    const res = CookieFunction.getCookie("cfr");
+    this.roles = res;
   },
   methods: {
     closeFlagDropdown(){

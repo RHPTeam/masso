@@ -50,19 +50,27 @@
           <span class="ml_2">{{ menu.text }}</span>
         </a>
       </router-link>
-      <li class="menu--item d_flex align_items_center">
-        <a :href="helpCenterUrl" target="_blank">
+
+      <router-link
+        v-if="roles && roles === 'Agency'"
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        active-class="active"
+        exact
+        :to="{ name: 'post_agency' }"
+      >
+        <a href="#">
           <icon-base
-            icon-name="Trung tâm trợ giúp"
+            icon-name="icon-account"
             width="24"
             height="24"
-            viewBox="0 0 550 550"
+            viewBox="0 0 65 65"
           >
-            <icon-support />
+            <icon-agency />
           </icon-base>
-          <span class="ml_2">Trung tâm trợ giúp</span>
+          <span class="ml_2">Quản lý thành viên</span>
         </a>
-      </li>
+      </router-link>
     </ul>
     <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->

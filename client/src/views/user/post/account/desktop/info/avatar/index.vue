@@ -11,7 +11,8 @@
         </div>
       </div>
       <!--Start: Dropzone Component-->
-    <dropzone :status="isDropZone" @close="isDropZone = $event" />
+<!--    <dropzone :status="isDropZone" @close="isDropZone = $event" />-->
+      <upload-avatar v-if="isDropZone === true" @close="isDropZone = $event" />
     <!--End: Dropzone Component-->
     </div>
     <!-- End: Wrapper Top -->
@@ -52,7 +53,11 @@
 </template>
 
 <script>
+import UploadAvatar from "../../popup/avatar";
 export default {
+  components: {
+    UploadAvatar
+  },
   filters: {
     getFirstLetter( string ) {
       if ( typeof string == "undefined" ) {
