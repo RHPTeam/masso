@@ -122,7 +122,7 @@ module.exports = {
     const newEvent = new Event( req.body );
 
     // Create to event schedule, Check follow condition
-    // await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+    await EventScheduleController.create( newEvent.toObject(), findCampaign._id );
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
@@ -159,7 +159,6 @@ module.exports = {
           } ],
         "_account": req.uid
       },
-
       resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
 
     if ( resLogSync.data.status !== "success" ) {
@@ -208,7 +207,7 @@ module.exports = {
       }
     } );
     req.body._id = req.query._eventId;
-    // await EventScheduleController.create( req.body, findCampaign._id, req.uid );
+    await EventScheduleController.create( req.body, findCampaign._id );
 
     // Handle logs campaign
     findCampaign.logs.total += 1;
@@ -293,7 +292,11 @@ module.exports = {
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
       deletedSchedule( eventSchedule, __dirname );
     } ) );
-    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+    await EventSchedule.deleteMany( { "_event": req.query._eventId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
 
     // delete event of campain
     findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );

@@ -5,7 +5,7 @@
  * date to: ___
  * team: BE-RHP
  */
-const ObjectId = require( "mongoose" ).Types.ObjectId;
+// const ObjectId = require( "mongoose" ).Types.ObjectId;
 // eslint-disable-next-line no-unused-vars
 const Event = require( "../../models/post/Event.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
@@ -14,7 +14,7 @@ const { logUserAction } = require( "../../microservices/synchronize/log.service"
 
 
 const jsonResponse = require( "../../configs/response" );
-const convertUnicode = require( "../../helpers/utils/functions/unicode" );
+// const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 
 module.exports = {
   "index": async ( req, res ) => {

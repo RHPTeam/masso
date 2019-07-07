@@ -151,9 +151,13 @@ module.exports = {
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           deletedSchedule( eventSchedule, __dirname );
         } ) );
-        await EventSchedule.deleteMany( { "_event": event._id } );
+        await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+          }
+        } );
         event.status = findCampaign.status;
-        await EventScheduleController.create( event, findCampaign._id, req.uid );
+        await EventScheduleController.create( event, findCampaign._id );
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
 
@@ -177,17 +181,14 @@ module.exports = {
           return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
         }
         /** **************************************************************************** **/
-
-        // Handle logs campaign when update status
-        findCampaign.logs.total += 1;
-        findCampaign.logs.content.push( {
-          "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
-          "createdAt": new Date()
-        } );
-
-
       } ) );
 
+      // Handle logs campaign when update status
+      findCampaign.logs.total += 1;
+      findCampaign.logs.content.push( {
+        "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+        "createdAt": new Date()
+      } );
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
@@ -227,7 +228,11 @@ module.exports = {
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
         deletedSchedule( eventSchedule, __dirname );
       } ) );
-      await EventSchedule.deleteMany( { "_event": event._id } );
+      await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+        if ( err ) {
+          throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+        }
+      } );
 
       await Event.findByIdAndDelete( event );
     } );
