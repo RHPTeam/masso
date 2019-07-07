@@ -1,23 +1,56 @@
+/* eslint-disable one-var */
 // Core Service
 const CronJob = require( "cron" ).CronJob;
 const Facebook = require( "../../../models/Facebook.model" );
 const EventSchedule = require( "../../../models/post/EventSchedule.model" );
 const Campaign = require( "../../../models/post/Campaign.model" );
 const Event = require( "../../../models/post/Event.model" );
+const Post = require( "../../../models/post/Post.model" );
 const { startedSchedule, finishedSchedule, deletedScheduleProcess } = require( "../../../helpers/utils/functions/scheduleLog" );
 
 // Facebook Service Core
-const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
-  { agent } = require( "../../../configs/crawl" ),
+const { agent } = require( "../../../configs/crawl" ),
   { createPost } = require( "../../../controllers/core/posts.core" );
 
-/**
- * Cron every a minute, range specific date time 20 minute ( if server crash which cron can re-active )
- */
+// Function Support Core
+const convertDataPostFacebook = async ( location, post, targetID ) => {
+  let photos;
+
+  // Check convert images to array format
+  if ( post.attachments.length > 0 ) {
+    photos = await Promise.all( post.attachments.map( ( file ) => {
+      if ( file.typeAttachment === 1 ) {
+        return file.link;
+      }
+    } ) );
+  }
+
+  // Check if feed contain text and scrape link
+  if ( post.scrape && post.scrape.length > 0 && photos.length > 0 ) {
+    post.scrape = "";
+  }
+
+  return {
+    "photos": ( photos && photos.length > 0 ) ? photos : [],
+    "scrape": post.scrape && post.scrape.length > 0 ? post.scrape : "",
+    "activity": {
+      "type": post.activity ? post.activity.typeActivity.id : "",
+      "id": post.activity ? post.activity.id.id : "",
+      "text": ""
+    },
+    "color": post.color ? post.color.id : "",
+    "content": post.content,
+    "location": {
+      // eslint-disable-next-line no-nested-ternary
+      "type": location === 0 ? 0 : location === 1 ? 1 : 2,
+      "value": location === 0 ? "" : targetID
+    },
+    "place": post.place ? post.place.id : "",
+    "tags": post.tags ? post.tags.map( ( tag ) => tag.uid ) : ""
+  };
+};
 
 ( async () => {
-  let listEventSchedule = [];
-
   console.log( "\x1b[34m%s\x1b[0m", "Schedule Service For Campaign Starting..." );
   // eslint-disable-next-line no-new
   new CronJob(
@@ -38,13 +71,13 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
       );
 
       // Get all event schedule from mongodb after concat with event schedule of system
-      listEventSchedule = listEventSchedule.concat( await EventSchedule.find( {
+      const listEventSchedule = await EventSchedule.find( {
         "status": 1,
         "started_at": {
           "$gte": new Date( minDateTime ).toISOString(),
           "$lt": new Date().toISOString()
         }
-      } ).lean() );
+      } ).lean();
 
       console.log(
         "\x1b[32m%s\x1b[0m",
@@ -61,77 +94,66 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
         return false;
       }
 
-      console.log( "\x1b[35m%s\x1b[0m", "Checking... Event Data Input Before Submit To Facebook." );
-      listEventSchedule = removeObjectDuplicates( listEventSchedule, "_id" );
-
       await Promise.all(
-        listEventSchedule.map( async ( eventSchedule, index ) => {
+        listEventSchedule.map( async ( eventSchedule ) => {
           const campaignInfo = await Campaign.findOne( { "_id": eventSchedule._campaign } ),
-            eventInfo = await Event.findOne( { "_id": eventSchedule._event } );
+            eventInfo = await Event.findOne( { "_id": eventSchedule._event } ),
+            postInfo = await Post.findOne( { "_id": eventSchedule.postID } ).lean(),
+            facebookInfo = await Facebook.findOne( { "_id": eventSchedule.facebookID } ).lean();
 
           console.log(
             "\x1b[32m%s\x1b[0m",
             "SUCCESS:",
-            "Passed! Starting schedule to RAM of system..."
+            "Passed! Starting schedule to Cache of system..."
           );
-          // Log when start cron
+
+          // Do something new version - Log
           startedSchedule( eventSchedule, __dirname );
-          // eslint-disable-next-line one-var
+
+          // Do something new version - Delete Event Schedule
+          await EventSchedule.deleteOne(
+            { "_id": eventSchedule._id },
+            ( err ) => {
+              if ( err ) {
+                throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
+              }
+            }
+          );
+          deletedScheduleProcess( eventSchedule, __dirname );
+
+          // Do something new version - Convert JSON To Facebook
+          const feed = await convertDataPostFacebook( eventSchedule.location, postInfo, eventSchedule.targetID );
+
+          // Do something new version - Post Feed To Facebook
           const resFacebookResponse = await createPost( {
-            "cookie": eventSchedule.cookie,
+            "cookie": facebookInfo.cookie,
             agent,
-            "feed": eventSchedule.feed
+            "feed": feed
           } );
 
+          // Do something new version - Check Result Facebook Which Return
           if ( resFacebookResponse ) {
-
-            console.log( resFacebookResponse );
-
-            // Handle when post feed successfully
+            
+            // Successfully
             if ( resFacebookResponse.error.code === 200 ) {
-              campaignInfo.logs.total += 1;
-              // Log when finish cron
               finishedSchedule( eventSchedule, __dirname );
 
+              campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
                 "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
                 "createdAt": new Date()
               } );
 
-              listEventSchedule.splice( index, 1 );
-              // Log when finish cron
-              deletedScheduleProcess( eventSchedule, __dirname );
-              await EventSchedule.deleteOne(
-                { "_id": eventSchedule._id },
-                ( err ) => {
-                  if ( err ) {
-                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-                  }
-                }
-              );
               console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
             } else if ( resFacebookResponse.error.code === 8188 ) {
-              // Check other error facebook return if error when request to facebook
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
                 "message": `[Facebook] ${resFacebookResponse.error.text}`,
                 "createdAt": new Date()
               } );
 
-              listEventSchedule.splice( index, 1 );
-              await EventSchedule.deleteOne(
-                { "_id": eventSchedule._id },
-                ( err ) => {
-                  if ( err ) {
-                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-                  }
-                }
-              );
               console.log( `Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :)) Bọn Facebook trả về là: ${resFacebookResponse.error.text}` );
             } else if ( resFacebookResponse.error.code === 1037 ) {
-              // Check if account logged out
-              const facebookInfo = await Facebook.findOne( { "cookie": eventSchedule.cookie } );
-
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
                 "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
@@ -143,16 +165,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
                   throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
                 }
               } );
-
-              listEventSchedule.splice( index, 1 );
-              await EventSchedule.deleteOne(
-                { "_id": eventSchedule._id },
-                ( err ) => {
-                  if ( err ) {
-                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-                  }
-                }
-              );
 
               console.log( `Have error: ${resFacebookResponse.error.text}` );
             } else {
@@ -168,16 +180,6 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
                   throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
                 }
               } );
-
-              listEventSchedule.splice( index, 1 );
-              await EventSchedule.deleteOne(
-                { "_id": eventSchedule._id },
-                ( err ) => {
-                  if ( err ) {
-                    throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-                  }
-                }
-              );
 
               console.log( `Have error: ${resFacebookResponse.error.text}` );
             }
