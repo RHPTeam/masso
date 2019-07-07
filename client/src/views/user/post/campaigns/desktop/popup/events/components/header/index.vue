@@ -239,6 +239,14 @@ export default {
         }
       }
 
+      // Convert event timeline to accounts id array
+      let fbAccounts  = [];
+      this.event.timeline.forEach( ( account ) => {
+        fbAccounts.push( account._id );
+      } );
+      this.event.timeline = fbAccounts;
+      console.log( this.event.timeline );
+
       // Close popup
       this.close();
 
@@ -313,6 +321,14 @@ export default {
           }
         }
       }
+
+      // Convert event timeline to accounts id array
+      let fbAccounts  = [];
+      this.event.timeline.forEach( ( account ) => {
+        fbAccounts.push( account._id );
+      } );
+      this.event.timeline = fbAccounts;
+      console.log( this.event.timeline );
 
       // Close popup
       this.close();

@@ -10,16 +10,28 @@
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <div class="body p_4" v-if="event">
-          <post-custom />
-          <post-location />
+          <post-custom
+            @setErrorPost="errorPost = $event"
+          />
+          <div class="alert_danger" v-if="errorPost === true">
+            Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+          </div>
+          <post-location
+            @setErrorLocation="errorLocation = $event"
+          />
+          <div class="alert_danger" v-if="errorLocation === true">
+            Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+          </div>
+
+          <select-time />
         </div>
         <!-- End: Modal Body -->
-        <div class="bottom d_flex align_items_center justify_content_end py_4 px_3">
+        <div class="bottom d_flex align_items_center justify_content_end py_3 px_3">
           <div class="left position_relative mr_3">
-            <label @click="isShowOptionTime = true">Tùy chỉnh thời gian đăng</label>
-            <div class="select--time position_absolute" v-if="isShowOptionTime === true">
-              <select-time @close="isShowOptionTime = $event" />
-            </div>
+<!--            <label @click="isShowOptionTime = true">Tùy chỉnh thời gian đăng</label>-->
+<!--            <div class="select&#45;&#45;time position_absolute" v-if="isShowOptionTime === true">-->
+<!--              <select-time @close="isShowOptionTime = $event" />-->
+<!--            </div>-->
           </div>
           <div class="right" v-if="event._id">
             <label @click="updateEvent">Cập nhật</label>
@@ -49,7 +61,8 @@ export default {
   data() {
     return {
       isShowOptionTime: false,
-      error: false,
+      errorPost: false,
+      errorLocation: false,
       errorData: []
     }
   },
@@ -93,13 +106,13 @@ export default {
       // }
 
       if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
-        this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
+        this.errorPost = true;
         return false;
       } else if ( this.event.target_custom.length === 0 &&
         !this.event.target_category &&
         this.event.timeline.length === 0
       ) {
-        this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
+        this.errorLocation = true;
         return false;
       }
       // else if ( this.event.hasOwnProperty( "post_category" ) ) {
@@ -187,7 +200,14 @@ export default {
       //   }
       // }
 
+      // Convert event timeline to accounts id array
+      let fbAccounts  = [];
+      this.event.timeline.forEach( ( account ) => {
+        fbAccounts.push( account._id );
+      } );
+      this.event.timeline = fbAccounts;
 
+      console.log(this.event);
 
       await this.$store.dispatch( "updateEvent", {
         campaignId: this.$route.params.campaignId,
