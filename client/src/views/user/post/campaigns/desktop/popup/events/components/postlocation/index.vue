@@ -1,27 +1,24 @@
 <template>
   <div class="location mt_4">
-    <div class="top font_weight_bold">
-      Bạn có thể lựa chọn các tùy chỉnh dưới đây để đăng lên facebook
-    </div>
     <div class="body">
       <div class="r">
         <!-- Start: Timeline -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="font_weight_bold">Chọn trang cá nhân</span>
+            <span class="text--bold">Chọn trang cá nhân</span>
             <span class="small">đã chọn {{ event.timeline.length }} tài khoản</span>
           </div>
-          <div class="item d_flex align_items_center mb_3">
-            <div class="icon mr_2">
+          <div class="item d_flex align_items_start mb_3">
+            <!--<div class="icon mr_3">
               <icon-base
-                class="icon--page"
-                height="20px"
-                width="20px"
-                viewBox="0 0 500 500"
+                class="icon--timeline"
+                height="28px"
+                width="28px"
+                viewBox="0 0 440 440"
               >
-                <icon-page></icon-page>
+                <icon-timeline></icon-timeline>
               </icon-base>
-            </div>
+            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -47,21 +44,21 @@
         <!-- Start: Post Group -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="font_weight_bold">Chọn nhóm đã lưu</span>
+            <span class="text--bold">Chọn nhóm đã lưu</span>
             <span class="small">đã chọn {{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang và
             {{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span>
           </div>
-          <div class="item d_flex align_items_center mb_3">
-            <div class="icon mr_2">
+          <div class="item d_flex align_items_start mb_3">
+            <!--<div class="icon mr_3">
               <icon-base
                 class="icon--page"
-                height="20px"
-                width="20px"
-                viewBox="0 0 500 500"
+                height="28px"
+                width="28px"
+                viewBox="0 0 24 24"
               >
-                <icon-page></icon-page>
+                <icon-friend></icon-friend>
               </icon-base>
-            </div>
+            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -82,20 +79,20 @@
         <!-- Start: Pages -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="font_weight_bold">Chọn trang</span>
+            <span class="text--bold">Chọn trang</span>
             <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>
           </div>
-          <div class="item d_flex align_items_center mb_3">
-            <div class="icon mr_2">
+          <div class="item d_flex align_items_start mb_3">
+            <!--<div class="icon mr_3">
               <icon-base
                 class="icon--page"
-                height="20px"
-                width="20px"
+                height="28px"
+                width="28px"
                 viewBox="0 0 500 500"
               >
                 <icon-page></icon-page>
               </icon-base>
-            </div>
+            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -114,7 +111,6 @@
                   </template>
                 </multiselect>
               </div>
-
             </div>
           </div>
         </div>
@@ -122,20 +118,20 @@
         <!-- Start: Groups -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="font_weight_bold">Chọn nhóm trên facebook</span>
+            <span class="text--bold">Chọn nhóm trên facebook</span>
             <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>
           </div>
-          <div class="item d_flex align_items_center mb_3">
-            <div class="icon mr_2">
+          <div class="item d_flex align_items_start mb_3">
+            <!--<div class="icon mr_3">
               <icon-base
                 class="icon--group"
-                height="22px"
-                width="22px"
+                height="28px"
+                width="28px"
                 viewBox="0 0 500 500"
               >
                 <icon-group></icon-group>
               </icon-base>
-            </div>
+            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -309,16 +305,17 @@ export default {
 
 <style lang="scss" scoped>
 .location {
+  .text--bold {
+    color: #ccc;
+    font-weight: 600;
+  }
   .top {
   }
   .body {
     .item {
       width: 100%;
-      .icon {
-        width: 6%;
-      }
       .content {
-        width: 94%;
+        width: 100%;
       }
     }
     .main {

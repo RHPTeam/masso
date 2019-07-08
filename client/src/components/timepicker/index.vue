@@ -1,5 +1,5 @@
 <template>
-<span class="time-picker" @keydown="onKeyDown">
+<span :data-theme="theme" class="time-picker" @keydown="onKeyDown">
   <input class="display-time"
          :readonly="!disabled"
          :disabled="disabled"
@@ -108,6 +108,10 @@ export default {
     disabledValues: {
       type: Object,
       default: () => { return { hour: [], minute: [], second: [], apm: [] } }
+    },
+    theme: {
+      type: String,
+      default: "dark"
     }
   },
   data () {

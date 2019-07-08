@@ -13,6 +13,10 @@ export default {
     view: {
       type: String,
       default: "month"
+    },
+    disabledView: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

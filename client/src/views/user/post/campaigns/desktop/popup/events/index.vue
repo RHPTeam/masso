@@ -1,52 +1,85 @@
 <template>
-  <div class="modal--wrapper" :data-theme="currentTheme">
-    <div class="modal--dialog d_flex justify_content_center">
-      <div class="modal--content">
-        <!-- Start: Modal Header -->
-        <app-header
-          :event="event"
-          @close="$emit( 'close', $event )"
-        />
-        <!-- End: Modal Header -->
-        <!-- Start: Modal Body -->
-        <div class="body p_4" v-if="event">
-          <post-custom
-            @setErrorPost="errorPost = $event"
-          />
-          <div class="alert_danger" v-if="errorPost === true">
-            Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
-          </div>
-          <post-location
-            @setErrorLocation="errorLocation = $event"
-          />
-          <div class="alert_danger" v-if="errorLocation === true">
-            Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
-          </div>
-
-          <select-time />
+  <vue-perfect-scrollbar class="window d_flex align_items_start justify_content_center">
+    <div class="container">
+      <div class="wrapper position_relative">
+        <div class="btn--close position_absolute d_flex align_items_center justify_content_center"
+             @click="closePopup()"
+        >
+          <icon-base
+            class="icon--close"
+            icon--name="Hủy"
+            height="16px"
+            width="16px"
+            viewBox="0 0 20 20"
+          >
+            <icon-close></icon-close>
+          </icon-base>
         </div>
-        <!-- End: Modal Body -->
-        <div class="bottom d_flex align_items_center justify_content_end py_3 px_3">
-          <div class="left position_relative mr_3">
-<!--            <label @click="isShowOptionTime = true">Tùy chỉnh thời gian đăng</label>-->
-<!--            <div class="select&#45;&#45;time position_absolute" v-if="isShowOptionTime === true">-->
-<!--              <select-time @close="isShowOptionTime = $event" />-->
-<!--            </div>-->
+        <div class="main">
+          <!-- Start: Header -->
+          <app-header
+            :event="event"
+            @close="$emit('close', $event)"
+          />
+          <!-- End: Header -->
+          <!-- Start: Body -->
+          <div class="body p_4" v-if="event">
+            <!-- Start: Post Custom -->
+            <post-custom
+              @setErrorPost="errorPost = $event"
+            />
+            <!-- End: Post Custom -->
+            <div class="alert--text" v-if="errorPost === true">
+              Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+            </div>
+            <!-- Start: Post Location -->
+            <post-location
+              @setErrorLocation="errorLocation = $event"
+            />
+            <div class="alert--text" v-if="errorLocation === true">
+              Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+            </div>
+            <!-- End: Post Location -->
+            <!-- Start: Post Time -->
+            <select-time class="mt_4"/>
+            <!-- End: Post Time -->
           </div>
-          <div class="right" v-if="event._id">
-            <label @click="updateEvent">Cập nhật</label>
-          </div>
-          <div class="right" v-else>
-            <label @click="createNewEvent">Tạo mới</label>
+          <!-- End: Body -->
+          <div class="footer d_flex align_items_center justify_content_between py_3 px_3">
+            <div class="footer--left">
+              <div class="left" v-if="event._id">
+                <label @click="isDeleteEvent = true">Xóa sự kiện</label>
+              </div>
+            </div>
+            <div class="footer-right">
+              <div class="right" v-if="event._id">
+                <label @click="updateEvent">Cập nhật</label>
+              </div>
+              <div class="right" v-else>
+                <label @click="createNewEvent">Tạo mới</label>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <!-- Start: POPUP DELETE-->
+    <delete-event
+      v-if="isDeleteEvent === true"
+      title="Xóa sự kiện trong chiến dịch"
+      @closePopup="changeStatusDelete($event)"
+      storeActionName="Xóa sự kiện"
+      :targetData="event"
+      typeName="sự kiện"
+    ></delete-event>
+    <!--End: POPUP DELETE-->
+  </vue-perfect-scrollbar>
 </template>
 
 <script>
 import AppHeader from "./components/header/index";
+import DeleteEvent from "./components/popup/delete";
 import SelectTime from "./components/popup/time";
 import PostCustom from "./components/select";
 import PostLocation from "./components/postlocation";
@@ -54,6 +87,7 @@ import PostLocation from "./components/postlocation";
 export default {
   components: {
     AppHeader,
+    DeleteEvent,
     SelectTime,
     PostCustom,
     PostLocation
@@ -63,14 +97,10 @@ export default {
       isShowOptionTime: false,
       errorPost: false,
       errorLocation: false,
-      errorData: []
+      errorData: [],
+      isDeleteEvent: false
     }
   },
-  // data () {
-  //   return {
-  //     isTypeEvent: false,
-  //   }
-  // },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -87,7 +117,12 @@ export default {
   },
   methods: {
     closePopup(){
-      this.$emit("closePopup", false);
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: false
+      } );
+
+      this.$store.dispatch( "setEventReset" );
     },
     close(){
       this.$store.dispatch( "setCaseEvent", {
@@ -95,18 +130,7 @@ export default {
         value: false
       } );
     },
-    // close() {
-    //   this.isShowOptionTime = false;
-    // },
     async createNewEvent() {
-      // if ( this.event.type_event === 1 ) {
-      //   this.$store.dispatch( "setEventRemove", "break_point" );
-      //   this.$store.dispatch( "setEventRemove", "post_custom" );
-      //   this.$store.dispatch( "setEventRemove", "target_custom" );
-      // } else if ( this.event.type_event === 0 ) {
-      //
-      // }
-
       if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
         this.errorPost = true;
         return false;
@@ -117,16 +141,6 @@ export default {
         this.errorLocation = true;
         return false;
       }
-      // else if ( this.event.hasOwnProperty( "post_category" ) ) {
-      //   const categoryFilter = this.categories.filter( ( item ) => {
-      //     return item._id === this.event.post_category._id;
-      //   } );
-      //
-      //   if ( categoryFilter[0].totalPosts === 0 ) {
-      //     this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
-      //     return false;
-      //   }
-      // }
 
       // Close popup
       this.close();
@@ -137,78 +151,16 @@ export default {
       } );
 
       this.$store.dispatch( "setEventReset" );
-
-      // Return popup start
-      /*this.$store.dispatch( "setEvent", {
-        key: "title",
-        value: ""
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "type_event",
-        value: 0
-      } );
-      this.$store.dispatch( "setCaseEvent", {
-        key: "post",
-        value: 1
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "break_point",
-        value: 15
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "post_custom",
-        value: []
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "target_custom",
-        value: []
-      } );
-
-      this.$store.dispatch( "setEventReset" );*/
     },
     changeStatusDelete(val){
       this.isDeleteEvent = val;
       this.close();
     },
     async updateEvent() {
-      // this.error = false;
-      // this.errorData = [];
-      // // Check validator
-      // if ( this.event.title.length === 0 ) {
-      //   this.error = true;
-      //   return false;
-      // }
-
-      // if ( this.event.type_event === 1 ) {
-      //   this.$store.dispatch( "setEventRemove", "break_point" );
-      //   this.$store.dispatch( "setEventRemove", "post_custom" );
-      //   this.$store.dispatch( "setEventRemove", "target_custom" );
-      // } else if ( this.event.type_event === 0 ) {
-      //   if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
-      //     this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
-      //     return false;
-      //   } else if ( this.event.target_custom.length === 0 &&
-      //     !this.event.target_category &&
-      //     this.event.timeline.length === 0
-      //   ) {
-      //     this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
-      //     return false;
-      //   } else if ( this.event.hasOwnProperty( "post_category" ) ) {
-      //     const categoryFilter = this.categories.filter( ( item ) => {
-      //       return item._id === this.event.post_category._id;
-      //     } );
-      //
-      //     if ( categoryFilter[0].totalPosts === 0 ) {
-      //       this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
-      //       return false;
-      //     }
-      //   }
-      // }
-
-      // Convert event timeline to accounts id array
       // Close popup
       this.close();
 
+      // Convert event timeline to accounts id array
       let fbAccounts  = [];
       this.event.timeline.forEach( ( account ) => {
         fbAccounts.push( account._id );
@@ -223,39 +175,11 @@ export default {
       } );
 
       this.$store.dispatch( "setEventReset" );
-
-      // Return popup start
-      /*this.$store.dispatch( "setEvent", {
-        key: "title",
-        value: ""
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "type_event",
-        value: 0
-      } );
-      this.$store.dispatch( "setCaseEvent", {
-        key: "post",
-        value: 1
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "break_point",
-        value: 15
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "post_custom",
-        value: []
-      } );
-      this.$store.dispatch( "setEvent", {
-        key: "target_custom",
-        value: []
-      } );
-
-      this.$store.dispatch( "setEventReset" );*/
     }
   },
 }
 </script>
 
-<style lang="scss" scoped>
-  @import "index.style";
+<style scoped lang="scss">
+@import "./index.style";
 </style>

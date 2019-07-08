@@ -24,7 +24,7 @@
     <!-- Start: Body Select List Post -->
     <div class="body mb_3"  :class="caseEvent.listPost === 0 ? 'active' : ''">
       <div class="desc mb_2 text_left">
-        <span class="desc--text font_weight_bold">Lựa chọn bài viết từ kho nội dung</span>
+        <span class="desc--text">Lựa chọn bài viết từ kho nội dung</span>
       </div>
         <div class="option">
           <multiselect
@@ -37,10 +37,10 @@
             placeholder="Chọn bài viết"
           />
         </div>
-      <div class="desc--alert mt_2" v-if="isShowError === true">Vui lòng chọn bài viết để tiếp tục</div>
-      <div class="desc--alert mt_2">
+      <div class="alert--text mt_2" v-if="isShowError === true">Vui lòng chọn bài viết để tiếp tục</div>
+      <div class="desc--alert mt_2" v-if="event.post_custom.length === 1">
         Khuyên dùng! Một bài viết không được đăng quá 5 vị trí khác nhau.
-        Điều này, giúp tài khoản của bạn an toàn, spam, vi phạm tiêu chuẩn công động, v.v
+        Điều này, giúp tài khoản của bạn an toàn, không bị spam hay vi phạm tiêu chuẩn cộng đồng.
       </div>
     </div>
     <!-- End: Body List Post-->
@@ -156,6 +156,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .alert--text {
+    color: #e53232;
+    font-size: 0.825rem;
+  }
   .select {
     color: #ccc;
   }
@@ -171,6 +175,10 @@ export default {
       }
       &--alert {
         color: #ffb94a;
+        font-size: .825rem;
+      }
+      &--text {
+        font-weight: 600;
       }
     }
     .option {
