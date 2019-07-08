@@ -1,12 +1,13 @@
 <template>
   <div class="time">
     <div class="header mb_3">
-      <div class="font_weight_bold">Tùy chỉnh thời gian đăng bài</div>
+      <div class="title">Tùy chỉnh thời gian đăng bài</div>
     </div>
     <div class="body d_flex align_items_center">
       <div class="date d_flex align_items_center mr_5">
         <div class="desc mr_3">Bắt đầu:</div>
         <time-picker
+          theme="dark"
           v-if="event.type_event === 0"
           :value="time"
           @change="changeTimeSetup"
@@ -23,6 +24,7 @@
         <div class="item d_flex align_items_center mr_2">
           <input
             class="input--time mr_2"
+            title="dark"
             type="number"
             min="5"
             v-model="event.break_point"
@@ -113,6 +115,8 @@ export default {
 .time {
   .header {
     .title {
+      color: #ccc;
+      font-weight: 600;
       span {
         font-weight: 600;
       }
@@ -132,6 +136,11 @@ export default {
         padding-left: 10px;
         text-align: center;
         width: 60px;
+        &[title="dark"] {
+          background-color: #2f3136;
+          border: 1px solid #444;
+          color: #F7F7F7;
+        }
         &:hover, &:active, &:visited, &:focus {
           box-shadow: none;
           outline: 0;

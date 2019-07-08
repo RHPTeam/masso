@@ -1,102 +1,60 @@
-.box {
-  background-color: #85CFFF;
-  border-top-left-radius: 0.625rem;
-  border-top-right-radius: 0.625rem;
-  color: #f7f7f7;
-  height: auto;
-  transition: all 1s ease;
-  .r {
-    font-size: 0.875rem;
-  }
-  .text--error {
-    color: #F96666;
-  }
-  input[type=text] {
-    border: 0;
-    border-radius: 0.625rem;
-    background-color: #fff;
-    color: #444;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-    width: 100%;
-    &.input--error {
-      &::placeholder {
-        color: #F96666;
+.header {
+  color: #F7F7F7;
+  .header--left {
+    &:hover {
+      .btn--edit {
+        display: block;
       }
     }
-    &:active,
-    &:focus {
-      outline: 0;
-      box-shadow: none;
-    }
-    &::placeholder {
-      color: #ccc;
-    }
-  }
-  .left {
-    flex: 1;
-    .desc {
-      font-size: .825rem;
-      opacity: .8;
-    }
-  }
-  .right {
-    .action div[role=color] {
-      position: relative;
-      span {
-        cursor: pointer;
-        font-style: italic;
-        opacity: .8;
-        text-decoration: underline;
-        &:hover {
-          opacity: 1;
-        }
-      }
-    }
-    .button {
-      color: #fff;
+    .btn--edit {
+      background-color: rgba(0, 0, 0, .4);
       cursor: pointer;
+      display: none;
+      height: 24px;
+      line-height: 24px;
+      right: 0;
+      top: 8px;
       transition: all .4s ease;
-      &.copy:hover, &.remove:hover {
-        svg {
-          stroke: #fff;
-          stroke-opacity: .8;
-        }
-      }
-      &.copy:hover svg {
-        stroke-width: 10;
-      }
-      &.remove:hover svg {
-        stroke-width: .3;
-      }
-      &.save {
-        border: 1px solid #fff;
-        border-radius: 0.625rem;
-        box-shadow: 0 0 5px rgba(255, 255, 255, 0);
-        font-weight: 500;
-        height: 40px;
-        line-height: 40px;
-        padding: 0 .75rem;
-        text-align: center;
-        transition: all .4s ease;
-        &:hover {
-          box-shadow: 0 0 5px rgba(255, 255, 255, 1);
-        }
+      width: 24px;
+      z-index: 10;
+    }
+    .icon--color {
+      margin-top: 8px;
+      border-radius: .25rem;
+      height: 24px;
+      width: 24px;
+    }
+  }
+  .header--right {
+    flex: 1;
+    .title {
+      background-color: transparent;
+      border: 0;
+      border-radius: .375rem;
+      color: #F7F7F7;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: .375rem 0;
+      outline: 0;
+      width: 100%;
+      &::placeholder {
+        color: #666;
+        font-size: 1rem;
+        font-weight: normal;
       }
     }
   }
 }
 
 .dropdown--menu {
-  background-color: #fff;
-  border-radius: .625rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  margin-top: 2px;
+  background-color: #27292c;
+  border-radius: .5rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, .15);
+  margin-top: 3px;
+  left: 0;
   padding: .375rem .5rem;
   position: absolute;
-  right: 0;
+  width: 106px;
   z-index: 99;
   .dropdown--menu-item {
     align-items: center;

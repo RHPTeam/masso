@@ -32,13 +32,14 @@
           <div class="modal--body">
             <div class="modal--title text_center">Cập nhật tài khoản</div>
             <div class="modal--desc">
-              <span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản. Xem hướng dẫn chi tiết </span>
+              <span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.</span>
+              <!--<span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản. Xem hướng dẫn chi tiết </span>
               <a
                 class="link--here"
                 target="_blank"
                 href="http://localhost:8080/#/help"
               >tại đây</a>
-              <span>.</span>
+              <span>.</span>-->
             </div>
             <div class="modal--error mb_3">
               <span class="text_danger"

@@ -325,6 +325,19 @@ Docs & License: https://rfullcalendar.io/
         z-index: 1;
       }
     }
+    .rc--view-overlay {
+      background-color: rgba(39, 41, 44, 0.8);
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      z-index: 3;
+      .rc--notification {
+        color: #F7F7F7;
+        font-size: 0.875rem;
+        margin: 3rem;
+        text-align: center;
+      }
+    }
   }
   table {
     border-collapse: collapse;

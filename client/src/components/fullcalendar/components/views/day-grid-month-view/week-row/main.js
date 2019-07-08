@@ -75,9 +75,11 @@ export default {
       this.$emit( "eventHover", eventData );
     },
     eventOfDay( day ) {
-      return this.eventsOfWeek.filter( ( event ) => {
-        return this.compareDate( day, event.started_at );
-      } );
+      if ( Array.isArray(this.eventsOfWeek) ) {
+        return this.eventsOfWeek.filter( ( event ) => {
+          return this.compareDate( day, event.started_at );
+        } );
+      }
     },
     formatTime( d ) {
       const dateTime = new Date( d ),

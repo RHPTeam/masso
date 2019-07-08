@@ -103,7 +103,9 @@ export default {
         campaignId: this.$route.params.campaignId
       };
       await this.$store.dispatch("deleteEvent", dataSender);
+
       this.closePopup();
+      this.$store.dispatch( "setEventReset" );
     },
   }
 };
