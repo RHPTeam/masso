@@ -157,7 +157,7 @@ module.exports = {
           }
         } );
         event.status = findCampaign.status;
-        if ( event.status === true ) {
+        if ( event.status === true && new Date( event.started_at ) >= new Date() ) {
           await EventScheduleController.create( event, findCampaign._id );
         }
 

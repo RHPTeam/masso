@@ -101,8 +101,6 @@ const actions = {
   createEvent: async ( { commit }, payload ) => {
     commit( "ev_request");
 
-    console.log(payload.event);
-
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {
@@ -130,9 +128,6 @@ const actions = {
     if( payload.event.timeline && payload.event.timeline.length > 0)  {
       payload.event.timeline  =  payload.event.timeline.map(item => item._id);
     }
-
-    console.log("after register");
-    console.log(payload.event);
 
     await EventsServices.create(payload.campaignId, payload.event);
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
@@ -170,9 +165,6 @@ const actions = {
     // } );
   },
   updateEvent: async ( { commit }, payload ) => {
-
-    console.log(payload.event);
-
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {

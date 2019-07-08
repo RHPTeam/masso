@@ -120,7 +120,9 @@ module.exports = {
     const newEvent = new Event( req.body );
 
     // Create to event schedule, Check follow condition
-    await EventScheduleController.create( newEvent.toObject(), findCampaign._id );
+    if ( newEvent.status === true ) {
+      await EventScheduleController.create( newEvent.toObject(), findCampaign._id );
+    }
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );

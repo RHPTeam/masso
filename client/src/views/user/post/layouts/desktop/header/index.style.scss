@@ -5,8 +5,18 @@
     }
   }
   .header--right {
-    .icon--cookie {
+    .icon--cookie{
+      color: #999;
       cursor: pointer;
+      margin-right: .75rem;
+      transition: all .4s ease;
+      svg {
+        stroke: #999;
+        stroke-width: 2;
+      }
+      &:hover {
+        color: #FFB94A;
+      }
     }
     .help {
       cursor: pointer;
@@ -74,6 +84,14 @@
       }
     }
     .notification--groups {
+      .icon--help {
+        margin-top: 2px;
+        svg {
+          color: #999;
+          stroke: #999;
+          stroke-width: 2;
+        }
+      }
       .btn--notification {
         cursor: pointer;
         .notification--total {
@@ -436,6 +454,11 @@
   }
   .header--right {
     .messenger--group {
+      .icon--cookie {
+        svg {
+          color: #999;
+        }
+      }
       .btn--messenger {
         cursor: pointer;
         background: #282a2d;

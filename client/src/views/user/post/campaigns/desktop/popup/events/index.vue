@@ -94,7 +94,6 @@ export default {
         key: "popup",
         value: false
       } );
-      this.$store.dispatch( "setEventReset" );
     },
     // close() {
     //   this.isShowOptionTime = false;
@@ -129,13 +128,16 @@ export default {
       //   }
       // }
 
+      // Close popup
+      this.close();
 
       await this.$store.dispatch( "createEvent", {
         campaignId: this.$route.params.campaignId,
         event: this.event
       } );
-      // Close popup
-      this.close();
+
+      this.$store.dispatch( "setEventReset" );
+
       // Return popup start
       /*this.$store.dispatch( "setEvent", {
         key: "title",
@@ -204,6 +206,9 @@ export default {
       // }
 
       // Convert event timeline to accounts id array
+      // Close popup
+      this.close();
+
       let fbAccounts  = [];
       this.event.timeline.forEach( ( account ) => {
         fbAccounts.push( account._id );
@@ -217,8 +222,7 @@ export default {
         event: this.event
       } );
 
-      // Close popup
-      this.close();
+      this.$store.dispatch( "setEventReset" );
 
       // Return popup start
       /*this.$store.dispatch( "setEvent", {

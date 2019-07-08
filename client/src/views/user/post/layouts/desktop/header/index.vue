@@ -31,7 +31,7 @@
               class="icon--messenger"
               width="20px"
               height="20px"
-              icon-name="Cửa hàng content"
+              icon-name="Cửa hàng nội dung"
               viewBox="0 0 520 520"
             >
               <icon-shop />
@@ -48,26 +48,38 @@
       <!-- End: Messenger Link-->
 
       <!-- Start: Icon GetCookie -->
-      <div class="icon--cookie mr_2" @click="redirectToGetCookie">
+      <div class="icon--cookie" @click="redirectToGetCookie">
         <icon-base
           width="20px"
           height="20px"
-          icon-name="Lấy cookie"
+          icon-name="Lấy mã kích hoạt Facebook"
           viewBox="0 0 512 512"
         >
-          <icon-get-cookie />
+          <icon-plugin />
         </icon-base>
       </div>
       <!-- End: Icon GetCookie -->
 
       <!-- Start: Help Dropdown -->
       <div class="notification--groups help position_relative">
+        <a class="icon--help mr_2" target="_blank" href="https://www.zinbee.vn/#/help">
+          <icon-base
+            width="22px"
+            height="22px"
+            icon-name="Bạn cần trợ giúp?"
+            viewBox="0 0 300 300"
+          >
+            <icon-help/>
+          </icon-base>
+        </a>
+      </div>
+      <!--<div class="notification--groups help position_relative">
         <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
             width="20px"
             height="20px"
-            icon-name="Trợ giúp"
-            viewBox="0 0 512 512"
+            icon-name="Bạn cần trợ giúp?"
+            viewBox="0 0 300 300"
           >
             <icon-help />
           </icon-base>
@@ -83,7 +95,7 @@
             </transition>
           </div>
         </div>
-      </div>
+      </div>-->
       <!-- End: Help Dropdown -->
 
       <!-- Start: Notification Groups -->
@@ -94,8 +106,8 @@
           <icon-base
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="Thông báo"
-            width="24px"
-            height="24px"
+            width="22px"
+            height="22px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>

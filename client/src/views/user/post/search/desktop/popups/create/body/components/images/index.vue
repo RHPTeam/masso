@@ -73,8 +73,6 @@ export default {
       this.file = this.$refs.file.files;
       this.sendFile();
 
-      console.log(this.post.attachments);
-
       // reset ref
       const input = this.$refs.file;
       input.type = 'text';
