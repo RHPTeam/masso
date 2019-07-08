@@ -123,6 +123,12 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
           // Do something new version - Convert JSON To Facebook
           const feed = await convertDataPostFacebook( eventSchedule.location, postInfo, eventSchedule.targetID );
 
+          console.log( {
+            "cookie": facebookInfo.cookie,
+            agent,
+            "feed": feed
+          } );
+
           // Do something new version - Post Feed To Facebook
           const resFacebookResponse = await createPost( {
             "cookie": facebookInfo.cookie,

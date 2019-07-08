@@ -14,7 +14,7 @@ module.exports = {
   "create": async ( event, campaignId ) => {
     let listPost = [], startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
 
-    if ( event.post_custom.length > 0 ) {
+    if ( event.post_custom && event.post_custom.length > 0 ) {
       listPost = event.post_custom;
     } else {
       listPost = ( await Post.find( { "_categories": event.post_category } ).lean() ).map( ( post ) => post._id );
@@ -30,9 +30,12 @@ module.exports = {
         // Check target profile
         if ( event && event.timeline.length > 0 ) {
           listTarget = listTarget.concat( await Promise.all( event.timeline.map( async ( profile ) => {
-            return convert( 0, profile._id );
+            return convert( 0, profile );
           } ) ) );
         }
+
+        console.log( event );
+        console.log( listTarget );
 
         // Check target category
         if ( event && event.target_category ) {
@@ -72,10 +75,10 @@ module.exports = {
 
       // Do something new version - convert data model
       if ( listTarget.length > 0 ) {
-        await Promise.all( listTarget.map( async ( target ) => {
+        await Promise.all( listTarget.map( async ( target, index ) => {
           // Random post from list post
           let postID = listPost[ Math.floor( Math.random() * listPost.length ) ],
-            startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point ),
+            startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + ( event.break_point * ( index + 1 ) ) ),
             facebookID, location = target.type, newEventSchedule;
 
           // Timeline
@@ -96,8 +99,6 @@ module.exports = {
 
             facebookID = pageInfo._facebook;
           }
-
-          console.log( event );
 
           // new value from model to insertMany() to mongodb
           newEventSchedule = new EventSchedule( {
