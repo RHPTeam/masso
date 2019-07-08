@@ -5,7 +5,7 @@
         <!-- Start: Modal Body -->
         <div class="body">
             <!-- Start: Form Header -->
-            <div class="form--header">
+            <div class="form--header d_flex align_items_center justify_content_center">
               <div class="header--logo">
                 <icon-base
                   icon-name="ZinBee"
@@ -175,11 +175,11 @@
         <!-- Start: Modal Footer -->
         <div class="footer d_flex align_items_center mt_3">
           <div class="ml_auto d_flex">
-            <button class="btn bg_danger mr_2" @click="close">
+            <button class="btn--cancel mr_2" @click="close">
               Hủy bỏ
             </button>
             <button
-              class="btn bg_primary"
+              class="btn--create"
               @click="createNewMember"
             >
               Tạo mới

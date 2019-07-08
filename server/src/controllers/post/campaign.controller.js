@@ -133,7 +133,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": "timeline" } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -157,7 +157,9 @@ module.exports = {
           }
         } );
         event.status = findCampaign.status;
-        await EventScheduleController.create( event, findCampaign._id );
+        if ( event.status === true ) {
+          await EventScheduleController.create( event, findCampaign._id );
+        }
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
 

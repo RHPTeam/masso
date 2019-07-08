@@ -14,7 +14,7 @@ module.exports = {
   "create": async ( event, campaignId ) => {
     let listPost = [], startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
 
-    if ( event.post_custom.length > 0 ) {
+    if ( event.post_custom && event.post_custom.length > 0 ) {
       listPost = event.post_custom;
     } else {
       listPost = ( await Post.find( { "_categories": event.post_category } ).lean() ).map( ( post ) => post._id );
@@ -72,10 +72,10 @@ module.exports = {
 
       // Do something new version - convert data model
       if ( listTarget.length > 0 ) {
-        await Promise.all( listTarget.map( async ( target ) => {
+        await Promise.all( listTarget.map( async ( target, index ) => {
           // Random post from list post
           let postID = listPost[ Math.floor( Math.random() * listPost.length ) ],
-            startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point ),
+            startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + ( event.break_point * ( index + 1 ) ) ),
             facebookID, location = target.type, newEventSchedule;
 
           // Timeline
@@ -85,14 +85,14 @@ module.exports = {
 
           // Group
           if ( target.type === 1 ) {
-            const groupInfo = await GroupFacebook.find( { "groupId": target.value, "_account": event._account } ).lean();
+            const groupInfo = await GroupFacebook.findOne( { "groupId": target.value, "_account": event._account } ).lean();
 
             facebookID = groupInfo._facebook;
           }
 
           // Page
           if ( target.type === 2 ) {
-            const pageInfo = await PageFacebook.find( { "pageId": target.value, "_account": event._account } ).lean();
+            const pageInfo = await PageFacebook.findOne( { "pageId": target.value, "_account": event._account } ).lean();
 
             facebookID = pageInfo._facebook;
           }

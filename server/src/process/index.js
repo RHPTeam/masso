@@ -5,7 +5,7 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
 
 // Other process
 require( "./cron/post/campaign" );
-require( "./cron/post/post" );
+// require( "./cron/post/post" );
 // const chatAuto = require( "./cron/chat/index" );
 
 ( async () => {

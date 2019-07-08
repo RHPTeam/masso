@@ -122,6 +122,7 @@ export default {
       };
     },
     showDuplicateCampaignPopup( campaign ) {
+      this.$store.dispatch("setVariableDuplicateCampaign", 0);
       this.isShowDuplicateCampaignPopup = true;
       this.campaignDuplicate = campaign;
     },

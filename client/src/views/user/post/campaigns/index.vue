@@ -7,6 +7,7 @@
         subBread="Giúp bạn thiết lập bộ hẹn cho bài đăng theo ý muốn và trực quan hơn"
       />
       <!-- Start: Content -->
+      <app-navigation v-if="variableControl === 0"/>
       <div class="main--content">
         <router-view/>
       </div>
@@ -17,12 +18,14 @@
 </template>
 
 <script>
+import AppNavigation from "./desktop/advance/components/navigation";
 export default {
   components: {
+    AppNavigation
   },
   computed: {
     variableControl(){
-      return this.$store.getters.variableControl;
+      return this.$store.getters.variableControlCampaign;
     }
   },
   async created(){

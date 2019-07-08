@@ -101,6 +101,8 @@ const actions = {
   createEvent: async ( { commit }, payload ) => {
     commit( "ev_request");
 
+    console.log(payload.event);
+
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {
@@ -129,6 +131,9 @@ const actions = {
       payload.event.timeline  =  payload.event.timeline.map(item => item._id);
     }
 
+    console.log("after register");
+    console.log(payload.event);
+
     await EventsServices.create(payload.campaignId, payload.event);
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
@@ -147,24 +152,27 @@ const actions = {
     } );
 
     // check case event target
-    let targetType = 0;
-    if ( res.data.data.target_custom.length === 0 ) {
-      if ( res.data.data.hasOwnProperty( "target_category" ) ) {
-        targetType = 1;
-      } else {
-        if ( res.data.data.timeline.length > 0 ) {
-          targetType = 3;
-        }
-      }
-    } else {
-      targetType = 2;
-    }
-    commit( "set_caseEvent", {
-      key: "target",
-      value: targetType
-    } );
+    // let targetType = 0;
+    // if ( res.data.data.target_custom.length === 0 ) {
+    //   if ( res.data.data.hasOwnProperty( "target_category" ) ) {
+    //     targetType = 1;
+    //   } else {
+    //     if ( res.data.data.timeline.length > 0 ) {
+    //       targetType = 3;
+    //     }
+    //   }
+    // } else {
+    //   targetType = 2;
+    // }
+    // commit( "set_caseEvent", {
+    //   key: "target",
+    //   value: targetType
+    // } );
   },
   updateEvent: async ( { commit }, payload ) => {
+
+    console.log(payload.event);
+
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {

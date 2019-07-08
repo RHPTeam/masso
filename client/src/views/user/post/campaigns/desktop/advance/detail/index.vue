@@ -6,6 +6,9 @@
       @updateCalendarView="calendarView = $event"
     />
     <!-- End: Header -->
+    <!-- Start: Notification -->
+    <div class="alert alert_warning" v-if="campaignDetail.status === false">Chiến dịch của bạn hiện tại đã ngừng hoạt động. Khi bạn khởi động lại chiến dịch, hệ thống sẽ chỉ đăng các sự kiện hiện tại và trong tương lai, và bỏ qua các sự kiện trước đó!</div>
+    <!-- End: Notification -->
     <!-- Start: FullCalendar -->
     <fullcalendar
       @eventClick="openEventPopup($event)"

@@ -14,6 +14,7 @@ Vue.component("IconAutoAnswer", () =>
 );
 Vue.component("IconAutopost", () => import("@/components/icons/IconAutopost"));
 Vue.component("IconArrowLeft", () => import("@/components/icons/IconArrowLeft"));
+Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 
 Vue.component("IconBase", () => import("@/components/icons/IconBase"));
 Vue.component("IconBell", () => import("@/components/icons/IconBell"));
@@ -42,6 +43,7 @@ Vue.component( "IconFriendTag", () => import( "@/components/icons/IconFriendTag"
 Vue.component( "IconGrid", () => import( "@/components/icons/IconGrid" ) );
 Vue.component( "IconGridLayout", () => import( "@/components/icons/IconGridLayout" ) );
 Vue.component( "IconGroup", () => import( "@/components/icons/IconGroup" ) );
+Vue.component( "IconGetCookie", () => import( "@/components/icons/IconGetCookie" ) );
 Vue.component( "IconHome", () => import( "@/components/icons/IconHome" ) );
 Vue.component( "IconHelp", () => import( "@/components/icons/IconHelp" ) );
 Vue.component( "IconHourglass", () => import( "@/components/icons/IconHourglass" ) );

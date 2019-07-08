@@ -10,7 +10,7 @@
             <span class="text--bold">{{ campaignDuplicate.title }}</span>
             sẽ được sao chép sang một chiến dịch mới.
           </div>
-          <div class="duplicate" v-if="isShow === true">
+          <div class="duplicate" v-if="variableCampaign === 1">
             <div class="account mt_3">
               <h5 class="mb_3">Chọn tài khoản sử dụng chiến dịch</h5>
               <div class="account--list-item d_flex align_items_center"
@@ -51,12 +51,12 @@
             @click="closePopup()"
           >HỦY</button>
           <button
-            v-if="isShow === false"
+            v-if="variableCampaign === 0"
             class="btn--submit"
             @click="duplicateCampaign()"
           >SAO CHÉP</button>
           <button
-            v-if="isShow === true"
+            v-if="variableCampaign === 1"
             class="btn--submit"
             @click="duplicateCampaignSimple()"
           >SAO CHÉP</button>
@@ -83,6 +83,9 @@ export default {
     },
     allAccountFB() {
       return this.$store.getters.accountsFB;
+    },
+    variableCampaign(){
+      return this.$store.getters.variableCampaign;
     }
   },
   async created() {

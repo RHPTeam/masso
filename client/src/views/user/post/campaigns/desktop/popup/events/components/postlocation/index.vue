@@ -263,7 +263,7 @@ export default {
           }
         };
       } );
-
+      console.log(groupListSelect);
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
         typeTarget: 0,
@@ -283,7 +283,7 @@ export default {
           }
         };
       } );
-
+      console.log(pageListSelect);
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
         typeTarget: 1,
