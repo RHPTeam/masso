@@ -66,7 +66,7 @@
           <icon-base
             width="20px"
             height="20px"
-            icon-name=""
+            icon-name="Trợ giúp"
             viewBox="0 0 512 512"
           >
             <icon-help />
