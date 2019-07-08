@@ -1,13 +1,15 @@
 import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
 import AppNotification from "./desktop/notification";
+import AppExpire from "./desktop/expire";
 
 import CookieFunction from "@/utils/functions/cookie";
 
 export default {
   data() {
     return {
-      statusNetwork: true
+      statusNetwork: true,
+      showExpire: false
     };
   },
   created() {
@@ -37,6 +39,7 @@ export default {
   components: {
     AppHeader,
     AppSidebar,
-    AppNotification
+    AppNotification,
+    AppExpire
   }
 };

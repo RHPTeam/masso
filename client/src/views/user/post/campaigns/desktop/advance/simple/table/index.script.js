@@ -110,6 +110,7 @@ export default {
     },
     showDuplicateCampaignPopup( campaign ) {
       this.showDuplicateSimple = true;
+      this.$store.dispatch("setVariableDuplicateCampaign", 1);
       this.isShowDuplicateCampaignPopup = true;
       this.campaignDuplicate = campaign;
     },

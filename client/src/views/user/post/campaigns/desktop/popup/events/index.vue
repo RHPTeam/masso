@@ -82,6 +82,9 @@ export default {
       return this.$store.getters.caseEvent;
     }
   },
+  created(){
+    this.$store.dispatch( "getAllPost" );
+  },
   methods: {
     closePopup(){
       this.$emit("closePopup", false);
