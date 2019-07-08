@@ -94,10 +94,6 @@ module.exports = {
           if ( target.type === 2 ) {
             const pageInfo = await PageFacebook.findOne( { "pageId": target.value, "_account": event._account } ).lean();
 
-            console.log( target );
-            console.log( event );
-            console.log( pageInfo );
-
             facebookID = pageInfo._facebook;
           }
 
