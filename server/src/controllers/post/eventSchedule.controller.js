@@ -34,9 +34,6 @@ module.exports = {
           } ) ) );
         }
 
-        console.log( event );
-        console.log( listTarget );
-
         // Check target category
         if ( event && event.target_category ) {
           const postGroupInfo = await PostGroup.findOne( { "_id": event.target_category } ).lean();
@@ -88,14 +85,18 @@ module.exports = {
 
           // Group
           if ( target.type === 1 ) {
-            const groupInfo = await GroupFacebook.find( { "groupId": target.value, "_account": event._account } ).lean();
+            const groupInfo = await GroupFacebook.findOne( { "groupId": target.value, "_account": event._account } ).lean();
 
             facebookID = groupInfo._facebook;
           }
 
           // Page
           if ( target.type === 2 ) {
-            const pageInfo = await PageFacebook.find( { "pageId": target.value, "_account": event._account } ).lean();
+            const pageInfo = await PageFacebook.findOne( { "pageId": target.value, "_account": event._account } ).lean();
+
+            console.log( target );
+            console.log( event );
+            console.log( pageInfo );
 
             facebookID = pageInfo._facebook;
           }
