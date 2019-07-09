@@ -23,26 +23,31 @@
           />
           <!-- End: Header -->
           <!-- Start: Body -->
-          <div class="body p_4" v-if="event">
-            <!-- Start: Post Custom -->
-            <post-custom
-              @setErrorPost="errorPost = $event"
-            />
-            <!-- End: Post Custom -->
-            <div class="alert--text" v-if="errorPost === true">
-              Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+          <div class="body d_flex px_4" v-if="event">
+            <div class="body--content">
+              <!-- Start: Post Custom -->
+              <post-custom
+                @setErrorPost="errorPost = $event"
+              />
+              <!-- End: Post Custom -->
+              <div class="alert--text" v-if="errorPost === true">
+                Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+              </div>
+              <!-- Start: Post Location -->
+              <post-location
+                @setErrorLocation="errorLocation = $event"
+              />
+              <div class="alert--text" v-if="errorLocation === true">
+                Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+              </div>
+              <!-- End: Post Location -->
+              <!-- Start: Post Time -->
+              <select-time class="mt_4"/>
+              <!-- End: Post Time -->
             </div>
-            <!-- Start: Post Location -->
-            <post-location
-              @setErrorLocation="errorLocation = $event"
-            />
-            <div class="alert--text" v-if="errorLocation === true">
-              Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+            <div class="body--sidebar">
+              <app-sidebar></app-sidebar>
             </div>
-            <!-- End: Post Location -->
-            <!-- Start: Post Time -->
-            <select-time class="mt_4"/>
-            <!-- End: Post Time -->
           </div>
           <!-- End: Body -->
           <div class="footer d_flex align_items_center justify_content_between py_3 px_3">
@@ -79,14 +84,16 @@
 
 <script>
 import AppHeader from "./components/header/index";
+import AppSidebar from  "./components/sidebar";
 import DeleteEvent from "./components/popup/delete";
 import SelectTime from "./components/popup/time";
-import PostCustom from "./components/select";
+import PostCustom from "./components/postcontent";
 import PostLocation from "./components/postlocation";
 
 export default {
   components: {
     AppHeader,
+    AppSidebar,
     DeleteEvent,
     SelectTime,
     PostCustom,

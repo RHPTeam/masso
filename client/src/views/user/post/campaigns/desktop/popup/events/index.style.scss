@@ -1,5 +1,5 @@
 .window {
-  background-color: rgba(0,0,0,.64);
+  background-color: rgba(153, 153, 153, .4);
   height: 100%;
   left: 0;
   overflow-y: auto;
@@ -41,6 +41,12 @@
           .alert--text {
             color: #e53232;
             font-size: 0.825rem;
+          }
+          &--content {
+            flex: 1;
+          }
+          &--sidebar {
+            width: 168px;
           }
         }
         .footer {

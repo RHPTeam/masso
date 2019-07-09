@@ -24,7 +24,7 @@ const state = {
     target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
     libraries: 0, // 0: All, 1: Libraries,
     active: 1, // 0: Active
-    listPost: 1, // 0: Active
+    listPost: 1, // 0: Category, 1: Custom
     popup: false
   }
 };

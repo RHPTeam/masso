@@ -2,6 +2,7 @@ import Vue from "vue";
 
 // Icon Component
 Vue.component("IconAccount", () => import("@/components/icons/IconAccount"));
+Vue.component("IconActivity", () => import("@/components/icons/IconActivity"));
 Vue.component("IconApplication", () => import("@/components/icons/IconApplication"));
 Vue.component("IconArrowDown", () =>
   import("@/components/icons/IconArrowDown")
@@ -68,6 +69,7 @@ Vue.component( "IconMessenger", () => import( "@/components/icons/IconMessenger"
 Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCookie" ) );
 Vue.component( "IconText", () => import( "@/components/icons/IconText" ) );
 Vue.component( "IconTag", () => import( "@/components/icons/IconTag" ) );
+Vue.component( "IconTarget", () => import( "@/components/icons/IconTarget" ) );
 Vue.component( "IconTimeline", () => import( "@/components/icons/IconTimeline" ) );
 Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
 Vue.component( "IconThreeDotsVerti", () => import( "@/components/icons/IconThreeDotsVerti" ) );
