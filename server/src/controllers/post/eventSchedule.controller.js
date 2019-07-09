@@ -1,158 +1,117 @@
-const Campaign = require( "../../models/post/Campaign.model" );
-const Facebook = require( "../../models/Facebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" ),
+  { removeObjectDuplicates } = require( "../../helpers/utils/functions/array" ),
 
   // handle convert to event schedule. | location: 0 - profile, 1 - group, 2 - page
-  convert = ( campaign, event, post, cookie, location, target = "", time, account ) => {
-    let photos;
-
-    // Check convert images to array format
-    if ( post.attachments.length > 0 ) {
-      photos = post.attachments.map( ( file ) => {
-        if ( file.typeAttachment === 1 ) {
-          return file.link;
-        }
-      } );
-    }
-
-    // Check if feed contain text and scrape link
-    if ( post.scrape ) {
-      console.log( post.scrape )
-      if ( post.scrape.length > 0 && photos.length > 0 ) {
-        post.scrape = "";
-      }
-    }
-
-    return {
-      "_id": post._id,
-      "cookie": cookie,
-      "feed": {
-        "photos": ( photos && photos.length > 0 ) ? photos : [],
-        "scrape": post.scrape && post.scrape.length > 0 ? post.scrape : "",
-        "activity": {
-          "type": post.activity ? post.activity.typeActivity.id : "",
-          "id": post.activity ? post.activity.id.id : "",
-          "text": ""
-        },
-        "color": post.color ? post.color.id : "",
-        "content": post.content,
-        "location": {
-          // eslint-disable-next-line no-nested-ternary
-          "type": location === 0 ? 0 : location === 1 ? 1 : 2,
-          "value": location === 0 ? "" : target
-        },
-        "place": post.place ? post.place.id : "",
-        "tags": post.tags ? post.tags.map( ( tag ) => tag.uid ) : ""
-      },
-      "started_at": new Date( time ),
-      "status": event.status,
-      "_account": account,
-      "_event": event._id,
-      "_campaign": campaign._id
-    };
-  },
-  insertManyEventSchedule = ( data ) => {
-    return new Promise( ( resolve ) => {
-      EventSchedule.insertMany( data, function( error, docs ) {
-        if ( error ) {
-          throw new Error( error );
-        }
-        resolve( docs );
-      } );
-    } );
-  };
-
-let listPost, listEventSchedule = [],
-  resetEventSchedule = function () {
-    listEventSchedule = [];
+  convert = ( type, value ) => {
+    return { type, value };
   };
 
 module.exports = {
-  "create": async ( event, campaignId, account ) => {
-    let startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
-    const campaignContainEvent = await Campaign.findOne( { "_id": campaignId } ).lean();
+  "create": async ( event, campaignId ) => {
+    let listPost = [], startedAtObject = new Date( event.started_at ), startAt = startedAtObject.setMinutes( startedAtObject.getMinutes() - event.break_point );
 
-    if ( event.post_custom.length > 0 ) {
+    if ( event.post_custom && event.post_custom.length > 0 ) {
       listPost = event.post_custom;
     } else {
       listPost = ( await Post.find( { "_categories": event.post_category } ).lean() ).map( ( post ) => post._id );
     }
 
     if ( listPost.length > 0 ) {
-      // Check target profile
-      if ( event.timeline.length > 0 ) {
-        listEventSchedule = listEventSchedule.concat( await Promise.all( event.timeline.map( async ( profile ) => {
-          const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            accountFacebookInfo = await Facebook.findOne( { "_id": profile } ).lean();
+      let listTarget = [];
 
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
+      // Do something new version - Handle get all target
+      if ( listTarget.length === 0 ) {
+        // Get all target and merge to one array and remove duplicate
+        
+        // Check target profile
+        if ( event && event.timeline.length > 0 ) {
+          listTarget = listTarget.concat( await Promise.all( event.timeline.map( async ( profile ) => {
+            return convert( 0, profile );
+          } ) ) );
+        }
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, accountFacebookInfo.cookie, 0, "", startAt, account );
-        } ) ) );
+        // Check target category
+        if ( event && event.target_category ) {
+          const postGroupInfo = await PostGroup.findOne( { "_id": event.target_category } ).lean();
+
+          // Handle Page
+          listTarget = listTarget.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
+            return convert( 2, page );
+          } ) ) );
+
+          // Handle Group
+          listTarget = listTarget.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
+            return convert( 1, group );
+          } ) ) );
+        }
+
+        // Check target custom
+        if ( event && event.target_custom.length > 0 ) {
+          // Handle Page
+          listTarget = listTarget.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 1 ).map( ( item ) => item.id ).map( async ( page ) => {
+            return convert( 2, page );
+          } ) ) );
+
+          // Handle Group
+          listTarget = listTarget.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 0 ).map( ( item ) => item.id ).map( async ( group ) => {
+            return convert( 1, group );
+          } ) ) );
+        }
+      } else {
+        console.log( "\x1b[31m%s\x1b[0m", "Error: ", "Haven't error with cache of server!" );
       }
 
-      // Check target category
-      if ( event.target_category ) {
-        const postGroupInfo = await PostGroup.findOne( { "_id": event.target_category } ).lean();
-
-        // Handle Page
-        listEventSchedule = listEventSchedule.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
-          const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            pageFacebookInfo = await PageFacebook.find( { "pageId": page, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
-
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
-
-          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
-        } ) ) );
-
-        // Handle Group
-        listEventSchedule = listEventSchedule.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
-          const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            groupFacebookInfo = await GroupFacebook.find( { "groupId": group, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
-
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
-
-          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt, account );
-        } ) ) );
+      // Do something new version - Remove item duplicate
+      if ( listTarget.length > 0 ) {
+        listTarget = removeObjectDuplicates( listTarget, "value" );
       }
 
-      // Check target custom
-      if ( event.target_custom.length > 0 ) {
-        // Handle Page
-        listEventSchedule = listEventSchedule.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 1 ).map( ( item ) => item.id ).map( async ( page ) => {
-          const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            pageFacebookInfo = await PageFacebook.find( { "pageId": page, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+      // Do something new version - convert data model
+      if ( listTarget.length > 0 ) {
+        await Promise.all( listTarget.map( async ( target, index ) => {
+          // Random post from list post
+          let postID = listPost[ Math.floor( Math.random() * listPost.length ) ],
+            startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + ( event.break_point * ( index + 1 ) ) ),
+            facebookID, location = target.type, newEventSchedule;
 
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
-          return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
-        } ) ) );
+          // Timeline
+          if ( target.type === 0 ) {
+            facebookID = target.value;
+          }
 
-        // Handle Group
-        listEventSchedule = listEventSchedule.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 0 ).map( ( item ) => item.id ).map( async ( group ) => {
-          const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            groupFacebookInfo = await GroupFacebook.find( { "groupId": group, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+          // Group
+          if ( target.type === 1 ) {
+            const groupInfo = await GroupFacebook.findOne( { "groupId": target.value, "_account": event._account } ).lean();
 
-          startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
+            facebookID = groupInfo._facebook;
+          }
 
-          return convert( campaignContainEvent, event, postSelectedFromRandom, groupFacebookInfo[ 0 ]._facebook.cookie, 1, group, startAt, account );
-        } ) ) );
-      }
+          // Page
+          if ( target.type === 2 ) {
+            const pageInfo = await PageFacebook.findOne( { "pageId": target.value, "_account": event._account } ).lean();
 
-      if ( listEventSchedule.length > 0 ) {
-        // Remove Object
-        listEventSchedule = await Promise.all( listEventSchedule.map( ( eventSchedule ) => {
-          delete eventSchedule._id;
-          return eventSchedule;
+            facebookID = pageInfo._facebook;
+          }
+
+          // new value from model to insertMany() to mongodb
+          newEventSchedule = new EventSchedule( {
+            "postID": postID,
+            "facebookID": facebookID,
+            "location": location,
+            "targetID": target.value,
+            "started_at": startedAtPostToFacebook,
+            "_account": event._account,
+            "_event": event._id,
+            "_campaign": campaignId
+          } );
+
+          // Save to mongodb
+          await newEventSchedule.save();
         } ) );
-
-        // insert many
-        await insertManyEventSchedule( listEventSchedule );
-
-        resetEventSchedule();
       } else {
         console.log( "\x1b[31m%s\x1b[0m", "Error: ", "Haven't list event schedule to insert!" );
         return false;

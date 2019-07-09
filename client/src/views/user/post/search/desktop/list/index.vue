@@ -94,7 +94,7 @@ export default {
   data() {
     return {
       currentPage: 1,
-      maxPerPage: 12,
+      maxPerPage: 20,
       keyword: "",
       isLoadingData: true,
       isStatusKeywordHistory: false
@@ -108,8 +108,8 @@ export default {
       return this.$store.getters.listPostFacebookDefault;
     },
     keyPopular(){
-      if(Object.entries(this.user).length === 0 && this.user.constructor === Object) return;
-      return this.user.keywords.slice(0,5);
+      if ( Object.entries( this.user ).length === 0 && this.user.constructor === Object ) return;
+      return this.user.keywords.slice( 0, 5 );
     },
     numberPageCurrent() {
       return this.$store.getters.numberPageCurrent;
@@ -135,11 +135,11 @@ export default {
     async loadMore() {
       if ( this.isLoadingData === true ) {
         if ( this.keyword !== "" ) {
-          this.currentPage += 1;
           if ( this.currentPage >= this.numberPageCurrent ) {
             return false;
           } else {
             this.isLoadingData = false;
+            this.currentPage += 1;
 
             await this.$store.dispatch( "searchPostsFacebookByKey", {
               keyword: this.keyword,

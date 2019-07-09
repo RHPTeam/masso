@@ -6,15 +6,19 @@
  * team: BE-RHP
  */
 const Post = require( "../../models/post/Post.model" );
+const Event = require( "../../models/post/Event.model" );
+const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
+const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
+const PageFacebook = require( "../../models/post/PageFacebook.model" );
+
 const request = require( "axios" );
 const { logUserAction } = require( "../../microservices/synchronize/log.service" );
 
 const jsonResponse = require( "../../configs/response" );
-const dictionary = require( "../../configs/dictionaries" ),
-  ScheduleService = require( "node-schedule" );
+const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
   "index": async ( req, res ) => {
@@ -180,14 +184,8 @@ module.exports = {
         .json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
     }
 
-    const findPost = await Post.findOne( {
-        "_id": req.query._postId,
-        "_account": req.uid
-      } ),
-      listPostOldSchedule = await PostSchedule.find( {
-        "_post": req.query._postId,
-        "_account": req.uid
-      } ).lean();
+    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } ),
+      eventInfoList = await Event.find( { "post_custom": req.query._postId } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
@@ -223,24 +221,25 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    /**
-     * Delete cron schedule
-     */
-    await Promise.all(
-      listPostOldSchedule.map( ( postSchedule ) => {
-        if ( ScheduleService.scheduleJob[ postSchedule._id ] ) {
-          ScheduleService.scheduleJob[ `rhp${postSchedule._id}` ].cancel();
-        }
-      } )
-    );
-    await PostSchedule.deleteMany( { "_post": req.query._postId } );
-
     await Promise.all( findPost._categories.map( async ( category ) => {
       const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
       categoryInfo.totalPosts -= 1;
       categoryInfo.save();
     } ) );
+
+    // Remove a post exist in a campaign
+    await Promise.all( eventInfoList.map( async ( event ) => {
+      event.post_custom.pull( req.query._postId );
+      await event.save();
+    } ) );
+
+    // Remove a post from eventschedule
+    await EventSchedule.deleteMany( { "postID": req.query._postId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xóa [EventSchedule] thất bại!" );
+      }
+    } );
 
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );
@@ -276,51 +275,14 @@ module.exports = {
   },
   "createPostSchedule": async ( req, res ) => {
     const findPost = await Post.findOne( {
-        "_id": req.query._postId,
-        "_account": req.uid
-      } ).lean(),
-      location = req.body.location;
+      "_id": req.query._postId,
+      "_account": req.uid
+    } ).lean();
 
-    let photos,
-      objectFeed,
-      startedAtObject = new Date(),
-      startAt = startedAtObject.setMinutes(
-        startedAtObject.getMinutes() + 1 - req.body.break_point
+    let date = new Date( req.body.started_at ),
+      startAt = date.setMinutes(
+        date.getMinutes() - req.body.break_point
       );
-
-    // Check photos in post
-    if ( findPost.attachments.length > 0 ) {
-      photos = findPost.attachments.map( ( file ) => {
-        if ( file.typeAttachment === 1 ) {
-          return file.link;
-        }
-      } );
-    }
-
-    // Check if feed contain text and scrape link
-    if ( findPost.scrape && findPost.scrape.length > 0 && photos.length > 0 ) {
-      findPost.scrape = "";
-    }
-
-    // Define object save to post schedule collection
-    objectFeed = {
-      "activity": {
-        "type": findPost.activity ? findPost.activity.typeActivity.id : "",
-        "id": findPost.activity ? findPost.activity.id.id : "",
-        "text": ""
-      },
-      "color": findPost.color ? findPost.color.id : "",
-      "content": findPost.content,
-      "location": {
-        // eslint-disable-next-line no-nested-ternary
-        "type": location === 0 ? 0 : location === 1 ? 1 : 2,
-        "value": ""
-      },
-      "photos": photos && photos.length > 0 ? photos : [],
-      "place": findPost.place ? findPost.place.id : "",
-      "scrape": findPost.scrape && findPost.scrape.length > 0 ? findPost.scrape : "",
-      "tags": findPost.tags ? findPost.tags.map( ( tag ) => tag.uid ) : ""
-    };
 
     // check break point
     if ( req.body.break_point < 5 ) {
@@ -337,11 +299,12 @@ module.exports = {
               "_account": req.uid
             } ),
             newPostSchedule = await new PostSchedule( {
-              "cookie": findAccountFacebook.cookie,
-              "feed": objectFeed,
+              "facebookID": findAccountFacebook._id,
+              "location": 0,
+              "targetID": findAccountFacebook.userInfo.id,
               "_account": req.uid,
               "status": 1,
-              "_post": req.query._postId
+              "postID": req.query._postId
             } );
 
           startAt = new Date( startAt ).setMinutes(
@@ -356,7 +319,7 @@ module.exports = {
               "data": [
                 {
                   "logs": {
-                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${findPost._id} trên tài khoản facebook có ID: ${facebook} ${req.body.break_point ? "thời gian giữa các lần gửi là: " + req.body.break_point + " phút " : "" } được bắt đầu lúc ${newPostSchedule.started_at}`,
+                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${findPost._id} trên tài khoản facebook có ID: ${facebook} ${req.body.break_point ? `thời gian giữa các lần gửi là: ${ req.body.break_point } phút ` : "" } được bắt đầu lúc ${newPostSchedule.started_at}`,
                     "createdAt": new Date(),
                     "info": {
                       "postNowId": newPostSchedule._id
@@ -377,9 +340,46 @@ module.exports = {
           return newPostSchedule;
         } )
       );
-
-      return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
+    if ( req.body._groupId ) {
+      const groupInfo = await GroupFacebook.findOne( { "groupId": req.body._groupId, "_account": req.uid } ).lean();
+
+      let newPostSchedule = await new PostSchedule( {
+        "facebookID": groupInfo._facebook,
+        "location": 1,
+        "targetID": req.body._groupId,
+        "_account": req.uid,
+        "status": 1,
+        "postID": req.query._postId
+      } );
+
+      startAt = new Date( startAt ).setMinutes(
+        new Date( startAt ).getMinutes() + req.body.break_point
+      );
+      // eslint-disable-next-line camelcase
+      newPostSchedule.started_at = startAt;
+      await newPostSchedule.save();
+    }
+    if ( req.body._fanpageId ) {
+      const pageInfo = await PageFacebook.findOne( { "pageId": req.body._fanpageId, "_account": req.uid } ).lean();
+
+      let newPostSchedule = await new PostSchedule( {
+        "facebookID": pageInfo._facebook,
+        "location": 2,
+        "targetID": req.body._fanpageId,
+        "_account": req.uid,
+        "status": 1,
+        "postID": req.query._postId
+      } );
+
+      startAt = new Date( startAt ).setMinutes(
+        new Date( startAt ).getMinutes() + req.body.break_point
+      );
+      // eslint-disable-next-line camelcase
+      newPostSchedule.started_at = startAt;
+      await newPostSchedule.save();
+    }
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "createSyncFromMarket": async ( req, res ) => {
     req.body._account = req.uid;

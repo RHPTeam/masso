@@ -69,8 +69,8 @@
                  v-for="(account, index) in eventData.timeline"
                  :key="index"
             >
-              <img class="avatar mr_2" :src="account.userInfo.thumbSrc" alt="">
-              <div class="name">{{ account.userInfo.name }}</div>
+              <img v-if="account.userInfo" class="avatar mr_2" :src="account.userInfo.thumbSrc" alt="">
+              <div v-if="account.userInfo" class="name">{{ account.userInfo.name }}</div>
             </div>
           </div>
         </div>
@@ -95,7 +95,7 @@
           <div v-if="eventData.target_custom.length > 0 || eventData.target_category === undefined">
             {{ filterTypeTarget(1) }} trang
           </div>
-          <div v-else>{{ eventData.target_category._pages.length }} trang</div>
+          <div v-else>{{ eventData.target_category ? eventData.target_category._pages.length : 0 }} trang</div>
         </div>
       </div>
       <!-- End: Page -->
@@ -116,7 +116,7 @@
           <div v-if="eventData.target_custom.length > 0 || eventData.target_category === undefined">
             {{ filterTypeTarget(0) }} nhóm
           </div>
-          <div v-else>{{ eventData.target_category._groups.length }} nhóm</div>
+          <div v-else>{{ eventData.target_category ? eventData.target_category._groups.length : 0 }} nhóm</div>
         </div>
       </div>
       <!-- End: Group -->

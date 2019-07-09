@@ -133,7 +133,8 @@
                     :to="{ name: 'post_update_post', params: { id: item._id } }"
                     @click.native="goToThisPost(item._id)"
                   >
-                    <div class="flex-row first" role="cell">{{ item.title }}</div>
+                    <div class="flex-row first" role="cell">
+                      {{ item.title !== undefined && item.title.length > 0 ? item.title : "Bài đăng chưa có tiêu đề" }}</div>
                     <div class="flex-row" role="cell">
                       <span
                         v-for="(category, index) in item._categories"

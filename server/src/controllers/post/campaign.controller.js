@@ -133,7 +133,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": "timeline" } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -151,9 +151,15 @@ module.exports = {
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           deletedSchedule( eventSchedule, __dirname );
         } ) );
-        await EventSchedule.deleteMany( { "_event": event._id } );
+        await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+          }
+        } );
         event.status = findCampaign.status;
-        await EventScheduleController.create( event, findCampaign._id, req.uid );
+        if ( event.status === true && new Date( event.started_at ) >= new Date() ) {
+          await EventScheduleController.create( event, findCampaign._id );
+        }
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
 
@@ -177,17 +183,14 @@ module.exports = {
           return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
         }
         /** **************************************************************************** **/
-
-        // Handle logs campaign when update status
-        findCampaign.logs.total += 1;
-        findCampaign.logs.content.push( {
-          "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
-          "createdAt": new Date()
-        } );
-
-
       } ) );
 
+      // Handle logs campaign when update status
+      findCampaign.logs.total += 1;
+      findCampaign.logs.content.push( {
+        "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+        "createdAt": new Date()
+      } );
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
@@ -227,7 +230,11 @@ module.exports = {
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
         deletedSchedule( eventSchedule, __dirname );
       } ) );
-      await EventSchedule.deleteMany( { "_event": event._id } );
+      await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+        if ( err ) {
+          throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+        }
+      } );
 
       await Event.findByIdAndDelete( event );
     } );

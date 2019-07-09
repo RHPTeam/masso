@@ -57,19 +57,19 @@ const generalPostRouter = {
         {
           path: "list",
           name: "post_campaigns",
-          component: require( "@/views/user/post/campaigns/desktop/list" )
+          component: require( "@/views/user/post/campaigns/desktop/advance/list" )
             .default
         },
         {
           path: "detail/:campaignId",
           name: "post_campaigns_detail",
-          component: require( "@/views/user/post/campaigns/desktop/detail" )
+          component: require( "@/views/user/post/campaigns/desktop/advance/detail" )
             .default
         },
         {
           path: "campaigns-default",
           name: "campaigns_default",
-          component: require( "@/views/user/post/campaigns/desktop/simple" )
+          component: require( "@/views/user/post/campaigns/desktop/advance/simple" )
             .default
         }
       ]
@@ -109,6 +109,11 @@ const generalPostRouter = {
       path: "fb-search",
       name: "post_fb_search",
       component: require( "@/views/user/post/search" ).default
+    },
+    {
+      path: "agency",
+      name: "post_agency",
+      component: require( "@/views/user/agency" ).default
     }
   ]
 };

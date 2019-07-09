@@ -1,6 +1,7 @@
 <template>
   <div
     class="mx-datepicker"
+    :data-theme="theme"
     :class="{
       'mx-datepicker-range': range,
       'disabled': disabled
@@ -208,6 +209,10 @@ export default {
     },
     popupStyle: {
       type: Object
+    },
+    theme: {
+      type: String,
+      default: "dark"
     }
   },
   data () {
