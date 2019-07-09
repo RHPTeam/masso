@@ -20,8 +20,11 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
     }
 
     // Check if feed contain text and scrape link
-    if ( post.scrape && post.scrape.length > 0 && photos.length > 0 ) {
-      post.scrape = "";
+    if ( post.scrape ) {
+      console.log( post.scrape )
+      if ( post.scrape.length > 0 && photos.length > 0 ) {
+        post.scrape = "";
+      }
     }
 
     return {
