@@ -1,11 +1,23 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
-    <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content px_3 py_4">
-        <div class="modal--header">
-          <div class="title">Tạo mới chiến dịch</div>
+    <div class="modal--dialog">
+      <div class="modal--content">
+        <div class="modal--header mb_3 d_flex align_items_center">
+          <div @click="closePopup">
+            <icon-base
+              icon-name="arrow-down"
+              class="arrow-down"
+              width="20"
+              height="20"
+              viewBox="0 0 130 130"
+            >
+              <icon-arrow-down />
+            </icon-base>
+          </div>
+          <p class="name--modal mb_0 m_auto">Tạo chiến dịch</p>
+          <div class="active mr_3" @click="createCampaign">Tạo</div>
         </div>
-        <div class="modal--body my_3">
+        <div class="modal--body my_3 px_2">
           <div class="body--form">
             <div class="mb_2">Tên chiến dịch</div>
             <input
@@ -24,10 +36,6 @@
               v-model="newCampaign.description"
             ></textarea>
           </div>
-        </div>
-        <div class="modal--footer d_flex justify_content_between align_items_center">
-          <button class="btn--skip" @click="closePopup()">HỦY</button>
-          <button class="btn--submit" @click="createCampaign()">TẠO</button>
         </div>
       </div>
     </div>

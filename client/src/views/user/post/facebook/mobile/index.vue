@@ -4,70 +4,88 @@
       class="wrapper--top d_flex align_items_center justify_content_between p_3 mb_2 position_relative"
     >
       <!-- Start: Top account-->
-      <div class="account d_flex align_items_center">
-        <div class="avatar mr_2">
-          <img :src="fbAccountInfo.imageAvatar" alt>
+      <div class="account">
+        <div class="item d_flex align_items_center" @click="showPopupActiveAccount">
+          <div class="avatar mr_2">
+            <img :src="fbAccountInfo.imageAvatar" alt />
+          </div>
+          <div class="user--info">
+            <div class="name mb_1">{{ fbAccountInfo.name }}</div>
+            <div class="created mb_1">Được thêm lúc {{ formatDate(fbAccountInfo.updated_at) }}</div>
+            <div
+              class="status d_inline"
+              :class="fbAccountInfo.status ? 'active' : null"
+            >{{ fbAccountInfo.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
+          </div>
+          <div class="more position_absolute">
+            <icon-base
+              class="icon--more"
+              icon-name="Xóa tài khoản"
+              width="25"
+              height="20"
+              viewBox="0 0 580 580"
+            >
+              <icon-three-dots-horiz />
+            </icon-base>
+          </div>
         </div>
-        <div class="user--info">
-          <div class="name mb_1">{{ fbAccountInfo.name }}</div>
-          <div class="created mb_1">Được thêm lúc {{ formatDate(fbAccountInfo.updated_at) }}</div>
-          <div
-            class="status d_inline"
-            :class="fbAccountInfo.status ? 'active' : null"
-          >{{ fbAccountInfo.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
-        </div>
-      </div>
-      <div class="more position_absolute" @click="isShowAction = true">
-        <icon-base
-          class="icon--more"
-          icon-name="Xóa tài khoản"
-          width="25"
-          height="20"
-          viewBox="0 0 580 580"
-        >
-          <icon-three-dots-horiz/>
-        </icon-base>
-      </div>
-      <div
-        class="action--dropdown position_absolute"
-        v-if="isShowAction === true"
-        v-click-outside="closeAction"
-      >
-        <div class="action--dropdown-item">Cập nhật</div>
-        <div class="action--dropdown-item" @click="showPopupDeleteAccount(fbAccountInfo)">Xóa tài khoản</div>
       </div>
       <!-- End: Top account -->
     </div>
-    <div class="add--account">
-      <div class="title mb_1">Thêm tài khoản</div>
-      <div class="desc">Bạn có thể thêm tối đa 2 tài khoản facebook trên tài khoản này.</div>
-    </div>
 
     <!-- TRANSITION POPUP -->
-    <transition name="popup--mobile">
-      <delete-account-popup
-        v-if="isShowPopupDeleteAccount === true"
-        title="Xoá tài khoản Facebook"
-        @closePopup="isShowPopupDeleteAccount = $event"
-        storeActionName="deleteAccount"
-        :targetData="accountSelected"
-        typeName="tài khoản"
-      ></delete-account-popup>
+    <transition name="popup--more">
+      <div class="action--dropdown text_center" v-if="isShowAction === true">
+        <div class="content">
+          <div class="action--dropdown-item update mb_2" @click="showPopupUpdateCookie">Cập nhật</div>
+          <div
+            class="action--dropdown-item delete mb_2"
+            @click="showPopupDeleteAccount"
+          >Xóa tài khoản</div>
+          <div class="action--dropdown-item cancel mb_2" @click="closePopupActiveAccount">Hủy</div>
+        </div>
+      </div>
     </transition>
+    <transition name="popup--more">
+      <delete-account-popup
+        @closePopup="isShowPopupDeleteAccount = $event"
+        v-if="isShowPopupDeleteAccount === true"
+      />
+    </transition>
+    <!-- Update Popup -->
+    <transition name="popup">
+      <update-account-by-cookie
+        v-if="isShowPopupUpdateCookie === true"
+        @closePopupUpdateCookie="isShowPopupUpdateCookie = $event"
+      />
+    </transition>
+    <!-- Start: Transition Popup Alert Exist Account -->
+    <transition name="popup-alert">
+      <!-- <popup-alert-account-exist/> -->
+      <!-- <upgrade-pro-popup :data-theme="currentTheme" /> -->
+    </transition>
+    <!-- End: Transition Popup Alert Exist Account -->
   </div>
 </template>
 
 <script>
-import DeleteAccountPopup from "./popup/delete"
+import DeleteAccountPopup from "./popup/delete";
+import UpdateAccountByCookie from "./popup/updatecookie";
+import PopupAlertAccountExist from "./popup/alert";
+import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 export default {
   components: {
-    DeleteAccountPopup
+    DeleteAccountPopup,
+    UpdateAccountByCookie,
+    PopupAlertAccountExist,
+    UpgradeProPopup
   },
   data() {
     return {
       accountSelected: {},
       isShowAction: false,
-      isShowPopupDeleteAccount: false
+      isShowPopupDeleteAccount: false,
+      isShowPopupUpdateCookie: false
     };
   },
   computed: {
@@ -96,18 +114,63 @@ export default {
 
       return `${hour}:${min} ngày ${day}/${month}/${year}`;
     },
-    closeAction() {
+    closePopupActiveAccount() {
       this.isShowAction = false;
     },
-    showPopupDeleteAccount(value) {
+    showPopupActiveAccount() {
+      this.isShowAction = true;
+    },
+    showPopupUpdateCookie() {
+      this.isShowPopupUpdateCookie = true;
+      this.isShowAction = false;
+    },
+    showPopupDeleteAccount() {
       this.isShowPopupDeleteAccount = true;
-      this.accountSelected = value;
+      this.isShowAction = false;
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
+// Start: Transition
+.popup--more-enter {
+  transform: translateY(100%);
+}
+
+.popup--more-enter-to {
+  transition: transform 0.3s;
+  transform: translateY(0);
+}
+
+.popup--more-leave-to {
+  transition: transform 0.3s;
+  transform: translateY(100%);
+}
+
+.popup-enter {
+  transform: translateX(100%);
+}
+
+.popup-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+
+.popup-alert-enter-active,
+.popup-alert-leave-active {
+  transition: opacity 0.5s;
+}
+.popup-alert-enter,
+.popup-alert-leave-to {
+  opacity: 0;
+}
+// End: Transition
 .main--facebook {
   .wrapper--top {
     background-color: #fff;
@@ -144,52 +207,31 @@ export default {
       top: 1rem;
       right: 1rem;
     }
-    .action--dropdown {
-      top: 1.5rem;
-      right: 1rem;
-      background-color: #27292c;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
-      border-radius: 0.5rem;
-      font-size: 0.875rem;
-      padding: 0.375rem 0;
-      text-align: left;
-      min-width: 136px;
-      z-index: 99;
-      &-item {
-        padding: 0.375rem 0.75rem;
-        &:hover,
-        &:active,
-        &:visited,
-        &:focus {
-          background-color: #2f3136;
-          color: #fff;
-        }
-      }
+  }
+  .action--dropdown {
+    height: 100vh;
+    width: 100vw;
+    background: #404040b0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+    .content {
+      position: absolute;
+      bottom: 0;
+      width: 90vw;
+      left: 5vw;
+      font-size: 1rem;
     }
-  }
-  .add--account {
-    .title {
-      font-weight: bold;
+    &-item {
+      color: #333;
+      background: #fff;
+      padding: 0.375rem 0.75rem;
+      border: 1px solid #ccc;
+      border-radius: 0.625rem;
     }
-    .desc {
-      font-size: 0.8125rem;
-    }
-  }
-  .popup--mobile-enter {
-    transform: translateY(100%);
-  }
-
-  .popup--mobile-enter-to {
-    transition: transform 0.75s;
-    transform: translateY(0);
-  }
-
-  .popup--mobile-leave-to {
-    transition: transform 0.75s;
-    transform: translateY(100%);
   }
 }
-
 // ============= CHANGE THEME
 .main--facebook[data-theme="dark"] {
   .wrapper--top {

@@ -174,12 +174,8 @@
     width: 100vw;
     height: 100vh;
     z-index: 10;
-    .scroll-area {
-        max-height: 95vh;
-    }
     .modal--dialog {
       width: 100vw;
-      padding: 0 1rem;
       height: 100vh;
     }
     .modal--body {
@@ -291,7 +287,15 @@
   .modal--wrapper[data-theme="dark"] {
     color: #f7f7f7;
     .modal--header {
-      color: #27292d;
+      padding: 0.625rem 0;
+      border-bottom: 1px solid #ccc;
+      .arrow-down {
+        transform: rotate(90deg);
+        margin-left: 0.5rem;
+      }
+      .name--modal {
+        margin: auto;
+      }
     }
     .modal--dialog {
       background-color: #27292d;

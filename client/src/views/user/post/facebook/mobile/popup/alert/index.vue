@@ -40,13 +40,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "../../../list/index.style";
+  // @import "../../../list/index.style";
 
   .modal--wrapper {
+    background-color: rgba(153, 153, 153, 0.4);
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    .modal--dialog {
+      height: 100vh;
+    }
+    .modal--content {
+      background-color: #27292d;
+      margin: 0 1rem;
+      padding: 0 1rem;
+    }
     .btn--close {
       cursor: pointer;
-      right: 5px;
-      top: 15px;
+      right: .325rem;
+      top: 0.625rem;
+    }
+    .modal--body {
+      .error--title {
+        font-size: 0.93rem;
+        font-weight: 600;
+        color: #F96666;
+        text-align: left;
+      }
+      .error--desc {
+        font-size: 0.8125rem;
+        text-align: left;
+      }
+      .modal--title {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-top: 10px;
+      }
+      .modal--desc {
+        font-size: 14px;
+        color: #999999;
+        margin: 15px 0 20px 0;
+      }
+      textarea {
+        width: 100%;
+        height: 164px;
+        padding: 15px 20px;
+        border-radius: 10px;
+        font-size: 14px;
+        border: 0;
+        resize: none;
+        outline: none;
+      }
     }
   }
 

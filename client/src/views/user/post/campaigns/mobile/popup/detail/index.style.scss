@@ -1,0 +1,42 @@
+.modal--detail-campaign {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: #2f3136;
+    z-index: 10;
+    .modal--content {
+    }
+    .items--header {
+        font-size: 0.875rem;
+        padding: 0.625rem 0;
+        border-bottom: 1px solid #ccc;
+        .arrow-down {
+          transform: rotate(90deg);
+          margin-left: 0.5rem;
+        }
+    }
+    .items--body {
+        font-size: 1rem;
+        .top {
+            .name {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+}
+.popup--mobile-enter {
+    transform: translateX(100%);
+  }
+  
+  .popup--mobile-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+  
+  .popup--mobile-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
+  }
+  

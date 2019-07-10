@@ -16,7 +16,7 @@
       background-color: #fff;
       border-radius: .625rem;
       padding: 1.25rem;
-      width: 440px;
+      width: 90vw;
 
       .modal--header {
         .title {
@@ -58,7 +58,7 @@
             .action {
               .custom--checkbox {
                 input[type="checkbox"] {
-                  border-radius: 6px;
+                  border-radius: 50%;
                   border: solid 1.5px #cccccc;
                   cursor: pointer;
                   height: 20px;

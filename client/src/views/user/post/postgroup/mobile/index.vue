@@ -1,10 +1,10 @@
 <template>
-  <div class="main--mobile p_3">
+  <div class="main--mobile px_2">
     <!-- Start: Content -->
     <div class="main--content position_relative">
       <!-- Start: Search -->
       <div class="page--group-search mb_3 d_flex align_items_center position_relative" :data-theme="currentTheme">
-        <div class="mr_auto search">
+        <div class="mr_auto search" @click="showPopupSearch">
           <span class="ml_2">
             <icon-base
               class="ic--search"
@@ -48,6 +48,13 @@
       <!-- End: List -->
     </div>
     <!-- End: Content -->
+
+    <!-- Start: Transition Popup -->
+    <transition name="popup--mobile">
+      <popup-search v-if="isShowPopupSearch === true" @closePopupSearch="isShowPopupSearch = $event"/>
+      <popup-detail-group @closePopup="isShowPopupDetailGroup = $event" v-if="isShowPopupDetailGroup === true"/>
+    </transition>
+    <!-- End: Transition Popup -->
   </div>
 </template>
 
@@ -56,18 +63,24 @@ import AppGroup from "./group";
 import AppInfo from "../desktop/info";
 import AppTable from "./table";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import PopupSearch from "./popup/search";
+import PopupDetailGroup from "./detail";
 export default {
   components: {
     AppGroup,
     AppInfo,
     AppTable,
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
+    PopupSearch,
+    PopupDetailGroup
   },
   data() {
     return {
       groupSelected: false,
       typeFilterSelected: "Tất cả",
-      search: ""
+      search: "",
+      isShowPopupSearch: false,
+      isShowPopupDetailGroup: false
     };
   },
   computed: {
@@ -80,11 +93,31 @@ export default {
     this.$store.dispatch("postGroupPagesSelected", []);
   },
   methods: {
+    showPopupSearch() {
+      this.isShowPopupSearch = true;
+    },
+    showPopupDetailGroup() {
+      this.isShowPopupDetailGroup = true;
+    }
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+
 .page--group-search {
   background-clip: padding-box;
   background: #2b2d33;

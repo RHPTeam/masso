@@ -1,0 +1,88 @@
+.modal--content {
+  .items {
+    &--info {
+      .info {
+        font-size: 0.875rem;
+
+        .item {
+          .arrow-down {
+            transform: rotate(-90deg);
+            margin-bottom: 1px;
+          }
+
+          .content {
+            width: calc(100vw - 33px);
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #cccccc57;
+
+            .name--user {
+              max-width: 45vw;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+
+            }
+          }
+
+        //   &:last-child {
+        //     .content {
+        //       border: 0;
+        //     }
+        //   }
+        }
+      }
+    }
+
+    &--keyword {
+      .list {
+        font-size: 0.875rem;
+
+        li {
+          padding: 0.55rem 0;
+          border-bottom: 1px solid #cccccc57;
+
+        //   .delete {
+        //     background: red;
+        //     color: #fff;
+        //     height: 32px;
+        //     width: 32px;
+        //     text-align: center;
+        //   }
+        }
+        .more {
+            .arrow-down {
+                transform: rotate(-90deg);
+            }
+        }
+      }
+    }
+  }
+}
+
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+// Popup Delete
+.popup-delete-enter {
+  transform: translateY(100%);
+}
+
+.popup-delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup-delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}

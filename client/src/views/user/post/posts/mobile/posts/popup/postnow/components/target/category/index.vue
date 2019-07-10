@@ -1,0 +1,108 @@
+<template>
+  <div class="group">
+    <div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>
+    <div class="body">
+      <div class="row--group">
+        <div class="main">
+          <multiselect
+            label="title"
+            placeholder="Chọn nhóm muốn đăng"
+            :value="selectedPostGroup"
+            :clearable="false"
+            :options="postGroups"
+            @input="selectPostGroup"
+          />
+        </div>
+        <div class="desc mt_1 px_2">Bao gồm
+          <span>{{ selectedPostGroup !== {} && selectedPostGroup._pages !== undefined ? selectedPostGroup._pages.length : 0  }} trang</span> và
+          <span>{{ selectedPostGroup !== {} && selectedPostGroup._groups !== undefined ? selectedPostGroup._groups.length : 0  }} nhóm</span> được chọn.
+        </div>
+      </div>
+      <div class="mt_3">
+        <timeline></timeline>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import Timeline from "../timline";
+export default {
+  components: {
+    Timeline
+  },
+  data() {
+    return {
+      selectedPostGroup: {}
+    }
+  },
+  computed: {
+    postGroups(){
+      return this.$store.getters.postGroups;
+    }
+  },
+  methods: {
+    selectPostGroup( value ) {
+      this.selectedPostGroup = value;
+    }
+  },
+}
+</script>
+
+<style lang="scss" scoped>
+  .group {
+    .body {
+      width: 100%;
+      .title  {
+        color: #666;
+      }
+      .row--group {
+        width: 50%;
+      }
+      .main {
+        border: 1px solid $border-color;
+        border-radius: calc(.5rem + 2px);
+      }
+      .desc {
+        color: #999;
+        font-size: .825rem;
+        span {
+          color: #666;
+          font-weight: 600;
+        }
+      }
+    }
+    .bottom {
+      .custom--checkbox {
+        input[type="checkbox"] {
+          border-radius: 6px;
+          border: solid 1.5px #cccccc;
+          cursor: pointer;
+          height: 20px;
+          outline: none;
+          width: 20px;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          &:checked {
+            background-color: #ffb94a;
+            border: solid 1px #ffb94a;
+
+            &:before {
+              border-bottom: 2px solid #fff;
+              border-right: 2px solid #fff;
+              content: "";
+              display: block;
+              height: 10px;
+              position: relative;
+              left: 50%;
+              top: 42%;
+              transform: translate(-50%, -50%) rotate(45deg);
+              width: 7px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+</style>

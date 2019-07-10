@@ -74,15 +74,18 @@
             border-radius: 50%;
         }
     }
-    .popup--mobile-enter-active {
-        transition: all .4s ease;
+    .popup--mobile-enter {
+        transform: translateX(100%);
     }
-    .popup--mobile-leave-active {
-        transition: all .4s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+    
+    .popup--mobile-enter-to {
+        transition: transform 0.75s;
+        transform: translateX(0);
     }
-    .popup--mobile-enter, .popup--mobile-leave-to {
-        transform: translateY(100%);
-        opacity: 0;
+    
+    .popup--mobile-leave-to {
+        transition: transform 0.75s;
+        transform: translateX(100%);
     }
 }
 

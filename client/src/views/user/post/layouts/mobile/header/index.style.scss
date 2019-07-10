@@ -26,25 +26,24 @@
             .icon--filter {
                 margin-top: 3px;
             }
-            .dropdown--filter-post {
-              width: 250px;
-              background: #2b2d33;
-              box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
-              border-radius: 7px;
-              right: 0;
-              top: 0;
-              // color: #333;
-              text-align: left;
-              z-index: 100;
-              .items {
-                padding: 0.625rem;
-                border-bottom: 1px solid #ccc;
-                &:last-child {
-                  border: 0;
-                }
-              }
-            }
         }
+    }
+    .dropdown--filter-post {
+      width: 90vw;
+      background: #2b2d33;
+      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      border-radius: 0.625rem;
+      left: 5vw;
+      bottom: 0;
+      // color: #333;
+      z-index: 10;
+      .items {
+          margin-bottom: 0.625rem;
+          border-radius: 0.625rem;
+        padding: 0.5rem 0;
+        text-align: center;
+        border: 1px solid #ccc;
+      }
     }
     .change--account,
     .new--message {
@@ -99,15 +98,28 @@
 }
 
 .popup-enter-to {
-    transition: transform 0.75s;
+    transition: transform 0.3s;
     transform: translateY(0);
 }
 
 .popup-leave-to {
-    transition: transform 0.75s;
+    transition: transform 0.3s;
     transform: translateY(100%);
 }
 
+.popup--mobile-enter {
+    transform: translateX(100%);
+  }
+  
+  .popup--mobile-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+  
+  .popup--mobile-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
+  }
 //Change Theme
 //Light
 .header--mobile[data-theme="light"] {

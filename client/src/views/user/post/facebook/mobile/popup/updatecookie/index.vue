@@ -2,21 +2,34 @@
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
-        <div class="modal--header">
-          <icon-base
+        <div class="modal--header d_flex align_items_center">
+          <!-- <icon-base
             icon-name="modal-cookie"
             width="440.4"
             height="156.808"
             viewBox="0 0 440.4 156.808"
           >
             <icon-modal-cookie />
-          </icon-base>
+          </icon-base> -->
+          <div @click="closePopupUpdateCookie">
+            <icon-base
+              icon-name="arrow-down"
+              class="arrow-down"
+              width="20"
+              height="20"
+              viewBox="0 0 130 130"
+            >
+              <icon-arrow-down />
+            </icon-base>
+          </div>
+          <p class="name--modal mb_0">Cập nhật tài khoản</p>
+          <div class="active mr_3">Xong</div>
         </div>
         <!-- Start: Updating Data -->
         <div class="modal--body px_3 py_4"
              v-if="updateFbStatus === 'loading'"
         >
-          <div class="modal--title text_center">Cập nhật tài khoản</div>
+          <div class="modal--title">Cập nhật tài khoản</div>
           <div class="loading--block mt_4 mb_4">
             <div class="mx_auto">
               <div class="loading--bar position_relative mx_auto">
@@ -30,7 +43,7 @@
         <!-- Start: Form -->
         <div v-else>
           <div class="modal--body">
-            <div class="modal--title text_center">Cập nhật tài khoản</div>
+            <div class="modal--title">Cập nhật tài khoản</div>
             <div class="modal--desc">
               Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.
             </div>
@@ -41,14 +54,6 @@
               @keyup.enter.exact="updateCookie"
               @keydown.enter.shift.exact="newline"
             ></textarea>
-          </div>
-          <div
-            class="modal--footer d_flex justify_content_between align_items_center"
-          >
-            <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-            <button class="btn-add" @click="updateCookie">
-              XONG
-            </button>
           </div>
         </div>
         <!-- Start: Form -->
@@ -77,8 +82,8 @@ export default {
     }
   },
   methods: {
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+    closePopupUpdateCookie() {
+      this.$emit("closePopupUpdateCookie", false);
     },
     async updateCookie() {
       const newUserId = StringFuntion.findSubString(
@@ -92,7 +97,7 @@ export default {
           fbId: this.item._id,
           cookie: this.cookie
         });
-        await this.$emit("closeAddPopup", false);
+        await this.$emit("closePopupUpdateCookie", false);
         this.$router.go({name: "post_fbaccount"});
       } else {
         this.isShowAlert = true;
@@ -103,7 +108,60 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../../../list/index.style";
+.modal--wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  background: #212529;
+  .modal--content {
+    .modal--header {      
+      padding: 0.625rem 0;
+      border-bottom: 1px solid #ccc;
+      .arrow-down {
+        transform: rotate(90deg);
+        margin-left: 0.5rem;
+      }
+      .name--modal {
+        margin: auto;
+      }
+    }
+  }
+  .modal--dialog {
+    textarea {
+      color: #f7f7f7;
+      width: 100%;
+      height: 164px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      border: 0;
+      resize: none;
+      outline: none;
+      background: #2f3136;
+      &::placeholder {
+        color: #666;
+      }
+    }
+    .modal--body {
+      padding: 1rem;
+      .modal--title {
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .modal--desc {
+      font-size: 0.875rem;
+      color: #999999;
+      margin: 15px 0 20px 0
+      }
+      .error--desc {
+        color: #f7f7f7;
+      }
+    }
+  }
+}
 .loading--block {
   .desc {
     color: #ccc;

@@ -11,7 +11,7 @@
       <VuePerfectScrollbar class="list--category">
         <div class="item--body d_flex align_items_center">
           <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
+          <div class="col col--posts text_center ml_auto">3</div>
           <!-- <div class="action align_items_center">
             <span class="mx_1">
               <icon-base
@@ -36,7 +36,7 @@
         </div>
         <div class="item--body d_flex align_items_center">
           <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-          <div class="col col--posts text_center">3</div>
+          <div class="col col--posts text_center ml_auto">3</div>
           <!-- <div class="action align_items_center">
             <span class="mx_1">
               <icon-base

@@ -185,12 +185,19 @@
   width: 100%;
   z-index: 1040;
 }
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
+
+.popup--mobile-enter {
+  transform: translateX(100%);
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
 }
 
 /* Theme Color */

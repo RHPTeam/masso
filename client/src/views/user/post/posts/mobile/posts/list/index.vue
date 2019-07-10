@@ -3,16 +3,16 @@
     <!-- Start: List post -->
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <div class="content">
+      <div class="item--body d_flex align_items_center py_2 pl_2">
+        <div class="content" @click="showDetailPost">
           <div class="title">Bài đăng chưa có tiêu đề</div>
           <div class="category--parent">Chưa phân loại</div>
         </div>
         <!-- Start: action posts -->
-        <!-- <div
+        <div
           class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
         >
-          <span class="mr_1">
+          <span class="mr_1" @click="showPopupDelete">
             <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
               <icon-remove/>
             </icon-base>
@@ -22,178 +22,93 @@
               <icon-post-now/>
             </icon-base>
           </span>
-        </div> -->
-        <!-- End: action posts -->
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
         </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
         <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-      </div>
-      <div class="item--body d_flex align_items_center py_2 pl_3">
-        <!-- Start: action posts -->
-        <!-- <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div> -->
-        <!-- End: action posts -->
-        <div class="content">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
       </div>
     </VuePerfectScrollbar>
     <!-- End: List post -->
+    <!-- Start: Popup Detail Post -->
+    <transition name="popup--mobile">
+      <popup-detail :fbPost="fbPost" :post="post" v-if="isShowDetailPost === true" @closePopup="isShowDetailPost = $event"/>
+      <!-- <popup-post-now /> -->
+    </transition>
+    <!-- Start: Popup Detail Post -->
+    <!-- Start: Transition -->
+    <transition name="popup">
+      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
+    </transition>
+    <!-- End: Transition -->
   </div>
 </template>
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import PopupDetail from "../popup/detail";
+import PopupDelete from "../popup/delete";
+import PopupPostNow from "../popup/postnow";
 export default {
+  data() {
+    return {
+      isShowDetailPost: false,
+      isShowPopupDelete: false
+    }
+  },
+  props: ["fbPost"],
   components: {
-    VuePerfectScrollbar
-  }
+    VuePerfectScrollbar,
+    PopupDetail,
+    PopupDelete,
+    PopupPostNow
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    post() {
+      return this.$store.getters.defaultPost;
+    }
+  },
+  methods: {
+    showDetailPost() {
+      this.isShowDetailPost = true;
+    },
+    showPopupDelete() {
+      this.isShowPopupDelete = true;
+    }
+  },
 };
 </script>
 
 <style lang="scss" scoped>
+// Start Transition
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+.popup-enter {
+  transform: translateY(100%);
+}
+
+.popup-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+// End Transition
+
 .main--list {
   .item--header {
     background: #27292d;

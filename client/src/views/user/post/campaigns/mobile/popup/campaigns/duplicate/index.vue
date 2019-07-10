@@ -7,10 +7,11 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc">Toàn bộ dữ liệu thuộc chiến dịch
-            <span class="text--bold">{{ campaignDuplicate.title }}</span>
+            <!-- <span class="text--bold">{{ campaignDuplicate.title }}</span> -->
+            <span class="text--bold">CD Mau 1</span>
             sẽ được sao chép sang một chiến dịch mới.
           </div>
-          <div class="duplicate" v-if="isShow === true">
+          <div class="duplicate">
             <div class="account mt_3">
               <h5 class="mb_3">Chọn tài khoản sử dụng chiến dịch</h5>
               <div class="account--list-item d_flex align_items_center"
@@ -51,12 +52,6 @@
             @click="closePopup()"
           >HỦY</button>
           <button
-            v-if="isShow === false"
-            class="btn--submit"
-            @click="duplicateCampaign()"
-          >SAO CHÉP</button>
-          <button
-            v-if="isShow === true"
             class="btn--submit"
             @click="duplicateCampaignSimple()"
           >SAO CHÉP</button>

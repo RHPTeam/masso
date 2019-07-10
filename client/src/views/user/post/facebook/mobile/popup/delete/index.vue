@@ -1,59 +1,13 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <!-- Start: Deleting Data -->
-      <div class="modal--content px_3 py_4"
-           v-if="deleteStatus === 'loading'"
-      >
-        <div class="modal--header mb_3">
-          <div class="title">{{ title }}</div>
-        </div>
-        <div class="loading--block mt_4 mb_4">
-          <div class="mx_auto">
-            <div class="loading--bar position_relative mx_auto">
-              <div class="percent position_absolute"></div>
-            </div>
-          </div>
-          <div class="desc text_center mt_2">Vui lòng chờ, dữ liệu đang được xóa...</div>
-        </div>
-      </div>
-      <!-- End: Deleting Data -->
       <!-- Start: Delete Popup -->
-      <div class="modal--content px_3 py_4"
-           v-else
-      >
-        <div class="modal--header">
-          <div class="title">{{ title }}</div>
+      <div class="modal--content text_center">
+        <div class="item mb_2 delete">
+          <div class="text mb_2 pb_2">Bạn có muốn xóa tài khoản này không?</div>
+          <div>Xóa</div>
         </div>
-        <div class="modal--body my_3">
-          <div class="desc" v-if="multiple === false">
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} {{ typeName }}</span>
-            <span class="text--bold pr_1">{{ targetData.userInfo.name }}</span>
-            <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
-            <span v-if="description !== '' ">{{ description }}</span>
-
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
-            <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
-          </div>
-          <input
-            class="modal--body-input mt_3"
-            placeholder="DELETE"
-            type="text"
-            v-model="deleteText"
-          />
-        </div>
-        <div class="modal--footer d_flex justify_content_between align_items_center">
-          <button
-            class="btn--submit"
-            @click="closePopup()"
-          > {{ $t('chat.common.popup.delete.cancle') }} </button>
-          <button
-            class="btn--skip"
-            v-if="deleteConfirm"
-            @click="deleteTargets()"
-          > {{ $t('chat.common.popup.delete.delete') }} </button>
-        </div>
+        <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
       <!-- End: Delete Popup -->
     </div>
@@ -110,7 +64,7 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit( "closePopup", false );
+      this.$emit("closePopup", false);
     },
     async deleteTargets() {
       this.deleteStatus = "loading";
@@ -121,8 +75,8 @@ export default {
       await localStorage.removeItem("rid");
 
       // update fb pages & groups on state
-      await this.$store.dispatch( "getFacebookGroups" );
-      await this.$store.dispatch( "getFacebookPages" );
+      await this.$store.dispatch("getFacebookGroups");
+      await this.$store.dispatch("getFacebookPages");
 
       this.deleteStatus = "success";
 
@@ -133,7 +87,41 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "index.style";
+// @import "index.style";
+.modal--wrapper {
+    height: 100vh;
+    width: 100vw;
+    background: #404040b0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 10;
+  .modal--dialog {
+    position: absolute;
+    bottom: 0;
+    width: 90vw;
+    left: 5vw;
+    font-size: 1rem;
+    color: #333;
+    .modal--content {
+      .delete {
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
+        .text {
+          border-bottom: 1px solid #ccc;
+        }
+      }
+      .cancel {
+        border: 1px solid #ccc;
+        background: #fff;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
+      }
+    }
+  }
+}
 </style>
 
 

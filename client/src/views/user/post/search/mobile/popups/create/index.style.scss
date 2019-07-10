@@ -12,10 +12,18 @@
     width: 100%;
     .modal--content {
       border-radius: .625rem;
-      width: 660px;
+      width: 100vw;
+      height: 100vh;
       .modal--header {
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 0.3rem;
+        .arrow-down {
+          transform: rotate(90deg);
+          margin-left: 0.5rem;
+        }
         .title {
-          font-size: 1.15rem;
+          font-size: 1rem;
+          margin: auto;
           font-weight: 600;
           text-align: center;
         }
@@ -76,7 +84,7 @@
         }
       }
       .modal--scroll {
-        max-height: calc(100vh - 24px - 11rem);
+        max-height: 83vh;
       }
     }
   }
@@ -88,6 +96,19 @@
 }
 .popup-enter, .popup-leave-to {
   opacity: 0;
+}
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
 }
 
 /* ChangeColor */

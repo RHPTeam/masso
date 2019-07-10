@@ -1,6 +1,6 @@
 <template>
   <div class="header--mobile position_relative" :data-theme="currentTheme">
-    <transition name="popup">
+    <transition name="popup--mobile">
       <app-sidebar-mobile
         v-if="isShowPopup == true"
         :data-theme="currentTheme"
@@ -12,8 +12,9 @@
         @closePopupNewCategory="isShowPopupCreateNewCategory = $event"
       />
       <popup-create-new-post
+        :fbPost="fbPost" :post="post"
         v-if="isShowPopupCreateNewPost === true"
-        @closePopupCreateNewPost="isShowPopupCreateNewPost = $event"
+        @closePopup="isShowPopupCreateNewPost = $event"
       />
       <popup-add-account-facebook
         v-if="isShowPopupAddAccountFb === true"
@@ -50,14 +51,14 @@
         <!-- Start: Action in Posts -->
         <div class="posts d_flex align_items_center" v-if="gestureCursorMenuUser === 1">
           <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11">
-            <div class="action mr_1">
+            <div class="action mr_1" @click="showPopupHistory">
               <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
-                <icon-history/>
+                <icon-history />
               </icon-base>
             </div>
             <div class="add posts action mx_1" @click="showPopupCreateNewPost">
               <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-                <icon-plus/>
+                <icon-plus />
               </icon-base>
             </div>
             <div class="filter--posts" @click="showDropdownFilterPost">
@@ -68,17 +69,8 @@
                 height="24"
                 viewBox="0 0 450 450"
               >
-                <icon-filter/>
+                <icon-filter />
               </icon-base>
-            </div>
-            <div
-              class="dropdown--filter-post position_absolute"
-              v-if="isShowDropdownFilterPost === true"
-              v-click-outside="closeDropdownFilterPost"
-            >
-              <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
-              <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
-              <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
             </div>
           </div>
           <div
@@ -87,7 +79,7 @@
             v-if="gestureUser === 12"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </div>
         </div>
@@ -100,7 +92,7 @@
           v-if="gestureCursorMenuUser === 2"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-            <icon-plus/>
+            <icon-plus />
           </icon-base>
         </div>
         <!-- End: Action in campaign -->
@@ -109,19 +101,23 @@
         <div class="post--group d_flex align_items_center" v-if="gestureCursorMenuUser === 3">
           <div class="update action mr_1">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
-              <icon-update/>
+              <icon-update />
             </icon-base>
           </div>
           <div class="add action" @click="showPopupAddGroup">
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
           </div>
         </div>
         <!-- End: Action in PostGroup -->
 
         <!-- Start: Action in Acount FB -->
-        <div class="add action account--fb" @click="showPopupAddAccountFb" v-if="gestureCursorMenuUser === 4">
+        <div
+          class="add action account--fb"
+          @click="showPopupAddAccountFb"
+          v-if="gestureCursorMenuUser === 4"
+        >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
           </icon-base>
@@ -183,6 +179,19 @@
       />
     </transition>-->
     <!--    End: Add new script-->
+    <!-- Start: transition popup mobile -->
+    <transition name="popup">
+      <div
+        class="dropdown--filter-post position_fixed"
+        v-if="isShowDropdownFilterPost === true"
+        v-click-outside="closeDropdownFilterPost"
+      >
+        <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
+        <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
+        <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
+      </div>
+      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"/>
+    </transition>
   </div>
 </template>
 <script>
@@ -192,6 +201,7 @@ import PopupCreateNewPost from "../popup/posts/post";
 import PopupAddAccountFacebook from "../popup/facebook/addaccount";
 import PopupCreateNewCampaign from "../popup/campaigns/create";
 import PopupAddGroup from "../popup/postgroup/addgroup";
+import PopupHistory from "../popup/posts/history";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
 export default {
@@ -201,7 +211,8 @@ export default {
     PopupCreateNewPost,
     PopupAddAccountFacebook,
     PopupCreateNewCampaign,
-    PopupAddGroup
+    PopupAddGroup,
+    PopupHistory
   },
   data() {
     return {
@@ -211,9 +222,11 @@ export default {
       isShowPopupCreateNewPost: false,
       isShowPopupAddAccountFb: false,
       isShowPopupCreateNewCampaign: false,
-      isShowPopupAddGroup: false
+      isShowPopupAddGroup: false,
+      isShowPopupHistory: false
     };
   },
+  props: ["fbPost"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -243,12 +256,18 @@ export default {
       if (this.$route.name === "post_account") {
         return "Thiết lập tài khoản";
       }
+      if (this.$route.name === "campaigns_default") {
+        return "Chiến dịch mẫu";
+      }
     },
     gestureUser() {
       return this.$store.getters.gestureUser;
     },
     gestureCursorMenuUser() {
       return this.$store.getters.gestureCursorMenuUser;
+    },
+    post() {
+      return this.$store.getters.defaultPost;
     }
   },
   filters: {
@@ -279,6 +298,9 @@ export default {
     },
     showPopupAddGroup() {
       this.isShowPopupAddGroup = true;
+    },
+    showPopupHistory() {
+      this.isShowPopupHistory = true;
     }
   }
 };

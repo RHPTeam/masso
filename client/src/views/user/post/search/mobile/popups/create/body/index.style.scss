@@ -1,5 +1,18 @@
 .wrapper {
   border-radius: 10px;
+  .popup-enter {
+    transform: translateX(100%);
+  }
+  
+  .popup-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+  
+  .popup-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
+  }
   .item {
     font-size: 14px;
     .description {
@@ -185,40 +198,11 @@
         }
       }
     }
-    .tag {
-      background-color: #efefef;
-      border-bottom: 1px solid $border-color;
-      font-size: .825rem;
-      .fixed {
-        background-color: #efefef;
-        font-weight: 600;
-        height: 100%;
-        width: 46px;
-      }
-      .option {
-        width: calc(100% - 46px);
-        input {
-          border: 0;
-          height: 40px;
-          line-height: 40px;
-          width: 100%;
-          padding-left: .75rem;
-          &:hover, &:focus, &:active, &:visited {
-            box-shadow: none;
-            outline: 0;
-          }
-          &::placeholder {
-            color: #ccc;
-          }
-        }
-      }
-    }
     .list {
       list-style: none;
       .item {
         border-radius: 15px;
         cursor: pointer;
-        display: inline-block !important;
         font-size: .825rem;
         height: 36px;
         line-height: 36px;
@@ -228,7 +212,6 @@
         text-overflow: ellipsis;
         transition: background-color .4s ease;
         white-space: nowrap;
-        width: 30%;
         svg {
           margin-bottom: -5px;
         }
@@ -239,6 +222,7 @@
         label {
           cursor: pointer;
           margin: 0;
+          width: 100%;
         }
         &.more {
           padding: 16px 0;
@@ -260,6 +244,9 @@
           width: 50%;
         }
       }
+    }
+    .more {
+
     }
   }
 

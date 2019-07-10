@@ -25,17 +25,11 @@
     <!--Start: Mobile Component-->
     <div class="d_block d_md_none px_3">
       <!-- Start: Top -->
-      <app-top-mobile :user="user" />
+      <app-header-mobile :user="user"/>
       <!-- End: Top -->
-      <!-- Start: Content -->
-      <div class="main--content">
-        <!-- Start: User Expire -->
-        <user-info-mobile :user="user" />
-        <!-- End: User Info -->
-        <!-- Start: User Keywords -->
-        <user-keywords-mobile :user="user" />
-        <!-- End: User Keywords -->
-      </div>
+      <!-- Start: Content -->      
+      <app-main-mobile :user="user"/>
+      <!-- End: Content -->     
     </div>
     <!--End: Mobile Component-->
   </div>

@@ -23,7 +23,10 @@ const actions = {
       11: Tat ca bai viet
       12: Danh muc
       13: Danh muc mau
-
+      // Setup Account
+      61: Tên người dùng
+      62: Số điện thoại
+      63: Thay đổi mật khẩu
   */
   actionCursor: ({ commit }, payload) => {
     commit("setActionCursor", payload);

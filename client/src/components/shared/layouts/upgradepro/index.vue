@@ -6,7 +6,7 @@
           BẠN ĐÃ ĐẠT MỐC GIỚI HẠN TÀI KHOẢN
         </div>
         <div class="modal--body">
-          Số lượng tài khoản hiện tại của bạn đã vượt mức tối đa 2 tài khoản.
+          Số lượng tài khoản hiện tại của bạn đã vượt mức tối đa {{ user.maxAccountFb }} tài khoản.
           Liên hệ với bộ phận CSKH để nâng cấp tài khoản của mình.
         </div>
         <div
@@ -32,6 +32,12 @@ export default {
     return {
       cookie: ""
     };
+  },
+
+  computed: {
+    user() {
+      return this.$store.getters.userInfo;
+    }
   },
 
   methods: {
@@ -136,6 +142,16 @@ export default {
           &:hover {
             background-color: #2f3136;
           }
+        }
+      }
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    .modal--wrapper {
+      .modal--dialog {
+        .modal--content {
+          width: 90vw;
         }
       }
     }

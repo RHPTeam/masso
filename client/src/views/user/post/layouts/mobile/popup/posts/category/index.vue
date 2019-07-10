@@ -1,24 +1,36 @@
 <template>
   <div class="form-wrapper" :data-theme="currentTheme">
     <!-- Start: Create Form -->
-    <div class="category--form p_3">
-      <div class="form--title mb_3 text_center">Thêm danh mục mới</div>
-      <div class="item">
-        <span>Tên danh mục</span>
-        <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategory" />
+    <div class="category--form">
+      <div class="items--header d_flex align_items_center">
+        <div @click="closePopupNewCategory">
+          <icon-base
+            icon-name="arrow-down"
+            class="arrow-down"
+            width="20"
+            height="20"
+            viewBox="0 0 130 130"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </div>
+        <p class="name--modal mb_0">Thêm danh mục mới</p>
+        <div class="active mr_3">Xong</div>
       </div>
-      <!-- <div v-if="this.$store.getters.statusError.status === 'fail'"
-           class="text--error mt_1"
-      >
-        {{ this.$store.getters.statusError.data.title }}
-      </div> -->
-      <div class="item mt_3">
-        <span>Mô tả</span>
-        <textarea placeholder="Nhập tên danh mục" v-model="desCategory"></textarea>
-      </div>
-      <div class="item mt_3 d_flex">
-        <button class="btn--cancel mr_auto" @click="closePopupNewCategory">HỦY</button>
-        <button class="btn--add ml_auto">Thêm</button>
+      <div class="items--body px_2 mt_3">
+        <div class="item">
+          <span>Tên danh mục</span>
+          <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategory" />
+        </div>
+        <!-- <div v-if="this.$store.getters.statusError.status === 'fail'"
+            class="text--error mt_1"
+        >
+          {{ this.$store.getters.statusError.data.title }}
+        </div> -->
+        <div class="item mt_3">
+          <span>Mô tả</span>
+          <textarea placeholder="Nhập tên danh mục" v-model="desCategory"></textarea>
+        </div>
       </div>
     </div>
     <!-- End: Create Form -->

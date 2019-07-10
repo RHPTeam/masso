@@ -1,7 +1,8 @@
 <template>
   <div class="mobile--search-fb p_3">
+    <!-- Start: Search -->
     <div class="list--filter mb_3">
-      <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2">
+      <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2" @click="showPopupSearch">
         <span class="ml_3 mt_1">
           <icon-base icon-name="Tìm kiếm" width="20" height="20" viewBox="0 0 20 20">
             <icon-input-search/>
@@ -19,12 +20,10 @@
         >{{ item }}</span>
       </div>
     </div>
-    <!-- Start: List Search -->
+    <!-- End: Search -->
 
+    <!-- Start: List Main -->
     <div class="list--data mt_3">
-      <!-- <div class="item--header d_flex align_items_center px_2 py_2">
-        <div class="col col--content">Nội dung</div>
-      </div> -->
       <!-- Start: List Content -->
       <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
         <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
@@ -36,13 +35,8 @@
         <div
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
           class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
-        >Không có dữ liệu</div>-->        
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
+        >Không có dữ liệu</div>-->
+        <div class="content item--body p_2 mb_2 d_flex align_items_center" @click="showPost">
           <!-- Rememer slice array when text overfollow -->
           <div class="right">
             <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
@@ -61,181 +55,47 @@
               </div>
             </div>
           </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-        </div>     
-        <div class="content item--body p_2 mb_2 d_flex align_items_center">
-          <div class="left action px_2">
-            <icon-base class="mr_1" icon-name="icon-like" width="18" height="18" viewBox="0 0 18 18">
-              <icon-info/>
-            </icon-base>
-          </div>
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
+          <div class="left action pl_2 text_center">Chi tiết</div>
         </div>
       </vue-perfect-scrollbar>
       <!-- Start: List Content -->
     </div>
-    <!-- End: List Search -->
+    <!-- End: List Main -->
+
+    <transition name="popup--mobile">
+      <popup-search @closePopupSearch="isShowPopupSearch = $event" v-if="isShowPopupSearch === true"/>
+      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event"/>
+    </transition>
   </div>
 </template>
 
 <script>
 import AppItem from "./item";
+import PopupSearch from "../popups/search";
+import PopupCreatePost from "../popups/create";
 export default {
   components: {
-    AppItem
+    AppItem,
+    PopupSearch,
+    PopupCreatePost
   },
+  props: ["fbPost"],
   data() {
     return {
       currentPage: 1,
       maxPerPage: 12,
       keyword: "",
-      isLoadingData: true
+      isLoadingData: true,
+      isShowPopupSearch: false,
+      isShowPost: false,
     };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    post() {
+      return this.$store.getters.defaultPost;
     },
     listPostFacebookDefault() {
       return this.$store.getters.listPostFacebookDefault;
@@ -304,32 +164,13 @@ export default {
         size: this.maxPerPage,
         page: this.currentPage
       });
+    },
+    showPopupSearch() {
+      this.isShowPopupSearch = true;
+    },
+    showPost() {
+      this.isShowPost = true;
     }
-    // scrollTrigger() {
-    //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
-    //   const observer = new IntersectionObserver( ( entries ) => {
-    //     entries.forEach( ( entry ) => {
-    //       if ( entry.intersectionRatio > 0 && this.currentPage <= this.numberPageCurrent ) {
-    //         console.log("Hú");
-    //         this.showLoader = true;
-    //         setTimeout( () => {
-    //           this.currentPage += 1;
-    //           this.showLoader = false;
-    //           this.getMorePost();
-    //         }, 2000 );
-    //       }
-    //     } );
-    //   } );
-    //   observer.observe(this.$refs.infiniteScrollTrigger);
-    // },
-    // async getMorePost() {
-    //   console.log("get post");
-    //   await this.$store.dispatch( "searchPostsFacebookByKey", {
-    //     keyword: this.keyword,
-    //     size: this.maxPerPage,
-    //     page: this.currentPage
-    //   } );
-    // }
   }
 };
 </script>
