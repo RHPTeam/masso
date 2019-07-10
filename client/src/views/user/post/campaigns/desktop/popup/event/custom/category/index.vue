@@ -65,7 +65,10 @@ export default {
     selectCategory( category ){
       this.$store.dispatch( "setEvent", {
         key: "post_category",
-        value: category._id
+        value: {
+          _id: category._id,
+          title: category.title
+        }
       } );
     }
   },

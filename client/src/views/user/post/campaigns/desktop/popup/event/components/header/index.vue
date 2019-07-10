@@ -158,6 +158,9 @@ export default {
     }
   },
   computed: {
+    categories() {
+      return this.$store.getters.allCategories;
+    }
   },
   methods: {
     close(){
@@ -230,6 +233,15 @@ export default {
         ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
+        } else if ( this.event.hasOwnProperty( "post_category" ) ) {
+          const categoryFilter = this.categories.filter( ( item ) => {
+            return item._id === this.event.post_category._id;
+          } );
+
+          if ( categoryFilter[0].totalPosts === 0 ) {
+            this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
+            return false;
+          }
         }
       }
 
@@ -296,6 +308,15 @@ export default {
         ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
+        } else if ( this.event.hasOwnProperty( "post_category" ) ) {
+          const categoryFilter = this.categories.filter( ( item ) => {
+            return item._id === this.event.post_category._id;
+          } );
+
+          if ( categoryFilter[0].totalPosts === 0 ) {
+            this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
+            return false;
+          }
         }
       }
 

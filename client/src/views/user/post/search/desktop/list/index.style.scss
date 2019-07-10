@@ -13,12 +13,14 @@
 .list--content {
   .history {
     background-color: #27292d;
-    color: #fff;
+    border-radius: 0 0 .625rem .625rem;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    color: #F7F7F7;
     top: 40px;
     width: 100%;
     z-index: 99;
     &--header {
-      border-bottom: 1px solid #3f3f3f;
+      border-bottom: 1px solid #444;
       height: 40px;
       line-height: 40px;
       padding: 0 0.75rem;
@@ -30,10 +32,13 @@
       padding: 0;
       li {
         cursor: pointer;
-        padding: 0.75rem 1rem;
+        padding: 0.5rem 1rem;
+        transition: all .4s ease;
         &:hover {
-          background-color: #ffb94a;
-          color: #FFFFFF;
+          background-color: #2f3136;;
+        }
+        &:last-child {
+          border-radius: 0 0 .625rem .625rem;
         }
       }
     }
@@ -51,7 +56,6 @@
     border-top-right-radius: calc(0.5rem + 2px);
     border-bottom-right-radius: calc(0.5rem + 2px);
     border: 0;
-    color: #fff;
     font-size: 0.875rem;
     height: 100%;
     outline: none;
@@ -64,11 +68,11 @@
     color: #999;
   }
 }
-.list--keywork {
+.list--keywords {
   &-item {
     cursor: pointer;
-    color: $color-dark-2;
-    font-size: calc(1rem - 3px);
+    color: #999;
+    font-size: .825rem;
     font-weight: 500;
     text-decoration: underline;
     &:hover,
@@ -106,7 +110,7 @@
     background-color: #27292d;
     input[type="text"] {
       background: #27292d;
-      color: #ccc;
+      color: #F7F7F7;
     }
   }
 }
@@ -249,27 +253,17 @@
     }
   }
 }
-@media only screen and (max-width: 1500px) {
-  .list--data {
-    .col--content {
-      width: calc(100% - 165px);
-    }
-    .col--image {
-      display: none;
-    }
-  }
-}
-// @media only screen and (max-width: 1366px) {
-//   .list--data {
-//     .col--content {
-//       width: calc(100% - 315px);
-//     }
-//     .col--image {
-//       width: 150px;
-//       display: block;
-//     }
-//   }
-// }
+ @media only screen and (max-width: 1366px) {
+   .list--data {
+     .col--content {
+       width: calc(100% - 315px);
+     }
+     .col--image {
+       width: 150px;
+       display: block;
+     }
+   }
+ }
 @media only screen and (max-width: 1280px) {
   .list--data {
     .col--content {

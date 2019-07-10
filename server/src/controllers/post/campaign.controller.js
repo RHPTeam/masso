@@ -343,30 +343,5 @@ module.exports = {
     const findCampaign = await Campaign.findOne( { "_id": newCampaign._id, "_account": req.uid } ).populate( "_events" ).lean();
 
     res.send( { "status": "success", "data": findCampaign } );
-  },
-  "backupEventSchedule": async ( req, res ) => {
-    const listCampaign = await Campaign.find( {}, "_id" ).lean();
-
-    console.log( listCampaign );
-
-    await Promise.all( listCampaign.map( async ( campaign ) => {
-      const findCampaign = await Campaign.findOne( { "_id": campaign._id } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at _account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
-
-      // Check event list in campaign...
-      await Promise.all( findCampaign._events.map( async ( event ) => {
-        const listEventOldSchedule = await EventSchedule.find( { "_event": event._id } ).lean();
-
-        await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
-          deletedSchedule( eventSchedule, __dirname );
-        } ) );
-        await EventSchedule.deleteMany( { "_event": event._id } );
-        event.status = findCampaign.status;
-        await EventScheduleController.create( event, findCampaign._id, findCampaign._account );
-
-        await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
-      } ) );
-    } ) );
-
-    res.status( 201 ).json( { "status": "success", "data": "Data cái con kẹc!" } );
   }
 };

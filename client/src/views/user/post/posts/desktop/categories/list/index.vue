@@ -3,9 +3,9 @@
     <div class="wrapper">
       <div class="item--header d_flex align_items_center px_3 py_2">
         <div class="col col--category px_2">Tên danh mục</div>
-        <div class="col col--posts text_center px_2">Số bài viết</div>
         <div class="col col--description px_2">Mô tả</div>
-        <div class="col col--action px_4">Hành động</div>
+        <div class="col col--posts text_center px_2">Số bài viết</div>
+        <div class="col col--action text_center px_4">Hành động</div>
       </div>
       <div class="loading--block mt_3"
            v-if="this.$store.getters.statusCategories === 'loading'"

@@ -196,14 +196,14 @@ export default {
       this.bgColorActive = ev;
     },
     // Update post when click button Save
-    savePost(){
+    async savePost(){
       if(this.post.content.length === 0) {
         this.isShowAlert = true;
       } else {
         if(this.linkContent.length > 0) {
           this.post.scrape = this.linkContent[0];
         }
-        this.$store.dispatch( "updatePost", this.post );
+        await this.$store.dispatch( "updatePost", this.post );
         this.$store.dispatch("setPostCateDefault", 0);
         this.$router.go(-1);
       }

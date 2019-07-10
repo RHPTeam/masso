@@ -23,7 +23,7 @@ const EventSchedule = require( "../../models/post/EventSchedule.model" ),
       "cookie": cookie,
       "feed": {
         "photos": ( photos && photos.length > 0 ) ? photos : [],
-        "scrape": post.scrape.length > 0 ? post.scrape : "",
+        "scrape": post.scrape && post.scrape.length > 0 ? post.scrape : "",
         "activity": {
           "type": post.activity ? post.activity.typeActivity.id : "",
           "id": post.activity ? post.activity.id.id : "",
@@ -93,7 +93,7 @@ module.exports = {
         // Handle Page
         listEventSchedule = listEventSchedule.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
           const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            pageFacebookInfo = await PageFacebook.find( { "pageId": page } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+            pageFacebookInfo = await PageFacebook.find( { "pageId": page, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
@@ -103,7 +103,7 @@ module.exports = {
         // Handle Group
         listEventSchedule = listEventSchedule.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
           const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            groupFacebookInfo = await GroupFacebook.find( { "groupId": group } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+            groupFacebookInfo = await GroupFacebook.find( { "groupId": group, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 
@@ -116,7 +116,7 @@ module.exports = {
         // Handle Page
         listEventSchedule = listEventSchedule.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 1 ).map( ( item ) => item.id ).map( async ( page ) => {
           const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            pageFacebookInfo = await PageFacebook.find( { "pageId": page } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+            pageFacebookInfo = await PageFacebook.find( { "pageId": page, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
           return convert( campaignContainEvent, event, postSelectedFromRandom, pageFacebookInfo[ 0 ]._facebook.cookie, 2, page, startAt, account );
@@ -125,7 +125,7 @@ module.exports = {
         // Handle Group
         listEventSchedule = listEventSchedule.concat( await Promise.all( event.target_custom.filter( ( target ) => target.typeTarget === 0 ).map( ( item ) => item.id ).map( async ( group ) => {
           const postSelectedFromRandom = await Post.findOne( { "_id": listPost[ Math.floor( Math.random() * listPost.length ) ] } ).lean(),
-            groupFacebookInfo = await GroupFacebook.find( { "groupId": group } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
+            groupFacebookInfo = await GroupFacebook.find( { "groupId": group, "_account": account } ).populate( { "path": "_facebook", "select": "cookie -_id" } ).lean();
 
           startAt = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + event.break_point );
 

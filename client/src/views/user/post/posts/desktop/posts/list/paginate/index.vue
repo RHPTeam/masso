@@ -4,6 +4,7 @@
       Hiển thị {{ allPosts.length }} bản ghi
     </div>
     <paginate
+      v-if="allPosts.length > 0"
       :value="currentPage"
       :pageCount="postsPageSize"
       :clickHandler="goToPage"
@@ -18,7 +19,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected", "search" ],
+  props: [ "currentPage", "filterShowSelected", "filterCategorySelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -47,28 +48,49 @@ export default {
   },
   methods: {
     async goToPage( page ) {
-      if(this.search.length > 0) {
+      if ( this.filterCategorySelected.id !== "all" ) {
+        await this.$store.dispatch("getPostByCategories", {
+          categoryId: this.filterCategorySelected.id,
+          size: this.filterShowSelected.id,
+          page: page
+        } );
 
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            categoryId: this.filterCategorySelected.id,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
+      } else if ( this.search.length > 0 ) {
         const dataSender = {
           keyword: this.search,
           size: this.filterShowSelected.id,
           page: page
         };
-
         await this.$store.dispatch("getPostsByKey", dataSender);
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            search: this.search,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
       } else  {
         const dataSender = {
           size: this.filterShowSelected.id,
           page: page
         };
-
         await this.$store.dispatch( "getPostsByPage", dataSender );
-      }
 
-      this.$router.replace( {
-        name: "post_posts",
-        query: { size: this.filterShowSelected.id, page: page }
-      } );
+        this.$router.replace( {
+          name: "post_posts",
+          query: { size: this.filterShowSelected.id, page: page }
+        } );
+      }
 
       this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },

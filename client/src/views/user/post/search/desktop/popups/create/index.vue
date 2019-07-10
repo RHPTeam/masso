@@ -55,6 +55,9 @@ export default {
       return this.$store.getters.defaultPost;
     }
   },
+  beforeDestroy () {
+    this.resetPost();
+  },
   methods: {
     resetPost() {
       this.post.title = "";

@@ -71,12 +71,21 @@ export default {
     }
   },
   async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
+    if ( this.search.length === 0 ) {
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
 
-    await this.$store.dispatch( "getCampaignsByPage", dataSender );
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+    } else {
+      const dataSender = {
+        keyword: this.search,
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      await this.$store.dispatch("getCampaignsByKey", dataSender);
+    }
   },
   methods: {
     activeCurrentSort( i, type ) {
