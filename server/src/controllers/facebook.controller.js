@@ -147,11 +147,10 @@ module.exports = {
     if ( req.body.cookie ) {
       const findFacebook = await Facebook.findOne( { "userInfo.id": findSubString( req.body.cookie, "c_user=", ";" ) } );
 
-      if ( !findFacebook ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Không có tài khoản facebook nào chứa cookie này!" } );
+      if ( findFacebook ) {
+        findFacebook.cookie = req.body.cookie;
+        await findFacebook.save();
       }
-      findFacebook.cookie = req.body.cookie;
-      await findFacebook.save();
     }
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
