@@ -1,144 +1,67 @@
 <template>
-  <div
-    v-if="event"
-    class="box p_3"
-    :style="{ backgroundColor: event.color }"
-  >
-    <!-- Start: Row -->
-    <div class="r mx_0">
-      <div class="left mr_3">
-        <input
-          type="text"
-          :class="[ error ? 'input--error' : null ]"
-          v-model="event.title"
-          :placeholder="[ error ? 'Tên sự kiện không được bỏ trống!' : 'Nhập tên sự kiên' ]"
-        />
+  <div v-if="event" class="header d_flex align_items_start px_4 pt_4">
+    <!-- Start: Left -->
+    <div class="header--left position_relative mr_4">
+      <div class="icon--color" :style="{ backgroundColor: event.color }">
       </div>
-      <div class="right d_flex align_items_center">
-        <!--<div class="button copy mr_2">
-          <icon-base
-            class="ic--copy"
-            icon-name="ic--copy"
-            width="24"
-            height="24"
-            viewBox="0 0 500 500"
+      <div class="btn--edit position_absolute text_center"
+           @click="isShowColorDropdown = !isShowColorDropdown"
+      >
+        <icon-base
+          class="icon--edit"
+          icon-name="Thay đổi màu sắc"
+          height="14px"
+          width="14px"
+          viewBox="0 0 26 26">
+          <icon-edit-info></icon-edit-info>
+        </icon-base>
+      </div>
+      <!-- Start: Change color dropdown -->
+      <div class="dropdown--menu" v-if="isShowColorDropdown" v-click-outside="closeColorGrid">
+        <div class="r mx_0">
+          <div
+            class="dropdown--menu-item"
+            v-for="(i, index) in 3"
+            :key="index"
           >
-            <icon-copy />
-          </icon-base>
-        </div>-->
-        <div class="button remove mr_2"
-             v-if="event._id"
-             @click="isDeleteEvent = true">
-          <icon-base
-            class="ic--remove"
-            icon-name="Xóa"
-            width="24"
-            height="24"
-            viewBox="0 0 16 16"
-          >
-            <icon-remove />
-          </icon-base>
-        </div>
-        <div class="button save mr_2" @click.prevent="close">HUỶ</div>
-<!--        <div class="button save" v-if="event._id" @click.prevent="updateEvent">-->
-<!--          CẬP NHẬT-->
-<!--        </div>-->
-<!--        <div v-else class="button save" @click.prevent="createEvent">-->
-<!--          TẠO MỚI-->
-<!--        </div>-->
-      </div>
-    </div>
-    <!-- End: Row -->
-    <!-- Start: Row -->
-    <div class="r mx_0 justify_content_between mt_2">
-      <div class="left">
-        <div class="d_flex">
-<!--          <toggle-switch-->
-<!--            class="mr_2"-->
-<!--            :value="event.type_event === 0 ? false : true"-->
-<!--            @change="changeStatus($event.value)"-->
-<!--            :sync="true"-->
-<!--            :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"-->
-<!--            :switch-color="{-->
-<!--              checked: event.color,-->
-<!--              unchecked: '#e4e4e4'-->
-<!--            }"-->
-<!--          />-->
-<!--          <span>-->
-<!--            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng-->
-<!--          </span>-->
-          <div class="desc">Khuyên dùng: Tên sự kiện giúp bạn phân biệt giữa các sự kiện trong một ngày</div>
-        </div>
-      </div>
-      <div class="right">
-        <div class="action" aria-label="Change Color">
-          <div role="color" @click="isShowColorDropdown = !isShowColorDropdown">
-            <span>Thay đổi màu sắc</span>
-            <!-- Start: Change color dropdown -->
-            <div class="dropdown--menu" v-if="isShowColorDropdown" v-click-outside="closeColorGrid">
-              <div class="r mx_0">
-                <div
-                  class="dropdown--menu-item"
-                  v-for="(i, index) in 3"
-                  :key="index"
-                >
-                  <div
-                    class="grid"
-                    :style="{ backgroundColor: colors[index] }"
-                    @click="changeColor(colors[index])"
-                  ></div>
-                </div>
-              </div>
-              <div class="r mx_0">
-                <div
-                  class="dropdown--menu-item"
-                  v-for="(i, index) in 3"
-                  :key="`s-${index}`"
-                >
-                  <div
-                    class="grid"
-                    :style="{ backgroundColor: colors[index + 3] }"
-                    @click="changeColor(colors[index + 3])"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <!-- End: Change color dropdown -->
+            <div
+              class="grid"
+              :style="{ backgroundColor: colors[index] }"
+              @click="changeColor(colors[index])"
+            ></div>
           </div>
-
+        </div>
+        <div class="r mx_0">
+          <div
+            class="dropdown--menu-item"
+            v-for="(i, index) in 3"
+            :key="`s-${index}`"
+          >
+            <div
+              class="grid"
+              :style="{ backgroundColor: colors[index + 3] }"
+              @click="changeColor(colors[index + 3])"
+            ></div>
+          </div>
         </div>
       </div>
+      <!-- End: Change color dropdown -->
     </div>
-    <!-- End: Row -->
-
-    <!-- Start: Row -->
-    <div v-if="errorData.length > 0">
-      <div class="errors" v-for="error in errorData" :key="error">
-        <div class="text_danger mt_3" v-text="error"></div>
-      </div>
+    <!-- End: Left -->
+    <!-- Start: Right -->
+    <div class="header--right mr_4">
+      <input class="title"
+             type="text"
+             v-model="event.title"
+             placeholder="Nhập tên sự kiện"
+      >
     </div>
-    <!-- End: Row -->
-
-    <!-- Start: POPUP DELETE-->
-    <delete-event
-      v-if="isDeleteEvent === true"
-      title="Xóa sự kiện trong chiến dịch"
-      @closePopup="changeStatusDelete($event)"
-      storeActionName="Xóa sự kiện"
-      :targetData="event"
-      typeName="sự kiện"
-    ></delete-event>
-    <!--End: POPUP DELETE-->
+    <!-- End: Right -->
   </div>
 </template>
 
 <script>
-import DeleteEvent from "../popup/delete"
-
 export default {
-  components: {
-    DeleteEvent
-  },
   props: {
     event: Object
   },
@@ -172,6 +95,7 @@ export default {
         key: "color",
         value: value
       } )
+      this.isShowColorDropdown = false;
     },
     changeStatus(status) {
       this.$store.dispatch( "setEvent", {

@@ -78,6 +78,7 @@ Vue.component( "IconPhoneInfo", () => import( "@/components/icons/IconPhoneInfo"
 Vue.component( "IconPlay", () => import( "@/components/icons/IconPlay" ) );
 Vue.component( "IconPlaysButton", () => import( "@/components/icons/IconPlaysButton" ) );
 Vue.component( "IconPlus", () => import( "@/components/icons/IconPlus" ) );
+Vue.component( "IconPlugin", () => import( "@/components/icons/IconPlugin" ) );
 Vue.component( "IconPost", () => import( "@/components/icons/IconPost" ) );
 Vue.component( "IconPostNow", () => import( "@/components/icons/IconPostNow" ) );
 Vue.component( "IconProfile", () => import( "@/components/icons/IconProfile" ) );

@@ -3,7 +3,7 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <vue-perfect-scrollbar class="modal--content">
         <div class="modal--header">
-          <div class="title">THÔNG TIN CẬP NHẬT ZINBEE v1.0.4 - 20/06/2019 </div>
+          <div class="title">THÔNG TIN CẬP NHẬT ZINBEE v2.0.1 - 08/07/2019 </div>
         </div>
         <div class="modal--body mt_3">
           <div class="intro"><img :src="require( '@/assets/images/undraw_content_vbqo.svg' )" alt="Update version zinbee"></div>
@@ -12,6 +12,7 @@
             <ul class="mt_2">
               <li><span style="color: #00c853; font-weight: 600;">Facebook tìm kiếm:</span> Ngay bây giờ, chức năng tìm kiếm các bài viết chất lượng trên facebook đã có thể sử dụng, khi bạn cung cấp từ khóa trước đó, hệ thống sẽ gợi ý những bài viết tốt nhất cho bạn.</li>
               <li><span style="color: #00c853; font-weight: 600;">Nội dung mẫu:</span> Zinbee cung cấp một số bài nội dung để người mới bắt đầu có thể sử dụng ngay và có trải nghiệm tốt nhất.</li>
+              <li><span style="color: #00c853; font-weight: 600;">Giao diện:</span> Zinbee thay đổi một số giao diện, cải thiện trải nghiệm người dùng một cách tốt hơn.</li>
             </ul>
             <div class="mt_3">CÁC LỖI ĐÃ ĐƯỢC KHẮC PHỤC:</div>
             <ul class="mt_2">

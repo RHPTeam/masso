@@ -6,6 +6,8 @@
  * team: BE-RHP
  */
 const Post = require( "../../models/post/Post.model" );
+const Event = require( "../../models/post/Event.model" );
+const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
@@ -13,8 +15,7 @@ const request = require( "axios" );
 const { logUserAction } = require( "../../microservices/synchronize/log.service" );
 
 const jsonResponse = require( "../../configs/response" );
-const dictionary = require( "../../configs/dictionaries" ),
-  ScheduleService = require( "node-schedule" );
+const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
   "index": async ( req, res ) => {
@@ -180,14 +181,8 @@ module.exports = {
         .json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
     }
 
-    const findPost = await Post.findOne( {
-        "_id": req.query._postId,
-        "_account": req.uid
-      } ),
-      listPostOldSchedule = await PostSchedule.find( {
-        "_post": req.query._postId,
-        "_account": req.uid
-      } ).lean();
+    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } ),
+      eventInfoList = await Event.find( { "post_custom": req.query._postId } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
@@ -223,24 +218,25 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    /**
-     * Delete cron schedule
-     */
-    await Promise.all(
-      listPostOldSchedule.map( ( postSchedule ) => {
-        if ( ScheduleService.scheduleJob[ postSchedule._id ] ) {
-          ScheduleService.scheduleJob[ `rhp${postSchedule._id}` ].cancel();
-        }
-      } )
-    );
-    await PostSchedule.deleteMany( { "_post": req.query._postId } );
-
     await Promise.all( findPost._categories.map( async ( category ) => {
       const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
       categoryInfo.totalPosts -= 1;
       categoryInfo.save();
     } ) );
+
+    // Remove a post exist in a campaign
+    await Promise.all( eventInfoList.map( async ( event ) => {
+      event.post_custom.pull( req.query._postId );
+      await event.save();
+    } ) );
+
+    // Remove a post from eventschedule
+    await EventSchedule.deleteMany( { "postID": req.query._postId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xóa [EventSchedule] thất bại!" );
+      }
+    } );
 
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );

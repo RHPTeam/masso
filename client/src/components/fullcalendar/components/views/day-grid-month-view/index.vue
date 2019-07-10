@@ -135,13 +135,13 @@ export default {
       let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ).setHours( 0, 0, 0),
           lastDayOfWeek = new Date( this.monthDays[ i * 7 + 6 ].time ).setHours( 23, 59, 59);
 
-      let res = this.events.filter( ( event ) => {
-        const eventStartTime = new Date(event.started_at);
+      if ( Array.isArray(this.events) ) {
+        return this.events.filter( ( event ) => {
+          const eventStartTime = new Date(event.started_at);
 
-        return eventStartTime >= firstDayOfWeek && eventStartTime <= lastDayOfWeek;
-      } );
-
-      return res;
+          return eventStartTime >= firstDayOfWeek && eventStartTime <= lastDayOfWeek;
+        } );
+      }
     }
   }
 };
