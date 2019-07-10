@@ -21,6 +21,17 @@
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+
+    <!--Start: Mobile Component-->
+    <div class="d_block d_md_none px_3">
+      <!-- Start: Top -->
+      <app-header-mobile :user="user"/>
+      <!-- End: Top -->
+      <!-- Start: Content -->      
+      <app-main-mobile :user="user"/>
+      <!-- End: Content -->     
+    </div>
+    <!--End: Mobile Component-->
   </div>
 </template>
 

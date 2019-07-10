@@ -1,0 +1,136 @@
+.header--mobile {
+    max-height: 56px;
+    .header--mobile-top {
+        padding: 13px 16px;
+        top: 0;
+        left: 0;
+        z-index: +99;
+        .header--mobile-img {
+            margin-right: 16px;
+            img {
+                cursor: pointer;
+            }
+        }
+        .header--mobile-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .action--right {
+            .posts {
+                .all-posts {
+                    &.active {
+                        display: none!important;
+                    }
+                }
+            }
+            .icon--filter {
+                margin-top: 3px;
+            }
+        }
+    }
+    .dropdown--filter-post {
+      width: 90vw;
+      background: #2b2d33;
+      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      border-radius: 0.625rem;
+      left: 5vw;
+      bottom: 0;
+      // color: #333;
+      z-index: 10;
+      .items {
+          margin-bottom: 0.625rem;
+          border-radius: 0.625rem;
+        padding: 0.5rem 0;
+        text-align: center;
+        border: 1px solid #ccc;
+      }
+    }
+    .change--account,
+    .new--message {
+        margin-left: 16px;
+    }
+    .icon {
+        cursor: pointer;
+        transition: all 0.4s ease;
+        &:hover {
+            color: #ffb94a;
+        }
+    }
+    .header--mobile-img {
+        .avatar--content {
+            width: 30px;
+            &.avatar--default {
+                font-size: 20px;
+            }
+        }
+    }
+    .avatar--content {
+        border: 1px solid #f7f7f7;
+        border-radius: 50%;
+        cursor: pointer;
+        overflow: hidden;
+        &:before {
+            content: "";
+            display: block;
+            padding-top: 100%;
+        }
+        &.avatar--img {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        &.avatar--default {
+            background-color: #fafafa;
+            color: #ffb94a;
+            font-size: 32px;
+            font-weight: 600;
+            span {
+                left: 50%;
+                transform: translate(-50%, -50%);
+                top: 50%;
+            }
+        }
+    }
+}
+// ============ TRANSITION POPUP
+.popup-enter {
+    transform: translateY(100%);
+}
+
+.popup-enter-to {
+    transition: transform 0.3s;
+    transform: translateY(0);
+}
+
+.popup-leave-to {
+    transition: transform 0.3s;
+    transform: translateY(100%);
+}
+
+.popup--mobile-enter {
+    transform: translateX(100%);
+  }
+  
+  .popup--mobile-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+  
+  .popup--mobile-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
+  }
+//Change Theme
+//Light
+.header--mobile[data-theme="light"] {
+    .header--mobile-title {
+        color: #666666
+    }
+}
+
+//Dark
+.header--mobile[data-theme="dark"] {
+    .header--mobile-title {
+        color: #CCCCCC
+    }
+}

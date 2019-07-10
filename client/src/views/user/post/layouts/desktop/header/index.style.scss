@@ -3,6 +3,9 @@
     .header--icon {
       cursor: pointer;
     }
+    .logo--menu-mobile {
+      display: none;
+    }
   }
   .header--right {
     .icon--cookie{
@@ -553,3 +556,16 @@
     }
   }
 }
+
+// @media screen and (max-width: 767px) {
+//   .header {
+//     .header--left {
+//       .header--icon {
+//         display: none;
+//       }
+//       .logo--menu-mobile {
+//         display: block;
+//       }
+//     }
+//   }
+// }

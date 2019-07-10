@@ -37,7 +37,7 @@ PostCategorySchema.pre( "save", function( next ) {
 
 const PostCategory = mongoose.model( "PostCategory", PostCategorySchema );
 
-PostCategorySchema.on( "index", function (error ) {
+PostCategorySchema.on( "index", function ( error ) {
   if ( error ) {
     console.log( error.message );
   }

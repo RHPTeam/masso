@@ -3,7 +3,7 @@
     class="post--action d_flex align_items_center"
     :data-theme="currentTheme"
   >
-    <div class="action--left c_lg_4 pl_0">
+    <div class="action--left c_lg_4 pl_0 mr_auto">
       <div class="post--search d_flex justify_content_between align_items_center">
       <span class="ml_3 mt_1">
         <icon-base
@@ -23,7 +23,7 @@
         />
       </div>
     </div>
-    <div class="d_flex action--right c_lg_8 pr_0">
+    <div class="d_flex action--right c_lg_8 pr_0 ml_auto">
       <app-filter
         class="mr_2"
         :filterList="filterShowList"
