@@ -8,22 +8,12 @@
       <div class="option">
         <multiselect
           label="title"
-          :value="event.post_category"
-          :clearable="false"
           :options="categories"
-          @input="selectCategory"
           placeholder="Chọn danh mục đăng bài "
         />
       </div>
     </div>
     <!-- End: Body -->
-    <!-- Start: Bottom -->
-    <div class="bottom">
-      <!--Start: Post detail -->
-      <!-- <global-option /> -->
-      <!--End: Post detail -->
-    </div>
-    <!-- End: Bottom -->
   </div>
 </template>
 
@@ -113,7 +103,6 @@ export default {
     .option {
       border: 1px solid #e4e4e4;
       border-radius: calc(.5rem + 2px);
-      width: 50%;
     }
   }
 }

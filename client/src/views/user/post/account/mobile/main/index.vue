@@ -91,20 +91,36 @@
       <div class="items items--keyword">
         <div class="title">TỪ KHÓA</div>
         <div class="list">
-          <ul class="p_0 m_0">
-            <li class="d_flex align_items_center">
+          <div class="item d_flex align_items_center">
+            <icon-base
+              icon-name="icon-autoreply"
+              class="mr_2"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+            >
+              <icon-friend />
+            </icon-base>
+            <div class="d_flex align_items_center keyword">
               <span>Girl</span>
               <span class="ml_auto delete" @click="showPopupDelete">Xóa</span>
-            </li>
-            <li class="d_flex align_items_center">
+            </div>
+          </div>
+          <div class="item d_flex align_items_center">
+            <icon-base
+              icon-name="icon-autoreply"
+              class="mr_2"
+              width="24"
+              height="24"
+              viewBox="0 0 25 25"
+            >
+              <icon-friend />
+            </icon-base>
+            <div class="d_flex align_items_center keyword">
               <span>Girl</span>
-              <span class="ml_auto delete">Xóa</span>
-            </li>
-            <li class="d_flex align_items_center">
-              <span>Girl</span>
-              <span class="ml_auto delete">Xóa</span>
-            </li>
-          </ul>
+              <span class="ml_auto delete" @click="showPopupDelete">Xóa</span>
+            </div>
+          </div>
           <div class="more text_center mt_2" @click="showKeywords">
             Xem tất cả
             <icon-base
@@ -119,6 +135,22 @@
           </div>
         </div>
       </div>
+      <div class="items">
+        <div class="title mb_2">TÀI KHOẢN</div>
+        <div class="logout d_flex align_items_center">
+          <icon-base
+            icon-name="icon-autoreply"
+            class="mr_2"
+            width="24"
+            height="24"
+            viewBox="0 0 25 25"
+          >
+            <icon-friend />
+          </icon-base>
+          <p class="mb_0">Đăng xuất
+          </p>
+        </div>
+      </div>
     </div>
     <!-- End: Content -->
     <!-- Start: Popup -->
@@ -127,15 +159,15 @@
         v-if="isShowInfoUser === true"
         @closeConfirmPassword="isShowInfoUser = $event"
       />
-      <popup-keywords
-        v-if="isShowKeywords === true"
-        @closeKeywords="isShowKeywords = $event"
-      />
+      <popup-keywords v-if="isShowKeywords === true" @closeKeywords="isShowKeywords = $event" />
     </transition>
     <!-- End: Popup -->
     <!-- Start: Popup Delete -->
     <transition name="popup-delete">
-      <popup-delete @closePopupDelete="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
+      <popup-delete
+        @closePopupDelete="isShowPopupDelete = $event"
+        v-if="isShowPopupDelete === true"
+      />
     </transition>
     <!-- End: Popup Delete -->
   </div>

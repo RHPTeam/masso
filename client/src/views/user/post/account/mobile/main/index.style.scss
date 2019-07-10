@@ -24,11 +24,11 @@
             }
           }
 
-        //   &:last-child {
-        //     .content {
-        //       border: 0;
-        //     }
-        //   }
+          //   &:last-child {
+          //     .content {
+          //       border: 0;
+          //     }
+          //   }
         }
       }
     }
@@ -37,24 +37,24 @@
       .list {
         font-size: 0.875rem;
 
-        li {
-          padding: 0.55rem 0;
-          border-bottom: 1px solid #cccccc57;
-
-        //   .delete {
-        //     background: red;
-        //     color: #fff;
-        //     height: 32px;
-        //     width: 32px;
-        //     text-align: center;
-        //   }
+        .item {
+          .keyword {
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #cccccc57;
+            width: calc(100vw - 33px);
+          }
         }
+
         .more {
-            .arrow-down {
-                transform: rotate(-90deg);
-            }
+          .arrow-down {
+            transform: rotate(-90deg);
+          }
         }
       }
+    }
+
+    .logout {
+      font-size: 0.875rem;
     }
   }
 }
@@ -72,6 +72,7 @@
   transition: transform 0.75s;
   transform: translateX(100%);
 }
+
 // Popup Delete
 .popup-delete-enter {
   transform: translateY(100%);
