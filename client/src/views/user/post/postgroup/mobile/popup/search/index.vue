@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" />
+          <input type="text" placeholder="Tìm kiếm" v-model="search" />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -28,7 +28,7 @@
       <!-- Start: Main - Search -->
       <div class="items--body px_2">
         <!-- Start: List Content -->
-        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+        <vue-perfect-scrollbar class="infinite">
           <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
           <app-item :item="item"/>
         </div>
@@ -59,48 +59,66 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div
+                class="item--content text_center"
+                v-if="facebookPagesSearch.length === 0"
+              >Không có Fanpage nào!</div>
+              <div
+                v-else
+                class="item--content d_flex align_items_center py_2"
+                v-for="(fanpage, index) in facebookPagesSearch"
+                :key="`f+${index}`"
+              >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
-                    <!-- <img alt="avatar" width="30px" height="30px"> -->
+                    <img alt="avatar" width="30px" height="30px" :src="fanpage.profile_picture" />
                   </div>
-                  <span class="col col--name-text">Fanpage</span>
+                  <span class="col col--name-text">{{ fanpage.name }}</span>
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" />
+                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
                   </label>
                 </div>
               </div>
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div
+                class="item--content text_center"
+                v-if="facebookGroupsSearch.length === 0"
+              >Không có Group nào!</div>
+              <div
+                v-else
+                class="item--content d_flex align_items_center py_2"
+                v-for="(group, index) in facebookGroupsSearch"
+                :key="`g+${index}`"
+              >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
-                    <!-- <img alt="avatar" width="30px" height="30px"> -->
+                    <img alt="avatar" width="30px" height="30px" :src="group.profile_picture" />
                   </div>
-                  <span class="col col--name-text"> Group</span>
+                  <span class="col col--name-text">{{ group.name }}</span>
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
                   </label>
                 </div>
               </div>
             </div>
             <div class="post--group" v-if="isShowPopupPostGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div class="item--content d_flex align_items_center py_2" v-for="(postgroup, index) in postGroups" :key="`pg+${index}`">
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
                     <!-- <img alt="avatar" width="30px" height="30px"> -->
                   </div>
-                  <span class="col col--name-text">Post Group</span>
+                  <span class="col col--name-text">{{ postgroup.title }}</span>
                 </div>
-                <div class="col col--checkbox pr_3 ml_auto">
+                <!-- <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
                     <input type="checkbox" />
                   </label>
-                </div>
+                </div> -->
               </div>
             </div>
             <!-- Start: Group -->
@@ -117,7 +135,10 @@
     </div>
     <!-- Start: Transition -->
     <transition name="popup">
-      <add-to-group v-if="isShowAddToGroup === true" @closePopupAddGroup="isShowAddToGroup = $event"/>
+      <add-to-group
+        v-if="isShowAddToGroup === true"
+        @closePopupAddGroup="isShowAddToGroup = $event"
+      />
     </transition>
     <!-- End: Transition -->
   </div>
@@ -126,41 +147,62 @@
 <script>
 import AddToGroup from "../addgroup";
 export default {
-  components: {
-    AddToGroup
-  },
-  computed: {
-    
-  },
   data() {
     return {
+      search: "",
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowPopupPostGroup: false,
       isShowAddToGroup: false
     };
   },
-  methods: {
-    async loadMore() {
-      if (this.isLoadingData === true) {
-        if (this.keyword !== "") {
-          if (this.currentPage > this.numberPageCurrent) {
-            return false;
-          } else {
-            this.isLoadingData = false;
-
-            this.currentPage += 1;
-
-            await this.$store.dispatch("searchPostsFacebookByKey", {
-              keyword: this.keyword,
-              size: this.maxPerPage,
-              page: this.currentPage
-            });
-            this.isLoadingData = true;
-          }
-        }
+  components: {
+    AddToGroup
+  },
+  computed: {
+    facebookPages() {
+      return this.$store.getters.facebookPages;
+    },
+    facebookGroups() {
+      return this.$store.getters.facebookGroups;
+    },
+    facebookGroupsSearch() {
+      return this.facebookGroups.filter(item => {
+        return item.name
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toString().toLowerCase());
+      });
+    },
+    facebookPagesSearch() {
+      return this.facebookPages.filter(item => {
+        return item.name
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toString().toLowerCase());
+      });
+    },
+    postGroupGroupsSelected: {
+      get() {
+        return this.$store.getters.postGroupGroupsSelected;
+      },
+      set(val) {
+        this.$store.dispatch("postGroupGroupsSelected", val);
       }
     },
+    postGroupPagesSelected: {
+      get() {
+        return this.$store.getters.postGroupPagesSelected;
+      },
+      set(val) {
+        this.$store.dispatch("postGroupPagesSelected", val);
+      }
+    },    
+    postGroups() {
+      return this.$store.getters.postGroups;
+    }
+  },
+  methods: {
     closePopupSearch() {
       this.$emit("closePopupSearch", false);
     },
@@ -181,6 +223,12 @@ export default {
     },
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
+    }
+  },
+  created() {    
+    const postGroupsNo = this.$store.getters.postGroups;
+    if ( postGroupsNo.length === 0 ) {
+      this.$store.dispatch("getAllPostGroups");
     }
   }
 };
@@ -258,6 +306,9 @@ export default {
 .post--group {
   .item--content {
     border-bottom: 1px solid #484848;
+    &:last-child {
+      border: 0;
+    }
   }
   .col--checkbox {
     height: 20px;
@@ -294,8 +345,10 @@ export default {
   .col--name {
     width: 100%;
     overflow: hidden;
-    .avatar .img {
-      border-radius: 50%;
+    .avatar {
+      img {
+        border-radius: 100%;
+      }
     }
     &-text {
       white-space: nowrap;
@@ -338,12 +391,12 @@ export default {
 }
 
 .popup-enter-to {
-  transition: transform 0.2s;
+  transition: transform 0.5s;
   transform: translateY(0);
 }
 
 .popup-leave-to {
-  transition: transform 0.2s;
+  transition: transform 0.5s;
   transform: translateY(100%);
 }
 </style>

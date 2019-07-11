@@ -21,7 +21,7 @@
       </div>
       <!-- End: Search -->
       <!-- Start: Group -->
-      <app-group :groupSelected="groupSelected" @updateGroupSelected="groupSelected = $event"/>
+      <app-group @updateGroupSelected="isShowPopupDetailGroup = $event"/>
       <!-- End: Group -->
       <!-- Start: Info -->
       <!-- <app-info
@@ -158,7 +158,7 @@ export default {
 .main--mobile {
   .main--content {
     .list--post-group {
-      max-height: 50vh;
+      max-height: 60vh;
       overflow: hidden;
     }
   }

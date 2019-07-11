@@ -10,7 +10,7 @@
         </span>
         <input type="text" placeholder="Tìm kiếm">
       </div>
-      <div class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1">
+      <!-- <div class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1">
         <span
           v-show="keyPopular && keyPopular.length > 0"
           class="list--keywork-item py_1 m_1"
@@ -18,7 +18,7 @@
           :key="index"
           @click="searchPostByKeyword(item)"
         >{{ item }}</span>
-      </div>
+      </div> -->
     </div>
     <!-- End: Search -->
 

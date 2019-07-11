@@ -7,15 +7,15 @@
       <div class="account">
         <div class="item d_flex align_items_center" @click="showPopupActiveAccount">
           <div class="avatar mr_2">
-            <img :src="fbAccountInfo.imageAvatar" alt />
+            <!-- <img :src="accountsFB.userInfo.thumbSrc" alt /> -->
           </div>
           <div class="user--info">
-            <div class="name mb_1">{{ fbAccountInfo.name }}</div>
-            <div class="created mb_1">Được thêm lúc {{ formatDate(fbAccountInfo.updated_at) }}</div>
+            <div class="name mb_1">{{ accountsFB.userInfo.name }}</div>
+            <div class="created mb_1">Được thêm lúc {{ formatDate(accountsFB.updated_at) }}</div>
             <div
               class="status d_inline"
-              :class="fbAccountInfo.status ? 'active' : null"
-            >{{ fbAccountInfo.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
+              :class="accountsFB.status ? 'active' : null"
+            >{{ accountsFB.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
           </div>
           <div class="more position_absolute">
             <icon-base
@@ -89,6 +89,9 @@ export default {
     };
   },
   computed: {
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -97,6 +100,7 @@ export default {
     }
   },
   async created() {
+    await this.$store.dispatch( "getAccountsFB" );
     const info = this.$store.getters.userInfo;
     if (Object.entries(info).length === 0 && info.constructor === Object) {
       const fbAccountId = this.$route.params.fbAccountId;
