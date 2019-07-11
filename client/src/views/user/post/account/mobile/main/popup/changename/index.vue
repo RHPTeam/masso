@@ -14,14 +14,19 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
-      <div class="active mr_3">Xong</div>
+      <div @click="updateChangedName" class="active mr_3">Xong</div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
       <div class="content">
         <p class="mb_2 text">Tên người dùng</p>
-        <!-- Start: Password -->        
-        <input type="text" class="form--input" placeholder="Nhập tên bạn muốn thay đổi" />
+        <!-- Start: Password -->
+        <input
+          v-model="user.name"
+          type="text"
+          class="form--input"
+          placeholder="Nhập tên bạn muốn thay đổi"
+        />
         <!-- End: Password -->
       </div>
     </div>
@@ -30,9 +35,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: this.$store.getters.userInfo
+    };
+  },
   methods: {
     closeChangeName() {
       this.$emit("closeChangeName", false);
+    },
+    updateChangedName() {
+      this.$store.dispatch("updateUser", this.user).then(() => {
+        this.closeChangeName();
+      });
     }
   }
 };

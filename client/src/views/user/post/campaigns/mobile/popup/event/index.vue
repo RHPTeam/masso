@@ -109,8 +109,8 @@
       <!-- Start: Transition Popup -->
       <transition name="popup--mobile">
         <popup-time v-if="isShowPopupTime === true" @closePopup="isShowPopupTime = $event"/>
-        <popup-category v-if="isShowPopupCategory === true"/>
-        <popup-post-place v-if="isShowPopupPostPlace === true"/>
+        <popup-category v-if="isShowPopupCategory === true" @closePopup="isShowPopupCategory = $event"/>
+        <popup-post-place v-if="isShowPopupPostPlace === true" @closePopupAddress="isShowPopupPostPlace = $event"/>
       </transition>
       <!-- End: Transition Popup -->
     </div>

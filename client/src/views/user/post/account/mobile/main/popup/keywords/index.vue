@@ -26,9 +26,13 @@
       <div class="list">
         <p class="mb_2 title">Danh sách từ khóa</p>
         <ul class="p_0 m_0">
-          <li v-for="keyword in user.keywords" v-bind:key="keyword.id" class="d_flex align_items_center item">
-            <span>{{keyword}}</span>
-            <span class="ml_auto" @click="showPopupDelete">Xóa</span>
+          <li
+            v-for="(keyword, index) in user.keywords"
+            v-bind:key="keyword.id"
+            class="item d_flex align_items_center"
+          >
+            <span class="item--keyword">{{keyword}}</span>
+            <span class="ml_auto" @click="showPopupDelete(index)">Xóa</span>
           </li>
         </ul>
       </div>
@@ -36,8 +40,13 @@
     <!-- End: Main -->
     <!-- Start: Popup Mobile -->
     <transition name="popup--mobile">
+      <!-- <popup-add-keywords
+        @closeAddKeywords="isShowPopupAddKeywords = $event"
+        v-if="isShowPopupAddKeywords === true"
+      />-->
       <popup-add-keywords
         @closeAddKeywords="isShowPopupAddKeywords = $event"
+        @confirmAddKeywords="confirmAdd($event)"
         v-if="isShowPopupAddKeywords === true"
       />
     </transition>
@@ -46,6 +55,7 @@
     <transition name="popup-delete">
       <popup-delete
         @closePopupDelete="isShowPopupDelete = $event"
+        @confirmPopupDelete="confirmDelete($event)"
         v-if="isShowPopupDelete === true"
       />
     </transition>
@@ -64,7 +74,9 @@ export default {
   data() {
     return {
       isShowPopupAddKeywords: false,
-      isShowPopupDelete: false
+      isShowPopupDelete: false,
+      isConfirmDelete: false,
+      selectedKeywordIndex: 0
     };
   },
   computed: {
@@ -85,8 +97,25 @@ export default {
     showPopupAddKeywords() {
       this.isShowPopupAddKeywords = true;
     },
-    showPopupDelete() {
+    showPopupDelete(index) {
       this.isShowPopupDelete = true;
+      this.selectedKeywordIndex = index;
+    },
+    confirmDelete(event) {
+      if (event === true) {
+        this.user.keywords.splice(this.selectedKeywordIndex, 1);
+        this.$store.dispatch("updateUser", this.user).then(() => {
+          this.isShowPopupDelete = false;
+        });
+      }
+    },
+    confirmAdd(event) {
+      if (event.confirm === true) {
+        this.user.keywords.push(event.keyword);
+        this.$store.dispatch("updateUser", this.user).then(() => {
+          this.isShowPopupAddKeywords = false;
+        });
+      }
     }
   }
 };
@@ -151,6 +180,14 @@ export default {
       .item {
         padding: 0.55rem 0;
         border-bottom: 1px solid #cccccc57;
+
+        &--keyword {
+          display: inline-block;
+          width: 17rem;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
       }
     }
   }

@@ -3,7 +3,7 @@
     <div class="content text_center">
       <div class="delete mb_2">
         <p class="mb_2 pb_2 text px_2">Bạn có chắc chắn muốn xóa từ khóa này?</p>
-        <div class="px_2">Xóa</div>
+        <div class="px_2" @click="confirmPopupDelete">Xóa</div>
       </div>
       <div class="cancel" @click="closePopupDelete">Hủy</div>
     </div>
@@ -15,6 +15,9 @@ export default {
   methods: {
     closePopupDelete() {
       this.$emit("closePopupDelete", false);
+    },
+    confirmPopupDelete(){
+      this.$emit("confirmPopupDelete", true);
     }
   },
 };

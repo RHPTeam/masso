@@ -14,14 +14,19 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
-      <div class="active mr_3">Xong</div>
+      <div @click="updateChangedPhone" class="active mr_3">Xong</div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
       <div class="content">
         <p class="mb_2 text">Số điện thoại</p>
-        <!-- Start: Password -->        
-        <input type="text" class="form--input" placeholder="Nhập số điện thoại" />
+        <!-- Start: Password -->
+        <input
+          v-model="user.phone"
+          type="text"
+          class="form--input"
+          placeholder="Nhập số điện thoại"
+        />
         <!-- End: Password -->
         <p class="error">Mày ngu à mà nhập sai!</p>
       </div>
@@ -31,9 +36,19 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: this.$store.getters.userInfo
+    };
+  },
   methods: {
     closeChangePhone() {
       this.$emit("closeChangePhone", false);
+    },
+    updateChangedPhone() {
+      this.$store.dispatch("updateUser", this.user).then(() => {
+        this.closeChangePhone();
+      });
     }
   }
 };

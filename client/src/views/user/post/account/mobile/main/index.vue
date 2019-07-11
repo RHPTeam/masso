@@ -92,9 +92,9 @@
         <div class="title">TỪ KHÓA</div>
         <div class="list">
           <ul class="p_0 m_0">
-            <li v-for="keyword in user.keywords.slice(0, 3)" v-bind:key="keyword.id" class="d_flex align_items_center">
-              <span>{{keyword}}</span>
-              <span class="ml_auto delete" @click="showPopupDelete">Xóa</span>
+            <li v-for="(keyword, index) in user.keywords.slice(0, 3)" v-bind:key="keyword.id" class=" item d_flex align_items_center">
+              <span class="item--keyword">{{keyword}}</span>
+              <span class="ml_auto delete" @click="showPopupDelete(index)">Xóa</span>
             </li>
           </ul>
           <div class="more text_center mt_2" @click="showKeywords">
@@ -111,6 +111,22 @@
           </div>
         </div>
       </div>
+      <div class="items">
+        <div class="title mb_2">TÀI KHOẢN</div>
+        <div class="logout d_flex align_items_center">
+          <icon-base
+            icon-name="icon-autoreply"
+            class="mr_2"
+            width="24"
+            height="24"
+            viewBox="0 0 25 25"
+          >
+            <icon-friend />
+          </icon-base>
+          <p @click="logout" class="mb_0">Đăng xuất
+          </p>
+        </div>
+      </div>
     </div>
     <!-- End: Content -->
     <!-- Start: Popup -->
@@ -119,15 +135,16 @@
         v-if="isShowInfoUser === true"
         @closeConfirmPassword="isShowInfoUser = $event"
       />
-      <popup-keywords
-        v-if="isShowKeywords === true"
-        @closeKeywords="isShowKeywords = $event"
-      />
+      <popup-keywords v-if="isShowKeywords === true" @closeKeywords="isShowKeywords = $event" />
     </transition>
     <!-- End: Popup -->
     <!-- Start: Popup Delete -->
     <transition name="popup-delete">
-      <popup-delete @closePopupDelete="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
+      <popup-delete
+        @closePopupDelete="isShowPopupDelete = $event"
+         @confirmPopupDelete="confirmDelete($event)"
+        v-if="isShowPopupDelete === true"
+      />
     </transition>
     <!-- End: Popup Delete -->
   </div>

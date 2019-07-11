@@ -18,19 +18,29 @@
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
-      <div class="item">          
+      <div class="item">
         <p class="mb_2 text">Mật khẩu mới</p>
         <!-- Start: Password -->
-        <input type="text" class="form--input" placeholder="Nhập mật khẩu" />
+        <input
+          v-model="reset.newPassword"
+          type="text"
+          class="form--input"
+          placeholder="Nhập mật khẩu"
+        />
         <!-- End: Password -->
         <!-- Start: Error -->
         <p class="error">Mày ngu à mà nhập sai!</p>
         <!-- End: Error -->
       </div>
-      <div class="item">          
+      <div class="item">
         <p class="mb_2 text">Nhập lại mật khẩu</p>
         <!-- Start: Password -->
-        <input type="text" class="form--input" placeholder="Nhập lại mật khẩu" />
+        <input
+          v-model="reset.confirmNewPassword"
+          type="text"
+          class="form--input"
+          placeholder="Nhập lại mật khẩu"
+        />
         <!-- End: Password -->
         <!-- Start: Error -->
         <p class="error">Mày ngu à mà nhập không trùng nhau.</p>
@@ -38,13 +48,21 @@
       </div>
     </div>
     <!-- Start: Action -->
-    <div class="text_center action mx_3">Tiếp tục</div>
+    <div @click="updatePassword" class="text_center action mx_3">Tiếp tục</div>
     <!-- End: Action -->
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      reset: {
+        newPassword: "",
+        confirmNewPassword: ""
+      }
+    };
+  },
   methods: {
     closeChangePassword() {
       this.$emit("closeChangePassword", false);

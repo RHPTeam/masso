@@ -14,14 +14,14 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thêm từ khóa</p>
-      <div class="active mr_3">Xong</div>
+      <div @click="confirmAddKeywords" class="active mr_3">Xong</div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
       <div class="content">
         <p class="mb_2 text">Nhập từ khóa</p>
-        <!-- Start: Password -->        
-        <input type="text" class="form--input" placeholder="Nhập từ khóa" />
+        <!-- Start: Password -->
+        <input v-model="keyword" type="text" class="form--input" placeholder="Nhập từ khóa" />
         <!-- End: Password -->
         <p class="error">Mày ngu à mà nhập sai!</p>
       </div>
@@ -31,9 +31,20 @@
 
 <script>
 export default {
+  data() {
+    return {
+      keyword: ""
+    };
+  },
   methods: {
     closeAddKeywords() {
       this.$emit("closeAddKeywords", false);
+    },
+    confirmAddKeywords() {
+      this.$emit("confirmAddKeywords", {
+        keyword: this.keyword,
+        confirm: true
+      });
     }
   }
 };

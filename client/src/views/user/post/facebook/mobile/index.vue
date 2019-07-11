@@ -4,18 +4,20 @@
       class="wrapper--top d_flex align_items_center justify_content_between p_3 mb_2 position_relative"
     >
       <!-- Start: Top account-->
-      <div class="account">
+      <div v-for="(accountFB, index) in accountsFB" :key="index" class="account">
         <div class="item d_flex align_items_center" @click="showPopupActiveAccount">
           <div class="avatar mr_2">
-            <img :src="fbAccountInfo.imageAvatar" alt />
+            <img :src="accountFB.userInfo.thumbSrc" alt />
           </div>
           <div class="user--info">
-            <div class="name mb_1">{{ fbAccountInfo.name }}</div>
-            <div class="created mb_1">Được thêm lúc {{ formatDate(fbAccountInfo.updated_at) }}</div>
+            <div class="name mb_1">{{ accountFB.userInfo.name }}</div>
+            <div
+              class="created mb_1"
+            >Được thêm lúc {{ formatDate(accountFB.created_at) }}</div>
             <div
               class="status d_inline"
-              :class="fbAccountInfo.status ? 'active' : null"
-            >{{ fbAccountInfo.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
+              :class="accountFB.status ? 'active' : null"
+            >{{ accountFB.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
           </div>
           <div class="more position_absolute">
             <icon-base
@@ -92,8 +94,8 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    fbAccountInfo() {
-      return this.$store.getters.userInfo;
+    accountsFB() {
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
@@ -105,13 +107,12 @@ export default {
   },
   methods: {
     formatDate(date) {
-      const dateTime = new Date(date),
-        hour = String(dateTime.getHours()).padStart(2, 0),
-        min = String(dateTime.getMinutes()).padStart(2, 0),
-        day = String(dateTime.getDate()).padStart(2, 0),
-        month = String(dateTime.getMonth() + 1).padStart(2, 0),
-        year = dateTime.getFullYear();
-
+      const dateTime = new Date(date);
+      const hour = String(dateTime.getHours()).padStart(2, 0);
+      const min = String(dateTime.getMinutes()).padStart(2, 0);
+      const day = String(dateTime.getDate()).padStart(2, 0);
+      const month = String(dateTime.getMonth() + 1).padStart(2, 0);
+      const year = dateTime.getFullYear();
       return `${hour}:${min} ngày ${day}/${month}/${year}`;
     },
     closePopupActiveAccount() {
