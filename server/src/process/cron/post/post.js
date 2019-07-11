@@ -2,6 +2,7 @@ const CronJob = require( "cron" ).CronJob;
 const PostSchedule = require( "../../../models/post/PostSchedule.model" );
 const Post = require( "../../../models/post/Post.model" );
 const Facebook = require( "../../../models/Facebook.model" );
+const LogPostNow = require( "../../../models/LogPostNow.model" );
 
 // Facebook Service Core
 const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/array" ),
@@ -69,7 +70,8 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
 
     await Promise.all( removeObjectDuplicates( listPostSchedule, "_id" ).map( async ( postSchedule ) => {
       const postInfo = await Post.findOne( { "_id": postSchedule.postID } ).lean(),
-        facebookInfo = await Facebook.findOne( { "_id": postSchedule.facebookID } ).lean();
+        facebookInfo = await Facebook.findOne( { "_id": postSchedule.facebookID } ).lean(),
+        logPostNow = await LogPostNow.findOne( { "_account": postInfo._account } );
 
       console.log( "\x1b[32m%s\x1b[0m", "SUCCESS:", "Passed! Starting schedule to RAM of system..." );
 
@@ -93,13 +95,44 @@ const { removeObjectDuplicates } = require( "../../../helpers/utils/functions/ar
       if ( resFacebookResponse ) {
         // Handle when post feed successfully
         if ( resFacebookResponse.error.code === 200 ) {
+          logPostNow.total += 1;
+          logPostNow.content.push( {
+            // eslint-disable-next-line no-nested-ternary
+            "message": `Sự kiện đăng trên ${ feed.location.type === 0 ? `trang cá nhân "${ facebookInfo.userInfo.name }"` : feed.location.type === 1 ? `nhóm ( ID: ${ feed.location.value } )` : `trang ( ID: ${ feed.location.value } )` } với bài viết có tiêu đề "${ postInfo.title }" thành công có ID: ${resFacebookResponse.results.postID}!`,
+            "createAt": new Date()
+          } );
+          await logPostNow.save();
+
           console.log( `post To Facebook Success: ${resFacebookResponse.results.postID}` );
         } else if ( resFacebookResponse.error.code === 8188 ) {
+          logPostNow.total += 1;
+          logPostNow.content.push( {
+            // eslint-disable-next-line no-nested-ternary
+            "message": `[Facebook] ${resFacebookResponse.error.text}`,
+            "createAt": new Date()
+          } );
+          await logPostNow.save();
+
           console.log( `Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :)) Bọn Facebook trả về là: ${resFacebookResponse.error.text}` );
         } else if ( resFacebookResponse.error.code === 1037 ) {
-          console.log( `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.` );
+          logPostNow.total += 1;
+          logPostNow.content.push( {
+            // eslint-disable-next-line no-nested-ternary
+            "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động bài đăng ngay.`,
+            "createAt": new Date()
+          } );
+          await logPostNow.save();
+          console.log( `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động bài đăng ngay.` );
           console.log( `Have error: ${resFacebookResponse.error.text}` );
         } else {
+          logPostNow.total += 1;
+          logPostNow.content.push( {
+            // eslint-disable-next-line no-nested-ternary
+            "message": `Sự kiện đăng trên ${ feed.location.type === 0 ? `trang cá nhân "${ facebookInfo.userInfo.name }"` : feed.location.type === 1 ? `nhóm ( ID: ${ feed.location.value } )` : `trang ( ID: ${ feed.location.value } )` } với bài viết có tiêu đề "${ postInfo.title }" thất bại!`,
+            "createAt": new Date()
+          } );
+          await logPostNow.save();
+
           console.log( `post To Facebook Fail: ${resFacebookResponse.results.postID}` );
         }
       }

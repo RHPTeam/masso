@@ -13,6 +13,7 @@ const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
+const LogPostNow = require( "../../models/LogPostNow.model" );
 
 const request = require( "axios" );
 const { logUserAction } = require( "../../microservices/synchronize/log.service" );
@@ -274,15 +275,23 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", resData ) );
   },
   "createPostSchedule": async ( req, res ) => {
+    let date = new Date( req.body.started_at ),
+      startAt = date.setMinutes(
+        date.getMinutes() - req.body.break_point
+      ),
+      logPostNow = null;
+
     const findPost = await Post.findOne( {
       "_id": req.query._postId,
       "_account": req.uid
     } ).lean();
 
-    let date = new Date( req.body.started_at ),
-      startAt = date.setMinutes(
-        date.getMinutes() - req.body.break_point
-      );
+    logPostNow = await LogPostNow.findOne( { "_account": req.uid } );
+
+    if ( logPostNow === null ) {
+      logPostNow = await new LogPostNow( { "_account": req.uid } );
+    }
+
 
     // check break point
     if ( req.body.break_point < 5 ) {
@@ -313,6 +322,13 @@ module.exports = {
           // eslint-disable-next-line camelcase
           newPostSchedule.started_at = startAt;
           await newPostSchedule.save();
+
+          logPostNow.total += 1;
+          logPostNow.content.push( {
+            "message": `Khởi tạo sự kiện đăng ngay trên trang cá nhân "${ findAccountFacebook.userInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+            "createAt": new Date()
+          } );
+          await logPostNow.save();
 
           /** ********************** Log Action Of User For Admin ****************************** **/
           const objectLog = {
@@ -359,6 +375,13 @@ module.exports = {
       // eslint-disable-next-line camelcase
       newPostSchedule.started_at = startAt;
       await newPostSchedule.save();
+
+      logPostNow.total += 1;
+      logPostNow.content.push( {
+        "message": `Khởi tạo sự kiện đăng ngay trên nhóm "${ groupInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+        "createAt": new Date()
+      } );
+      await logPostNow.save();
     }
     if ( req.body._fanpageId ) {
       const pageInfo = await PageFacebook.findOne( { "pageId": req.body._fanpageId, "_account": req.uid } ).lean();
@@ -378,6 +401,13 @@ module.exports = {
       // eslint-disable-next-line camelcase
       newPostSchedule.started_at = startAt;
       await newPostSchedule.save();
+
+      logPostNow.total += 1;
+      logPostNow.content.push( {
+        "message": `Khởi tạo sự kiện đăng ngay trên fanpage "${ pageInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+        "createAt": new Date()
+      } );
+      await logPostNow.save();
     }
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
