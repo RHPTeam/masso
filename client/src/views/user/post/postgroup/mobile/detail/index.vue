@@ -14,13 +14,13 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <p class="name--modal mb_0 m_auto">Nhóm A</p>
+        <p class="name--modal mb_0 m_auto">{{ postGroupDetail.title }}</p>
         <div class="active mr_2" @click="showPopupDelete">Xóa</div>
         <!-- <div class="active mr_2">
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus />
           </icon-base>
-        </div> -->
+        </div>-->
       </div>
       <!-- End: Header - Search -->
       <!-- Start: Search Near -->
@@ -37,7 +37,7 @@
       <!-- Start: Main - Search -->
       <div class="items--body px_2">
         <!-- Start: List Content -->
-        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+        <vue-perfect-scrollbar class="infinite">
           <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
           <app-item :item="item"/>
         </div>
@@ -63,31 +63,39 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div
+                class="item--content d_flex align_items_center py_2"
+                v-for="(fanpage, index) in postGroupDetailPage"
+                :key="`f+${index}`"
+              >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
-                    <!-- <img alt="avatar" width="30px" height="30px"> -->
+                    <img alt="avatar" width="30px" height="30px" :src="fanpage.profile_picture" />
                   </div>
-                  <span class="col col--name-text">Fanpage</span>
+                  <span class="col col--name-text">{{ fanpage.name }}</span>
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" />
+                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
                   </label>
                 </div>
               </div>
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div
+                class="item--content d_flex align_items_center py_2"
+                v-for="(group, index) in postGroupDetailGroup"
+                :key="`g+${index}`"
+              >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
-                    <!-- <img alt="avatar" width="30px" height="30px"> -->
+                    <img alt="avatar" width="30px" height="30px" :src="group.profile_picture" />
                   </div>
-                  <span class="col col--name-text">Group</span>
+                  <span class="col col--name-text">{{ group.name }}</span>
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
                   </label>
                 </div>
               </div>
@@ -99,7 +107,7 @@
         <!-- Start: List Content -->
       </div>
       <div class="items--footer d_flex align_items_center p_2">
-        <div class="cancel mr_auto">Hủy</div>
+        <div class="cancel mr_auto" @click="showDeletePopup">Xóa khỏi nhóm</div>
         <div class="add ml_auto" @click="showPopupAddToGroup">Thêm vào nhóm</div>
       </div>
       <!-- End: Main - Search -->
@@ -114,7 +122,7 @@
     <!-- End: Transition -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
-      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
+      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true" />
     </transition>
     <!-- End: Popup delete -->
   </div>
@@ -128,35 +136,62 @@ export default {
     AddToGroup,
     PopupDelete
   },
-  computed: {},
   data() {
     return {
+      targetDeletePopupData: {},
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowAddToGroup: false,
       isShowPopupDelete: false
     };
   },
-  methods: {
-    async loadMore() {
-      if (this.isLoadingData === true) {
-        if (this.keyword !== "") {
-          if (this.currentPage > this.numberPageCurrent) {
-            return false;
-          } else {
-            this.isLoadingData = false;
-
-            this.currentPage += 1;
-
-            await this.$store.dispatch("searchPostsFacebookByKey", {
-              keyword: this.keyword,
-              size: this.maxPerPage,
-              page: this.currentPage
-            });
-            this.isLoadingData = true;
-          }
-        }
+  computed: {
+    postGroupDetail() {
+      return this.$store.getters.postGroupDetail;
+    },
+    postGroupDetailPage() {
+      // return this.postGroupDetail._pages.filter( ( item ) => {
+      //   return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      // } );
+      return this.postGroupDetail._pages;
+    },
+    postGroupDetailGroup() {
+      // return this.postGroupDetail._groups.filter( ( item ) => {
+      //   return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      // } );
+      return this.postGroupDetail._groups;
+    },
+    postGroupDetailStatus() {
+      return this.$store.getters.postGroupDetailStatus;
+    },
+    postGroupGroupsSelected: {
+      get() {
+        return this.$store.getters.postGroupGroupsSelected;
+      },
+      set(val) {
+        this.$store.dispatch("postGroupGroupsSelected", val);
       }
+    },
+    postGroupPagesSelected: {
+      get() {
+        return this.$store.getters.postGroupPagesSelected;
+      },
+      set(val) {
+        this.$store.dispatch("postGroupPagesSelected", val);
+      }
+    }
+  },
+  methods: {
+    showDeletePopup() {
+      this.targetDeletePopupData = {
+        id: this.postGroupDetail._id,
+        _pages: this.postGroupPagesSelected,
+        _groups: this.postGroupGroupsSelected
+      };
+      this.$store.dispatch(
+        "deletePagesNGroupsFromPostGroup",
+        this.targetDeletePopupData
+      );
     },
     showPopupFanpage() {
       this.isShowPopupFanpage = true;
@@ -220,6 +255,11 @@ export default {
       }
     }
     .items--body {
+      .avatar {
+        img {
+          border-radius: 100%;
+        }
+      }
       .item {
         .tab {
           text-align: center;
@@ -336,12 +376,12 @@ export default {
 }
 
 .popup-enter-to {
-  transition: transform 0.2s;
+  transition: transform 0.5s;
   transform: translateY(0);
 }
 
 .popup-leave-to {
-  transition: transform 0.2s;
+  transition: transform 0.5s;
   transform: translateY(100%);
 }
 </style>

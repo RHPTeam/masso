@@ -79,8 +79,8 @@ export default {
   components: {
     DeleteAccountPopup,
     UpdateAccountByCookie,
-    PopupAlertAccountExist,
-    UpgradeProPopup
+    // PopupAlertAccountExist,
+    // UpgradeProPopup
   },
   data() {
     return {
@@ -91,14 +91,15 @@ export default {
     };
   },
   computed: {
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    accountsFB() {
-      return this.$store.getters.accountsFB;
-    }
   },
   async created() {
+    await this.$store.dispatch( "getAccountsFB" );
     const info = this.$store.getters.userInfo;
     if (Object.entries(info).length === 0 && info.constructor === Object) {
       const fbAccountId = this.$route.params.fbAccountId;
