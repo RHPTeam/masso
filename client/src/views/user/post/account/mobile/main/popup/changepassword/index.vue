@@ -14,7 +14,9 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
-      <div class="active mr_3">Xong</div>
+      <div class="button--done active mr_3">
+        <div v-if="isCompare" @click="confirmChangedPassword">Xong</div>
+      </div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
@@ -23,13 +25,19 @@
         <!-- Start: Password -->
         <input
           v-model="reset.newPassword"
-          type="text"
+          type="password"
           class="form--input"
           placeholder="Nhập mật khẩu"
         />
         <!-- End: Password -->
         <!-- Start: Error -->
-        <p class="error">Mày ngu à mà nhập sai!</p>
+        <p
+          class="error"
+          :class="{
+              errors: statusClassError.newPassword,
+              passed: statusClassPassed.newPassword
+            }"
+        >{{ errorText.newPassword }}</p>
         <!-- End: Error -->
       </div>
       <div class="item">
@@ -37,19 +45,22 @@
         <!-- Start: Password -->
         <input
           v-model="reset.confirmNewPassword"
-          type="text"
+          type="password"
           class="form--input"
           placeholder="Nhập lại mật khẩu"
         />
         <!-- End: Password -->
         <!-- Start: Error -->
-        <p class="error">Mày ngu à mà nhập không trùng nhau.</p>
+        <p
+          class="error"
+          :class="{
+              errors: statusClassError.confirmNewPassword,
+              passed: statusClassPassed.confirmNewPassword
+            }"
+        >{{ errorText.confirmNewPassword }}</p>
         <!-- End: Error -->
       </div>
     </div>
-    <!-- Start: Action -->
-    <div @click="confirmChangedPassword" class="text_center action mx_3">Tiếp tục</div>
-    <!-- End: Action -->
   </div>
 </template>
 
@@ -57,6 +68,18 @@
 export default {
   data() {
     return {
+      errorText: {
+        newPassword: "",
+        confirmNewPassword: ""
+      },
+      statusClassError: {
+        newPassword: false,
+        confirmNewPassword: false
+      },
+      statusClassPassed: {
+        newPassword: false,
+        confirmNewPassword: false
+      },
       reset: {
         newPassword: "",
         confirmNewPassword: ""
@@ -64,9 +87,46 @@ export default {
       isCompare: false
     };
   },
-  computer: {
+  computed: {
     verifyPasswordToken() {
       return this.$store.getters.verifyPasswordToken;
+    }
+  },
+  watch: {
+    "reset.newPassword"(value) {
+      this.isCompare = false;
+      this.errorText.newPassword = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
+      this.statusClassError.newPassword = true;
+      this.statusClassPassed.newPassword = false;
+      if (value.length > 5 && value.length < 20) {
+        this.isCompare = false;
+        this.errorText.newPassword = "";
+        this.statusClassError.newPassword = false;
+        this.statusClassPassed.newPassword = true;
+      } else if (value.length === 0) {
+        this.isCompare = false;
+        this.errorText.newPassword = "";
+        this.statusClassError.newPassword = false;
+        this.statusClassPassed.newPassword = false;
+      }
+    },
+    "reset.confirmNewPassword"(value) {
+      this.isCompare = false;
+      this.errorText.confirmNewPassword = "Mật khẩu không trùng nhau!";
+      this.statusClassError.confirmNewPassword = true;
+      this.statusClassPassed.confirmNewPassword = false;
+      if (value === this.reset.newPassword) {
+        this.isCompare = true;
+        this.errorText.confirmNewPassword = "";
+        this.statusClassError.confirmNewPassword = false;
+        this.statusClassPassed.confirmNewPassword = true;
+        this.showPopupPasswordChange = true;
+      } else if (value.length === 0) {
+        this.isCompare = false;
+        this.errorText.confirmNewPassword = "";
+        this.statusClassError.confirmNewPassword = false;
+        this.statusClassPassed.confirmNewPassword = false;
+      }
     }
   },
   methods: {
@@ -74,18 +134,19 @@ export default {
       this.$emit("closeChangePassword", false);
     },
     async confirmChangedPassword() {
-      console.log({
-        token: this.verifyPasswordToken,
-        newPassword: this.reset.newPassword
-      });
       this.isComparePassword();
       if (this.isCompare) {
-        await this.$store.dispatch("changePasswordByVerifyToken", {
+        const passwordSender = {
           token: this.verifyPasswordToken,
           newPassword: this.reset.newPassword
-        });
+        };
+        await this.$store.dispatch(
+          "changePasswordByVerifyToken",
+          passwordSender
+        );
+
         if (this.$store.getters.status === "success") {
-          this.showActionInfo();
+          this.closeChangePassword();
         }
       }
     },
@@ -152,6 +213,12 @@ export default {
     border: 0;
     display: block;
     border-radius: 0.625rem;
+  }
+}
+
+.button {
+  &--done {
+    width: 2rem;
   }
 }
 </style>

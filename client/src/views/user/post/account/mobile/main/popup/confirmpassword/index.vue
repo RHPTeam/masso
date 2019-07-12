@@ -21,30 +21,40 @@
         <p class="mb_0 p_2 text">Vì lý do bảo mật. Vui lòng nhập lại mật khẩu để tiếp tục.</p>
         <!-- Start: Password -->
         <div class="m_2">
-          <input type="text" class="form--input" placeholder="Nhập mật khẩu" v-model="password" />
+          <input type="password" class="form--input" placeholder="Nhập mật khẩu" v-model="password" />
         </div>
         <!-- End: Password -->
       </div>
       <!-- Start: Error -->
-      <p class="error">Mày ngu à mà nhập sai!</p>
+      <p
+        :class="{
+              error: statusClassError.password,
+              passed: statusClassPassed.password
+            }"
+      >{{ errorText }}</p>
+      <p v-if="isClickedSubmit && !status" class="error">{{textAuth}}</p>
       <!-- End: Error -->
     </div>
     <!-- Start: Action -->
-    <div class="text_center action mx_3" @click="confirmPassword">Tiếp tục</div>
+    <div
+      class="button--action disabled text_center mx_3"
+      :class="{
+              disabled: statusClassError.password,
+              enabled: statusClassPassed.password
+            }"
+      @click="confirmPassword"
+    >Tiếp tục</div>
     <!-- End: Action -->
     <!-- Start: Popup -->
     <transition name="popup--mobile">
-      <popup-change-name
-        v-if="isShowChangeName === true"
-        @closeChangeName="isShowChangeName = $event"
-      />
+      <popup-change-name v-if="isShowChangeName === true" @closeChangeName="closeShowChangeName()" />
       <popup-change-password
         v-if="isShowChangePassword === true"
-        @closeChangePassword="isShowChangePassword = $event"
+        @closeChangePassword="closeShowChangePassword()"
       />
       <popup-change-phone
         v-if="isShowChangePhone === true"
-        @closeChangePhone="isShowChangePhone = $event"
+        @closeChangePhone="closeShowChangePhone()"
       />
     </transition>
     <!-- End: Popup -->
@@ -66,7 +76,15 @@ export default {
       isShowChangeName: false,
       isShowChangePassword: false,
       isShowChangePhone: false,
-      password: ""
+      password: "",
+      errorText: "",
+      statusClassError: {
+        password: false
+      },
+      statusClassPassed: {
+        password: false
+      },
+      isClickedSubmit: false
     };
   },
   computed: {
@@ -75,6 +93,30 @@ export default {
     },
     verifyPasswordToken() {
       return this.$store.getters.verifyPasswordToken;
+    },
+    status() {
+      return this.$store.getters.status;
+    },
+    textAuth() {
+      return this.$store.getters.textAuth;
+    }
+  },
+  watch: {
+    password(value) {
+      this.errorText = "Mật khẩu nằm trong khoảng 6-20 kí tự!";
+      this.statusClassError.password = true;
+      this.statusClassPassed.password = false;
+      if (value.length > 5 && value.length < 20) {
+        this.errorText = "";
+        this.statusClassError.password = false;
+        this.statusClassPassed.password = true;
+        this.isClickedSubmit = false;
+      } else if (value.length === 0) {
+        this.errorText = "";
+        this.statusClassError.password = false;
+        this.statusClassPassed.password = false;
+        this.isClickedSubmit = false;
+      }
     }
   },
   methods: {
@@ -93,10 +135,24 @@ export default {
       }
     },
     async confirmPassword() {
+      this.isClickedSubmit = true;
       await this.$store.dispatch("verifyPassword", this.password);
-      if (this.$store.getters.status === "success") {
+      if (this.status === "success") {
+        this.isClickedSubmit = false;
         this.showActionInfo();
       }
+    },
+    closeShowChangeName() {
+      this.isShowChangeName = false;
+      this.closeConfirmPassword();
+    },
+    closeShowChangePassword() {
+      this.isShowChangePhone = false;
+      this.closeConfirmPassword();
+    },
+    closeShowChangePhone() {
+      this.isShowChangePassword = false;
+      this.closeConfirmPassword();
     }
   }
 };
@@ -160,13 +216,21 @@ export default {
       margin: 0.375rem 0;
     }
   }
-  .action {
+
+  .button--action {
     font-size: 1rem;
-    background: green;
     padding: 0.6rem 0;
     border: 0;
     display: block;
     border-radius: 0.625rem;
+  }
+  .enabled {
+    background: green !important;
+    pointer-events: auto !important;
+  }
+  .disabled {
+    background: gray;
+    pointer-events: none;
   }
 }
 </style>

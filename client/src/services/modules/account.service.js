@@ -64,7 +64,7 @@ export default {
     return Api().patch('users/change-password?_mobile=true', password);
   },
   // Change password using token on mobile
-  changePasswordByVerifyToken(){
+  changePasswordByVerifyToken(password){
     return Api().patch('users/change-password?_mobile=true&_password=true', password);
   }
 };

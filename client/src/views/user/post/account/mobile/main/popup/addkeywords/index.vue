@@ -14,16 +14,20 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thêm từ khóa</p>
-      <div @click="confirmAddKeywords" class="active mr_3">Xong</div>
+      <div class="button--done active mr_3">
+        <div v-if="keyword.length > 0" @click="confirmAddKeywords" >
+          Xong
+        </div>
+      </div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
       <div class="content">
         <p class="mb_2 text">Nhập từ khóa</p>
-        <!-- Start: Password -->
+        <!-- Start: Keyword -->
         <input v-model="keyword" type="text" class="form--input" placeholder="Nhập từ khóa" />
-        <!-- End: Password -->
-        <p class="error">Mày ngu à mà nhập sai!</p>
+        <!-- End: Keyword -->
+        <!-- <p class="error">Mày ngu à mà nhập sai!</p> -->
       </div>
     </div>
   </div>
@@ -90,6 +94,12 @@ export default {
       color: #e01313;
       margin: 0.375rem 0;
     }
+  }
+}
+
+.button {
+  &--done {
+    width: 2rem;
   }
 }
 </style>
