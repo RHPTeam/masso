@@ -42,8 +42,9 @@ import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 
 /**
- * Store for Market
+ * Store for Agency
  */
+import AgencyStore from "./modules/agency.store";
 
       //  ---------- POST
 
@@ -87,9 +88,9 @@ export default new Vuex.Store( {
     PostGroupStore,
     GroupBlock,
     /**
-     * Store for Market
+     * Store for Agency
      */
-
+    AgencyStore
     //  ---------- POST
   }
 } );

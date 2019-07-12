@@ -337,3 +337,13 @@ $primary-color: #ffb94a;
     background-color: rgba(0, 0, 0, 0.2);
   }
 }
+
+
+// THEME CUSTOM DARK/LIGHT
+.mx-datepicker[data-theme="dark"] {
+  .mx-input {
+    background-color: #2f3136;
+    border: 1px solid #444;
+    color: #F7F7F7;
+  }
+}

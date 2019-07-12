@@ -408,9 +408,9 @@
         <div class="item--button mr_3" @click="savePost">
           Lưu
         </div>
-<!--        <div class="item&#45;&#45;button" @click="saveAndPostNow">-->
-<!--          Lưu & Đăng ngay-->
-<!--        </div>-->
+        <div class="item--button d_none" @click="saveAndPostNow">
+          Lưu & Đăng ngay
+        </div>
       </div>
 
     </div>

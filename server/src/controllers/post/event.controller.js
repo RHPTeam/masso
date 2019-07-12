@@ -13,6 +13,8 @@ const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog"
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" );
+const { logUserAction } = require( "../../microservices/synchronize/log.service" );
+
 
 const jsonResponse = require( "../../configs/response" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
@@ -24,7 +26,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -42,7 +44,7 @@ module.exports = {
         }
       } ) );
     } else if ( req.query._size && req.query._page ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -92,9 +94,7 @@ module.exports = {
   },
   "create": async ( req, res ) => {
     // Check validator
-    if ( req.body.title === "" ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.type_event === undefined ) {
+    if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [1: Auto, 0: Custom]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( req.body.post_category === undefined && req.body.post_custom === undefined ) {
@@ -103,8 +103,6 @@ module.exports = {
         return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
       } else if ( req.body.started_at === undefined ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
-      } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -119,10 +117,12 @@ module.exports = {
     req.body.status = findCampaign.status;
     req.body._account = req.uid;
     // eslint-disable-next-line one-var
-    const newEvent = await new Event( req.body );
+    const newEvent = new Event( req.body );
 
     // Create to event schedule, Check follow condition
-    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+    if ( newEvent.status === true ) {
+      await EventScheduleController.create( newEvent.toObject(), findCampaign._id );
+    }
 
     await newEvent.save();
     findCampaign._events.push( newEvent._id );
@@ -132,14 +132,45 @@ module.exports = {
     } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng tạo sự kiện "${newEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": newEvent._id
+              },
+              "status": 0
+            }
+          },
+          {
+            "logs": {
+              "content": `Người dùng cài đặt sự kiện "${newEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${newEvent.break_point} được đăng trên ${ newEvent.timeline.length > 0 ? "profile cá nhân với ID:" + newEvent.timeline.toString() : "" } ${newEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + newEvent.target_category : ""} ${newEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + newEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ newEvent.started_at }`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": newEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   },
   "update": async ( req, res ) => {
     // Check validator
-    if ( req.body.title === "" ) {
-      return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề sự kiện không được bỏ trống!" } } );
-    } else if ( req.body.type_event === undefined ) {
+    if ( req.body.type_event === undefined ) {
       return res.status( 403 ).json( { "status": "fail", "data": { "type_event": "Loại sự kiện không được bỏ trống! [0: Custom, 1: Auto]" } } );
     } else if ( req.body.type_event === 0 ) {
       if ( !req.body.post_category && req.body.post_custom.length === 0 ) {
@@ -148,8 +179,6 @@ module.exports = {
         return res.status( 403 ).json( { "status": "fail", "data": { "break_point": "Thời gian chờ tối thiếu 5 phút! Điều này giúp tài khoản của bạn an toàn hơn!" } } );
       } else if ( !req.body.started_at ) {
         return res.status( 403 ).json( { "status": "fail", "data": { "started_at": "Thời gian bắt đầu chưa được thiết lập!" } } );
-      } else if ( Date.now() > req.body.started_at ) {
-        return res.status( 404 ).json( { "status": "error", "message": "Thời gian bắt đầu bạn thiết lập đã ở trong quá khứ!" } );
       }
     }
 
@@ -176,7 +205,7 @@ module.exports = {
       }
     } );
     req.body._id = req.query._eventId;
-    await EventScheduleController.create( req.body, findCampaign._id, req.uid );
+    await EventScheduleController.create( req.body, findCampaign._id );
 
     // Handle logs campaign
     findCampaign.logs.total += 1;
@@ -202,6 +231,41 @@ module.exports = {
       // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng cập nhật sự kiện "${findEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          },
+          {
+            "logs": {
+              "content": `Người dùng cài đặt sự kiện "${findEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${findEvent.break_point} được đăng trên ${ findEvent.timeline.length > 0 ? "profile cá nhân với ID:" + findEvent.timeline.toString() : "" } ${findEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + findEvent.target_category : ""} ${findEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + findEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ findEvent.started_at }`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
+
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();
@@ -226,7 +290,11 @@ module.exports = {
     await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
       deletedSchedule( eventSchedule, __dirname );
     } ) );
-    await EventSchedule.deleteMany( { "_event": req.query._eventId } );
+    await EventSchedule.deleteMany( { "_event": req.query._eventId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
 
     // delete event of campain
     findCampaign._events = findCampaign._events.filter( ( event ) => event.toString() !== req.query._eventId );
@@ -236,6 +304,29 @@ module.exports = {
     } );
     findCampaign.logs.total += 1;
     await findCampaign.save();
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [
+          {
+            "logs": {
+              "content": `Người dùng xóa sự kiện "${findEvent.title}" ở chiến dịch "${findCampaign.title}" thành công.`,
+              "createdAt": new Date(),
+              "info": {
+                "campaignId": findCampaign._id,
+                "eventId": findEvent._id
+              },
+              "status": 0
+            }
+          } ],
+        "_account": req.uid
+      },
+
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
 
     await Event.findByIdAndDelete( req.query._eventId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

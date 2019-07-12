@@ -5,28 +5,29 @@ const { roleSync } = require( "../microservices/synchronize/role.service" );
 
 // Other process
 require( "./cron/post/campaign" );
-require( "./cron/post/post" );
+// require( "./cron/post/post" );
 // const chatAuto = require( "./cron/chat/index" );
 
 ( async () => {
   const roleList = await Role.find( {} ),
-    accountFacebookList = await Facebook.find( {} );
-
+    accountFacebookList = await Facebook.find( {} ),
+    resRole = await roleSync( "roles/sync" );
 
   // Check Role First Time Server running
-  if ( roleList.length === undefined || roleList.length === 0 ) {
+  if ( resRole.data.data.length > roleList.length ) {
     console.log( "Start sync role" );
-
-    const resRole = await roleSync( "roles/sync" );
 
     // Catch
     if ( resRole.data.status !== "success" ) {
       console.log( resRole.data );
     }
+    resRole.data.data.map( async ( role ) => {
+      let findRole = await Role.findOne( { "level": role.level } );
 
-    Role.insertMany( resRole.data.data, ( error ) => {
-      if ( error ) {
-        console.log( error );
+      if ( !findRole ) {
+        let newRole = await new Role( role );
+
+        await newRole.save();
       }
     } );
 

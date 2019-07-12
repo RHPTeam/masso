@@ -1,5 +1,6 @@
 <template>
   <div id="rcalender" class="rc rc--ltr" :data-theme="theme">
+    <!-- Start: Toolbar -->
     <div class="rc--toolbar rc--header-toolbar">
       <!-- Start: Month View Toolbar -->
       <div class="rc--toolbar-action" v-if="view === 'month'">
@@ -61,7 +62,15 @@
       </div>
       <!-- End: Week View Toolbar -->
     </div>
+    <!-- End: Toolbar -->
+    <!-- Start: View -->
     <div class="rc--view-container">
+      <div class="rc--view-overlay" v-if="!disabledView">
+        <div class="rc--notification">
+          Chiến dịch của bạn hiện tại đã ngừng hoạt động. Khi bạn khởi động lại chiến dịch, hệ thống sẽ chỉ đăng các sự kiện ở thời điểm hiện tại và tương lai.
+          Các sự kiện được thiết lập trong quá khứ sẽ bị bỏ qua.
+        </div>
+      </div>
       <rc-day-grid-month-view
         v-if="view === 'month'"
         :events="events"
@@ -88,6 +97,7 @@
         @eventClick="eventClick($event)"
       ></rc-list-week-view>
     </div>
+    <!-- End: View -->
   </div>
 </template>
 

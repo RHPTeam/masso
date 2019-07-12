@@ -6,14 +6,16 @@
  * team: BE-RHP
  */
 const Post = require( "../../models/post/Post.model" );
+const Event = require( "../../models/post/Event.model" );
+const EventSchedule = require( "../../models/post/EventSchedule.model" );
 const PostCategory = require( "../../models/post/PostCategory.model" );
 const PostSchedule = require( "../../models/post/PostSchedule.model" );
 const Facebook = require( "../../models/Facebook.model" );
 const request = require( "axios" );
+const { logUserAction } = require( "../../microservices/synchronize/log.service" );
 
 const jsonResponse = require( "../../configs/response" );
-const dictionary = require( "../../configs/dictionaries" ),
-  ScheduleService = require( "node-schedule" );
+const dictionary = require( "../../configs/dictionaries" );
 
 module.exports = {
   "index": async ( req, res ) => {
@@ -68,7 +70,9 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v" ).populate( { "path": "_categories", "select": "title" } ).lean();
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "create": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( {
@@ -177,14 +181,8 @@ module.exports = {
         .json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
     }
 
-    const findPost = await Post.findOne( {
-        "_id": req.query._postId,
-        "_account": req.uid
-      } ),
-      listPostOldSchedule = await PostSchedule.find( {
-        "_post": req.query._postId,
-        "_account": req.uid
-      } ).lean();
+    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } ),
+      eventInfoList = await Event.find( { "post_custom": req.query._postId } );
 
     // Check catch when delete campaign
     if ( !findPost ) {
@@ -220,24 +218,25 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    /**
-     * Delete cron schedule
-     */
-    await Promise.all(
-      listPostOldSchedule.map( ( postSchedule ) => {
-        if ( ScheduleService.scheduleJob[ postSchedule._id ] ) {
-          ScheduleService.scheduleJob[ `rhp${postSchedule._id}` ].cancel();
-        }
-      } )
-    );
-    await PostSchedule.deleteMany( { "_post": req.query._postId } );
-
     await Promise.all( findPost._categories.map( async ( category ) => {
       const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
       categoryInfo.totalPosts -= 1;
       categoryInfo.save();
     } ) );
+
+    // Remove a post exist in a campaign
+    await Promise.all( eventInfoList.map( async ( event ) => {
+      event.post_custom.pull( req.query._postId );
+      await event.save();
+    } ) );
+
+    // Remove a post from eventschedule
+    await EventSchedule.deleteMany( { "postID": req.query._postId }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xóa [EventSchedule] thất bại!" );
+      }
+    } );
 
     // Remove post
     await Post.findOneAndRemove( { "_id": req.query._postId } );
@@ -294,6 +293,11 @@ module.exports = {
       } );
     }
 
+    // Check if feed contain text and scrape link
+    if ( findPost.scrape && findPost.scrape.length > 0 && photos.length > 0 ) {
+      findPost.scrape = "";
+    }
+
     // Define object save to post schedule collection
     objectFeed = {
       "activity": {
@@ -310,7 +314,7 @@ module.exports = {
       },
       "photos": photos && photos.length > 0 ? photos : [],
       "place": findPost.place ? findPost.place.id : "",
-      "scrape": findPost.scrape ? findPost.scrape : "",
+      "scrape": findPost.scrape && findPost.scrape.length > 0 ? findPost.scrape : "",
       "tags": findPost.tags ? findPost.tags.map( ( tag ) => tag.uid ) : ""
     };
 
@@ -342,6 +346,30 @@ module.exports = {
           // eslint-disable-next-line camelcase
           newPostSchedule.started_at = startAt;
           await newPostSchedule.save();
+
+          /** ********************** Log Action Of User For Admin ****************************** **/
+          const objectLog = {
+              "data": [
+                {
+                  "logs": {
+                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${findPost._id} trên tài khoản facebook có ID: ${facebook} ${req.body.break_point ? "thời gian giữa các lần gửi là: " + req.body.break_point + " phút " : "" } được bắt đầu lúc ${newPostSchedule.started_at}`,
+                    "createdAt": new Date(),
+                    "info": {
+                      "postNowId": newPostSchedule._id
+                    },
+                    "status": 0
+                  }
+                } ],
+              "_account": req.uid
+            },
+
+            resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+          if ( resLogSync.data.status !== "success" ) {
+            return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+          }
+          /** **************************************************************************** **/
+
           return newPostSchedule;
         } )
       );

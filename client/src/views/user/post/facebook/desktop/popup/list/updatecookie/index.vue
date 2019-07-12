@@ -32,16 +32,22 @@
           <div class="modal--body">
             <div class="modal--title text_center">Cập nhật tài khoản</div>
             <div class="modal--desc">
-              <span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản. Xem hướng dẫn chi tiết </span>
+              <span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.</span>
+              <!--<span>Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản. Xem hướng dẫn chi tiết </span>
               <a
                 class="link--here"
                 target="_blank"
                 href="http://localhost:8080/#/help"
               >tại đây</a>
-              <span>.</span>
+              <span>.</span>-->
             </div>
             <div class="modal--error mb_3">
-              <span class="text_danger" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === false">Mã kích hoạt facebook không đúng định dạng!</span>
+              <span class="text_danger"
+                    v-if="cookie.length > 0 && isStatusCookieFacebookFormat === 1"
+              >Mã kích hoạt không đúng định dạng!</span>
+              <span class="text_danger"
+                    v-if="cookie.length > 0 && isStatusCookieFacebookFormat === 2"
+              >Mã kích hoạt không phải của tài khoản này!</span>
             </div>
             <textarea
               placeholder="Nhập mã kích hoạt"
@@ -55,7 +61,7 @@
             class="modal--footer d_flex justify_content_between align_items_center"
           >
             <button class="btn-skip" @click="closeAddPopup">HỦY</button>
-            <button class="btn-add" @click="updateCookie" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === true">
+            <button class="btn-add" @click="updateCookie" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === 3">
               XONG
             </button>
           </div>
@@ -69,13 +75,13 @@
 <script>
 import StringFunction from "@/utils/functions/string";
 export default {
-  props: ["item", "subBread", "nameBread"],
+  props: [ "item" ],
   data() {
     return {
       updateFbStatus: "",
       cookie: "",
       isShowAlert: false,
-      isStatusCookieFacebookFormat: false
+      isStatusCookieFacebookFormat: 0
     };
   },
   computed: {
@@ -88,7 +94,18 @@ export default {
   },
   watch: {
     cookie( newValue ) {
-      this.isStatusCookieFacebookFormat = !!(newValue.length > 0 && newValue.includes("sb=") && newValue.includes("datr=") && newValue.includes("c_user="));
+      const c_user = StringFunction.findSubString( newValue, "c_user=", ";" );
+      if ( newValue.length > 0 && newValue.includes("sb=") &&
+        newValue.includes("datr=") && newValue.includes("c_user=")
+      ) {
+        if ( c_user === this.item.userInfo.id ) {
+          this.isStatusCookieFacebookFormat = 3; // valid cookie
+        } else {
+          this.isStatusCookieFacebookFormat = 2; // not match c_user
+        }
+      } else {
+        this.isStatusCookieFacebookFormat = 1; // invalid cookie
+      }
     }
   },
   methods: {
@@ -96,6 +113,7 @@ export default {
       this.$emit("closeAddPopup", false);
     },
     async updateCookie() {
+      this.updateFbStatus = "loading";
       const newUserId = StringFunction.findSubString(
         this.cookie,
         "c_user=",
@@ -108,9 +126,11 @@ export default {
           cookie: this.cookie
         });
         await this.$emit("closeAddPopup", false);
-        this.$router.go({name: "post_fbaccount"});
+        this.updateFbStatus = "success";
       } else {
         this.isShowAlert = true;
+        this.updateFbStatus = "success";
+        this.$emit("closeAddPopup", false);
       }
     }
   }

@@ -254,7 +254,10 @@
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
               <div v-else>
-                <image-post :post="post"></image-post>
+                <image-post
+                  :post="post"
+                  @updatePostAttachments="post.attachments = $event"
+                ></image-post>
               </div>
             </div>
             <!--End: Showing Image -->

@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="item">
+  <div class="card" v-if="item.userInfo !== undefined">
     <div class="card_body">
       <!-- Start: Card Header -->
       <div class="card--header d_flex align_items_center justify_content_between">
@@ -54,7 +54,7 @@
         <button
           v-else
           class="btn btn--update"
-          @click="isModalUpdateCookie = true"
+          @click="updateAccount()"
         >
           Cập nhật
         </button>
@@ -72,26 +72,14 @@
 
     <!--****************POPUP*****************-->
     <transition name="popup">
-      <update-cookie
-        :item="item"
-        v-if="isModalUpdateCookie === true"
-        :popupData="isModalUpdateCookie"
-        @closeAddPopup="isModalUpdateCookie = $event"
-        :nameBread="nameUpdatePopup"
-        :subBread="descUpdatePopup"
-      >
-      </update-cookie>
+
     </transition>
 
   </div>
 </template>
 <script>
-import UpdateCookie from "../../popup/list/updatecookie/index";
 
 export default {
-  components: {
-    UpdateCookie
-  },
   filters: {
     covertDateUpdatedAt(d) {
       const newDate = new Date(d);
@@ -107,7 +95,6 @@ export default {
   props: ["item"],
   data() {
     return {
-      isModalUpdateCookie: false,
       isShowAction: false,
       nameUpdatePopup: "Cập nhật mã kích hoạt",
       descUpdatePopup:
@@ -127,7 +114,7 @@ export default {
                            params: { fbAccountId: this.item._id } } );
     },
     updateAccount(){
-      this.isModalUpdateCookie = true;
+      this.$emit( "showUpdatePopup", this.item );
     }
   }
 };

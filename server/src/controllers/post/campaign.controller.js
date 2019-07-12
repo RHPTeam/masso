@@ -15,6 +15,7 @@ const Post = require( "../../models/post/Post.model" );
 const { deletedSchedule } = require( "../../helpers/utils/functions/scheduleLog" );
 const EventScheduleController = require( "../../controllers/post/eventSchedule.controller" );
 const dictionary = require( "../../configs/dictionaries" );
+const { logUserAction } = require( "../../microservices/synchronize/log.service" );
 // eslint-disable-next-line no-unused-vars
 const ScheduleService = require( "node-schedule" );
 
@@ -103,6 +104,27 @@ module.exports = {
 
     await newCampaign.save();
 
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [ {
+          "logs": {
+            "content": `Người dùng tạo chiến dịch "${ newCampaign.title }" thành công!`,
+            "createdAt": new Date(),
+            "info": {
+              "campaignId": newCampaign._id
+            },
+            "status": 0
+          }
+        } ],
+        "_account": req.uid
+      },
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
+
     res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
   },
   "update": async ( req, res ) => {
@@ -111,7 +133,7 @@ module.exports = {
       return res.status( 403 ).json( { "status": "fail", "data": { "title": "Tiêu đề chiến dịch không được bỏ trống!" } } );
     }
 
-    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } );
+    const findCampaign = await Campaign.findOne( { "_id": req.query._campaignId, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at", "populate": "timeline" } );
 
     // Check catch when update campaign
     if ( !findCampaign ) {
@@ -129,24 +151,68 @@ module.exports = {
         await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
           deletedSchedule( eventSchedule, __dirname );
         } ) );
-        await EventSchedule.deleteMany( { "_event": event._id } );
+        await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+          }
+        } );
         event.status = findCampaign.status;
-        await EventScheduleController.create( event, findCampaign._id, req.uid );
+        if ( event.status === true && new Date( event.started_at ) >= new Date() ) {
+          await EventScheduleController.create( event, findCampaign._id );
+        }
 
         await Event.findByIdAndUpdate( event._id, { "$set": { "status": findCampaign.status } }, { "new": true } );
 
-        // Handle logs campaign when update status
-        findCampaign.logs.total += 1;
-        findCampaign.logs.content.push( {
-          "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
-          "createdAt": new Date()
-        } );
+        /** ********************** Log Action Of User For Admin ****************************** **/
+        let objectLog = {
+            "data": [ {
+              "logs": {
+                "content": `Chuyển trạng thái chiến dịch "${!findCampaign.title}" từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+                "createdAt": new Date(),
+                "info": {
+                  "campaignId": findCampaign._id
+                },
+                "status": 0
+              }
+            } ],
+            "_account": req.uid
+          },
+          resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+        if ( resLogSync.data.status !== "success" ) {
+          return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+        }
+        /** **************************************************************************** **/
       } ) );
 
+      // Handle logs campaign when update status
+      findCampaign.logs.total += 1;
+      findCampaign.logs.content.push( {
+        "message": `Chuyển trạng thái chiến dịch từ ${!findCampaign.status} sang ${findCampaign.status} thành công.`,
+        "createdAt": new Date()
+      } );
       await findCampaign.save();
       return res.status( 201 ).json( jsonResponse( "success", findCampaign ) );
     }
 
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = [ {
+        "logs": {
+          "content": `Người dùng cập nhật chiến dịch "${findCampaign.title}" thành công.`,
+          "createdAt": new Date(),
+          "info": {
+            "campaignId": findCampaign._id
+          },
+          "status": 0
+        },
+        "_account": req.uid
+      } ],
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
     res.status( 201 ).json( jsonResponse( "success", await Campaign.findByIdAndUpdate( req.query._campaignId, { "$set": req.body }, { "new": true } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean() ) );
   },
   "delete": async ( req, res ) => {
@@ -164,11 +230,35 @@ module.exports = {
       await Promise.all( listEventOldSchedule.map( ( eventSchedule ) => {
         deletedSchedule( eventSchedule, __dirname );
       } ) );
-      await EventSchedule.deleteMany( { "_event": event._id } );
+      await EventSchedule.deleteMany( { "_event": event._id }, ( err ) => {
+        if ( err ) {
+          throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+        }
+      } );
 
       await Event.findByIdAndDelete( event );
     } );
 
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "data": [ {
+          "logs": {
+            "content": `Người dùng xóa chiến dịch "${findCampaign.title}" thành công.`,
+            "createdAt": new Date(),
+            "info": {
+              "campaignId": findCampaign._id
+            },
+            "status": 0
+          }
+        } ],
+        "_account": req.uid
+      },
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
     await Campaign.findByIdAndDelete( req.query._campaignId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
@@ -190,6 +280,25 @@ module.exports = {
       "createdAt": new Date()
     } ];
     campaignInfo.logs.total += 1;
+
+    /** ********************** Log Action Of User For Admin ****************************** **/
+    let objectLog = {
+        "logs": {
+          "content": `Sao chép từ chiến dịch "${campaignInfo.title}" thành công.`,
+          "createdAt": new Date(),
+          "info": {
+            "campaignId": campaignInfo._id
+          },
+          "status": 0
+        },
+        "_account": req.uid
+      },
+      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+
+    if ( resLogSync.data.status !== "success" ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+    }
+    /** **************************************************************************** **/
 
     // eslint-disable-next-line one-var
     const newCampaign = new Campaign( campaignInfo );
@@ -247,7 +356,7 @@ module.exports = {
   "duplicateSyncCampaignExample": async ( req, res ) => {
     const findFacebook = await Facebook.findOne( { "_id": req.body.facebookId, "_account": req.uid } ).lean(),
       dataCampaign = {
-        "title": req.body.campaignExample.title + " Copy",
+        "title": `${req.body.campaignExample.title } Copy`,
         "description": req.body.campaignExample.description,
         "status": 0,
         "started_at": Date.now(),
@@ -282,7 +391,7 @@ module.exports = {
         date.setDate( date.getDate() + count );
         date.setHours( 20, 0, 0 );
         const dataEvent = {
-            "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
+            "title": `${dictionary.NAME_EVENT_EXAMPLE } ${ ( i + 1 ).toString()}`,
             "status": 0,
             "type_event": 0,
             "_account": req.uid,
@@ -320,7 +429,7 @@ module.exports = {
         date.setDate( date.getDate() + count );
         date.setHours( 8, 30, 0 );
         const dataEvent = {
-            "title": dictionary.NAME_EVENT_EXAMPLE + " " + ( i + 1 ).toString(),
+            "title": `${dictionary.NAME_EVENT_EXAMPLE } ${ ( i + 1 ).toString()}`,
             "status": 0,
             "type_event": 0,
             "_account": req.uid,
