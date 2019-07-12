@@ -131,7 +131,7 @@
         </vue-perfect-scrollbar>
         <!-- Start: List Content -->
       </div>
-      <div class="items--footer d_flex align_items_center p_2">
+      <div class="items--footer d_flex align_items_center p_2" v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0">
         <!-- <div class="cancel mr_auto">Hủy</div> -->
         <div class="add ml_auto" @click="showPopupAddToGroup">Thêm vào nhóm</div>
       </div>

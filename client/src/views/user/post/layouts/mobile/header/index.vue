@@ -99,12 +99,12 @@
 
         <!-- Start: Action in PostGroup -->
         <div class="post--group d_flex align_items_center" v-if="gestureCursorMenuUser === 3">
-          <div class="update action mr_1">
+          <div class="update action">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
               <icon-update />
             </icon-base>
           </div>
-          <div class="add action" @click="showPopupAddGroup">
+          <div class="add action ml_2" @click="showPopupAddGroup" v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0">
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
             </icon-base>
@@ -268,6 +268,12 @@ export default {
     },
     post() {
       return this.$store.getters.defaultPost;
+    },
+    postGroupGroupsSelected() {
+      return this.$store.getters.postGroupGroupsSelected;
+    },
+    postGroupPagesSelected() {
+      return this.$store.getters.postGroupPagesSelected;
     }
   },
   filters: {

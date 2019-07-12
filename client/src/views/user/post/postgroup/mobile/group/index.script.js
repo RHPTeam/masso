@@ -1,12 +1,10 @@
 import CreateGroupPopup from "../popup/creategroup";
-import DeleteGroupPopup from "@/components/popups/delete";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 let typingTimer;
 export default {
   components: {
     CreateGroupPopup,
-    DeleteGroupPopup,
     VuePerfectScrollbar
   },
   props: [ "groupSelected" ],

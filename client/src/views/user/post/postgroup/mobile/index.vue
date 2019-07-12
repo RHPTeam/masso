@@ -52,7 +52,7 @@
     <!-- Start: Transition Popup -->
     <transition name="popup--mobile">
       <popup-search v-if="isShowPopupSearch === true" @closePopupSearch="isShowPopupSearch = $event"/>
-      <popup-detail-group @closePopup="isShowPopupDetailGroup = $event" v-if="isShowPopupDetailGroup === true"/>
+      <popup-detail-group @closePopup="isShowPopupDetailGroup = $event" v-if="isShowPopupDetailGroup === true && postGroupDetail._id"/>
     </transition>
     <!-- End: Transition Popup -->
   </div>
@@ -84,6 +84,9 @@ export default {
     };
   },
   computed: {
+    postGroupDetail() {
+      return this.$store.getters.postGroupDetail;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     }
@@ -158,7 +161,7 @@ export default {
 .main--mobile {
   .main--content {
     .list--post-group {
-      max-height: 60vh;
+      max-height: 58vh;
       overflow: hidden;
     }
   }
