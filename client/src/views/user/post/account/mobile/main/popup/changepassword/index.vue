@@ -48,7 +48,7 @@
       </div>
     </div>
     <!-- Start: Action -->
-    <div @click="updatePassword" class="text_center action mx_3">Tiếp tục</div>
+    <div @click="confirmChangedPassword" class="text_center action mx_3">Tiếp tục</div>
     <!-- End: Action -->
   </div>
 </template>
@@ -60,12 +60,46 @@ export default {
       reset: {
         newPassword: "",
         confirmNewPassword: ""
-      }
+      },
+      isCompare: false
     };
+  },
+  computer: {
+    verifyPasswordToken() {
+      return this.$store.getters.verifyPasswordToken;
+    }
   },
   methods: {
     closeChangePassword() {
       this.$emit("closeChangePassword", false);
+    },
+    async confirmChangedPassword() {
+      console.log({
+        token: this.verifyPasswordToken,
+        newPassword: this.reset.newPassword
+      });
+      this.isComparePassword();
+      if (this.isCompare) {
+        await this.$store.dispatch("changePasswordByVerifyToken", {
+          token: this.verifyPasswordToken,
+          newPassword: this.reset.newPassword
+        });
+        if (this.$store.getters.status === "success") {
+          this.showActionInfo();
+        }
+      }
+    },
+    isComparePassword() {
+      if (
+        this.reset.newPassword === "" ||
+        this.reset.confirmNewPassword === ""
+      ) {
+        return (this.isCompare = false);
+      }
+      if (this.reset.newPassword !== this.reset.confirmNewPassword) {
+        return (this.isCompare = false);
+      }
+      return (this.isCompare = true);
     }
   }
 };

@@ -21,7 +21,7 @@
         <p class="mb_0 p_2 text">Vì lý do bảo mật. Vui lòng nhập lại mật khẩu để tiếp tục.</p>
         <!-- Start: Password -->
         <div class="m_2">
-          <input type="text" class="form--input" placeholder="Nhập mật khẩu" />
+          <input type="text" class="form--input" placeholder="Nhập mật khẩu" v-model="password" />
         </div>
         <!-- End: Password -->
       </div>
@@ -30,7 +30,7 @@
       <!-- End: Error -->
     </div>
     <!-- Start: Action -->
-    <div class="text_center action mx_3" @click="showActionInfo">Tiếp tục</div>
+    <div class="text_center action mx_3" @click="confirmPassword">Tiếp tục</div>
     <!-- End: Action -->
     <!-- Start: Popup -->
     <transition name="popup--mobile">
@@ -65,12 +65,16 @@ export default {
     return {
       isShowChangeName: false,
       isShowChangePassword: false,
-      isShowChangePhone: false
-    }
+      isShowChangePhone: false,
+      password: ""
+    };
   },
   computed: {
     gestureUser() {
       return this.$store.getters.gestureUser;
+    },
+    verifyPasswordToken() {
+      return this.$store.getters.verifyPasswordToken;
     }
   },
   methods: {
@@ -86,6 +90,12 @@ export default {
       }
       if (this.gestureUser === 63) {
         this.isShowChangePassword = true;
+      }
+    },
+    async confirmPassword() {
+      await this.$store.dispatch("verifyPassword", this.password);
+      if (this.$store.getters.status === "success") {
+        this.showActionInfo();
       }
     }
   }
