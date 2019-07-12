@@ -28,27 +28,7 @@
           :key="index"
         >
           <div @click="showPostGroup( postGroup._id, index )">
-            <contenteditable
-              class="editable"
-              tag="div"
-              placeholder="Nhập tên..."
-              :contenteditable="true"
-              :noNL="true"
-              v-model="postGroup.title"
-              @keyup="upTypingText( postGroup )"
-              @keydown="clearTypingTimer"
-            />
-          </div>
-          <div class="btn--delete" @click="showDeletePopup(postGroup)">
-            <icon-base
-              class="icon--add mr_1"
-              icon-name="Xóa nhóm"
-              width="20"
-              height="20"
-              viewBox="0 0 26 26"
-            >
-              <icon-remove/>
-            </icon-base>
+            <div class="editable">{{ postGroup.title }}</div>
           </div>
         </div>
       </div>
@@ -60,16 +40,6 @@
         :data-theme="currentTheme"
         @closePopup="isShowCreateGroup = $event"
       ></create-group-popup>
-      <delete-group-popup
-        v-if="isShowDeletePopup === true"
-        :data-theme="currentTheme"
-        title="Xoá nhóm"
-        @closePopup="isShowDeletePopup = $event"
-        storeActionName="deletePostGroup"
-        :targetData="{ id: groupDelete._id }"
-        :targetName="groupDelete.title"
-        typeName="nhóm"
-      ></delete-group-popup>
     </transition>
   </div>
   <!-- End Segments List -->

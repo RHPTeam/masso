@@ -14,8 +14,18 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <p class="name--modal mb_0 m_auto">{{ postGroupDetail.title }}</p>
-        <div class="active mr_2" @click="showPopupDelete">Xóa</div>
+        <!-- <p class="">{{ postGroupDetail.title }}</p> -->
+        <contenteditable
+          class="name--modal mb_0 m_auto text_center"
+          tag="div"
+          placeholder="Nhập tên..."
+          :contenteditable="true"
+          :noNL="true"
+          v-model="postGroupDetail.title"
+          @keyup="upTypingText( postGroupDetail )"
+          @keydown="clearTypingTimer"
+        />
+        <div class="active mr_2" @click="showPopupDeletePostGroup">Xóa</div>
         <!-- <div class="active mr_2">
           <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
             <icon-plus />
@@ -63,7 +73,9 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
+              <div class="item--content py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
               <div
+                v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(fanpage, index) in postGroupDetailPage"
                 :key="`f+${index}`"
@@ -82,7 +94,8 @@
               </div>
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div
+              <div class="item--content py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
+              <div v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(group, index) in postGroupDetailGroup"
                 :key="`g+${index}`"
@@ -106,8 +119,11 @@
         </vue-perfect-scrollbar>
         <!-- Start: List Content -->
       </div>
-      <div class="items--footer d_flex align_items_center p_2">
-        <div class="cancel mr_auto" @click="showDeletePopup">Xóa khỏi nhóm</div>
+      <div
+        class="items--footer d_flex align_items_center p_2"
+        v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+      >
+        <div class="cancel mr_auto" @click="showDeletePopupPageGroup">Xóa khỏi nhóm</div>
         <div class="add ml_auto" @click="showPopupAddToGroup">Thêm vào nhóm</div>
       </div>
       <!-- End: Main - Search -->
@@ -122,7 +138,21 @@
     <!-- End: Transition -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
-      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true" />
+      <popup-delete-page-group
+        @closePopup="isShowPopupDeletePageGroup = $event"
+        v-if="isShowPopupDeletePageGroup === true"
+        title="nhóm và trang"
+        storeActionName="deletePagesNGroupsFromPostGroup"
+        :targetData="targetDeletePopupData"
+      />
+      <popup-delete-post-group
+        title="nhóm"
+        :name="postGroupDetail.title"
+        v-if="isShowPopupDeletePostGroup === true"
+        @closePopup="isShowPopupDeletePostGroup = $event"
+        storeActionName="deletePostGroup"
+        :targetData="{ id: postGroupDetail._id }"
+      />
     </transition>
     <!-- End: Popup delete -->
   </div>
@@ -130,11 +160,15 @@
 
 <script>
 import AddToGroup from "../popup/addgroup";
-import PopupDelete from "../popup/delete";
+import PopupDeletePageGroup from "../popup/delete";
+import PopupDeletePostGroup from "@/components/popups/mobile/delete";
+
+let typingTimer;
 export default {
   components: {
     AddToGroup,
-    PopupDelete
+    PopupDeletePageGroup,
+    PopupDeletePostGroup
   },
   data() {
     return {
@@ -142,7 +176,8 @@ export default {
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowAddToGroup: false,
-      isShowPopupDelete: false
+      isShowPopupDeletePageGroup: false,
+      isShowPopupDeletePostGroup: false
     };
   },
   computed: {
@@ -182,16 +217,13 @@ export default {
     }
   },
   methods: {
-    showDeletePopup() {
+    showDeletePopupPageGroup() {
       this.targetDeletePopupData = {
         id: this.postGroupDetail._id,
         _pages: this.postGroupPagesSelected,
         _groups: this.postGroupGroupsSelected
       };
-      this.$store.dispatch(
-        "deletePagesNGroupsFromPostGroup",
-        this.targetDeletePopupData
-      );
+      this.isShowPopupDeletePageGroup = true;
     },
     showPopupFanpage() {
       this.isShowPopupFanpage = true;
@@ -207,8 +239,27 @@ export default {
     closePopup() {
       this.$emit("closePopup", false);
     },
-    showPopupDelete() {
-      this.isShowPopupDelete = true;
+    showPopupDeletePostGroup() {
+      this.isShowPopupDeletePostGroup = true;
+    },
+    clearTypingTimer() {
+      clearTimeout( typingTimer );
+    },
+    async upTypingText( gr ) {
+      await clearTimeout( typingTimer );
+
+      typingTimer = await setTimeout( this.updatePostGroup( gr ), 1000);
+    },
+    updatePostGroup( gr ) {
+      console.log(gr);
+      const objSender = {
+        postGroupId: gr._id,
+        title: gr.title,
+        _pages: [],
+        _groups: []
+      };
+      console.log(objSender);
+      this.$store.dispatch("updateTitlePostGroup", objSender);
     }
   }
 };
@@ -245,10 +296,13 @@ export default {
         transform: rotate(90deg);
         margin-left: 0.5rem;
       }
-      .title {
-        font-size: 1.25rem;
-        font-weight: 600;
-        text-align: center;
+      .name--modal {
+        font-size: 1.1rem;        
+        white-space: nowrap; 
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 50%;
+        outline: none;
       }
       .desc {
         color: #999999;
