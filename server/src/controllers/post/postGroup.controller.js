@@ -8,6 +8,7 @@
  * date to: ___
  * team: BE-RHP
  */
+const Facebook = require( "../../models/Facebook.model");
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
@@ -32,6 +33,9 @@ module.exports = {
       } ) );
       dataResponse._groups = await Promise.all( dataResponse._groups.map( async ( id ) => {
         return await GroupFacebook.findOne( { "groupId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
+      } ) );
+      dataResponse._timeline = await Promise.all( dataResponse._timeline.map( async ( id ) => {
+        return await Facebook.findOne( { "userInfo.id": id } ).select( "-cookie" ).lean();
       } ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await PostGroup.find( { "_account": req.uid } ).lean();
@@ -58,6 +62,7 @@ module.exports = {
       "title": req.body.title,
       "_pages": req.body._pages ? req.body._pages : [],
       "_groups": req.body._groups ? req.body._groups : [],
+      "_timeline": req.body._timeline ? req.body._timeline : [],
       "_account": req.uid
     } );
 

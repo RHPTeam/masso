@@ -28,7 +28,8 @@
       <!--Start: Remove  selected pages & groups-->
       <div class="action mr_2"
          v-if="postGroupGroupsSelected.length !== 0 && groupSelected === true ||
-               postGroupPagesSelected.length !== 0 && groupSelected === true"
+               postGroupPagesSelected.length !== 0 && groupSelected === true ||
+                postProfileSelected.length !== 0 && groupSelected === true"
          @click="showDeletePopup"
       >
         Xóa khỏi nhóm
@@ -37,7 +38,7 @@
       <!--Start: Add  selected pages & groups-->
       <div class="action mr_2"
            @click="showAddtoGrPopup"
-           v-if="postGroupGroupsSelected.length !== 0 || postGroupPagesSelected.length !== 0"
+           v-if="postGroupGroupsSelected.length !== 0 || postGroupPagesSelected.length !== 0 || postProfileSelected.length !== 0"
       >Thêm vào nhóm</div>
       <!--Start: Add  selected pages & groups-->
       <!--Start: Filter Friend By Account Component-->
@@ -61,6 +62,9 @@
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Tất cả')"
           >Tất cả</div>
+          <div class="dropdown--item px_3"
+               @click="updateTypeSelected('Cá nhân')"
+          >Cá nhân</div>
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Trang')"
           >Trang</div>

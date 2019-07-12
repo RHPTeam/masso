@@ -114,6 +114,8 @@ Vue.component("IconLogoShort", () =>
 );
 Vue.component("IconLogoText", () => import("@/components/icons/IconLogoText"));
 
+Vue.component("IconTechnical", () => import("@/components/icons/IconTechnical"));
+
 // Global Component
 Vue.component("VuePerfectScrollbar", () => import("vue-perfect-scrollbar"));
 

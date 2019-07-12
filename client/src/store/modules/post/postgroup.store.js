@@ -6,7 +6,8 @@ const state = {
     postGroupDetail: {},
     postGroupDetailStatus: "",
     postGroupGroupsSelected: [],
-    postGroupPagesSelected: []
+    postGroupPagesSelected: [],
+    postProfileSelected: []
   },
   getters = {
     postGroups: ( s ) => {
@@ -23,6 +24,9 @@ const state = {
     },
     postGroupPagesSelected: ( s ) => {
       return s.postGroupPagesSelected;
+    },
+    postProfileSelected: (state) => {
+      return state.postProfileSelected;
     }
   },
   mutations = {
@@ -34,6 +38,9 @@ const state = {
     },
     postGroupPagesSelected: ( s, payload ) => {
       s.postGroupPagesSelected = payload;
+    },
+    postProfileSelected: (state, payload) => {
+      state.postProfileSelected = payload;
     },
     setPostGroups: ( s, payload ) => {
       s.postGroups = payload;
@@ -89,6 +96,9 @@ const state = {
     },
     postGroupPagesSelected: ( { commit }, payload ) => {
       commit( "postGroupPagesSelected", payload );
+    },
+    postProfileSelected: ( { commit }, payload ) => {
+      commit( "postProfileSelected", payload );
     },
     updatePostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
