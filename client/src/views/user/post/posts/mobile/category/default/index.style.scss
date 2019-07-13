@@ -11,10 +11,10 @@
     .item--body {
       min-height: 48px;
       border-bottom: 1px solid #484848;
-     &:last-child {
-       border-bottom-left-radius: .625rem;
-       border-bottom-right-radius: .625rem;
-     }
+    //  &:last-child {
+    //    border-bottom-left-radius: .625rem;
+    //    border-bottom-right-radius: .625rem;
+    //  }
     }
     .col--category {
       width: 100%;
@@ -31,7 +31,7 @@
   }
   .custom--checkbox {
     input[type="checkbox"] {
-      border-radius: 6px;
+      border-radius: 50%;
       border: solid 1.5px #cccccc;
       cursor: pointer;
       height: 20px;

@@ -15,6 +15,10 @@
   }
   .item {
     font-size: 14px;
+    .error {
+      color: #e01212;
+      font-size: 0.8135rem;
+    }
     .description {
       padding: .25rem;
     }

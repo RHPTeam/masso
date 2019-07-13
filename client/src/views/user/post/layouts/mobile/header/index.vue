@@ -7,22 +7,22 @@
         :popupData="isShowPopup"
         @closePopup="isShowPopup = $event"
       />
-      <popup-create-new-category
-        v-if="isShowPopupCreateNewCategory === true"
-        @closePopupNewCategory="isShowPopupCreateNewCategory = $event"
+      <popup-create-category
+        v-if="isShowPopupCreateCategory === true"
+        @closePopupNewCategory="isShowPopupCreateCategory = $event"
       />
-      <popup-create-new-post
-        :fbPost="fbPost" :post="post"
-        v-if="isShowPopupCreateNewPost === true"
-        @closePopup="isShowPopupCreateNewPost = $event"
+      <popup-create-post
+        :post="post"
+        v-if="isShowPopupCreatePost === true"
+        @closePopup="isShowPopupCreatePost = $event"
       />
       <popup-add-account-facebook
         v-if="isShowPopupAddAccountFb === true"
         @closeAddPopup="isShowPopupAddAccountFb = $event"
       />
-      <popup-create-new-campaign
-        v-if="isShowPopupCreateNewCampaign=== true"
-        @closePopupCreateNewCampaign="isShowPopupCreateNewCampaign = $event"
+      <popup-create-campaign
+        v-if="isShowPopupCreateCampaign=== true"
+        @closePopupCreateCampaign="isShowPopupCreateCampaign = $event"
       />
       <popup-add-group
         v-if="isShowPopupAddGroup === true"
@@ -56,12 +56,12 @@
                 <icon-history />
               </icon-base>
             </div>
-            <div class="add posts action mx_1" @click="showPopupCreateNewPost">
+            <div class="add posts action mx_1" @click="showPopupCreatePost">
               <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
                 <icon-plus />
               </icon-base>
             </div>
-            <div class="filter--posts" @click="showDropdownFilterPost">
+            <div class="filter--posts" @click="showDropdownFilterByCategory">
               <icon-base
                 class="mt_1"
                 icon-name="Create new"
@@ -75,7 +75,7 @@
           </div>
           <div
             class="add category action mx_1"
-            @click="showPopupCreateNewCategory"
+            @click="showPopupCreateCategory"
             v-if="gestureUser === 12"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
@@ -88,7 +88,7 @@
         <!-- Start: Action in campaign -->
         <div
           class="add action campaign"
-          @click="showPopupCreateNewCampaign"
+          @click="showPopupCreateCampaign"
           v-if="gestureCursorMenuUser === 2"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
@@ -99,12 +99,16 @@
 
         <!-- Start: Action in PostGroup -->
         <div class="post--group d_flex align_items_center" v-if="gestureCursorMenuUser === 3">
-          <div class="update action">
+          <div class="update action" @click="updateGroupsAndPages">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
               <icon-update />
             </icon-base>
           </div>
-          <div class="add action ml_2" @click="showPopupAddGroup" v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0">
+          <div
+            class="add action ml_2"
+            @click="showPopupAddGroup"
+            v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+          >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
             </icon-base>
@@ -181,53 +185,52 @@
     <!--    End: Add new script-->
     <!-- Start: transition popup mobile -->
     <transition name="popup">
-      <div
-        class="dropdown--filter-post position_fixed"
-        v-if="isShowDropdownFilterPost === true"
-        v-click-outside="closeDropdownFilterPost"
-      >
-        <div class="all items" @click="closeDropdownFilterPost">Xem tat ca</div>
-        <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
-        <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
-      </div>
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"/>
+      <popup-filter-by-category
+        v-if="isShowDropdownFilterByCategory === true"
+        @closePopup="isShowDropdownFilterByCategory = $event"
+      />
+      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
     </transition>
   </div>
 </template>
 <script>
 import AppSidebarMobile from "../popup/menu";
-import PopupCreateNewCategory from "../popup/posts/category";
-import PopupCreateNewPost from "../popup/posts/post";
+import PopupCreateCategory from "../popup/posts/category";
+import PopupCreatePost from "../popup/posts/post";
 import PopupAddAccountFacebook from "../popup/facebook/addaccount";
-import PopupCreateNewCampaign from "../popup/campaigns/create";
+import PopupCreateCampaign from "../popup/campaigns/create";
 import PopupAddGroup from "../popup/postgroup/addgroup";
 import PopupHistory from "../popup/posts/history";
+import PopupFilterByCategory from "../popup/posts/filter";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
 export default {
   components: {
     AppSidebarMobile,
-    PopupCreateNewCategory,
-    PopupCreateNewPost,
+    PopupCreateCategory,
+    PopupCreatePost,
     PopupAddAccountFacebook,
-    PopupCreateNewCampaign,
+    PopupCreateCampaign,
     PopupAddGroup,
-    PopupHistory
+    PopupHistory,
+    PopupFilterByCategory
   },
   data() {
     return {
       isShowPopup: false,
-      isShowDropdownFilterPost: false,
-      isShowPopupCreateNewCategory: false,
-      isShowPopupCreateNewPost: false,
+      isShowDropdownFilterByCategory: false,
+      isShowPopupCreateCategory: false,
+      isShowPopupCreatePost: false,
       isShowPopupAddAccountFb: false,
-      isShowPopupCreateNewCampaign: false,
+      isShowPopupCreateCampaign: false,
       isShowPopupAddGroup: false,
       isShowPopupHistory: false
     };
   },
-  props: ["fbPost"],
   computed: {
+    post() {
+      return this.$store.getters.newPost;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -238,7 +241,7 @@ export default {
       if (this.$route.name === "post_dashboard") {
         return "Bảng Điều Khiển";
       }
-      if (this.$route.name === "post_posts") {
+      if (this.$route.name === "post_posts" || this.$route.name === "post_postCategories" || this.$route.name === "categories_default" ) {
         return "Kho Nội Dung";
       }
       if (this.$route.name === "post_campaigns") {
@@ -266,9 +269,6 @@ export default {
     gestureCursorMenuUser() {
       return this.$store.getters.gestureCursorMenuUser;
     },
-    post() {
-      return this.$store.getters.defaultPost;
-    },
     postGroupGroupsSelected() {
       return this.$store.getters.postGroupGroupsSelected;
     },
@@ -284,23 +284,35 @@ export default {
     }
   },
   methods: {
-    showDropdownFilterPost() {
-      this.isShowDropdownFilterPost = true;
+    updateGroupsAndPages() {
+      this.$store.dispatch( "updateFacebookPages" );
+      this.$store.dispatch( "updateFacebookGroups" );
     },
-    closeDropdownFilterPost() {
-      this.isShowDropdownFilterPost = false;
+    showDropdownFilterByCategory() {
+      this.isShowDropdownFilterByCategory = true;
     },
-    showPopupCreateNewCategory() {
-      this.isShowPopupCreateNewCategory = true;
+    closeDropdownFilterByCategory() {
+      this.isShowDropdownFilterByCategory = false;
     },
-    showPopupCreateNewPost() {
-      this.isShowPopupCreateNewPost = true;
+    showPopupCreateCategory() {
+      this.isShowPopupCreateCategory = true;
+    },
+    async showPopupCreatePost() {
+      const dataSender = {};
+
+      await this.$store.dispatch( "createNewPost", this.post );
+      // await this.$store.dispatch("getPostById", this.post._id);
+      // this.$router.push( {
+      //   name: "post_update_post",
+      //   params: { id: this.newPost._id }
+      // } );
+      this.isShowPopupCreatePost = true;
     },
     showPopupAddAccountFb() {
       this.isShowPopupAddAccountFb = true;
     },
-    showPopupCreateNewCampaign() {
-      this.isShowPopupCreateNewCampaign = true;
+    showPopupCreateCampaign() {
+      this.isShowPopupCreateCampaign = true;
     },
     showPopupAddGroup() {
       this.isShowPopupAddGroup = true;

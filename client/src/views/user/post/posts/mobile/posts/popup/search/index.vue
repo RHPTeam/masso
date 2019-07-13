@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" />
+          <input type="text" placeholder="Tìm kiếm" v-model="search" @keydown.enter="updateSearch"/>
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -28,7 +28,7 @@
       <!-- Start: Main - Search -->
       <div class="items--body px_2">
         <!-- Start: List Content -->
-        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+        <vue-perfect-scrollbar class="infinite">
           <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
           <app-item :item="item"/>
         </div>
@@ -41,90 +41,34 @@
           >Không có dữ liệu</div>-->
           <div class="item d_flex align_items_center">
             <div
-              class="fanpage tab"
-              :class="isShowPopupFanpage === true ? 'active' : ''"
-              @click="showPopupFanpage"
+              class="post tab"
+              :class="isShowPopupPosts === true ? 'active' : ''"
+              @click="showPopupPosts"
             >Bài viết</div>
             <div
-              class="group tab"
-              :class="isShowPopupGroup === true ? 'active' : ''"
-              @click="showPopupGroup"
+              class="category tab"
+              :class="isShowPopupCategories === true ? 'active' : ''"
+              @click="showPopupCategories"
             >Danh mục</div>
             <div
-              class="postgroup tab"
-              :class="isShowPopupPostGroup === true ? 'active' : ''"
-              @click="showPopupPostGroup"
+              class="category--default tab"
+              :class="isShowPopupCategoriesDefault === true ? 'active' : ''"
+              @click="showPopupCategoriesDefault"
             >Danh mục mẫu</div>
           </div>
           <div class="content mt_2">
-            <!-- Start: Fanpage -->
-            <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content d_flex align_items_center py_2">
-                <div class="content">
-                  <div class="title">Bài đăng chưa có tiêu đề</div>
-                  <div class="category--parent">Chưa phân loại</div>
-                </div>
-                <div class="action align_items_center ml_auto">
-                  <span class="mx_1" @click="showPopupDelete">
-                    <icon-base
-                      icon-name="Xóa"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 15 15"
-                    >
-                      <icon-remove />
-                    </icon-base>
-                  </span>
-                  <span class="mx_1">
-                    <icon-base
-                      width="20"
-                      height="20"
-                      viewBox="0 0 18 18"
-                    >
-                      <icon-info />
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
+            <!-- Start: post -->
+            <div class="post" v-if="isShowPopupPosts === true">
+              <list-post />
             </div>
-            <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
-                <div class="col col--category pl_3 pr_2">Chưa phân loại</div>
-                <div class="col col--posts text_center ml_auto">3</div>
-                <div class="action align_items_center ml_auto">
-                  <span class="" @click="showPopupDelete">
-                    <icon-base
-                      icon-name="Xóa"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 15 15"
-                    >
-                      <icon-remove />
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
+            <!-- Start: category -->
+            <div class="category" v-if="isShowPopupCategories === true">
+              <list-category />
             </div>
-            <div class="post--group" v-if="isShowPopupPostGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
-                <div class="col col--category pl_3 pr_2">Chưa loại</div>
-                <div class="col col--posts text_center ml_auto">12</div>
-                <div class="action align_items_center ml_auto">
-                  <span class="" @click="showPopupDelete">
-                    <icon-base
-                      icon-name="Xóa"
-                      width="20"
-                      height="20"
-                      viewBox="0 0 15 15"
-                    >
-                      <icon-remove />
-                    </icon-base>
-                  </span>
-                </div>
-              </div>
+            <div class="post--category" v-if="isShowPopupCategoriesDefault === true">
+              <list-category-default />
             </div>
-            <!-- Start: Group -->
-            <!-- Start: Post group -->
+            <!-- Start: Post category -->
           </div>
         </vue-perfect-scrollbar>
         <!-- Start: List Content -->
@@ -133,72 +77,127 @@
     </div>
     <!-- Start: Transition -->
     <transition name="popup">
-      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
+      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true" />
     </transition>
     <!-- End: Transition -->
   </div>
 </template>
 
 <script>
-import PopupDelete from "../delete"
+import PopupDelete from "../delete";
+import ListPost from "../../list";
+import ListCategory from "../../../category/list";
+import ListCategoryDefault from "../../../category/default";
 export default {
   components: {
-    PopupDelete
+    PopupDelete,
+    ListPost,
+    ListCategory,
+    ListCategoryDefault
   },
   computed: {},
   data() {
     return {
-      isShowPopupFanpage: true,
-      isShowPopupGroup: false,
-      isShowPopupPostGroup: false,
+      search: "",
+      isShowPopupPosts: true,
+      isShowPopupCategories: false,
+      isShowPopupCategoriesDefault: false,
       isShowAddToGroup: false,
       isShowPopupDelete: false
     };
   },
   methods: {
-    async loadMore() {
-      if (this.isLoadingData === true) {
-        if (this.keyword !== "") {
-          if (this.currentPage > this.numberPageCurrent) {
-            return false;
-          } else {
-            this.isLoadingData = false;
-
-            this.currentPage += 1;
-
-            await this.$store.dispatch("searchPostsFacebookByKey", {
-              keyword: this.keyword,
-              size: this.maxPerPage,
-              page: this.currentPage
-            });
-            this.isLoadingData = true;
-          }
-        }
-      }
-    },
     closePopupSearch() {
+      const dataSender = {
+        keyword: '',
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getPostsByPage", dataSender);
+      this.$store.dispatch("getCategoriesByPage", dataSender);
       this.$emit("closePopupSearch", false);
     },
-    showPopupFanpage() {
-      this.isShowPopupFanpage = true;
-      this.isShowPopupGroup = false;
-      this.isShowPopupPostGroup = false;
+    showPopupPosts() {
+      // this.$router.push({ name: 'post_posts', query: { size: 25, page: 1 } });
+      this.isShowPopupPosts = true;
+      this.isShowPopupCategories = false;
+      this.isShowPopupCategoriesDefault = false;
     },
-    showPopupGroup() {
-      this.isShowPopupFanpage = false;
-      this.isShowPopupGroup = true;
-      this.isShowPopupPostGroup = false;
+    showPopupCategories() {
+      // this.$router.push({ name: "post_postCategories", query: { size: 25, page: 1 } });
+      this.isShowPopupPosts = false;
+      this.isShowPopupCategories = true;
+      this.isShowPopupCategoriesDefault = false;
     },
-    showPopupPostGroup() {
-      this.isShowPopupFanpage = false;
-      this.isShowPopupGroup = false;
-      this.isShowPopupPostGroup = true;
+    showPopupCategoriesDefault() {
+      // this.$router.push({ name: 'categories_default' });
+      this.isShowPopupPosts = false;
+      this.isShowPopupCategories = false;
+      this.isShowPopupCategoriesDefault = true;
     },
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
     },
     showPopupDelete() {
       this.isShowPopupDelete = true;
+    },
+    updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getPostsByKey", dataSender);
+      this.$store.dispatch("getCategoriesByKey", dataSender);
+
+      this.$router.replace( {
+        name: "post_posts",
+        query: {
+          search: this.search,
+          size: 25,
+          page: 1
+        }
+      } );
+
+      // this.$emit( "updateSearch", this.search );
+      // this.updateFilterCategorySelected( {
+      //   id: "all",
+      //   title: "Tất cả"
+      // } );
+    }
+  },
+  created() {
+    const search = this.$route.query.search;
+
+    if (search !== undefined) {
+      this.search = search;
+    }
+  },
+  watch: {
+    search(val) {
+      if (val.length === 0) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getPostsByPage", dataSender);
+        this.$store.dispatch("getCategoriesByPage", dataSender);
+
+        // this.$router.replace( {
+        //   name: "post_posts",
+        //   query: {
+        //     size: this.filterShowSelected.id,
+        //     page: 1
+        //   }
+        // } );
+
+        // this.$emit( "updateCurrentPage", 1 );
+        // this.$emit( "updateSearch", this.search );
+        // this.updateFilterCategorySelected( {
+        //   id: "all",
+        //   title: "Tất cả"
+        // } );
+      }
     }
   }
 };
@@ -274,9 +273,9 @@ export default {
     }
   }
 }
-.fanpage,
-.group,
-.post--group {
+.post,
+.category,
+.category--default {
   .item--content {
     border-bottom: 1px solid #484848;
   }

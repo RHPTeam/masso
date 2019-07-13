@@ -16,7 +16,6 @@ export default {
     CheckinPost,
     ActivityPost
   },
-  props: [ "fbPost", "post" ],
   data() {
     return {
       statusContentEditable: true,
@@ -38,9 +37,11 @@ export default {
       isShowMoreOption: false,
       isActiveImage: false,
       isShowChangeScrape: false,
-      isShowPostNowPopup: false
+      isShowPostNowPopup: false,
+      isShowAlert: false
     };
   },
+  props: ["post"],
   computed: {
     activity() {
       return this.$store.getters.activity;
@@ -96,21 +97,41 @@ export default {
      * Check content of post using StringFunction get urls have in content
      * If length content > 200 character delete color of post
      */
-    "post.content"( value ) {
-      //check scrape
-      this.linkContent = StringFunction.detectUrl(value);
-      // this.$store.dispatch( "updatePost", this.post  );
-      // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
-        this.isShowColor = false;
-        delete this.post.color;
-        this.$store.dispatch( "updatePost", this.post );
-      } else {
-        this.$store.dispatch( "updatePost", this.post );
-      }
-    }
+    // "post.content"( value ) {
+    //   //check scrape
+    //   this.linkContent = StringFunction.detectUrl(value);
+    //   // this.$store.dispatch( "updatePost", this.post  );
+    //   // this.post.content = StringFunction.urlify(value);
+    //   if( value.length >= 200 ) {
+    //     this.isShowColor = false;
+    //     delete this.post.color;
+    //     this.$store.dispatch( "updatePost", this.post );
+    //   } else {
+    //     this.$store.dispatch( "updatePost", this.post );
+    //   }
+    // }
   },
   methods: {
+    async savePost(){
+      if(this.post.content.trim().length === 0) {
+        this.isShowAlert = true;
+      } else {
+        // if(this.linkContent.length > 0) {
+        //   this.post.scrape = this.linkContent[0];
+        // }
+        if(this.post.title.length === 0) {
+          this.post.title = "Bài viết chưa có tiêu đề nè !";
+        }
+        await this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        // this.$router.go(-1);
+        this.closePopup();
+      }
+    },
+    // Update categories post
+    updateCate() {
+      this.$store.dispatch( "updatePost", this.post );
+    },
     closePopup() {
       this.$emit("closePopup", false);
     },

@@ -43,7 +43,14 @@
 
       <!-- Start: List -->
       <VuePerfectScrollbar class="list--post-group">
-        <app-table />
+        <!-- Start: Loading Component -->
+        <div class="loading--block"
+            v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading' "
+        >
+          <loading-component class="loading"></loading-component>
+        </div>
+        <!-- End: Loading Component-->
+        <app-table v-else/>
       </VuePerfectScrollbar>
       <!-- End: List -->
     </div>
@@ -84,6 +91,12 @@ export default {
     };
   },
   computed: {
+    facebookPagesStatus() {
+      return this.$store.getters.facebookPagesStatus;
+    },
+    facebookGroupsStatus() {
+      return this.$store.getters.facebookGroupsStatus;
+    },
     postGroupDetail() {
       return this.$store.getters.postGroupDetail;
     },
@@ -103,6 +116,17 @@ export default {
       this.isShowPopupDetailGroup = true;
     }
   },
+  created() {
+    const facebookGroupsNo = this.$store.getters.facebookGroups;
+    const facebookPagesNo = this.$store.getters.facebookPages;
+
+    if ( facebookGroupsNo.length === 0 ) {
+      this.$store.dispatch( "getFacebookGroups" );
+    }
+    if ( facebookPagesNo.length === 0 ) {
+      this.$store.dispatch( "getFacebookPages" );
+    }
+  }
 };
 </script>
 

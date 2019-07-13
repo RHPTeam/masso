@@ -33,15 +33,26 @@ export default {
   methods: {
     showPosts() {
       this.$store.dispatch("actionCursor", 11);
+      this.$router.push({ name: 'post_posts', query: { size: 25, page: 1 } });
     },
     showCategory() {
       this.$store.dispatch("actionCursor", 12);
+      this.$router.push({ name: "post_postCategories", query: { size: 25, page: 1 } });
     },
     showCategoryForm() {
       this.$store.dispatch("actionCursor", 13);
+      this.$router.push({ name: 'categories_default' });
     },
-    showPopupSearch() {
-        this.isShowPopupSearch = true;
+    async showPopupSearch() {
+      await this.$router.replace( {
+        name: "post_posts",
+        query: {
+          search: '',
+          size: 25,
+          page: 1
+        }
+      } );
+      this.isShowPopupSearch = true;
     }
   },
   created() {

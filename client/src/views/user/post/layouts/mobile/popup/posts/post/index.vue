@@ -3,7 +3,7 @@
     <div class="content mb_3">
       <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
         <!-- Start: Modal Header -->
-        <div class="modal--header pt_3 d_flex align_items_center mb_3">
+        <div class="modal--header d_flex align_items_center mb_3">
           <div @click="closePopup">
             <icon-base
               icon-name="arrow-down"
@@ -16,7 +16,7 @@
             </icon-base>
           </div>
           <div class="title m_auto">Thêm bài viết</div>
-          <div class="edit mr_3" @click="closePopup">Thêm</div>
+          <div class="edit mr_3" @click="savePost">Thêm</div>
         </div>
         <!-- End: Modal Header -->
         <div class="modal--main px_2">
@@ -53,6 +53,7 @@
           <!-- Start: Post Content -->
           <div class="item mt_4">
             <span>Nội dung</span>
+            <div class="my_1 error" v-if="isShowAlert === true">Nội dung không được bỏ trống!</div>
             <div class="wrap mt_2">
               <!--Start: Create and show content-->
               <div class="content position_relative">
@@ -462,7 +463,7 @@
   }
   .modal--header {
     border-bottom: 1px solid #ccc;
-    padding-bottom: 0.3rem;
+    padding: 0.625rem 0;
     .arrow-down {
       transform: rotate(90deg);
       margin-left: 0.5rem;

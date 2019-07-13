@@ -3,7 +3,7 @@
     <div class="content mb_3">
       <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
         <!-- Start: Modal Header -->
-        <div class="modal--header pt_3 d_flex align_items_center mb_3">
+        <div class="modal--header d_flex align_items_center mb_3">
           <div @click="closePopup">
             <icon-base
               icon-name="arrow-down"
@@ -16,7 +16,7 @@
             </icon-base>
           </div>
           <div class="title m_auto">Sửa bài viết</div>
-          <div class="edit mr_3" @click="closePopup">Xong</div>
+          <div class="edit mr_3" @click="savePost">Xong</div>
         </div>
         <!-- End: Modal Header -->
         <div class="modal--main px_2">
@@ -462,7 +462,7 @@
   }
   .modal--header {
     border-bottom: 1px solid #ccc;
-    padding-bottom: 0.3rem;
+    padding: 0.625rem 0;
     .arrow-down {
       transform: rotate(90deg);
       margin-left: 0.5rem;

@@ -4,7 +4,7 @@
     <div class="main--content">
       <!-- Start: Search -->
       <div
-        class="posts-search mb_3 d_flex align_items_center position_relative"
+        class="posts-search mb_2 d_flex align_items_center position_relative"
         :data-theme="currentTheme"
       >
         <div class="mr_auto search" @click="showPopupSearch">

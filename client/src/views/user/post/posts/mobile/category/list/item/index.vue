@@ -1,84 +1,69 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
-    <div class="col col--category px_2">{{ item.title }}</div>
-    <div class="col col--posts text_center px_2">{{ item.totalPosts }}</div>
-    <div class="col col--description px_2">
-      <div class="col--description-text">
-        {{ item.description }}
+  <div class="item--body d_flex align_items_center">
+    <div class="col col--category p_2" @click="showPopupEdit">
+      <div class="">{{ item.title }}</div>
+      <div class="desc">{{ item.description }}</div>
+    </div>
+    <div class="col col--posts text_center ml_auto">{{ item.totalPosts }}</div>
+    <div class="action align_items_center">
+      <div class="ml_2 mr_1" @click="showDeletePopup(item)">
+        <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
+          <icon-remove />
+        </icon-base>
       </div>
     </div>
-    <div class="col col--action px_4 text_center"
-         :class="[ item.title === 'Chưa phân loại' ? 'action--disabled' : null ]"
-    >
-      <span v-if="item.title === 'Chưa phân loại'">
-        <span class="mx_1">
-          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
-            <icon-edit />
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base
-            icon-name="Xóa"
-            width="20"
-            height="20"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove />
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base
-            width="20"
-            height="20"
-            viewBox="0 0 18 18"
-          >
-            <icon-info />
-          </icon-base>
-        </span>
-      </span>
-      <span v-else>
-        <span class="mx_1" @click="updateCategory">
-          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
-            <icon-edit />
-          </icon-base>
-        </span>
-        <span class="mx_1" @click="showDeletePopup">
-          <icon-base
-            icon-name="Xóa"
-            width="20"
-            height="20"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove />
-          </icon-base>
-        </span>
-        <span class="mx_1" @click="showListPostInCategory">
-          <icon-base
-            width="20"
-            height="20"
-            viewBox="0 0 18 18"
-          >
-            <icon-info />
-          </icon-base>
-        </span>
-      </span>
-    </div>
+    <!-- Start: Transition Popup Delete Category -->
+    <transition name="popup--delete">
+      <popup-delete
+        title="danh mục"
+        :name="item.title"
+        v-if="isShowPopupDelete === true"
+        @closePopup="isShowPopupDelete = $event"
+        storeActionName="deleteCategory"
+        :targetData="targetDataDelete"
+      />
+    </transition>
+    <!-- End: Transition Popup Delete Category -->
+    <!-- Start: Transition Popup Edit Category -->
+    <transition name="popup--mobile">
+      <popup-edit-category @closePopup="isShowPopupEdit = $event" v-if="isShowPopupEdit === true" :item="item"
+      />
+    </transition>
+    <!-- End: Transition Popup Edit Category -->
   </div>
 </template>
 
 <script>
+import PopupEditCategory from "./edit";
+import PopupDelete from "@/components/popups/mobile/delete";
 export default {
-  props: [ "item" ],
+  components: {
+    PopupDelete,
+    PopupEditCategory
+  },
+  props: ["item"],
+  data() {
+    return {
+      targetDataDelete: {},
+      isShowPopupDelete: false,
+      isShowPopupEdit: false
+    };
+  },
   methods: {
     updateCategory() {
-      this.$emit( "updateCategory", this.item );
+      this.$emit("updateCategory", this.item);
     },
-    showDeletePopup() {
-      this.$emit( "showDeletePopup", this.item );
+    showDeletePopup(category) {
+      this.categoryDelete = category;
+      this.targetDataDelete = {
+        id: category._id,
+        size: 25,
+        page: 1
+      };
+      this.isShowPopupDelete = true;
     },
-    async showListPostInCategory(){
-      await this.$store.dispatch("getPostByCategories", this.item._id);
-      this.$router.push({name: "post_posts"});
+    showPopupEdit() {
+      this.isShowPopupEdit = true;
     }
   }
 };
@@ -86,16 +71,44 @@ export default {
 
 <style lang="scss" scoped>
 @import "../index.style";
-.action--disabled {
-  span {
-    svg {
-      color: #999 !important;
-      cursor: not-allowed !important;
-      opacity: .5 !important;
-      &:hover {
-        color: #999 !important;
-      }
-    }
+
+.item--body {
+  min-height: 48px;
+  border-bottom: 1px solid #484848;
+  &:last-child {
+    // border-bottom-left-radius: 0.625rem;
+    // border-bottom-right-radius: 0.625rem;
   }
 }
+// Popup Delete
+.popup--delete-enter {
+  transform: translateY(100%);
+}
+
+.popup--delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup--delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+
+
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+
+
 </style>

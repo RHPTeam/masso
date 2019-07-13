@@ -28,23 +28,6 @@
             }
         }
     }
-    .dropdown--filter-post {
-      width: 90vw;
-      background: #2b2d33;
-      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
-      border-radius: 0.625rem;
-      left: 5vw;
-      bottom: 0;
-      // color: #333;
-      z-index: 10;
-      .items {
-          margin-bottom: 0.625rem;
-          border-radius: 0.625rem;
-        padding: 0.5rem 0;
-        text-align: center;
-        border: 1px solid #ccc;
-      }
-    }
     .change--account,
     .new--message {
         margin-left: 16px;

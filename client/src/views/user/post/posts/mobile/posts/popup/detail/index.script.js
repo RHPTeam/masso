@@ -16,7 +16,7 @@ export default {
     CheckinPost,
     ActivityPost
   },
-  props: [ "fbPost", "post", "editPost" ],
+  props: [ "post" ],
   data() {
     return {
       statusContentEditable: true,
@@ -96,23 +96,38 @@ export default {
      * Check content of post using StringFunction get urls have in content
      * If length content > 200 character delete color of post
      */
-    "post.content"( value ) {
-      //check scrape
-      this.linkContent = StringFunction.detectUrl(value);
-      // this.$store.dispatch( "updatePost", this.post  );
-      // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
-        this.isShowColor = false;
-        delete this.post.color;
-        this.$store.dispatch( "updatePost", this.post );
-      } else {
-        this.$store.dispatch( "updatePost", this.post );
-      }
-    }
+    // "post.content"( value ) {
+    //   //check scrape
+    //   this.linkContent = StringFunction.detectUrl(value);
+    //   // this.$store.dispatch( "updatePost", this.post  );
+    //   // this.post.content = StringFunction.urlify(value);
+    //   if( this.post.color && this.post.color.value !== '' && value.length >= 200 ) {
+    //     this.isShowColor = false;
+    //     delete this.post.color;
+    //     this.$store.dispatch( "updatePostColor", this.post );
+    //     // this.$store.dispatch( "updatePost", this.post );
+    //   } else if(value.length > 0) {
+    //     this.isShowAlert = false;
+    //     // this.$store.dispatch( "updatePost", this.post );
+    //   }
+    // }
   },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
+    },
+    // Update post when click button Save
+    async savePost(){
+      if(this.post.content.length === 0) {
+        this.isShowAlert = true;
+      } else {
+        if(this.linkContent.length > 0) {
+          this.post.scrape = this.linkContent[0];
+        }
+        await this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        this.closePopup();
+      }
     },
     /**
      * [changeResultContentColor description]
