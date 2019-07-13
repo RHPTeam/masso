@@ -1,5 +1,5 @@
 <template>
-  <div class="post--content d_flex align_items_start mt--5">
+  <div class="section d_flex align_items_start mt--5">
     <div class="icon mr_4">
       <icon-base
         class="icon--post"
@@ -11,7 +11,7 @@
         <icon-post></icon-post>
       </icon-base>
     </div>
-    <div class="detail">
+    <div class="section--body">
       <!-- Start: Post Category -->
       <div class="top mb_3 d_flex align_items_center">
         <div class="title mr_4">Đăng bài viết từ</div>

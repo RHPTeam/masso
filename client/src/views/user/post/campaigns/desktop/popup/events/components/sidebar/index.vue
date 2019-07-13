@@ -1,5 +1,6 @@
 <template>
-  <div class="sidebar pl_3">
+  <div class="sidebar pl_4 mt_4">
+    <!-- Start: Add to event -->
     <div class="list--group">
       <div class="title mb_2">Thêm vào sự kiện</div>
       <div class="list--group-item d_flex align_items_center">
@@ -13,69 +14,159 @@
         </icon-base>
         <div class="name">Nội dung nâng cao</div>
       </div>
-      <div class="list--group-item d_flex align_items_center mt_2">
-        <icon-base
-          class="mr_2"
-          height="14px"
-          width="14px"
-          viewBox="0 0 20 20"
-        >
-          <icon-user></icon-user>
-        </icon-base>
-        <div class="name">Nội dung nâng cao</div>
-      </div>
     </div>
+    <!-- End: Add to event -->
+    <!-- Start: Actions -->
     <div class="list--group mt_4">
-      <div class="title mb_2">Thêm vào sự kiện</div>
-      <div class="list--group-item d_flex align_items_center">
-        <icon-base
-          class="mr_2"
-          height="14px"
-          width="14px"
-          viewBox="0 0 20 20"
-        >
-          <icon-user></icon-user>
-        </icon-base>
-        <div class="name">Nội dung nâng cao</div>
+      <div class="title mb_2">Hành động</div>
+      <div class="list--group-item d_flex align_items_center position_relative">
+        <div class="item--content d_flex align_items_center" @click="showCopyPopup">
+          <icon-base
+            class="icon icon--copy mr_2"
+            height="14px"
+            width="14px"
+            viewBox="0 0 500 500"
+          >
+            <icon-copy></icon-copy>
+          </icon-base>
+          <div class="name">Sao chép</div>
+        </div>
+        <transition name="popup">
+          <copy-popup
+            v-if="isShowCopyPopup"
+            @closePopup="isShowCopyPopup = $event"
+          ></copy-popup>
+        </transition>
       </div>
-      <div class="list--group-item d_flex align_items_center mt_2">
+      <div class="list--group-item d_flex align_items_center position_relative mt_2">
         <icon-base
-          class="mr_2"
+          class="icon icon--watch mr_2"
           height="14px"
           width="14px"
-          viewBox="0 0 20 20"
+          viewBox="0 0 280 280"
         >
-          <icon-user></icon-user>
+          <icon-watch></icon-watch>
         </icon-base>
-        <div class="name">Nội dung nâng cao</div>
+        <div class="name">Theo dõi</div>
+        <div class="status text_center position_absolute">
+          <icon-base
+            class="icon--check"
+            height="10px"
+            width="10px"
+            viewBox="0 0 500 500"
+          >
+            <icon-check></icon-check>
+          </icon-base>
+        </div>
+      </div>
+      <div class="list--group-item btn--delete d_flex align_items_center mt_2"
+           @click="showDeletePopup"
+      >
+        <icon-base
+          class="icon icon--remove mr_2"
+          height="14px"
+          width="14px"
+          viewBox="0 0 16 16"
+        >
+          <icon-remove></icon-remove>
+        </icon-base>
+        <div class="name">Xóa</div>
       </div>
     </div>
+    <!-- End: Actions -->
+    <!-- Start: Btn submit -->
+    <div class="btn--submit mt_4"
+         :style="{ backgroundColor: event.color }"
+         v-if="event._id"
+         @click="updateEvent"
+    >
+      Cập nhật
+    </div>
+    <div class="btn--submit mt_4"
+         v-else
+         @click="createNewEvent"
+    >
+      Tạo mới
+    </div>
+    <!-- End: Btn submit -->
   </div>
 </template>
 
 <script>
+import CopyPopup from "../popup/copy";
+
 export default {
-    
+  components: {
+    CopyPopup
+  },
+  props: [ "errorLocation" ],
+  data() {
+    return {
+      isShowCopyPopup: false
+    }
+  },
+  computed: {
+    event() {
+      return this.$store.getters.event;
+    }
+  },
+  methods: {
+    close(){
+      this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: false
+      } );
+    },
+    async createNewEvent() {
+      if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
+        this.errorPost = true;
+        return false;
+      } else if ( this.event.target_custom.length === 0 &&
+        !this.event.target_category &&
+        this.event.timeline.length === 0
+      ) {
+        this.errorLocation = true;
+        return false;
+      }
+
+      // Close popup
+      this.close();
+
+      await this.$store.dispatch( "createEvent", {
+        campaignId: this.$route.params.campaignId,
+        event: this.event
+      } );
+
+      this.$store.dispatch( "setEventReset" );
+    },
+    showCopyPopup() {
+      this.isShowCopyPopup = true;
+    },
+    showDeletePopup() {
+      this.$emit( "showDeletePopup", true );
+    },
+    async updateEvent() {
+      // Close popup
+      this.close();
+
+      // Convert event timeline to accounts id array
+      let fbAccounts  = [];
+      this.event.timeline.forEach( ( account ) => {
+        fbAccounts.push( account._id );
+      } );
+      this.event.timeline = fbAccounts;
+
+      await this.$store.dispatch( "updateEvent", {
+        campaignId: this.$route.params.campaignId,
+        event: this.event
+      } );
+
+      this.$store.dispatch( "setEventReset" );
+    }
+  }
 }
 </script>
 
 <style scoped lang="scss">
-.sidebar {
-  .list--group {
-    .title {
-      font-size: .825rem;
-      text-transform: uppercase;
-    }
-    &-item {
-      background-color: #2f3136;
-      border-radius: .5rem;
-      cursor: pointer;
-      font-size: .825rem;
-      padding: .375rem .75rem;
-      &:hover {
-        background-color: #3b3e43;
-      }
-    }
-  }
-}
+@import "./index.style";
 </style>

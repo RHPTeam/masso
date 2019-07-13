@@ -1,24 +1,26 @@
 <template>
-  <div class="location d_flex align_items_start mt--5">
-    <div class="icon mr_4">
-      <icon-base
-        class="icon--target"
-        icon--name="Nơi đăng"
-        height="20px"
-        width="20px"
-        viewBox="0 0 500 500"
-      >
-        <icon-target></icon-target>
-      </icon-base>
+  <div class="section mt--5">
+    <div class="section--header d_flex align_items_center">
+      <div class="icon mr_4">
+        <icon-base
+          class="icon--target"
+          icon--name="Nơi đăng"
+          height="20px"
+          width="20px"
+          viewBox="0 0 500 500"
+        >
+          <icon-target></icon-target>
+        </icon-base>
+      </div>
+      <div class="title">Nơi đăng</div>
     </div>
-    <div class="body">
-      <div class="">Nơi đăng</div>
+    <div class="section--body">
       <div class="r">
         <!-- Start: Timeline -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="text--bold">Chọn trang cá nhân</span>
-            <span class="small">đã chọn {{ event.timeline.length }} tài khoản</span>
+            <span class="text--bold">Trang cá nhân</span>
+            <!--<span class="small">đã chọn {{ event.timeline.length }} tài khoản</span>-->
           </div>
           <div class="item d_flex align_items_start mb_3">
             <!--<div class="icon mr_3">
@@ -56,9 +58,9 @@
         <!-- Start: Post Group -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="text--bold">Chọn nhóm đã lưu</span>
-            <span class="small">đã chọn {{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang và
-            {{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span>
+            <span class="text--bold">Nhóm đã lưu</span>
+            <!--<span class="small">đã chọn {{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang và
+            {{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span>-->
           </div>
           <div class="item d_flex align_items_start mb_3">
             <!--<div class="icon mr_3">
@@ -91,10 +93,10 @@
         <!-- Start: Pages -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="text--bold">Chọn trang</span>
-            <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>
+            <span class="text--bold">Trang Facebook</span>
+            <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>-->
           </div>
-          <div class="item d_flex align_items_start mb_3">
+          <div class="item d_flex align_items_start">
             <!--<div class="icon mr_3">
               <icon-base
                 class="icon--page"
@@ -130,10 +132,10 @@
         <!-- Start: Groups -->
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
-            <span class="text--bold">Chọn nhóm trên facebook</span>
-            <span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>
+            <span class="text--bold">Nhóm Facebook</span>
+            <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>-->
           </div>
-          <div class="item d_flex align_items_start mb_3">
+          <div class="item d_flex align_items_start">
             <!--<div class="icon mr_3">
               <icon-base
                 class="icon--group"
