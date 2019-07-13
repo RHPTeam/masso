@@ -1,28 +1,28 @@
 <template>
   <div class="main--facebook" :data-theme="currentTheme">
     <div
+      v-for="item in accountsFB"
+      :key="item.userInfo.id"
       class="wrapper--top d_flex align_items_center justify_content_between p_3 mb_2 position_relative"
     >
       <!-- Start: Top account-->
-      <div v-for="(accountFB, index) in accountsFB" :key="index" class="account">
+      <div class="account">
         <div class="item d_flex align_items_center" @click="showPopupActiveAccount">
           <div class="avatar mr_2">
-            <img :src="accountFB.userInfo.thumbSrc" alt />
+            <img :src="item.userInfo.thumbSrc" alt />
           </div>
           <div class="user--info">
-            <div class="name mb_1">{{ accountFB.userInfo.name }}</div>
-            <div
-              class="created mb_1"
-            >Được thêm lúc {{ formatDate(accountFB.created_at) }}</div>
+            <div class="name mb_1">{{ item.userInfo.name }}</div>
+            <div class="created mb_1">Được thêm lúc {{ formatDate(item.created_at) }}</div>
             <div
               class="status d_inline"
-              :class="accountFB.status ? 'active' : null"
-            >{{ accountFB.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
+              :class="item.status ? 'active' : null"
+            >{{ item.status ? "Đang hoạt động" : "Ngừng hoạt động" }}</div>
           </div>
-          <div class="more position_absolute">
+          <div @click="selectAccount(item)" class="more position_absolute">
             <icon-base
               class="icon--more"
-              icon-name="Xóa tài khoản"
+              icon-name="more"
               width="25"
               height="20"
               viewBox="0 0 580 580"
@@ -50,6 +50,7 @@
     </transition>
     <transition name="popup--more">
       <delete-account-popup
+        :item="selectedAccount"
         @closePopup="isShowPopupDeleteAccount = $event"
         v-if="isShowPopupDeleteAccount === true"
       />
@@ -57,14 +58,14 @@
     <!-- Update Popup -->
     <transition name="popup">
       <update-account-by-cookie
+        :item="selectedAccount"
         v-if="isShowPopupUpdateCookie === true"
         @closePopupUpdateCookie="isShowPopupUpdateCookie = $event"
       />
     </transition>
     <!-- Start: Transition Popup Alert Exist Account -->
     <transition name="popup-alert">
-      <!-- <popup-alert-account-exist/> -->
-      <!-- <upgrade-pro-popup :data-theme="currentTheme" /> -->
+      <popup-alert-account-exist v-if="addAccountError === 'error'" :data-theme="currentTheme" />
     </transition>
     <!-- End: Transition Popup Alert Exist Account -->
   </div>
@@ -74,20 +75,21 @@
 import DeleteAccountPopup from "./popup/delete";
 import UpdateAccountByCookie from "./popup/updatecookie";
 import PopupAlertAccountExist from "./popup/alert";
-import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
+// import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 export default {
   components: {
     DeleteAccountPopup,
     UpdateAccountByCookie,
-    // PopupAlertAccountExist,
+    PopupAlertAccountExist,
     // UpgradeProPopup
   },
   data() {
     return {
-      accountSelected: {},
+      selectedAccount: {},
       isShowAction: false,
       isShowPopupDeleteAccount: false,
-      isShowPopupUpdateCookie: false
+      isShowPopupUpdateCookie: false,
+
     };
   },
   computed: {
@@ -97,13 +99,16 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    addAccountError() {
+      return this.$store.getters.addAccountError;
+    }
   },
   async created() {
-    await this.$store.dispatch( "getAccountsFB" );
+    this.$store.dispatch("getAccountsFB");
     const info = this.$store.getters.userInfo;
     if (Object.entries(info).length === 0 && info.constructor === Object) {
       const fbAccountId = this.$route.params.fbAccountId;
-      await this.$store.dispatch("getFBAccountById", fbAccountId);
+      this.$store.dispatch("getFBAccountById", fbAccountId);
     }
   },
   methods: {
@@ -129,6 +134,9 @@ export default {
     showPopupDeleteAccount() {
       this.isShowPopupDeleteAccount = true;
       this.isShowAction = false;
+    },
+    selectAccount(account) {
+      this.selectedAccount = account;
     }
   }
 };

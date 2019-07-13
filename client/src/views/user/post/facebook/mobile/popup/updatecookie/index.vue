@@ -23,7 +23,9 @@
             </icon-base>
           </div>
           <p class="name--modal mb_0">Cập nhật tài khoản</p>
-          <div class="active mr_3">Xong</div>
+          <div class="button--done active mr_3">
+            <div v-if="isStatusCookieFacebookFormat === 3 && !updateFbStatus" @click="updateCookie()">Xong</div>
+          </div>
         </div>
         <!-- Start: Updating Data -->
         <div class="modal--body px_3 py_4" v-if="updateFbStatus === 'loading'">
@@ -71,7 +73,7 @@
 <script>
 import StringFunction from "@/utils/functions/string";
 export default {
-  props: ["item", "subBread", "nameBread"],
+  props: ["item"],
   data() {
     return {
       updateFbStatus: "",
@@ -112,20 +114,24 @@ export default {
       this.$emit("closePopupUpdateCookie", false);
     },
     async updateCookie() {
-      const newUserId = StringFuntion.findSubString(
+      this.updateFbStatus = "loading";
+      const newUserId = StringFunction.findSubString(
         this.cookie,
         "c_user=",
         ";"
       );
       const userId = this.item.userInfo.id;
       if (newUserId === userId) {
-        await this.$store.dispatch("updateFacebook", {
+        await this.$store.dispatch("updateFacebookAccountCookie", {
           fbId: this.item._id,
           cookie: this.cookie
         });
-        await this.$emit("closePopupUpdateCookie", false);
-        this.$router.go({ name: "post_fbaccount" });
+        if (this.facebookStatus === "success") {
+          this.updateFbStatus = "success";
+          this.closePopupUpdateCookie();
+        }
       } else {
+        this.updateFbStatus = "success";
         this.isShowAlert = true;
       }
     }
@@ -143,6 +149,7 @@ export default {
   z-index: 10;
   background: #212529;
   .modal--content {
+     width: 100%;
     .modal--header {
       padding: 0.625rem 0;
       border-bottom: 1px solid #ccc;
@@ -215,6 +222,12 @@ export default {
         transform: translateX(200%);
       }
     }
+  }
+}
+
+.button {
+  &--done {
+    width: 2.5rem;
   }
 }
 </style>

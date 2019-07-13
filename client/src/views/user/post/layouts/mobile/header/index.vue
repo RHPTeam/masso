@@ -2,7 +2,7 @@
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
       <app-sidebar-mobile
-        v-if="isShowPopup == true"
+        v-if="isShowPopup === true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
         @closePopup="isShowPopup = $event"
@@ -12,7 +12,8 @@
         @closePopupNewCategory="isShowPopupCreateNewCategory = $event"
       />
       <popup-create-new-post
-        :fbPost="fbPost" :post="post"
+        :fbPost="fbPost"
+        :post="post"
         v-if="isShowPopupCreateNewPost === true"
         @closePopup="isShowPopupCreateNewPost = $event"
       />
@@ -104,7 +105,11 @@
               <icon-update />
             </icon-base>
           </div>
-          <div class="add action ml_2" @click="showPopupAddGroup" v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0">
+          <div
+            class="add action ml_2"
+            @click="showPopupAddGroup"
+            v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+          >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
             </icon-base>
@@ -190,7 +195,14 @@
         <div class="all items" @click="closeDropdownFilterPost">Danh muc 1</div>
         <div class="all items" @click="closeDropdownFilterPost">Danh muc 2</div>
       </div>
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"/>
+      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
+      <upgrade-pro-popup
+        class="dropdown--filter-post position_fixed upgrade-pro-popup"
+        v-if="isShowUpgradePro === true"
+        :data-theme="currentTheme"
+        :showUpgradePro="isShowUpgradePro"
+        @closeAddPopup="isShowUpgradePro = $event"
+      />
     </transition>
   </div>
 </template>
@@ -202,9 +214,11 @@ import PopupAddAccountFacebook from "../popup/facebook/addaccount";
 import PopupCreateNewCampaign from "../popup/campaigns/create";
 import PopupAddGroup from "../popup/postgroup/addgroup";
 import PopupHistory from "../popup/posts/history";
+import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
 export default {
+  props: ["fbPost"],
   components: {
     AppSidebarMobile,
     PopupCreateNewCategory,
@@ -212,7 +226,8 @@ export default {
     PopupAddAccountFacebook,
     PopupCreateNewCampaign,
     PopupAddGroup,
-    PopupHistory
+    PopupHistory,
+    UpgradeProPopup
   },
   data() {
     return {
@@ -223,10 +238,10 @@ export default {
       isShowPopupAddAccountFb: false,
       isShowPopupCreateNewCampaign: false,
       isShowPopupAddGroup: false,
-      isShowPopupHistory: false
+      isShowPopupHistory: false,
+      isShowUpgradePro: false
     };
   },
-  props: ["fbPost"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -274,6 +289,9 @@ export default {
     },
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
+    },
+    accountsFB() {
+      return this.$store.getters.accountsFB;
     }
   },
   filters: {
@@ -297,7 +315,11 @@ export default {
       this.isShowPopupCreateNewPost = true;
     },
     showPopupAddAccountFb() {
-      this.isShowPopupAddAccountFb = true;
+      if (this.accountsFB.length >= this.user.maxAccountFb) {
+        this.isShowUpgradePro = true;
+      } else {
+        this.isShowPopupAddAccountFb = true;
+      }
     },
     showPopupCreateNewCampaign() {
       this.isShowPopupCreateNewCampaign = true;
@@ -313,4 +335,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./index.style";
+.upgrade-pro-popup{
+  background: none !important;
+  box-shadow: none !important;
+}
 </style>

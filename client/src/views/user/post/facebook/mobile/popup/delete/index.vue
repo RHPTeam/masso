@@ -5,7 +5,7 @@
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
           <div class="text mb_2 pb_2">Bạn có muốn xóa tài khoản này không?</div>
-          <div>Xóa</div>
+          <div @click="deleteTargets()">Xóa</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
@@ -16,39 +16,9 @@
 
 <script>
 export default {
-  props: {
-    description: {
-      type: String,
-      default: ""
-    },
-    multiple: {
-      type: Boolean,
-      default: false
-    },
-    storeActionName: {
-      type: String,
-      default: ""
-    },
-    targetData: {
-      type: Object
-    },
-    targetName: {
-      type: String,
-      default: ""
-    },
-    title: {
-      type: String,
-      default: ""
-    },
-    typeName: {
-      type: String,
-      default: ""
-    }
-  },
+  props: ["item"],
   data() {
     return {
-      deleteConfirm: false,
-      deleteText: "",
       deleteStatus: ""
     };
   },
@@ -57,19 +27,14 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  watch: {
-    deleteText() {
-      this.deleteConfirm = this.deleteText === "DELETE";
-    }
-  },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
     },
     async deleteTargets() {
       this.deleteStatus = "loading";
-
-      await this.$store.dispatch("deleteAccountFacebook", this.targetData._id);
+      console.log(this.item);
+      await this.$store.dispatch("deleteAccountFacebook", this.item._id);
 
       // remove localStorage
       await localStorage.removeItem("rid");
@@ -89,13 +54,13 @@ export default {
 <style lang="scss" scoped>
 // @import "index.style";
 .modal--wrapper {
-    height: 100vh;
-    width: 100vw;
-    background: #404040b0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 10;
+  height: 100vh;
+  width: 100vw;
+  background: #404040b0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 10;
   .modal--dialog {
     position: absolute;
     bottom: 0;
@@ -104,6 +69,7 @@ export default {
     font-size: 1rem;
     color: #333;
     .modal--content {
+      width: 90vw;
       .delete {
         border: 1px solid #ccc;
         background: #fff;
