@@ -40,9 +40,14 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_12 c_lg_6 mb_md_3 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn btn--orange" @click="openPopupCreateEvent"
+          <button class="btn btn--orange"
+                  v-if="campaignDetail.status"
+                  @click="openPopupCreateEvent"
           >Thêm sự kiện</button>
-
+          <button class="btn btn--orange"
+                  disabled
+                  v-else
+          >Thêm sự kiên</button>
         </div>
         <div class="campaing--status d_flex align_items_center">
           <div class="status--name mr_2" v-if="campaignDetail.status">
@@ -120,11 +125,9 @@
 <script>
 import AppHistory from "../history";
 // import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
-
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
 
 let typingTimer;
-
 
 export default {
   components: {
