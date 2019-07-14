@@ -5,7 +5,7 @@
       <div class="section--block mr_4">
         <div class="section--title">Bắt đầu</div>
         <div class="section--body mt_2">
-          <div class="box time" title="Setup date time">
+          <div class="box time position_relative" title="Setup date time">
             <div class="box--detail" @click.prevent="isShowChangeStartedAtPopup = true">{{ formatTime( event.started_at ) }}</div>
             <!-- Start: Change Started At Popup -->
             <transition name="popup">

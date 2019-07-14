@@ -54,6 +54,7 @@
           v-model="campaignSelected"
           :options="convertCampaigns"
           placeholder="Chọn chiến dịch"
+          v-click-outside="resetCampaignSelected"
         ></multiselect>
       </div>
       <!-- End: Campaign -->
@@ -62,68 +63,14 @@
     <!-- Start: Footer -->
     <div class="popup--footer mx_3">
       <div class="d_flex justify_content_end">
-        <button class="btn btn_success save">Lưu</button>
+        <button class="btn btn_success save" @click="duplicateEvent">Tạo</button>
       </div>
     </div>
     <!-- End: Footer -->
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      campaignSelected: {},
-      dateStartedAt: new Date(),
-      timeStartedAt: "12:00",
-      inputTimeInvalid: false,
-    }
-  },
-  computed: {
-    campaigns() {
-      return this.$store.getters.allCampaigns;
-    },
-    campaignDetail() {
-      return this.$store.getters.campaignDetail;
-    },
-    convertCampaigns() {
-      return this.campaigns.filter( ( campaign ) => {
-        return campaign.status === true;
-      } ).map( ( campaign ) => {
-        return {
-          _id: campaign._id,
-          title: campaign.title
-        }
-      } );
-    }
-  },
-  watch: {
-    "timeStartedAt"( value ) {
-      const regexTime = new RegExp( "^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$" );
-      this.inputTimeInvalid = !regexTime.test(value.toLowerCase());
-    }
-  },
-  created() {
-    this.$store.dispatch( "getAllCampaigns" );
-    this.campaignSelected = {
-      _id: this.campaignDetail._id,
-      title: this.campaignDetail.title
-    }
-  },
-  methods: {
-    closePopup() {
-      this.$emit( "closePopup", false );
-    },
-    resetTimeStartedAt() {
-      //Validate timeStartedAt, in case of invalid, set value is 12:00.
-      const regexTime = new RegExp( "^(0[0-9]|1[0-9]|2[0-3]|[0-9]):[0-5][0-9]$" );
-      if ( !regexTime.test( this.timeStartedAt.toLowerCase() ) ) {
-        this.timeStartedAt = "12:00";
-      }
-    },
-  }
-}
-</script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "./index.style";

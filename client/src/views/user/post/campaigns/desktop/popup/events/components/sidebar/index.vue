@@ -3,24 +3,32 @@
     <!-- Start: Add to event -->
     <div class="list--group">
       <div class="title mb_2">Thêm vào sự kiện</div>
-      <div class="list--group-item d_flex align_items_center">
-        <icon-base
-          class="mr_2"
-          height="14px"
-          width="14px"
-          viewBox="0 0 20 20"
-        >
-          <icon-user></icon-user>
-        </icon-base>
-        <div class="name">Nội dung nâng cao</div>
+      <div class="list--group-item position_relative">
+        <div class="item--content d_flex align_items_center" @click="showAdvanceContentPopup">
+          <icon-base
+            class="mr_2"
+            height="14px"
+            width="14px"
+            viewBox="0 0 20 20"
+          >
+            <icon-user></icon-user>
+          </icon-base>
+          <div class="name">Nội dung nâng cao</div>
+        </div>
+        <transition name="popup">
+          <advance-content-popup
+            v-if="isShowAdvanceContentPopup"
+            @closePopup="isShowAdvanceContentPopup = $event"
+          ></advance-content-popup>
+        </transition>
       </div>
     </div>
     <!-- End: Add to event -->
     <!-- Start: Actions -->
     <div class="list--group mt_4">
       <div class="title mb_2">Hành động</div>
-      <div class="list--group-item d_flex align_items_center position_relative">
-        <div class="item--content d_flex align_items_center" @click="showCopyPopup">
+      <div class="list--group-item position_relative">
+        <div class="item--content d_flex align_items_center" @click="showDuplicatePopup">
           <icon-base
             class="icon icon--copy mr_2"
             height="14px"
@@ -32,45 +40,49 @@
           <div class="name">Sao chép</div>
         </div>
         <transition name="popup">
-          <copy-popup
-            v-if="isShowCopyPopup"
-            @closePopup="isShowCopyPopup = $event"
-          ></copy-popup>
+          <duplicate-popup
+            v-if="isShowDuplicatePopup"
+            @closePopup="isShowDuplicatePopup = $event"
+          ></duplicate-popup>
         </transition>
       </div>
-      <div class="list--group-item d_flex align_items_center position_relative mt_2">
-        <icon-base
-          class="icon icon--watch mr_2"
-          height="14px"
-          width="14px"
-          viewBox="0 0 280 280"
-        >
-          <icon-watch></icon-watch>
-        </icon-base>
-        <div class="name">Theo dõi</div>
-        <div class="status text_center position_absolute">
+      <div class="list--group-item mt_2">
+        <div class="item--content d_flex align_items_center position_relative">
           <icon-base
-            class="icon--check"
-            height="10px"
-            width="10px"
-            viewBox="0 0 500 500"
+            class="icon icon--watch mr_2"
+            height="14px"
+            width="14px"
+            viewBox="0 0 280 280"
           >
-            <icon-check></icon-check>
+            <icon-watch></icon-watch>
           </icon-base>
+          <div class="name">Theo dõi</div>
+          <div class="status text_center position_absolute">
+            <icon-base
+              class="icon--check"
+              height="10px"
+              width="10px"
+              viewBox="0 0 500 500"
+            >
+              <icon-check></icon-check>
+            </icon-base>
+          </div>
         </div>
       </div>
-      <div class="list--group-item btn--delete d_flex align_items_center mt_2"
+      <div class="list--group-item btn--delete mt_2"
            @click="showDeletePopup"
       >
-        <icon-base
-          class="icon icon--remove mr_2"
-          height="14px"
-          width="14px"
-          viewBox="0 0 16 16"
-        >
-          <icon-remove></icon-remove>
-        </icon-base>
-        <div class="name">Xóa</div>
+        <div class="item--content d_flex align_items_center">
+          <icon-base
+            class="icon icon--remove mr_2"
+            height="14px"
+            width="14px"
+            viewBox="0 0 16 16"
+          >
+            <icon-remove></icon-remove>
+          </icon-base>
+          <div class="name">Xóa</div>
+        </div>
       </div>
     </div>
     <!-- End: Actions -->
@@ -93,16 +105,19 @@
 </template>
 
 <script>
-import CopyPopup from "../popup/copy";
+import AdvanceContentPopup from  "../popup/advancecontent";
+import DuplicatePopup from "../popup/duplicate";
 
 export default {
   components: {
-    CopyPopup
+    AdvanceContentPopup,
+    DuplicatePopup
   },
   props: [ "errorLocation" ],
   data() {
     return {
-      isShowCopyPopup: false
+      isShowAdvanceContentPopup: false,
+      isShowDuplicatePopup: false
     }
   },
   computed: {
@@ -139,8 +154,13 @@ export default {
 
       this.$store.dispatch( "setEventReset" );
     },
-    showCopyPopup() {
-      this.isShowCopyPopup = true;
+    showAdvanceContentPopup() {
+      this.isShowAdvanceContentPopup = true;
+      this.isShowDuplicatePopup = false;
+    },
+    showDuplicatePopup() {
+      this.isShowDuplicatePopup = true;
+      this.isShowAdvanceContentPopup = false;
     },
     showDeletePopup() {
       this.$emit( "showDeletePopup", true );

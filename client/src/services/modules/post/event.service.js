@@ -5,6 +5,9 @@ export default {
   index() {
     return Api().get( "events" );
   },
+  duplicate( eventId, data ) {
+    return Api().post( `events/duplicate?_eventId=${ eventId }`, data );
+  },
   create( campaignsId, event ) {
     return Api().post( `events?_campaignId=${campaignsId}`, event );
   },

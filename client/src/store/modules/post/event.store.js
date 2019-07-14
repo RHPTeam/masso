@@ -134,6 +134,9 @@ const actions = {
     await commit( "setCampaignDetail", campaignDetail.data.data );
     commit( "ev_success");
   },
+  duplicateEvent: async ( { commit }, payload ) => {
+    await EventsServices.duplicate( payload.eventId, payload.data );
+  },
   getAllEvents: async ( { commit } ) => {
     const res = await EventsServices.index();
     await commit( "setEvents", res.data.data );

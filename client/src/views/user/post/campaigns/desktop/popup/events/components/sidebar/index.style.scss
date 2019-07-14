@@ -34,7 +34,6 @@
       border-radius: .5rem;
       cursor: pointer;
       font-size: .825rem;
-      padding: .375rem .75rem;
       transition: all .4s ease;
       &:hover {
         background-color: #3b3e43;
@@ -64,6 +63,7 @@
         }
       }
       .item--content {
+        padding: .375rem .75rem;
         width: 100%;
       }
     }

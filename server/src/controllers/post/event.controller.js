@@ -344,8 +344,13 @@ module.exports = {
     // Check if other campaign
     if ( req.body.campaign && req.body.campaign.length > 0 ) {
       campaignContainEvent = await Campaign.findOne( { "_id": req.body.campaign, "_account": req.uid } );
+    } else {
+      campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
     }
-    campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
+
+    if ( !campaignContainEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    }
 
     eventInfo.title = `${eventInfo.title} Copy`;
     // eslint-disable-next-line camelcase
