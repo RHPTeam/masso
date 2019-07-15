@@ -16,4 +16,5 @@ router
 router
   .route( "/search" )
   .post( PostCategoryController.search );
+router.route( "/mix/:categoryId" ).post( PostCategoryController.addToMix );
 module.exports = router;

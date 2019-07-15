@@ -48,14 +48,15 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
+    // Handle get mix categories
+    if ( parseInt( req.query._mix ) === 1 ) {
+      dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true } ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    }
+
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
-  /**
-   * Create Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "create": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -66,6 +67,7 @@ module.exports = {
     const newPostCategory = await new PostCategory( {
       "title": req.body.title,
       "description": req.body.description,
+      "mix": req.body.mix ? req.body.mix : false,
       "_account": req.uid
     } );
 
@@ -74,12 +76,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newPostCategory ) );
   },
-  /**
-   * Update Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "update": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -95,12 +91,6 @@ module.exports = {
 
     res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._categoryId, { "$set": req.body }, { "new": true } ) ) );
   },
-  /**
-   * Delete Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "delete": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( { "_id": req.query._categoryId, "_account": req.uid } ),
       findPost = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId } );
@@ -123,7 +113,6 @@ module.exports = {
         await post.save();
       } ) );
     }
-
 
     await PostCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
@@ -158,5 +147,18 @@ module.exports = {
     }
 
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+  },
+  "addToMix": async ( req, res ) => {
+    const categoryInfo = await PostCategory.findOne( { "_id": req.params.categoryId, "_account": req.uid } );
+
+    // Check catch
+    if ( !categoryInfo ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục này không tồn tại!" } );
+    }
+
+    categoryInfo.mix = true;
+    await categoryInfo.save();
+
+    res.status( 200 ).json( { "status": "success", "data": categoryInfo } );
   }
 };
