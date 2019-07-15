@@ -26,7 +26,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "plugins.mix.open", "select": "_id title" } ).populate( { "path": "plugins.mix.close", "select": "_id title" } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {

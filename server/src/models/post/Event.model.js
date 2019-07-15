@@ -34,8 +34,14 @@ const mongoose = require( "mongoose" ),
     },
     "plugins": {
       "mix": {
-        "open": String,
-        "close": String
+        "open": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        },
+        "close": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        }
       }
     },
     "activites": Array,
