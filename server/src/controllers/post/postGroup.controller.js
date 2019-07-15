@@ -34,9 +34,11 @@ module.exports = {
       dataResponse._groups = await Promise.all( dataResponse._groups.map( async ( id ) => {
         return await GroupFacebook.findOne( { "groupId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
       } ) );
-      dataResponse._timeline = await Promise.all( dataResponse._timeline.map( async ( id ) => {
-        return await Facebook.findOne( { "userInfo.id": id } ).select( "-cookie" ).lean();
-      } ) );
+      if ( dataResponse._timeline ) {
+        dataResponse._timeline = await Promise.all( dataResponse._timeline.map( async ( id ) => {
+          return await Facebook.findOne( { "userInfo.id": id } ).select( "-cookie" ).lean();
+        } ) );
+      }
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await PostGroup.find( { "_account": req.uid } ).lean();
     }

@@ -21,7 +21,7 @@
           <!-- Start: Profile Data -->
           <div class="mb_2" v-if="accountsFB && accountsFB.length > 0">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
-            >Facebook Profile</div>
+            >Trang cá nhân</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                  v-for="( item, index ) in accountsFB"
                  :key="`fbpf-${index}`"
@@ -51,7 +51,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Facebook Fanpage</div>
+            >Trang Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
@@ -81,7 +81,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Facebook Group</div>
+            >Nhóm Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"
@@ -143,7 +143,8 @@
         <!--End: Empty Data-->
         <div v-else>
           <!-- Start: Profile Data -->
-          <div class="mb_2" v-if="postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
+          <div class="mb_2" v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
+                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Trang' ">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                  v-for="(v, i) in 1"
                  :key="`fbpf-header${i}`"
