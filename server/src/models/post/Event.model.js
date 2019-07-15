@@ -32,6 +32,13 @@ const mongoose = require( "mongoose" ),
       "type": Number,
       "default": 15
     },
+    "plugins": {
+      "mix": {
+        "open": String,
+        "close": String
+      }
+    },
+    "activites": Array,
     "started_at": Date,
     "_account": {
       "type": Schema.Types.ObjectId,
