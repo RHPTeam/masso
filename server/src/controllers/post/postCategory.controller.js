@@ -48,6 +48,13 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
+    // Handle get mix categories
+    if ( parseInt( req.query._mix ) === 1 ) {
+      dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true } ).lean();
+
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    }
+
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
@@ -60,6 +67,7 @@ module.exports = {
     const newPostCategory = await new PostCategory( {
       "title": req.body.title,
       "description": req.body.description,
+      "mix": req.body.mix ? req.body.mix : false,
       "_account": req.uid
     } );
 
@@ -105,7 +113,6 @@ module.exports = {
         await post.save();
       } ) );
     }
-
 
     await PostCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
