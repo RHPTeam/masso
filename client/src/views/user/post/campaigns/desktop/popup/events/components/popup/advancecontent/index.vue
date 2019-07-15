@@ -29,6 +29,8 @@
           label="title"
           class="form--control"
           placeholder="Chọn danh mục mở bài"
+          v-model="beginningCategory"
+          :options="mixCategories"
         ></multiselect>
       </div>
       <!-- End: Beginning -->
@@ -41,6 +43,8 @@
           label="title"
           class="form--control"
           placeholder="Chọn danh mục mở bài"
+          v-model="endingCategory"
+          :options="mixCategories"
         ></multiselect>
       </div>
       <!-- End: Ending -->
@@ -58,12 +62,25 @@
 
 <script>
 export default {
+  data() {
+    return {
+      beginningCategory: {},
+      endingCategory: {},
+    }
+  },
+  computed: {
+    mixCategories() {
+      return this.$store.getters.mixCategories;
+    }
+  },
+  created() {
+    this.$store.dispatch( "getMixCategories" );
+  },
   methods: {
     closePopup() {
       this.$emit( "closePopup", false );
     },
     submit() {
-
     }
   }
 }

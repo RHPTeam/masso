@@ -18,10 +18,10 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description totalPosts" ).lean();
+      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description mix totalPosts" ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", { "sort": { "$natural": -1 } } ).lean();
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description mix totalPosts", { "sort": { "$natural": -1 } } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
@@ -43,14 +43,14 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", query ).lean();
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description mix totalPosts", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
     // Handle get mix categories
-    if ( parseInt( req.query._mix ) === 1 ) {
-      dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true } ).lean();
+    if ( parseInt( req.query.mix ) === 1 ) {
+      dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true }, "title description mix totalPosts" ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
