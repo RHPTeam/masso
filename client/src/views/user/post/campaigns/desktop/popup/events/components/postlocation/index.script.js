@@ -85,8 +85,8 @@ export default {
       })
     },
     selectGroupFacebook( value ) {
-      if(value) {
-        this.$emit("setErrorLocation", false);
+      if ( value ) {
+        this.$emit( "setErrorLocation", false );
       }
       const groupListSelect = value.map( group => {
         return {
@@ -97,7 +97,7 @@ export default {
           }
         };
       } );
-      console.log(groupListSelect);
+
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
         typeTarget: 0,
@@ -105,8 +105,8 @@ export default {
       } )
     },
     selectPageFacebook( value ) {
-      if(value) {
-        this.$emit("setErrorLocation", false);
+      if ( value ) {
+        this.$emit( "setErrorLocation", false );
       }
       const pageListSelect = value.map( page => {
         return {
@@ -117,7 +117,7 @@ export default {
           }
         };
       } );
-      console.log(pageListSelect);
+
       this.$store.dispatch( "setEventSpecial", {
         key: "target_custom",
         typeTarget: 1,
@@ -125,7 +125,7 @@ export default {
       } );
     },
     selectFacebookGroup( value ) {
-      if(value) {
+      if ( value ) {
         this.$emit("setErrorLocation", false);
       }
       this.selectedGroups = value;

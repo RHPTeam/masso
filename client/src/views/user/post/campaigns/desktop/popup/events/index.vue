@@ -36,6 +36,11 @@
               <div class="alert--text" v-if="errorPost === true">
                 Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
               </div>
+              <!-- Start: Mix Plugin -->
+              <mix-plugin
+                v-if="event.plugins"
+              ></mix-plugin>
+              <!-- End: Mix Plugin -->
               <!-- Start: Post Location -->
               <post-location
                 @setErrorLocation="errorLocation = $event"
@@ -79,6 +84,7 @@
 import AppHeader from "./components/header/index";
 import AppSidebar from  "./components/sidebar";
 import DeleteEvent from "./components/popup/delete";
+import MixPlugin from "./components/plugins/mix";
 import PostTime from "./components/posttime";
 import PostCustom from "./components/postcontent";
 import PostLocation from "./components/postlocation";
@@ -89,6 +95,7 @@ export default {
     AppHeader,
     AppSidebar,
     DeleteEvent,
+    MixPlugin,
     PostTime,
     PostCustom,
     PostLocation,

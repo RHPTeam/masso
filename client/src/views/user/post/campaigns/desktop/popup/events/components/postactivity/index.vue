@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="section--body">
-      <div class="list--group" v-if="isShowDetail">
+      <div class="list--group" v-if="false">
         <div class="list--group-item">
           <div class="item--content mb_1">
             Cập nhật sự kiện "Màu tím" thành công.
@@ -71,50 +71,5 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mt--5 {
-  margin-top: 2rem !important;
-}
-.icon {
-  &--activity {
-    margin-top: 4px;
-  }
-}
-.section {
-  &--header {
-    .left {
-      .title {
-        font-size: .95rem;
-        font-weight: 600;
-      }
-    }
-    .right {
-      .btn--detail {
-        background-color: #2f3136;
-        border-radius: .5rem;
-        cursor: pointer;
-        padding: .375rem .75rem;
-        transition: all .4s ease;
-        &:hover {
-          background-color: #3b3e43;
-        }
-      }
-    }
-  }
-  &--body {
-    margin-left: 44px;
-  }
-}
-.list--group {
-  &-item {
-    border-bottom: 1px solid #444;
-    padding: .5rem 0;
-    &:last-child {
-      border-bottom: 0;
-    }
-    .item--time {
-      color: #999;
-      font-size: .75rem;
-    }
-  }
-}
+@import "./index.style";
 </style>

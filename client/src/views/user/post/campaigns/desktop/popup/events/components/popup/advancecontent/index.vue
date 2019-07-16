@@ -20,6 +20,9 @@
     <!-- End: Header -->
     <!-- Start: Body -->
     <div class="popup--body mx_3">
+      <div class="text--error" v-if="errorStatus">
+        {{ errorText }}
+      </div>
       <!-- Start: Beginning -->
       <div class="form--group">
         <div class="title mb_2">
@@ -42,7 +45,7 @@
         <multiselect
           label="title"
           class="form--control"
-          placeholder="Chọn danh mục mở bài"
+          placeholder="Chọn danh mục kết bài"
           v-model="endingCategory"
           :options="mixCategories"
         ></multiselect>
@@ -64,13 +67,42 @@
 export default {
   data() {
     return {
-      beginningCategory: {},
-      endingCategory: {},
+      beginningCategory: "",
+      endingCategory: "",
+      errorStatus: false,
+      errorText: ""
     }
   },
   computed: {
+    event() {
+      return this.$store.getters.event;
+    },
     mixCategories() {
       return this.$store.getters.mixCategories;
+    }
+  },
+  watch: {
+    "beginningCategory"( value) {
+      if ( value !== "" ) {
+        if ( value._id === this.beginningCategory._id ) {
+          this.errorStatus = true;
+          this.errorText = "Danh mục mở bài và kết bài trùng nhau!"
+        } else {
+          this.errorStatus = false;
+          this.errorText = "";
+        }
+      }
+    },
+    "endingCategory"( value ) {
+      if ( value !== "" ) {
+        if ( value._id === this.endingCategory._id ) {
+          this.errorStatus = true;
+          this.errorText = "Danh mục mở bài và kết bài trùng nhau!"
+        } else {
+          this.errorStatus = false;
+          this.errorText = "";
+        }
+      }
     }
   },
   created() {
@@ -80,7 +112,26 @@ export default {
     closePopup() {
       this.$emit( "closePopup", false );
     },
-    submit() {
+    async submit() {
+      const dataSender = {
+        mix: {
+          open: {
+            _id: this.beginningCategory._id,
+            title: this.beginningCategory.title
+          },
+          close: {
+            _id: this.endingCategory._id,
+            title: this.endingCategory.title
+          }
+        }
+      };
+
+      await this.$store.dispatch( "setEvent", {
+        key: "plugins",
+        value: dataSender
+      } );
+
+      this.closePopup();
     }
   }
 }

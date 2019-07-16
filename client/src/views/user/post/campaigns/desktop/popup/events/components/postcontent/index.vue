@@ -44,7 +44,7 @@
             label="title"
             :clearable="false"
             :value="event.post_category"
-            :options="categories"
+            :options="filterCategories"
             @input="selectCategory"
             placeholder="Chọn danh mục đăng bài"
           />
@@ -89,15 +89,11 @@ export default {
     caseEvent() {
       return this.$store.getters.caseEvent;
     },
-    convertNameCategories(){
-      let cateId = this.event.post_category;
-      return this.categories.filter(cate => {
-        if(cate._id === cateId) return {
-          title: cate.title,
-          id: cate._id
-        }
-      })
-    }
+    filterCategories() {
+      return this.categories.filter( ( category ) => {
+        return category.totalPosts > 0;
+      } );
+    },
   },
   async created(){
     if ( this.allPost.length === 0 ) {
@@ -146,6 +142,7 @@ export default {
       } );
     },
     async selectCategory( category ){
+      console.log( category );
       if ( !category ) return;
       if ( category ) {
         await this.$emit("setErrorPost", false);
@@ -156,6 +153,7 @@ export default {
       if ( category.totalPosts === 0 ) {
         this.isShowError = true;
       } else {
+        console.log("OK");
         await this.$store.dispatch( "setCaseEvent", {
           key: "active",
           value: 0

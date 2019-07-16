@@ -92,21 +92,11 @@
       <div class="r">
         <!-- Start: Pages -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 d_flex justify_content_between">
+          <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang Facebook</span>
             <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>-->
           </div>
           <div class="item d_flex align_items_start">
-            <!--<div class="icon mr_3">
-              <icon-base
-                class="icon--page"
-                height="28px"
-                width="28px"
-                viewBox="0 0 500 500"
-              >
-                <icon-page></icon-page>
-              </icon-base>
-            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -131,21 +121,11 @@
         <!-- End: Pages -->
         <!-- Start: Groups -->
         <div class="c_6">
-          <div class="title mt_3 mb_2 d_flex justify_content_between">
+          <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm Facebook</span>
             <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>-->
           </div>
           <div class="item d_flex align_items_start">
-            <!--<div class="icon mr_3">
-              <icon-base
-                class="icon--group"
-                height="28px"
-                width="28px"
-                viewBox="0 0 500 500"
-              >
-                <icon-group></icon-group>
-              </icon-base>
-            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
