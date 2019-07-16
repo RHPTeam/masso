@@ -12,19 +12,26 @@ const FriendSchema = new Schema( {
   "profilePicture": String,
   "profileUrl": String,
   "vanity": String,
-  "_account": [ {
+  "_account": {
     "type": Schema.Types.ObjectId,
     "ref": "Account"
-  } ],
-  "_facebook": [ {
+  },
+  "_facebook": {
     "type": Schema.Types.ObjectId,
     "ref": "Facebook"
-  } ],
+  },
   "created_at": {
     "type": Date,
     "default": Date.now()
   },
   "updated_at": Date
+} );
+
+FriendSchema.index( {
+  "alternateName": "text",
+  "firstName": "text",
+  "userID": "text",
+  "fullName": "text"
 } );
 
 FriendSchema.pre( "save", function( next ) {
@@ -33,5 +40,11 @@ FriendSchema.pre( "save", function( next ) {
 } );
 
 const Friend = mongoose.model( "Friend", FriendSchema );
+
+Friend.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = Friend;
