@@ -244,7 +244,8 @@ const actions = {
       started_at: new Date,
       post_custom: [],
       target_custom: [],
-      timeline: []
+      timeline: [],
+      plugins: ""
     } );
     commit( "setCaseEvent", {
       post: 1, // 0: None, 1: Category, 2: Custom

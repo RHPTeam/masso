@@ -60,6 +60,7 @@
             placeholder="Chọn bài viết từ kho nội dung"
           />
         </div>
+        <div>{{ event }}</div>
       </div>
     </div>
   </div>
@@ -178,7 +179,10 @@ export default {
           value: []
         } );
       } else {
-        await this.$store.dispatch( "setEventRemove", "post_category" );
+        await this.$store.dispatch( "setEvent", {
+          key: "post_category",
+          value: []
+        } );
       }
       await this.$store.dispatch( "setCaseEvent", {
         key: "post",
