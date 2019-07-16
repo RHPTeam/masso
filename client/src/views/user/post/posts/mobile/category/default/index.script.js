@@ -16,12 +16,15 @@ export default {
     }
   },
   async created() {
-    const defaultNumberNo = this.$store.getters.allCateDefault;
+    // const defaultNumberNo = this.$store.getters.allCateDefault;
 
-    if ( defaultNumberNo.length === 0 ) {
-      this.$store.dispatch("getCategoryDefault");
-    }
+    // if ( defaultNumberNo.length === 0 ) {
+    //   this.$store.dispatch("getCategoryDefault");
+    // }
   },
   methods: {
+    showCategory(event) {
+      this.$emit("showCategory", event );
+    }
   }
 };

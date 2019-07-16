@@ -23,7 +23,14 @@ export default {
   methods: {    
     async duplicateCategories(){
       await this.$store.dispatch("duplicateCategoriesDefault", this.item._id);
-      // this.$router.push({name: "post_postCategories"});
+      
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+  
+      await this.$store.dispatch( "getCategoriesByPage", dataSender );
+      this.$emit("showCategory", false);
     }
   },
 };

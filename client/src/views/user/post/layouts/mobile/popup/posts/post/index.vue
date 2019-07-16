@@ -23,6 +23,7 @@
           <!-- Start: Post Title -->
           <div class="item mb_4">
             <span>Tên bài viết</span>
+            <div class="error my_1" v-if="isShowAlertTitle === true">Tiêu đề không được bỏ trống</div>
             <input
               type="text"
               class="input mt_2"
@@ -40,6 +41,7 @@
                 label="title"
                 multiple
                 v-model="post._categories"
+                @input="updateCate"
                 :options="categories"
                 placeholder="Chọn danh mục"
               >
@@ -53,7 +55,7 @@
           <!-- Start: Post Content -->
           <div class="item mt_4">
             <span>Nội dung</span>
-            <div class="my_1 error" v-if="isShowAlert === true">Nội dung không được bỏ trống!</div>
+            <div class="my_1 error" v-if="isShowAlertContent === true">Nội dung không được bỏ trống!</div>
             <div class="wrap mt_2">
               <!--Start: Create and show content-->
               <div class="content position_relative">

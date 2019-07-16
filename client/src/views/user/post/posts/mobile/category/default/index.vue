@@ -13,7 +13,9 @@
         <item-category-default 
           v-for="(category, index) in categoriesDefault"
           :key="`c-${index}`"
-          :item="category"/>
+          :item="category"
+          @showCategory="showCategory($event)"
+          />
       </VuePerfectScrollbar>
     </div>
 

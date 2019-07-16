@@ -6,7 +6,6 @@ export default {
     ItemCategories,
     VuePerfectScrollbar
   },
-  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       isShowDeletePopup: false,
@@ -26,18 +25,21 @@ export default {
     }
   },
   async created() {
-    // const defaultNumberNo = this.$store.getters.allCateDefault;
+    if( this.$router.name === 'post_posts') {
+      const categoryNo = this.$store.getters.categoriesPage;
+      if( categoryNo.length === 0 ) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch( "getCategoriesByPage", dataSender );
+      }
 
-    // if ( defaultNumberNo.length === 0 ) {
-    //   this.$store.dispatch("getCategoryDefault");
-    // }
-    
-    // const dataSender = {
-    //   size: 25,
-    //   page: 1
-    // };
-
-    // this.$store.dispatch( "getCategoriesByPage", dataSender );
+      const defaultNumberNo = this.$store.getters.allCateDefault;  
+      if ( defaultNumberNo.length === 0 ) {
+        this.$store.dispatch("getCategoryDefault");
+      }
+    }
   },
   methods: {
     updateCategory( val ) {

@@ -38,7 +38,9 @@ export default {
       isShowMoreOption: false,
       isActiveImage: false,
       isShowChangeScrape: false,
-      isShowPostNowPopup: false
+      isShowPostNowPopup: false,
+      isShowAlertContent: false,
+      isShowAlertTitle: false
     };
   },
   computed: {
@@ -111,6 +113,16 @@ export default {
     //     // this.$store.dispatch( "updatePost", this.post );
     //   }
     // }
+    "post.content"(value) {
+      if(value.length > 0) {
+        this.isShowAlertContent = false;
+      }
+    },    
+    "post.title"(value) {
+      if(value.length > 0) {
+        this.isShowAlertTitle = false;
+      }
+    }
   },
   methods: {
     closePopup() {
@@ -118,8 +130,10 @@ export default {
     },
     // Update post when click button Save
     async savePost(){
-      if(this.post.content.length === 0) {
-        this.isShowAlert = true;
+      if(this.post.content.trim().length === 0) {
+        this.isShowAlertContent = true;
+      } else if (this.post.title.trim().length === 0) {
+        this.isShowAlertTitle = true;
       } else {
         if(this.linkContent.length > 0) {
           this.post.scrape = this.linkContent[0];

@@ -79,14 +79,15 @@ export default {
     }
   },
   async created() {
-    const postNo = this.$store.getters.allPost;
-    if( postNo.length === 0 ) {
-      // this.$store.dispatch("getAllPost");
-      const dataSender = {
-        size: 25,
-        page: 1
-      };
-      await this.$store.dispatch( "getPostsByPage", dataSender );
+    if( this.$router.name === 'post_posts') {
+      const postNo = this.$store.getters.allPost;
+      if( postNo.length === 0 ) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        await this.$store.dispatch( "getPostsByPage", dataSender );
+      }
     }
   }
 };
@@ -130,7 +131,7 @@ export default {
     line-height: 32px;
   }
   .list--post-group {
-    max-height: calc(100vh - 204px);
+    max-height: 74vh;
     &.ps.ps--active-x > .ps__scrollbar-x-rail,
     &.ps.ps--active-y > .ps__scrollbar-y-rail {
       display: none !important;

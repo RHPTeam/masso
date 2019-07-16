@@ -38,10 +38,10 @@ export default {
       isActiveImage: false,
       isShowChangeScrape: false,
       isShowPostNowPopup: false,
-      isShowAlert: false
+      isShowAlertContent: false,
+      isShowAlertTitle: false
     };
   },
-  props: ["post"],
   computed: {
     activity() {
       return this.$store.getters.activity;
@@ -82,6 +82,9 @@ export default {
     },
     checkColor: function () {
       return this.post.color === undefined || this.post.color.length === 0;
+    },
+    post() {
+      return this.$store.getters.post;
     }
   },
   async created (){
@@ -109,28 +112,48 @@ export default {
     //   } else {
     //     this.$store.dispatch( "updatePost", this.post );
     //   }
-    // }
+    // }    
+    "post.content"(value) {
+      if(value.length > 0) {
+        this.isShowAlertContent = false;
+      }
+    },    
+    "post.title"(value) {
+      if(value.length > 0) {
+        this.isShowAlertTitle = false;
+      }
+    }
   },
   methods: {
-    async savePost(){
+    savePost(){
       if(this.post.content.trim().length === 0) {
-        this.isShowAlert = true;
+        this.isShowAlertContent = true;
+      } else if (this.post.title.trim().length === 0) {
+        this.isShowAlertTitle = true;
       } else {
-        // if(this.linkContent.length > 0) {
-        //   this.post.scrape = this.linkContent[0];
-        // }
-        if(this.post.title.length === 0) {
-          this.post.title = "Bài viết chưa có tiêu đề nè !";
+        if(this.linkContent.length > 0) {
+          this.post.scrape = this.linkContent[0];
         }
-        await this.$store.dispatch( "updatePost", this.post );
-        this.$store.dispatch("setPostCateDefault", 0);
-        // this.$router.go(-1);
+        this.$store.dispatch( "updatePost", this.post );
+        // this.$store.dispatch("setPostCateDefault", 0);
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getPostsByPage", dataSender);
         this.closePopup();
       }
     },
     // Update categories post
     updateCate() {
       this.$store.dispatch( "updatePost", this.post );
+      // let title = "";
+      // this.categories.map( item => {
+      //   if( item._id === "5d229e5d46b2e60374366dca" ) {
+      //     title = item.title;
+      //   }
+      // })
+      // return title;
     },
     closePopup() {
       this.$emit("closePopup", false);
@@ -198,6 +221,7 @@ export default {
     },
     changeContentDefault() {
       this.post.color = "";
+      console.log(1);
     },
     showOptionPostImages(){
       this.isShowColor = false;

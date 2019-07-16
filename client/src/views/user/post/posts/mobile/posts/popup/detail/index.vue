@@ -23,6 +23,7 @@
           <!-- Start: Post Title -->
           <div class="item mb_4">
             <span>Tên bài viết</span>
+            <div class="error my_1" v-if="isShowAlertTitle === true">Tiêu đề không được bỏ trống</div>
             <input
               type="text"
               class="input mt_2"
@@ -53,6 +54,7 @@
           <!-- Start: Post Content -->
           <div class="item mt_4">
             <span>Nội dung</span>
+            <div class="error my_1" v-if="isShowAlertContent === true">Nội dung không được bỏ trống</div>
             <div class="wrap mt_2">
               <!--Start: Create and show content-->
               <div class="content position_relative">
@@ -459,6 +461,10 @@
   z-index: 10;
   .content {
     height: 100%;
+  }
+  .error {
+    color: #e01212;
+    font-size: 0.8135rem;
   }
   .modal--header {
     border-bottom: 1px solid #ccc;

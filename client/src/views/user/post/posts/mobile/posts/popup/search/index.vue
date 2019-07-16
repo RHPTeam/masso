@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="search" @keydown.enter="updateSearch"/>
+          <input type="text" placeholder="Tìm kiếm" v-model="search" @keydown.enter="updateSearch" />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -107,14 +107,15 @@ export default {
     };
   },
   methods: {
-    closePopupSearch() {
+    async closePopupSearch() {
       const dataSender = {
-        keyword: '',
+        keyword: "",
         size: 25,
         page: 1
       };
-      this.$store.dispatch("getPostsByPage", dataSender);
-      this.$store.dispatch("getCategoriesByPage", dataSender);
+      await this.$store.dispatch("getPostsByPage", dataSender);
+      await this.$store.dispatch("getCategoriesByPage", dataSender);
+      await this.$router.push({ name: "post_posts", query: { size: 25, page: 1 } });
       this.$emit("closePopupSearch", false);
     },
     showPopupPosts() {
@@ -150,14 +151,14 @@ export default {
       this.$store.dispatch("getPostsByKey", dataSender);
       this.$store.dispatch("getCategoriesByKey", dataSender);
 
-      this.$router.replace( {
+      this.$router.replace({
         name: "post_posts",
         query: {
           search: this.search,
           size: 25,
           page: 1
         }
-      } );
+      });
 
       // this.$emit( "updateSearch", this.search );
       // this.updateFilterCategorySelected( {
@@ -180,8 +181,8 @@ export default {
           size: 25,
           page: 1
         };
-        this.$store.dispatch("getPostsByPage", dataSender);
-        this.$store.dispatch("getCategoriesByPage", dataSender);
+        // this.$store.dispatch("getPostsByPage", dataSender);
+        // this.$store.dispatch("getCategoriesByPage", dataSender);
 
         // this.$router.replace( {
         //   name: "post_posts",

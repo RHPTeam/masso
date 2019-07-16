@@ -23,7 +23,6 @@
 
         <div
           class="group--item mr_2 mb_2"
-          :class="[currentIndex === index ? 'active' : '']"
           v-for="(postGroup, index) in postGroups"
           :key="index"
         >

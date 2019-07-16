@@ -6,7 +6,8 @@
       height: 48px;
     }
     .list--category-default {
-      max-height: calc(100vh - 227px);
+      // max-height: calc(100vh - 227px);
+      max-height: 74vh;
     }
     .item--body {
       min-height: 48px;

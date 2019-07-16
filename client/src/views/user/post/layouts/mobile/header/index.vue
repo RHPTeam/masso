@@ -28,6 +28,10 @@
         v-if="isShowPopupAddGroup === true"
         @closePopupAddGroup="isShowPopupAddGroup = $event"
       />
+      <popup-filter-by-category
+        v-if="isShowDropdownFilterByCategory === true"
+        @closePopup="isShowDropdownFilterByCategory = $event"
+      />
     </transition>
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
@@ -49,8 +53,14 @@
       </div>
       <div class="d_flex align_items_center ml_auto action--right position_relative">
         <!-- Start: Action in Posts -->
-        <div class="posts d_flex align_items_center" v-if="gestureCursorMenuUser === 1">
-          <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11">
+        <div
+          class="posts d_flex align_items_center"
+          v-if="gestureCursorMenuUser === 1 || this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' "
+        >
+          <div
+            class="all-posts d_flex align_items_center"
+            v-if="gestureUser === 11"
+          >
             <div class="action mr_1" @click="showPopupHistory">
               <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
                 <icon-history />
@@ -98,7 +108,10 @@
         <!-- End: Action in campaign -->
 
         <!-- Start: Action in PostGroup -->
-        <div class="post--group d_flex align_items_center" v-if="gestureCursorMenuUser === 3">
+        <div
+          class="post--group d_flex align_items_center"
+          v-if="gestureCursorMenuUser === 3 || this.$route.name === 'post_group' "
+        >
           <div class="update action" @click="updateGroupsAndPages">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
               <icon-update />
@@ -185,10 +198,6 @@
     <!--    End: Add new script-->
     <!-- Start: transition popup mobile -->
     <transition name="popup">
-      <popup-filter-by-category
-        v-if="isShowDropdownFilterByCategory === true"
-        @closePopup="isShowDropdownFilterByCategory = $event"
-      />
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
     </transition>
   </div>
@@ -241,7 +250,11 @@ export default {
       if (this.$route.name === "post_dashboard") {
         return "Bảng Điều Khiển";
       }
-      if (this.$route.name === "post_posts" || this.$route.name === "post_postCategories" || this.$route.name === "categories_default" ) {
+      if (
+        this.$route.name === "post_posts" ||
+        this.$route.name === "post_postCategories" ||
+        this.$route.name === "categories_default"
+      ) {
         return "Kho Nội Dung";
       }
       if (this.$route.name === "post_campaigns") {
@@ -285,8 +298,8 @@ export default {
   },
   methods: {
     updateGroupsAndPages() {
-      this.$store.dispatch( "updateFacebookPages" );
-      this.$store.dispatch( "updateFacebookGroups" );
+      this.$store.dispatch("updateFacebookPages");
+      this.$store.dispatch("updateFacebookGroups");
     },
     showDropdownFilterByCategory() {
       this.isShowDropdownFilterByCategory = true;
@@ -300,11 +313,11 @@ export default {
     async showPopupCreatePost() {
       const dataSender = {};
 
-      await this.$store.dispatch( "createNewPost", this.post );
-      // await this.$store.dispatch("getPostById", this.post._id);
+      await this.$store.dispatch( "createNewPost", dataSender );
+      await this.$store.dispatch("getPostById", this.post._id);
       // this.$router.push( {
       //   name: "post_update_post",
-      //   params: { id: this.newPost._id }
+      //   params: { id: this.post._id }
       // } );
       this.isShowPopupCreatePost = true;
     },
@@ -320,6 +333,9 @@ export default {
     showPopupHistory() {
       this.isShowPopupHistory = true;
     }
+  },
+  created() {
+    this.$store.dispatch("actionCursor", 11);
   }
 };
 </script>

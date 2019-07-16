@@ -29,56 +29,42 @@
         <div
           class="posts items"
           @click="showPosts"
-          :class="gestureUser === 11 ? 'active' : '' "
+          :class="gestureUser === 11 || isShowPosts === true ? 'active' : '' "
         >Tất cả</div>
         <div
           class="category items"
           @click="showCategory"
-          :class="gestureUser === 12 ? 'active' : '' "
+          :class="gestureUser === 12 || isShowCategory === true ? 'active' : '' "
         >Danh mục</div>
         <div
           class="category--form items"
           @click="showCategoryForm"
-          :class="gestureUser === 13 ? 'active' : '' "
+          :class="gestureUser === 13 || isShowCategoryDefault === true ? 'active' : '' "
         >Danh mục mẫu</div>
       </div>
       <!-- End: Tabs - Posts and Category -->
 
       <!-- Start: List Posts -->
-      <div class="list--post pt_2" v-if="gestureUser === 11">
+      <div class="list--post pt_2" v-if="isShowPosts === true">
         <list-post />
       </div>
       <!-- End: List Posts -->
 
       <!-- Start: List Category -->
-      <div class="category" v-if="gestureUser === 12">
+      <div class="category" v-if="isShowCategory === true">
         <VuePerfectScrollbar class="scroll-category" ref="scroll">
           <category />
         </VuePerfectScrollbar>
       </div>
       <!-- End: List Category -->
-      <div class="category--form" v-if="gestureUser === 13">
+      <div class="category--form" v-if="isShowCategoryDefault === true">
         <VuePerfectScrollbar class="scroll--category-form" ref="scroll">
-          <category-form />
+          <category-form @showCategory="showCategory($event)"/>
         </VuePerfectScrollbar>
       </div>
       <!-- Start: List Category Form -->
 
       <!-- End: List Category Form -->
-
-      <!-- Start: Create new post -->
-      <!-- <div class="new--post position_fixed">
-        <icon-base
-          class="ic--new-post"
-          icon-name="Them"
-          width="25"
-          height="25"
-          viewBox="0 0 400 400"
-        >
-          <icon-create-new />
-        </icon-base>
-      </div>-->
-      <!-- End: Create new post -->
     </div>
     <!-- End: Content -->
     <!-- Start: Transition Popup -->
