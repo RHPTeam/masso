@@ -20,7 +20,7 @@
     <!-- End: Header -->
     <!-- Start: Body -->
     <div class="popup--body mx_3">
-      <div class="text--error" v-if="errorStatus">
+      <div class="text--error mb_2" v-if="errorStatus">
         {{ errorText }}
       </div>
       <!-- Start: Beginning -->
@@ -51,11 +51,12 @@
         ></multiselect>
       </div>
       <!-- End: Ending -->
+      <div class="desc mt_3">Các bài viết trong danh mục được lựa chọn sẽ tự động được chèn làm mở bài hay kết bài trong mỗi lần đăng bài viết lên Facebook.</div>
     </div>
     <!-- End: Body -->
     <!-- Start: Footer -->
     <div class="popup--footer mx_3">
-      <div class="d_flex justify_content_end">
+      <div class="d_flex">
         <button class="btn btn_success save" @click="submit">Thêm</button>
       </div>
     </div>
@@ -83,7 +84,13 @@ export default {
   },
   watch: {
     "beginningCategory"( value) {
-      if ( value !== "" ) {
+      if ( value && this.event.post_category ) {
+        if ( value._id === this.event.post_category._id ) {
+          this.errorStatus = true;
+          this.errorText = "Danh mục mở bài trùng với danh mục đăng bài viết!"
+        }
+      }
+      if ( value && this.endingCategory ) {
         if ( value._id === this.beginningCategory._id ) {
           this.errorStatus = true;
           this.errorText = "Danh mục mở bài và kết bài trùng nhau!"
@@ -91,17 +98,23 @@ export default {
           this.errorStatus = false;
           this.errorText = "";
         }
+      } else {
+        this.errorStatus = false;
+        this.errorText = "";
       }
     },
     "endingCategory"( value ) {
-      if ( value !== "" ) {
-        if ( value._id === this.endingCategory._id ) {
+      if ( value && this.beginningCategory ) {
+        if ( value._id === this.beginningCategory._id ) {
           this.errorStatus = true;
           this.errorText = "Danh mục mở bài và kết bài trùng nhau!"
         } else {
           this.errorStatus = false;
           this.errorText = "";
         }
+      } else {
+        this.errorStatus = false;
+        this.errorText = "";
       }
     }
   },
