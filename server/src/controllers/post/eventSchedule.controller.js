@@ -26,7 +26,7 @@ module.exports = {
       // Do something new version - Handle get all target
       if ( listTarget.length === 0 ) {
         // Get all target and merge to one array and remove duplicate
-        
+
         // Check target profile
         if ( event && event.timeline.length > 0 ) {
           listTarget = listTarget.concat( await Promise.all( event.timeline.map( async ( profile ) => {
@@ -76,7 +76,13 @@ module.exports = {
           // Random post from list post
           let postID = listPost[ Math.floor( Math.random() * listPost.length ) ],
             startedAtPostToFacebook = ( new Date( startAt ) ).setMinutes( ( new Date( startAt ) ).getMinutes() + ( event.break_point * ( index + 1 ) ) ),
-            facebookID, location = target.type, newEventSchedule;
+            facebookID, location = target.type, newEventSchedule, mixPost = {};
+
+          // Check if user use advance mix post before upload to facebook.
+          if ( event.plugins && event.plugins.mix ) {
+            mixPost.mixOpen = event.plugins.mix.open;
+            mixPost.mixClose = event.plugins.mix.close;
+          }
 
           // Timeline
           if ( target.type === 0 ) {
@@ -100,6 +106,8 @@ module.exports = {
           // new value from model to insertMany() to mongodb
           newEventSchedule = new EventSchedule( {
             "postID": postID,
+            "mixOpen": mixPost.mixOpen,
+            "mixClose": mixPost.mixClose,
             "facebookID": facebookID,
             "location": location,
             "targetID": target.value,

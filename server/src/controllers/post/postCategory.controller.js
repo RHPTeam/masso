@@ -52,6 +52,10 @@ module.exports = {
     if ( parseInt( req.query.mix ) === 1 ) {
       dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true }, "title description mix totalPosts" ).lean();
 
+      dataResponse = await Promise.all( dataResponse.filter( async ( category ) => {
+        return ( await Post.find( { "_categories": category._id } ).lean() ).length > 0;
+      } ) );
+
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
