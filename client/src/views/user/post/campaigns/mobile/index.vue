@@ -14,7 +14,7 @@
             <icon-input-search />
           </icon-base>
         </span>
-        <input class="search--input" placeholder="Tìm kiếm" type="text" />
+        <input v-model="search" class="search--input" placeholder="Tìm kiếm" type="text" />
       </div>
     </div>
     <!-- End: Search -->
@@ -31,73 +31,59 @@
         :class="isShowTabCampaginDefault === true ? 'active' : '' "
       >Chiến dịch mẫu</div>
       <!-- <router-link
-        class
+         class="item text_center"
         tag="button"
         :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
         active-class="active"
       >Danh sách</router-link>
       <router-link
-        class
+         class="item text_center"
         tag="button"
         :to="{ name: 'campaigns_default' }"
         active-class="active"
-      >Chiến dịch mẫu</router-link>-->
+      >Chiến dịch mẫu</router-link> -->
     </div>
     <!-- End: Main -->
     <!-- Start: list campaign -->
     <div class="list--data pl_2 mt_2">
       <VuePerfectScrollbar class="scroll-campaign" ref="scroll">
         <div class="campaign pr_2" v-if="isShowTabCampaign === true">
-          <div class="item d_flex align_items_center">
+          <div
+            class="item d_flex align_items_center"
+            v-for="( campaign, index ) in campaigns"
+            :key="`cp-${index}`"
+            @click="selectCampaign(campaign)"
+          >
             <div class="content d_flex align_items_center" @click="showPopupDetailCampaign">
               <div class="left">
-                <p class="mb_0 name">Chiến dịch 1</p>
-                <p class="mb_0 date">01/01/2018</p>
+                <p class="mb_0 name">{{ campaign.title }}</p>
+                <p class="mb_0 date">{{ formatDate(campaign.started_at) }}</p>
               </div>
               <div class="right ml_auto">
-                <span class="active"></span>
+                <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
               </div>
             </div>
             <div class="action d_flex align_items_center ml_auto">
               <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-              <p class="mb_0" @click="showPopupDelete">Xoa</p>
-            </div>
-          </div>
-          <div class="item d_flex align_items_center">
-            <div class="left">
-              <p class="mb_0 name">Chiến dịch 1</p>
-              <p class="mb_0 date">01/01/2018</p>
-            </div>
-            <div class="right ml_auto">
-              <span class="active"></span>
-            </div>
-            <div class="action d_flex align_items_center">
-              <p class="mb_0 mr_1">Copy</p>
-              <p class="mb_0">Xoa</p>
+              <p class="mb_0" @click="showPopupDelete(campaign)">Xoa</p>
             </div>
           </div>
         </div>
         <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
-          <div class="item d_flex align_items_center">
+          <div
+            class="item d_flex align_items_center"
+            v-for="( campaign, index ) in campaignsDefault"
+            :key="`cp-${index}`"
+            @click="selectCampaign(campaign)"
+          >
             <div class="left">
-              <p class="mb_0 name">Chiến dịch maaux 1 Chiến dịch maaux 1</p>
+              <p class="mb_0 name">{{ campaign.title }}</p>
             </div>
             <div class="right ml_auto">
-              <span class="active"></span>
+              <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
             </div>
             <div class="action d_flex align_items_center">
               <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-            </div>
-          </div>
-          <div class="item d_flex align_items_center">
-            <div class="left">
-              <p class="mb_0 name">Chiến dịch maxu 1</p>
-            </div>
-            <div class="right ml_auto">
-              <span class="active"></span>
-            </div>
-            <div class="action d_flex align_items_center">
-              <p class="mb_0 mr_1">Copy</p>
             </div>
           </div>
         </div>
@@ -106,9 +92,19 @@
     <!-- End: list campaign -->
     <!-- Start: Transition Popup -->
     <transition name="popup--mobile">
+      <!-- <popup-search
+        v-if="isShowPopupSearch === true"
+        :campaigns="campaigns"
+        :campaignsDefault="campaignsDefault"
+        @closePopupSearch="isShowPopupSearch = $event"
+        @searchKeyword="search = $event"
+      /> -->
       <popup-search
         v-if="isShowPopupSearch === true"
-        @closePopupSearch="isShowPopupSearch = $event"
+        :campaigns="campaigns"
+        :campaignsDefault="campaignsDefault"
+        @closePopupSearch="onClosePopupSearch($event)"
+        @searchKeyword="search = $event"
       />
       <popup-detail-campaign
         v-if="isShowPopupDetailCampaign === true"
@@ -118,8 +114,17 @@
     <!-- End: Transition Popup -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
-      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true" />
-      <popup-copy @closePopup="isShowPopupCopy = $event" v-if="isShowPopupCopy === true" />
+      <popup-delete
+        :selectedCampaign="selectedCampaign"
+        @closePopup="isShowPopupDelete = $event"
+        @confirmDelete="confirmDeleteCampaign($event)"
+        v-if="isShowPopupDelete === true"
+      />
+      <popup-copy
+        :selectedCampaign="selectedCampaign"
+        @closePopup="isShowPopupCopy = $event"
+        v-if="isShowPopupCopy === true"
+      />
       <!-- <popup-duplicate-campaign/> -->
     </transition>
     <!-- End: Popup delete -->

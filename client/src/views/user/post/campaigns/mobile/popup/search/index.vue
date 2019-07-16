@@ -9,7 +9,12 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" />
+          <input
+            v-model="search"
+            @keydown.enter="updateSearch()"
+            type="text"
+            placeholder="Tìm kiếm"
+          />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -54,30 +59,42 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content d_flex align_items_center py_2">
-                <div class="left">
-                  <p class="mb_0 name">Chiến dịch 1</p>
-                  <p class="mb_0 date">01/01/2018</p>
+              <div
+                class="item--content d_flex align_items_center py_2"
+                v-for="( campaign, index ) in campaigns"
+                :key="`cp-${index}`"
+                @click="selectCampaign(campaign)"
+              >
+                <div class="content d_flex align_items_center" @click="showPopupDetailCampaign">
+                  <div class="left">
+                    <p class="mb_0 name">{{ campaign.title }}</p>
+                    <p class="mb_0 date">{{ formatDate(campaign.started_at) }}</p>
+                  </div>
+                  <div class="right ml_auto">
+                    <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
+                  </div>
                 </div>
-                <div class="right ml_auto">
-                  <span class="active"></span>
-                </div>
-                <div class="action d_flex align_items_center">
-                  <p class="mb_0 mr_1">Copy</p>
-                  <p class="mb_0">Xoa</p>
+                <div class="action d_flex align_items_center ml_auto">
+                  <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
+                  <p class="mb_0" @click="showPopupDelete(campaign)">Xoa</p>
                 </div>
               </div>
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content d_flex align_items_center py_2">
+              <div
+                class="item--content d_flex align_items_center py_2"
+                v-for="( campaign, index ) in campaignsDefault"
+                :key="`cp-${index}`"
+                @click="selectCampaign(campaign)"
+              >
                 <div class="left">
-                  <p class="mb_0 name">Chiến dịch maaux 1 Chiến dịch maaux 1</p>
+                  <p class="mb_0 name">{{ campaign.title }}</p>
                 </div>
                 <div class="right ml_auto">
-                  <span class="active"></span>
+                  <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
                 </div>
                 <div class="action d_flex align_items_center">
-                  <p class="mb_0 mr_1">Copy</p>
+                  <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
                 </div>
               </div>
             </div>
@@ -89,20 +106,91 @@
       </div>
       <!-- End: Main - Search -->
     </div>
+    <!-- Start: Transition Popup -->
+    <transition name="popup--mobile">
+      <popup-detail-campaign
+        v-if="isShowPopupDetailCampaign === true"
+        @closePopup="isShowPopupDetailCampaign = $event"
+      />
+    </transition>
+    <!-- End: Transition Popup -->
+    <!-- Start: Popup delete -->
+    <transition name="popup--delete">
+      <popup-delete
+        :selectedCampaign="selectedCampaign"
+        @closePopup="isShowPopupDelete = $event"
+        @confirmDelete="confirmDeleteCampaign($event)"
+        v-if="isShowPopupDelete === true"
+      />
+      <popup-copy
+        :selectedCampaign="selectedCampaign"
+        @closePopup="isShowPopupCopy = $event"
+        v-if="isShowPopupCopy === true"
+      />
+      <!-- <popup-duplicate-campaign/> -->
+    </transition>
+    <!-- End: Popup delete -->
   </div>
 </template>
 
 <script>
+import PopupDelete from "../delete";
+import PopupDetailCampaign from "../detail";
+import PopupCopy from "../copy";
 export default {
-  components: {},
-  computed: {},
+  components: {
+    PopupDelete,
+    PopupCopy,
+    PopupDetailCampaign
+  },
+  props: ["campaigns", "campaignsDefault"],
   data() {
     return {
+      search: "",
+      isLoadingData: false,
+      selectedCampaign: {},
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowPopupPostGroup: false,
-      isShowAddToGroup: false
+      isShowAddToGroup: false,
+      isShowPopupDelete: false,
+      isShowPopupCopy: false,
+      isShowPopupDetailCampaign: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
+  watch: {
+    async search(val) {
+      if (val.length === 0) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        await this.$store.dispatch("getCampaignsByPage", dataSender);
+        await this.$store.dispatch("getCampaignSimple");
+
+        // this.$router.replace({
+        //   name: "post_campaigns",
+        //   query: {
+        //     size: 25,
+        //     page: 1
+        //   }
+        // });
+
+        this.$emit("updateCurrentPage", 1);
+        this.$emit("updateSearch", this.search);
+      }
+    }
+  },
+  created() {
+    const search = this.$route.query.search;
+    if (search !== undefined) {
+      this.search = search;
+    }
   },
   methods: {
     async loadMore() {
@@ -125,6 +213,31 @@ export default {
         }
       }
     },
+    async updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: 25,
+        page: 1
+      };
+      await this.$store.dispatch("getCampaignsByKey", dataSender);
+
+      // Search Default Campaign on Client Side.
+      await this.$store.dispatch("getCampaignSimple");
+      await this.$store.dispatch("getCampaignsSimpleByKey", {
+        search: this.search,
+        campaignsDefault: this.campaignsDefault
+      });
+      this.$emit("updateSearch", this.search);
+
+      // this.$router.replace({
+      //   name: "post_campaigns",
+      //   query: {
+      //     search: this.search,
+      //     size: 25,
+      //     page: 1
+      //   }
+      // });
+    },
     closePopupSearch() {
       this.$emit("closePopupSearch", false);
     },
@@ -145,6 +258,42 @@ export default {
     },
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
+    },
+    showPopupDelete(campaign) {
+      this.selectedCampaign = campaign;
+      this.isShowPopupDelete = true;
+    },
+    showPopupSearch() {
+      this.isShowPopupSearch = true;
+    },
+    showPopupCopy() {
+      this.isShowPopupCopy = true;
+    },
+    showPopupDetailCampaign() {
+      this.isShowPopupDetailCampaign = true;
+    },
+    formatDate(d) {
+      const dateTime = new Date(d);
+      const date = String(dateTime.getDate()).padStart(2, "0");
+      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+      const year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
+    },
+    selectCampaign(campaign) {
+      this.selectedCampaign = campaign;
+    },
+    confirmDeleteCampaign(event) {
+      if (event === true) {
+        this.selectedCampaign.id = this.selectedCampaign._id;
+        this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+      }
+    },
+    confirmCopyCampaign(event) {
+      if (event === true) {
+        this.selectedCampaign.id = this.selectedCampaign._id;
+        // this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+      }
     }
   }
 };
@@ -244,6 +393,20 @@ export default {
         display: block;
         margin-right: 0.625rem;
       }
+      .deactive {
+        height: 10px;
+        width: 10px;
+        border-radius: 50%;
+        background: gray;
+        display: block;
+        margin-right: 0.625rem;
+      }
+    }
+    .content {
+      width: 80%;
+    }
+    .action {
+      width: 20%;
     }
   }
 }
@@ -287,5 +450,32 @@ export default {
 .popup-leave-to {
   transition: transform 0.2s;
   transform: translateY(100%);
+}
+
+.popup--delete-enter {
+  transform: translateY(100%);
+}
+
+.popup--delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup--delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
 }
 </style>

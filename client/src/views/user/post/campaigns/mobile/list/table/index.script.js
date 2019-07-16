@@ -41,6 +41,7 @@ export default {
       return this.$store.getters.themeName;
     },
     campaigns() {
+      console.log(this.$store.getters.campaigns);
       return this.$store.getters.campaigns;
     },
     campaignStatus() {
