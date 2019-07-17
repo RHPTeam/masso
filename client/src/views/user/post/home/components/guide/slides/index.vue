@@ -41,26 +41,26 @@
             <div class="items display" v-if="currentIndexInfo === 0">
               <div class="mb_2">Lời chưa nói - Trịnh Thăng Bình</div>
 
-              <iframe width="750" height="415" src="https://www.youtube.com/embed/4jqddEdLph0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe :style="widthDefault" height="500" src="https://www.youtube.com/embed/4jqddEdLph0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </transition>
           <transition name="slide-fade">
             <div class="content items" v-if="currentIndexInfo === 1">
               <div class="mb_2">Suýt nữa thì - Trịnh Thăng Bình</div>
 
-              <iframe width="750" height="415" src="https://www.youtube.com/embed/P7KtYhtWpaU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe :style="widthDefault" height="500" src="https://www.youtube.com/embed/P7KtYhtWpaU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </transition>
           <transition name="slide-fade">
             <div class="automation items" v-if="currentIndexInfo === 2">
               <div class="mb_2">Suýt nữa thì - Trịnh Thăng Bình</div>
-              <iframe width="750" height="415" src="https://www.youtube.com/embed/fiUpq6k5BAU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe :style="widthDefault" height="500" src="https://www.youtube.com/embed/fiUpq6k5BAU" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </transition>
           <transition name="slide-fade">
             <div class="function items" v-if="currentIndexInfo === 3">
               <div class="mb_2">Suýt nữa thì - Trịnh Thăng Bình</div>
-              <iframe width="750" height="415" src="https://www.youtube.com/embed/GZdLSaQDoWo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+              <iframe :style="widthDefault" height="500" src="https://www.youtube.com/embed/GZdLSaQDoWo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
           </transition>
         </div>
@@ -127,7 +127,8 @@
 export default {
   data() {
     return {
-      currentIndexInfo: 0
+      currentIndexInfo: 0,
+      widthDefault: { width: "100%" }
     };
   },
   methods: {
@@ -163,7 +164,7 @@ export default {
 <style scoped lang="scss">
 @import "../index.style";
 
-// utilities
+// slides
 .utilities {
   margin-bottom: 0 !important;
   color: #333;
@@ -224,11 +225,11 @@ export default {
     }
     .slide--image {
       overflow: hidden;
-      height: 415px;
+      height: 510px;
       .items {
         overflow: hidden;
         width: 100%;
-        height: 420px;
+        height: 510px;
       }
       .left,
       .right {

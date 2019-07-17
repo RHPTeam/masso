@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import Slides from "./utilities";
+import Slides from "./slides";
 export default {
   components: {
     Slides
