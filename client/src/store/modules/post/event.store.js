@@ -99,9 +99,6 @@ const mutations = {
   }
 };
 const actions = {
-  addAdvanceContentToEvent: async ( { commit }, payload ) => {
-    const result = await EventsServices.addAdvanceContent();
-  },
   createEvent: async ( { commit }, payload ) => {
     commit( "ev_request");
 
@@ -150,6 +147,9 @@ const actions = {
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
+    if ( res.data.data.plugins === undefined ) {
+      res.data.data.plugins = "";
+    }
     await  commit( "setEvent", res.data.data );
     commit( "set_caseEvent", {
       key: "post",
@@ -216,6 +216,9 @@ const actions = {
     //update campaign detail
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
+  },
+  setErrorEvent: ( { commit }, payload ) => {
+    commit( "setErrorEvent", payload );
   },
   setEvent: ( { commit }, payload ) => {
     commit( "set_event", payload );

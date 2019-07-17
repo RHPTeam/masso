@@ -61,8 +61,8 @@
     </div>
     <!-- End: Body -->
     <!-- Start: Footer -->
-    <div class="popup--footer mx_3">
-      <div class="d_flex justify_content_end">
+    <div class="popup--footer mx_3 mt_2">
+      <div class="d_flex">
         <button class="btn btn_success save" @click="duplicateEvent">Tạo</button>
       </div>
     </div>

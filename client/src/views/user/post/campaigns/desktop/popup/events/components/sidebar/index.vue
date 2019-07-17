@@ -6,12 +6,12 @@
       <div class="list--group-item position_relative">
         <div class="item--content d_flex align_items_center" @click="showAdvanceContentPopup">
           <icon-base
-            class="mr_2"
+            class="icon icon--mix mr_2"
             height="14px"
             width="14px"
-            viewBox="0 0 20 20"
+            viewBox="0 0 580 580"
           >
-            <icon-user></icon-user>
+            <icon-mix></icon-mix>
           </icon-base>
           <div class="name">Nội dung nâng cao</div>
         </div>
@@ -113,7 +113,7 @@ export default {
     AdvanceContentPopup,
     DuplicatePopup
   },
-  props: [ "errorLocation" ],
+  props: [ "errorPostLocation", "errorPostContent" ],
   data() {
     return {
       isShowAdvanceContentPopup: false,
@@ -133,15 +133,16 @@ export default {
       } );
     },
     async createNewEvent() {
-      if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
-        this.errorPost = true;
-        return false;
+      // Validate
+      if ( this.event.post_custom.length === 0 && this.event.post_category.length === 0 ) {
+        this.$emit( "updateErrorPostContent", true );
+        return;
       } else if ( this.event.target_custom.length === 0 &&
         !this.event.target_category &&
         this.event.timeline.length === 0
       ) {
-        this.errorLocation = true;
-        return false;
+        this.$emit( "updateErrorPostLocation", true );
+        return;
       }
 
       // Close popup
@@ -153,6 +154,9 @@ export default {
       } );
 
       this.$store.dispatch( "setEventReset" );
+
+      this.$emit( "updateErrorPostContent", false );
+      this.$emit( "updateErrorPostLocation", false );
     },
     showAdvanceContentPopup() {
       this.isShowAdvanceContentPopup = true;
@@ -166,6 +170,18 @@ export default {
       this.$emit( "showDeletePopup", true );
     },
     async updateEvent() {
+      // Validate
+      if ( this.event.post_custom.length === 0 && this.event.post_category.length === 0 ) {
+        this.$emit( "updateErrorPostContent", true );
+        return;
+      } else if ( this.event.target_custom.length === 0 &&
+        !this.event.target_category &&
+        this.event.timeline.length === 0
+      ) {
+        this.$emit( "updateErrorPostLocation", true );
+        return;
+      }
+
       // Close popup
       this.close();
 
@@ -182,6 +198,9 @@ export default {
       } );
 
       this.$store.dispatch( "setEventReset" );
+
+      this.$emit( "updateErrorPostContent", false );
+      this.$emit( "updateErrorPostLocation", false );
     }
   }
 }

@@ -5,9 +5,6 @@ export default {
   index() {
     return Api().get( "events" );
   },
-  addAdvanceContent() {
-    return Api().patch();
-  },
   create( campaignsId, event ) {
     return Api().post( `events?_campaignId=${campaignsId}`, event );
   },

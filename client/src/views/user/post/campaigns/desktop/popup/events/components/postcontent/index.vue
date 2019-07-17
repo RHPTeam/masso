@@ -60,7 +60,6 @@
             placeholder="Chọn bài viết từ kho nội dung"
           />
         </div>
-        <div>{{ event }}</div>
       </div>
     </div>
   </div>

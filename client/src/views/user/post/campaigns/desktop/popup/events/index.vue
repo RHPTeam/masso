@@ -33,8 +33,8 @@
                 @setErrorPost="errorPost = $event"
               />
               <!-- End: Post Custom -->
-              <div class="alert--text" v-if="errorPost === true">
-                Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+              <div class="alert--text" v-if="errorPostContent === true">
+                Vui lòng chọn danh mục hoặc bài đăng!
               </div>
               <!-- Start: Mix Plugin -->
               <mix-plugin
@@ -45,8 +45,8 @@
               <post-location
                 @setErrorLocation="errorLocation = $event"
               />
-              <div class="alert--text" v-if="errorLocation === true">
-                Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+              <div class="alert--text" v-if="errorPostLocation === true">
+                Vui lòng chọn nơi đăng!
               </div>
               <!-- End: Post Location -->
               <!-- Start: Post Activity -->
@@ -55,8 +55,11 @@
             </div>
             <div class="body--sidebar">
               <app-sidebar
-                :errorLocation="errorLocation"
+                :errorPostContent="errorPostContent"
+                :errorPostLocation="errorPostLocation"
                 @showDeletePopup="isDeleteEvent = $event"
+                @updateErrorPostContent="errorPostContent = $event"
+                @updateErrorPostLocation="errorPostLocation = $event"
               ></app-sidebar>
             </div>
           </div>
@@ -104,8 +107,8 @@ export default {
   data() {
     return {
       isShowOptionTime: false,
-      errorPost: false,
-      errorLocation: false,
+      errorPostContent: false,
+      errorPostLocation: false,
       errorData: [],
       isDeleteEvent: false
     }
