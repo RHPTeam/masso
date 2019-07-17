@@ -234,36 +234,38 @@ const actions = {
         password: payload
       };
       const result = await AccountServices.verifyPassword(sendPassword);
-      if(result.data.status === "success"){
-        commit('auth_request_success');
+      if (result.data.status === 'success') {
+        await commit('auth_request_success');
         await commit('setVerifyPasswordToken', result.data.data);
-        commit('auth_success');
+        await commit('auth_success');
       }
-      
     } catch (e) {
-      await commit('auth_error');
-      await commit('set_textAuth', e);
+      if (e.response.status === 404) {
+        await commit('auth_error');
+        await commit('set_textAuth', 'Mật khẩu không chính xác!');
+      }
     }
   },
   changePasswordByVerifyToken: async ({ commit }, payload) => {
     try {
-      console.log(payload);
       commit('auth_request');
       const sendPassword = {
-        token: payload.verifyPasswordToken,
+        token: payload.token,
         newPassword: payload.newPassword
       };
-      const result = await AccountServices.changePasswordByVerifyToken(sendPassword);
-      if(result.data.status === "success"){
-        commit('auth_request_success');
-        commit('auth_success');
+      const result = await AccountServices.changePasswordByVerifyToken(
+        sendPassword
+      );
+      if (result.data.status === 'success') {
+        await commit('auth_request_success');
+        await commit('auth_success');
       }
-      
     } catch (e) {
-      await commit('auth_error');
-      await commit('set_textAuth', e);
+      if (e.response.status === 404) {
+        await commit('auth_error');
+      }
     }
-  },
+  }
 };
 
 export default {

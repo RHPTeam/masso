@@ -13,8 +13,10 @@
           <icon-arrow-down />
         </icon-base>
       </div>
-      <p class="name--modal mb_0">Thay đổi</p>
-      <div @click="updateChangedPhone" class="active mr_3">Xong</div>
+      <p class=" name--modal mb_0">Thay đổi</p>
+      <div class=" button--done active mr_3">
+        <div v-if="user.phone.length > 0" @click="updateChangedPhone" class="">Xong</div>
+        </div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
@@ -23,12 +25,13 @@
         <!-- Start: Password -->
         <input
           v-model="user.phone"
-          type="text"
+          type="tel"
+          maxlength="14"
           class="form--input"
           placeholder="Nhập số điện thoại"
         />
         <!-- End: Password -->
-        <p class="error">Mày ngu à mà nhập sai!</p>
+        <!-- <p class="error">Mày ngu à mà nhập sai!</p> -->
       </div>
     </div>
   </div>
@@ -94,6 +97,11 @@ export default {
         margin: 0.375rem 0;
       }
     }
+  }
+}
+.button {
+  &--done {
+    width: 2rem;
   }
 }
 </style>

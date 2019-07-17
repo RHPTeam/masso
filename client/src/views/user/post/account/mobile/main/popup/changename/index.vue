@@ -14,7 +14,9 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
-      <div @click="updateChangedName" class="active mr_3">Xong</div>
+      <div class="button--done active mr_3">
+        <div v-if="user.name.length > 0" @click="updateChangedName">Xong</div>
+      </div>
     </div>
     <!-- End: Header -->
     <div class="items--main mt_3 px_3">
@@ -88,6 +90,12 @@ export default {
         border-radius: 5px;
       }
     }
+  }
+}
+
+.button {
+  &--done {
+    width: 2rem;
   }
 }
 </style>

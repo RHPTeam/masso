@@ -14,7 +14,7 @@
           </icon-base>
         </div>
         <p class="name--modal mb_0 m_auto">Chọn thời gian</p>
-        <div class="active mr_3">Xong</div>
+        <div class="active mr_3" @click="finishTime">Xong</div>
       </div>
       <div class="body px_2">
         <div class="date mb_2 d_flex align_items_center">
@@ -31,7 +31,7 @@
           />
         </div>
         <!-- <div class="break d_flex align_items_center" v-if="event.type_event === 0"> -->
-        <div class="break mb_2 d_flex align_items_center">
+        <div class="break mb_2 d_flex align_items_center" v-if="event.type_event === 0">
           <div class="desc mr_3">Chờ giữa các lần đăng:</div>
           <div class="item d_flex align_items_center mr_2">
             <input
@@ -79,6 +79,10 @@ export default {
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
+    },
+    finishTime() {
+      console.log("time",this.event);
+      this.closePopup();
     },
     changeTimeSetup(value) {
       this.$store.dispatch("setEvent", {

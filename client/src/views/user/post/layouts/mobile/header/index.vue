@@ -2,7 +2,7 @@
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
       <app-sidebar-mobile
-        v-if="isShowPopup == true"
+        v-if="isShowPopup === true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
         @closePopup="isShowPopup = $event"
@@ -22,7 +22,7 @@
       />
       <popup-create-campaign
         v-if="isShowPopupCreateCampaign=== true"
-        @closePopupCreateCampaign="isShowPopupCreateCampaign = $event"
+        @closePopup="isShowPopupCreateCampaign = $event"
       />
       <popup-add-group
         v-if="isShowPopupAddGroup === true"
@@ -99,7 +99,7 @@
         <div
           class="add action campaign"
           @click="showPopupCreateCampaign"
-          v-if="gestureCursorMenuUser === 2"
+          v-if="gestureCursorMenuUser === 2 || this.$route.name === 'post_campaigns'"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
@@ -214,6 +214,7 @@ import PopupFilterByCategory from "../popup/posts/filter";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
 export default {
+  props: ["fbPost"],
   components: {
     AppSidebarMobile,
     PopupCreateCategory,
@@ -233,7 +234,8 @@ export default {
       isShowPopupAddAccountFb: false,
       isShowPopupCreateCampaign: false,
       isShowPopupAddGroup: false,
-      isShowPopupHistory: false
+      isShowPopupHistory: false,
+      isShowUpgradePro: false
     };
   },
   computed: {
@@ -287,6 +289,9 @@ export default {
     },
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
+    },
+    accountsFB() {
+      return this.$store.getters.accountsFB;
     }
   },
   filters: {
@@ -322,7 +327,11 @@ export default {
       this.isShowPopupCreatePost = true;
     },
     showPopupAddAccountFb() {
-      this.isShowPopupAddAccountFb = true;
+      if (this.accountsFB.length >= this.user.maxAccountFb) {
+        this.isShowUpgradePro = true;
+      } else {
+        this.isShowPopupAddAccountFb = true;
+      }
     },
     showPopupCreateCampaign() {
       this.isShowPopupCreateCampaign = true;
@@ -341,4 +350,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./index.style";
+.upgrade-pro-popup{
+  background: none !important;
+  box-shadow: none !important;
+}
 </style>

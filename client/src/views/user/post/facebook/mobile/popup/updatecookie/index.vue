@@ -10,7 +10,7 @@
             viewBox="0 0 440.4 156.808"
           >
             <icon-modal-cookie />
-          </icon-base> -->
+          </icon-base>-->
           <div @click="closePopupUpdateCookie">
             <icon-base
               icon-name="arrow-down"
@@ -23,12 +23,12 @@
             </icon-base>
           </div>
           <p class="name--modal mb_0">Cập nhật tài khoản</p>
-          <div class="active mr_3">Xong</div>
+          <div class="button--done active mr_3">
+            <div v-if="isStatusCookieFacebookFormat === 3 && !updateFbStatus" @click="updateCookie()">Xong</div>
+          </div>
         </div>
         <!-- Start: Updating Data -->
-        <div class="modal--body px_3 py_4"
-             v-if="updateFbStatus === 'loading'"
-        >
+        <div class="modal--body px_3 py_4" v-if="updateFbStatus === 'loading'">
           <div class="modal--title">Cập nhật tài khoản</div>
           <div class="loading--block mt_4 mb_4">
             <div class="mx_auto">
@@ -44,8 +44,16 @@
         <div v-else>
           <div class="modal--body">
             <div class="modal--title">Cập nhật tài khoản</div>
-            <div class="modal--desc">
-              Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.
+            <div class="modal--desc">Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.</div>
+            <div class="modal--error mb_3">
+              <span
+                class="text_danger"
+                v-if="cookie.length > 0 && isStatusCookieFacebookFormat === 1"
+              >Mã kích hoạt không đúng định dạng!</span>
+              <span
+                class="text_danger"
+                v-if="cookie.length > 0 && isStatusCookieFacebookFormat === 2"
+              >Mã kích hoạt không phải của tài khoản này!</span>
             </div>
             <textarea
               placeholder="Nhập mã kích hoạt tại đây ..."
@@ -65,12 +73,13 @@
 <script>
 import StringFunction from "@/utils/functions/string";
 export default {
-  props: ["item", "subBread", "nameBread"],
+  props: ["item"],
   data() {
     return {
       updateFbStatus: "",
       cookie: "",
-      isShowAlert: false
+      isShowAlert: false,
+      isStatusCookieFacebookFormat: 0
     };
   },
   computed: {
@@ -81,25 +90,48 @@ export default {
       return this.$store.getters.facebookStatus;
     }
   },
+  watch: {
+    cookie(newValue) {
+      const c_user = StringFunction.findSubString(newValue, "c_user=", ";");
+      if (
+        newValue.length > 0 &&
+        newValue.includes("sb=") &&
+        newValue.includes("datr=") &&
+        newValue.includes("c_user=")
+      ) {
+        if (c_user === this.item.userInfo.id) {
+          this.isStatusCookieFacebookFormat = 3; // valid cookie
+        } else {
+          this.isStatusCookieFacebookFormat = 2; // not match c_user
+        }
+      } else {
+        this.isStatusCookieFacebookFormat = 1; // invalid cookie
+      }
+    }
+  },
   methods: {
     closePopupUpdateCookie() {
       this.$emit("closePopupUpdateCookie", false);
     },
     async updateCookie() {
-      const newUserId = StringFuntion.findSubString(
+      this.updateFbStatus = "loading";
+      const newUserId = StringFunction.findSubString(
         this.cookie,
         "c_user=",
         ";"
       );
       const userId = this.item.userInfo.id;
       if (newUserId === userId) {
-        await this.$store.dispatch("updateFacebook", {
+        await this.$store.dispatch("updateFacebookAccountCookie", {
           fbId: this.item._id,
           cookie: this.cookie
         });
-        await this.$emit("closePopupUpdateCookie", false);
-        this.$router.go({name: "post_fbaccount"});
+        if (this.facebookStatus === "success") {
+          this.updateFbStatus = "success";
+          this.closePopupUpdateCookie();
+        }
       } else {
+        this.updateFbStatus = "success";
         this.isShowAlert = true;
       }
     }
@@ -117,7 +149,8 @@ export default {
   z-index: 10;
   background: #212529;
   .modal--content {
-    .modal--header {      
+     width: 100%;
+    .modal--header {
       padding: 0.625rem 0;
       border-bottom: 1px solid #ccc;
       .arrow-down {
@@ -152,9 +185,9 @@ export default {
         font-weight: 700;
       }
       .modal--desc {
-      font-size: 0.875rem;
-      color: #999999;
-      margin: 15px 0 20px 0
+        font-size: 0.875rem;
+        color: #999999;
+        margin: 15px 0 20px 0;
       }
       .error--desc {
         color: #f7f7f7;
@@ -165,7 +198,7 @@ export default {
 .loading--block {
   .desc {
     color: #ccc;
-    font-size: .875rem;
+    font-size: 0.875rem;
   }
   .loading--bar {
     background-color: transparent;
@@ -189,6 +222,12 @@ export default {
         transform: translateX(200%);
       }
     }
+  }
+}
+
+.button {
+  &--done {
+    width: 2.5rem;
   }
 }
 </style>

@@ -9,7 +9,10 @@
         <multiselect
           label="title"
           :options="categories"
-          placeholder="Chọn danh mục đăng bài "
+          placeholder="Chọn danh mục đăng bài"          
+          :value="event.post_category"
+          :clearable="false"
+          @input="selectCategory"
         />
       </div>
     </div>

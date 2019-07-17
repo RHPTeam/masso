@@ -52,13 +52,18 @@
           <!-- Start: Name event -->
           <div class="items">
             <p class="title mb_2">Tên sự kiện</p>
-            <input type="text" placeholder="Nhập tên sự kiện" class="name--event" />
+            <input
+              type="text"
+              placeholder="Nhập tên sự kiện"
+              class="name--event"
+              v-model="event.title"
+            />
           </div>
           <!-- Start: Time -->
           <div class="items d_flex align_items_center" @click="showPopupTime">
             <div class="item">
               <p class="title mb_0">Chọn thời gian</p>
-              <div class="content">11:00 ngày 01/01/2018</div>
+              <!-- <div class="error content" v-if="event.started_at.length === 0">Vui lòng chọn thời gian</div> -->
             </div>
             <icon-base
               icon-name="arrow-down"
@@ -74,7 +79,7 @@
           <div class="items d_flex align_items_center" @click="showPopupCategory">
             <div class="item">
               <p class="title mb_0">Chọn danh mục hoặc bài viết</p>
-              <div class="content">Danh mục A</div>
+              <!-- <div class="error content" v-if="event.post_custom.length === 0 || event.post_category.length === 0">Vui lòng chọn danh mục hoặc bài viết</div> -->
             </div>
             <icon-base
               icon-name="arrow-down"
@@ -90,7 +95,7 @@
           <div class="items d_flex align_items_center" @click="showPopupPostPlace">
             <div class="item">
               <p class="title mb_0">Chọn nơi đăng</p>
-              <div class="content">1 TCN, 2 Group, 1 Fanpage</div>
+              <!-- <div class="error content">Vui lòng chọn nơi đăng</div> -->
             </div>
             <icon-base
               icon-name="arrow-down"
@@ -108,9 +113,17 @@
 
       <!-- Start: Transition Popup -->
       <transition name="popup--mobile">
-        <popup-time v-if="isShowPopupTime === true" @closePopup="isShowPopupTime = $event"/>
-        <popup-category v-if="isShowPopupCategory === true" @closePopup="isShowPopupCategory = $event"/>
-        <popup-post-place v-if="isShowPopupPostPlace === true" @closePopupAddress="isShowPopupPostPlace = $event"/>
+        <popup-time v-if="isShowPopupTime === true" @closePopup="isShowPopupTime = $event" />
+        <popup-category
+          v-if="isShowPopupCategory === true"
+          @closePopup="isShowPopupCategory = $event"
+          :event="event"
+        />
+        <popup-post-place
+          v-if="isShowPopupPostPlace === true"
+          @closePopupAddress="isShowPopupPostPlace = $event"
+          :event="event"
+        />
       </transition>
       <!-- End: Transition Popup -->
     </div>
@@ -127,6 +140,7 @@ export default {
     PopupCategory,
     PopupPostPlace
   },
+  props: ["campaign"],
   data() {
     return {
       colors: [
@@ -141,7 +155,6 @@ export default {
       isShowPopupTime: false,
       isShowPopupCategory: false,
       isShowPopupPostPlace: false
-
     };
   },
   computed: {
@@ -164,9 +177,16 @@ export default {
       this.isShowColorDropdown = false;
     },
     closePopup() {
+      this.$store.dispatch( "setEventReset" );
       this.$emit("closePopup", false);
     },
-    createEvent() {
+    async createEvent() {
+      console.log("Create", this.event);
+      await this.$store.dispatch( "createEvent", {
+        campaignId: this.campaign._id,
+        event: this.event
+      } );
+
       this.closePopup();
     },
     showPopupTime() {
@@ -174,6 +194,7 @@ export default {
     },
     showPopupCategory() {
       this.isShowPopupCategory = true;
+      this.$store.dispatch("setCaseEvent", 1);
     },
     showPopupPostPlace() {
       this.isShowPopupPostPlace = true;
@@ -184,4 +205,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "index.style";
+.error {
+  color: red;
+}
 </style>
