@@ -2,7 +2,8 @@
 const state = {
     themeName: "dark",
     collapseMenu: false,
-    hideChatSidebar: false
+    hideChatSidebar: false,
+    variableControlGuide: 0
   },
   getters = {
     themeName: ( s ) => {
@@ -13,7 +14,8 @@ const state = {
     },
     hideChatSidebar: ( s ) => {
       return s.hideChatSidebar;
-    }
+    },
+    variableControlGuide: state => state.variableControlGuide
   },
   mutations = {
     changeMenu: ( s, payload ) => {
@@ -24,6 +26,9 @@ const state = {
     },
     changeThemeName: ( s, payload ) => {
       s.themeName = payload;
+    },
+    setVariableControlGuide: (state, payload) => {
+      state.variableControlGuide = payload;
     }
   },
   actions = {
@@ -35,6 +40,9 @@ const state = {
     },
     changeThemeName: ( { commit }, payload ) => {
       commit( "changeThemeName", payload );
+    },
+    setVariableControlGuide: async ({commit}, payload) => {
+      await commit("setVariableControlGuide", payload);
     }
   };
 
