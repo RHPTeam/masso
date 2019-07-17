@@ -28,10 +28,13 @@ This components is registered as a global component.
 | Name            | Type              | Default     | Description                        |
 | ---             | ---               | ---         | ---                                |
 | view            | String            | `month`     | Selected calendar view. Value must be: `month`, `week`, `day` or `list` |
+| theme           | String            | `light`     | Choose calendar style. Value must be: `light`, `dark` |
+| disabledView    | Boolean           | `false`     | Disable all event on calendar view |
+| events          | Array             | `[]`        | Events data of calendar |
 
 ### Events
 
 | Name       | Description                                |
 | ---        | ---                                        |
 | eventClick | Triggered whenever click on calendar event.|
-
+| dayClick   | Triggered whenever click on calendar day block in month view.  |

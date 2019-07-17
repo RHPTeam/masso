@@ -36,6 +36,9 @@ export default {
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
+    dayClick( date ) {
+      this.$emit( "dayClick", date );
+    },
     eventClick( data) {
       this.$emit( "eventClick", data );
     },
@@ -132,9 +135,6 @@ export default {
       }
       this.$emit( "showMorePopover", true );
       this.$emit( "getEvents", events);
-    },
-    addEventFromSection( date ) {
-      console.log( date );
     }
   },
   beforeDestroy() {

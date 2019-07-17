@@ -28,7 +28,10 @@
     <div class="list--group mt_4">
       <div class="title mb_2">Hành động</div>
       <div class="list--group-item position_relative">
-        <div class="item--content d_flex align_items_center" @click="showDuplicatePopup">
+        <div class="item--content d_flex align_items_center"
+             v-if="event._id"
+             @click="showDuplicatePopup"
+        >
           <icon-base
             class="icon icon--copy mr_2"
             height="14px"
@@ -70,6 +73,7 @@
         </div>
       </div>
       <div class="list--group-item btn--delete mt_2"
+           v-if="event._id"
            @click="showDeletePopup"
       >
         <div class="item--content d_flex align_items_center">
