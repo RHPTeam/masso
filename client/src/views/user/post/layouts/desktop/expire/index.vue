@@ -4,7 +4,7 @@
       <div class="modal--content px_3 py_4" v-click-outside="closePopup">
         <div class="modal--header d_flex flex_column align_items_center justify_content_center">
           <div class="title text_center">Gia hạn tài khoản</div>
-<!--          <div class="divine mt_2 mb_2"></div>-->
+          <div class="divine mt_2 mb_2"></div>
         </div>
         <div class="modal--body my_3">
           <div class="item--header d_flex align_items_center">
@@ -300,9 +300,9 @@
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
         >
-          <button class="btn--skip" @click="closePopup">HỦY</button>
-          <button class="btn--submit">
-            KÍCH HOẠT
+          <button class="btn--skip" @click="closePopup"></button>
+          <button class="btn--submit" @click="closePopup">
+            Đóng
           </button>
         </div>
       </div>
