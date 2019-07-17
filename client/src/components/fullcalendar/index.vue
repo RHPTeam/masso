@@ -75,6 +75,7 @@
         v-if="view === 'month'"
         :events="events"
         :monthDays="monthDays"
+        @dayClick="dayClick($event)"
         @eventClick="eventClick($event)"
       ></rc-day-grid-month-view>
       <rc-time-grid-view
