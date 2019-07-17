@@ -231,6 +231,9 @@ module.exports = {
       // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
+    if ( req.body.plugins === undefined ) {
+      findEvent.plugins = undefined;
+    }
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {
         "data": [
@@ -265,7 +268,6 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
     }
     /** **************************************************************************** **/
-
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();

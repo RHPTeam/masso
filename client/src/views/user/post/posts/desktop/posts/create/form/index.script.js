@@ -197,10 +197,10 @@ export default {
     },
     // Update post when click button Save
     async savePost(){
-      if(this.post.content.length === 0) {
+      if ( this.post.content.length === 0 && this.post.attachments.length === 0 ) {
         this.isShowAlert = true;
       } else {
-        if(this.linkContent.length > 0) {
+        if ( this.linkContent.length > 0 ) {
           this.post.scrape = this.linkContent[0];
         }
         await this.$store.dispatch( "updatePost", this.post );

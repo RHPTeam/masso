@@ -66,8 +66,8 @@
                 </div>
                 <!-- End: Popup Body -->
                 <!-- Start: Popup Footer -->
-                <div class="popup--footer mx_3">
-                  <div class="d_flex justify_content_end">
+                <div class="popup--footer mx_3 mt_2">
+                  <div class="d_flex">
                     <button class="btn btn_success save" @click="updateEventStartedAt">Lưu</button>
                   </div>
                 </div>

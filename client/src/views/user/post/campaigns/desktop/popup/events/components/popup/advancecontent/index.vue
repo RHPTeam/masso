@@ -51,13 +51,15 @@
         ></multiselect>
       </div>
       <!-- End: Ending -->
-      <div class="desc mt_3">Các bài viết trong danh mục được lựa chọn sẽ tự động được chèn làm mở bài hay kết bài trong mỗi lần đăng bài viết lên Facebook.</div>
     </div>
     <!-- End: Body -->
     <!-- Start: Footer -->
-    <div class="popup--footer mx_3">
+    <div class="popup--footer mx_3 mt_2">
       <div class="d_flex">
         <button class="btn btn_success save" @click="submit">Thêm</button>
+      </div>
+      <div class="desc mt_3">Các bài viết trong danh mục được lựa chọn sẽ tự động được thêm làm mở bài hay kết bài trong mỗi lần đăng bài viết.
+        Điều này hạn chế trùng lặp nội dung, bảo vệ tài khoản của bạn khỏi spam hay vi phạm tiêu chuẩn cộng đồng của Facebook.
       </div>
     </div>
     <!-- End: Footer -->
@@ -138,6 +140,8 @@ export default {
           }
         }
       };
+
+      if ( this.errorStatus ) return;
 
       await this.$store.dispatch( "setEvent", {
         key: "plugins",

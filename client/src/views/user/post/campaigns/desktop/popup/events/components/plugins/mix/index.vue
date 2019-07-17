@@ -4,21 +4,30 @@
       <div class="left d_flex">
         <div class="icon mr_4">
           <icon-base
-            class="icon--activity"
-            icon--name="Nơi đăng"
+            class="icon--mix"
+            icon--name="Nội dung nâng cao"
             height="20px"
             width="20px"
-            viewBox="0 0 480 480"
+            viewBox="0 0 540 540"
           >
-            <icon-activity></icon-activity>
+            <icon-mix></icon-mix>
           </icon-base>
         </div>
         <div class="title">Nội dung nâng cao</div>
       </div>
-      <div class="right">
+      <div class="right position_relative">
         <div class="btn--detail"
+             @click="showDeletePopup"
         >Xóa
         </div>
+        <transition name="popup">
+          <delete-popup
+            v-if="isShowDeletePopup"
+            title="nội dung nâng cao?"
+            description="Các thiết lập nội dung nâng cao sẽ bị xóa bỏ và không thể hoàn tác."
+            @closePopup="isShowDeletePopup = $event"
+          ></delete-popup>
+        </transition>
       </div>
     </div>
     <div class="section--body">
@@ -70,7 +79,17 @@
 </template>
 
 <script>
+import DeletePopup from "../../popup/remove";
+
 export default {
+  components: {
+    DeletePopup
+  },
+  data() {
+    return {
+      isShowDeletePopup: false
+    }
+  },
   computed: {
     event() {
       return this.$store.getters.event;
@@ -111,6 +130,9 @@ export default {
           }
         }
       } );
+    },
+    showDeletePopup() {
+      this.isShowDeletePopup = true;
     }
   }
 }
