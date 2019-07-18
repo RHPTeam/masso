@@ -12,6 +12,9 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     facebookGroups() {
       return this.$store.getters.facebookGroups;
     },
@@ -47,6 +50,11 @@ export default {
         return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
       } );
     },
+    postGroupDetailProfile(){
+      return this.postGroupDetail._timeline.filter( ( item ) => {
+        return item.userInfo.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
     postGroupDetailStatus() {
       return this.$store.getters.postGroupDetailStatus;
     },
@@ -64,6 +72,14 @@ export default {
       },
       set( val ) {
         this.$store.dispatch( "postGroupPagesSelected", val );
+      }
+    },
+    selectedProfile: {
+      get() {
+        return this.$store.getters.postProfileSelected;
+      },
+      set( val ) {
+        this.$store.dispatch( "postProfileSelected", val );
       }
     },
     selectAllGroups: {
@@ -136,10 +152,14 @@ export default {
       this.$emit( "updateGroupSelected", false );
     }
   },
-  created() {
+  async created() {
     const facebookGroupsNo = this.$store.getters.facebookGroups;
     const facebookPagesNo = this.$store.getters.facebookPages;
+    const facebookProfileNo = this.$store.getters.accountsFB;
 
+    if(facebookProfileNo.length === 0){
+      this.$store.dispatch( "getAccountsFB" );
+    }
     if ( facebookGroupsNo.length === 0 ) {
       this.$store.dispatch( "getFacebookGroups" );
     }

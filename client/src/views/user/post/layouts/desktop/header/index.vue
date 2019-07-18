@@ -61,19 +61,19 @@
       <!-- End: Icon GetCookie -->
 
       <!-- Start: Help Dropdown -->
+<!--      <div class="notification&#45;&#45;groups help position_relative">-->
+<!--        <a class="icon&#45;&#45;help mr_2" target="_blank" href="https://www.zinbee.vn/#/help">-->
+<!--          <icon-base-->
+<!--            width="22px"-->
+<!--            height="22px"-->
+<!--            icon-name="Bạn cần trợ giúp?"-->
+<!--            viewBox="0 0 300 300"-->
+<!--          >-->
+<!--            <icon-help/>-->
+<!--          </icon-base>-->
+<!--        </a>-->
+<!--      </div>-->
       <div class="notification--groups help position_relative">
-        <a class="icon--help mr_2" target="_blank" href="https://www.zinbee.vn/#/help">
-          <icon-base
-            width="22px"
-            height="22px"
-            icon-name="Bạn cần trợ giúp?"
-            viewBox="0 0 300 300"
-          >
-            <icon-help/>
-          </icon-base>
-        </a>
-      </div>
-      <!--<div class="notification--groups help position_relative">
         <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
             width="20px"
@@ -95,7 +95,7 @@
             </transition>
           </div>
         </div>
-      </div>-->
+      </div>
       <!-- End: Help Dropdown -->
 
       <!-- Start: Notification Groups -->
@@ -267,7 +267,7 @@
           <div class="dropdown--divider"></div>
           <div class="info px_4 py_3">
             <h4 class="mb_2">Thông tin khác</h4>
-            <p class="exp mb_2">Tài khoản sử dụng đến ngày: 22 09 1019</p>
+            <p class="exp mb_2">Tài khoản sử dụng đến ngày: {{formatDate(user.expireDate)}}</p>
             <p class="expire" @click="openExpireModal">Gia hạn tài khoản</p>
           </div>
         </div>
@@ -279,7 +279,7 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "index.style";

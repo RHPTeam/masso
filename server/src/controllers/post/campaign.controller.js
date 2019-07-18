@@ -78,7 +78,10 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    // Handle get all items
+    dataResponse = await Campaign.find( { "_account": req.uid } ).select( "-logs -_events" ).lean();
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "create": async ( req, res ) => {
     // Check validator

@@ -15,23 +15,17 @@
         </div>
         <div class="active ml_auto d_flex align_items_center">
           <div @click="showHistory">
-            <icon-base
-              icon-name="Lịch sử"
-              width="24"
-              height="24"
-              viewBox="0 0 480 480"
-              class=""
-            >
+            <icon-base icon-name="Lịch sử" width="24" height="24" viewBox="0 0 480 480" class="mr_2">
               <icon-history />
             </icon-base>
           </div>
-          <div @click="showCreateEvent">
+          <div @click="showCreateEvent" v-if="campaign.status === true">
             <icon-base
               icon-name="Thêm sự kiện"
               width="24"
               height="24"
               viewBox="0 0 68 68"
-              class="mr_1 ml_3"
+              class="mr_1"
             >
               <icon-plus />
             </icon-base>
@@ -40,18 +34,23 @@
       </div>
       <div class="items--body mt_3 px_2">
         <div class="top d_flex align_items_center">
-          <div class="name">Tên CD</div>
+          <div class="name">{{ campaign.title }}</div>
           <div class="active ml_auto">
-            <active-campaign />
+            <toggle-switch
+              @change="updateCampaignStatus()"
+              v-model="campaign.status"
+              :sync="true"
+            />
           </div>
         </div>
-        <div class="main">
+        <div class="main mt_2">
           <!-- Start: FullCalendar -->
-          <!-- <fullcalendar
+          <fullcalendar
             :events="campaignDetail._events"
             :theme="currentTheme"
             :view="calendarView"
-          /> -->
+            :disabledView="campaign.status"
+          />
           <!-- End: FullCalendar -->
         </div>
       </div>
@@ -63,7 +62,11 @@
         @close="isShowHistory = $event"
         v-if="isShowHistory === true"
       />
-      <popup-create-event v-if="isShowCreateEvent === true" @closePopup="isShowCreateEvent = $event"/>
+      <popup-create-event
+        v-if="isShowCreateEvent === true"
+        @closePopup="isShowCreateEvent = $event"
+        :campaign="campaign"
+      />
     </transition>
     <!-- End: Transition Popup -->
   </div>

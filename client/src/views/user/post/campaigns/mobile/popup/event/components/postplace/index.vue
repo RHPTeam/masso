@@ -13,10 +13,11 @@
         </icon-base>
       </div>
       <p class="name--modal mb_0 m_auto">Chọn nơi đăng</p>
-      <div class="active mr_3">Xong</div>
+      <div class="active mr_3" @click="finishPostPlace">Xong</div>
     </div>
     <!-- Start: Option Post detail -->
     <div class="body mb_4 px_2">
+      <div class="info mb_2">Thông tin: Bạn chọn 1 TCN + 1 Fanpage + 1 Group</div>
       <div class>
         <!-- Start: FB Profile -->
         <div class="mb_2 p_0">
@@ -35,7 +36,6 @@
               </div>
             </div>
           </div>
-          <div class="info">Bạn chọn 1 TCN</div>
         </div>
         <!-- Start: FB Profile -->
         <!-- Start: Target Group -->
@@ -55,7 +55,6 @@
               </div>
             </div>
           </div>
-          <div class="info">Bạn chọn 1 TCN + 1 danh mục</div>
         </div>
         <!-- End: Target Group -->
         <!-- Start: Target Custom -->
@@ -75,7 +74,6 @@
               </div>
             </div>
           </div>
-          <div class="info">Bạn chọn 1 TCN + 1 Fanpage + 1 Group</div>
         </div>
         <!-- End: Target Custom -->
       </div>
@@ -86,13 +84,22 @@
       <target-new-feed
         v-if="isShowPopupProfile === true"
         @closePopup="isShowPopupProfile = $event"
+        :event="event"
       />
       <!-- End: Show Option Newfeed -->
       <!-- Start: Show Option Page -->
-      <target-custom v-if="isShowPopupCustom === true" @closePopup="isShowPopupCustom = $event" />
+      <target-custom
+        v-if="isShowPopupCustom === true"
+        @closePopup="isShowPopupCustom = $event"
+        :event="event"
+      />
       <!-- End: Show Option Page -->
       <!-- Start: Show Option Group -->
-      <target-group v-if="isShowPopupGroup === true" @closePopup="isShowPopupGroup = $event" />
+      <target-group
+        v-if="isShowPopupGroup === true"
+        @closePopup="isShowPopupGroup = $event"
+        :event="event"
+      />
       <!-- End: Show Option Group -->
     </transition>
   </div>
@@ -117,18 +124,23 @@ export default {
       isShowPopupProfile: false
     };
   },
+  props: ["event"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     caseEvent() {
       return this.$store.getters.caseEvent;
-    },
-    event() {
-      return this.$store.getters.event;
     }
+    // event() {
+    //   return this.$store.getters.event;
+    // }
   },
   methods: {
+    finishPostPlace() {
+      console.log("post place", this.event);
+      this.closePopupAddress();
+    },
     resetTargetType() {
       this.$store.dispatch("setEvent", {
         key: "target_custom",
@@ -175,12 +187,30 @@ export default {
     },
     showPopupGroup() {
       this.isShowPopupGroup = true;
+      this.$store.dispatch("setEvent", {
+        key: "timeline",
+        value: []
+      });
+      this.$store.dispatch("setEvent", {
+        key: "target_custom",
+        value: []
+      });
     },
     showPopupCustom() {
       this.isShowPopupCustom = true;
+      this.$store.dispatch("setEvent", {
+        key: "timeline",
+        value: []
+      });
+      this.$store.dispatch("setEventRemove", "target_category");
     },
     showPopupProfile() {
       this.isShowPopupProfile = true;
+      this.$store.dispatch("setEvent", {
+        key: "target_custom",
+        value: []
+      });
+      this.$store.dispatch("setEventRemove", "target_category");
     }
   }
 };

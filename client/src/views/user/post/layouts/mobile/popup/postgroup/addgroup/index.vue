@@ -18,7 +18,7 @@
           <div class="active mr_3" @click="addToGroup">Xong</div>
         </div>
         <div class="modal--body mt_3">
-          <div v-if="postGroups.length === 0"
+          <div class="text_center" v-if="postGroups.length === 0"
           >Không có nhóm được tạo.</div>
           <VuePerfectScrollbar v-else class="scroll" id="groupListScroll">
             <div class="group--list px_2">

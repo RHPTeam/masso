@@ -48,6 +48,7 @@ export default {
       this.$store.dispatch( "getPostGroupById", id );
       this.$store.dispatch( "postGroupGroupsSelected", [] );
       this.$store.dispatch( "postGroupPagesSelected", [] );
+      this.$store.dispatch( "postProfileSelected", [] );
     },
     async upTypingText( gr ) {
       await clearTimeout( typingTimer );

@@ -10,6 +10,14 @@ const mongoose = require( "mongoose" ),
       "type": Schema.Types.ObjectId,
       "ref": "Post"
     },
+    "mixOpen": {
+      "type": Schema.Types.ObjectId,
+      "ref": "PostCategory"
+    },
+    "mixClose": {
+      "type": Schema.Types.ObjectId,
+      "ref": "PostCategory"
+    },
     "location": Number, // 0: Timeline, 1: Group, 2: Page
     "targetID": {
       "type": String,

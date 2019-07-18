@@ -107,6 +107,7 @@ export default {
   created() {
     this.$store.dispatch("postGroupGroupsSelected", []);
     this.$store.dispatch("postGroupPagesSelected", []);
+    this.$store.dispatch( "postProfileSelected", [] );
   },
   methods: {
     showPopupSearch() {

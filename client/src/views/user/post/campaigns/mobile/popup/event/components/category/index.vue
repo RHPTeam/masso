@@ -14,45 +14,17 @@
           </icon-base>
         </div>
         <p class="name--modal mb_0 m_auto">Chọn danh mục</p>
-        <div class="active mr_3">Xong</div>
+        <div class="active mr_3" @click="finishCategory">Xong</div>
       </div>
       <div class="body d_flex align_items_center">
         <div class="tabs" role="category" @click="selectPostType( 1 )">
           <div class="d_flex align_items_center justify_content_center">
-            <div class="title text_center">Đăng bài viết từ danh mục</div>
-            <!-- <div class="icon position_relative">
-              <icon-base
-                class="icon--info"
-                height="14"
-                width="14"
-                viewBox="0 0 18 18"
-                icon-name="Thông tin"
-              >
-                <icon-info />
-              </icon-base>
-              <div
-                class="card--text position_absolute"
-              >Tự động lựa chọn bài viết trong danh mục và đăng tới nơi thiết lập.</div>
-            </div> -->
+            <div class="title text_center" :class="caseEvent.post === 1 ? 'active' : ''">Đăng bài viết từ danh mục</div>
           </div>
         </div>
         <div class="tabs" role="custom" @click="selectPostType( 2 )">
           <div class="d_flex align_items_center justify_content_center">
-            <div class="title text_center">Tùy chọn đăng bài viết cụ thể</div>
-            <!-- <div class="icon position_relative">
-              <icon-base
-                class="icon--info"
-                height="14"
-                width="14"
-                icon-name="Thông tin"
-                viewBox="0 0 18 18"
-              >
-                <icon-info />
-              </icon-base>
-              <div
-                class="card--text position_absolute"
-              >Cho phép tùy chọn các bài viết mong muốn và đăng tới nơi thiết lập.</div>
-            </div> -->
+            <div class="title text_center" :class="caseEvent.post === 2 ? 'active' : ''">Tùy chọn đăng bài viết cụ thể</div>
           </div>
         </div>
       </div>
@@ -63,7 +35,7 @@
     <category-post class="px_2 pb_3" :event="event" v-if="caseEvent.post === 1" />
     <!-- End: Show option category -->
     <!-- Start: Show option detail -->
-    <custom-post class="px_2 pb_3" v-else-if="caseEvent.post === 2" />
+    <custom-post class="px_2 pb_3" v-else-if="caseEvent.post === 2" :event="event"/>
     <!-- End: Show option detail -->
     </VuePerfectScrollbar>
   </div>
@@ -96,14 +68,27 @@ export default {
     }
   },
   methods: {
+    finishCategory() {
+      console.log("category", this.event);
+      this.closePopup();
+    },
     selectPostType(value) {
       if (value === 1) {
         this.isOption = false;
         this.isActive = true;
+        this.$store.dispatch( "setEvent", {
+          key: "post_custom",
+          value: []
+        } );
       } else if (value === 2) {
         this.isOption = true;
         this.isActive = false;
-        this.$store.dispatch("setEventRemove", "post_category");
+        // this.$store.dispatch("setEventRemove", "post_category");
+        // Attach Post Category Empty
+        this.$store.dispatch( "setEvent", {
+          key: "post_category",
+          value: []
+        } );
       }
       this.$store.dispatch("setCaseEvent", {
         key: "post",
@@ -138,7 +123,7 @@ export default {
     }
   }
   .scroll--category {
-    max-height: calc(100vh - 133px);
+    height: calc(100vh - 140px);
   }
   label {
     color: $mainDark;
@@ -155,17 +140,11 @@ export default {
     flex: 0.5;
     padding: 0.65rem;
     transition: all 0.4s ease;
-    &:hover {
-      color: #999;
-      .icon {
-        .icon--info {
-          color: #666;
-          stroke: #666;
-        }
-      }
-    }
     .title {
       font-size: 0.875rem;
+      &.active {
+        color: #FFB94A;
+      }
     }
     .icon {
       &:hover {

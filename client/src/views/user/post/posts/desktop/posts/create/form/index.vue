@@ -24,7 +24,7 @@
         </div>
       </div>
 
-      <div class="item mb_4">
+      <div class="item">
         <span>Nội dung</span>
         <div class="wrap mt_2">
           <!--Start: Create and show content-->
@@ -401,10 +401,12 @@
       </div>
 
       <!--Start: Show error when content or attachment have length === 0 -->
-      <div class="error alert_danger px_2 py_2 mb_3" v-if="isShowAlert === true">Nội dung bài viết không được bỏ trống, vui lòng thêm nội dung cho bài viết để có thể cập nhật.</div>
+      <div class="alert--error mt_2 mb_3" v-if="isShowAlert === true">
+        Bài viết phải có nội dung hoặc hình ảnh!
+      </div>
       <!--End: Show error when content or attachment have length === 0-->
 
-      <div class="footer d_flex align_items_center">
+      <div class="footer d_flex align_items_center mt_4">
         <div class="item--button mr_3" @click="savePost">
           Lưu
         </div>

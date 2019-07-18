@@ -6,6 +6,7 @@ const state = {
   categoryById: {},
   categoriesPage: [],
   categoriesPageSize: 1,
+  mixCategories: [],
   statusCategories: "",
   statusError: ""
 };
@@ -14,6 +15,7 @@ const getters = {
   categoryById: ( state ) => state.categoryById,
   categoriesPage: ( state ) => state.categoriesPage,
   categoriesPageSize: ( state ) => state.categoriesPageSize,
+  mixCategories: ( state ) => state.mixCategories,
   statusCategories: ( state ) => state.statusCategories,
   statusError: ( state ) => state.statusError
 };
@@ -38,6 +40,9 @@ const mutations = {
   },
   setCategoriesPageSize: ( state, payload ) => {
     state.categoriesPageSize = payload;
+  },
+  setMixCategories: ( state, payload ) => {
+    state.mixCategories = payload;
   }
 };
 const actions = {
@@ -70,6 +75,10 @@ const actions = {
     commit( "setCategoriesPageSize", res.data.data.page );
 
     commit( "cate_success"  );
+  },
+  getMixCategories: async ( { commit } ) => {
+    const result = await CategoriesServices.getMixCategories();
+    await  commit( "setMixCategories", result.data.data );
   },
   createCategory: async ( { commit }, payload ) => {
     try {

@@ -2,7 +2,7 @@
   <div class="category--wrap">
     <div class="ct_f">
       <div class="r">
-        <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_3 pl_0 mb_sm_3 mb_3">
+        <div class="c_12 c_lg_12 c_xl_4 mb_0 mb_md_5 px_0 pr_xl_3">
           <!-- Start: Category Form -->
           <app-form
             :currentPage="currentPage"
@@ -13,7 +13,7 @@
           />
           <!-- End: Category Form -->
         </div>
-        <div class="c_12 c_lg_12 c_xl_8 pl_lg_0 pl_xl_3 pl_0">
+        <div class="c_12 c_lg_12 c_xl_8 px_0 pl_lg_0 pl_xl_3 pr_xl_0">
           <!-- Start: Action -->
           <app-action
             :filterShowSelected="filterShowSelected"
@@ -78,6 +78,13 @@ export default {
       };
 
       this.$store.dispatch( "getCategoriesByPage", dataSender );
+      this.$router.replace( {
+        name: "post_postCategories",
+        query: {
+          size: this.filterShowSelected.id,
+          page: this.currentPage
+        }
+      } );
     }
   }
 };

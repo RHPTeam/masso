@@ -19,9 +19,10 @@
         </div>
         <div class="modal--body my_3 px_2">
           <div class="body--form">
-            <div class="mb_2">Tên chiến dịch</div>
+            <div class>Tên chiến dịch</div>
+            <div class="error mt_1" v-if="isShowAlert === true">Tên chiến dịch không được bỏ trống</div>
             <input
-              class="modal--body-input"
+              class="modal--body-input mt_2"
               placeholder="Nhập tên chiến dịch"
               type="text"
               v-model="newCampaign.title"
@@ -46,6 +47,7 @@
 export default {
   data() {
     return {
+      isShowAlert: false,
       newCampaign: {
         title: "",
         description: "",
@@ -59,15 +61,29 @@ export default {
       return this.$store.getters.themeName;
     }
   },
+  watch: {
+    "newCampaign.title"(value) {
+      if (value.length > 0) {
+        this.isShowAlert = false;
+      }
+    }
+  },
   methods: {
     closePopup() {
-      this.$emit( "closePopupCreateNewCampaign", false );
+      this.$emit("closePopup", false);
     },
     async createCampaign() {
-      await this.$store.dispatch( "createCampaign", this.newCampaign );
-      const campaign = this.$store.getters.campaignDetail;
-      this.$router.push( campaign._id );
-      this.$emit( "closePopupCreateNewCampaign", false );
+      if (this.newCampaign.title.trim().length === 0) {
+        this.isShowAlert = true;
+      } else {
+        await this.$store.dispatch("createCampaign", this.newCampaign);
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        await this.$store.dispatch("getCampaignsByPage", dataSender);
+        this.closePopup();
+      }
     }
   }
 };
@@ -78,5 +94,9 @@ export default {
 
 textarea.modal--body-input {
   resize: none;
+}
+.error {
+  font-size: 0.8315rem;
+  color: red;
 }
 </style>

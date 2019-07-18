@@ -22,7 +22,7 @@
       />
       <popup-create-campaign
         v-if="isShowPopupCreateCampaign=== true"
-        @closePopupCreateCampaign="isShowPopupCreateCampaign = $event"
+        @closePopup="isShowPopupCreateCampaign = $event"
       />
       <popup-add-group
         v-if="isShowPopupAddGroup === true"
@@ -99,7 +99,7 @@
         <div
           class="add action campaign"
           @click="showPopupCreateCampaign"
-          v-if="gestureCursorMenuUser === 2"
+          v-if="gestureCursorMenuUser === 2 || this.$route.name === 'post_campaigns'"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
@@ -120,7 +120,7 @@
           <div
             class="add action ml_2"
             @click="showPopupAddGroup"
-            v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+            v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0 || postProfileSelected.length > 0"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
@@ -289,6 +289,9 @@ export default {
     },
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
+    },
+    postProfileSelected() {
+      return this.$store.getters.postProfileSelected;
     },
     accountsFB() {
       return this.$store.getters.accountsFB;

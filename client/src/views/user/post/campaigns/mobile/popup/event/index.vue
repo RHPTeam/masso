@@ -20,97 +20,45 @@
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <div class="modal--body px_2 mt_2">
-          <div class="d_flex">
+        <VuePerfectScrollbar class="scroll-event" ref="scroll">
+          <div class="modal--body px_2 mt_2">
+            <!-- Start: Name -->
+            <app-header :event="event" />
+            <!-- End: Name -->
+            <!-- Start: Post Time -->
+            <post-time />
+            <!-- End: Post Time -->
+
+            <!-- Start: Post Custom -->
+            <post-custom @setErrorPost="errorPost = $event" />
+            <!-- End: Post Custom -->
             <div
-              class="ml_auto"
-              @click="isShowColorDropdown = !isShowColorDropdown"
-            >Thay đổi màu sắc</div>
-            <!-- Start: Change color dropdown -->
-            <div class="dropdown--menu" v-if="isShowColorDropdown" v-click-outside="closeColorGrid">
-              <div class="r mx_0">
-                <div class="dropdown--menu-item" v-for="(i, index) in 3" :key="index">
-                  <div
-                    class="grid"
-                    :style="{ backgroundColor: colors[index] }"
-                    @click="changeColor(colors[index])"
-                  ></div>
-                </div>
-              </div>
-              <div class="r mx_0">
-                <div class="dropdown--menu-item" v-for="(i, index) in 3" :key="`s-${index}`">
-                  <div
-                    class="grid"
-                    :style="{ backgroundColor: colors[index + 3] }"
-                    @click="changeColor(colors[index + 3])"
-                  ></div>
-                </div>
-              </div>
-            </div>
-            <!-- End: Change color dropdown -->
+              class="alert--text"
+              v-if="errorPostContent === true"
+            >Vui lòng chọn danh mục hoặc bài đăng!</div>
+
+            <!-- Start: Post Location -->
+            <post-location @setErrorLocation="errorLocation = $event" />
+            <div class="alert--text" v-if="errorPostLocation === true">Vui lòng chọn nơi đăng!</div>
+            <!-- End: Post Location -->
           </div>
-          <!-- Start: Name event -->
-          <div class="items">
-            <p class="title mb_2">Tên sự kiện</p>
-            <input type="text" placeholder="Nhập tên sự kiện" class="name--event" />
-          </div>
-          <!-- Start: Time -->
-          <div class="items d_flex align_items_center" @click="showPopupTime">
-            <div class="item">
-              <p class="title mb_0">Chọn thời gian</p>
-              <div class="content">11:00 ngày 01/01/2018</div>
-            </div>
-            <icon-base
-              icon-name="arrow-down"
-              class="arrow-down ml_auto"
-              width="20"
-              height="20"
-              viewBox="0 0 130 130"
-            >
-              <icon-arrow-down />
-            </icon-base>
-          </div>
-          <!-- Start: Category - Post -->
-          <div class="items d_flex align_items_center" @click="showPopupCategory">
-            <div class="item">
-              <p class="title mb_0">Chọn danh mục hoặc bài viết</p>
-              <div class="content">Danh mục A</div>
-            </div>
-            <icon-base
-              icon-name="arrow-down"
-              class="arrow-down ml_auto"
-              width="20"
-              height="20"
-              viewBox="0 0 130 130"
-            >
-              <icon-arrow-down />
-            </icon-base>
-          </div>
-          <!-- Start: Address to post -->
-          <div class="items d_flex align_items_center" @click="showPopupPostPlace">
-            <div class="item">
-              <p class="title mb_0">Chọn nơi đăng</p>
-              <div class="content">1 TCN, 2 Group, 1 Fanpage</div>
-            </div>
-            <icon-base
-              icon-name="arrow-down"
-              class="arrow-down ml_auto"
-              width="20"
-              height="20"
-              viewBox="0 0 130 130"
-            >
-              <icon-arrow-down />
-            </icon-base>
-          </div>
-        </div>
+        </VuePerfectScrollbar>
         <!-- End: Modal Body -->
       </div>
 
       <!-- Start: Transition Popup -->
       <transition name="popup--mobile">
-        <popup-time v-if="isShowPopupTime === true" @closePopup="isShowPopupTime = $event"/>
-        <popup-category v-if="isShowPopupCategory === true" @closePopup="isShowPopupCategory = $event"/>
-        <popup-post-place v-if="isShowPopupPostPlace === true" @closePopupAddress="isShowPopupPostPlace = $event"/>
+        <popup-time v-if="isShowPopupTime === true" @closePopup="isShowPopupTime = $event" />
+        <popup-category
+          v-if="isShowPopupCategory === true"
+          @closePopup="isShowPopupCategory = $event"
+          :event="event"
+        />
+        <popup-post-place
+          v-if="isShowPopupPostPlace === true"
+          @closePopupAddress="isShowPopupPostPlace = $event"
+          :event="event"
+        />
       </transition>
       <!-- End: Transition Popup -->
     </div>
@@ -118,15 +66,24 @@
 </template>
 
 <script>
+import AppHeader from "./components/header";
+import PostCustom from "./components/postcontent";
 import PopupTime from "./components/time";
 import PopupCategory from "./components/category";
 import PopupPostPlace from "./components/postplace";
+import PostLocation from "./components/postlocation";
+import PostTime from "./components/posttime";
 export default {
   components: {
+    AppHeader,
     PopupTime,
     PopupCategory,
-    PopupPostPlace
+    PopupPostPlace,
+    PostCustom,
+    PostLocation,
+    PostTime
   },
+  props: ["campaign"],
   data() {
     return {
       colors: [
@@ -140,8 +97,9 @@ export default {
       isShowColorDropdown: false,
       isShowPopupTime: false,
       isShowPopupCategory: false,
-      isShowPopupPostPlace: false
-
+      isShowPopupPostPlace: false,
+      errorPostContent: false,
+      errorPostLocation: false
     };
   },
   computed: {
@@ -164,9 +122,37 @@ export default {
       this.isShowColorDropdown = false;
     },
     closePopup() {
+      this.$store.dispatch("setEventReset");
       this.$emit("closePopup", false);
     },
-    createEvent() {
+    async createEvent() {
+      console.log("Create 1", this.event);
+      // Validate
+      if (this.event.post_custom && this.event.post_category) {
+        if (
+          this.event.post_custom.length === 0 &&
+          this.event.post_category.length === 0
+        ) {
+          this.errorPostContent = true;
+          return;
+        }
+      } else if (
+        this.event.target_custom.length === 0 &&
+        !this.event.target_category &&
+        this.event.timeline.length === 0
+      ) {
+        this.errorPostLocation = true;
+        return;
+      }
+
+      console.log("Create 2", this.event);
+      await this.$store.dispatch("createEvent", {
+        campaignId: this.campaign._id,
+        event: this.event
+      });
+
+      this.$store.dispatch("setEventReset");
+
       this.closePopup();
     },
     showPopupTime() {
@@ -174,6 +160,7 @@ export default {
     },
     showPopupCategory() {
       this.isShowPopupCategory = true;
+      this.$store.dispatch("setCaseEvent", 1);
     },
     showPopupPostPlace() {
       this.isShowPopupPostPlace = true;
@@ -184,4 +171,7 @@ export default {
 
 <style lang="scss" scoped>
 @import "index.style";
+.error {
+  color: red;
+}
 </style>

@@ -48,13 +48,13 @@
     <div class="list--data pl_2 mt_2">
       <VuePerfectScrollbar class="scroll-campaign" ref="scroll">
         <div class="campaign pr_2" v-if="isShowTabCampaign === true">
+          <div class="no--campaign text_center" v-if="campaigns.length === 0">Không có chiến dịch nào</div>
           <div
             class="item d_flex align_items_center"
             v-for="( campaign, index ) in campaigns"
             :key="`cp-${index}`"
-            @click="selectCampaign(campaign)"
           >
-            <div class="content d_flex align_items_center" @click="showPopupDetailCampaign">
+            <div class="content d_flex align_items_center" @click="showPopupDetailCampaign(campaign)">
               <div class="left">
                 <p class="mb_0 name">{{ campaign.title }}</p>
                 <p class="mb_0 date">{{ formatDate(campaign.started_at) }}</p>
@@ -65,11 +65,12 @@
             </div>
             <div class="action d_flex align_items_center ml_auto">
               <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-              <p class="mb_0" @click="showPopupDelete(campaign)">Xoa</p>
+              <p class="mb_0" @click="showPopupDelete(campaign)">Xóa</p>
             </div>
           </div>
         </div>
         <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
+          <div class="no--campaign text_center" v-if="campaignsDefault.length === 0">Không có chiến dịch nào</div>
           <div
             class="item d_flex align_items_center"
             v-for="( campaign, index ) in campaignsDefault"
@@ -109,6 +110,7 @@
       <popup-detail-campaign
         v-if="isShowPopupDetailCampaign === true"
         @closePopup="isShowPopupDetailCampaign = $event"
+        :campaign="selectedCampaign"
       />
     </transition>
     <!-- End: Transition Popup -->

@@ -86,6 +86,7 @@ export default {
     CustomOption
     // GlobalOption
   },
+  props: ["event"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -93,9 +94,9 @@ export default {
     caseEvent() {
       return this.$store.getters.caseEvent;
     },
-    event() {
-      return this.$store.getters.event;
-    }
+    // event() {
+    //   return this.$store.getters.event;
+    // }
   },
   methods: {
     resetPostType() {

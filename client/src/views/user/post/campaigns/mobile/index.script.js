@@ -1,8 +1,8 @@
-import PopupDelete from './popup/delete';
-import PopupSearch from './popup/search';
-import PopupCopy from './popup/copy';
-import PopupDetailCampaign from './popup/detail';
-import PopupDuplicateCampaign from './popup/campaigns/duplicate';
+import PopupDelete from "./popup/delete";
+import PopupSearch from "./popup/search";
+import PopupCopy from "./popup/copy";
+import PopupDetailCampaign from "./popup/detail";
+import PopupDuplicateCampaign from "./popup/campaigns/duplicate";
 export default {
   components: {
     PopupSearch,
@@ -13,7 +13,7 @@ export default {
   },
   data() {
     return {
-      search: '',
+      search: "",
       selectedCampaign: {},
       isShowTabCampaginDefault: false,
       isShowTabCampaign: true,
@@ -37,15 +37,12 @@ export default {
       return this.$store.getters.campaignStatus;
     }
   },
-  watch: {},
   methods: {
-    async showTabCampaign() {
-      // await this.$store.dispatch('getAllCampaigns');
+    showTabCampaign() {
       this.isShowTabCampaign = true;
       this.isShowTabCampaginDefault = false;
     },
-    async showTabCampaginDefault() {
-      await this.$store.dispatch('getCampaignSimple');
+    showTabCampaginDefault() {
       this.isShowTabCampaign = false;
       this.isShowTabCampaginDefault = true;
     },
@@ -59,29 +56,28 @@ export default {
     showPopupCopy() {
       this.isShowPopupCopy = true;
     },
-    showPopupDetailCampaign() {
+    showPopupDetailCampaign(campaign) {
+      console.log("campaign", campaign);
+      this.selectedCampaign = campaign;
       this.isShowPopupDetailCampaign = true;
     },
     onClosePopupSearch(event) {
       this.isShowPopupSearch = event;
-      this.$store.dispatch('getAllCampaigns');
-      this.$store.dispatch('getCampaignSimple');
+      this.$store.dispatch("getAllCampaigns");
+      this.$store.dispatch("getCampaignSimple");
     },
     formatDate(d) {
       const dateTime = new Date(d);
-      const date = String(dateTime.getDate()).padStart(2, '0');
-      const month = String(dateTime.getMonth() + 1).padStart(2, '0');
+      const date = String(dateTime.getDate()).padStart(2, "0");
+      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
       const year = dateTime.getFullYear();
 
       return `${date}/${month}/${year}`;
     },
-    selectCampaign(campaign) {
-      this.selectedCampaign = campaign;
-    },
     confirmDeleteCampaign(event) {
       if (event === true) {
         this.selectedCampaign.id = this.selectedCampaign._id;
-        this.$store.dispatch('deleteCampaign', this.selectedCampaign);
+        this.$store.dispatch("deleteCampaign", this.selectedCampaign);
       }
     },
     confirmCopyCampaign(event) {
@@ -90,5 +86,34 @@ export default {
         // this.$store.dispatch("deleteCampaign", this.selectedCampaign);
       }
     }
+  },
+  async created() {
+    const campaignNo = this.$store.getters.campaigns;
+    if (campaignNo.length === 0) {
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+    }
+    const campaignDefaultNo = this.$store.getters.campSimple;
+    if (campaignDefaultNo.length === 0) {
+      this.$store.dispatch("getCampaignSimple");
+    }
+    // if ( this.search.length === 0 ) {
+    //   const dataSender = {
+    //     size: this.filterShowSelected.id,
+    //     page: this.currentPage
+    //   };
+
+    //   await this.$store.dispatch( "getCampaignsByPage", dataSender );
+    // } else {
+    //   const dataSender = {
+    //     keyword: this.search,
+    //     size: this.filterShowSelected.id,
+    //     page: this.currentPage
+    //   };
+    //   await this.$store.dispatch("getCampaignsByKey", dataSender);
+    // }
   }
 };

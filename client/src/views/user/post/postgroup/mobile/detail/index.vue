@@ -60,6 +60,11 @@
           >Không có dữ liệu</div>-->
           <div class="item d_flex align_items_center">
             <div
+              class="profile tab"
+              :class="isShowPopupProfile === true ? 'active' : ''"
+              @click="showPopupProfile"
+            >Trang cá nhân</div>
+            <div
               class="fanpage tab"
               :class="isShowPopupFanpage === true ? 'active' : ''"
               @click="showPopupFanpage"
@@ -71,6 +76,28 @@
             >Group</div>
           </div>
           <div class="content mt_2">
+            <!-- Start: Profile -->
+            <div class="profile" v-if="isShowPopupProfile === true">
+              <div class="item--content py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
+              <div
+                v-else
+                class="item--content d_flex align_items_center py_2"
+                v-for="(profile, index) in postGroupDetailProfile"
+                :key="`p+${index}`"
+              >
+                <div class="col col--name d_flex align_items_center">
+                  <div class="avatar px_2">
+                    <img alt="avatar" width="30px" height="30px" :src="profile.userInfo.thumbSrc" />
+                  </div>
+                  <span class="col col--name-text">{{ profile.userInfo.name }}</span>
+                </div>
+                <div class="col col--checkbox pr_3 ml_auto">
+                  <label class="custom--checkbox mb_0">
+                    <input type="checkbox" v-model="postGroupProfileSelected" :value="profile.userInfo.id" />
+                  </label>
+                </div>
+              </div>
+            </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
               <div class="item--content py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
@@ -93,6 +120,7 @@
                 </div>
               </div>
             </div>
+            <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
               <div class="item--content py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
               <div v-else
@@ -113,7 +141,6 @@
                 </div>
               </div>
             </div>
-            <!-- Start: Group -->
             <!-- Start: Post group -->
           </div>
         </vue-perfect-scrollbar>
@@ -121,7 +148,7 @@
       </div>
       <div
         class="items--footer d_flex align_items_center p_2"
-        v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+        v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0 || postGroupProfileSelected.length > 0"
       >
         <div class="cancel mr_auto" @click="showDeletePopupPageGroup">Xóa khỏi nhóm</div>
         <div class="add ml_auto" @click="showPopupAddToGroup">Thêm vào nhóm</div>
@@ -141,7 +168,7 @@
       <popup-delete-page-group
         @closePopup="isShowPopupDeletePageGroup = $event"
         v-if="isShowPopupDeletePageGroup === true"
-        title="nhóm và trang"
+        title="trang cá nhân, nhóm và trang"
         storeActionName="deletePagesNGroupsFromPostGroup"
         :targetData="targetDeletePopupData"
       />
@@ -173,27 +200,25 @@ export default {
   data() {
     return {
       targetDeletePopupData: {},
-      isShowPopupFanpage: true,
+      isShowPopupFanpage: false,
       isShowPopupGroup: false,
       isShowAddToGroup: false,
       isShowPopupDeletePageGroup: false,
-      isShowPopupDeletePostGroup: false
+      isShowPopupDeletePostGroup: false,
+      isShowPopupProfile: true
     };
   },
   computed: {
     postGroupDetail() {
       return this.$store.getters.postGroupDetail;
     },
+    postGroupDetailProfile() {
+      return this.postGroupDetail._timeline;
+    },
     postGroupDetailPage() {
-      // return this.postGroupDetail._pages.filter( ( item ) => {
-      //   return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
-      // } );
       return this.postGroupDetail._pages;
     },
     postGroupDetailGroup() {
-      // return this.postGroupDetail._groups.filter( ( item ) => {
-      //   return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
-      // } );
       return this.postGroupDetail._groups;
     },
     postGroupDetailStatus() {
@@ -207,6 +232,14 @@ export default {
         this.$store.dispatch("postGroupGroupsSelected", val);
       }
     },
+    postGroupProfileSelected: {
+      get() {
+        return this.$store.getters.postProfileSelected;
+      },
+      set( val ) {
+        this.$store.dispatch( "postProfileSelected", val );
+      }
+    },
     postGroupPagesSelected: {
       get() {
         return this.$store.getters.postGroupPagesSelected;
@@ -217,21 +250,29 @@ export default {
     }
   },
   methods: {
+    showPopupProfile() {
+      this.isShowPopupProfile = true;
+      this.isShowPopupFanpage = false;
+      this.isShowPopupGroup = false;
+    },
     showDeletePopupPageGroup() {
       this.targetDeletePopupData = {
         id: this.postGroupDetail._id,
         _pages: this.postGroupPagesSelected,
-        _groups: this.postGroupGroupsSelected
+        _groups: this.postGroupGroupsSelected,
+        _timeline: this.postGroupProfileSelected
       };
       this.isShowPopupDeletePageGroup = true;
     },
     showPopupFanpage() {
       this.isShowPopupFanpage = true;
       this.isShowPopupGroup = false;
+      this.isShowPopupProfile = false;
     },
     showPopupGroup() {
       this.isShowPopupFanpage = false;
       this.isShowPopupGroup = true;
+      this.isShowPopupProfile = false;
     },
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
@@ -251,14 +292,13 @@ export default {
       typingTimer = await setTimeout( this.updatePostGroup( gr ), 1000);
     },
     updatePostGroup( gr ) {
-      console.log(gr);
       const objSender = {
         postGroupId: gr._id,
         title: gr.title,
         _pages: [],
-        _groups: []
+        _groups: [],
+        _timeline: []
       };
-      console.log(objSender);
       this.$store.dispatch("updateTitlePostGroup", objSender);
     }
   }
@@ -345,6 +385,7 @@ export default {
     }
   }
 }
+.profile,
 .fanpage,
 .group,
 .post--group {
