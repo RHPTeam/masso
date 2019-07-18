@@ -44,7 +44,7 @@
                   label="title"
                   placeholder="Chọn danh mục mở bài"
                   :value="event.plugins.mix.open"
-                  :options="mixCategories"
+                  :options="convertMixCategories"
                   @input="updateMixOpen( $event )"
                 >
                 </multiselect>
@@ -65,7 +65,7 @@
                   label="title"
                   placeholder="Chọn danh mục kết bài"
                   :value="event.plugins.mix.close"
-                  :options="mixCategories"
+                  :options="convertMixCategories"
                   @input="updateMixClose( $event )"
                 />
               </div>
@@ -74,6 +74,7 @@
         </div>
         <!-- Start: Ending -->
       </div>
+      <div class="text--error mt_2" v-if="errorMixStatus">{{ errorMixText }}</div>
     </div>
   </div>
 </template>
@@ -85,9 +86,10 @@ export default {
   components: {
     DeletePopup
   },
+  props: [ "errorMixStatus", "errorMixText" ],
   data() {
     return {
-      isShowDeletePopup: false
+      isShowDeletePopup: false,
     }
   },
   computed: {
@@ -96,22 +98,62 @@ export default {
     },
     mixCategories() {
       return this.$store.getters.mixCategories;
+    },
+    convertMixCategories() {
+      return this.mixCategories.map( ( category ) => {
+        return {
+          _id: category._id,
+          title: category.title
+        }
+      } );
+    }
+  },
+  watch: {
+    "event.plugins.mix.open"( value ) {
+      if ( value && this.event.plugins.mix.close ) {
+        if ( value._id === this.event.plugins.mix.close._id ) {
+          this.updateErrorMixStatus( true );
+          this.updateErrorMixText( "Danh mục mở bài và kết bài trùng nhau!" );
+        } else {
+          this.updateErrorMixStatus( false );
+          this.updateErrorMixText( "" );
+        }
+      } else {
+        this.updateErrorMixStatus( false );
+        this.updateErrorMixText( "" );
+      }
+    },
+    "event.plugins.mix.close"( value ) {
+      if ( value && this.event.plugins.mix.open ) {
+        if ( value._id === this.event.plugins.mix.open._id ) {
+          this.updateErrorMixStatus( true );
+          this.updateErrorMixText( "Danh mục mở bài và kết bài trùng nhau!" );
+        } else {
+          this.updateErrorMixStatus( false );
+          this.updateErrorMixText( "" );
+        }
+      } else {
+        this.updateErrorMixStatus( false );
+        this.updateErrorMixText( "" );
+      }
     }
   },
   created() {
     this.$store.dispatch( "getMixCategories" );
   },
   methods: {
+    updateErrorMixStatus( value ) {
+      this.$emit( "updateErrorMixStatus", value );
+    },
+    updateErrorMixText( value) {
+      this.$emit( "updateErrorMixText", value );
+    },
     async updateMixOpen( value ) {
-      console.log( value );
       await this.$store.dispatch( "setEvent", {
         key: "plugins",
         value: {
           mix: {
-            open: {
-              _id: value._id,
-              title: value.title
-            },
+            open: value,
             close: this.event.plugins.mix.close
           }
         }
@@ -123,10 +165,7 @@ export default {
         value: {
           mix: {
             open: this.event.plugins.mix.open,
-            close: {
-              _id: value._id,
-              title: value.title
-            }
+            close: value
           }
         }
       } );
