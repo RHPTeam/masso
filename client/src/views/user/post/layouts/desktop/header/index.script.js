@@ -122,6 +122,9 @@ export default {
     async openExpireModal(){
       await this.$emit("openExpire", true);
       this.closeDropdownUser()
+    },
+    showGuidePopup(){
+      this.$store.dispatch("setVariableControlGuide", 1);
     }
   },
 
