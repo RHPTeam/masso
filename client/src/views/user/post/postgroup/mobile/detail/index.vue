@@ -22,7 +22,7 @@
           :contenteditable="true"
           :noNL="true"
           v-model="postGroupDetail.title"
-          @keyup="upTypingText( postGroupDetail )"
+          @keyup.enter="upTypingText( postGroupDetail )"
           @keydown="clearTypingTimer"
         />
         <div class="active mr_2" @click="showPopupDeletePostGroup">Xóa</div>

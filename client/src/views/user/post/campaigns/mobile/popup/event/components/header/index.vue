@@ -1,7 +1,7 @@
 <template>
   <div v-if="event" class="header d_flex align_items_start">
     <!-- Start: Left -->
-    <div class="header--left position_relative mr_4">
+    <div class="header--left position_relative mr_2">
       <div class="icon--color" :style="{ backgroundColor: event.color }">
       </div>
       <div class="btn--edit position_absolute text_center"

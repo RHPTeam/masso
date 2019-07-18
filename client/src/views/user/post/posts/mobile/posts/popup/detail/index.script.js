@@ -125,6 +125,9 @@ export default {
     }
   },
   methods: {
+    closeMoreOption() {
+      this.isShowMoreOption = false;
+    },
     closePopup() {
       this.$emit("closePopup", false);
     },

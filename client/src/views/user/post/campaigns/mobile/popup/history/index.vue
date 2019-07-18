@@ -20,11 +20,11 @@
     <vue-perfect-scrollbar class="modal--scroll">
       <div class="modal--body p_3">
         <div class="history--list">
-          <!-- <item-history
+          <item-history
             v-for="( item, index ) in campaignDetail"
             :key="index"
             :item="item"
-          /> -->
+          />
         </div>
       </div>
     </vue-perfect-scrollbar>

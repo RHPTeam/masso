@@ -68,17 +68,11 @@
 <script>
 import AppHeader from "./components/header";
 import PostCustom from "./components/postcontent";
-import PopupTime from "./components/time";
-import PopupCategory from "./components/category";
-import PopupPostPlace from "./components/postplace";
 import PostLocation from "./components/postlocation";
 import PostTime from "./components/posttime";
 export default {
   components: {
     AppHeader,
-    PopupTime,
-    PopupCategory,
-    PopupPostPlace,
     PostCustom,
     PostLocation,
     PostTime

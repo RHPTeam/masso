@@ -1,7 +1,7 @@
 <template>
   <div class="section mt_3">
     <div class="section--header d_flex align_items_center">
-      <div class="icon mr_4">
+      <div class="icon mr_2">
         <icon-base
           class="icon--target"
           icon--name="Nơi đăng"

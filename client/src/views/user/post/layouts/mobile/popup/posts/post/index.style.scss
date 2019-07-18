@@ -13,6 +13,21 @@
     transition: transform 0.75s;
     transform: translateX(100%);
   }
+  // Popup Delete
+.popup--list-enter {
+  transform: translateY(100%);
+}
+
+.popup--list-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup--list-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+
   .item {
     font-size: 14px;
     .error {
@@ -204,14 +219,20 @@
     }
     .list {
       list-style: none;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      z-index: 10;
+      left: 0;
       .item {
-        border-radius: 15px;
+        // border-radius: 15px;
         cursor: pointer;
         font-size: .825rem;
         height: 36px;
         line-height: 36px;
-        margin: .25rem;
+        // margin: .25rem;
         padding: 0 .75rem;
+        border-bottom: 1px solid #7f7e7e87;
         overflow: hidden;
         text-overflow: ellipsis;
         transition: background-color .4s ease;

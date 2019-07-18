@@ -125,6 +125,9 @@ export default {
     }
   },
   methods: {
+    closeMoreOption() {
+      this.isShowMoreOption = false;
+    },
     savePost(){
       if(this.post.content.trim().length === 0) {
         this.isShowAlertContent = true;

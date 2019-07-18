@@ -108,6 +108,11 @@
             </div>
             <div class="post--group" v-if="isShowPopupPostGroup === true">
               <div
+                class="item--content text_center"
+                v-if="postGroups.length === 0"
+              >Không có nhóm được tạo nào!</div>
+              <div
+                v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(postgroup, index) in postGroups"
                 :key="`pg+${index}`"
@@ -131,7 +136,10 @@
         </vue-perfect-scrollbar>
         <!-- Start: List Content -->
       </div>
-      <div class="items--footer d_flex align_items_center p_2" v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0">
+      <div
+        class="items--footer d_flex align_items_center p_2"
+        v-if="postGroupGroupsSelected.length > 0 || postGroupPagesSelected.length > 0"
+      >
         <!-- <div class="cancel mr_auto">Hủy</div> -->
         <div class="add ml_auto" @click="showPopupAddToGroup">Thêm vào nhóm</div>
       </div>

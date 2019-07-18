@@ -26,19 +26,21 @@
     }
   }
   .header--right {
+    border: 1px solid #444;
+    border-radius: .625rem;
     flex: 1;
     .title {
       background-color: transparent;
       border: 0;
       border-radius: .375rem;
       color: #F7F7F7;
-      font-size: 1.25rem;
+      font-size: 1.1rem;
       font-weight: 600;
-      padding: .375rem 0;
+      padding: .375rem 0.625rem;
       outline: 0;
       width: 100%;
       &::placeholder {
-        color: #666;
+        color: #ccc;
         font-size: 1rem;
         font-weight: normal;
       }
