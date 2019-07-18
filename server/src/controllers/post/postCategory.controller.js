@@ -18,10 +18,10 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description totalPosts" ).lean();
+      dataResponse = await PostCategory.findOne( { "_id": req.query._id, "_account": req.uid }, "title description mix totalPosts" ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", { "sort": { "$natural": -1 } } ).lean();
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description mix totalPosts", { "sort": { "$natural": -1 } } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
@@ -43,19 +43,24 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description totalPosts", query ).lean();
+      dataResponse = await PostCategory.find( { "_account": req.uid }, "title description mix totalPosts", query ).lean();
 
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    // Handle get mix categories
+    if ( parseInt( req.query.mix ) === 1 ) {
+      dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true }, "title description mix totalPosts" ).lean();
+
+      dataResponse = await Promise.all( dataResponse.filter( async ( category ) => {
+        return ( await Post.find( { "_categories": category._id } ).lean() ).length > 0;
+      } ) );
+
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    }
+
+    res.status( 404 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
-  /**
-   * Create Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "create": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -66,6 +71,7 @@ module.exports = {
     const newPostCategory = await new PostCategory( {
       "title": req.body.title,
       "description": req.body.description,
+      "mix": req.body.mix ? req.body.mix : false,
       "_account": req.uid
     } );
 
@@ -74,12 +80,6 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", newPostCategory ) );
   },
-  /**
-   * Update Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "update": async ( req, res ) => {
     // Check validator
     if ( req.body.title === "" ) {
@@ -95,12 +95,6 @@ module.exports = {
 
     res.status( 201 ).json( jsonResponse( "success", await PostCategory.findByIdAndUpdate( req.query._categoryId, { "$set": req.body }, { "new": true } ) ) );
   },
-  /**
-   * Delete Post Category
-   * @param req
-   * @param res
-   * @returns {Promise<*|Promise<any>>}
-   */
   "delete": async ( req, res ) => {
     const findPostCategory = await PostCategory.findOne( { "_id": req.query._categoryId, "_account": req.uid } ),
       findPost = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId } );
@@ -123,7 +117,6 @@ module.exports = {
         await post.save();
       } ) );
     }
-
 
     await PostCategory.findByIdAndRemove( req.query._categoryId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
@@ -158,5 +151,18 @@ module.exports = {
     }
 
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+  },
+  "addToMix": async ( req, res ) => {
+    const categoryInfo = await PostCategory.findOne( { "_id": req.params.categoryId, "_account": req.uid } );
+
+    // Check catch
+    if ( !categoryInfo ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Danh mục này không tồn tại!" } );
+    }
+
+    categoryInfo.mix = true;
+    await categoryInfo.save();
+
+    res.status( 200 ).json( { "status": "success", "data": categoryInfo } );
   }
 };

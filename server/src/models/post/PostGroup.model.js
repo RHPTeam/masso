@@ -11,6 +11,7 @@ const mongoose = require( "mongoose" ),
     },
     "_groups": Array,
     "_pages": Array,
+    "_timeline": Array,
     "created_at": {
       "type": Date,
       "default": Date.now()

@@ -8,11 +8,12 @@
     <!-- End: Header -->
     <!-- Start: FullCalendar -->
     <fullcalendar
-      @eventClick="openEventPopup($event)"
       :events="campaignDetail._events"
       :theme="currentTheme"
       :view="calendarView"
       :disabledView="campaignDetail.status"
+      @dayClick="createEvent($event)"
+      @eventClick="openEventPopup($event)"
     />
     <!-- End: FullCalendar -->
     <!-- Start: Event Popup -->
@@ -58,6 +59,25 @@ export default {
     await this.$store.dispatch("setCampainControl", 1);
   },
   methods: {
+    async createEvent( date ) {
+      const now = new Date(),
+            hour = now.getHours(),
+            min = now.getMinutes();
+
+      let timeSelected = new Date( date );
+      timeSelected.setHours( hour );
+      timeSelected.setMinutes( min );
+
+      await this.$store.dispatch( "setEvent", {
+        key: "started_at",
+        value: new Date( timeSelected )
+      } );
+
+      await this.$store.dispatch( "setCaseEvent", {
+        key: "popup",
+        value: true
+      } );
+    },
     async openEventPopup( event ) {
       await this.$store.dispatch( "getEventById", event._id );
       this.$store.dispatch( "setCaseEvent", {

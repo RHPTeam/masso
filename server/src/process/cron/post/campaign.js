@@ -13,7 +13,7 @@ const { agent } = require( "../../../configs/crawl" ),
   { createPost } = require( "../../../controllers/core/posts.core" );
 
 // Function Support Core
-const convertDataPostFacebook = async ( location, post, targetID ) => {
+const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID ) => {
   let photos = [];
 
   // Check convert images to array format
@@ -28,6 +28,45 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
   // Check if feed contain text and scrape link
   if ( post.scrape && post.scrape.length > 0 && photos.length > 0 ) {
     post.scrape = "";
+  }
+
+  // Check if user use advance mix post
+  if ( mixPost.mixOpen || mixPost.mixClose ) {
+    // Check open mix post
+    if ( mixPost.mixOpen ) {
+      // Check if mix post open have content
+      if ( mixPost.mixOpen.content.length > 0 ) {
+        post.content = `${mixPost.mixOpen.content} \n\n ${post.content}`;
+      }
+      // Check if mix post open have attachments
+      if ( mixPost.mixOpen.attachments.length > 0 ) {
+        const photoListMixPost = await Promise.all( mixPost.mixOpen.attachments.map( ( file ) => {
+          if ( file.typeAttachment === 1 ) {
+            return file.link;
+          }
+        } ) );
+
+        photos = photoListMixPost.concat( photos );
+      }
+    }
+
+    // Check close mix post
+    if ( mixPost.mixClose ) {
+      // Check if mix post open have content
+      if ( mixPost.mixClose.content.length > 0 ) {
+        post.content = `${post.content} \n\n ${mixPost.mixClose.content}`;
+      }
+      // Check if mix post open have attachments
+      if ( mixPost.mixClose.attachments.length > 0 ) {
+        const photoListMixPost = await Promise.all( mixPost.mixClose.attachments.map( ( file ) => {
+          if ( file.typeAttachment === 1 ) {
+            return file.link;
+          }
+        } ) );
+
+        photos = photos.concat( photoListMixPost );
+      }
+    }
   }
 
   return {
@@ -98,7 +137,8 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
           const campaignInfo = await Campaign.findOne( { "_id": eventSchedule._campaign } ),
             eventInfo = await Event.findOne( { "_id": eventSchedule._event } ),
             postInfo = await Post.findOne( { "_id": eventSchedule.postID } ).lean(),
-            facebookInfo = await Facebook.findOne( { "_id": eventSchedule.facebookID } ).lean();
+            facebookInfo = await Facebook.findOne( { "_id": eventSchedule.facebookID } ).lean(),
+            mixPost = {};
 
           console.log(
             "\x1b[32m%s\x1b[0m",
@@ -120,8 +160,23 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
           );
           deletedScheduleProcess( eventSchedule, __dirname );
 
+          // Check if user use advance mix post to post feed
+          if ( eventSchedule.mixOpen ) {
+            const listPost = ( await Post.find( { "_categories": eventSchedule.mixOpen } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+
+            mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
+          }
+
+          if ( eventSchedule.mixClose ) {
+            const listPost = ( await Post.find( { "_categories": eventSchedule.mixClose } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+
+            mixPost.mixClose = await Post.findOne( { "_id": postSelectedID } ).lean();
+          }
+
           // Do something new version - Convert JSON To Facebook
-          const feed = await convertDataPostFacebook( eventSchedule.location, postInfo, eventSchedule.targetID );
+          const feed = await convertDataPostFacebook( eventSchedule.location, mixPost, postInfo, eventSchedule.targetID );
 
           console.log( {
             "cookie": facebookInfo.cookie,
@@ -138,7 +193,7 @@ const convertDataPostFacebook = async ( location, post, targetID ) => {
 
           // Do something new version - Check Result Facebook Which Return
           if ( resFacebookResponse ) {
-            
+
             // Successfully
             if ( resFacebookResponse.error.code === 200 ) {
               finishedSchedule( eventSchedule, __dirname );

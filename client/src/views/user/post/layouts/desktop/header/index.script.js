@@ -52,6 +52,14 @@ export default {
       await this.$store.dispatch( "logOut" );
       window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     },
+    formatDate( d ) {
+      const dateTime = new Date( d ),
+        date = String( dateTime.getDate() ).padStart( 2, "0" ),
+        month = String( dateTime.getMonth() + 1 ).padStart( 2, "0" ),
+        year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
+    },
     toogleSidebar() {
       this.statusCollapse = !this.statusCollapse;
       this.$store.dispatch( "changeMenu", this.statusCollapse );
@@ -114,6 +122,9 @@ export default {
     async openExpireModal(){
       await this.$emit("openExpire", true);
       this.closeDropdownUser()
+    },
+    showGuidePopup(){
+      this.$store.dispatch("setVariableControlGuide", 1);
     }
   },
 

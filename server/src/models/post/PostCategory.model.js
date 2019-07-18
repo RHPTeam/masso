@@ -6,6 +6,10 @@ const mongoose = require( "mongoose" ),
   PostCategorySchema = new Schema( {
     "title": String,
     "description": String,
+    "mix": {
+      "type": Boolean,
+      "default": false
+    },
     "totalPosts": {
       "type": Number,
       "default": 0

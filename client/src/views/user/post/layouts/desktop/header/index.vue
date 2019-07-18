@@ -62,18 +62,6 @@
 
       <!-- Start: Help Dropdown -->
       <div class="notification--groups help position_relative">
-        <a class="icon--help mr_2" target="_blank" href="https://www.zinbee.vn/#/help">
-          <icon-base
-            width="22px"
-            height="22px"
-            icon-name="Bạn cần trợ giúp?"
-            viewBox="0 0 300 300"
-          >
-            <icon-help/>
-          </icon-base>
-        </a>
-      </div>
-      <!--<div class="notification--groups help position_relative">
         <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
             width="20px"
@@ -95,12 +83,12 @@
             </transition>
           </div>
         </div>
-      </div>-->
+      </div>
       <!-- End: Help Dropdown -->
 
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
-        <div class="btn--notification position_relative mr_3"
+        <div class="btn--notification position_relative mr_2"
           @click="showNotificationDropdown"
         >
           <icon-base
@@ -130,6 +118,21 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+
+      <!-- Start: Video Guide For User -->
+      <div class="video--guide mr_2" @click="showGuidePopup">
+        <icon-base
+          class="icon--arrow-left"
+          icon-name="Hướng dẫn sử dụng"
+          width="22"
+          height="22"
+          viewBox="0 0 60 60"
+        >
+          <icon-play></icon-play>
+        </icon-base>
+      </div>
+      <!-- End: Video Guide For User -->
+
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
         <div @click="showOptionsMoreDropdown" class="more mt_2">
@@ -267,7 +270,7 @@
           <div class="dropdown--divider"></div>
           <div class="info px_4 py_3">
             <h4 class="mb_2">Thông tin khác</h4>
-            <p class="exp mb_2">Tài khoản sử dụng đến ngày: 22 09 1019</p>
+            <p class="exp mb_2">Tài khoản sử dụng đến ngày: {{formatDate(user.expireDate)}}</p>
             <p class="expire" @click="openExpireModal">Gia hạn tài khoản</p>
           </div>
         </div>
@@ -279,7 +282,7 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "index.style";

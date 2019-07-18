@@ -18,12 +18,40 @@
         </div>
         <!--End: Empty Data-->
         <div v-else>
+          <!-- Start: Profile Data -->
+          <div class="mb_2" v-if="accountsFB && accountsFB.length > 0">
+            <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
+            >Trang cá nhân</div>
+            <div class="item--body d_flex align_items_center px_3 py_2"
+                 v-for="( item, index ) in accountsFB"
+                 :key="`fbpf-${index}`"
+            >
+              <div class="col col--checkbox px_2">
+                <label class="custom--checkbox mb_0">
+                  <input type="checkbox"
+                         v-model="selectedProfile"
+                         :value="item.userInfo.id"
+                  />
+                </label>
+              </div>
+              <div class="col col--name d_flex align_items_center pl_3">
+                <div class="avatar pr_2">
+                  <img :src="item.userInfo.thumbSrc" alt="avatar" width="30px" height="30px">
+                </div>
+                <span class="col col--name-text">
+                  {{ item.userInfo.name }}
+                </span>
+              </div>
+            </div>
+            <div class="no--group text_center py_3" v-if="accountsFB.length === 0">Không tìm thấy trang cá nhân nào</div>
+          </div>
+          <!-- End: Profile Data -->
           <!-- Start: Pages Data -->
-          <div v-if="facebookPages.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
+          <div class="mb_2" v-if="facebookPages.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Facebook Fanpage</div>
+            >Trang Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
@@ -53,7 +81,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Facebook Group</div>
+            >Nhóm Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"
@@ -114,8 +142,41 @@
         </div>
         <!--End: Empty Data-->
         <div v-else>
+          <!-- Start: Profile Data -->
+          <div class="mb_2" v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
+                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Trang' ">
+            <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
+                 v-for="(v, i) in 1"
+                 :key="`fbpf-header${i}`"
+            >Trang cá nhân
+            </div>
+            <div class="item--body d_flex align_items_center px_3 py_2"
+                 v-for="( item, index ) in postGroupDetailProfile"
+                 :key="`fbg-${index}`"
+            >
+              <div class="col col--checkbox px_2">
+                <label class="custom--checkbox mb_0">
+                  <input type="checkbox"
+                         v-model="selectedProfile"
+                         :value="item.userInfo.id"
+                  />
+                </label>
+              </div>
+              <div class="col col--name d_flex align_items_center pl_3">
+                <div class="avatar pr_2">
+                  <img :src="item.userInfo.thumbSrc" alt="avatar" width="30px" height="30px">
+                </div>
+                <span class="col col--name-text">
+                  {{ item.userInfo.name }}
+                </span>
+              </div>
+            </div>
+            <div class="no--group text_center py_3" v-if="postGroupDetailProfile.length === 0">Không tìm thấy trang nào</div>
+          </div>
+          <!-- End: Profile Data -->
+
           <!-- Start: Pages Data -->
-          <div v-if="postGroupDetail._pages.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
+          <div class="mb_2" v-if="postGroupDetail._pages.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"

@@ -8,6 +8,9 @@ export default {
   create( campaignsId, event ) {
     return Api().post( `events?_campaignId=${campaignsId}`, event );
   },
+  duplicate( eventId, data ) {
+    return Api().post( `events/duplicate?_eventId=${ eventId }`, data );
+  },
   getEventById( id ) {
     return Api().get( `events?_id=${id}` );
   },

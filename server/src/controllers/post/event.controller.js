@@ -26,7 +26,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "plugins.mix.open", "select": "_id title" } ).populate( { "path": "plugins.mix.close", "select": "_id title" } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -231,6 +231,9 @@ module.exports = {
       // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
+    if ( req.body.plugins === undefined ) {
+      findEvent.plugins = undefined;
+    }
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {
         "data": [
@@ -265,7 +268,6 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
     }
     /** **************************************************************************** **/
-
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();
@@ -332,25 +334,41 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "duplicate": async ( req, res ) => {
-    const findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
-      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
+    const eventInfo = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when duplicate
-    if ( !findEvent ) {
+    if ( !eventInfo ) {
       return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
-    findEvent.title = `${findEvent.title} Copy`;
+    let newEvent, campaignContainEvent;
 
-    // eslint-disable-next-line one-var
-    const newEvent = new Event( findEvent );
+    // Check if other campaign
+    if ( req.body.campaign && req.body.campaign.length > 0 ) {
+      campaignContainEvent = await Campaign.findOne( { "_id": req.body.campaign, "_account": req.uid } );
+    } else {
+      campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
+    }
 
-    // Create to event schedule, Check follow condition
-    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+    if ( !campaignContainEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    }
+
+    eventInfo.title = `${eventInfo.title} Copy`;
+    // eslint-disable-next-line camelcase
+    eventInfo.started_at = req.body.started_at;
+
+    newEvent = new Event( eventInfo );
 
     await newEvent.save();
-    findCampaign._events.push( newEvent._id );
-    findCampaign.save();
+
+    // Create EventSchedule
+    if ( campaignContainEvent.status === true ) {
+      await EventScheduleController.create( newEvent, campaignContainEvent._id );
+    }
+
+    campaignContainEvent._events.push( newEvent._id );
+    campaignContainEvent.save();
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   }

@@ -32,6 +32,19 @@ const mongoose = require( "mongoose" ),
       "type": Number,
       "default": 15
     },
+    "plugins": {
+      "mix": {
+        "open": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        },
+        "close": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        }
+      }
+    },
+    "activites": Array,
     "started_at": Date,
     "_account": {
       "type": Schema.Types.ObjectId,
