@@ -179,7 +179,7 @@ export default {
   font-size: 0.875rem;
   .items--header {
     padding: 0.625rem 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #444;
     .arrow-down {
       transform: rotate(90deg);
       margin-left: 0.5rem;
@@ -193,7 +193,7 @@ export default {
       .form--input {
         color: #ccc;
         padding: 0.55rem 0.625rem;
-        border: 1px solid #ccc;
+        border: 1px solid #444;
         border-radius: 10px;
         background: none;
         width: 100%;

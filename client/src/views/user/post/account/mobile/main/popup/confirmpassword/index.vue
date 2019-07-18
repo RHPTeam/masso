@@ -37,7 +37,7 @@
     </div>
     <!-- Start: Action -->
     <div
-      class="button--action disabled text_center mx_3"
+      class="button--action disabled text_center mx_3 my_3"
       :class="{
               disabled: statusClassError.password,
               enabled: statusClassPassed.password
@@ -186,7 +186,7 @@ export default {
   font-size: 0.875rem;
   .items--header {
     padding: 0.625rem 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #444;
     .arrow-down {
       transform: rotate(90deg);
       margin-left: 0.5rem;
@@ -197,10 +197,10 @@ export default {
   }
   .items--main {
     .content {
-      border: 1px solid #ccc;
+      border: 1px solid #444;
       border-radius: 5px;
       .text {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #444;
       }
       .form--input {
         color: #ccc;

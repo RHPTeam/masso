@@ -22,7 +22,7 @@
     </div>
     <!-- End: Header -->
     <!-- Start: Main -->
-    <div class="items--main mt_3 px_3">
+    <div class="items--main mt_3 px_2">
       <div class="list">
         <p class="mb_2 title">Danh sách từ khóa</p>
         <ul class="p_0 m_0">
@@ -32,7 +32,12 @@
             class="item d_flex align_items_center"
           >
             <span class="item--keyword">{{keyword}}</span>
-            <span class="ml_auto" @click="showPopupDelete(index)">Xóa</span>
+            <!-- <span class="ml_auto" @click="showPopupDelete(index)">Xóa</span> -->
+            <span class="ml_auto" @click="showPopupDelete(index)">
+              <icon-base class="icon-remove" width="20" height="20" viewBox="0 0 15 15">
+                <icon-remove />
+              </icon-base>
+            </span>
           </li>
         </ul>
       </div>
@@ -163,7 +168,7 @@ export default {
   font-size: 0.875rem;
   .items--header {
     padding: 0.625rem 0;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #444;
     .arrow-down {
       transform: rotate(90deg);
       margin-left: 0.5rem;
@@ -178,8 +183,8 @@ export default {
         font-size: 1rem;
       }
       .item {
-        padding: 0.55rem 0;
-        border-bottom: 1px solid #cccccc57;
+        padding: 0.5rem;
+        border-bottom: 1px solid #444;
 
         &--keyword {
           display: inline-block;
@@ -192,4 +197,5 @@ export default {
     }
   }
 }
+
 </style>
