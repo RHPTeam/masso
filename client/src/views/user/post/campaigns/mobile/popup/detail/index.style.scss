@@ -19,10 +19,25 @@
     }
     .items--body {
         font-size: 1rem;
-        .top {
-            .name {
-                margin-bottom: 0.5rem;
+        .main {
+          font-size: 0.8315rem;
+          .event {
+            background: #27292c;
+            .items {
+              padding: 0.625rem 0;
+              border-bottom: 1px solid #444;
+              .color span{
+                height: 10px;
+                width: 10px;
+                border-radius: 50%;
+                background: green;
+                display: block;
+              }
+              &:last-child, &.no--event {
+                border: 0;
+              }
             }
+          }
         }
     }
 }

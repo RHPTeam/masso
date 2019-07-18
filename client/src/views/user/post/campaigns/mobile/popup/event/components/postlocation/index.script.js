@@ -6,6 +6,7 @@ export default {
       selectedGroups: {}
     }
   },
+  props: ["errorPostLocation"],
   computed: {
     allPostGroups(){
       return this.$store.getters.postGroups;

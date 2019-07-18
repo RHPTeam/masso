@@ -14,6 +14,7 @@
       </div>
       <div class="title">Nơi đăng</div>
     </div>
+    <div class="alert--text mt_1" v-if="errorPostLocation === true">Vui lòng chọn nơi đăng!</div>
     <div class="section--body">
       <!-- Start: Timeline -->
       <div class="items">
@@ -44,7 +45,10 @@
               >
                 <template slot="option" slot-scope="option">
                   <div class="d_flex align_items_center">
-                    <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"></div>
+                    <div
+                      style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                      :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"
+                    ></div>
                     <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                   </div>
                 </template>
@@ -106,7 +110,10 @@
               >
                 <template slot="option" slot-scope="option">
                   <div class="d_flex align_items_center">
-                    <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                    <div
+                      style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                      :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                    ></div>
                     <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                   </div>
                 </template>
@@ -135,7 +142,10 @@
               >
                 <template slot="option" slot-scope="option">
                   <div class="d_flex align_items_center">
-                    <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                    <div
+                      style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                      :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                    ></div>
                     <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                   </div>
                 </template>

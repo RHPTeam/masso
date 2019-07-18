@@ -30,16 +30,11 @@
             <!-- End: Post Time -->
 
             <!-- Start: Post Custom -->
-            <post-custom @setErrorPost="errorPost = $event" />
+            <post-custom @setErrorPost="errorPost = $event" :error="errorPostContent"/>
             <!-- End: Post Custom -->
-            <div
-              class="alert--text"
-              v-if="errorPostContent === true"
-            >Vui lòng chọn danh mục hoặc bài đăng!</div>
 
             <!-- Start: Post Location -->
-            <post-location @setErrorLocation="errorLocation = $event" />
-            <div class="alert--text" v-if="errorPostLocation === true">Vui lòng chọn nơi đăng!</div>
+            <post-location @setErrorLocation="errorLocation = $event" :errorPostLocation="errorPostLocation"/>
             <!-- End: Post Location -->
           </div>
         </VuePerfectScrollbar>
@@ -120,16 +115,10 @@ export default {
       this.$emit("closePopup", false);
     },
     async createEvent() {
-      console.log("Create 1", this.event);
       // Validate
-      if (this.event.post_custom && this.event.post_category) {
-        if (
-          this.event.post_custom.length === 0 &&
-          this.event.post_category.length === 0
-        ) {
-          this.errorPostContent = true;
-          return;
-        }
+      if ( this.event.post_custom.length === 0 && this.event.post_category === "" ) {
+        this.errorPostContent = true;
+        return;
       } else if (
         this.event.target_custom.length === 0 &&
         !this.event.target_category &&
@@ -139,15 +128,14 @@ export default {
         return;
       }
 
-      console.log("Create 2", this.event);
       await this.$store.dispatch("createEvent", {
         campaignId: this.campaign._id,
         event: this.event
       });
+      
+      await this.closePopup();
 
       this.$store.dispatch("setEventReset");
-
-      this.closePopup();
     },
     showPopupTime() {
       this.isShowPopupTime = true;

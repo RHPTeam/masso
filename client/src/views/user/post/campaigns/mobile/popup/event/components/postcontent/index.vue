@@ -12,6 +12,10 @@
       </icon-base>
       <div class="title mr_4">Đăng bài viết từ</div>
     </div>
+    <div
+      class="alert--text my_1"
+      v-if="error === true"
+    >Vui lòng chọn danh mục hoặc bài đăng!</div>
     <div class="section--body">
       <!-- Start: Post Category -->
       <div class="top mb_3 d_flex align_items_center">
@@ -73,6 +77,7 @@ export default {
       postType: '1',
     }
   },
+  props: ["error"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -101,6 +106,12 @@ export default {
     }
     if ( this.categories.length === 0 ) {
       await this.$store.dispatch( "getAllCategories" );
+    }
+    if ( this.caseEvent.post === 0 ) {
+      await this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 1
+      } );
     }
     this.postType = String( this.caseEvent.post );
   },
@@ -142,7 +153,6 @@ export default {
       } );
     },
     async selectCategory( category ){
-      console.log( category );
       if ( !category ) return;
       if ( category ) {
         await this.$emit("setErrorPost", false);
@@ -153,7 +163,6 @@ export default {
       if ( category.totalPosts === 0 ) {
         this.isShowError = true;
       } else {
-        console.log("OK");
         await this.$store.dispatch( "setCaseEvent", {
           key: "active",
           value: 0

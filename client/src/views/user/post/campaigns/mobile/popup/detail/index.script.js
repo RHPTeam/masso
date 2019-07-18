@@ -1,6 +1,7 @@
 import ActiveCampaign from "@/components/switch";
 import PopupHistory from "../history";
 import PopupCreateEvent from "../event";
+import DatePickerInline from "@/components/datepickerinline";
 export default {
   data() {
     return {
@@ -13,7 +14,8 @@ export default {
   components: {
     ActiveCampaign,
     PopupHistory,
-    PopupCreateEvent
+    PopupCreateEvent,
+    DatePickerInline
   },
   computed: {
     campaignDetail() {

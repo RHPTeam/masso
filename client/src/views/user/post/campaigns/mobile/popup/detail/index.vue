@@ -45,13 +45,36 @@
         </div>
         <div class="main mt_2">
           <!-- Start: FullCalendar -->
-          <fullcalendar
+          <!-- <fullcalendar
             :events="campaignDetail._events"
             :theme="currentTheme"
             :view="calendarView"
             :disabledView="campaign.status"
-          />
+          /> -->
           <!-- End: FullCalendar -->
+          <!-- Start: Date time picker -->
+          <date-picker-inline :inline="true"  />
+          <!-- End: Date time picker -->
+
+          <!-- Start: Event of Day -->
+          <div class="event mt_2 px_2">
+            <!-- <div class="items no--event text_center">Không có sự kiện nào</div> -->
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:00</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event nè!!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+          </div>
+          <!-- End: Event of Day -->
         </div>
       </div>
     </div>

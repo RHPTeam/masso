@@ -57,7 +57,6 @@ export default {
       this.isShowPopupCopy = true;
     },
     showPopupDetailCampaign(campaign) {
-      console.log("campaign", campaign);
       this.selectedCampaign = campaign;
       this.isShowPopupDetailCampaign = true;
     },
