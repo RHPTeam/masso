@@ -5,7 +5,10 @@ import RcTimeGridView from "./components/views/time-grid-view/index";
 
 export default {
   props: {
-    events: [ Array, Object ],
+    events: {
+      type: Array,
+      default: []
+    },
     theme: {
       type: String,
       default: "light"
@@ -236,6 +239,9 @@ export default {
         d2Year = d2Time.getFullYear();
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
+    },
+    dayClick( date ) {
+      this.$emit( "dayClick", date );
     },
     eventClick( data ) {
       this.$emit( "eventClick", data );

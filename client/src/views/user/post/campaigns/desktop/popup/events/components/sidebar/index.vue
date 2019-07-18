@@ -28,7 +28,10 @@
     <div class="list--group mt_4">
       <div class="title mb_2">Hành động</div>
       <div class="list--group-item position_relative">
-        <div class="item--content d_flex align_items_center" @click="showDuplicatePopup">
+        <div class="item--content d_flex align_items_center"
+             v-if="event._id"
+             @click="showDuplicatePopup"
+        >
           <icon-base
             class="icon icon--copy mr_2"
             height="14px"
@@ -70,6 +73,7 @@
         </div>
       </div>
       <div class="list--group-item btn--delete mt_2"
+           v-if="event._id"
            @click="showDeletePopup"
       >
         <div class="item--content d_flex align_items_center">
@@ -113,7 +117,7 @@ export default {
     AdvanceContentPopup,
     DuplicatePopup
   },
-  props: [ "errorPostLocation", "errorPostContent" ],
+  props: [ "errorMixStatus" ],
   data() {
     return {
       isShowAdvanceContentPopup: false,
@@ -133,9 +137,20 @@ export default {
       } );
     },
     async createNewEvent() {
+      // Mix Validate Empty data
+      if ( this.event.plugins ) {
+        if ( this.event.plugins.mix.open === null && this.event.plugins.mix.close === null ) {
+          this.$emit( "updateErrorMixStatus", true );
+          this.$emit( "updateErrorMixText", "Bạn phải chọn danh mục mở bài hoặc kết bài!" );
+          return;
+        }
+      }
+
       // Validate
-      if ( this.event.post_custom.length === 0 && this.event.post_category.length === 0 ) {
+      if ( this.event.post_custom.length === 0 && this.event.post_category === "" ) {
         this.$emit( "updateErrorPostContent", true );
+        return;
+      } else if ( this.errorMixStatus ) {
         return;
       } else if ( this.event.target_custom.length === 0 &&
         !this.event.target_category &&
@@ -170,9 +185,20 @@ export default {
       this.$emit( "showDeletePopup", true );
     },
     async updateEvent() {
+      // Mix Validate Empty data
+      if ( this.event.plugins ) {
+        if ( this.event.plugins.mix.open === null && this.event.plugins.mix.close === null ) {
+          this.$emit( "updateErrorMixStatus", true );
+          this.$emit( "updateErrorMixText", "Bạn phải chọn danh mục mở bài hoặc kết bài!" );
+          return;
+        }
+      }
+
       // Validate
-      if ( this.event.post_custom.length === 0 && this.event.post_category.length === 0 ) {
+      if ( this.event.post_custom.length === 0 && this.event.post_category === "" ) {
         this.$emit( "updateErrorPostContent", true );
+        return;
+      } else if ( this.errorMixStatus ) {
         return;
       } else if ( this.event.target_custom.length === 0 &&
         !this.event.target_category &&

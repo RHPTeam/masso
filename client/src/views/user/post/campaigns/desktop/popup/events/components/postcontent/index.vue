@@ -69,7 +69,6 @@
 export default {
   data() {
     return {
-      isShowError: false,
       postType: '1',
     }
   },
@@ -102,39 +101,25 @@ export default {
     if ( this.categories.length === 0 ) {
       await this.$store.dispatch( "getAllCategories" );
     }
+    if ( this.caseEvent.post === 0 ) {
+      await this.$store.dispatch( "setCaseEvent", {
+        key: "post",
+        value: 1
+      } );
+    }
     this.postType = String( this.caseEvent.post );
   },
   methods: {
-    resetPostType() {
-      this.$store.dispatch( "setCaseEvent", {
-        key: "target",
-        value: 0
-      } );
-      this.$store.dispatch( "setCaseEvent", {
-        key: "post",
-        value: 0
-      } );
-      // Remove post_category
-      this.$store.dispatch( "setEventRemove", "post_category" );
-    },
     async selectPost( value ){
       if ( value ) {
         await this.$emit("setErrorPost", false);
       }
-      if ( value.length === 0 )  {
-        this.isShowError = true;
-      } else {
-        // Active Option
-        await this.$store.dispatch( "setCaseEvent", {
-          key: "listPost",
-          value: 0
-        } );
-        // Attach Post Category Empty
-        await this.$store.dispatch( "setEvent", {
-          key: "post_category",
-          value: []
-        } );
-      }
+
+      // Reset post category value
+      await this.$store.dispatch( "setEvent", {
+        key: "post_category",
+        value: ""
+      } );
 
       await this.$store.dispatch( "setEvent", {
         key: "post_custom",
@@ -142,34 +127,22 @@ export default {
       } );
     },
     async selectCategory( category ){
-      console.log( category );
       if ( !category ) return;
       if ( category ) {
-        await this.$emit("setErrorPost", false);
+        await this.$emit( "setErrorPost", false );
       }
-      if ( category.totalPosts !== 0 ) {
-        this.isShowError = false;
-      }
-      if ( category.totalPosts === 0 ) {
-        this.isShowError = true;
-      } else {
-        console.log("OK");
-        await this.$store.dispatch( "setCaseEvent", {
-          key: "active",
-          value: 0
-        } );
-        await this.$store.dispatch( "setEvent", {
-          key: "post_custom",
-          value: []
-        } );
-        this.$store.dispatch( "setEvent", {
-          key: "post_category",
-          value: {
-            _id: category._id,
-            title: category.title
-          }
-        } );
-      }
+
+      await this.$store.dispatch( "setEvent", {
+        key: "post_custom",
+        value: []
+      } );
+      this.$store.dispatch( "setEvent", {
+        key: "post_category",
+        value: {
+          _id: category._id,
+          title: category.title
+        }
+      } );
     },
     async updatePostCaseEvent( value ) {
       if ( value === 1 ) {
@@ -180,7 +153,7 @@ export default {
       } else {
         await this.$store.dispatch( "setEvent", {
           key: "post_category",
-          value: []
+          value: ""
         } );
       }
       await this.$store.dispatch( "setCaseEvent", {
