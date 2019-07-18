@@ -13,7 +13,7 @@ const state = {
     break_point: 15,
     started_at: new Date,
     post_custom: [],
-    post_category: [],
+    post_category: "",
     target_custom: [],
     timeline: [],
     plugins: "",
@@ -117,7 +117,7 @@ const actions = {
         }
       } );
     }
-    if ( payload.event.post_category.length === 0 ) {
+    if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
     if ( payload.event.post_custom.length === 0 ) {
@@ -190,7 +190,7 @@ const actions = {
         }
       } );
     }
-    if ( payload.event.post_category  && payload.event.post_category.length === 0 ) {
+    if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
     if ( payload.event.post_custom && payload.event.post_custom.length === 0 ) {
@@ -245,6 +245,7 @@ const actions = {
       type_event: 0,
       break_point: 15,
       started_at: new Date,
+      post_category: "",
       post_custom: [],
       target_custom: [],
       timeline: [],

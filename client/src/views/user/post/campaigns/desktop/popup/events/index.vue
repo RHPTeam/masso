@@ -39,6 +39,10 @@
               <!-- Start: Mix Plugin -->
               <mix-plugin
                 v-if="event.plugins"
+                :errorMixStatus="errorMixStatus"
+                :errorMixText="errorMixText"
+                @updateErrorMixStatus="errorMixStatus = $event"
+                @updateErrorMixText="errorMixText = $event"
               ></mix-plugin>
               <!-- End: Mix Plugin -->
               <!-- Start: Post Location -->
@@ -55,9 +59,10 @@
             </div>
             <div class="body--sidebar">
               <app-sidebar
-                :errorPostContent="errorPostContent"
-                :errorPostLocation="errorPostLocation"
+                :errorMixStatus="errorMixStatus"
                 @showDeletePopup="isDeleteEvent = $event"
+                @updateErrorMixStatus="errorMixStatus = $event"
+                @updateErrorMixText="errorMixText = $event"
                 @updateErrorPostContent="errorPostContent = $event"
                 @updateErrorPostLocation="errorPostLocation = $event"
               ></app-sidebar>
@@ -107,6 +112,8 @@ export default {
   data() {
     return {
       isShowOptionTime: false,
+      errorMixStatus: false,
+      errorMixText: "",
       errorPostContent: false,
       errorPostLocation: false,
       errorData: [],
