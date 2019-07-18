@@ -1,84 +1,88 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
-    <div class="col col--category px_2">{{ item.title }}</div>
-    <div class="col col--posts text_center px_2">{{ item.totalPosts }}</div>
-    <div class="col col--description px_2">
-      <div class="col--description-text">
-        {{ item.description }}
+  <div v-hammer:pan="(event)=> onPan(event)" class="item">
+    <div
+      :class="{ 'swipe-left': isTriggerAction , 'swipe-right': !isTriggerAction }"
+      class="item--body item--body-post d_flex align_items_center"
+    >
+      <div class="col col--category p_2" @click="showPopupEdit">
+        <div class>{{ item.title }}</div>
+        <div class="desc">{{ item.description }}</div>
+      </div>
+      <div class="col col--posts text_center ml_auto">{{ item.totalPosts }}</div>
+    </div>
+    <div class="item--body item--body-action d_flex align_items_center">
+      <div class="action align_items_center">
+        <div class="ml_2 mr_1" @click="showDeletePopup(item)">
+          <icon-base class="icon--delete m_2" icon-name="Xóa" width="25" height="25" viewBox="0 0 15 15">
+            <icon-remove />
+          </icon-base>
+        </div>
       </div>
     </div>
-    <div class="col col--action px_4 text_center"
-         :class="[ item.title === 'Chưa phân loại' ? 'action--disabled' : null ]"
-    >
-      <span v-if="item.title === 'Chưa phân loại'">
-        <span class="mx_1">
-          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
-            <icon-edit />
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base
-            icon-name="Xóa"
-            width="20"
-            height="20"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove />
-          </icon-base>
-        </span>
-        <span class="mx_1">
-          <icon-base
-            width="20"
-            height="20"
-            viewBox="0 0 18 18"
-          >
-            <icon-info />
-          </icon-base>
-        </span>
-      </span>
-      <span v-else>
-        <span class="mx_1" @click="updateCategory">
-          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
-            <icon-edit />
-          </icon-base>
-        </span>
-        <span class="mx_1" @click="showDeletePopup">
-          <icon-base
-            icon-name="Xóa"
-            width="20"
-            height="20"
-            viewBox="0 0 15 15"
-          >
-            <icon-remove />
-          </icon-base>
-        </span>
-        <span class="mx_1" @click="showListPostInCategory">
-          <icon-base
-            width="20"
-            height="20"
-            viewBox="0 0 18 18"
-          >
-            <icon-info />
-          </icon-base>
-        </span>
-      </span>
-    </div>
+    <!-- Start: Transition Popup Delete Category -->
+    <transition name="popup--delete">
+      <popup-delete
+        title="danh mục"
+        :name="item.title"
+        v-if="isShowPopupDelete === true"
+        @closePopup="isShowPopupDelete = $event"
+        storeActionName="deleteCategory"
+        :targetData="targetDataDelete"
+      />
+    </transition>
+    <!-- End: Transition Popup Delete Category -->
+    <!-- Start: Transition Popup Edit Category -->
+    <transition name="popup--mobile">
+      <popup-edit-category
+        @closePopup="isShowPopupEdit = $event"
+        v-if="isShowPopupEdit === true"
+        :item="item"
+      />
+    </transition>
+    <!-- End: Transition Popup Edit Category -->
   </div>
 </template>
 
 <script>
+import PopupEditCategory from "./edit";
+import PopupDelete from "@/components/popups/mobile/delete";
 export default {
-  props: [ "item" ],
+  components: {
+    PopupDelete,
+    PopupEditCategory
+  },
+  props: ["item"],
+  data() {
+    return {
+      targetDataDelete: {},
+      isShowPopupDelete: false,
+      isShowPopupEdit: false,
+      isTriggerAction: false
+    };
+  },
   methods: {
     updateCategory() {
-      this.$emit( "updateCategory", this.item );
+      this.$emit("updateCategory", this.item);
     },
-    showDeletePopup() {
-      this.$emit( "showDeletePopup", this.item );
+    showDeletePopup(category) {
+      this.categoryDelete = category;
+      this.targetDataDelete = {
+        id: category._id,
+        size: 25,
+        page: 1
+      };
+      this.isShowPopupDelete = true;
     },
-    async showListPostInCategory(){
-      await this.$store.dispatch("getPostByCategories", this.item._id);
-      this.$router.push({name: "post_posts"});
+    showPopupEdit() {
+      this.isShowPopupEdit = true;
+    },
+    onPan(event) {
+      if (event.offsetDirection === 2) {
+        this.isTriggerAction = true;
+      }
+      if (event.offsetDirection === 4) {
+        this.isTriggerAction = false;
+      }
     }
   }
 };
@@ -86,16 +90,75 @@ export default {
 
 <style lang="scss" scoped>
 @import "../index.style";
-.action--disabled {
-  span {
-    svg {
-      color: #999 !important;
-      cursor: not-allowed !important;
-      opacity: .5 !important;
-      &:hover {
-        color: #999 !important;
-      }
-    }
+.item {
+  position: relative;
+  height: 4rem;
+  width: 100%;
+}
+.item--body {
+  border-bottom: 1px solid #484848;
+  height: 4rem;
+  width: 100%;
+  &-post {
+    z-index: 2;
+    position: absolute;
+    background: #2c2d32 !important;
   }
+  &-action {
+    z-index: 1;
+    position: absolute;
+    background: #212225 !important;
+  }
+}
+
+.action {
+  margin-left: auto;
+}
+
+
+.icon {
+  &--delete {
+    color: #ec2c49;
+  }
+}
+
+
+.swipe {
+  &-left {
+    transform: translateX(-7rem);
+    transition: 0.5s all;
+  }
+  &-right {
+    transform: translateX(0);
+    transition: 0.5s all;
+  }
+}
+// Popup Delete
+.popup--delete-enter {
+  transform: translateY(100%);
+}
+
+.popup--delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup--delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
 }
 </style>

@@ -1,81 +1,95 @@
 <template>
-  <div class="main--list py_2">
+  <div class="main--list">
     <!-- Start: List post -->
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
-      <div class="item--body d_flex align_items_center py_2 pl_2">
-        <div class="content" @click="showDetailPost">
-          <div class="title">Bài đăng chưa có tiêu đề</div>
-          <div class="category--parent">Chưa phân loại</div>
-        </div>
-        <!-- Start: action posts -->
-        <div
-          class="col d_flex align_items_center justify_content_center col--action pr_2 text_center"
-        >
-          <span class="mr_1" @click="showPopupDelete">
-            <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-              <icon-remove/>
-            </icon-base>
-          </span>
-          <span class="mx_1">
-            <icon-base class="icon--post-now" icon-name="Đăng ngay" viewBox="0 0 506 506">
-              <icon-post-now/>
-            </icon-base>
-          </span>
-        </div>
-        <!-- End: action posts -->
-      </div>
+      <div v-if="allPost.length === 0" class="text_center py_2">Không có bài viết nào</div>
+      <item-post v-else v-for="(item, index) in allPost" :key="index" :item="item" @showDetailPost="showPopupDetail($event)" @showPopupDelete="showPopupDelete($event)"/>
     </VuePerfectScrollbar>
     <!-- End: List post -->
+    <!-- Start: Transition -->
+    <transition name="popup">
+      <popup-delete
+        v-if="isShowPopupDelete === true"
+        @closePopup="isShowPopupDelete = $event"
+        title="bài viết"
+        :name="postSelected.title"
+        storeActionName="deletePost"
+        :targetData="targetDataDelete"
+      />
+    </transition>
+    <!-- End: Transition -->
     <!-- Start: Popup Detail Post -->
     <transition name="popup--mobile">
-      <popup-detail :fbPost="fbPost" :post="post" v-if="isShowDetailPost === true" @closePopup="isShowDetailPost = $event"/>
+      <popup-detail
+        :post="postSelected"
+        v-if="isShowDetailPost === true"
+        @closePopup="isShowDetailPost = $event"
+      />
       <!-- <popup-post-now /> -->
     </transition>
     <!-- Start: Popup Detail Post -->
-    <!-- Start: Transition -->
-    <transition name="popup">
-      <popup-delete @closePopup="isShowPopupDelete = $event" v-if="isShowPopupDelete === true"/>
-    </transition>
-    <!-- End: Transition -->
   </div>
 </template>
 
 <script>
-import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import PopupDelete from "@/components/popups/mobile/delete";
 import PopupDetail from "../popup/detail";
-import PopupDelete from "../popup/delete";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import PopupPostNow from "../popup/postnow";
+import ItemPost from "./item";
 export default {
   data() {
-    return {
+    return {      
+      isShowPopupDelete: false,
       isShowDetailPost: false,
-      isShowPopupDelete: false
-    }
+      postSelected: {},
+      targetDataDelete: {}
+    };
   },
-  props: ["fbPost"],
   components: {
     VuePerfectScrollbar,
-    PopupDetail,
-    PopupDelete,
-    PopupPostNow
+    PopupPostNow,
+    ItemPost,
+    PopupDetail, 
+    PopupDelete
   },
   computed: {
+    post() {
+      return this.$store.getters.defaultPost;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    post() {
-      return this.$store.getters.defaultPost;
+    allPost() {
+      return this.$store.getters.allPost;
     }
   },
   methods: {
-    showDetailPost() {
+    showPopupDetail(post) {
+      this.postSelected = post;
       this.isShowDetailPost = true;
     },
-    showPopupDelete() {
+    showPopupDelete(post) {      
+      this.postSelected = post;
+      this.targetDataDelete = {
+        id: post._id
+      };
       this.isShowPopupDelete = true;
     }
   },
+  async created() {
+    if( this.$router.name === 'post_posts') {
+      const postNo = this.$store.getters.allPost;
+      if( postNo.length === 0 ) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        await this.$store.dispatch( "getPostsByPage", dataSender );
+      }
+    }
+  }
 };
 </script>
 
@@ -108,7 +122,6 @@ export default {
   transform: translateY(100%);
 }
 // End Transition
-
 .main--list {
   .item--header {
     background: #27292d;
@@ -118,27 +131,10 @@ export default {
     line-height: 32px;
   }
   .list--post-group {
-    max-height: calc(100vh - 227px);
-    &.ps.ps--active-x>.ps__scrollbar-x-rail, &.ps.ps--active-y>.ps__scrollbar-y-rail {
-      display: none!important;
-    }
-    .item--body {
-      border-bottom: 1px solid #484848;
-      background: rgba(39, 41, 45, 0.4);
-      .content {
-        width: 100%;
-        max-width: 90%;
-        font-size: 0.875rem;
-        .category--parent {
-          font-size: 0.8125rem;
-          color: #999;
-        }
-        .title, .category--parent {
-          white-space: nowrap; 
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-      }
+    max-height: 74vh;
+    &.ps.ps--active-x > .ps__scrollbar-x-rail,
+    &.ps.ps--active-y > .ps__scrollbar-y-rail {
+      display: none !important;
     }
   }
 }

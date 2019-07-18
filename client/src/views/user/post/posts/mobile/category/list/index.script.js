@@ -1,18 +1,11 @@
-import DeletePopup from  "@/components/popups/delete";
-import CategoryPaginate from "./paginate/index";
-import ItemCategories from "./item/index";
-import CategoriesDefault from "./itemdefault";
+import ItemCategories from "./item";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 
 export default {
   components: {
-    DeletePopup,
-    CategoryPaginate,
-    CategoriesDefault,
     ItemCategories,
     VuePerfectScrollbar
   },
-  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       isShowDeletePopup: false,
@@ -27,25 +20,26 @@ export default {
     categories() {
       return this.$store.getters.categoriesPage;
     },
-    categoriesDefault(){
-      return this.$store.getters.allCateDefault;
-    },
     statusCategories() {
       return this.$store.getters.statusCategories;
     }
   },
   async created() {
-    // const defaultNumberNo = this.$store.getters.allCateDefault;
+    if( this.$router.name === 'post_posts') {
+      const categoryNo = this.$store.getters.categoriesPage;
+      if( categoryNo.length === 0 ) {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch( "getCategoriesByPage", dataSender );
+      }
 
-    // if ( defaultNumberNo.length === 0 ) {
-    //   this.$store.dispatch("getCategoryDefault");
-    // }
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-
-    // this.$store.dispatch( "getCategoriesByPage", dataSender );
+      const defaultNumberNo = this.$store.getters.allCateDefault;  
+      if ( defaultNumberNo.length === 0 ) {
+        this.$store.dispatch("getCategoryDefault");
+      }
+    }
   },
   methods: {
     updateCategory( val ) {

@@ -332,25 +332,36 @@ module.exports = {
     res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   "duplicate": async ( req, res ) => {
-    const findCampaign = await Campaign.findOne( { "_events": new ObjectId( req.query._eventId ) } ),
-      findEvent = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
+    const eventInfo = await Event.findOne( { "_id": req.query._eventId, "_account": req.uid } ).select( "-_id -__v -updated_at -created_at" ).lean();
 
     // Check catch when duplicate
-    if ( !findEvent ) {
+    if ( !eventInfo ) {
       return res.status( 404 ).json( { "status": "error", "message": "Sự kiện không tồn tại!" } );
     }
 
-    findEvent.title = `${findEvent.title} Copy`;
+    let newEvent, campaignContainEvent;
 
-    // eslint-disable-next-line one-var
-    const newEvent = new Event( findEvent );
+    // Check if other campaign
+    if ( req.body.campaign && req.body.campaign.length > 0 ) {
+      campaignContainEvent = await Campaign.findOne( { "_id": req.body.campaign, "_account": req.uid } );
+    }
+    campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
 
-    // Create to event schedule, Check follow condition
-    await EventScheduleController.create( newEvent.toObject(), findCampaign._id, req.uid );
+    eventInfo.title = `${eventInfo.title} Copy`;
+    // eslint-disable-next-line camelcase
+    eventInfo.started_at = req.body.started_at;
+
+    newEvent = new Event( eventInfo );
 
     await newEvent.save();
-    findCampaign._events.push( newEvent._id );
-    findCampaign.save();
+
+    // Create EventSchedule
+    if ( campaignContainEvent.status === true ) {
+      await EventScheduleController.create( newEvent, campaignContainEvent._id );
+    }
+
+    campaignContainEvent._events.push( newEvent._id );
+    campaignContainEvent.save();
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
   }

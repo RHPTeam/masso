@@ -5,8 +5,8 @@
       <div class="block--img">
         <img :src="item.link" alt>
       </div>
-      <div class="block--bg position_absolute d_flex align_items_center justify_content_center" @click="deleteImageAttachmentPost(item._id)">
-        <icon-base
+      <div class="block--bg position_absolute d_flex align_items_center justify_content_center" @click="post.attachments.splice(index,1)">
+        <!-- <icon-base
           class="icon--remove"
           icon-name="remove"
           width="20px"
@@ -14,7 +14,7 @@
           viewBox="0 0 16 16"
         >
           <icon-remove/>
-        </icon-base>
+        </icon-base> -->x
       </div>
     </div>
     <div class="gallery--block position_relative m_1">
@@ -41,11 +41,7 @@
 </template>
 <script>
 export default {
-  props: {
-    post: {
-      type: Object
-    }
-  },
+  props: ["post"],
   data() {
     return {
       file: "",
@@ -63,7 +59,7 @@ export default {
   methods: {
     deleteImageAttachmentPost(val){
       const dataSender = {
-        postId: this.$route.params.id,
+        postId: this.post._id,
         attachmentId: val
       };
       this.$store.dispatch("deleteAttachmentPost", dataSender);
