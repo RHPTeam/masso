@@ -8,6 +8,9 @@
   color: #ccc;
   z-index: 10;
   font-size: 0.875rem;
+  .scroll-event {
+    max-height: calc(100vh - 60px);
+  }
 
   .modal--dialog {
     width: 100%;

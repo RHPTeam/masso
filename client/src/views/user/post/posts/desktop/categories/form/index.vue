@@ -7,14 +7,24 @@
         <span>Tên danh mục</span>
         <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategory" />
       </div>
-      <div v-if="this.$store.getters.statusError.status === 'fail'"
+      <div v-if="errorStatus"
            class="text--error mt_1"
       >
-        {{ this.$store.getters.statusError.data.title }}
+        {{ errorText }}
       </div>
       <div class="item mt_3">
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="desCategory"></textarea>
+      </div>
+      <div class="item d_flex align_items_center mt_3 mb_4">
+        <toggle-switch
+          class="mb_0 mr_3"
+          color=""
+          :value="mixStatus"
+          :sync="true"
+          @change="updateMixStatus()"
+        ></toggle-switch>
+        <div class="">Cho phép là danh mục nâng cao</div>
       </div>
       <div class="item mt_3" @click="createCategory">
         <button>Thêm mới</button>
@@ -32,6 +42,25 @@
         <span>Mô tả</span>
         <textarea placeholder="Nhập tên danh mục" v-model="category.description"></textarea>
       </div>
+      <div class="item d_flex align_items_center mt_3 mb_4">
+        <toggle-switch
+          class="mb_0 mr_3"
+          v-if="category.mix"
+          color=""
+          :value="category.mix"
+          :sync="true"
+          @change="updateCategoryMix()"
+        ></toggle-switch>
+        <toggle-switch
+          class="mb_0 mr_3"
+          v-else
+          color=""
+          :value="mixStatus"
+          :sync="true"
+          @change="updateMixStatus()"
+        ></toggle-switch>
+        <div class="">Cho phép là danh mục nâng cao</div>
+      </div>
       <div class="item d_flex justify_content_between mt_3">
         <button @click="updateCategory">Cập nhật</button>
         <button class="btn--cancel" @click="cancelUpdateCategory">Hủy</button>
@@ -46,8 +75,11 @@ export default {
   props: [ "currentPage", "filterShowSelected", "isUpdateCategory" ],
   data() {
     return {
+      errorStatus: false,
+      errorText: "",
+      desCategory: "",
+      mixStatus: false,
       nameCategory: "",
-      desCategory: ""
     };
   },
   computed: {
@@ -66,27 +98,49 @@ export default {
       const dataSender = {
         category: {
           title: this.nameCategory,
-          description: this.desCategory
+          description: this.desCategory,
+          mix: this.mixStatus
         },
         page: this.currentPage,
         size: this.filterShowSelected.id
       };
+
+      if ( this.nameCategory === ""  ) {
+        this.errorStatus = true;
+        this.errorText = "Tiêu đề không được bỏ trống!";
+        return;
+      }
+
+      // Reset value
+      this.errorStatus = false;
+      this.errorText = "";
+
       await this.$store.dispatch( "createCategory", dataSender );
       this.nameCategory = "";
       this.desCategory = "";
+      this.mixStatus = false;
     },
     updateCategory() {
       const dataSender = {
         id: this.category._id,
         category: {
           title: this.category.title,
-          description: this.category.description
+          description: this.category.description,
+          mix: this.category.mix ? this.category.mix : this.mixStatus
         },
         page: this.currentPage,
         size: this.filterShowSelected.id
       };
+
       this.$store.dispatch( "updateCategory", dataSender );
       this.$emit( "comebackDefault", false );
+      this.mixStatus = false;
+    },
+    updateCategoryMix() {
+      this.category.mix = !this.category.mix;
+    },
+    updateMixStatus() {
+      this.mixStatus = !this.mixStatus;
     }
   }
 };

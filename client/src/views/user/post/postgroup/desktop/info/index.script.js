@@ -34,6 +34,9 @@ export default {
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
     },
+    postProfileSelected() {
+      return this.$store.getters.postProfileSelected;
+    }
   },
 
   methods: {
@@ -53,6 +56,7 @@ export default {
       this.isShowAddtoGrPopup = true;
     },
     updateGroupsAndPages() {
+      this.$store.dispatch( "getAccountsFB" );
       this.$store.dispatch( "updateFacebookPages" );
       this.$store.dispatch( "updateFacebookGroups" );
     },

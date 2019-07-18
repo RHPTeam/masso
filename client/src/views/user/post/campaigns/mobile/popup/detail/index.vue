@@ -15,17 +15,17 @@
         </div>
         <div class="active ml_auto d_flex align_items_center">
           <div @click="showHistory">
-            <icon-base icon-name="Lịch sử" width="24" height="24" viewBox="0 0 480 480" class>
+            <icon-base icon-name="Lịch sử" width="24" height="24" viewBox="0 0 480 480" class="mr_2">
               <icon-history />
             </icon-base>
           </div>
-          <div @click="showCreateEvent">
+          <div @click="showCreateEvent" v-if="campaign.status === true">
             <icon-base
               icon-name="Thêm sự kiện"
               width="24"
               height="24"
               viewBox="0 0 68 68"
-              class="mr_1 ml_3"
+              class="mr_1"
             >
               <icon-plus />
             </icon-base>

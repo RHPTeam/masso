@@ -2,6 +2,7 @@ import Vue from "vue";
 
 // Icon Component
 Vue.component("IconAccount", () => import("@/components/icons/IconAccount"));
+Vue.component("IconActivity", () => import("@/components/icons/IconActivity"));
 Vue.component("IconApplication", () => import("@/components/icons/IconApplication"));
 Vue.component("IconArrowDown", () =>
   import("@/components/icons/IconArrowDown")
@@ -40,6 +41,7 @@ Vue.component( "IconDot", () => import( "@/components/icons/IconDot" ) );
 Vue.component( "IconEdit", () => import( "@/components/icons/IconEdit" ) );
 Vue.component( "IconEditInfo", () => import( "@/components/icons/IconEditInfo" ) );
 Vue.component( "IconEnvelope", () => import( "@/components/icons/IconEnvelope" ) );
+Vue.component( "IconEye", () => import( "@/components/icons/IconEye" ) );
 Vue.component( "IconFilter", () => import( "@/components/icons/IconFilter" ) );
 Vue.component( "IconFriend", () => import( "@/components/icons/IconFriend" ) );
 Vue.component( "IconFriendTag", () => import( "@/components/icons/IconFriendTag" ) );
@@ -69,9 +71,11 @@ Vue.component("IconLockCheck", () =>
 Vue.component( "IconMail", () => import( "@/components/icons/IconMail" ) );
 Vue.component( "IconMenu", () => import( "@/components/icons/IconMenu" ) );
 Vue.component( "IconMessenger", () => import( "@/components/icons/IconMessenger" ) );
+Vue.component( "IconMix", () => import( "@/components/icons/IconMix" ) );
 Vue.component( "IconModalCookie", () => import( "@/components/icons/IconModalCookie" ) );
 Vue.component( "IconText", () => import( "@/components/icons/IconText" ) );
 Vue.component( "IconTag", () => import( "@/components/icons/IconTag" ) );
+Vue.component( "IconTarget", () => import( "@/components/icons/IconTarget" ) );
 Vue.component( "IconTimeline", () => import( "@/components/icons/IconTimeline" ) );
 Vue.component( "IconTimer", () => import( "@/components/icons/IconTimer" ) );
 Vue.component( "IconThreeDotsHoriz", () => import( "@/components/icons/IconThreeDotsHoriz" ) );
@@ -105,6 +109,7 @@ Vue.component( "IconUser", () => import( "@/components/icons/IconUser" ) );
 Vue.component( "IconUpdate", () => import( "@/components/icons/IconUpdate" ) );
 Vue.component( "IconUploadImage", () => import( "@/components/icons/IconUploadImage" ) );
 Vue.component( "IconMore", () => import( "@/components/icons/IconMore" ) );
+Vue.component( "IconWatch", () => import( "@/components/icons/IconWatch" ) );
 Vue.component( "IconZalo", () => import( "@/components/icons/IconZalo" ) );
 Vue.component( "IconZinPost", () => import( "@/components/icons/IconZinPost" ) );
 Vue.component( "IconZinChat", () => import( "@/components/icons/IconZinChat" ) );
@@ -119,6 +124,8 @@ Vue.component("IconLogoShort", () =>
   import("@/components/icons/IconLogoShort")
 );
 Vue.component("IconLogoText", () => import("@/components/icons/IconLogoText"));
+
+Vue.component("IconTechnical", () => import("@/components/icons/IconTechnical"));
 
 // Global Component
 Vue.component("VuePerfectScrollbar", () => import("vue-perfect-scrollbar"));

@@ -23,80 +23,92 @@
           />
           <!-- End: Header -->
           <!-- Start: Body -->
-          <div class="body p_4" v-if="event">
-            <!-- Start: Post Custom -->
-            <post-custom
-              @setErrorPost="errorPost = $event"
-            />
-            <!-- End: Post Custom -->
-            <div class="alert--text" v-if="errorPost === true">
-              Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!
+          <div class="body d_flex px_4 pb_4" v-if="event">
+            <div class="body--content">
+              <!-- Start: Post time -->
+              <post-time />
+              <!-- End: Post time -->
+              <!-- Start: Post Custom -->
+              <post-custom
+                @setErrorPost="errorPost = $event"
+              />
+              <!-- End: Post Custom -->
+              <div class="alert--text" v-if="errorPostContent === true">
+                Vui lòng chọn danh mục hoặc bài đăng!
+              </div>
+              <!-- Start: Mix Plugin -->
+              <mix-plugin
+                v-if="event.plugins"
+              ></mix-plugin>
+              <!-- End: Mix Plugin -->
+              <!-- Start: Post Location -->
+              <post-location
+                @setErrorLocation="errorLocation = $event"
+              />
+              <div class="alert--text" v-if="errorPostLocation === true">
+                Vui lòng chọn nơi đăng!
+              </div>
+              <!-- End: Post Location -->
+              <!-- Start: Post Activity -->
+              <post-activity />
+              <!-- End: Post Activity -->
             </div>
-            <!-- Start: Post Location -->
-            <post-location
-              @setErrorLocation="errorLocation = $event"
-            />
-            <div class="alert--text" v-if="errorLocation === true">
-              Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!
+            <div class="body--sidebar">
+              <app-sidebar
+                :errorPostContent="errorPostContent"
+                :errorPostLocation="errorPostLocation"
+                @showDeletePopup="isDeleteEvent = $event"
+                @updateErrorPostContent="errorPostContent = $event"
+                @updateErrorPostLocation="errorPostLocation = $event"
+              ></app-sidebar>
             </div>
-            <!-- End: Post Location -->
-            <!-- Start: Post Time -->
-            <select-time class="mt_4"/>
-            <!-- End: Post Time -->
           </div>
           <!-- End: Body -->
-          <div class="footer d_flex align_items_center justify_content_between py_3 px_3">
-            <div class="footer--left">
-              <div class="left" v-if="event._id">
-                <label @click="isDeleteEvent = true">Xóa sự kiện</label>
-              </div>
-            </div>
-            <div class="footer-right">
-              <div class="right" v-if="event._id">
-                <label @click="updateEvent">Cập nhật</label>
-              </div>
-              <div class="right" v-else>
-                <label @click="createNewEvent">Tạo mới</label>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
 
     <!-- Start: POPUP DELETE-->
-    <delete-event
-      v-if="isDeleteEvent === true"
-      title="Xóa sự kiện trong chiến dịch"
-      @closePopup="changeStatusDelete($event)"
-      storeActionName="Xóa sự kiện"
-      :targetData="event"
-      typeName="sự kiện"
-    ></delete-event>
+    <transition name="popup">
+      <delete-event
+        v-if="isDeleteEvent === true"
+        title="Xóa sự kiện trong chiến dịch"
+        @closePopup="changeStatusDelete($event)"
+        storeActionName="Xóa sự kiện"
+        :targetData="event"
+        typeName="sự kiện"
+      ></delete-event>
+    </transition>
     <!--End: POPUP DELETE-->
   </vue-perfect-scrollbar>
 </template>
 
 <script>
 import AppHeader from "./components/header/index";
+import AppSidebar from  "./components/sidebar";
 import DeleteEvent from "./components/popup/delete";
-import SelectTime from "./components/popup/time";
-import PostCustom from "./components/select";
+import MixPlugin from "./components/plugins/mix";
+import PostTime from "./components/posttime";
+import PostCustom from "./components/postcontent";
 import PostLocation from "./components/postlocation";
+import PostActivity from "./components/postactivity";
 
 export default {
   components: {
     AppHeader,
+    AppSidebar,
     DeleteEvent,
-    SelectTime,
+    MixPlugin,
+    PostTime,
     PostCustom,
-    PostLocation
+    PostLocation,
+    PostActivity
   },
   data() {
     return {
       isShowOptionTime: false,
-      errorPost: false,
-      errorLocation: false,
+      errorPostContent: false,
+      errorPostLocation: false,
       errorData: [],
       isDeleteEvent: false
     }
@@ -130,52 +142,9 @@ export default {
         value: false
       } );
     },
-    async createNewEvent() {
-      if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
-        this.errorPost = true;
-        return false;
-      } else if ( this.event.target_custom.length === 0 &&
-        !this.event.target_category &&
-        this.event.timeline.length === 0
-      ) {
-        this.errorLocation = true;
-        return false;
-      }
-
-      // Close popup
-      this.close();
-
-      await this.$store.dispatch( "createEvent", {
-        campaignId: this.$route.params.campaignId,
-        event: this.event
-      } );
-
-      this.$store.dispatch( "setEventReset" );
-    },
     changeStatusDelete(val){
       this.isDeleteEvent = val;
-      this.close();
     },
-    async updateEvent() {
-      // Close popup
-      this.close();
-
-      // Convert event timeline to accounts id array
-      let fbAccounts  = [];
-      this.event.timeline.forEach( ( account ) => {
-        fbAccounts.push( account._id );
-      } );
-      this.event.timeline = fbAccounts;
-
-      console.log(this.event);
-
-      await this.$store.dispatch( "updateEvent", {
-        campaignId: this.$route.params.campaignId,
-        event: this.event
-      } );
-
-      this.$store.dispatch( "setEventReset" );
-    }
   },
 }
 </script>

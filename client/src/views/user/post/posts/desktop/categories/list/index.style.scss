@@ -25,8 +25,25 @@
   }
   .col--category {
     width: calc(70% - 270px);
-    color: #F7F7F7;
-    text-decoration: none;
+    &-text {
+      color: #F7F7F7;
+      cursor: pointer;
+      &:hover {
+        color: #FFB94A;
+      }
+    }
+    .status--dot {
+      border-radius: 100%;
+      display: inline-block;
+      height: 10px;
+      width: 10px;
+      &.dot--active {
+        background-color: #43D627;
+      }
+      &.dot--deactive {
+        background-color: $color-dark-1;
+      }
+    }
   }
   .col--posts {
     width: 120px;

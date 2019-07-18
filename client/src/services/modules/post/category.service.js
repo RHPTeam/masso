@@ -11,6 +11,9 @@ export default {
   getByPage(size, page) {
     return Api().get(`post-categories?_size=${size}&_page=${page}`);
   },
+  getMixCategories() {
+    return Api().get( "post-categories?mix=1" )
+  },
   searchByKey(keyword, size, page) {
     return Api().post(`post-categories/search?keyword=${keyword}&_size=${size}&_page=${page}`);
   },
