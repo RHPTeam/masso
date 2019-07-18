@@ -3,19 +3,22 @@
     <!-- Start: Content -->
     <div class="modal--content py_3">
       <div class="items items--info">
-        <div class="title">THÔNG TIN CÁ NHÂN</div>
+        <div class="title d_flex">
+          <icon-base
+            icon-name="icon-autoreply"
+            class="icon--info mr_2"
+            width="25"
+            height="25"
+            viewBox="0 0 25 15"
+          >
+            <icon-friend />
+          </icon-base>
+          <div>
+            <b>Thông tin cá nhân</b>
+          </div>
+        </div>
         <div class="info py_2">
           <div class="item d_flex align_items_center" @click="showChangeName">
-            <icon-base
-              icon-name="icon-autoreply"
-              class="mr_2"
-              width="24"
-              height="24"
-              viewBox="0 0 25 25"
-            >
-              <icon-friend />
-            </icon-base>
-
             <div class="content d_flex align_items_center">
               <div class="info--title">Tên người dùng</div>
               <div class="ml_auto">
@@ -34,16 +37,6 @@
             </div>
           </div>
           <div class="item d_flex align_items_center" @click="showChangePhoneNumber">
-            <icon-base
-              icon-name="icon-autoreply"
-              class="mr_2"
-              width="24"
-              height="24"
-              viewBox="0 0 25 25"
-            >
-              <icon-friend />
-            </icon-base>
-
             <div class="content d_flex align_items_center">
               <div class="info--title">Số điện thoại</div>
               <div class="ml_auto">
@@ -61,16 +54,6 @@
             </div>
           </div>
           <div class="item d_flex align_items_center" @click="showChangePassword">
-            <icon-base
-              icon-name="icon-autoreply"
-              class="mr_2"
-              width="24"
-              height="24"
-              viewBox="0 0 25 25"
-            >
-              <icon-friend />
-            </icon-base>
-
             <div class="content d_flex align_items_center">
               <div class="info--title">Thay đổi mật khẩu</div>
               <div class="ml_auto">
@@ -88,20 +71,30 @@
           </div>
         </div>
       </div>
-      <div class="items items--keyword">
-        <div class="title">TỪ KHÓA</div>
-        <div class="list">
-          <ul class="p_0 m_0">
-            <li v-for="(keyword, index) in user.keywords.slice(0, 3)" v-bind:key="keyword.id" class=" item d_flex align_items_center">
-              <span class="item--keyword">{{keyword}}</span>
-              <span class="ml_auto delete" @click="showPopupDelete(index)">Xóa</span>
-            </li>
-          </ul>
-          <div class="more text_center mt_2" @click="showKeywords">
+      <div class="items items--keyword py_2">
+        <div class="title d_flex">
+          <icon-base
+            icon-name="icon-autoreply"
+            class="icon--info mr_2"
+            width="25"
+            height="25"
+            viewBox="0 0 25 15"
+          >
+            <icon-friend />
+          </icon-base>
+          <div>
+            <b>Từ khóa</b>
+          </div>
+        </div>
+        <div class="content item d_flex align_items_center py_2 my_2" @click="showKeywords">
+          <div class="item--keyword">
+            <template v-for="keyword in user.keywords.slice(0, 3)">{{keyword + ', '}}</template>
+          </div>
+          <div class="ml_auto">
             Xem tất cả
             <icon-base
               icon-name="arrow-down"
-              class="arrow-down"
+              class="icon--arrow-right"
               width="10"
               height="10"
               viewBox="0 0 130 130"
@@ -112,19 +105,33 @@
         </div>
       </div>
       <div class="items">
-        <div class="title mb_2">TÀI KHOẢN</div>
-        <div class="logout d_flex align_items_center">
+        <div class="title d_flex mb_2">
           <icon-base
             icon-name="icon-autoreply"
-            class="mr_2"
-            width="24"
-            height="24"
-            viewBox="0 0 25 25"
+            class="icon--info mr_2"
+            width="25"
+            height="25"
+            viewBox="0 0 25 15"
           >
             <icon-friend />
           </icon-base>
-          <p @click="logout" class="mb_0">Đăng xuất
-          </p>
+          <div>
+            <b>Tài khoản</b>
+          </div>
+        </div>
+        <div class="content logout d_flex align_items_center" @click="logout">
+          <div class="mb_0">Đăng xuất</div>
+          <div class="ml_auto">
+            <icon-base
+              icon-name="arrow-down"
+              class="icon--arrow-right"
+              width="10"
+              height="10"
+              viewBox="0 0 130 130"
+            >
+              <icon-arrow-down />
+            </icon-base>
+          </div>
         </div>
       </div>
     </div>
@@ -142,7 +149,7 @@
     <transition name="popup-delete">
       <popup-delete
         @closePopupDelete="isShowPopupDelete = $event"
-         @confirmPopupDelete="confirmDelete($event)"
+        @confirmPopupDelete="confirmDelete($event)"
         v-if="isShowPopupDelete === true"
       />
     </transition>

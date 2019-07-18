@@ -122,7 +122,7 @@ export default {
     width: 100%;
     .modal--header {
       padding: 0.625rem 0;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #444;
       .arrow-down {
         transform: rotate(90deg);
         margin-left: 0.5rem;
@@ -193,5 +193,9 @@ export default {
       }
     }
   }
+}
+
+.scroll-area{
+  width: 100%;
 }
 </style>

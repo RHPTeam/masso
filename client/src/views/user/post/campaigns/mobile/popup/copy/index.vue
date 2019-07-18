@@ -10,10 +10,13 @@
           </div>
           <div class="item--selection">
             <div class="user" v-for="( account, index ) in allAccountFB" :key="index">
-              <div
-                class="user--thumbnail"
-                :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
-              ></div>
+              <div class="user--holder">
+                <div
+                  class="user--thumbnail"
+                  :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
+                ></div>
+              </div>
+
               <div class="user--name">{{account.userInfo.name }}</div>
               <div class="user--checkbox">
                 <label class="custom--checkbox">

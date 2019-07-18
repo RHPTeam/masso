@@ -1,15 +1,22 @@
 <template>
-  <div class="item--body d_flex align_items_center">
-    <div class="col col--category p_2" @click="showPopupEdit">
-      <div class="">{{ item.title }}</div>
-      <div class="desc">{{ item.description }}</div>
+  <div v-hammer:pan="(event)=> onPan(event)" class="item">
+    <div
+      :class="{ 'swipe-left': isTriggerAction , 'swipe-right': !isTriggerAction }"
+      class="item--body item--body-post d_flex align_items_center"
+    >
+      <div class="col col--category p_2" @click="showPopupEdit">
+        <div class>{{ item.title }}</div>
+        <div class="desc">{{ item.description }}</div>
+      </div>
+      <div class="col col--posts text_center ml_auto">{{ item.totalPosts }}</div>
     </div>
-    <div class="col col--posts text_center ml_auto">{{ item.totalPosts }}</div>
-    <div class="action align_items_center">
-      <div class="ml_2 mr_1" @click="showDeletePopup(item)">
-        <icon-base icon-name="Xóa" width="20" height="20" viewBox="0 0 15 15">
-          <icon-remove />
-        </icon-base>
+    <div class="item--body item--body-action d_flex align_items_center">
+      <div class="action align_items_center">
+        <div class="ml_2 mr_1" @click="showDeletePopup(item)">
+          <icon-base class="icon--delete m_2" icon-name="Xóa" width="25" height="25" viewBox="0 0 15 15">
+            <icon-remove />
+          </icon-base>
+        </div>
       </div>
     </div>
     <!-- Start: Transition Popup Delete Category -->
@@ -26,7 +33,10 @@
     <!-- End: Transition Popup Delete Category -->
     <!-- Start: Transition Popup Edit Category -->
     <transition name="popup--mobile">
-      <popup-edit-category @closePopup="isShowPopupEdit = $event" v-if="isShowPopupEdit === true" :item="item"
+      <popup-edit-category
+        @closePopup="isShowPopupEdit = $event"
+        v-if="isShowPopupEdit === true"
+        :item="item"
       />
     </transition>
     <!-- End: Transition Popup Edit Category -->
@@ -46,7 +56,8 @@ export default {
     return {
       targetDataDelete: {},
       isShowPopupDelete: false,
-      isShowPopupEdit: false
+      isShowPopupEdit: false,
+      isTriggerAction: false
     };
   },
   methods: {
@@ -64,6 +75,14 @@ export default {
     },
     showPopupEdit() {
       this.isShowPopupEdit = true;
+    },
+    onPan(event) {
+      if (event.offsetDirection === 2) {
+        this.isTriggerAction = true;
+      }
+      if (event.offsetDirection === 4) {
+        this.isTriggerAction = false;
+      }
     }
   }
 };
@@ -71,13 +90,47 @@ export default {
 
 <style lang="scss" scoped>
 @import "../index.style";
-
+.item {
+  position: relative;
+  height: 4rem;
+  width: 100%;
+}
 .item--body {
-  min-height: 48px;
   border-bottom: 1px solid #484848;
-  &:last-child {
-    // border-bottom-left-radius: 0.625rem;
-    // border-bottom-right-radius: 0.625rem;
+  height: 4rem;
+  width: 100%;
+  &-post {
+    z-index: 2;
+    position: absolute;
+    background: #2c2d32 !important;
+  }
+  &-action {
+    z-index: 1;
+    position: absolute;
+    background: #212225 !important;
+  }
+}
+
+.action {
+  margin-left: auto;
+}
+
+
+.icon {
+  &--delete {
+    color: #ec2c49;
+  }
+}
+
+
+.swipe {
+  &-left {
+    transform: translateX(-7rem);
+    transition: 0.5s all;
+  }
+  &-right {
+    transform: translateX(0);
+    transition: 0.5s all;
   }
 }
 // Popup Delete
@@ -95,7 +148,6 @@ export default {
   transform: translateY(100%);
 }
 
-
 .popup--mobile-enter {
   transform: translateX(100%);
 }
@@ -109,6 +161,4 @@ export default {
   transition: transform 0.75s;
   transform: translateX(100%);
 }
-
-
 </style>

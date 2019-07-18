@@ -57,10 +57,7 @@
           class="posts d_flex align_items_center"
           v-if="gestureCursorMenuUser === 1 || this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' "
         >
-          <div
-            class="all-posts d_flex align_items_center"
-            v-if="gestureUser === 11"
-          >
+          <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11">
             <div class="action mr_1" @click="showPopupHistory">
               <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
                 <icon-history />
@@ -200,6 +197,15 @@
     <transition name="popup">
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
     </transition>
+    <transition name="popup">
+      <upgrade-pro-popup
+        class="upgrade-pro-popup"
+        v-if="isShowUpgradePro === true"
+        :data-theme="currentTheme"
+        :showUpgradePro="isShowUpgradePro"
+        @closeAddPopup="isShowUpgradePro = $event"
+      />
+    </transition>
   </div>
 </template>
 <script>
@@ -213,6 +219,8 @@ import PopupHistory from "../popup/posts/history";
 import PopupFilterByCategory from "../popup/posts/filter";
 // import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
 // import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
+import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
+
 export default {
   props: ["fbPost"],
   components: {
@@ -223,7 +231,8 @@ export default {
     PopupCreateCampaign,
     PopupAddGroup,
     PopupHistory,
-    PopupFilterByCategory
+    PopupFilterByCategory,
+    UpgradeProPopup
   },
   data() {
     return {
@@ -321,7 +330,7 @@ export default {
     async showPopupCreatePost() {
       const dataSender = {};
 
-      await this.$store.dispatch( "createNewPost", dataSender );
+      await this.$store.dispatch("createNewPost", dataSender);
       await this.$store.dispatch("getPostById", this.post._id);
       // this.$router.push( {
       //   name: "post_update_post",
@@ -353,8 +362,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import "./index.style";
-.upgrade-pro-popup{
+.upgrade-pro-popup {
   background: none !important;
   box-shadow: none !important;
+  z-index: 99 !important;
 }
 </style>
