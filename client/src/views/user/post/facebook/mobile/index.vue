@@ -38,7 +38,7 @@
     <!-- TRANSITION POPUP -->
     <transition name="popup--more">
       <div class="action--dropdown text_center" v-if="isShowAction === true">
-        <div class="content">
+        <div class="content" v-click-outside="closePopupActiveAccount">
           <div class="action--dropdown-item update mb_2" @click="showPopupUpdateCookie">Cập nhật</div>
           <div
             class="action--dropdown-item delete mb_2"

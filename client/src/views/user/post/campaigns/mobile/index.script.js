@@ -99,17 +99,17 @@ export default {
     }
   },
   async created() {
-    // const campaignNo = this.$store.getters.campaigns;
-    // if (campaignNo.length === 0) {
-    //   const dataSender = {
-    //     size: 25,
-    //     page: 1
-    //   };
-    //   await this.$store.dispatch( "getCampaignsByPage", dataSender );
-    // }
-    // const campaignDefaultNo = this.$store.getters.campSimple;
-    // if (campaignDefaultNo.length === 0) {
-    //   this.$store.dispatch("getCampaignSimple");
-    // }
+    const campaignNo = this.$store.getters.campaigns;
+    if (campaignNo.length === 0) {
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      await this.$store.dispatch( "getCampaignsByPage", dataSender );
+    }
+    const campaignDefaultNo = this.$store.getters.campSimple;
+    if (campaignDefaultNo.length === 0) {
+      this.$store.dispatch("getCampaignSimple");
+    }
   }
 };

@@ -32,7 +32,6 @@ export default {
             _groups: this.postGroupGroupsSelected,
             _timeline: this.postProfileSelected
           };
-
         this.$store.dispatch( "addToPostGroup" , dataSender );
       } );
 
