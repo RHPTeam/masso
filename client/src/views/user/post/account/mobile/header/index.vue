@@ -7,7 +7,7 @@
         <div class="info position_relative text_center align_items_center">
           <div class="avt--user position_relative">
             <div
-              class="user--info-avatar"
+              class="user--info-avatar had--avt"
               :style="{
                   backgroundImage: 'url(' + user.imageAvatar + ')'
                 }"
@@ -34,9 +34,12 @@
     </div>
     <div v-else>
       <div class="user--info d_flex flex_column justify_content_center align_items_center mt_3">
-        <div
-          class="user--info-avatar text_center d_flex align_items_center justify_content_center"
-        >{{ user.name | getFirstLetter }}</div>
+        <div class="avt--user position_relative">
+          <div
+            class="user--info-avatar text_center d_flex align_items_center justify_content_center"
+          >{{ user.name | getFirstLetter }}</div>
+          <input type="file" ref="file" @change="selectFile" class="file" />
+        </div>
         <div class="user--info-title mt-2">{{ user.name }}</div>
         <div class="user--info-sub mb_3">{{ user.email }}</div>
       </div>
@@ -108,18 +111,7 @@ export default {
     border-radius: 50%;
     opacity: 0.5;
   }
-  .user--info-avatar {
-    width: 100px;
-    margin: auto;
-    height: 100px;
-    border-radius: 50%;
-    background-color: #ffb94a;
-    background-position: center;
-    background-size: cover;
-    font-size: 80px;
-    font-weight: 800;
-    color: #444444;
-    overflow: hidden;
+  .had--avt {
     &::before {
       content: "Thay đổi";
       font-size: 0.715rem;
@@ -133,6 +125,19 @@ export default {
       margin-top: 60%;
       letter-spacing: 0.5px;
     }
+  }
+  .user--info-avatar {
+    width: 100px;
+    margin: auto;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #ffb94a;
+    background-position: center;
+    background-size: cover;
+    font-size: 80px;
+    font-weight: 800;
+    color: #444444;
+    overflow: hidden;
   }
   .user--info-title {
     font-size: 24px;

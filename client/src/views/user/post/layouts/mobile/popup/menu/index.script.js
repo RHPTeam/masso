@@ -6,7 +6,8 @@ export default {
   },
   data() {
     return {
-      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`
+      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
+      file: ""
     };
   },
   computed: {
@@ -15,6 +16,16 @@ export default {
     }
   },
   methods: {
+    selectFile() {
+      this.file = this.$refs.file.files[0];
+      this.sendFile();
+    },
+    sendFile() {
+      const formData = new FormData();
+
+      formData.append("profileUrl", this.file);
+      this.$store.dispatch("sendFile", formData);
+    },
     closePopup() {
       this.$emit("closePopup", false);
     },

@@ -59,7 +59,9 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
+              <div v-if="campaigns.length === 0" class="text_center">Không có chiến dịch nào</div>
               <item-campaign
+                v-else
                 :item="item"
                 v-for="item in campaigns"
                 :key="item._id"
@@ -68,7 +70,9 @@
               />
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
+              <div v-if="campaignsDefault.length === 0" class="text_center">Không có chiến dịch mẫu nào</div>
               <item-campaign-default
+                v-else
                 :item="item"
                 v-for="item in campaignsDefault"
                 :key="item._id"
@@ -147,27 +151,18 @@ export default {
     }
   },
   watch: {
-    async search(val) {
-      if (val.length === 0) {
-        const dataSender = {
-          size: 25,
-          page: 1
-        };
-        await this.$store.dispatch("getCampaignsByPage", dataSender);
-        await this.$store.dispatch("getCampaignSimple");
-
-        // this.$router.replace({
-        //   name: "post_campaigns",
-        //   query: {
-        //     size: 25,
-        //     page: 1
-        //   }
-        // });
-
-        this.$emit("updateCurrentPage", 1);
-        this.$emit("updateSearch", this.search);
-      }
-    }
+    // async search(val) {
+    //   if (val.length === 0) {
+    //     const dataSender = {
+    //       size: 25,
+    //       page: 1
+    //     };
+    //     await this.$store.dispatch("getCampaignsByPage", dataSender);
+    //     await this.$store.dispatch("getCampaignSimple");
+    //     this.$emit("updateCurrentPage", 1);
+    //     this.$emit("updateSearch", this.search);
+    //   }
+    // }
   },
   created() {
     const search = this.$route.query.search;
@@ -210,18 +205,14 @@ export default {
         search: this.search,
         campaignsDefault: this.campaignsDefault
       });
-      this.$emit("updateSearch", this.search);
-
-      // this.$router.replace({
-      //   name: "post_campaigns",
-      //   query: {
-      //     search: this.search,
-      //     size: 25,
-      //     page: 1
-      //   }
-      // });
+      // this.$emit("updateSearch", this.search);
     },
     closePopupSearch() {
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch( "getCampaignsByPage", dataSender );
       this.$emit("closePopupSearch", false);
     },
     showPopupFanpage() {

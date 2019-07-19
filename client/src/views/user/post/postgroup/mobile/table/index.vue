@@ -108,7 +108,7 @@
 @import "./index.style";
 .table--mobile {
   .scroll-page--group {
-    max-height: 53vh;
+    max-height: calc(100vh - 270px);
   }
 }
 </style>

@@ -186,8 +186,7 @@ export default {
 .main--mobile {
   .main--content {
     .list--post-group {
-      max-height: 58vh;
-      overflow: hidden;
+      // max-height: 58vh;
     }
   }
 }

@@ -99,32 +99,17 @@ export default {
     }
   },
   async created() {
-    const campaignNo = this.$store.getters.campaigns;
-    if (campaignNo.length === 0) {
-      const dataSender = {
-        size: 25,
-        page: 1
-      };
-      await this.$store.dispatch( "getCampaignsByPage", dataSender );
-    }
-    const campaignDefaultNo = this.$store.getters.campSimple;
-    if (campaignDefaultNo.length === 0) {
-      this.$store.dispatch("getCampaignSimple");
-    }
-    // if ( this.search.length === 0 ) {
+    // const campaignNo = this.$store.getters.campaigns;
+    // if (campaignNo.length === 0) {
     //   const dataSender = {
-    //     size: this.filterShowSelected.id,
-    //     page: this.currentPage
+    //     size: 25,
+    //     page: 1
     //   };
-
     //   await this.$store.dispatch( "getCampaignsByPage", dataSender );
-    // } else {
-    //   const dataSender = {
-    //     keyword: this.search,
-    //     size: this.filterShowSelected.id,
-    //     page: this.currentPage
-    //   };
-    //   await this.$store.dispatch("getCampaignsByKey", dataSender);
+    // }
+    // const campaignDefaultNo = this.$store.getters.campSimple;
+    // if (campaignDefaultNo.length === 0) {
+    //   this.$store.dispatch("getCampaignSimple");
     // }
   }
 };

@@ -89,7 +89,6 @@
         :campaigns="campaigns"
         :campaignsDefault="campaignsDefault"
         @closePopupSearch="onClosePopupSearch($event)"
-        @searchKeyword="search = $event"
       />
       <popup-detail-campaign
         v-if="isShowPopupDetailCampaign === true"
