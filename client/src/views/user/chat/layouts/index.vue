@@ -11,7 +11,7 @@
             <app-sidebar />
           </div>
           <div class="wrap--content-main">
-            <app-header />
+            <app-header @openExpire="isShowPopupExpire = $event"></app-header>
             <router-view />
           </div>
         </div>
@@ -20,6 +20,14 @@
       <!-- Start: Notification for check login facebook account-->
       <app-notification :statusNetwork="statusNetwork" />
       <!-- End: Notification for check login facebook account-->
+
+      <!-- Start: Popup checkout price system and contact expire  -->
+      <app-expire
+        v-if="isShowPopupExpire === true"
+        @close="isShowPopupExpire = $event"
+      >
+      </app-expire>
+      <!-- End: Popup checkout price system and contact expire -->
 
     </div>
 </template>

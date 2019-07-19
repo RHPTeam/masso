@@ -10,8 +10,8 @@ const generalChatRouter = {
     },
     children: [
       {
-        path: "",
-        name: "account",
+        path: "account",
+        name: "chat_account",
         component: require("@/views/user/chat/account").default
       },
       {
@@ -48,9 +48,20 @@ const generalChatRouter = {
       },
       {
         path: "facebook",
-        name: "facebook",
-        component: require("@/views/user/chat/facebook").default
-      }
+        component: require( "@/views/user/chat/facebook" ).default,
+        children: [
+          {
+            path: "",
+            name: "chat_fbaccount",
+            component: require( "@/views/user/chat/facebook/desktop/list" ).default
+          },
+          {
+            path: ":fbAccountId",
+            name: "chat_fbaccount_detail",
+            component: require( "@/views/user/chat/facebook/desktop/detail" ).default
+          }
+        ]
+      },
     ]
   };
 

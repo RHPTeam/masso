@@ -112,7 +112,7 @@
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
-        :to="{ name: 'facebook' }"
+        :to="{ name: 'chat_fbaccount' }"
         active-class="active"
       >
         <a>

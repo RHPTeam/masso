@@ -3,12 +3,14 @@ import Loading from "@/components/shared/loading";
 import AppNotification from "./desktop/notification";
 import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
+import AppExpire from "./desktop/expire";
 
 export default {
   data() {
     return {
       timer: "",
-      statusNetwork: true
+      statusNetwork: true,
+      isShowPopupExpire: false
     };
   },
   created() {
@@ -48,13 +50,13 @@ export default {
       if (!value) return;
       if (typeof value === "number") return;
       if (parseInt(value.getHours()) > 5 && parseInt(value.getHours()) < 18) {
-        this.$store.dispatch("changeThemeName", "light");
+        this.$store.dispatch("changeThemeName", "dark");
       } else if (
         (parseInt(value.getHours()) >= 18 &&
           parseInt(value.getHours()) <= 23) ||
         (parseInt(value.getHours()) >= 0 && parseInt(value.getHours()) <= 5)
       ) {
-        this.$store.dispatch("changeThemeName", "light");
+        this.$store.dispatch("changeThemeName", "dark");
       }
     }
   },
@@ -73,6 +75,7 @@ export default {
     Loading,
     AppHeader,
     AppSidebar,
-    AppNotification
+    AppNotification,
+    AppExpire
   }
 };

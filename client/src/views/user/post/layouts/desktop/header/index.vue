@@ -161,7 +161,7 @@
                 </icon-base>
                 <div class="pt_1">Bee Post</div>
               </div>
-              <div class="zin--post zin-chat disallowed item c_4">
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
                 <icon-base
                   icon-name="Bee Chat"
                   width="50px"
