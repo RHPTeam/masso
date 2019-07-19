@@ -7,9 +7,12 @@ module.exports = {
         "iss": "RHPTeam",
         "sub": user._id,
         "iat": new Date().getTime(),
-        "exp": new Date().setDate( new Date().getDate() + 3 )
+        "exp": new Date().setDate( new Date().getMinutes() + 3 )
       },
       process.env.APP_KEY
     );
+  },
+  "decodeToken": ( token ) => {
+    return JWT.verify( token, process.env.APP_KEY );
   }
 };
