@@ -25,7 +25,8 @@
     <div class="items--main mt_3 px_2">
       <div class="list">
         <p class="mb_2 title">Danh sách từ khóa</p>
-        <ul class="p_0 m_0">
+        <div class="text_center" v-if="user.keywords.length === 0">Không có từ khóa nào!</div>
+        <ul class="p_0 m_0" v-else>
           <li
             v-for="(keyword, index) in user.keywords"
             v-bind:key="keyword.id"

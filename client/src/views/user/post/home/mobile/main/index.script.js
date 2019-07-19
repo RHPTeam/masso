@@ -471,10 +471,13 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getAllAnalysis" );
-    this.$store.dispatch("getAllStaticCampagin" ) ;
-    this.$store.dispatch("getAllSttPost" );
-    this.$store.dispatch("getNewestPosts", 5);
+    // const allAnalysisNo = this.$store.getters.allAnalysis;
+    // if(allAnalysisNo.length === 0) {
+    //   this.$store.dispatch("getAllAnalysis");
+    // }
+    // this.$store.dispatch("getAllStaticCampagin" ) ;
+    // this.$store.dispatch("getAllSttPost" );
+    // this.$store.dispatch("getNewestPosts", 5);
   },
   methods: {
     goToThisPost( id ) {

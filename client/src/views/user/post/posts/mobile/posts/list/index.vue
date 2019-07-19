@@ -3,7 +3,7 @@
     <!-- Start: List post -->
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
-      <div v-if="allPost.length === 0" class="text_center py_2">Không có bài viết nào</div>
+      <div v-if="allPost.length === 0" class="text_center py_2 no--post">Không có bài viết nào</div>
       <item-post v-else v-for="item in allPost" :key="item._id" :item="item" @showDetailPost="showPopupDetail($event)" @showPopupDelete="showPopupDelete($event)"/>
     </VuePerfectScrollbar>
     <!-- End: List post -->
@@ -120,6 +120,9 @@ export default {
 }
 // End Transition
 .main--list {
+  .no--post {
+    font-size: 0.9315rem;
+  }
   .item--header {
     background: #27292d;
     border-top-left-radius: 10px;

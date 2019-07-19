@@ -89,7 +89,6 @@
         :campaigns="campaigns"
         :campaignsDefault="campaignsDefault"
         @closePopupSearch="onClosePopupSearch($event)"
-        @searchKeyword="search = $event"
       />
       <popup-detail-campaign
         v-if="isShowPopupDetailCampaign === true"
@@ -125,13 +124,11 @@
 @import "./index.style";
 .item {
   position: relative;
-  height: 4rem;
   width: 100%;
 }
 
 .item--body {
   border-bottom: 1px solid #484848;
-  height: 4rem;
   width: 100%;
   &-post {
     z-index: 2;

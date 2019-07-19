@@ -2,6 +2,7 @@
   <div class="modal--main--mobile">
     <!-- Start: Content -->
     <div class="modal--content py_3 px_2">
+      <!-- Start: Info -->
       <div class="items items--info">
         <div class="title d_flex">
           <icon-base
@@ -13,7 +14,9 @@
           >
             <icon-friend />
           </icon-base>
-          <div><b>Thông tin cá nhân</b></div>
+          <div>
+            <b>Thông tin cá nhân</b>
+          </div>
         </div>
         <div class="info py_2">
           <div class="item d_flex align_items_center" @click="showChangeName">
@@ -69,6 +72,7 @@
           </div>
         </div>
       </div>
+      <!-- Start: Keywords -->
       <div class="items items--keyword py_2">
         <div class="title d_flex">
           <icon-base
@@ -84,24 +88,42 @@
             <b>Từ khóa</b>
           </div>
         </div>
-        <div class="content item d_flex align_items_center py_2 my_2" @click="showKeywords">
-          <div class="item--keyword">
-            <template v-for="keyword in user.keywords.slice(0, 3)">{{keyword + ', '}}</template>
+        <div class="content py_2 my_2" @click="showKeywords" v-if="user.keywords">
+          <div v-if="user.keywords.length === 0" class="item d_flex align_items_center">
+            <div class="item--keyword">
+              Không có từ khóa
+            </div>
+            <div class="ml_auto">
+              <icon-base
+                icon-name="Them"
+                width="20"
+                height="20"
+                viewBox="0 0 64 64"
+              >
+                <icon-plus />
+              </icon-base>
+            </div>
           </div>
-          <div class="ml_auto">
-            Xem tất cả
-            <icon-base
-              icon-name="arrow-down"
-              class="icon--arrow-right"
-              width="10"
-              height="10"
-              viewBox="0 0 130 130"
-            >
-              <icon-arrow-down />
-            </icon-base>
+          <div v-else class="item d_flex align_items_center">
+            <div class="item--keyword">
+              <template v-for="keyword in user.keywords.slice(0, 3)">{{keyword + ', '}}</template>
+            </div>
+            <div class="ml_auto">
+              Xem tất cả
+              <icon-base
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
+              >
+                <icon-arrow-down />
+              </icon-base>
+            </div>
           </div>
         </div>
       </div>
+      <!-- Start: Logout -->
       <div class="items">
         <div class="title d_flex mb_2">
           <icon-base

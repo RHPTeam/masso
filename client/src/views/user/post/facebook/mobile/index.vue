@@ -104,12 +104,15 @@ export default {
     }
   },
   async created() {
-    this.$store.dispatch("getAccountsFB");
-    const info = this.$store.getters.userInfo;
-    if (Object.entries(info).length === 0 && info.constructor === Object) {
-      const fbAccountId = this.$route.params.fbAccountId;
-      this.$store.dispatch("getFBAccountById", fbAccountId);
-    }
+    // const noAccount = this.$store.getters.accountsFB;
+    // if(noAccount.length === 0) {
+    //   this.$store.dispatch("getAccountsFB");
+    // }
+    // const info = this.$store.getters.userInfo;
+    // if (Object.entries(info).length === 0 && info.constructor === Object) {
+    //   const fbAccountId = this.$route.params.fbAccountId;
+    //   this.$store.dispatch("getFBAccountById", fbAccountId);
+    // }
   },
   methods: {
     formatDate(date) {
