@@ -253,7 +253,7 @@ module.exports = {
 
         newAttribute.name = "";
         newAttribute.value = "";
-        newAttribute._account = userId;
+        newAttribute._account = req.uid;
         await newAttribute.save();
         findItem.valueText = `${findItem.valueText},${newAttribute._id}`;
         await foundBlock.save();

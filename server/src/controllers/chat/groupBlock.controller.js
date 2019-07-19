@@ -141,7 +141,7 @@ module.exports = {
       } ) );
     }
     // add new block from sequence
-    const foundBlock = await Block.find( { "_account": userId } );
+    const foundBlock = await Block.find( { "_account": req.uid } );
     // num block only exist in block
     let num = 1;
 
@@ -174,7 +174,7 @@ module.exports = {
     let checkName = false;
 
     findAllGroup.map( ( val ) => {
-      if ( val._account.toString() !== userId ) {
+      if ( val._account.toString() !== req.uid ) {
         if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
           checkName = true;
           return checkName;
