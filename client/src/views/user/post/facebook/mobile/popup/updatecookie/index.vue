@@ -206,7 +206,7 @@ export default {
     border-radius: 8px;
     height: 16px;
     overflow: hidden;
-    width: 320px;
+    width: 290px;
     .percent {
       background-color: rgb(88, 206, 65);
       background-size: 16px 16px;

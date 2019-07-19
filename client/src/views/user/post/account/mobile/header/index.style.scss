@@ -2,6 +2,18 @@
     height: 100%;
     width: 100%;
     position: relative;
+    .avt--user {
+      .change--avt {
+        bottom: 0;
+        left: 0;
+        background: #000;
+        font-size: 0.8315rem;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        width: 100%;
+      }
+    }
     .wrapper--content {
       .content--avatar {
         height: 100px;

@@ -4,7 +4,7 @@
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
-          <div class="text mb_2 pb_2">Bạn có muốn xóa {{ title }} '{{ name }}' này không?</div>
+          <div class="text mb_2 pb_2 px_1">Bạn có muốn xóa {{ title }} '{{ name }}' này không?</div>
           <div @click="deleteTargets">Xóa</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
@@ -16,7 +16,7 @@
 
 <script>
 export default {
-   props: {
+  props: {
     name: {
       type: String,
       default: ""
@@ -43,47 +43,68 @@ export default {
       this.$emit("closePopup", false);
     },
     deleteTargets() {
-      this.$store.dispatch( this.storeActionName, this.targetData );
-      
-      this.$emit( "closePopup", false );
+      this.$store.dispatch(this.storeActionName, this.targetData);
+
+      this.$emit("closePopup", false);
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-// @import "index.style";
+$bg--light: #ccc;
+$color-light: #333;
+$bg--dark: #212225;
+$color-dark: #ccc;
+$border-dark: #42424296;
 .modal--wrapper {
-    height: 100vh;
-    width: 100vw;
-    // background: #404040b0;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    z-index: 20;
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
   .modal--dialog {
     position: absolute;
     bottom: 0;
     width: 100vw;
     left: 0;
-    font-size: 1rem;
-    color: #333;
+    font-size: 0.8315rem;
     .modal--content {
-        width: 90%;
+      color: $color-light;
+      width: 90%;
       .delete {
-        border: 1px solid #ccc;
-        background: #fff;
+        background: $bg--light;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
         .text {
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid $bg--light;
         }
       }
       .cancel {
-        border: 1px solid #ccc;
-        background: #fff;
+        background: $bg--dark;
+        border: 1px solid $bg--light;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
+      }
+    }
+  }
+}
+
+// Theme
+
+.modal--wrapper[data-theme="dark"] {
+  .modal--dialog {
+    .modal--content {
+      color: $color-dark;
+      .delete {
+        background: $bg--dark;
+        .text {
+          border-color: $border-dark;
+        }
+      }
+      .cancel {
+        border: none;
       }
     }
   }

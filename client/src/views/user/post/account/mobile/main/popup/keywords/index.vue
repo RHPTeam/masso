@@ -188,7 +188,7 @@ export default {
 
         &--keyword {
           display: inline-block;
-          width: 17rem;
+          width: 90%;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;

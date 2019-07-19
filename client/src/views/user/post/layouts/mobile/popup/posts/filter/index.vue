@@ -83,12 +83,15 @@ export default {
     }
   },
   created() {
-    // const dataSender = {
-    //   size: 25,
-    //   page: 1
-    // };
+    const categoriesNo = this.$store.getters.categoriesPage;
+    if( categoriesNo.length === 0 ) {
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
 
-    // this.$store.dispatch("getCategoriesByPage", dataSender);
+      this.$store.dispatch("getCategoriesByPage", dataSender);
+    }
   }
 };
 </script>

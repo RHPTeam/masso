@@ -66,7 +66,7 @@
 
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
-import ExistedAccountPopup from "../../../../../facebook/mobile/popup/alert/index";
+import ExistedAccountPopup from "@/views/user/post/facebook/mobile/popup/alert/index";
 export default {
   components: {
     VuePerfectScrollbar,

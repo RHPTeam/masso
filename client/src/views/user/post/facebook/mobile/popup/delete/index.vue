@@ -56,7 +56,7 @@ export default {
 .modal--wrapper {
   height: 100vh;
   width: 100vw;
-  background: #404040b0;
+  // background: #404040b0;
   position: fixed;
   bottom: 0;
   left: 0;

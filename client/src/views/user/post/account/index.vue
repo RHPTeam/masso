@@ -23,7 +23,7 @@
     <!-- End: Desktop Component-->
 
     <!--Start: Mobile Component-->
-    <div class="d_block d_md_none px_2">
+    <div class="d_block d_md_none">
       <!-- Start: Top -->
       <app-header-mobile :user="user"/>
       <!-- End: Top -->

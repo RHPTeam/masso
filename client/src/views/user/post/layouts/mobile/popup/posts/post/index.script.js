@@ -139,11 +139,6 @@ export default {
         }
         this.$store.dispatch( "updatePost", this.post );
         // this.$store.dispatch("setPostCateDefault", 0);
-        const dataSender = {
-          size: 25,
-          page: 1
-        };
-        this.$store.dispatch("getPostsByPage", dataSender);
         this.closePopup();
       }
     },
@@ -160,6 +155,11 @@ export default {
     },
     closePopup() {
       this.$emit("closePopup", false);
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getPostsByPage", dataSender);
     },
     /**
      * [changeResultContentColor description]
@@ -224,7 +224,6 @@ export default {
     },
     changeContentDefault() {
       this.post.color = "";
-      console.log(1);
     },
     showOptionPostImages(){
       this.isShowColor = false;
@@ -249,6 +248,7 @@ export default {
     },
     // Upload image
     async sendFile() {
+      this.isShowMoreOption = false;
       const formData = new FormData();
       Array.from( this.file ).forEach(( f ) => {
         formData.append( "attachments", f )

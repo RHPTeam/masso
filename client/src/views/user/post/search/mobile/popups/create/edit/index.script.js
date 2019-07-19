@@ -16,7 +16,7 @@ export default {
     CheckinPost,
     ActivityPost
   },
-  props: [ "fbPost", "post", "editPost" ],
+  props: [ "post" ],
   data() {
     return {
       statusContentEditable: true,
@@ -38,7 +38,9 @@ export default {
       isShowMoreOption: false,
       isActiveImage: false,
       isShowChangeScrape: false,
-      isShowPostNowPopup: false
+      isShowPostNowPopup: false,
+      isShowAlertContent: false,
+      isShowAlertTitle: false
     };
   },
   computed: {
@@ -96,23 +98,78 @@ export default {
      * Check content of post using StringFunction get urls have in content
      * If length content > 200 character delete color of post
      */
-    "post.content"( value ) {
-      //check scrape
-      this.linkContent = StringFunction.detectUrl(value);
-      // this.$store.dispatch( "updatePost", this.post  );
-      // this.post.content = StringFunction.urlify(value);
-      if( value.length >= 200 ) {
-        this.isShowColor = false;
-        delete this.post.color;
-        this.$store.dispatch( "updatePost", this.post );
-      } else {
-        this.$store.dispatch( "updatePost", this.post );
+    // "post.content"( value ) {
+    //   //check scrape
+    //   this.linkContent = StringFunction.detectUrl(value);
+    //   // this.$store.dispatch( "updatePost", this.post  );
+    //   // this.post.content = StringFunction.urlify(value);
+    //   if( this.post.color && this.post.color.value !== '' && value.length >= 200 ) {
+    //     this.isShowColor = false;
+    //     delete this.post.color;
+    //     this.$store.dispatch( "updatePostColor", this.post );
+    //     // this.$store.dispatch( "updatePost", this.post );
+    //   } else if(value.length > 0) {
+    //     this.isShowAlert = false;
+    //     // this.$store.dispatch( "updatePost", this.post );
+    //   }
+    // }
+    "post.content"(value) {
+      if(value.length > 0) {
+        this.isShowAlertContent = false;
+      }
+    },    
+    "post.title"(value) {
+      if(value.length > 0) {
+        this.isShowAlertTitle = false;
       }
     }
   },
   methods: {
+    resetPost() {
+      this.post.title = "";
+      this.post.content = "";
+      this.post._categories = [];
+      this.post.attachments = [];
+      this.post.place = "";
+      this.post.tags = [];
+      this.post.activity = "";
+      this.post.color = "";
+    },
+    closeMoreOption() {
+      this.isShowMoreOption = false;
+    },
     closePopup() {
       this.$emit("closePopup", false);
+      // this.resetPost();
+    },
+    async createPost() {
+      // Map _categories
+      // const cate = this.post._categories.map( ( item ) => {
+      //   return {
+      //     _id: item._id,
+      //     title: item.title
+      //   }
+      // } );
+      // this.post._categories = cate;
+
+      // Create post request
+      await this.$store.dispatch( "createPostByContent", this.post );
+      this.closePopup();
+    },
+    // Update post when click button Save
+    async savePost(){
+      if(this.post.content.trim().length === 0) {
+        this.isShowAlertContent = true;
+      } else if (this.post.title.trim().length === 0) {
+        this.isShowAlertTitle = true;
+      } else {
+        if(this.linkContent.length > 0) {
+          this.post.scrape = this.linkContent[0];
+        }
+        await this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        this.closePopup();
+      }
     },
     /**
      * [changeResultContentColor description]
@@ -201,6 +258,7 @@ export default {
     },
     // Upload image
     async sendFile() {
+      this.isShowMoreOption = false;
       const formData = new FormData();
       Array.from( this.file ).forEach(( f ) => {
         formData.append( "attachments", f )

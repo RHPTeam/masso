@@ -1,7 +1,7 @@
 <template>
   <div class="modal--main--mobile">
     <!-- Start: Content -->
-    <div class="modal--content py_3">
+    <div class="modal--content py_3 px_2">
       <div class="items items--info">
         <div class="title d_flex">
           <icon-base
@@ -13,9 +13,7 @@
           >
             <icon-friend />
           </icon-base>
-          <div>
-            <b>Thông tin cá nhân</b>
-          </div>
+          <div><b>Thông tin cá nhân</b></div>
         </div>
         <div class="info py_2">
           <div class="item d_flex align_items_center" @click="showChangeName">
@@ -23,7 +21,7 @@
               <div class="info--title">Tên người dùng</div>
               <div class="ml_auto">
                 <!-- Nhớ slice kí tự để chuyển text về ... khi quá dài -->
-                <span class="name--user">{{ user.name | getFirstLetter }}</span>
+                <span class="name--user">{{ user.name }}</span>
                 <icon-base
                   icon-name="arrow-down"
                   class="arrow-down"

@@ -3,7 +3,7 @@
     <div class="content mb_3">
       <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
         <!-- Start: Modal Header -->
-        <div class="modal--header pt_3 d_flex align_items_center mb_3">
+        <div class="modal--header d_flex align_items_center mb_3">
           <div @click="closePopup">
             <icon-base
               icon-name="arrow-down"
@@ -16,7 +16,7 @@
             </icon-base>
           </div>
           <div class="title m_auto">Sửa bài viết</div>
-          <div class="edit mr_3" @click="closePopup">Xong</div>
+          <div class="edit mr_3" @click="createPost">Xong</div>
         </div>
         <!-- End: Modal Header -->
         <div class="modal--main px_2">
@@ -335,74 +335,76 @@
                 </div>
               </div>
               <!-- End: show option-->
-              <!--Start: Show option when click-->
-              <div v-if="isShowMoreOption === true" class="m_1 list">
-                <div
-                  class="item d_flex align_items_center"
-                  :class="isActiveImage === true ? 'aqua_hidden' : ''"
-                  @click="showOptionPostImages"
-                >
-                  <label for="upload">
+              <transition name="popup--list">
+                <!--Start: Show option when click-->
+                <div v-if="isShowMoreOption === true" class="list" v-click-outside="closeMoreOption">
+                  <div
+                    class="item d_flex align_items_center"
+                    :class="isActiveImage === true ? 'aqua_hidden' : ''"
+                    @click="showOptionPostImages"
+                  >
+                    <label for="upload">
+                      <icon-base
+                        class="icon--image"
+                        icon-name="image"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 21 21"
+                      >
+                        <icon-image />
+                      </icon-base>
+                      <span>Hình ảnh</span>
+                    </label>
+                    <form enctype="multipart/form-data" @submit.prevent="sendFile">
+                      <input
+                        id="upload"
+                        hidden
+                        type="file"
+                        ref="file"
+                        @change="selectFile(post._id)"
+                        accept="image/x-png, image/gif, image/jpeg"
+                        multiple
+                      />
+                    </form>
+                  </div>
+                  <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
                     <icon-base
-                      class="icon--image"
-                      icon-name="image"
+                      class="icon--location"
+                      icon-name="location"
                       width="18"
                       height="18"
-                      viewBox="0 0 21 21"
+                      viewBox="0 0 60 60"
                     >
-                      <icon-image />
+                      <icon-location />
                     </icon-base>
-                    <span>Hình ảnh</span>
-                  </label>
-                  <form enctype="multipart/form-data" @submit.prevent="sendFile">
-                    <input
-                      id="upload"
-                      hidden
-                      type="file"
-                      ref="file"
-                      @change="selectFile(post._id)"
-                      accept="image/x-png, image/gif, image/jpeg"
-                      multiple
-                    />
-                  </form>
+                    <span>Địa điểm</span>
+                  </div>
+                  <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
+                    <icon-base
+                      class="icon--friend-tag"
+                      icon-name="user"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 530 530"
+                    >
+                      <icon-friend-tag />
+                    </icon-base>
+                    <span>Gắn thẻ bạn bè</span>
+                  </div>
+                  <div class="item d_flex align_items_center" @click="showOptionPostActivity">
+                    <icon-base
+                      class="icon--smile"
+                      icon-name="feelings"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 28 28"
+                    >
+                      <icon-smile />
+                    </icon-base>
+                    <span>Cảm xúc/Hoạt động</span>
+                  </div>
                 </div>
-                <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
-                  <icon-base
-                    class="icon--location"
-                    icon-name="location"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 60 60"
-                  >
-                    <icon-location />
-                  </icon-base>
-                  <span>Địa điểm</span>
-                </div>
-                <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
-                  <icon-base
-                    class="icon--friend-tag"
-                    icon-name="user"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 530 530"
-                  >
-                    <icon-friend-tag />
-                  </icon-base>
-                  <span>Gắn thẻ bạn bè</span>
-                </div>
-                <div class="item d_flex align_items_center" @click="showOptionPostActivity">
-                  <icon-base
-                    class="icon--smile"
-                    icon-name="feelings"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 28 28"
-                  >
-                    <icon-smile />
-                  </icon-base>
-                  <span>Cảm xúc/Hoạt động</span>
-                </div>
-              </div>
+              </transition>
               <!--End: show option when click-->
             </div>
           </div>

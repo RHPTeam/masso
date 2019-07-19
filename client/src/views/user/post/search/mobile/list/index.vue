@@ -36,27 +36,7 @@
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
           class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
         >Không có dữ liệu</div>-->
-        <div class="content item--body p_2 mb_2 d_flex align_items_center" @click="showPost">
-          <!-- Rememer slice array when text overfollow -->
-          <div class="right">
-            <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-            <div class="more d_flex align_items_center">
-              <div class="mr_auto">
-                <icon-base class="mr_1" icon-name="icon-like" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-like/>
-                </icon-base>
-                <span>12123</span>
-              </div>
-              <div class="ml_auto">
-                <icon-base class="mr_1" icon-name="icon-share" width="20" height="20" viewBox="0 0 20 20">
-                  <icon-share/>
-                </icon-base>
-                <span>132123213</span>
-              </div>
-            </div>
-          </div>
-          <div class="left action pl_2 text_center">Chi tiết</div>
-        </div>
+        <add-item v-for="(item, index) in fbSearch" :key="`s+${index}`" :item="item" @showPost="showPost($event)"/>
       </vue-perfect-scrollbar>
       <!-- Start: List Content -->
     </div>
@@ -64,22 +44,21 @@
 
     <transition name="popup--mobile">
       <popup-search @closePopupSearch="isShowPopupSearch = $event" v-if="isShowPopupSearch === true"/>
-      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event"/>
+      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event" :fbSelected="fbSelected"/>
     </transition>
   </div>
 </template>
 
 <script>
-import AppItem from "./item";
+import AddItem from "./item";
 import PopupSearch from "../popups/search";
 import PopupCreatePost from "../popups/create";
 export default {
   components: {
-    // AppItem,
     PopupSearch,
-    PopupCreatePost
+    PopupCreatePost,
+    AddItem
   },
-  props: ["fbPost"],
   data() {
     return {
       currentPage: 1,
@@ -88,6 +67,24 @@ export default {
       isLoadingData: true,
       isShowPopupSearch: false,
       isShowPost: false,
+      fbSearch: [
+        {
+          content: "Noi dung 1",
+          like: 1,
+          share: 2
+        },
+        {
+          content: "Noi dung 2",
+          like: 11,
+          share: 22
+        },
+        {
+          content: "Noi dung 3",
+          like: 12,
+          share: 23
+        }
+      ],
+      fbSelected: {}
     };
   },
   computed: {
@@ -168,8 +165,9 @@ export default {
     showPopupSearch() {
       this.isShowPopupSearch = true;
     },
-    showPost() {
+    showPost(value) {
       this.isShowPost = true;
+      this.fbSelected = value;
     }
   }
 };

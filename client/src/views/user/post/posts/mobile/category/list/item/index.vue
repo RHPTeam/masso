@@ -4,6 +4,7 @@
       :class="{ 'swipe-left': isTriggerAction , 'swipe-right': !isTriggerAction }"
       class="item--body item--body-post d_flex align_items_center"
     >
+      <div class="status--dot mx_2" :class="[ item.mix ? 'dot--active' : 'dot--deactive' ]"></div>
       <div class="col col--category p_2" @click="showPopupEdit">
         <div class>{{ item.title }}</div>
         <div class="desc">{{ item.description }}</div>
@@ -13,7 +14,13 @@
     <div class="item--body item--body-action d_flex align_items_center">
       <div class="action align_items_center">
         <div class="ml_2 mr_1" @click="showDeletePopup(item)">
-          <icon-base class="icon--delete m_2" icon-name="Xóa" width="25" height="25" viewBox="0 0 15 15">
+          <icon-base
+            class="icon--delete m_2"
+            icon-name="Xóa"
+            width="25"
+            height="25"
+            viewBox="0 0 15 15"
+          >
             <icon-remove />
           </icon-base>
         </div>
@@ -90,14 +97,26 @@ export default {
 
 <style lang="scss" scoped>
 @import "../index.style";
+.status--dot {
+  border-radius: 100%;
+  display: inline-block;
+  height: 11px;
+  width: 13px;
+  &.dot--active {
+    background-color: #43d627;
+  }
+  &.dot--deactive {
+    background-color: $color-dark-1;
+  }
+}
 .item {
   position: relative;
-  height: 4rem;
+  height: 3.5rem;
   width: 100%;
 }
 .item--body {
   border-bottom: 1px solid #484848;
-  height: 4rem;
+  height: 3.5rem;
   width: 100%;
   &-post {
     z-index: 2;
@@ -115,13 +134,11 @@ export default {
   margin-left: auto;
 }
 
-
 .icon {
   &--delete {
     color: #ec2c49;
   }
 }
-
 
 .swipe {
   &-left {

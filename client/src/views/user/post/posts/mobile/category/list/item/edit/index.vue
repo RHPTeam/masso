@@ -26,6 +26,16 @@
           <span>Mô tả</span>
           <textarea placeholder="Nhập tên danh mục" v-model="item.description"></textarea>
         </div>
+        <div class="item d_flex align_items_center mt_3">
+          <toggle-switch
+            class="mb_0 mr_3"
+            color=""
+            :value="item.mix"
+            :sync="true"
+            @change="updateCategoryMix()"
+          ></toggle-switch>
+          <div class="">Cho phép là danh mục nâng cao</div>
+        </div>
       </div>
     </div>
   </div>
@@ -46,12 +56,16 @@ export default {
     }
   },
   methods: {
+    updateCategoryMix() {
+      this.item.mix = !this.item.mix;
+    },
     updateCategory() {
       const dataSender = {
         id: this.item._id,
         category: {
           title: this.item.title,
-          description: this.item.description
+          description: this.item.description,
+          mix: this.item.mix
         },
       };
       this.$store.dispatch( "updateCategory", dataSender );

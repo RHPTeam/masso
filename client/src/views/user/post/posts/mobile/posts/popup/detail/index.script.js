@@ -246,6 +246,7 @@ export default {
         }
       } );
       this.post.attachments = this.post.attachments.concat( uploadFiles );
+      this.isShowMoreOption = false;
     }
   }
 };

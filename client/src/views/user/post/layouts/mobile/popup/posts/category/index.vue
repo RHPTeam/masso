@@ -20,11 +20,22 @@
       <div class="items--body px_2 mt_3">
         <div class="item">
           <span>Tên danh mục</span>
+          <div class="text--error" v-if="alertTitle === true">Tiêu đề không được bỏ trống!</div>
           <input type="text" placeholder="Nhập tên danh mục" v-model="nameCategory" />
         </div>
         <div class="item mt_3">
           <span>Mô tả</span>
           <textarea placeholder="Nhập tên danh mục" v-model="desCategory"></textarea>
+        </div>
+        <div class="item d_flex align_items_center mt_3">
+          <toggle-switch
+            class="mb_0 mr_3"
+            color=""
+            :value="mixStatus"
+            :sync="true"
+            @change="updateMixStatus()"
+          ></toggle-switch>
+          <div class="">Cho phép là danh mục nâng cao</div>
         </div>
       </div>
     </div>
@@ -36,8 +47,17 @@ export default {
   data() {
     return {
       nameCategory: "",
-      desCategory: ""
+      mixStatus: false,
+      desCategory: "",
+      alertTitle: false
     };
+  },
+  watch: {
+    "nameCategory"(value) {
+      if(value.length > 0) {
+        this.alertTitle = false;
+      }
+    }
   },
   computed: {
     currentTheme() {
@@ -46,19 +66,28 @@ export default {
   },
   methods: {
     async createCategory() {
-      const dataSender = {
-        category: {
-          title: this.nameCategory,
-          description: this.desCategory
-        },
-        size: 25,
-        page: 1
-      };
-      await this.$store.dispatch( "createCategory", dataSender );
-      this.closePopupNewCategory();
+      if(this.nameCategory.trim() === "") {
+        this.alertTitle = true;
+      } else {
+        const dataSender = {
+          category: {
+            title: this.nameCategory,
+            description: this.desCategory,
+            mix: this.mixStatus
+          },
+          size: 25,
+          page: 1
+        };
+        await this.$store.dispatch( "createCategory", dataSender );
+        this.mixStatus = false;
+        this.closePopupNewCategory();
+      }
     },
     closePopupNewCategory() {
       this.$emit("closePopupNewCategory", false);
+    },
+    updateMixStatus() {
+      this.mixStatus = !this.mixStatus;
     }
   }
 };
