@@ -13,9 +13,10 @@ const state = {
     break_point: 15,
     started_at: new Date,
     post_custom: [],
-    post_category: [],
+    post_category: "",
     target_custom: [],
-    timeline: []
+    timeline: [],
+    plugins: "",
   },
   errorEvent: [],
   statusEvent: "",
@@ -24,7 +25,7 @@ const state = {
     target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
     libraries: 0, // 0: All, 1: Libraries,
     active: 1, // 0: Active
-    listPost: 1, // 0: Active
+    listPost: 1, // 0: Category, 1: Custom
     popup: false
   }
 };
@@ -116,17 +117,20 @@ const actions = {
         }
       } );
     }
-    if( payload.event.post_category.length === 0) {
+    if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
-    if( payload.event.post_custom.length === 0) {
+    if ( payload.event.post_custom.length === 0 ) {
       delete payload.event.post_custom;
     }
-    if( payload.event.post_custom && payload.event.post_custom.length > 0)  {
-      payload.event.post_custom  =  payload.event.post_custom.map(item => item._id);
+    if ( payload.event.post_custom && payload.event.post_custom.length > 0 )  {
+      payload.event.post_custom  =  payload.event.post_custom.map( item => item._id );
     }
-    if( payload.event.timeline && payload.event.timeline.length > 0)  {
-      payload.event.timeline  =  payload.event.timeline.map(item => item._id);
+    if ( payload.event.timeline && payload.event.timeline.length > 0 )  {
+      payload.event.timeline  =  payload.event.timeline.map( item => item._id );
+    }
+    if ( payload.event.plugins === "" ) {
+      delete payload.event.plugins;
     }
 
     await EventsServices.create(payload.campaignId, payload.event);
@@ -134,12 +138,18 @@ const actions = {
     await commit( "setCampaignDetail", campaignDetail.data.data );
     commit( "ev_success");
   },
+  duplicateEvent: async ( { commit }, payload ) => {
+    await EventsServices.duplicate( payload.eventId, payload.data );
+  },
   getAllEvents: async ( { commit } ) => {
     const res = await EventsServices.index();
     await commit( "setEvents", res.data.data );
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
+    if ( res.data.data.plugins === undefined ) {
+      res.data.data.plugins = "";
+    }
     await  commit( "setEvent", res.data.data );
     commit( "set_caseEvent", {
       key: "post",
@@ -180,15 +190,19 @@ const actions = {
         }
       } );
     }
-    if( payload.event.post_category  && payload.event.post_category.length === 0) {
+    if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
-    if( payload.event.post_custom && payload.event.post_custom.length === 0) {
+    if ( payload.event.post_custom && payload.event.post_custom.length === 0 ) {
       delete payload.event.post_custom;
     }
-    if( payload.event.post_custom && payload.event.post_custom.length > 0)  {
-      payload.event.post_custom  =  payload.event.post_custom.map(item => item._id);
+    if ( payload.event.post_custom && payload.event.post_custom.length > 0 )  {
+      payload.event.post_custom  =  payload.event.post_custom.map( item => item._id );
     }
+    if ( payload.event.plugins === "" ) {
+      delete payload.event.plugins;
+    }
+
     const res = await EventsServices.updateEvent( payload.event._id, payload.event );
     await  commit( "setEvent", res.data.data );
     //update campaign detail
@@ -202,6 +216,9 @@ const actions = {
     //update campaign detail
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
+  },
+  setErrorEvent: ( { commit }, payload ) => {
+    commit( "setErrorEvent", payload );
   },
   setEvent: ( { commit }, payload ) => {
     commit( "set_event", payload );
@@ -228,9 +245,11 @@ const actions = {
       type_event: 0,
       break_point: 15,
       started_at: new Date,
+      post_category: "",
       post_custom: [],
       target_custom: [],
-      timeline: []
+      timeline: [],
+      plugins: ""
     } );
     commit( "setCaseEvent", {
       post: 1, // 0: None, 1: Category, 2: Custom

@@ -146,10 +146,12 @@ module.exports = {
         .json( { "status": "fail", "scrape": "Dữ liệu không đúng định dạng!" } );
     }
 
-    req.body.content = req.body.content
-      .replace( /(<br \/>)|(<br>)/gm, "\n" )
-      .replace( /(<\/p>)|(<\/div>)/gm, "\n" )
-      .replace( /(<([^>]+)>)/gm, "" );
+    if ( req.body.content ) {
+      req.body.content = req.body.content
+        .replace( /(<br \/>)|(<br>)/gm, "\n" )
+        .replace( /(<\/p>)|(<\/div>)/gm, "\n" )
+        .replace( /(<([^>]+)>)/gm, "" );
+    }
 
     // Handle post category
     await Promise.all( req.body._categories.map( async ( category ) => {

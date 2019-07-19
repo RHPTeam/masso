@@ -1,14 +1,19 @@
 <template>
   <div class="item--body d_flex align_items_center px_3 py_2">
-    <router-link
-      class="col col--category px_2"
-      :to="{ name: 'post_posts', query: {
+    <div class="col--category">
+      <div class="status--dot mr_2"
+           :class="[ item.mix ? 'dot--active' : 'dot--deactive' ]"
+      ></div>
+      <router-link
+        class="col col--category-text"
+        :to="{ name: 'post_posts', query: {
         categoryId: item._id,
         size: 25,
         page: 1
       } }"
-      @click.native="showListPostInCategory"
-    >{{ item.title }}</router-link>
+        @click.native="showListPostInCategory"
+      >{{ item.title }}</router-link>
+    </div>
     <div class="col col--description px_2">
       <div class="col--description-text">
         {{ item.description }}
@@ -61,7 +66,7 @@
             <icon-remove />
           </icon-base>
         </span>
-        <span class="mx_1" @click="showListPostInCategory">
+        <!--<span class="mx_1" @click="showListPostInCategory">
           <icon-base
             icon-name="Chi tiết"
             width="20"
@@ -70,7 +75,7 @@
           >
             <icon-info />
           </icon-base>
-        </span>
+        </span>-->
       </span>
     </div>
   </div>

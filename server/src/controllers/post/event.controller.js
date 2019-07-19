@@ -26,7 +26,7 @@ module.exports = {
     let page = null, dataResponse = null;
 
     if ( req.query._id ) {
-      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
+      dataResponse = await Event.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "plugins.mix.open", "select": "_id title" } ).populate( { "path": "plugins.mix.close", "select": "_id title" } ).populate( { "path": "target_category", "select": "_id title" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( { "path": "timeline", "select": "_id userInfo" } ).populate( { "path": "post_custom", "select": "_id title content _categories", "populate": { "path": "_categories", "select": "_id title" } } ).lean();
       // eslint-disable-next-line camelcase
       dataResponse[ 0 ].target_custom = await Promise.all( dataResponse[ 0 ].target_custom.map( async ( target ) => {
         if ( target.typeTarget === 0 ) {
@@ -231,6 +231,9 @@ module.exports = {
       // eslint-disable-next-line camelcase
       findEvent.post_category = undefined;
     }
+    if ( req.body.plugins === undefined ) {
+      findEvent.plugins = undefined;
+    }
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {
         "data": [
@@ -265,7 +268,6 @@ module.exports = {
       return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
     }
     /** **************************************************************************** **/
-
 
     // Save to db mongodb ( Resolve :D )
     await findEvent.save();
@@ -344,8 +346,13 @@ module.exports = {
     // Check if other campaign
     if ( req.body.campaign && req.body.campaign.length > 0 ) {
       campaignContainEvent = await Campaign.findOne( { "_id": req.body.campaign, "_account": req.uid } );
+    } else {
+      campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
     }
-    campaignContainEvent = await Campaign.findOne( { "_events": req.body.campaign, "_account": req.uid } );
+
+    if ( !campaignContainEvent ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    }
 
     eventInfo.title = `${eventInfo.title} Copy`;
     // eslint-disable-next-line camelcase

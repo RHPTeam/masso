@@ -77,7 +77,10 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    // Handle get all items
+    dataResponse = await Campaign.find( { "_account": req.uid } ).select( "-logs -_events" ).lean();
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   "create": async ( req, res ) => {
     // Check validator
@@ -196,17 +199,19 @@ module.exports = {
     }
 
     /** ********************** Log Action Of User For Admin ****************************** **/
-    let objectLog = [ {
-        "logs": {
-          "content": `Người dùng cập nhật chiến dịch "${findCampaign.title}" thành công.`,
-          "createdAt": new Date(),
-          "info": {
-            "campaignId": findCampaign._id
-          },
-          "status": 0
-        },
+    let objectLog = {
+        "data": [ {
+          "logs": {
+            "content": `Người dùng cập nhật chiến dịch "${findCampaign.title}" thành công.`,
+            "createdAt": new Date(),
+            "info": {
+              "campaignId": findCampaign._id
+            },
+            "status": 0
+          }
+        } ],
         "_account": req.uid
-      } ],
+      },
       resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
 
     if ( resLogSync.data.status !== "success" ) {

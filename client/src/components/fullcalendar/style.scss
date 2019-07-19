@@ -164,8 +164,10 @@ Docs & License: https://rfullcalendar.io/
       line-height: 32px;
     }
     .rc--day-top {
+      cursor: pointer;
       text-align: right;
       margin-right: 2px;
+      transition: all .4s ease;
     }
     .rc--day-number {
       font-size: .85rem;
@@ -550,6 +552,11 @@ Docs & License: https://rfullcalendar.io/
     }
     .rc--day-header {
       color: #cccccc;
+    }
+    .rc--day-top {
+      &:hover {
+        background-color: #2f3136;
+      }
     }
     .rc--future {
       color: #666;

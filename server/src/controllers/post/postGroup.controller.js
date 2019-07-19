@@ -34,9 +34,11 @@ module.exports = {
       dataResponse._groups = await Promise.all( dataResponse._groups.map( async ( id ) => {
         return await GroupFacebook.findOne( { "groupId": id } ).select( "-_id -_account -_facebook -created_at -updated_at -__v" ).lean();
       } ) );
-      dataResponse._timeline = await Promise.all( dataResponse._timeline.map( async ( id ) => {
-        return await Facebook.findOne( { "userInfo.id": id } ).select( "-cookie" ).lean();
-      } ) );
+      if ( dataResponse._timeline ) {
+        dataResponse._timeline = await Promise.all( dataResponse._timeline.map( async ( id ) => {
+          return await Facebook.findOne( { "userInfo.id": id } ).select( "-cookie" ).lean();
+        } ) );
+      }
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await PostGroup.find( { "_account": req.uid } ).lean();
     }
@@ -101,6 +103,10 @@ module.exports = {
       await Promise.all( req.body._groups.map( ( group ) => {
         findPostGroup._groups.pull( group );
       } ) );
+      // remove timeline
+      await Promise.all( req.body._timeline.map( ( account ) => {
+        findPostGroup._timeline.pull( account );
+      } ) );
       // save to database
       await findPostGroup.save();
       // response to client
@@ -110,8 +116,10 @@ module.exports = {
     // check exists in database
     req.body._groups = req.body._groups.concat( findPostGroup._groups );
     req.body._pages = req.body._pages.concat( findPostGroup._pages );
+    req.body._timeline = req.body._timeline.concat( findPostGroup._timeline );
     req.body._groups = [ ...new Set( req.body._groups ) ];
     req.body._pages = [ ...new Set( req.body._pages ) ];
+    req.body._timeline = [ ...new Set( req.body._timeline ) ];
 
     res.status( 201 ).json( jsonResponse( "success", await PostGroup.findByIdAndUpdate( req.query._postGroupId, { "$set": req.body }, { "new": true } ) ) );
   },
