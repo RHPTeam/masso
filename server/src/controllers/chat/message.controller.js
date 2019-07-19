@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable one-var */
 /**
  * Controller message for project
  * author: hocpv
@@ -9,11 +8,9 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Message = require( "../../models/chat/Message.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**

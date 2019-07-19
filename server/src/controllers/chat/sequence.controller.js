@@ -16,7 +16,6 @@ const jsonResponse = require( "../../configs/response" );
 const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -26,28 +25,12 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = findSubString( authorization, "cfr=", ";" ),
-      accountResult = await Account.findOne( { "_id": req.uid } );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-
-    if ( role === "Member" ) {
-      !req.query._id ? dataResponse = await Sequence.find( { "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } ) : dataResponse = await Sequence.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === req.uid ) {
-          return item;
-        }
-      } );
-    }
 
     if ( req.query._id ) {
-      dataResponse = dataResponse[ 0 ];
+      dataResponse = ( await Sequence.find( { "_id": req.query._id, "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } ).lean() )[ 0 ];
+
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Sequence.find( { "_account": req.uid } ).populate( { "path": "sequences._block", "select": "name" } ).lean();
     }
 
     res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
@@ -58,11 +41,6 @@ module.exports = {
    * @param: res
    */
   "create": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     const foundAllSequence = await Sequence.find( { "_account": req.uid } );
 
     // handle num for name
@@ -82,7 +60,7 @@ module.exports = {
     newSeq.name = indexCurrent.toString() === "NaN" || foundAllSequence.length === 0 || nameArr.length === 0 ? `${Dictionaries.SEQUENCE} 0` : `${Dictionaries.SEQUENCE} ${indexCurrent + 1}`;
     newSeq._account = req.uid;
     await newSeq.save();
-    res.status( 200 ).json( jsonResponse( "Tạo trình tự kịch bản thành công!", newSeq ) );
+    res.status( 200 ).json( jsonResponse( "success", newSeq ) );
   },
   /**
    * add block to sequence
@@ -90,15 +68,10 @@ module.exports = {
    * @param: res
    */
   "addBlock": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": req.uid } );
 
     if ( !foundSequence ) {
-      return res.status( 403 ).json( jsonResponse( "Trình tự kịch bản không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Trình tự kịch bản không tồn tại!" ) );
     }
     const foundGroupSequence = await GroupBlock.findOne( { "name": "Chuỗi Kịch Bản", "_account": req.uid } );
 
@@ -107,10 +80,10 @@ module.exports = {
       const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 
       if ( !foundBlock ) {
-        return res.status( 403 ).json( jsonResponse( "Kịch bản không tồn tại!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Kịch bản không tồn tại!" ) );
       }
       if ( foundBlock._groupBlock === undefined ) {
-        return res.status( 405 ).json( jsonResponse( "Có lỗi xảy ra, vui lòng kiểm tra lại kịch bản muốn thêm!", null ) );
+        return res.status( 405 ).json( jsonResponse( "fail", "Có lỗi xảy ra, vui lòng kiểm tra lại kịch bản muốn thêm!" ) );
       }
       const foundGroup = await GroupBlock.findOne( { "_id": foundBlock._groupBlock, "_account": req.uid } );
       let checkLoop = false;
@@ -122,7 +95,7 @@ module.exports = {
         }
       } );
       if ( checkLoop ) {
-        return res.status( 405 ).json( jsonResponse( "Bạn đã thêm kịch bản này!", null ) );
+        return res.status( 405 ).json( jsonResponse( "fail", "Bạn đã thêm kịch bản này!" ) );
       }
       foundSequence.sequences.push( {
         "_block": req.query._blockId
@@ -136,7 +109,7 @@ module.exports = {
         foundGroup.blocks.pull( req.query._blockId );
         await foundGroup.save();
       }
-      return res.status( 200 ).json( jsonResponse( "Thêm kịch bản từ nhóm kịch bản vào trình tự thành công!", foundSequence ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundSequence ) );
     }
 
     // add new block from sequence
@@ -170,7 +143,7 @@ module.exports = {
       "_block": newBlock._id
     } );
     await foundSequence.save();
-    res.status( 200 ).json( jsonResponse( "Tạo mới kịch bản từ trình tự kịch bản thành công!", {
+    res.status( 200 ).json( jsonResponse( "success", {
       "sequence": foundSequence,
       "block": newBlock
     } ) );
@@ -181,18 +154,12 @@ module.exports = {
    * @param: res
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": userId } );
+    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": req.uid } );
 
     if ( !foundSequence ) {
-      return res.status( 403 ).json( jsonResponse( "Trình tự kịch bản không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Trình tự kịch bản không tồn tại!" ) );
     }
-    const foundAllSequence = await Sequence.find( { "_account": userId } );
+    const foundAllSequence = await Sequence.find( { "_account": req.uid } );
 
     // update in array block
     if ( req.query._blockId ) {
@@ -205,7 +172,7 @@ module.exports = {
         }
       } );
       if ( !checkExist ) {
-        return res.status( 403 ).json( jsonResponse( "Kịch bản không tồn tại trong trình tự này!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Kịch bản không tồn tại trong trình tự này!" ) );
       }
 
       const result = foundSequence.sequences.filter( ( x ) => x.id === req.query._blockId )[ 0 ];
@@ -213,7 +180,7 @@ module.exports = {
       result.time.numberTime = req.body.numberTime ? req.body.numberTime : result.time.numberTime;
       result.time.descTime = req.body.descTime ? req.body.descTime : result.time.descTime;
       await foundSequence.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật kịch bản trong trình tự kịch bản thành công!", foundSequence ) );
+      return res.status( 201 ).json( jsonResponse( "success", foundSequence ) );
     }
 
     // check name sequence exists
@@ -228,11 +195,11 @@ module.exports = {
       }
     } );
     if ( checkName ) {
-      return res.status( 405 ).json( jsonResponse( "Tên trình tự kịch bản với tên này đã tồn tại!", null ) );
+      return res.status( 405 ).json( jsonResponse( "fail", "Tên trình tự kịch bản với tên này đã tồn tại!" ) );
     }
     foundSequence.name = req.body.name;
     await foundSequence.save();
-    res.status( 201 ).json( jsonResponse( "Cập nhật trình tự kịch bản thành công!", foundSequence ) );
+    res.status( 201 ).json( jsonResponse( "success", foundSequence ) );
   },
   /**
    * delete sequence
@@ -240,16 +207,10 @@ module.exports = {
    * @param: res
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": userId } );
+    const foundSequence = await Sequence.findOne( { "_id": req.query._sqId, "_account": req.uid } );
 
     if ( !foundSequence ) {
-      return res.status( 403 ).json( jsonResponse( "Trình tự kịch bản không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Trình tự kịch bản không tồn tại!" ) );
     }
     if ( req.query._blockId ) {
       let checkExist = false;
@@ -261,16 +222,16 @@ module.exports = {
         }
       } );
       if ( !checkExist ) {
-        return res.status( 403 ).json( jsonResponse( "Kịch bản không tồn tại trong trình tự này!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Kịch bản không tồn tại trong trình tự này!" ) );
       }
       foundSequence.sequences.pull( req.query._blockId );
       await foundSequence.save();
-      return res.status( 200 ).json( jsonResponse( "Xóa trình kịch bản trong trình tự thành công!", foundSequence ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundSequence ) );
     }
     foundSequence.sequences.map( async ( block ) => {
       await Block.findByIdAndRemove( block._block );
     } );
     await Sequence.findByIdAndRemove( req.query._sqId );
-    res.status( 200 ).json( jsonResponse( "Xóa trình tự kịch bản thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
