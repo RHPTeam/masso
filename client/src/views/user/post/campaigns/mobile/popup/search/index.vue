@@ -59,44 +59,21 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div
-                class="item--content d_flex align_items_center py_2"
-                v-for="( campaign, index ) in campaigns"
-                :key="`cp-${index}`"
-                @click="selectCampaign(campaign)"
-              >
-                <div class="content d_flex align_items_center" @click="showPopupDetailCampaign">
-                  <div class="left">
-                    <p class="mb_0 name">{{ campaign.title }}</p>
-                    <p class="mb_0 date">{{ formatDate(campaign.started_at) }}</p>
-                  </div>
-                  <div class="right ml_auto">
-                    <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
-                  </div>
-                </div>
-                <div class="action d_flex align_items_center ml_auto">
-                  <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-                  <p class="mb_0" @click="showPopupDelete(campaign)">Xoa</p>
-                </div>
-              </div>
+              <item-campaign
+                :item="item"
+                v-for="item in campaigns"
+                :key="item._id"
+                @showDetailPost="showPopupDetailCampaign($event)"
+                @showPopupDelete="showPopupDelete($event)"
+              />
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div
-                class="item--content d_flex align_items_center py_2"
-                v-for="( campaign, index ) in campaignsDefault"
-                :key="`cp-${index}`"
-                @click="selectCampaign(campaign)"
-              >
-                <div class="left">
-                  <p class="mb_0 name">{{ campaign.title }}</p>
-                </div>
-                <div class="right ml_auto">
-                  <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
-                </div>
-                <div class="action d_flex align_items_center">
-                  <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-                </div>
-              </div>
+              <item-campaign-default
+                :item="item"
+                v-for="item in campaignsDefault"
+                :key="item._id"
+                @showPopupCopy="showPopupCopy($event)"
+              />
             </div>
             <!-- Start: Group -->
             <!-- Start: Post group -->
@@ -111,6 +88,7 @@
       <popup-detail-campaign
         v-if="isShowPopupDetailCampaign === true"
         @closePopup="isShowPopupDetailCampaign = $event"
+        :campaign="selectedCampaign"
       />
     </transition>
     <!-- End: Transition Popup -->
@@ -137,11 +115,16 @@
 import PopupDelete from "../delete";
 import PopupDetailCampaign from "../detail";
 import PopupCopy from "../copy";
+import ItemCampaign from "../../item/campaign";
+import ItemCampaignDefault from "../../item/campaign-default";
+
 export default {
   components: {
     PopupDelete,
     PopupCopy,
-    PopupDetailCampaign
+    PopupDetailCampaign,
+    ItemCampaign,
+    ItemCampaignDefault
   },
   props: ["campaigns", "campaignsDefault"],
   data() {
@@ -269,7 +252,8 @@ export default {
     showPopupCopy() {
       this.isShowPopupCopy = true;
     },
-    showPopupDetailCampaign() {
+    showPopupDetailCampaign(campaign) {
+      this.selectedCampaign = campaign;
       this.isShowPopupDetailCampaign = true;
     },
     formatDate(d) {

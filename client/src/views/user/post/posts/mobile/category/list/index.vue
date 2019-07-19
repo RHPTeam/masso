@@ -3,7 +3,7 @@
     <div class="wrapper">
       <VuePerfectScrollbar class="list--category">
       <div v-if="categories.length === 0" class="text_center py_2">Không có danh mục nào</div>
-        <item-categories :item="item" v-for="(item, index) in categories" :key="index"/>
+        <item-categories :item="item" v-for="item in categories" :key="item._id"/>
       </VuePerfectScrollbar>
     </div>
   </div>
