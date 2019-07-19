@@ -24,14 +24,13 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null, page;
 
-    // Object.entries( req.query ).length === 0 && req.query.constructor === Object
     if ( req.query._id ) {
-      dataResponse = await Attribute.findOne( { "_id": req.query._id } ).lean();
+      dataResponse = await Attribute.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Attribute.find( {} ).lean();
+      dataResponse = await Attribute.find( { "_account": req.uid } ).lean();
     }
     if ( req.query._id && req.query._friend === "true" && req.query._size && req.query._page ) {
-      const findAttribulte = await Attribute.findOne( { "_id": req.query._id } ).lean(),
+      const findAttribulte = await Attribute.findOne( { "_id": req.query._id, "_account": req.uid } ).lean(),
         dataFriend = await Promise.all( findAttribulte._friends.map( async ( friend ) => {
           const findFriend = await Friend.findOne( { "userID": friend, "_account": req.uid }, "-_id -__v -created_at" ).lean(),
             vocate = await Vocate.find( { "_account": req.uid, "_friends": friend } ).lean();
@@ -78,7 +77,7 @@ module.exports = {
 
     attribute._account = req.uid;
     await attribute.save();
-    res.status( 201 ).json( jsonResponse( "Tạo thuộc tính thành công =))", attribute ) );
+    res.status( 201 ).json( jsonResponse( "success", attribute ) );
   },
   /**
    *	What?
@@ -87,13 +86,13 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const attrResult = await Attribute.findOne( { "_id": req.query._attrId } );
+    const attrResult = await Attribute.findOne( { "_id": req.query._attrId, "_account": req.uid } );
 
     if ( attrResult._account.toString() !== req.uid ) {
-      return res.status( 405 ).json( jsonResponse( "Bạn không có quyền cho mục này!", null ) );
+      return res.status( 405 ).json( jsonResponse( "fail", { "message": "Bạn không có quyền cho mục này!" } ) );
     }
     if ( !attrResult ) {
-      res.status( 403 ).json( jsonResponse( "Thuộc tính này không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", { "message": "Thuộc tính này không tồn tại!" } ) );
     }
     const objectSaver = {
       "name": req.body.name,
@@ -104,7 +103,7 @@ module.exports = {
     objectSaver._friends = req.body._friends ? req.body._friends : [];
     const newAttribute = await Attribute.findByIdAndUpdate( req.query._attrId, { "$set": objectSaver }, { "new": true } );
 
-    res.status( 200 ).json( jsonResponse( "Cập nhật thuộc tính thành công!", newAttribute ) );
+    res.status( 200 ).json( jsonResponse( "success", newAttribute ) );
   },
   /**
    *	What?
@@ -113,16 +112,16 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const attrResult = await Attribute.findOne( { "_id": req.query._attrId } );
+    const attrResult = await Attribute.findOne( { "_id": req.query._attrId, "_account": req.uid } );
 
     if ( !attrResult ) {
-      res.status( 403 ).json( jsonResponse( "Thuộc tính này không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", { "message": "Thuộc tính này không tồn tại!" } ) );
     }
     if ( attrResult._account.toString() !== req.uid ) {
-      return res.status( 405 ).json( jsonResponse( "Bạn không có quyền cho mục này!", null ) );
+      return res.status( 405 ).json( jsonResponse( "fail", { "message": "Bạn không có quyền cho mục này!" } ) );
     }
     await attrResult.remove();
-    res.status( 200 ).json( jsonResponse( "Xóa dữ liệu thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   },
   /**
    *	Filter
@@ -138,7 +137,7 @@ module.exports = {
       const foundAttribute = await Attribute.find( { "_account": req.uid, "name": req.body.name } );
 
       if ( foundAttribute.length < 0 ) {
-        return res.status( 403 ).json( jsonResponse( "Không tìm thấy attribue", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Thuộc tính này không tồn tại!" } ) );
       }
       Promise.all( foundAttribute.map( async ( attribute ) => {
         attribute._friends.map( ( friend ) => {
@@ -160,7 +159,7 @@ module.exports = {
           } ),
           friends = await Promise.all( friendsFixed );
 
-        return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", friends ) );
+        return res.status( 200 ).json( jsonResponse( "success", friends ) );
       } );
     }
     // Filter attribute by name, value
@@ -168,7 +167,7 @@ module.exports = {
       const foundAttribute = await Attribute.find( { "_account": req.uid, "name": req.body.name, "value": req.body.value } );
 
       if ( foundAttribute.length < 0 ) {
-        return res.status( 403 ).json( jsonResponse( "Không tìm thấy attribue", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Thuộc tính này không tồn tại!" } ) );
       }
       Promise.all( foundAttribute.map( async ( attribute ) => {
         attribute._friends.map( ( friend ) => {
@@ -190,7 +189,7 @@ module.exports = {
           } ),
           friends = await Promise.all( friendsFixed );
 
-        return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", friends ) );
+        return res.status( 200 ).json( jsonResponse( "success", friends ) );
       } );
     }
     // Filter attribute by name, not value
@@ -198,7 +197,7 @@ module.exports = {
       const foundAttribute = await Attribute.find( { "_account": req.uid, "name": req.body.name } );
 
       if ( foundAttribute.length < 0 ) {
-        return res.status( 403 ).json( jsonResponse( "Không tìm thấy attribue", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Thuộc tính này không tồn tại!" } ) );
       }
       Promise.all( foundAttribute.map( async ( attribute ) => {
         if ( attribute.value !== req.body.value ) {
@@ -222,7 +221,7 @@ module.exports = {
           } ),
           friends = await Promise.all( friendsFixed );
 
-        return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", friends ) );
+        return res.status( 200 ).json( jsonResponse( "success", friends ) );
       } );
     }
   }
