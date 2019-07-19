@@ -32,8 +32,10 @@
         }
       }
       .modal--body {
-        font-size: .875rem;
         margin-top: 0.5rem;
+        .text {
+          font-size: 0.9315rem;
+        }
         &-input {
           border-radius: .625rem;
           font-size: .875rem;
@@ -84,7 +86,7 @@
         }
       }
       .modal--scroll {
-        max-height: 83vh;
+        height: 91vh;
       }
     }
   }

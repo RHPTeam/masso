@@ -49,7 +49,7 @@
     </div>
     <!-- End: Left -->
     <!-- Start: Right -->
-    <div class="header--right mr_4">
+    <div class="header--right">
       <input class="title"
              type="text"
              v-model="event.title"

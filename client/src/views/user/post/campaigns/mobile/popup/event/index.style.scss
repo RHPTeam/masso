@@ -18,7 +18,7 @@
     .modal--header {
 
       padding: 0.625rem 0;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #444;
 
       .arrow-down {
         transform: rotate(90deg);
@@ -95,6 +95,7 @@
       }
     }
   }
+  // Transition 
   .popup--mobile-enter {
     transform: translateX(100%);
   }
@@ -107,6 +108,20 @@
   .popup--mobile-leave-to {
     transition: transform 0.75s;
     transform: translateX(100%);
+  }
+  
+  .popup-enter {
+    transform: translateY(100%);
+  }
+
+  .popup-enter-to {
+    transition: transform 0.4s;
+    transform: translateY(0);
+  }
+
+  .popup-leave-to {
+    transition: transform 0.4s;
+    transform: translateY(100%);
   }
 }
 

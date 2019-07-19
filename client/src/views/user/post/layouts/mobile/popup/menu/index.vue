@@ -48,7 +48,11 @@
           <!--End: User Info Component-->
         </div>
       </div>
-      <div class="popup--close position_absolute" @click="closePopup">x</div>
+      <div class="popup--close position_absolute" @click="closePopup">
+        <icon-base icon-name="close" width="18" height="18" viewBox="0 0 20 20">
+          <icon-close />
+        </icon-base>
+      </div>
     </div>
     <div class="popup--main text_left mt_3">
       <h4>Chức năng</h4>

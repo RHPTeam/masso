@@ -4,13 +4,14 @@
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
-          <div class="text mb_2 pb_2 px_2">
+          <div class="text pb_2 px_2">
             Bạn có muốn sao chép
             <b>{{selectedCampaign.title}}</b> này không?
           </div>
-          <div class="item--selection">
-            <div class="user" v-for="( account, index ) in allAccountFB" :key="index">
-              <div class="user--holder">
+          <div class="item--selection p_2">
+            <div class="title text_left">Chọn tài khoản sử dụng chiến dịch</div>
+            <div class="user py_2 d_flex align_items_center" v-for="( account, index ) in allAccountFB" :key="index">
+              <div class="user--holder mr_2">
                 <div
                   class="user--thumbnail"
                   :style="{ backgroundImage: 'url(' + account.userInfo.thumbSrc + ')' }"
@@ -115,11 +116,6 @@ export default {
   }
 }
 .user {
-  display: flex;
-  margin: 0 2rem;
-  > * {
-    margin: 0.75rem 0 0.75rem 0.75rem;
-  }
   &--thumbnail {
     background-image: url("https://graph.facebook.com/100007741743381/picture?type=large");
     background-position: center;
@@ -149,7 +145,7 @@ export default {
   margin-bottom: 0;
   input[type="checkbox"] {
     border-radius: 50%;
-    border: solid 1.5px #27292d;
+    border: solid 1.5px #8a8a8a;
     cursor: pointer;
     height: 20px;
     outline: none;

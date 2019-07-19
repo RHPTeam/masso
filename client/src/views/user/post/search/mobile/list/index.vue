@@ -1,7 +1,7 @@
 <template>
-  <div class="mobile--search-fb p_3">
+  <div class="mobile--search-fb px_2">
     <!-- Start: Search -->
-    <div class="list--filter mb_3">
+    <div class="list--filter mb_2">
       <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2" @click="showPopupSearch">
         <span class="ml_3 mt_1">
           <icon-base icon-name="Tìm kiếm" width="20" height="20" viewBox="0 0 20 20">
@@ -23,7 +23,7 @@
     <!-- End: Search -->
 
     <!-- Start: List Main -->
-    <div class="list--data mt_3">
+    <div class="list--data">
       <!-- Start: List Content -->
       <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
         <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">

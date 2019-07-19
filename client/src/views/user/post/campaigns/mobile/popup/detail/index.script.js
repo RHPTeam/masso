@@ -2,6 +2,7 @@ import ActiveCampaign from "@/components/switch";
 import PopupHistory from "../history";
 import PopupCreateEvent from "../event";
 import DatePickerInline from "@/components/datepickerinline";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   data() {
     return {
@@ -15,7 +16,8 @@ export default {
     ActiveCampaign,
     PopupHistory,
     PopupCreateEvent,
-    DatePickerInline
+    DatePickerInline,
+    VuePerfectScrollbar
   },
   computed: {
     campaignDetail() {

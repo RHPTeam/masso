@@ -3,7 +3,7 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content pb_4">
         <!-- Start: Modal Header -->
-        <div class="modal--header d_flex align_items_center">
+        <div class="modal--header d_flex align_items_center mb_2">
           <div @click="closePopup">
             <icon-base
               icon-name="arrow-down"
@@ -20,13 +20,13 @@
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <vue-perfect-scrollbar class="modal--scroll my_2">
+        <vue-perfect-scrollbar class="modal--scroll">
           <div class="modal--body px_2">
             <div class="like mb_1">Số lượt like: {{ fbSelected.like }}</div>
             <div class="share mb_1">Số lượt share: {{ fbSelected.share }}</div>
             <div class="content">
               <p class="mb_0">Nội dung:</p>
-              <p class="mb_0 pl_2">{{ fbSelected.content}}</p>
+              <p class="mb_0 pl_2 text">{{ fbSelected.content}}</p>
             </div>
           </div>
         </vue-perfect-scrollbar>

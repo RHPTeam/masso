@@ -32,8 +32,9 @@
           </div>
         </div>
       </div>
+    <VuePerfectScrollbar class="scroll--campaign">
       <div class="items--body mt_3 px_2">
-        <div class="top d_flex align_items_center">
+        <div class="top d_flex align_items_center mb_2">
           <div class="name">{{ campaign.title }}</div>
           <div class="active ml_auto">
             <toggle-switch
@@ -43,7 +44,7 @@
             />
           </div>
         </div>
-        <div class="main mt_2">
+        <div class="main">
           <!-- Start: FullCalendar -->
           <!-- <fullcalendar
             :events="campaignDetail._events"
@@ -73,10 +74,53 @@
               </div>
               <div class="name item">Event!!</div>
             </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
+            <div class="items d_flex align_items_center">
+              <div class="time item">00:01</div>
+              <div class="item color mx_3">
+                <span></span>
+              </div>
+              <div class="name item">Event!!</div>
+            </div>
           </div>
           <!-- End: Event of Day -->
         </div>
       </div>
+    </VuePerfectScrollbar>
     </div>
     <!-- Start: Transition Popup -->
     <transition name="popup--mobile">

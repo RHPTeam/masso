@@ -51,11 +51,6 @@
           </div>
         </div>
       </div>
-      <div class="left action pl_2 text_center ml_auto">
-        <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-          <icon-info />
-        </icon-base>
-      </div>
     </div>
     <div
       class="content item--body item--body-action p_2 mb_2 d_flex align_items_center"
