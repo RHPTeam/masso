@@ -38,20 +38,22 @@
 export default {
   props: ["selectedCampaign"],
   data() {
-    return {};
+    return {
+      selectedFbAccount:[]
+    };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
     allAccountFB() {
-      console.log("😀😀😁", this.$store.getters.accountsFB);
       return this.$store.getters.accountsFB;
     }
   },
   async created() {
     if (this.allAccountFB.length === 0) {
       await this.$store.dispatch("getAccountsFB");
+      console.log(this.allAccountFB);
     }
   },
   methods: {
@@ -59,7 +61,6 @@ export default {
       this.$emit("closePopup", false);
     },
     confirmCopy() {
-      console.log("😀", this.selectedCampaign);
       this.$emit("confirmCopy", true);
       this.closePopup();
     }

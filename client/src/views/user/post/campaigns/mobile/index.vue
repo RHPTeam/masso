@@ -41,52 +41,36 @@
         tag="button"
         :to="{ name: 'campaigns_default' }"
         active-class="active"
-      >Chiến dịch mẫu</router-link> -->
+      >Chiến dịch mẫu</router-link>-->
     </div>
     <!-- End: Main -->
     <!-- Start: list campaign -->
     <div class="list--data pl_2 mt_2">
       <VuePerfectScrollbar class="scroll-campaign" ref="scroll">
         <div class="campaign pr_2" v-if="isShowTabCampaign === true">
-          <div class="no--campaign text_center" v-if="campaigns.length === 0">Không có chiến dịch nào</div>
           <div
-            class="item d_flex align_items_center"
-            v-for="( campaign, index ) in campaigns"
-            :key="`cp-${index}`"
-          >
-            <div class="content d_flex align_items_center" @click="showPopupDetailCampaign(campaign)">
-              <div class="left">
-                <p class="mb_0 name">{{ campaign.title }}</p>
-                <p class="mb_0 date">{{ formatDate(campaign.started_at) }}</p>
-              </div>
-              <div class="right ml_auto">
-                <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
-              </div>
-            </div>
-            <div class="action d_flex align_items_center ml_auto">
-              <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-              <p class="mb_0" @click="showPopupDelete(campaign)">Xóa</p>
-            </div>
-          </div>
+            class="no--campaign text_center"
+            v-if="campaigns.length === 0"
+          >Không có chiến dịch nào</div>
+          <item-campaign
+            :item="item"
+            v-for="item in campaigns"
+            :key="item._id"
+            @showDetailPost="showPopupDetailCampaign($event)"
+            @showPopupDelete="showPopupDelete($event)"
+          />
         </div>
         <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
-          <div class="no--campaign text_center" v-if="campaignsDefault.length === 0">Không có chiến dịch nào</div>
           <div
-            class="item d_flex align_items_center"
-            v-for="( campaign, index ) in campaignsDefault"
-            :key="`cp-${index}`"
-            @click="selectCampaign(campaign)"
-          >
-            <div class="left">
-              <p class="mb_0 name">{{ campaign.title }}</p>
-            </div>
-            <div class="right ml_auto">
-              <span :class="[ campaign.status ? 'active' : 'deactive' ]"></span>
-            </div>
-            <div class="action d_flex align_items_center">
-              <p class="mb_0 mr_1" @click="showPopupCopy">Copy</p>
-            </div>
-          </div>
+            class="no--campaign text_center"
+            v-if="campaignsDefault.length === 0"
+          >Không có chiến dịch nào</div>
+          <item-campaign-default
+            :item="item"
+            v-for="item in campaignsDefault"
+            :key="item._id"
+            @showPopupCopy="showPopupCopy($event)"
+          />
         </div>
       </VuePerfectScrollbar>
     </div>
@@ -99,7 +83,7 @@
         :campaignsDefault="campaignsDefault"
         @closePopupSearch="isShowPopupSearch = $event"
         @searchKeyword="search = $event"
-      /> -->
+      />-->
       <popup-search
         v-if="isShowPopupSearch === true"
         :campaigns="campaigns"
@@ -125,6 +109,7 @@
       <popup-copy
         :selectedCampaign="selectedCampaign"
         @closePopup="isShowPopupCopy = $event"
+        @confirmCopy="confirmCopyCampaign($event)"
         v-if="isShowPopupCopy === true"
       />
       <!-- <popup-duplicate-campaign/> -->
@@ -138,4 +123,36 @@
 
 <style scoped lang="scss">
 @import "./index.style";
+.item {
+  position: relative;
+  height: 4rem;
+  width: 100%;
+}
+
+.item--body {
+  border-bottom: 1px solid #484848;
+  height: 4rem;
+  width: 100%;
+  &-post {
+    z-index: 2;
+    position: absolute;
+    background: #2c2d32;
+  }
+  &-action {
+    z-index: 1;
+    position: absolute;
+    background: #212225;
+  }
+}
+
+.swipe {
+  &-left {
+    transform: translateX(-7rem);
+    transition: 0.5s all;
+  }
+  &-right {
+    transform: translateX(0);
+    transition: 0.5s all;
+  }
+}
 </style>

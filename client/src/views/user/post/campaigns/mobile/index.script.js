@@ -3,13 +3,18 @@ import PopupSearch from "./popup/search";
 import PopupCopy from "./popup/copy";
 import PopupDetailCampaign from "./popup/detail";
 import PopupDuplicateCampaign from "./popup/campaigns/duplicate";
+import ItemCampaign from "./item/campaign"
+import ItemCampaignDefault from "./item/campaign-default"
+
 export default {
   components: {
     PopupSearch,
     PopupDelete,
     PopupCopy,
     PopupDetailCampaign,
-    PopupDuplicateCampaign
+    PopupDuplicateCampaign,
+    ItemCampaign,
+    ItemCampaignDefault
   },
   data() {
     return {
@@ -20,7 +25,8 @@ export default {
       isShowPopupDelete: false,
       isShowPopupSearch: false,
       isShowPopupCopy: false,
-      isShowPopupDetailCampaign: false
+      isShowPopupDetailCampaign: false,
+      isTriggerAction: false
     };
   },
   computed: {
@@ -53,7 +59,8 @@ export default {
     showPopupSearch() {
       this.isShowPopupSearch = true;
     },
-    showPopupCopy() {
+    showPopupCopy(campaign) {
+      this.selectedCampaign = campaign;
       this.isShowPopupCopy = true;
     },
     showPopupDetailCampaign(campaign) {
@@ -81,8 +88,13 @@ export default {
     },
     confirmCopyCampaign(event) {
       if (event === true) {
-        this.selectedCampaign.id = this.selectedCampaign._id;
-        // this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+        // Not done yet
+        const dataSender = {
+          campaignId: this.selectedCampaign._id,
+          facebookId: ''
+        };
+        console.log(dataSender);
+        this.$store.dispatch("duplicateCampaignSimple", dataSender);
       }
     }
   },

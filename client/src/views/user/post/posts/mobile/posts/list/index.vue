@@ -4,7 +4,7 @@
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
       <div v-if="allPost.length === 0" class="text_center py_2">Không có bài viết nào</div>
-      <item-post v-else v-for="(item, index) in allPost" :key="`c+${index}`" :item="item" @showDetailPost="showPopupDetail($event)" @showPopupDelete="showPopupDelete($event)"/>
+      <item-post v-else v-for="item in allPost" :key="item._id" :item="item" @showDetailPost="showPopupDetail($event)" @showPopupDelete="showPopupDelete($event)"/>
     </VuePerfectScrollbar>
     <!-- End: List post -->
     <!-- Start: Transition -->
