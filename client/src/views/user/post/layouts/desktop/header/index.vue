@@ -120,17 +120,17 @@
       <!-- End: Notification Groups -->
 
       <!-- Start: Video Guide For User -->
-      <div class="video--guide mr_2" @click="showGuidePopup">
-        <icon-base
-          class="icon--arrow-left"
-          icon-name="Hướng dẫn sử dụng"
-          width="22"
-          height="22"
-          viewBox="0 0 60 60"
-        >
-          <icon-play></icon-play>
-        </icon-base>
-      </div>
+<!--      <div class="video&#45;&#45;guide mr_2" @click="showGuidePopup">-->
+<!--        <icon-base-->
+<!--          class="icon&#45;&#45;arrow-left"-->
+<!--          icon-name="Hướng dẫn sử dụng"-->
+<!--          width="22"-->
+<!--          height="22"-->
+<!--          viewBox="0 0 60 60"-->
+<!--        >-->
+<!--          <icon-play></icon-play>-->
+<!--        </icon-base>-->
+<!--      </div>-->
       <!-- End: Video Guide For User -->
 
       <!-- Start: More Options -->
