@@ -80,7 +80,7 @@ export default {
   components: {
     DeleteAccountPopup,
     UpdateAccountByCookie,
-    PopupAlertAccountExist,
+    PopupAlertAccountExist
     // UpgradeProPopup
   },
   data() {
@@ -88,8 +88,7 @@ export default {
       selectedAccount: {},
       isShowAction: false,
       isShowPopupDeleteAccount: false,
-      isShowPopupUpdateCookie: false,
-
+      isShowPopupUpdateCookie: false
     };
   },
   computed: {
@@ -234,11 +233,10 @@ export default {
       font-size: 1rem;
     }
     &-item {
-      color: #333;
-      background: #fff;
-      padding: 0.375rem 0.75rem;
-      border: 1px solid #ccc;
+      font-size: 0.8315rem;
+      background: #212225;
       border-radius: 0.625rem;
+      padding: 0.625rem 0;
     }
   }
 }

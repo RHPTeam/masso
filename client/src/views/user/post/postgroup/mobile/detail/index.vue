@@ -331,7 +331,7 @@ export default {
     font-size: 0.875rem;
     .items--header {
       padding: 0.625rem 0;
-      border-bottom: 1px solid #ccc;
+      border-bottom: 1px solid #484848;
       .arrow-down {
         transform: rotate(90deg);
         margin-left: 0.5rem;

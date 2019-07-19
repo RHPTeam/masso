@@ -4,7 +4,7 @@
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
-          <div class="text mb_2 pb_2">
+          <div class="text mb_2 pb_2 px_2">
             Bạn có muốn sao chép
             <b>{{selectedCampaign.title}}</b> này không?
           </div>
@@ -84,21 +84,21 @@ export default {
     width: 100vw;
     left: 0;
     font-size: 1rem;
-    color: #333;
+    color: #cccccc;
     .modal--content {
       width: 90%;
       .delete {
-        border: 1px solid #ccc;
-        background: #fff;
+        font-size: 0.8315rem;
+        background: #212225;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
         .text {
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #42424296;
         }
       }
       .cancel {
-        border: 1px solid #ccc;
-        background: #fff;
+        font-size: 0.8315rem;
+        background: #212225;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
       }
@@ -107,7 +107,7 @@ export default {
 }
 .item {
   &--selection {
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #42424296;
   }
 
   &--confirm {

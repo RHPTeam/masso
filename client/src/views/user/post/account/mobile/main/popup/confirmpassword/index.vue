@@ -225,7 +225,8 @@ export default {
     border-radius: 0.625rem;
   }
   .enabled {
-    background: green !important;
+    background: #ffb94a !important;
+    color: #fff !important;
     pointer-events: auto !important;
   }
   .disabled {
