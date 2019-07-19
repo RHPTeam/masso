@@ -4,7 +4,7 @@
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
-          <div class="text mb_2 pb_2 px_1">Bạn có muốn xóa {{ title }} '{{ name }}' này không?</div>
+          <div class="text mb_2 pb_2 px_1">Bạn có muốn xóa {{ title }} <b>{{ name }}</b> này không?</div>
           <div @click="deleteTargets">Xóa</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>

@@ -1,6 +1,6 @@
 <template>
   <div class="modal--delete">
-    <div class="content text_center">
+    <div class="content text_center mb_2">
       <div class="delete mb_2">
         <p class="mb_2 pb_2 text px_2">Bạn có chắc chắn muốn xóa từ khóa này?</p>
         <div class="px_2" @click="confirmPopupDelete">Xóa</div>
@@ -33,27 +33,26 @@ export default {
   left: 0;
   z-index: 10;
   .content {
-    height: 170px;
-    color: #333;
+    color: #cccccc;
     position: absolute;
     bottom: 0;
     width: 90vw;
     left: 5vw;
     font-size: 1rem;
     .delete {
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 0.625rem;
-      padding: 0.625rem 0;
+        font-size: 0.8315rem;
+        background: #212225;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
       .text {
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #42424296;
       }
     }
     .cancel {
-      border: 1px solid #ccc;
-      background: #fff;
-      border-radius: 0.625rem;
-      padding: 0.625rem 0;
+        font-size: 0.8315rem;
+        background: #212225;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
     }
   }
 }
