@@ -1,7 +1,7 @@
 <template>
   <div class="top d_flex r m_0" :data-theme="currentTheme">
     <!--Start: Top Left Component-->
-    <div class="top--left d_flex c_md_12 mb_3 c_xl_6 c_lg_12 px_0">
+    <div class="top--left d_flex c_md_12 mb_3 c_xl_5 c_lg_12 px_0">
       <!-- <div class="segment--name mr_1">
         <contenteditable
           class="editable"
@@ -27,7 +27,11 @@
     </div>
     <!--End: Top Left Component-->
     <!--Start: Top Right Component-->
-    <div class="top--right d_flex c_md_12 c_xl_6 c_lg_12 px_0">
+    <div class="top--right d_flex c_md_12 c_xl_7 c_lg_12 px_0">
+      <!--Start: Update Friend Facebook-->
+      <div class="action mr_2" @click="updateFriendFacebookToSystem">Cập nhật</div>
+      <!--End: Update Friend Facebook-->
+
       <!--Start: Add Member to Group Component-->
       <div class="action mr_2" @click="isShowAddtoGrPopup = true">{{ $t("chat.friends.table.top.right.addInGroup") }}</div>
       <!--End: Add Member to Group Component-->

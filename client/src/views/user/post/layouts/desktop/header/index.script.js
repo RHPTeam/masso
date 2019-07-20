@@ -109,7 +109,7 @@ export default {
     },
     gotoHomeChat(){
       if ( this.allAccountFb.length === 0 ) {
-        const routeData = this.$router.resolve( { name: "facebook" } );
+        const routeData = this.$router.resolve( { name: "chat_fbaccount" } );
 
         window.open(routeData.href, '_blank');
       } else {
