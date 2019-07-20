@@ -85,7 +85,7 @@ module.exports = {
           .json( jsonResponse( "success", { "results": dataRes, "page": page } ) );
       }
 
-      res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+      res.status( 200 ).json( jsonResponse( "success", findFriend ) );
     } );
   },
   /**

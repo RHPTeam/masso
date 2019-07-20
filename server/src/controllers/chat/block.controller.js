@@ -104,7 +104,7 @@ module.exports = {
 
         foundBlock.contents.push( content );
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung loại ảnh trong block thành công!", "data": foundBlock } ) );
+        return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
       }
       const content = {
         "valueText": `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`,
@@ -113,7 +113,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung loại ảnh trong block thành công!", "data": foundBlock } ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is time
@@ -126,7 +126,7 @@ module.exports = {
 
         foundBlock.contents.push( content );
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung loại thời gian trong block thành công!", "data": foundBlock } ) );
+        return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
       }
       if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 4 || parseFloat( req.body.valueText ) > 20 ) {
         return res.status( 405 ).json( jsonResponse( "fail", { "message": "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" } ) );
@@ -138,7 +138,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung loại thời gian trong block thành công!", "data": foundBlock } ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is attribute
@@ -157,7 +157,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung loại thẻ trong block thành công!", "data": foundBlock } ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is subscribe & unsubscribe
@@ -169,7 +169,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "success", { "message": `Tạo nội dung loại ${req.query._type === "subscribe" ? "subscribe" : "unsubscribe"} trong block thành công!`, "data": foundBlock } ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // with type item is text
@@ -181,7 +181,7 @@ module.exports = {
 
     foundBlock.contents.push( content );
     await foundBlock.save();
-    res.status( 200 ).json( jsonResponse( "success", { "message": "Tạo nội dung trong block thành công!", "data": foundBlock } ) );
+    return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
   },
   /**
    *  update block by user
@@ -210,24 +210,24 @@ module.exports = {
             findItem.valueText = "";
             findItem.typeContent = "image";
             await foundBlock.save();
-            return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+            return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
           }
           findItem.valueText = `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`;
           findItem.typeContent = "image";
           await foundBlock.save();
-          return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
 
         }
         if ( req.file === null || req.file === undefined ) {
           findItem.valueText = "";
           findItem.typeContent = "image";
           await foundBlock.save();
-          return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
         }
         findItem.valueText = `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`;
         findItem.typeContent = "image";
         await foundBlock.save();
-        return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is time
@@ -236,7 +236,7 @@ module.exports = {
           findItem.valueText = "5";
           findItem.typeContent = "time";
           await foundBlock.save();
-          return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
         }
         if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20 ) {
           return res.status( 405 ).json( jsonResponse( "fail", { "message": "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" } ) );
@@ -244,7 +244,7 @@ module.exports = {
         findItem.valueText = req.body.valueText;
         findItem.typeContent = "time";
         await foundBlock.save();
-        return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is attribute
@@ -253,11 +253,11 @@ module.exports = {
 
         newAttribute.name = "";
         newAttribute.value = "";
-        newAttribute._account = userId;
+        newAttribute._account = req.uid;
         await newAttribute.save();
         findItem.valueText = `${findItem.valueText},${newAttribute._id}`;
         await foundBlock.save();
-        return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       //  With type item is subscribe or unsubscribe
@@ -278,19 +278,19 @@ module.exports = {
         findItem.valueText = findItem.valueText === "" ? req.body.valueText.toString() : `${findItem.valueText},${req.body.valueText.toString()}`;
         findItem.typeContent = findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "success", { "message": `Cập nhật nội dung loại ${findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe"} trong block thành công!`, "data": foundBlock } ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is text
       findItem.valueText = req.body.valueText;
       findItem.typeContent = "text";
       await foundBlock.save();
-      return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật nội dung trong block thành công!", "data": foundBlock } ) );
+      return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
     }
     // update name block
     foundBlock.name = req.body.name;
     await foundBlock.save();
-    return res.status( 201 ).json( jsonResponse( "success", { "message": "Cập nhật block thành công!", "data": foundBlock } ) );
+    return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
   },
   /**
    *  delete block by user
@@ -317,7 +317,7 @@ module.exports = {
         }
         findItem.valueText = findItem.valueText.split( "," ).filter( ( val ) => val !== req.query._sequence ).toString();
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "success", "Xóa chuỗi kịch bản trong item đăng kí của block thành công"  ) );
+        return res.status( 200 ).json( jsonResponse( "success", null ) );
       }
       if ( findItem.typeContent === "tag" && req.query._tag ) {
         if ( findItem.valueText.split( "," ).indexOf( req.query._tag ) < 0 ) {
@@ -325,11 +325,11 @@ module.exports = {
         }
         findItem.valueText = findItem.valueText.split( "," ).filter( ( val ) => val !== req.query._tag ).toString();
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "success", "Xóa chuỗi kịch bản trong item đăng kí của block thành công" ) );
+        return res.status( 200 ).json( jsonResponse( "success", null ) );
       }
       foundBlock.contents.pull( findItem );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "success", { "message": "Xóa nội dung trong block thành công! ", "data": foundBlock } ) );
+      return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
     }
     // eslint-disable-next-line one-var
     const foundGroupBlock = await GroupBlock.find( { "_account": req.uid } );
@@ -343,6 +343,6 @@ module.exports = {
     } );
 
     await Block.findByIdAndRemove( req.query._blockId );
-    res.status( 200 ).json( jsonResponse( "success", "Xóa block thành công!" ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
