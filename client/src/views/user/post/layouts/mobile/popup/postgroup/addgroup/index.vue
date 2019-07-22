@@ -26,7 +26,7 @@
                    v-for="( item, index ) in postGroups"
                    :key="index"
               >
-                <div class="text">
+                <div class="text pl_2">
                   {{ item.title }}
                 </div>
                 <div class="custom--checkbox ml_auto mr_3">

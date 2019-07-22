@@ -287,7 +287,7 @@ export default {
           text-align: center;
           flex: 1;
           padding-bottom: 0.5rem;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           &.active {
             color: #ffb94a;
             border-color: #ffb94a;
@@ -299,7 +299,7 @@ export default {
       .list {
         li {
           list-style: none;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           padding: 0.5rem 0;
         }
       }
