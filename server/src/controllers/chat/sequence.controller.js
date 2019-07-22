@@ -7,13 +7,11 @@
  * date to: ___
  * team: BE-RHP
  */
-const Account = require( "../../models/Account.model" );
 const Block = require( "../../models/chat/Block.model" );
 const GroupBlock = require( "../../models/chat/GroupBlock.model" );
 const Sequence = require( "../../models/chat/Sequence.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const convertUnicode = require( "../../helpers/utils/functions/unicode" );
 const Dictionaries = require( "../../configs/dictionaries" );
 
@@ -187,7 +185,7 @@ module.exports = {
     let checkName = false;
 
     foundAllSequence.map( ( val ) => {
-      if ( val._account.toString() !== userId ) {
+      if ( val._account.toString() !== req.uid ) {
         if ( convertUnicode( val.name ).toString().toLowerCase() === convertUnicode( req.body.name ).toString().toLowerCase() ) {
           checkName = true;
           return checkName;
