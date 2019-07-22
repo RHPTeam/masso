@@ -115,7 +115,11 @@ export default {
       };
       await this.$store.dispatch("getPostsByPage", dataSender);
       await this.$store.dispatch("getCategoriesByPage", dataSender);
-      await this.$router.push({ name: "post_posts", query: { size: 25, page: 1 } });
+      await this.$store.dispatch("getCategoryDefault");
+      await this.$router.push({
+        name: "post_posts",
+        query: { size: 25, page: 1 }
+      });
       this.$emit("closePopupSearch", false);
     },
     showPopupPosts() {
@@ -150,6 +154,11 @@ export default {
       };
       this.$store.dispatch("getPostsByKey", dataSender);
       this.$store.dispatch("getCategoriesByKey", dataSender);
+      // Search Default Categories on Client Side.
+      this.$store.dispatch("getCategoriesDefaultByKey", {
+        search: this.search,
+        categoriesDefault: this.$store.getters.allCateDefault
+      });
 
       this.$router.replace({
         name: "post_posts",
