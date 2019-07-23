@@ -176,7 +176,7 @@ export default {
       .list {
         li {
           list-style: none;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           padding: 0.5rem 0;
         }
       }

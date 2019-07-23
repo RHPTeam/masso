@@ -115,7 +115,11 @@ export default {
       };
       await this.$store.dispatch("getPostsByPage", dataSender);
       await this.$store.dispatch("getCategoriesByPage", dataSender);
-      await this.$router.push({ name: "post_posts", query: { size: 25, page: 1 } });
+      await this.$store.dispatch("getCategoryDefault");
+      await this.$router.push({
+        name: "post_posts",
+        query: { size: 25, page: 1 }
+      });
       this.$emit("closePopupSearch", false);
     },
     showPopupPosts() {
@@ -142,7 +146,7 @@ export default {
     showPopupDelete() {
       this.isShowPopupDelete = true;
     },
-    updateSearch() {
+    async updateSearch() {
       const dataSender = {
         keyword: this.search,
         size: 25,
@@ -150,6 +154,12 @@ export default {
       };
       this.$store.dispatch("getPostsByKey", dataSender);
       this.$store.dispatch("getCategoriesByKey", dataSender);
+      // Search Default Categories on Client Side.
+      await this.$store.dispatch("getCategoryDefault");
+      this.$store.dispatch("getCategoriesDefaultByKey", {
+        search: this.search,
+        categoriesDefault: this.$store.getters.allCateDefault
+      });
 
       this.$router.replace({
         name: "post_posts",
@@ -245,7 +255,7 @@ export default {
           text-align: center;
           flex: 1;
           padding-bottom: 0.5rem;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           &.active {
             color: #ffb94a;
             border-color: #ffb94a;
@@ -267,7 +277,7 @@ export default {
       .list {
         li {
           list-style: none;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           padding: 0.5rem 0;
         }
       }
