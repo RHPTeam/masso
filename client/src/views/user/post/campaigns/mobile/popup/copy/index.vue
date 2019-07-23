@@ -21,12 +21,14 @@
               <div class="user--name">{{account.userInfo.name }}</div>
               <div class="user--checkbox">
                 <label class="custom--checkbox">
-                  <input class type="checkbox" />
+                  <input class type="checkbox"
+                      :value="account._id"
+                      @click="chooseAccount(account._id)" />
                 </label>
               </div>
             </div>
           </div>
-          <div class="item--confirm" @click="confirmCopy()">Sao chép</div>
+          <div class="item--confirm" @click="duplicateCampaignSimple()">Sao chép</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
@@ -40,7 +42,10 @@ export default {
   props: ["selectedCampaign"],
   data() {
     return {
-      selectedFbAccount:[]
+      setup: {
+        accountId: "",
+        timeStart: new Date()
+      }
     };
   },
   computed: {
@@ -52,18 +57,30 @@ export default {
     }
   },
   async created() {
-    if (this.allAccountFB.length === 0) {
+    if (this.$store.getters.accountsFB.length === 0) {
       await this.$store.dispatch("getAccountsFB");
-      console.log(this.allAccountFB);
     }
   },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
     },
-    confirmCopy() {
-      this.$emit("confirmCopy", true);
+    duplicateCampaignSimple() {
       this.closePopup();
+      const dataSender = {
+        campaignId: this.selectedCampaign._id,
+        facebookId: this.setup.accountId
+      };
+      this.$store.dispatch("duplicateCampaignSimple", dataSender);
+      const dataSenderCampaign = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch( "getCampaignsByPage", dataSenderCampaign );
+      this.$emit("showCampaign", true);
+    },
+    chooseAccount(val){
+      this.setup.accountId = val;
     }
   }
 };

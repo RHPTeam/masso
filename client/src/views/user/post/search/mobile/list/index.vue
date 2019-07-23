@@ -44,7 +44,7 @@
 
     <transition name="popup--mobile">
       <popup-search @closePopupSearch="isShowPopupSearch = $event" v-if="isShowPopupSearch === true"/>
-      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event" :fbSelected="fbSelected"/>
+      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event" :fbSelected="fbSelected" @closeAllEdit="isShowPost = $event"/>
     </transition>
   </div>
 </template>

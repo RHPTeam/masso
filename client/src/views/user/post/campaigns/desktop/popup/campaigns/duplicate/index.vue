@@ -111,7 +111,6 @@ export default {
         campaignId: this.campaignDuplicate._id,
         facebookId: this.setup.accountId
       };
-      console.log(dataSender);
       await this.$store.dispatch("duplicateCampaignSimple", dataSender);
       await this.$emit("setDefault", false);
       this.closePopup();

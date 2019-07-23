@@ -44,6 +44,10 @@ export default {
     }
   },
   methods: {
+    showCampaign() {
+      this.isShowTabCampaign = true;
+      this.isShowTabCampaginDefault = false;
+    },
     showTabCampaign() {
       this.isShowTabCampaign = true;
       this.isShowTabCampaginDefault = false;

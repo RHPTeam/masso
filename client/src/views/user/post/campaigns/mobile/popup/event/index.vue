@@ -15,18 +15,10 @@
               <icon-arrow-down />
             </icon-base>
           </div>
-          <p class="name--modal mb_0 m_auto">Tạo sự kiện</p>
-          <div class="active mr_1" @click="showMoreOptions">
-            <icon-base
-              icon-name="Thêm sự kiện"
-              width="24"
-              height="24"
-              viewBox="0 0 68 68"
-              class="mr_1"
-            >
-              <icon-plus />
-            </icon-base>
-          </div>
+          <p class="name--modal mb_0 m_auto" v-if="event._id">Cập nhật sự kiện</p>
+          <p class="name--modal mb_0 m_auto" v-else>Tạo sự kiện</p>
+          <div class="active mr_2" @click="updateEvent" v-if="event._id">Lưu</div>
+          <div class="active mr_2" @click="createEvent" v-else>Tạo</div>
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
@@ -61,21 +53,34 @@
           </div>
         </VuePerfectScrollbar>
         <!-- End: Modal Body -->
+        <div class="modal--footer action--events">
+          <div class="items d_flex align_items_center">
+            <div
+              class="mr_auto item pl_2"
+              v-if="event._id"
+              @click="showPopupDeleteEvent"
+            >Xóa sự kiện</div>
+            <div class="ml_auto item pr_2" @click="showContentAdvane">Nội dung nâng cao</div>
+          </div>
+        </div>
       </div>
 
       <!-- Start: Transition Popup -->
       <transition name="popup--mobile">
-        <content-advance v-if="isShowContentAdvance === true" @closePopup="isShowContentAdvance = $event"/>
+        <content-advance
+          v-if="isShowContentAdvance === true"
+          @closePopup="isShowContentAdvance = $event"
+        />
       </transition>
       <transition name="popup">
-        <div class="more--options position_fixed" v-click-outside="closeMoreOptions" v-if="isShowMoreOptions === true">
-          <div class="items text_center">
-            <div class="item" @click="createEvent">Tạo mới</div>
-            <div class="item" @click="showContentAdvane">Nội dung nâng cao</div>
-            <div class="item mb_2">Sao chép</div>
-            <div class="item mb_2" @click="closeMoreOptions">Hủy</div>
-          </div>
-        </div>
+        <popup-delete
+          v-if="isShowPopupDelete === true"
+          title="sự kiện"
+          :nameEvent="event.title"
+          @closePopup="isShowPopupDelete = $event"
+          @confirmDelete="deleteEvent"
+        :selectedCampaign="campaign.title"        
+        />
       </transition>
       <!-- End: Transition Popup -->
     </div>
@@ -87,6 +92,7 @@ import AppHeader from "./components/header";
 import ContentAdvance from "./components/advancecontent";
 import MixPlugin from "./components/plugins/mix";
 import PostCustom from "./components/postcontent";
+import PopupDelete from "../delete";
 import PostLocation from "./components/postlocation";
 import PostTime from "./components/posttime";
 export default {
@@ -95,6 +101,7 @@ export default {
     ContentAdvance,
     MixPlugin,
     PostCustom,
+    PopupDelete,
     PostLocation,
     PostTime
   },
@@ -110,8 +117,9 @@ export default {
         "#FF8787"
       ],
       isShowColorDropdown: false,
-      isShowPopupTime: false,
       isShowPopupCategory: false,
+      isShowPopupDelete: false,
+      isShowPopupTime: false,
       isShowPopupPostPlace: false,
       errorPostContent: false,
       errorPostLocation: false,
@@ -148,7 +156,6 @@ export default {
       this.$emit("closePopup", false);
     },
     async createEvent() {
-      this.isShowMoreOptions = false;
       // Validate
       if (
         this.event.post_custom.length === 0 &&
@@ -164,21 +171,31 @@ export default {
         this.errorPostLocation = true;
         return;
       }
+      this.$emit("closePopup", false);
 
       await this.$store.dispatch("createEvent", {
         campaignId: this.campaign._id,
         event: this.event
       });
 
-      await this.closePopup();
-
       this.$store.dispatch("setEventReset");
+    },
+    async deleteEvent() {
+      const data = {
+        eventId: this.event._id,
+        campaignId: this.campaign._id
+      };
+      await this.$store.dispatch("deleteEvent", data);
+      this.closePopup();
     },
     showContentAdvane() {
       this.isShowContentAdvance = true;
     },
     showMoreOptions() {
       this.isShowMoreOptions = true;
+    },
+    showPopupDeleteEvent() {
+      this.isShowPopupDelete = true;
     },
     showPopupTime() {
       this.isShowPopupTime = true;
@@ -189,6 +206,58 @@ export default {
     },
     showPopupPostPlace() {
       this.isShowPopupPostPlace = true;
+    },
+    async updateEvent() {
+      this.$emit("closePopup", false);
+      // Mix Validate Empty data
+      if (this.event.plugins) {
+        if (
+          this.event.plugins.mix.open === null &&
+          this.event.plugins.mix.close === null
+        ) {
+          this.$emit("updateErrorMixStatus", true);
+          this.$emit(
+            "updateErrorMixText",
+            "Bạn phải chọn danh mục mở bài hoặc kết bài!"
+          );
+          return;
+        }
+      }
+
+      // Validate
+      if (
+        this.event.post_custom.length === 0 &&
+        this.event.post_category === ""
+      ) {
+        this.$emit("updateErrorPostContent", true);
+        return;
+      } else if (this.errorMixStatus) {
+        return;
+      } else if (
+        this.event.target_custom.length === 0 &&
+        !this.event.target_category &&
+        this.event.timeline.length === 0
+      ) {
+        this.$emit("updateErrorPostLocation", true);
+        return;
+      }
+
+      // Convert event timeline to accounts id array
+      let fbAccounts = [];
+      this.event.timeline.forEach(account => {
+        fbAccounts.push(account._id);
+      });
+      this.event.timeline = fbAccounts;
+
+      await this.$store.dispatch("updateEvent", {
+        campaignId: this.campaign._id,
+        event: this.event
+      });
+
+      this.$store.dispatch("setEventReset");
+
+      // this.$emit( "updateErrorPostContent", false );
+      // this.$emit( "updateErrorPostLocation", false );
     }
   }
 };

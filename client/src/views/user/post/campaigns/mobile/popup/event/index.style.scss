@@ -9,7 +9,7 @@
   z-index: 10;
   font-size: 0.875rem;
   .scroll-event {
-    max-height: calc(100vh - 60px);
+    height: calc(100vh - 60px);
   }
 
   .modal--dialog {
@@ -92,6 +92,19 @@
             }
           }
         }
+      }
+    }
+  }
+  .action--events {
+    background: #2f3136;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    .items {
+      border-top: 1px solid #444;
+      .item {
+        padding: 0.625rem 0;
       }
     }
   }

@@ -54,67 +54,19 @@
           /> -->
           <!-- End: FullCalendar -->
           <!-- Start: Date time picker -->
-          <date-picker-inline :inline="true"  />
+          <date-picker-inline :inline="true" v-model="dateStartedAtDatePicker" @input="changeStartedAt"/>
           <!-- End: Date time picker -->
 
           <!-- Start: Event of Day -->
           <div class="event mt_2 px_2">
             <!-- <div class="items no--event text_center">Không có sự kiện nào</div> -->
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:00</div>
+            <div class="items text_center" v-if="eventsOfDay.length === 0">Không có sự kiện nào</div>
+            <div class="items d_flex align_items_center" v-else v-for="(item, index) in eventsOfDay" :key="index" @click="openEventPopup(item)">
+              <div class="time item">{{ formatTime(item.started_at) }}</div>
               <div class="item color mx_3">
-                <span></span>
+                <span :style="{ backgroundColor: item.color }"></span>
               </div>
-              <div class="name item">Event nè!!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
+              <div class="name item">{{ item.title }}</div>
             </div>
           </div>
           <!-- End: Event of Day -->
