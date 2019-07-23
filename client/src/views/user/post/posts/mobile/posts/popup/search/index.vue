@@ -146,7 +146,7 @@ export default {
     showPopupDelete() {
       this.isShowPopupDelete = true;
     },
-    updateSearch() {
+    async updateSearch() {
       const dataSender = {
         keyword: this.search,
         size: 25,
@@ -155,6 +155,7 @@ export default {
       this.$store.dispatch("getPostsByKey", dataSender);
       this.$store.dispatch("getCategoriesByKey", dataSender);
       // Search Default Categories on Client Side.
+      await this.$store.dispatch("getCategoryDefault");
       this.$store.dispatch("getCategoriesDefaultByKey", {
         search: this.search,
         categoriesDefault: this.$store.getters.allCateDefault
