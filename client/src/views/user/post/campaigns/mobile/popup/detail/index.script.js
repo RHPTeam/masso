@@ -62,6 +62,15 @@ export default {
       //   value: true
       // } );
     },
+    updateTitleCampaign() {
+      const objSender = {
+        campId: this.campaign._id,
+        campaign: {
+          title: this.campaign.title
+        }
+      };
+      this.$store.dispatch( "updateCampaignDetail", objSender );
+    },
     updateCampaignStatus() {
       const campaignId = this.campaign._id;
 

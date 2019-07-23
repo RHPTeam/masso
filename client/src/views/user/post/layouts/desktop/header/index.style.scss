@@ -23,18 +23,14 @@
     }
     .help {
       cursor: pointer;
-      > a{
-        margin-top: 5px;
-        display: block;
         svg {
-          // fill: #ffb94a;
-          color: #666;
+          stroke: #999;
+          color: #ffb94a;
           transition: 0.4s;
           &:hover{
             color: #ffb94a;
           }
         }
-      }
     }
     .messenger--group {
       .mess{
@@ -89,6 +85,9 @@
     .notification--groups {
       .icon--help {
         margin-top: 2px;
+        &:hover{
+          color: #ffb94a;
+        }
         svg {
           color: #999;
           stroke: #999;
@@ -97,6 +96,9 @@
       }
       .btn--notification {
         cursor: pointer;
+        &:hover{
+          color: #ffb94a;
+        }
         .notification--total {
           background-color: #F96666;
           border-radius: 5px;
@@ -121,6 +123,13 @@
         min-width: 420px;
         right: 0;
         z-index: 99999;
+      }
+    }
+
+    .video--guide {
+      cursor: pointer;
+      &:hover{
+        color: #ffb94a;
       }
     }
     .more--options{

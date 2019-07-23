@@ -22,6 +22,13 @@
     }
     .items--body {
         font-size: 1rem;
+        .name {
+          outline: none;
+          max-width: 80%;
+          white-space: nowrap; 
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
         .main {
           font-size: 0.8315rem;
           .event {

@@ -35,7 +35,15 @@
     <VuePerfectScrollbar class="scroll--campaign">
       <div class="items--body mt_3 px_2">
         <div class="top d_flex align_items_center mb_2">
-          <div class="name">{{ campaign.title }}</div>
+          <contenteditable
+            class="editable name"
+            tag="div"
+            placeholder="Nhập tên..."
+            :noNL="true"
+            :contenteditable="true"
+            v-model='campaign.title'
+            @returned="updateTitleCampaign()"
+          />
           <div class="active ml_auto">
             <toggle-switch
               @change="updateCampaignStatus()"
