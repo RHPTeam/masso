@@ -13,10 +13,7 @@ const BroadcastSchema = new Schema( {
           "typeContent": String
         }
       ],
-      "_friends": [ {
-        "type": Schema.Types.ObjectId,
-        "ref": "Friend"
-      } ],
+      "_friends": Array,
       "timeSetting": {
         "dateMonth": String,
         "hour": String,
