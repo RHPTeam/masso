@@ -10,11 +10,13 @@ const mongoose = require( "mongoose" ),
     "userInfo": {
       "id": {
         "type": String,
-        "default": ""
+        "default": "",
+        "unique": true
       },
       "name": {
         "type": String,
-        "default": ""
+        "default": "",
+        "unique": true
       },
       "thumbSrc": {
         "type": String,

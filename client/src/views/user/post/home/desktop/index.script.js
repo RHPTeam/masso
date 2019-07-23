@@ -13,7 +13,8 @@ export default {
   },
   data () {
     return {
-      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3")
+      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3"),
+      isShowGuidePopup: true
     };
   },
   computed: {
@@ -24,6 +25,9 @@ export default {
       get() {
         return this.isStatusVersionNotification
       }
+    },
+    variableControlGuide(){
+      return this.$store.getters.variableControlGuide;
     },
     user(){
       return this.$store.getters.userInfo;

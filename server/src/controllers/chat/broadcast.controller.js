@@ -9,15 +9,12 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Broadcast = require( "../../models/chat/Broadcast.model" );
 const Friend = require( "../../models/chat/Friend.model" );
 const Sequence = require( "../../models/chat/Sequence.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -27,62 +24,30 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization;
-    const role = findSubString( authorization, "cfr=", ";" );
 
-    const userId = secure( res, authorization );
-    const accountResult = await Account.findOne( { "_id": userId } );
-
-    if ( !accountResult ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-
-    if ( role === "Member" ) {
-      !req.query._id ? ( dataResponse = await Broadcast.find( { "_account": userId } ) ) : ( dataResponse = await Broadcast.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } )
-        .populate( "blocks.blockId" )
-        .populate( {
-          "path": "blocks._friends",
-          "select": "fullName profilePicture"
-        } ) );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } );
+    if ( req.query._id ) {
+      dataResponse = await Broadcast.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
     }
     if ( req.query._id && req.query._blockId ) {
-      Promise.all(
-        dataResponse[ 0 ].blocks
-          .map( ( block ) => {
-            if ( block._id.toString() !== req.query._blockId ) {
-              return;
-            }
-            return block;
-          } )
-          .filter( ( val ) => {
-            if ( val === undefined ) {
-              return;
-            }
-            return true;
-          } )
-      ).then( ( item ) => {
-        return res
-          .status( 200 )
-          .json( jsonResponse( "Lấy dữ liệu thành công =))", item ) );
+      Promise.all( dataResponse.blocks.map( async ( block ) => {
+        if ( block._id.toString() === req.query._blockId ) {
+          block._friends = await Promise.all( block._friends.map( async ( friend ) => {
+            const findFriend = await Friend.findOne( { "userID": friend, "_account": req.uid }, "-__v -created_at -updated_at" ).lean();
+
+            return findFriend;
+          } ) );
+          return block;
+        }
+      } ).filter( ( val ) => {
+        if ( val !== undefined ) {
+          return true;
+        }
+      } ) ).then( ( item ) => {
+        return res.status( 200 ).json( jsonResponse( "success", item ) );
       } );
-    } else {
-      return res
-        .status( 200 )
-        .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Broadcast.find( { "_account": req.uid } ).lean();
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
   },
   /**
@@ -91,18 +56,9 @@ module.exports = {
    * @param: res
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-
     const foundBroadcast = await Broadcast.findOne( {
       "typeBroadCast": "Tin nhắn gửi ngay",
-      "_account": userId
+      "_account": req.uid
     } );
 
     if ( foundBroadcast ) {
@@ -113,11 +69,9 @@ module.exports = {
     const newBroadcast = await new Broadcast();
 
     newBroadcast.typeBroadCast = "Tin nhắn gửi ngay";
-    newBroadcast._account = userId;
+    newBroadcast._account = req.uid;
     await newBroadcast.save();
-    return res
-      .status( 200 )
-      .json( jsonResponse( "Tạo broadcast thành công !", newBroadcast ) );
+    res.status( 200 ).json( jsonResponse( "success", newBroadcast ) );
   },
   /**
    * Update broadcast
@@ -125,38 +79,22 @@ module.exports = {
    * @param: res
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundBroadcast = await Broadcast.findById( req.query._bcId );
+    const foundBroadcast = await Broadcast.findOne( { "_id": req.query._bcId, "_account": req.uid } );
 
     if ( !foundBroadcast ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Broadcast không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Broadcast không tồn tại!" ) );
     }
 
     if ( foundBroadcast.typeBroadCast === "Tin nhắn gửi ngay" ) {
       const result = foundBroadcast.blocks[ 0 ];
 
       if ( req.query._blockId !== result._id.toString() ) {
-        return res
-          .status( 403 )
-          .json( jsonResponse( "Không tìm thấy block!", null ) );
+        return res.status( 403 ).json( jsonResponse( "Không tìm thấy block!", null ) );
       }
-      const contentItem = foundBroadcast.blocks[ 0 ].content.filter(
-        ( id ) => id.id === req.query._contentId
-      )[ 0 ];
+      const contentItem = foundBroadcast.blocks[ 0 ].content.filter( ( id ) => id.id === req.query._contentId )[ 0 ];
 
       if ( !contentItem ) {
-        return res
-          .status( 405 )
-          .json( jsonResponse( "Không có nội dung này trong block" ), null );
+        return res.status( 405 ).json( jsonResponse( "fail", "Không có nội dung này trong block" ) );
       }
       // Add type image in block
       if ( contentItem.typeContent === "image" ) {
@@ -164,103 +102,47 @@ module.exports = {
           contentItem.valueText = "";
           contentItem.typeContent = "image";
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
-        ( contentItem.valueText = `${process.env.APP_URL}:${
-          process.env.PORT_BASE
-        }/${req.file.path.replace( /\\/gi, "/" )}` ),
-        ( contentItem.typeContent = "image" );
+        contentItem.valueText = `${process.env.APP_URL}:${ process.env.PORT_BASE }/${req.file.path.replace( /\\/gi, "/" )}`,
+        contentItem.typeContent = "image";
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json(
-            jsonResponse(
-              "Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-              foundBroadcast
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
       }
 
       // add type time in block
       if ( contentItem.typeContent === "time" ) {
-        if (
-          req.body.valueText === "" || req.body.valueText === null || req.body.valueText === undefined
-        ) {
-          ( contentItem.valueText = "5" ), ( contentItem.typeContent = "time" );
+        if ( req.body.valueText === "" || req.body.valueText === null || req.body.valueText === undefined ) {
+          contentItem.valueText = "5";
+          contentItem.typeContent = "time";
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Cập nhật kịch bản loại thời gian trong chiến dịch thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
-        if (
-          isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20
-        ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse(
-                "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!",
-                null
-              )
-            );
+        if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20 ) {
+          return res.status( 405 ).json( jsonResponse( "fail", "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" ) );
         }
-        ( contentItem.valueText = req.body.valueText ),
-        ( contentItem.typeContent = "time" );
+        contentItem.valueText = req.body.valueText;
+        contentItem.typeContent = "time";
         await foundBroadcast.save();
-        return res
-          .status( 201 )
-          .json(
-            jsonResponse(
-              "Cập nhật kịch bản loại thời gian trong chiến dịch thành công!",
-              foundBroadcast
-            )
-          );
+        return res.status( 201 ).json( jsonResponse( "success", foundBroadcast ) );
       }
       // With type item is subscribe & unsubscribe
-      if (
-        contentItem.typeContent === "subscribe" || contentItem.typeContent === "unsubscribe"
-      ) {
-        if (
-          req.body.valueText.length === 0 || req.body.valueText === null || req.body.valueText === undefined
-        ) {
-          ( contentItem.valueText = "" ),
-          ( contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe" );
+      if ( contentItem.typeContent === "subscribe" || contentItem.typeContent === "unsubscribe" ) {
+        if ( req.body.valueText.length === 0 ) {
+          contentItem.valueText = "";
+          contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Cập nhật nội dung loại đăng kí kịch bản trong block thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
 
         const sequences = req.body.valueText;
         let checkExist = false;
 
-        await Promise.all(
-          sequences.map( async ( val ) => {
-            const foundSequence = await Sequence.findOne( {
-              "_account": userId,
-              "_id": val
-            } );
+        await Promise.all( sequences.map( async ( val ) => {
+          const foundSequence = await Sequence.findOne( { "_account": req.uid, "_id": val } );
 
-            return foundSequence === null;
-          } )
-        ).then( ( data ) => {
+          return foundSequence === null;
+        } ) ).then( ( data ) => {
           data.map( ( value ) => {
             if ( value === true ) {
               checkExist = true;
@@ -269,85 +151,45 @@ module.exports = {
           } );
         } );
         if ( checkExist ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse(
-                "Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!",
-                null
-              )
-            );
+          return res.status( 405 ).json( jsonResponse( "fail", "Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!" ) );
         }
         const checkSequences = ArrayFunction.removeDuplicates( sequences );
 
-        ( contentItem.valueText = checkSequences.toString() ),
-        ( contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe" );
+        contentItem.valueText = checkSequences.toString();
+        contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe" ;
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json(
-            jsonResponse(
-              `Cập nhât nội dung loại ${
-                req.query._type === "subscribe" ? "subscribe" : "unsubscribe"
-              } trong block thành công!`,
-              foundBroadcast
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
       }
       if ( contentItem.typeContent === "text" ) {
         // Add type text in block
-        ( contentItem.valueText = req.body.valueText ? req.body.valueText : "" ),
-        ( contentItem.typeContent = "text" );
+        contentItem.valueText = req.body.valueText ? req.body.valueText : "" ;
+        contentItem.typeContent = "text";
         await foundBroadcast.save();
-        return res
-          .status( 201 )
-          .json(
-            jsonResponse(
-              "Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!",
-              foundBroadcast
-            )
-          );
+        return res.status( 201 ).json( jsonResponse( "success", foundBroadcast ) );
       }
       foundBroadcast.blocks[ 0 ].timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth : block.timeSetting.dateMonth;
       foundBroadcast.blocks[ 0 ].timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour;
       await foundBroadcast.save();
-      res
-        .status( 201 )
-        .json(
-          jsonResponse(
-            "Cập nhật chiến dịch tin nhan ngay thành công!",
-            foundBroadcast
-          )
-        );
+      res.status( 201 ).json( jsonResponse( "success", foundBroadcast ) );
     }
 
     if ( req.query._blockId ) {
-      const block = foundBroadcast.blocks.filter(
-        ( id ) => id.id === req.query._blockId
-      )[ 0 ];
+      const block = foundBroadcast.blocks.filter( ( id ) => id.id === req.query._blockId )[ 0 ];
 
       if ( !block ) {
-        return res
-          .status( 403 )
-          .json( jsonResponse( "Block không tồn tại ở Broadcast này!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Block không tồn tại ở Broadcast này!" ) );
       }
       if ( req.query._status === "true" ) {
         block.status = !block.status;
         await foundBroadcast.save();
-        return res
-          .status( 201 )
-          .json( jsonResponse( "Cập nhật broadcast thành công", block ) );
+        return res.status( 201 ).json( jsonResponse( "success", block ) );
       }
       // Update item in block with type schedule broadcast
       if ( req.query._contentId ) {
-        const contentItem = block.content.filter(
-          ( id ) => id.id === req.query._contentId
-        )[ 0 ];
+        const contentItem = block.content.filter( ( id ) => id.id === req.query._contentId )[ 0 ];
 
         if ( !contentItem ) {
-          return res
-            .status( 405 )
-            .json( jsonResponse( "Không có nội dung này trong block" ), null );
+          return res.status( 405 ).json( jsonResponse( "fail", "Không có nội dung này trong block" ) );
         }
         // Add type image in block
         if ( contentItem.typeContent === "image" ) {
@@ -355,102 +197,47 @@ module.exports = {
             contentItem.valueText = "";
             contentItem.typeContent = "image";
             await foundBroadcast.save();
-            return res
-              .status( 200 )
-              .json(
-                jsonResponse(
-                  "Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-                  block
-                )
-              );
+            return res.status( 200 ).json( jsonResponse( "success", block ) );
           }
-          ( contentItem.valueText = `${process.env.APP_URL}:${
-            process.env.PORT_BASE
-          }/${req.file.path.replace( /\\/gi, "/" )}` ),
-          ( contentItem.typeContent = "image" );
+          contentItem.valueText = `${process.env.APP_URL}:${process.env.PORT_BASE}/${req.file.path.replace( /\\/gi, "/" )}`;
+          contentItem.typeContent = "image";
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Cập nhật nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-                block
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", block ) );
         }
 
         // add type time in block
         if ( contentItem.typeContent === "time" ) {
-          if (
-            req.body.valueText === "" || req.body.valueText === null || req.body.valueText === undefined
-          ) {
-            ( contentItem.valueText = "5" ), ( contentItem.typeContent = "time" );
+          if ( req.body.valueText === "" || req.body.valueText === null || req.body.valueText === undefined ) {
+            contentItem.valueText = "5";
+            contentItem.typeContent = "time";
             await foundBroadcast.save();
-            return res
-              .status( 200 )
-              .json(
-                jsonResponse(
-                  "Cập nhật kịch bản loại thời gian trong chiến dịch thành công!",
-                  block
-                )
-              );
+            return res.status( 200 ).json( jsonResponse( "success", block ) );
           }
-          if (
-            isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20
-          ) {
-            return res
-              .status( 405 )
-              .json(
-                jsonResponse(
-                  "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!",
-                  null
-                )
-              );
+          if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20 ) {
+            return res.status( 405 ).json( jsonResponse( "fail", "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" ) );
           }
-          ( contentItem.valueText = req.body.valueText ),
-          ( contentItem.typeContent = "time" );
+          contentItem.valueText = req.body.valueText;
+          contentItem.typeContent = "time";
           await foundBroadcast.save();
-          return res
-            .status( 201 )
-            .json(
-              jsonResponse(
-                "Cập nhật kịch bản loại thời gian trong chiến dịch thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 201 ).json( jsonResponse( "success", foundBroadcast ) );
         }
         // With type item is subscribe & unsubscribe
-        if (
-          contentItem.typeContent === "subscribe" || contentItem.typeContent === "unsubscribe"
-        ) {
-          if (
-            req.body.valueText.length === 0 || req.body.valueText === null || req.body.valueText === undefined
-          ) {
-            ( contentItem.valueText = "" ),
-            ( contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe" );
+        if ( contentItem.typeContent === "subscribe" || contentItem.typeContent === "unsubscribe" ) {
+          if ( req.body.valueText.length === 0 ) {
+            contentItem.valueText = "";
+            contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
             await foundBroadcast.save();
-            return res
-              .status( 200 )
-              .json(
-                jsonResponse(
-                  "Cập nhật nội dung loại đăng kí kịch bản trong block thành công!",
-                  block
-                )
-              );
+            return res.status( 200 ).json( jsonResponse( "success", block ) );
           }
 
           const sequences = req.body.valueText;
           let checkExist = false;
 
-          await Promise.all(
-            sequences.map( async ( val ) => {
-              const foundSequence = await Sequence.findOne( {
-                "_account": userId,
-                "_id": val
-              } );
+          await Promise.all( sequences.map( async ( val ) => {
+            const foundSequence = await Sequence.findOne( { "_account": req.uid, "_id": val } );
 
-              return foundSequence === null;
-            } )
+            return foundSequence === null;
+          } )
           ).then( ( result ) => {
             result.map( ( value ) => {
               if ( value === true ) {
@@ -460,82 +247,41 @@ module.exports = {
             } );
           } );
           if ( checkExist ) {
-            return res
-              .status( 405 )
-              .json(
-                jsonResponse(
-                  "Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!",
-                  null
-                )
-              );
+            return res.status( 405 ).json( jsonResponse( "fail", "Một trong số các chuỗi kịch bản không có trong tài khoản của bạn!" ) );
           }
           const checkSequences = ArrayFunction.removeDuplicates( sequences );
 
-          ( contentItem.valueText = checkSequences.toString() ),
-          ( contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe" );
+          contentItem.valueText = checkSequences.toString();
+          contentItem.typeContent = contentItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                `Cập nhât nội dung loại ${
-                  req.query._type === "subscribe" ? "subscribe" : "unsubscribe"
-                } trong block thành công!`,
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
         if ( contentItem.typeContent === "text" ) {
           // Add type text in block
-          ( contentItem.valueText = req.body.valueText ? req.body.valueText : "" ),
-          ( contentItem.typeContent = "text" );
+          contentItem.valueText = req.body.valueText ? req.body.valueText : "";
+          contentItem.typeContent = "text";
           await foundBroadcast.save();
-          return res
-            .status( 201 )
-            .json(
-              jsonResponse(
-                "Cập nhật chiến dịch loại tin nhắn gửi ngay thành công!",
-                block
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", block ) );
         }
       }
-      if (
-        req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-      ) {
+      if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
         const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
         const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
         if ( Date.parse( checkDate ) <= Date.now() ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse(
-                "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                null
-              )
-            );
+          return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
         }
       }
       // Choose type cron for timer block
       // eslint-disable-next-line default-case
       switch ( req.query._type ) {
         case "0":
-          if (
-            req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-          ) {
+          if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
             const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
             const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
             if ( Date.parse( checkDate ) <= Date.now() ) {
-              return res
-                .status( 405 )
-                .json(
-                  jsonResponse(
-                    "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                    null
-                  )
-                );
+              return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
             }
           }
           req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -545,21 +291,12 @@ module.exports = {
           await foundBroadcast.save();
           break;
         case "1":
-          if (
-            req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-          ) {
+          if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
             const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
             const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
             if ( Date.parse( checkDate ) <= Date.now() ) {
-              return res
-                .status( 405 )
-                .json(
-                  jsonResponse(
-                    "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                    null
-                  )
-                );
+              return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
             }
           }
           req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -570,21 +307,12 @@ module.exports = {
           await foundBroadcast.save();
           break;
         case "2":
-          if (
-            req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-          ) {
+          if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
             const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
             const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
             if ( Date.parse( checkDate ) <= Date.now() ) {
-              return res
-                .status( 405 )
-                .json(
-                  jsonResponse(
-                    "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                    null
-                  )
-                );
+              return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
             }
           }
           req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -594,21 +322,12 @@ module.exports = {
           await foundBroadcast.save();
           break;
         case "3":
-          if (
-            req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-          ) {
+          if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
             const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
             const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
             if ( Date.parse( checkDate ) <= Date.now() ) {
-              return res
-                .status( 405 )
-                .json(
-                  jsonResponse(
-                    "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                    null
-                  )
-                );
+              return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
             }
           }
           req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -618,21 +337,12 @@ module.exports = {
           await foundBroadcast.save();
           break;
         case "4":
-          if (
-            req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-          ) {
+          if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
             const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
             const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
             if ( Date.parse( checkDate ) <= Date.now() ) {
-              return res
-                .status( 405 )
-                .json(
-                  jsonResponse(
-                    "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                    null
-                  )
-                );
+              return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
             }
           }
           req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -644,21 +354,12 @@ module.exports = {
         case "5":
           switch ( req.body.day ) {
             case "0,1,2,3,4,5,6":
-              if (
-                req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-              ) {
+              if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
                 const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
                 const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
                 if ( Date.parse( checkDate ) <= Date.now() ) {
-                  return res
-                    .status( 405 )
-                    .json(
-                      jsonResponse(
-                        "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                        null
-                      )
-                    );
+                  return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
                 }
               }
               req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -668,21 +369,12 @@ module.exports = {
               await foundBroadcast.save();
               break;
             case "0,6":
-              if (
-                req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-              ) {
+              if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
                 const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
                 const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
                 if ( Date.parse( checkDate ) <= Date.now() ) {
-                  return res
-                    .status( 405 )
-                    .json(
-                      jsonResponse(
-                        "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                        null
-                      )
-                    );
+                  return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
                 }
               }
               req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -692,21 +384,12 @@ module.exports = {
               await foundBroadcast.save();
               break;
             case "1,2,3,4,5":
-              if (
-                req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-              ) {
+              if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
                 const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
                 const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
                 if ( Date.parse( checkDate ) <= Date.now() ) {
-                  return res
-                    .status( 405 )
-                    .json(
-                      jsonResponse(
-                        "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                        null
-                      )
-                    );
+                  return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
                 }
               }
               req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -716,21 +399,12 @@ module.exports = {
               await foundBroadcast.save();
               break;
             default:
-              if (
-                req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth )
-              ) {
+              if ( req.body.hour || req.body.dateMonth || ( req.body.hour && req.body.dateMonth ) ) {
                 const scheduleDate = req.body.hour && req.body.dateMonth ? `${req.body.dateMonth} ${req.body.hour}` : req.body.hour ? `${block.timeSetting.dateMonth} ${req.body.hour}` : `${req.body.dateMonth} ${block.timeSetting.hour}`;
                 const checkDate = new Date( scheduleDate.replace( /-/g, "/" ) );
 
                 if ( Date.parse( checkDate ) <= Date.now() ) {
-                  return res
-                    .status( 405 )
-                    .json(
-                      jsonResponse(
-                        "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại",
-                        null
-                      )
-                    );
+                  return res.status( 405 ).json( jsonResponse( "fail", "Thời gian cập nhật không được nhỏ hơn thời gian hiện tại" ) );
                 }
               }
               req.body.dateMonth ? ( block.timeSetting.dateMonth = req.body.dateMonth ) : block.timeSetting.dateMonth;
@@ -745,9 +419,7 @@ module.exports = {
       block.timeSetting.dateMonth = req.body.dateMonth ? req.body.dateMonth : block.timeSetting.dateMonth;
       block.timeSetting.hour = req.body.hour ? req.body.hour : block.timeSetting.hour;
       await foundBroadcast.save();
-      return res
-        .status( 201 )
-        .json( jsonResponse( "Cập nhật broadcast thành công", block ) );
+      return res.status( 201 ).json( jsonResponse( "success", block ) );
     }
   },
   /**
@@ -756,71 +428,36 @@ module.exports = {
    * @param: res
    */
   "addBlock": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundBroadcast = await Broadcast.findById( req.query._bcId );
+    const foundBroadcast = await Broadcast.findOne( { "_id": req.query._bcId, "_account": req.uid } );
 
     if ( !foundBroadcast ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Broadcast không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Broadcast không tồn tại!" ) );
     }
     /**
      *  With type broadcast === thiết lập bộ hẹn
      */
     if ( foundBroadcast.typeBroadCast === "Thiết lập bộ hẹn" ) {
-      const block = foundBroadcast.blocks.filter(
-        ( id ) => id.id === req.query._blockId
-      )[ 0 ];
+      const block = foundBroadcast.blocks.filter( ( id ) => id.id === req.query._blockId )[ 0 ];
 
       // add friends to block in broadcast
       if ( req.query._blockId ) {
         if ( !block ) {
-          return res
-            .status( 403 )
-            .json( jsonResponse( "Block không tồn tại ở Broadcast này!", null ) );
+          return res.status( 403 ).json( jsonResponse( "fail", "Block không tồn tại ở Broadcast này!" ) );
         }
         if ( req.query._typeItem === "image" ) {
           block.content.push( { "valueText": "", "typeContent": "image" } );
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-                block
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", block ) );
         }
         if ( req.query._typeItem === "time" ) {
           block.content.push( { "valueText": "5", "typeContent": "time" } );
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Tạo kịch bản loại thời gian trong chiến dịch thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
         if ( req.query._typeItem === "text" ) {
           block.content.push( { "valueText": "", "typeContent": "text" } );
           await foundBroadcast.save();
-          return res
-            .status( 201 )
-            .json(
-              jsonResponse(
-                "Tao content trong block cua broadcast thành công",
-                block
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", block ) );
         }
         // With type item is subscribe & unsubscribe
         if (
@@ -834,14 +471,7 @@ module.exports = {
 
           block.content.push( content );
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Tạo nội dung loại đăng kí kịch bản trong block thành công!",
-                foundBroadcast
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
         }
 
         let result = null;
@@ -864,11 +494,7 @@ module.exports = {
           }
         } );
         if ( checkCon ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse( "Bạn đã thêm một trong những bạn bè này!", null )
-            );
+          return res.status( 405 ).json( jsonResponse( "fail", "Bạn đã thêm một trong những bạn bè này!" ) );
         }
         const checkFriend = ArrayFunction.removeDuplicates( friends );
 
@@ -876,9 +502,7 @@ module.exports = {
           result._friends.push( val );
         } );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json( jsonResponse( "Thêm bạn bè thành công", foundBroadcast ) );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
       }
       // add new block in broadcast
 
@@ -897,11 +521,7 @@ module.exports = {
         }
       } );
       await foundBroadcast.save();
-      return res
-        .status( 200 )
-        .json(
-          jsonResponse( "Thêm block trong broadcast thành công!", foundBroadcast )
-        );
+      return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
     }
     /**
      *  With type broadcast === tin nhắn gửi ngay
@@ -911,9 +531,7 @@ module.exports = {
       const result = foundBroadcast.blocks[ 0 ];
 
       if ( req.query._blockId !== result._id.toString() ) {
-        return res
-          .status( 403 )
-          .json( jsonResponse( "Không tìm thấy block!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Không tìm thấy block!" ) );
       }
       // Add type image in block
       if ( req.query._typeItem === "image" ) {
@@ -922,14 +540,7 @@ module.exports = {
           "typeContent": "image"
         } );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json(
-            jsonResponse(
-              "Tạo nội dung loại ảnh trong kịch bản từ trình tự kịch bản thành công!",
-              foundBroadcast.blocks[ 0 ]
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast.blocks[ 0 ] ) );
       }
 
       // add type time in block
@@ -939,19 +550,10 @@ module.exports = {
           "typeContent": "time"
         } );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json(
-            jsonResponse(
-              "Cập nhật kịch bản loại thời gian trong chiến dịch thành công!",
-              foundBroadcast.blocks[ 0 ]
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast.blocks[ 0 ] ) );
       }
       // With type item is subscribe & unsubscribe
-      if (
-        req.query._typeItem === "subscribe" || req.query._typeItem === "unsubscribe"
-      ) {
+      if ( req.query._typeItem === "subscribe" || req.query._typeItem === "unsubscribe" ) {
         const content = {
           "valueText": "",
           "typeContent":
@@ -960,14 +562,7 @@ module.exports = {
 
         foundBroadcast.blocks[ 0 ].content.push( content );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json(
-            jsonResponse(
-              "Tạo nội dung loại đăng kí kịch bản trong block thành công!",
-              foundBroadcast.blocks[ 0 ]
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast.blocks[ 0 ] ) );
       }
 
       // Add type text in block
@@ -977,14 +572,7 @@ module.exports = {
           "typeContent": "text"
         } );
         await foundBroadcast.save();
-        return res
-          .status( 201 )
-          .json(
-            jsonResponse(
-              "Tao content trong block cua broadcast thành công",
-              foundBroadcast.blocks[ 0 ]
-            )
-          );
+        return res.status( 200 ).json( jsonResponse( "success", foundBroadcast.blocks[ 0 ] ) );
       }
 
       const friends = req.body.friendId;
@@ -997,9 +585,7 @@ module.exports = {
         }
       } );
       if ( checkCon ) {
-        return res
-          .status( 405 )
-          .json( jsonResponse( "Bạn đã thêm một trong những bạn bè này!", null ) );
+        return res.status( 405 ).json( jsonResponse( "fail", "Bạn đã thêm một trong những bạn bè này!" ) );
       }
       const checkFriend = ArrayFunction.removeDuplicates( friends );
 
@@ -1007,18 +593,9 @@ module.exports = {
         result._friends.push( val );
       } );
       await foundBroadcast.save();
-      return res
-        .status( 200 )
-        .json( jsonResponse( "Thêm bạn bè thành công", foundBroadcast ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
     }
-    res
-      .status( 405 )
-      .json(
-        jsonResponse(
-          "Mục tin nhắn gửi ngay không sử dụng được chức năng này",
-          null
-        )
-      );
+    res.status( 405 ).json( jsonResponse( "fail", "Mục tin nhắn gửi ngay không sử dụng được chức năng này" ) );
   },
   /**
    * Delete broadcast
@@ -1026,47 +603,29 @@ module.exports = {
    * @param: res
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundBroadcast = await Broadcast.findById( req.query._bcId );
+    const foundBroadcast = await Broadcast.findOne( { "_id": req.query._bcId, "_account": req.uid } );
 
     if ( !foundBroadcast ) {
-      return res
-        .status( 403 )
-        .json( jsonResponse( "Broadcast không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Broadcast không tồn tại!" ) );
     }
 
     // delete friends in block
     if ( req.query._blockId ) {
-      const findBlock = foundBroadcast.blocks.filter(
-        ( x ) => x.id === req.query._blockId
-      )[ 0 ];
+      const findBlock = foundBroadcast.blocks.filter( ( x ) => x.id === req.query._blockId )[ 0 ];
 
       if ( !findBlock ) {
-        return res
-          .status( 403 )
-          .json( jsonResponse( "Broadcast của bạn không chứa block này!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", "Broadcast của bạn không chứa block này!" ) );
       }
       if ( req.query._friend === "true" ) {
         const friends = req.body.friendId;
         let checkCon = false;
         let checkExist = false;
 
-        await Promise.all(
-          friends.map( async ( val ) => {
-            const foundFriend = await Friend.findOne( {
-              "_account": userId,
-              "_id": val
-            } );
+        await Promise.all( friends.map( async ( val ) => {
+          const foundFriend = await Friend.findOne( { "_account": req.uid, "_id": val } );
 
-            return foundFriend === null;
-          } )
+          return foundFriend === null;
+        } )
         ).then( ( result ) => {
           result.map( ( value ) => {
             if ( value === true ) {
@@ -1076,14 +635,7 @@ module.exports = {
           } );
         } );
         if ( checkExist ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse(
-                "Một trong số các bạn bè không có trong tài khoản của bạn!",
-                null
-              )
-            );
+          return res.status( 405 ).json( jsonResponse( "fail", "Một trong số các bạn bè không có trong tài khoản của bạn!" ) );
         }
         friends.map( async ( val ) => {
           if ( findBlock._friends.indexOf( val ) < 0 ) {
@@ -1092,14 +644,7 @@ module.exports = {
           }
         } );
         if ( checkCon ) {
-          return res
-            .status( 405 )
-            .json(
-              jsonResponse(
-                "Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!",
-                null
-              )
-            );
+          return res.status( 405 ).json( jsonResponse( "fail", "Không tồn tại một trong các bạn bè bạn muốn xóa ở nhớm bạn bè này!" ) );
         }
         const checkFriend = ArrayFunction.removeDuplicates( friends );
 
@@ -1107,65 +652,34 @@ module.exports = {
           findBlock._friends.pull( val );
         } );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json( jsonResponse( "Xóa bạn bè trong block thành công!", findBlock ) );
+        return res.status( 200 ).json( jsonResponse( "success", findBlock ) );
       }
       if ( req.query._contentId ) {
-        const findContent = findBlock.content.filter(
-          ( x ) => x.id === req.query._contentId
-        )[ 0 ];
+        const findContent = findBlock.content.filter( ( x ) => x.id === req.query._contentId )[ 0 ];
 
         if ( !findContent ) {
-          return res
-            .status( 403 )
-            .json(
-              jsonResponse( "Broadcast của bạn có block không chứa này!", null )
-            );
+          return res.status( 403 ).json( jsonResponse( "fail", "Broadcast của bạn có block không chứa này!" ) );
         }
-        if (
-          ( findContent.typeContent === "subscribe" && req.query._sequence === "true" ) || ( findContent.typeContent === "unsubscribe" && req.query._sequence === "true" )
-        ) {
-          if (
-            findContent.valueText.split( "," ).indexOf( req.body.valueText ) < 0
-          ) {
-            return res
-              .status( 405 )
-              .json(
-                jsonResponse(
-                  "Không có trình tự kịch bản này trong item này! ",
-                  null
-                )
-              );
+        if ( ( findContent.typeContent === "subscribe" && req.query._sequence === "true" ) || ( findContent.typeContent === "unsubscribe" && req.query._sequence === "true" ) ) {
+          if ( findContent.valueText.split( "," ).indexOf( req.body.valueText ) < 0 ) {
+            return res.status( 405 ).json( jsonResponse( "fail", "Không có trình tự kịch bản này trong item này! " ) );
           }
           findContent.valueText = findContent.valueText
             .split( "," )
             .filter( ( val ) => val !== req.body.valueText )
             .toString();
           await foundBroadcast.save();
-          return res
-            .status( 200 )
-            .json(
-              jsonResponse(
-                "Xóa chuỗi kịch bản trong item đăng kí của block thành công"
-              )
-            );
+          return res.status( 200 ).json( jsonResponse( "success", null ) );
         }
         findBlock.content.pull( findContent );
         await foundBroadcast.save();
-        return res
-          .status( 200 )
-          .json( jsonResponse( "Xóa content trong block thành công!", findBlock ) );
+        return res.status( 200 ).json( jsonResponse( "success", findBlock ) );
       }
       foundBroadcast.blocks.pull( findBlock );
       await foundBroadcast.save();
-      return res
-        .status( 200 )
-        .json( jsonResponse( "Xóa  block thành công!", foundBroadcast ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
     }
     await Broadcast.findByIdAndRemove( req.query._bcId );
-    res
-      .status( 200 )
-      .json( jsonResponse( "Xóa broadcast thành công!", foundBroadcast ) );
+    res.status( 200 ).json( jsonResponse( "success", foundBroadcast ) );
   }
 };

@@ -109,13 +109,14 @@
             <div class="post--group" v-if="isShowPopupPostGroup === true">
               <div
                 class="item--content text_center"
-                v-if="postGroups.length === 0"
+                v-if="postGroupsSearch.length === 0"
               >Không có nhóm được tạo nào!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(postgroup, index) in postGroups"
+                v-for="(postgroup, index) in postGroupsSearch"
                 :key="`pg+${index}`"
+                @click="showPopupDetailPostgroup(postgroup._id, index)"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -123,11 +124,17 @@
                   </div>
                   <span class="col col--name-text">{{ postgroup.title }}</span>
                 </div>
-                <!-- <div class="col col--checkbox pr_3 ml_auto">
-                  <label class="custom--checkbox mb_0">
-                    <input type="checkbox" />
-                  </label>
-                </div>-->
+                <div class="col col--checkbox ml_auto">
+                  <icon-base
+                    icon-name="arrow-down"
+                    class="icon--arrow-right"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 130 130"
+                  >
+                    <icon-arrow-down />
+                  </icon-base>
+                </div>
               </div>
             </div>
             <!-- Start: Group -->
@@ -152,23 +159,30 @@
         @closePopupAddGroup="isShowAddToGroup = $event"
       />
     </transition>
+    <transition name="popup--mobile">
+      <popup-detail-group @closePopup="isShowPopupDetailGroup = $event" v-if="isShowPopupDetailGroup === true && postGroupDetail._id"/>
+    </transition>
     <!-- End: Transition -->
   </div>
 </template>
 
 <script>
 import AddToGroup from "../addgroup";
+import PopupDetailGroup from "../../detail";
 export default {
   components: {
-    AddToGroup
+    AddToGroup,
+    PopupDetailGroup
   },
   data() {
     return {
+      currentIndex: null,
       search: "",
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowPopupPostGroup: false,
-      isShowAddToGroup: false
+      isShowAddToGroup: false,
+      isShowPopupDetailGroup: false
     };
   },
   computed: {
@@ -194,6 +208,9 @@ export default {
           .includes(this.search.toString().toLowerCase());
       });
     },
+    postGroupDetail() {
+      return this.$store.getters.postGroupDetail;
+    },
     postGroupGroupsSelected: {
       get() {
         return this.$store.getters.postGroupGroupsSelected;
@@ -212,6 +229,14 @@ export default {
     },
     postGroups() {
       return this.$store.getters.postGroups;
+    },
+    postGroupsSearch() {
+      return this.postGroups.filter(item => {
+        return item.title
+          .toString()
+          .toLowerCase()
+          .includes(this.search.toString().toLowerCase());
+      });
     }
   },
   created() {
@@ -223,6 +248,14 @@ export default {
   methods: {
     closePopupSearch() {
       this.$emit("closePopupSearch", false);
+    },
+    showPopupDetailPostgroup(id, index) {
+      this.currentIndex = index;
+      this.$store.dispatch( "getPostGroupById", id );
+      this.$store.dispatch( "postGroupGroupsSelected", [] );
+      this.$store.dispatch( "postGroupPagesSelected", [] );
+      this.$store.dispatch( "postProfileSelected", [] );
+      this.isShowPopupDetailGroup = true;
     },
     showPopupFanpage() {
       this.isShowPopupFanpage = true;
@@ -324,6 +357,9 @@ export default {
   }
   .col--checkbox {
     height: 20px;
+    .icon--arrow-right {
+      transform: rotate(-90deg);
+    }
   }
   .custom--checkbox {
     input[type="checkbox"] {
@@ -410,5 +446,18 @@ export default {
 .popup-leave-to {
   transition: transform 0.5s;
   transform: translateY(100%);
+}
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
 }
 </style>
