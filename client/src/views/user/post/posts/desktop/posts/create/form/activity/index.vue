@@ -15,8 +15,9 @@
         class="suggest position_absolute"
         v-if="isShowSuggestDefault === true"
       >
-        <VuePerfectScrollbar class="show"
-                             v-click-outside="closeSuggestActivityDefault"
+        <VuePerfectScrollbar
+          class="show"
+          v-click-outside="closeSuggestActivityDefault"
         >
           <div
             v-if="this.$store.getters.faceBStatus === 'loading'"

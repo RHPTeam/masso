@@ -1,7 +1,7 @@
 <template>
-  <div class="option p_3">
+  <div class="option p_3"  :data-theme="currentTheme">
     <div class="title">Tùy chọn</div>
-    <div class="option--item d_flex justify_content_start align_items_center">
+    <div class="option--item d_flex justify_content_start align_items_center" @click="openPopupSearchMessenger">
       <div class="option--item-name">Tìm kiếm tin nhắn</div>
       <div class="option--item-icon ml_auto">
         <icon-base
@@ -15,12 +15,15 @@
         </icon-base>
       </div>
     </div>
-    <div class="option--item d_flex justify_content_start align_items_center"
+    <div
+      class="option--item d_flex justify_content_start align_items_center"
+      @click="openPopupSelectColor"
     >
       <div class="option--item-name">Thay đổi màu</div>
       <div class="option--item-icon ml_auto">
-        <div class="icon--color"
-              :style="{ borderColor: '#ffb94a' }"
+        <div
+          class="icon--color"
+          :style="{ borderColor: '#ffb94a' }"
         >
         </div>
       </div>
@@ -81,11 +84,31 @@
 
 <script>
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
   data() {
     return {
       notificationStatus: true
     }
-  }
+  },
+  methods: {
+    openPopupSearchMessenger() {
+      this.$store.dispatch("setVariableControl", {
+        key: "messenger",
+        value: true
+      });
+    },
+    openPopupSelectColor(){
+      this.$store.dispatch("setVariableControl", {
+        key: "color",
+        value: true
+      });
+    }
+  },
 }
 </script>
 
@@ -147,7 +170,10 @@ export default {
 
   //Dark
   .option[data-theme="dark"] {
-    border-color: #444;
+    border-bottom: 1px solid #27292d;
+    .title {
+      color: #fff;
+    }
     .option--desc {
       color: #ccc;
     }

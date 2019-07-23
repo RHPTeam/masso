@@ -1,12 +1,14 @@
 <template>
-  <div class="sidebar">
+  <div class="sidebar" :data-theme="currentTheme">
     <!-- Start: Header Left Sidebar -->
-    <app-header/>
+    <app-header :currentTheme="currentTheme"/>
     <!-- Start: Header Left Sidebar -->
     <vue-perfect-scrollbar :style="{ height: windowHeight + 'px' }">
       <!-- Start: Search Left Sidebar -->
       <app-search
+        :currentTheme="currentTheme"
         @changeStatus="isShowDefault = $event"
+        @watchKeyword="keyword = $event"
       />
       <!-- Start: Search Left Sidebar -->
 
@@ -14,6 +16,8 @@
       <div v-if="isShowDefault === false"
       >
         <result-search
+          :currentTheme="currentTheme"
+          :keySearch="keyword"
           @backDefault="isShowDefault = $event"
         />
       </div>
@@ -24,6 +28,7 @@
         <div v-if="!listChat"></div>
         <app-user
           v-else
+          :currentTheme="currentTheme"
           v-for="(item, index) in listChat"
           :key="`u-${index}`"
           :mess="item"
@@ -48,10 +53,17 @@ export default {
     AppUser,
     ResultSearch
   },
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
   data() {
     return {
       isShowDefault: true,
       windowHeight: 0,
+      keyword: "",
       listChat: [
         {
           name: "Ngọc Hân",
@@ -213,6 +225,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+.sidebar[data-theme="dark"] {
+  background-color: #2F3136;
+}
 </style>
