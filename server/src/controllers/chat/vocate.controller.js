@@ -26,7 +26,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    if ( req.query.id ) {
+    if ( req.query._id ) {
       dataResponse = await Vocate.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await Vocate.find( { "_account": req.uid } ).lean();

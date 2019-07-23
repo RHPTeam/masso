@@ -45,7 +45,8 @@ module.exports = {
       } ) ).then( ( item ) => {
         return res.status( 200 ).json( jsonResponse( "success", item ) );
       } );
-    } else {
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Broadcast.find( { "_account": req.uid } ).lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
   },

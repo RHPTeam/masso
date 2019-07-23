@@ -19,11 +19,21 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+PostGroupSchema.index( {
+  "title": "text"
+} );
+
 PostGroupSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const PostGroups = mongoose.model( "PostGroups", PostGroupSchema );
+
+PostGroups.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = PostGroups;
