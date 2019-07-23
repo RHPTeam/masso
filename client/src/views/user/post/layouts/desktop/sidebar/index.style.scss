@@ -13,7 +13,7 @@
     .menu--item {
         margin-bottom: 32px;
         font-family: "Open Sans", sans-serif;
-        font-size: 1rem;
+        font-size: .95rem;
         white-space: nowrap;
         overflow: hidden;
         &:last-child {
@@ -24,7 +24,7 @@
             transition: all 0.4s ease;
             font-weight: normal;
             svg {
-                margin-right: 24px;
+                margin-right: 1rem;
                 vertical-align: text-top;
             }
         }

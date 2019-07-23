@@ -4,6 +4,7 @@
     :data-theme="currentTheme"
     :class="{ collapseMenu: collapseMenu }"
   >
+    <!-- Start: Logo -->
     <div class="sidebar--logo d_inline_block text_center">
       <router-link to="/">
         <div class="sidebar--logo-icon">
@@ -28,6 +29,8 @@
         </div>
       </router-link>
     </div>
+    <!-- End: Logo -->
+    <!-- Start: Menu -->
     <ul class="sidebar--menu">
       <router-link
         class="menu--item d_flex align_items_center"
@@ -47,7 +50,7 @@
           >
             <component :is="menu.icon.tagName" />
           </icon-base>
-          <span class="ml_2">{{ menu.text }}</span>
+          <span class="menu--item-text ml_2">{{ menu.text }}</span>
         </a>
       </router-link>
 
@@ -68,10 +71,12 @@
           >
             <icon-agency />
           </icon-base>
-          <span class="ml_2">Quản lý thành viên</span>
+          <span class="menu--item-text ml_2">Quản lý thành viên</span>
         </a>
       </router-link>
     </ul>
+    <!-- End: Menu -->
+    <!-- Start: Language -->
     <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->
       <div class="flags position_relative ml_3">
@@ -133,6 +138,7 @@
       </div>
       <!-- End: Language flag -->
     </div>
+    <!-- End: Language -->
   </div>
 </template>
 
