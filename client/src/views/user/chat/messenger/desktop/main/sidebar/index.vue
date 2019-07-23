@@ -1,17 +1,17 @@
 <template>
-  <div role="right">
+  <div role="right" :data-theme="currentTheme">
     <vue-perfect-scrollbar ref="infoBar" :style="{ height: windowHeight + 'px' }">
       <div role="wrap" aria-label="wrap of right sidebar">
         <!--Start: Info-->
         <div class="info d_flex flex_column align_items_center py_3 px_3">
           <div class="img mb_3" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
           <h3>Ngọc Hân</h3>
-          <div role="time">Hoạt động từ thời xa xưa</div>
+          <div role="time">Hoạt động trên Messenger</div>
         </div>
         <!--End: Info-->
 
         <!--Start: Option more-->
-        <app-option />
+        <app-option :currentTheme="currentTheme" />
         <!--End: Option more-->
 
         <!--Start: Support other-->
@@ -22,7 +22,7 @@
 
         <!--Start: image shared-->
         <div class="shared">
-          <app-shared/>
+          <app-shared :currentTheme="currentTheme"/>
         </div>
         <!--End: image shared-->
       </div>
@@ -37,6 +37,12 @@ export default {
   components: {
     AppOption,
     AppShared
+  },
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
   },
   data() {
     return {
@@ -85,6 +91,9 @@ div[role="right"] {
       font-size: 18px;
       font-weight: 700;
       margin-bottom: .25rem;
+      &:hover {
+        text-decoration: underline;
+      }
     }
     div[role="time"] {
       font-size: .85rem;
@@ -92,4 +101,14 @@ div[role="right"] {
     }
   }
 }
+  div[data-theme="dark"] {
+    background-color: #2F3136;
+    color: #fff;
+    .info {
+      border-color: #27292d;
+      div[role="time"] {
+        color: #fff;
+      }
+    }
+  }
 </style>

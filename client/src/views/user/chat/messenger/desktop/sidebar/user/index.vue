@@ -1,5 +1,5 @@
 <template>
-  <div class="user--wrapper px_2">
+  <div class="user--wrapper px_2" :data-theme="currentTheme">
     <div class="user--content d_flex align_items_center justify_content_between"
          :class="[ mess.name === selectedUser ? 'user--active' : null ]"
     >
@@ -57,7 +57,8 @@
 <script>
 export default {
   props: {
-    mess: Object
+    mess: Object,
+    currentTheme: String
   },
   data() {
     return {
@@ -176,6 +177,58 @@ export default {
           transition: background-color .4s ease;
           &:hover {
             background-color: #F7F7F7;
+          }
+        }
+      }
+    }
+  }
+}
+.user--wrapper[data-theme="dark"] {
+  background-color: #2f3136;
+  color: #fff;
+  .user--content {
+    &.user--active {
+      background-color: #27292d;
+    }
+    .main {
+      &.not--read {
+        .name {
+          color: #fff;
+          font-weight: bold;
+        }
+        .text {
+          .desc {
+            color: #fff;
+          }
+          .time {
+            color: #fff;
+          }
+        }
+      }
+      .name{
+        color: #999;
+        font-size: .925rem;
+        /*font-weight: bold;*/
+      }
+      .text {
+        .desc {
+          color: #999;
+        }
+        .time {
+          color: #999;
+        }
+      }
+    }
+    .right {
+      div[role="dot"] {
+        background-color: #ffb94a;
+      }
+      .action--dropdown {
+        background-color: #27292d;
+        border-color: #27292d;
+        .item {
+          &:hover {
+            background-color: #2F3136;
           }
         }
       }

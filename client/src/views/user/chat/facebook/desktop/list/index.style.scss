@@ -21,6 +21,7 @@
     .card {
       height: 100%;
       background: #ffffff;
+      transition: 0.4s;
       cursor: pointer;
       .item--content {
         // margin-top: 45%;
@@ -35,9 +36,8 @@
         }
       }
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
       }
-
     }
   }
   .item {
@@ -47,21 +47,61 @@
       border-radius: 5px;
       height: 100%;
       background: #ffffff;
+      transition: 0.4s;
+      cursor: pointer;
       .card_body {
         padding: .75rem 1rem !important;
         .card--header {
           text-align: right;
           padding: .25rem 0 0 0;
+          .btn--setting {
+            .icon--setting {
+              color: #fff;
+              stroke: #999;
+              stroke-width: 18;
+              transition: all .4s ease;
+              &:hover {
+                stroke: #666;
+              }
+            }
+          }
+          .btn--more {
+            .icon--more {
+              color: #666;
+              margin-bottom: -5px;
+              transition: all .4s ease;
+              &:hover {
+                color: #ccc;
+              }
+            }
+            .action--dropdown {
+              background-color: #27292c;
+              box-shadow: 0 0 10px rgba(255, 255, 255, .1);
+              border-radius: .5rem;
+              font-size: .875rem;
+              padding: .375rem 0;
+              text-align: left;
+              min-width: 136px;
+              z-index: 99;
+              &-item {
+                padding: .375rem .75rem;
+                &:hover, &:active, &:visited, &:focus {
+                  background-color: #2f3136;
+                  color: #fff;
+                }
+              }
+            }
+          }
         }
         .card--content {
           margin-top: 1rem;
           text-align: center;
-          margin-bottom: 3rem !important;
           .avatar {
+            cursor: pointer;
             width: 70px;
             height: 70px;
             position: relative;
-            margin: 0px auto;
+            margin: 0 auto;
             .picture {
               width: 70px;
               height: 70px;
@@ -84,18 +124,23 @@
             }
           }
           .name {
+            cursor: pointer;
             font-size: 18px;
             margin: 10px 0px;
             color: #000000;
             font-weight: 700;
+            transition: all .4s ease;
+            &:hover {
+              color: #FFB94A;
+            }
           }
           .btn--connect {
             margin-top: 10px;
             color: #43D627;
             border: 1px solid #43D627;
-            border-radius: 10px;
-            font-size: 15px;
-            padding: 8px 15px;
+            border-radius: .625rem;
+            font-size: .875rem;
+            padding: .375rem .75rem;
           }
           .btn--update {
             margin-top: 10px;
@@ -113,7 +158,6 @@
             font-size: 15px;
             padding: 8px 15px;
           }
-          margin-bottom:70px;
         }
         .card--footer {
           opacity: 0;
@@ -131,7 +175,7 @@
         }
       }
       &:hover {
-        box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
       }
     }
   }

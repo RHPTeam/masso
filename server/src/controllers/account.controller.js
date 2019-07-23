@@ -9,7 +9,8 @@
 const Account = require( "../models/Account.model" ),
   jsonResponse = require( "../configs/response" ),
   { changePasswordSync, updateUserSync } = require( "../microservices/synchronize/account.service" ),
-  { defaulSchema } = require( "../helpers/services/default.service" );
+  { defaulSchema } = require( "../helpers/services/default.service" ),
+  { signToken, decodeToken } = require( "../configs/jwt" );
 
 module.exports = {
   "show": async ( req, res ) => {
@@ -65,6 +66,50 @@ module.exports = {
       isPassword = await userInfo.isValidPassword( body.password );
 
     let resUserInfo;
+
+    // mobile change pass
+    if ( req.query._mobile === "true" && req.query._password === "true" ) {
+      // check authorization
+      if ( !body.token ) {
+        return res.status( 405 ).json( jsonResponse( "error", "Authorization" ) );
+      }
+      let decodeTokenResult = decodeToken( body.token );
+
+      const userInfoCheck = await Account.findOne( { "_id": decodeTokenResult.sub } );
+
+      if ( userInfo._id.toString() !== userInfoCheck._id.toString() ) {
+        return res.status( 405 ).json( jsonResponse( "error", "Authorization" ) );
+      }
+
+
+      // Assign new password
+      userInfo.password = body.newPassword;
+      // Sync main server
+
+      resUserInfo = await changePasswordSync( "users/change-password/sync?_mobile=true&_password=true", body, { "Authorization": req.headers.authorization } );
+      if ( resUserInfo.data.status !== "success" ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+      }
+      // Save to mongodb
+      await userInfo.save();
+      return res.status( 201 ).json( jsonResponse( "success", null ) );
+    }
+    if ( req.query._mobile === "true" ) {
+      let token;
+
+      // Check errors
+      if ( !isPassword ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Mật khẩu không chính xác!" } );
+      }
+
+      // Sync main server
+      resUserInfo = await changePasswordSync( "users/change-password/sync?_mobile=true", body, { "Authorization": req.headers.authorization } );
+      if ( resUserInfo.data.status !== "success" ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+      }
+      token = signToken( userInfo );
+      return res.status( 201 ).json( jsonResponse( "success", token ) );
+    }
 
     // Check errors
     if ( !isPassword ) {

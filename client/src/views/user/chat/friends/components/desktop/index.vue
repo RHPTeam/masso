@@ -5,11 +5,11 @@
       @changeSelectedGroup="groupSelected = $event"
       :groupSelected="groupSelected"
     ></segments-list>
-    <segments-attribute
-      :selectFilter="selectFilter"
-      @openResultsFilter="selectFilter = $event"
-      @hiddenDefault="resultsDefault = $event"
-    ></segments-attribute>
+<!--    <segments-attribute-->
+<!--      :selectFilter="selectFilter"-->
+<!--      @openResultsFilter="selectFilter = $event"-->
+<!--      @hiddenDefault="resultsDefault = $event"-->
+<!--    ></segments-attribute>-->
     <segments-content
       :groupSelected="groupSelected"
       :selectFilter="selectFilter"

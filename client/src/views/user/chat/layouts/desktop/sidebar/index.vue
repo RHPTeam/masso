@@ -29,42 +29,23 @@
       </router-link>
     </div>
     <ul class="sidebar--menu">
-      <!-- Keywords -->
+      <!-- FB Account -->
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
-        :to="{ name: 'keywords' }"
+        :to="{ name: 'chat_fbaccount' }"
         active-class="active"
       >
         <a>
           <icon-base
-            icon-name="auto-answer"
+            icon-name="account"
             width="20"
             height="20"
             viewBox="0 0 24 24"
           >
-            <icon-auto-answer />
+            <icon-account />
           </icon-base>
-          <span class="menu--item-text">{{ $t('chat.keywords.title') }}</span>
-        </a>
-      </router-link>
-      <!-- Script -->
-      <router-link
-        class="menu--item d_flex align_items_center"
-        tag="li"
-        :to="{ name: 'scripts' }"
-        active-class="active"
-      >
-        <a>
-          <icon-base
-            icon-name="script"
-            width="20"
-            height="20"
-            viewBox="0 0 24 24"
-          >
-            <icon-script />
-          </icon-base>
-          <span class="menu--item-text">{{ $t('chat.scripts.title') }}</span>
+          <span class="menu--item-text">{{ $t('chat.facebook.title') }}</span>
         </a>
       </router-link>
 
@@ -88,6 +69,26 @@
         </a>
       </router-link>
 
+      <!-- Script -->
+      <router-link
+        class="menu--item d_flex align_items_center"
+        tag="li"
+        :to="{ name: 'scripts' }"
+        active-class="active"
+      >
+        <a>
+          <icon-base
+            icon-name="script"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+          >
+            <icon-script />
+          </icon-base>
+          <span class="menu--item-text">{{ $t('chat.scripts.title') }}</span>
+        </a>
+      </router-link>
+
       <!-- Broadcast -->
       <router-link
         class="menu--item d_flex align_items_center"
@@ -108,25 +109,26 @@
         </a>
       </router-link>
 
-      <!-- FB Account -->
+      <!-- Keywords -->
       <router-link
         class="menu--item d_flex align_items_center"
         tag="li"
-        :to="{ name: 'facebook' }"
+        :to="{ name: 'keywords' }"
         active-class="active"
       >
         <a>
           <icon-base
-            icon-name="account"
+            icon-name="auto-answer"
             width="20"
             height="20"
             viewBox="0 0 24 24"
           >
-            <icon-account />
+            <icon-auto-answer />
           </icon-base>
-          <span class="menu--item-text">{{ $t('chat.facebook.title') }}</span>
+          <span class="menu--item-text">{{ $t('chat.keywords.title') }}</span>
         </a>
       </router-link>
+
     </ul>
     <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->

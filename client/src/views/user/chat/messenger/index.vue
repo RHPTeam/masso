@@ -1,13 +1,13 @@
 <template>
-  <div class="main d_flex">
+  <div class="main d_flex" :data-theme="currentTheme">
     <!-- Start: Left Sidebar -->
     <div role="sidebar">
-      <left-sidebar/>
+      <left-sidebar :currentTheme="currentTheme"/>
     </div>
     <!-- End: Left Sidebar -->
     <!-- Start: Main Content -->
     <div class="d_flex" role="main">
-      <main-content/>
+      <main-content :currentTheme="currentTheme"/>
     </div>
     <!-- End: Main Content -->
   </div>
@@ -19,6 +19,11 @@ export default {
   components: {
     LeftSidebar,
     MainContent
+  },
+  computed: {
+    currentTheme(){
+      return this.$store.getters.themeName;
+    }
   }
 }
 </script>
@@ -36,4 +41,9 @@ export default {
     min-width: 0;
   }
 }
+  .main[data-theme="dark"] {
+    div[role="sidebar"] {
+      border-color: #27292d;
+    }
+  }
 </style>

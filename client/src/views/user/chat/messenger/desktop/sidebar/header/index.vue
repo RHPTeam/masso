@@ -1,5 +1,5 @@
 <template>
-  <div class="header d_flex align_items_center justify_content_between">
+  <div class="header d_flex align_items_center justify_content_between" :data-theme="currentTheme">
     <div class="left d_flex align_items_center">
       <div class="avatar mr_2" :style="{backgroundImage: 'url('+srcDefault+')'}"></div>
       <div class="title">Trò chuyện</div>
@@ -48,6 +48,12 @@
 
 <script>
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
   data() {
     return {
       srcDefault: "https://images-na.ssl-images-amazon.com/images/I/81fd-3Fdc5L.jpg",

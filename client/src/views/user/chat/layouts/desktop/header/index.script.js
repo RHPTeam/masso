@@ -1,10 +1,12 @@
 import HeaderMessenger from "./messenger/index";
 import HeaderNotification from "./notification/index";
+import HelpNotification from "./help";
 
 export default {
   components: {
     HeaderMessenger,
-    HeaderNotification
+    HeaderNotification,
+    HelpNotification
   },
   data() {
     return {
@@ -122,6 +124,21 @@ export default {
     goToMessenger() {
       this.$router.push({ name: "messenger" });
     },
+    formatDate( d ) {
+      const dateTime = new Date( d ),
+        date = String( dateTime.getDate() ).padStart( 2, "0" ),
+        month = String( dateTime.getMonth() + 1 ).padStart( 2, "0" ),
+        year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
+    },
+    async openExpireModal(){
+      await this.$emit("openExpire", true);
+      this.closeProfileDropdown()
+    },
+    showGuidePopup(){
+      this.$store.dispatch("setVariableControlGuide", 1);
+    }
   },
 
   filters: {

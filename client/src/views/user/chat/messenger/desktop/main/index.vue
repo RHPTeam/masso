@@ -1,7 +1,8 @@
 <template>
-  <span class="wrap">
+  <span class="wrap" :data-theme="currentTheme">
     <!--Start: Header Content-->
      <main-header
+       :currentTheme="currentTheme"
        :status="isShowRightSidebar"
         @toggleRightSidebar="isShowRightSidebar = $event"
      />
@@ -11,12 +12,12 @@
       <!--Start: Sidebar-->
       <transition name="sidebar">
         <div class="sidebar" v-if="isShowRightSidebar === false">
-          <right-sidebar/>
+          <right-sidebar :currentTheme="currentTheme"/>
         </div>
       </transition>
       <!--End: Sidebar-->
       <!--Start: Chat Content-->
-      <chat-content />
+      <chat-content :currentTheme="currentTheme" />
       <!--End: Chat Content-->
     </div>
     <!--End: Main Content-->
@@ -32,6 +33,12 @@ export default {
     ChatContent,
     MainHeader,
     RightSidebar
+  },
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
   },
   data() {
     return {
@@ -77,4 +84,11 @@ export default {
     }
   }
 }
+  .wrap[data-theme="dark"] {
+    .body {
+      .sidebar {
+        border-color: #27292d;
+      }
+    }
+  }
 </style>

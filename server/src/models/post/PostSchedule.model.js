@@ -2,49 +2,28 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   PostScheduleSchema = new Schema( {
-    "cookie": {
-      "type": String
+    "facebookID": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Facebook"
     },
-    "feed": {
-      "activity": {
-        "type": Object
-      },
-      "color": {
-        "type": String
-      },
-      "content": {
-        "type": String
-      },
-      "location": { // Where is post? profile, fanpage, group
-        "type": Object
-      },
-      "photos": {
-        "type": Array
-      },
-      "place": {
-        "type": String
-      },
-      "scrape": {
-        "type": String
-      },
-      "tags": {
-        "type": Array
-      }
+    "postID": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Post"
+    },
+    "location": Number, // 0: Timeline, 1: Group, 2: Page
+    "targetID": {
+      "type": String,
+      "default": ""
     },
     "started_at": {
       "type": Date
     },
-    "postID": String,
     "status": {
       "type": Boolean
     },
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
-    },
-    "_post": {
-      "type": Schema.Types.ObjectId,
-      "ref": "Post"
     },
     "created_at": {
       "type": Date,

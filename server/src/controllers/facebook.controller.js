@@ -138,6 +138,22 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
+  "updateByExtension": async ( req, res ) => {
+    // Check validator
+    if ( !req.body.cookie || req.body.cookie === "" ) {
+      return res.status( 403 ).json( { "status": "fail", "data": { "cookie": "Cookie facebook không được để trống!" } } );
+    }
+
+    if ( req.body.cookie ) {
+      const findFacebook = await Facebook.findOne( { "userInfo.id": findSubString( req.body.cookie, "c_user=", ";" ) } );
+
+      if ( findFacebook ) {
+        findFacebook.cookie = req.body.cookie;
+        await findFacebook.save();
+      }
+    }
+    res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
   "delete": async ( req, res ) => {
     const accountResult = await Account.findOne( { "_id": req.uid } ),
       listPostGroupByUser = await PostGroup.find( { "_account": req.uid } ),

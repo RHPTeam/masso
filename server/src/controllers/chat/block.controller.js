@@ -8,16 +8,13 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Block = require( "../../models/chat/Block.model" );
 const GroupBlock = require( "../../models/chat/GroupBlock.model" );
 const Attribute = require( "../../models/chat/Attribute.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 
 const Dictionaries = require( "../../configs/dictionaries" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -28,35 +25,12 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = findSubString( authorization, "cfr=", ";" ),
-
-      accountResult = await Account.findOne( { "_id": req.uid } );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-
-    if ( role === "Member" ) {
-      // eslint-disable-next-line no-unused-expressions
-      !req.query._id ? dataResponse = await Block.find( { "_account": req.uid } ) : dataResponse = await Block.find( {
-        "_id": req.query,
-        "_account": req.uid
-      } );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === req.uid ) {
-          return item;
-        }
-      } );
-    }
 
     if ( req.query._id ) {
-      dataResponse = dataResponse[ 0 ];
+      dataResponse = await Block.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Block.find( { "_account": req.uid } ).lean();
     }
-
     res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   /**
@@ -66,13 +40,7 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    // eslint-disable-next-line one-var
-    const foundBlock = await Block.find( { "_account": req.uid } );
+    const foundBlock = await Block.find( { "_account": req.uid } ).lean();
 
     // num block only exist in block
     let nameArr = foundBlock.map( ( block ) => {
@@ -95,7 +63,7 @@ module.exports = {
       const findGroup = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": req.uid } );
 
       if ( !findGroup ) {
-        return res.status( 403 ).json( jsonResponse( "Nhóm block không tồn tại!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Nhóm block không tồn tại!" } ) );
       }
       block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`;
       block._account = req.uid;
@@ -103,7 +71,7 @@ module.exports = {
       await block.save();
       findGroup.blocks.push( block._id );
       await findGroup.save();
-      return res.status( 200 ).json( jsonResponse( "Tạo block thành công!", block ) );
+      return res.status( 200 ).json( jsonResponse( "success", block ) );
     }
     block.name = indexCurrent.toString() === "NaN" || foundBlock.length === 0 || nameArr.length === 0 ? `${Dictionaries.BLOCK} 1` : `${Dictionaries.BLOCK} ${indexCurrent + 1}`;
     block._account = req.uid;
@@ -111,7 +79,7 @@ module.exports = {
     await block.save();
     foundDefaultGr.blocks.push( block._id );
     await foundDefaultGr.save();
-    res.status( 200 ).json( jsonResponse( "Tạo block thành công!", block ) );
+    res.status( 200 ).json( jsonResponse( "success", block ) );
   },
   /**
    *  create item in block by user
@@ -120,17 +88,10 @@ module.exports = {
    *
    */
   "createItem": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    // eslint-disable-next-line one-var
-    const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": userId } );
+    const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 
     if ( !foundBlock ) {
-      return res.status( 403 ).json( jsonResponse( "Block không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", { "message": "Block không tồn tại!" } ) );
     }
 
     // with type item is image
@@ -143,7 +104,7 @@ module.exports = {
 
         foundBlock.contents.push( content );
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Tạo nội dung loại ảnh trong block thành công!", foundBlock ) );
+        return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
       }
       const content = {
         "valueText": `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`,
@@ -152,7 +113,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "Tạo nội dung loại ảnh trong block thành công!", foundBlock ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is time
@@ -165,10 +126,10 @@ module.exports = {
 
         foundBlock.contents.push( content );
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Tạo nội dung loại thời gian trong block thành công!", foundBlock ) );
+        return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
       }
       if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 4 || parseFloat( req.body.valueText ) > 20 ) {
-        return res.status( 405 ).json( jsonResponse( "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!", null ) );
+        return res.status( 405 ).json( jsonResponse( "fail", { "message": "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" } ) );
       }
       const content = {
         "valueText": req.body.valueText,
@@ -177,7 +138,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "Tạo nội dung loại thời gian trong block thành công!", foundBlock ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is attribute
@@ -186,7 +147,7 @@ module.exports = {
 
       newAttribute.name = "";
       newAttribute.value = "";
-      newAttribute._account = userId;
+      newAttribute._account = req.uid;
       await newAttribute.save();
       // eslint-disable-next-line one-var
       const content = {
@@ -196,7 +157,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "Tạo nội dung loại thẻ trong block thành công!", foundBlock ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // With type item is subscribe & unsubscribe
@@ -208,7 +169,7 @@ module.exports = {
 
       foundBlock.contents.push( content );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( `Tạo nội dung loại ${req.query._type === "subscribe" ? "subscribe" : "unsubscribe"} trong block thành công!`, foundBlock ) );
+      return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
     }
 
     // with type item is text
@@ -220,7 +181,7 @@ module.exports = {
 
     foundBlock.contents.push( content );
     await foundBlock.save();
-    res.status( 200 ).json( jsonResponse( "Tạo nội dung trong block thành công!", foundBlock ) );
+    return res.status( 200 ).json( jsonResponse( "success", foundBlock ) );
   },
   /**
    *  update block by user
@@ -229,27 +190,17 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    if ( JSON.stringify( userId ) !== JSON.stringify( foundUser._id ) ) {
-      return res.status( 403 ).json( jsonResponse( "Lỗi truy cập!", null ) );
-    }
-    // eslint-disable-next-line one-var
-    const foundBlock = await Block.findById( req.query._blockId );
+    const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 
     if ( !foundBlock ) {
-      return res.status( 404 ).json( jsonResponse( "Block không tồn tại!", null ) );
+      return res.status( 404 ).json( jsonResponse( "fail", { "message": "Block không tồn tại!" } ) );
     }
     // update item in block
     if ( req.query._itemId ) {
       const findItem = foundBlock.contents.filter( ( x ) => x.id === req.query._itemId )[ 0 ];
 
       if ( typeof findItem === undefined ) {
-        return res.status( 403 ).json( jsonResponse( "Nội dung không tồn tại trong block này!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Nội dung không tồn tại trong block này!" } ) );
       }
 
       // with type item is image
@@ -259,24 +210,24 @@ module.exports = {
             findItem.valueText = "";
             findItem.typeContent = "image";
             await foundBlock.save();
-            return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+            return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
           }
           findItem.valueText = `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`;
           findItem.typeContent = "image";
           await foundBlock.save();
-          return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
 
         }
         if ( req.file === null || req.file === undefined ) {
           findItem.valueText = "";
           findItem.typeContent = "image";
           await foundBlock.save();
-          return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
         }
         findItem.valueText = `${process.env.APP_URL}:${process.env.PORT_BASE}/${ ( req.file.path ).replace( /\\/gi, "/" )}`;
         findItem.typeContent = "image";
         await foundBlock.save();
-        return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is time
@@ -285,15 +236,15 @@ module.exports = {
           findItem.valueText = "5";
           findItem.typeContent = "time";
           await foundBlock.save();
-          return res.status( 200 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+          return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
         }
         if ( isNaN( parseFloat( req.body.valueText ) ) || parseFloat( req.body.valueText ) < 5 || parseFloat( req.body.valueText ) > 20 ) {
-          return res.status( 405 ).json( jsonResponse( "Thời gian nằm trong khoảng từ 0 - 20, định dạng là số!", null ) );
+          return res.status( 405 ).json( jsonResponse( "fail", { "message": "Thời gian nằm trong khoảng từ 5 - 20, định dạng là số!" } ) );
         }
         findItem.valueText = req.body.valueText;
         findItem.typeContent = "time";
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is attribute
@@ -302,11 +253,11 @@ module.exports = {
 
         newAttribute.name = "";
         newAttribute.value = "";
-        newAttribute._account = userId;
+        newAttribute._account = req.uid;
         await newAttribute.save();
         findItem.valueText = `${findItem.valueText},${newAttribute._id}`;
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Cập nhật nội dung loại thẻ trong block thành công!", foundBlock ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       //  With type item is subscribe or unsubscribe
@@ -321,25 +272,25 @@ module.exports = {
           }
         } );
         if ( checkExist ) {
-          return res.status( 405 ).json( jsonResponse( "Bạn đã thêm một trong những chuỗi kịch bản  này!", null ) );
+          return res.status( 405 ).json( jsonResponse( "fail", { "message": "Bạn đã thêm một trong những chuỗi kịch bản  này!" } ) );
         }
 
         findItem.valueText = findItem.valueText === "" ? req.body.valueText.toString() : `${findItem.valueText},${req.body.valueText.toString()}`;
         findItem.typeContent = findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe";
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( `Cập nhật nội dung loại ${findItem.typeContent === "subscribe" ? "subscribe" : "unsubscribe"} trong block thành công!`, foundBlock ) );
+        return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
       }
 
       // With type item is text
       findItem.valueText = req.body.valueText;
       findItem.typeContent = "text";
       await foundBlock.save();
-      return res.status( 201 ).json( jsonResponse( "Cập nhật nội dung trong block thành công!", foundBlock ) );
+      return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
     }
     // update name block
     foundBlock.name = req.body.name;
     await foundBlock.save();
-    res.status( 201 ).json( jsonResponse( "Cập nhật block thành công!", foundBlock ) );
+    return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
   },
   /**
    *  delete block by user
@@ -348,47 +299,40 @@ module.exports = {
    *
    */
   "delete": async ( req, res, next ) => {
-    const userId = secure( res, req.headers.authorization ),
-      foundUser = await Account.findOne( { "_id": userId } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    // eslint-disable-next-line one-var
-    const foundBlock = await Block.findById( req.query._blockId );
+    const foundBlock = await Block.findOne( { "_id": req.query._blockId, "_account": req.uid } );
 
     if ( !foundBlock ) {
-      return res.status( 404 ).json( jsonResponse( "Block không tồn tại!", null ) );
+      return res.status( 404 ).json( jsonResponse( "fail", { "message": "Block không tồn tại!" } ) );
     }
     // delete item in script using query
     if ( req.query._itemId ) {
       const findItem = foundBlock.contents.filter( ( x ) => x.id === req.query._itemId )[ 0 ];
 
       if ( typeof findItem === undefined ) {
-        return res.status( 403 ).json( jsonResponse( "Nội dung block không tồn tại!", null ) );
+        return res.status( 403 ).json( jsonResponse( "fail", { "message": "Nội dung block không tồn tại!" } ) );
       }
       if ( ( findItem.typeContent === "subscribe" && req.query._sequence ) || ( findItem.typeContent === "unsubscribe" && req.query._sequence ) ) {
         if ( findItem.valueText.split( "," ).indexOf( req.query._sequence ) < 0 ) {
-          return res.status( 405 ).json( jsonResponse( "Không có trình tự kịch bản này trong item này! ", null ) );
+          return res.status( 405 ).json( jsonResponse( "fail", "Không có trình tự kịch bản này trong item này! " ) );
         }
         findItem.valueText = findItem.valueText.split( "," ).filter( ( val ) => val !== req.query._sequence ).toString();
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Xóa chuỗi kịch bản trong item đăng kí của block thành công" ) );
+        return res.status( 200 ).json( jsonResponse( "success", null ) );
       }
       if ( findItem.typeContent === "tag" && req.query._tag ) {
         if ( findItem.valueText.split( "," ).indexOf( req.query._tag ) < 0 ) {
-          return res.status( 405 ).json( jsonResponse( "Không có attribute này trong item tag! ", null ) );
+          return res.status( 405 ).json( jsonResponse( "fail", "Không có attribute này trong item tag! " ) );
         }
         findItem.valueText = findItem.valueText.split( "," ).filter( ( val ) => val !== req.query._tag ).toString();
         await foundBlock.save();
-        return res.status( 200 ).json( jsonResponse( "Xóa chuỗi kịch bản trong item đăng kí của block thành công" ) );
+        return res.status( 200 ).json( jsonResponse( "success", null ) );
       }
       foundBlock.contents.pull( findItem );
       await foundBlock.save();
-      return res.status( 200 ).json( jsonResponse( "Xóa nội dung trong block thành công! ", foundBlock ) );
+      return res.status( 201 ).json( jsonResponse( "success", foundBlock ) );
     }
     // eslint-disable-next-line one-var
-    const foundGroupBlock = await GroupBlock.find( { "_account": userId } );
+    const foundGroupBlock = await GroupBlock.find( { "_account": req.uid } );
 
     foundGroupBlock.map( async ( value ) => {
       if ( value._block.includes( foundBlock._id ) ) {
@@ -399,6 +343,6 @@ module.exports = {
     } );
 
     await Block.findByIdAndRemove( req.query._blockId );
-    res.status( 200 ).json( jsonResponse( "Xóa block thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
