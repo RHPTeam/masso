@@ -168,7 +168,7 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const dataGroupGroupUpdated = await GroupBlock.findOne( { "_id": query._groupId, "_account": req.uid } ),
+    const dataGroupGroupUpdated = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": req.uid } ),
       findAllGroup = await GroupBlock.find( { "_account": req.uid } ).lean();
     // check name item block exists
     let checkName = false;
