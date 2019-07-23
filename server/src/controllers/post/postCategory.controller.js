@@ -59,7 +59,7 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    res.status( 404 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
     // Check validator

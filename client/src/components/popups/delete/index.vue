@@ -114,7 +114,9 @@ export default {
       this.$emit( "closePopup", false );
     },
     deleteTargets() {
-      this.$store.dispatch( this.storeActionName, this.targetData );
+      console.log(this.storeActionName);
+      console.log(this.targetData);
+      this.$store.dispatch( this.storeActionName, this.targetData._id );
       
       this.$emit( "closePopup", false );
     }

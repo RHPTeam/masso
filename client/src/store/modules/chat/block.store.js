@@ -74,9 +74,10 @@ const actions = {
     await commit("groupBlock_success");
   },
   updateGroupBlock: async ({ commit }, payload) => {
-    await GroupBlockServices.updateGroupBlock(payload.gr_id, {
-      name: payload.name
-    });
+    // await GroupBlockServices.updateGroupBlock(payload.gr_id, {
+    //   name: payload.name
+    // });
+    await GroupBlockServices.updateGroupBlock(payload);
   },
   /******************** BLOCK *********************/
   createBlock: async ({ commit }, payload) => {
@@ -115,7 +116,7 @@ const actions = {
     const resultDataUpdate = await BlockServices.show(payload.blockId);
     commit("setBlock", resultDataUpdate.data.data);
     const resultDelItem = await BlockServices.index();
-    await commit("setBlock", resultDelItem.data.data);
+    await commit("setBlocks", resultDelItem.data.data);
     await commit("block_success");
   },
   deleteItemAttrInBlock: async ({ commit }, payload) => {

@@ -8,13 +8,11 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const GroupFriend = require( "../../models/chat/GroupFriend.model" );
 
 const jsonResponse = require( "../../configs/response" );
 const Dictionaries = require( "../../configs/dictionaries" );
 const ArrayFunction = require( "../../helpers/utils/functions/array" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const checkObjectExist = ( arr, property ) => {
   return arr.some( function( el ) {
@@ -32,25 +30,12 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    const role = findSubString( req.headers.authorization, "cfr=", ";" );
-
-    if ( role === "Member" ) {
-      !req.query._id ? ( dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean() ) : ( dataResponse = await GroupFriend.find( {
-        "_id": req.query._id,
-        "_account": req.uid
-      } ).lean() );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === req.uid ) {
-          return item;
-        }
-      } );
+    if ( req.query._id ) {
+      dataResponse = await GroupFriend.find( { "_id": req.query._id, "_account": req.uid } ).lean();
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean();
     }
-    res
-      .status( 200 )
-      .json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
   /**
    *  create item friends
@@ -59,22 +44,17 @@ module.exports = {
    *
    */
   "create": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     const foundGroupFriend = await GroupFriend.find( { "_account": req.uid } ),
       newGroupFriend = await new GroupFriend();
 
     if ( req.query._name === "true" ) {
       if ( req.body.name.trim() === "" || req.body.name === null || req.body.name === undefined ) {
-        return res.status( 405 ).json( jsonResponse( "Vui lòng nhập tên nhóm bạn muốn sử dụng!", null ) );
+        return res.status( 405 ).json( jsonResponse( "fail", "Vui lòng nhập tên nhóm bạn muốn sử dụng!" ) );
       }
       newGroupFriend.name = req.body.name;
       newGroupFriend._account = req.uid;
       await newGroupFriend.save();
-      return res.status( 200 ).json( jsonResponse( "Tạo nhóm bạn bè thành công!", newGroupFriend ) );
+      return res.status( 200 ).json( jsonResponse( "success", newGroupFriend ) );
     }
     // handle num in name
     let nameArr = foundGroupFriend.map( ( groupFriend ) => {
@@ -92,7 +72,7 @@ module.exports = {
     newGroupFriend.name = indexCurrent.toString() === "NaN" || foundGroupFriend.length === 0 || nameArr.length === 0 ? `${Dictionaries.GROUPFRIEND} 0` : `${Dictionaries.GROUPFRIEND} ${indexCurrent + 1}`;
     newGroupFriend._account = req.uid;
     await newGroupFriend.save();
-    res.status( 200 ).json( jsonResponse( "Tạo nhóm bạn bè thành công!", newGroupFriend ) );
+    res.status( 200 ).json( jsonResponse( "success", newGroupFriend ) );
   },
   /**
    *  update item friends
@@ -101,18 +81,13 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundGroupFriend = await GroupFriend.findById( req.query._groupId );
+    const foundGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId, "_account": req.uid } ),
+      foundAllGroupFriend = await GroupFriend.find( { "_account": req.uid } );
 
     if ( !foundGroupFriend ) {
-      return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Nhóm bạn bè không tồn tại!" ) );
     }
     // Check name item friends is exist
-    const foundAllGroupFriend = await GroupFriend.find( { "_account": req.uid } );
     let checkName = false;
 
     foundAllGroupFriend.map( ( val ) => {
@@ -124,7 +99,7 @@ module.exports = {
       }
     } );
     if ( checkName ) {
-      return res.status( 405 ).json( jsonResponse( "Tên nhóm bạn bè đã tồn tại, vui lòng đặt một tên khác", null ) );
+      return res.status( 405 ).json( jsonResponse( "fail", "Tên nhóm bạn bè đã tồn tại, vui lòng đặt một tên khác" ) );
     }
     foundGroupFriend.name = req.body.name;
     await foundGroupFriend.save();
@@ -132,7 +107,7 @@ module.exports = {
       "_id": req.query._groupId
     } ).lean();
 
-    res.status( 201 ).json( jsonResponse( "Cập nhật nhóm bạn bè thành công!", resGroupFriend ) );
+    res.status( 201 ).json( jsonResponse( "success", resGroupFriend ) );
   },
   /**
    *  add friends to item friends
@@ -141,15 +116,10 @@ module.exports = {
    *
    */
   "addFriend": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundGroupFriend = await GroupFriend.findById( req.query._groupId );
+    const foundGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId, "_account": req.uid } );
 
     if ( !foundGroupFriend ) {
-      return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Nhóm bạn bè không tồn tại!" ) );
     }
 
     const friends = req.body.friendId;
@@ -162,7 +132,7 @@ module.exports = {
       }
     } );
     if ( checkCon ) {
-      return res.status( 405 ).json( jsonResponse( "Bạn đã thêm một trong những bạn bè này!", null ) );
+      return res.status( 405 ).json( jsonResponse( "fail", "Bạn đã thêm một trong những bạn bè này!" ) );
     }
     const checkFriend = ArrayFunction.removeObjectDuplicates( friends, "uid" );
 
@@ -174,7 +144,7 @@ module.exports = {
       "_id": req.query._groupId
     } );
 
-    res.status( 200 ).json( jsonResponse( "Thêm bạn bè vào danh sách bạn bè thành công!", resGroupFriend ) );
+    res.status( 200 ).json( jsonResponse( "success", resGroupFriend ) );
   },
   /**
    *  delete item friends
@@ -183,17 +153,10 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const foundUser = await Account.findOne( { "_id": req.uid } ).select( "-password" );
-
-    if ( !foundUser ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-    const foundGroupFriend = await GroupFriend.findOne( {
-      "_id": req.query._groupId
-    } );
+    const foundGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId, "_account": req.uid } );
 
     if ( !foundGroupFriend ) {
-      return res.status( 403 ).json( jsonResponse( "Nhóm bạn bè không tồn tại!", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", "Nhóm bạn bè không tồn tại!" ) );
     }
     if ( req.query._friend === "true" ) {
       const friends = req.body.friendId;
@@ -206,14 +169,7 @@ module.exports = {
         }
       } );
       if ( checkCon ) {
-        return res
-          .status( 405 )
-          .json(
-            jsonResponse(
-              "Bạn không có một trong những người bạn ở nhóm bạn bè này!",
-              null
-            )
-          );
+        return res.status( 405 ).json( jsonResponse( "fail", "Bạn không có một trong những người bạn ở nhóm bạn bè này!" ) );
       }
 
       const checkFriend = ArrayFunction.removeObjectDuplicates( friends );
@@ -224,9 +180,9 @@ module.exports = {
       await foundGroupFriend.save();
       const resGroupFriend = await GroupFriend.findById( req.query._groupId );
 
-      return res.status( 200 ).json( jsonResponse( "Xóa bạn bè trong nhóm bạn bè thành công!", resGroupFriend ) );
+      return res.status( 200 ).json( jsonResponse( "success", resGroupFriend ) );
     }
     await GroupFriend.findByIdAndRemove( req.query._groupId );
-    res.status( 200 ).json( jsonResponse( "Xóa nhóm bạn bè thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };

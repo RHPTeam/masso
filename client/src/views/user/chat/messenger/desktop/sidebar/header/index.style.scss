@@ -61,3 +61,26 @@
     }
   }
 }
+.header[data-theme="dark"] {
+  background-color: #2F3136;
+  color: #fff;
+  .left {
+    .title {
+
+    }
+  }
+  .right {
+    .icon {
+      background-color: #2F3136;
+    }
+    .dropdown--setting {
+      background-color: #27292d;
+      border-color: #27292d;
+      .dropdown--setting-item {
+        &:hover {
+          background-color: #2F3136;
+        }
+      }
+    }
+  }
+}

@@ -7,15 +7,17 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }} </span>
+            <span class="pr_1">{{ $t('chat.common.popup.delete.allData') }}</span>
             {{ typeName }}
             <span class="text--bold pr_1">{{ targetName }}</span>
             {{ $t('chat.common.popup.delete.willDelete') }}
-            <span v-if="description !== '' ">{{ description }}</span>
+            <span
+              v-if="description !== '' "
+            >{{ description }}</span>
 
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
+            <span class="pr_1">{{ $t('chat.common.popup.delete.continue') }}</span>
             <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
+            <span class="pl_1">{{ $t('chat.common.popup.delete.input') }}</span>
           </div>
           <input
             class="modal--body-input mt_3"
@@ -28,12 +30,12 @@
           <button
             class="btn--submit"
             @click="closePopup()"
-          > {{ $t('chat.common.popup.delete.cancle') }} </button>
+          >{{ $t('chat.common.popup.delete.cancle') }}</button>
           <button
             class="btn--skip"
             v-if="deleteConfirm"
             @click="deleteTargets()"
-          > {{ $t('chat.common.popup.delete.delete') }} </button>
+          >{{ $t('chat.common.popup.delete.delete') }}</button>
         </div>
       </div>
     </div>
@@ -95,10 +97,11 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit( "closePopup", false );
+      this.$emit("closePopup", false);
     },
     async deleteTargets() {
-      if(this.typeName.toString().toLowerCase() === 'unsubscrible') {
+      
+      if (this.typeName.toString().toLowerCase() === "unsubscrible") {
       } else if (this.typeName.toString().toLowerCase() === "itemblock") {
         const dataSender = {
           blockId: this.block._id,
@@ -114,7 +117,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "./index.style";
 </style>
 
 

@@ -2,7 +2,7 @@
   <div>
     <div class="card card_body script--body-timer position_relative mb_4">
       <div class="timer--title mb_2 text_left">
-        <img src="@/assets/images/upload/icon_time_round.svg" height="30px" alt="" class="mr_1">
+        <img src="@/assets/images/upload/icon_time_round.svg" height="30px" alt class="mr_1" />
         {{ $t('chat.common.card.timerSendMessage') }}
       </div>
       <div class="time--adjust">
@@ -15,9 +15,7 @@
           @input="changeTime($event, item._id)"
         />
         <div class="time--value position_relative pt_1">
-          <div
-            class="time--value-limit d_flex justify_content_between align_items_end"
-          >
+          <div class="time--value-limit d_flex justify_content_between align_items_end">
             <span>{{ mintime }}s</span>
             <span>{{ maxtime }}s</span>
           </div>
@@ -25,9 +23,7 @@
             class="time--value-current position_absolute"
             :style="{ left: percentTime + '%' }"
             v-if="item.valueText > mintime && item.valueText < maxtime"
-          >
-            {{ item.valueText }}s
-          </div>
+          >{{ item.valueText }}s</div>
         </div>
       </div>
       <div class="script--body-delete" @click="isDeleteItemBlock = true">
@@ -41,13 +37,8 @@
           <icon-remove />
         </icon-base>
       </div>
-      <div class="script--body-move d_none ">
-        <icon-base
-          icon-name="remove"
-          width="20"
-          height="20"
-          viewBox="0 0 64 64"
-        >
+      <div class="script--body-move d_none">
+        <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
           <icon-move />
         </icon-base>
       </div>
@@ -55,14 +46,14 @@
     <!--Delete Item Popup-->
     <transition name="popup">
       <delete-campaign-popup
-          v-if="isDeleteItemBlock === true"
-          :data-theme="currentTheme"
-          :block="block"
-          :item="item"
-          title="Delete Time"
-          @closePopup="isDeleteItemBlock = $event"
-          storeActionName="deleteTime"
-          typeName="itemblock"
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        :block="block"
+        :item="item"
+        title="Delete Time"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteTime"
+        typeName="itemblock"
       ></delete-campaign-popup>
     </transition>
   </div>
@@ -96,7 +87,7 @@ export default {
   },
   async created() {
     this.percentTime =
-      ( 10 * 100) /
+      (parseInt(this.item.valueText) * 100) /
       (parseInt(this.maxtime) - parseInt(this.mintime));
   },
   methods: {
@@ -119,7 +110,7 @@ export default {
   max-width: 450px;
   border-radius: 10px;
   transition: 0.3s;
-  &:hover{
+  &:hover {
     box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
   }
   .timer--title {
@@ -186,9 +177,9 @@ export default {
     right: -30px;
     top: 50%;
     transform: translateY(-50%);
-    .icon--delete{
+    .icon--delete {
       transition: 0.3s;
-      &:hover{
+      &:hover {
         color: #ffb94a;
       }
     }
@@ -213,10 +204,10 @@ div[data-theme="light"] {
       font-weight: bold;
     }
   }
-  .script--body-delete{
-    svg{
+  .script--body-delete {
+    svg {
       color: #333;
-      &:hover{
+      &:hover {
         color: #ffb94a;
       }
     }
@@ -234,19 +225,18 @@ div[data-theme="dark"] {
       color: #ccc;
     }
 
-    &:hover{
+    &:hover {
       border: 1px solid rgb(72, 72, 72);
       box-shadow: 0;
     }
   }
 }
 
-@media only screen and (max-width: 845px) and (min-width: 768px){
-  .script--body{
-      &-timer{
-          width: 280px!important;
-      }
+@media only screen and (max-width: 845px) and (min-width: 768px) {
+  .script--body {
+    &-timer {
+      width: 280px !important;
+    }
   }
 }
-
 </style>

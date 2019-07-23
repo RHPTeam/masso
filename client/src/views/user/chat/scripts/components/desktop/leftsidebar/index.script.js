@@ -108,6 +108,7 @@ export default {
         gr_id: value._id,
         name: value.name
       };
+      // this.$store.dispatch("updateBlock", objSender);
       this.$store.dispatch("updateGroupBlock", objSender);
     },
     //Update nam sequence

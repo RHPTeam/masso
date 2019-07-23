@@ -61,18 +61,6 @@
       <!-- End: Icon GetCookie -->
 
       <!-- Start: Help Dropdown -->
-<!--      <div class="notification&#45;&#45;groups help position_relative">-->
-<!--        <a class="icon&#45;&#45;help mr_2" target="_blank" href="https://www.zinbee.vn/#/help">-->
-<!--          <icon-base-->
-<!--            width="22px"-->
-<!--            height="22px"-->
-<!--            icon-name="Bạn cần trợ giúp?"-->
-<!--            viewBox="0 0 300 300"-->
-<!--          >-->
-<!--            <icon-help/>-->
-<!--          </icon-base>-->
-<!--        </a>-->
-<!--      </div>-->
       <div class="notification--groups help position_relative">
         <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
@@ -100,7 +88,7 @@
 
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
-        <div class="btn--notification position_relative mr_3"
+        <div class="btn--notification position_relative mr_2"
           @click="showNotificationDropdown"
         >
           <icon-base
@@ -130,6 +118,21 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+
+      <!-- Start: Video Guide For User -->
+<!--      <div class="video&#45;&#45;guide mr_2" @click="showGuidePopup">-->
+<!--        <icon-base-->
+<!--          class="icon&#45;&#45;arrow-left"-->
+<!--          icon-name="Hướng dẫn sử dụng"-->
+<!--          width="22"-->
+<!--          height="22"-->
+<!--          viewBox="0 0 60 60"-->
+<!--        >-->
+<!--          <icon-play></icon-play>-->
+<!--        </icon-base>-->
+<!--      </div>-->
+      <!-- End: Video Guide For User -->
+
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
         <div @click="showOptionsMoreDropdown" class="more mt_2">
@@ -158,7 +161,7 @@
                 </icon-base>
                 <div class="pt_1">Bee Post</div>
               </div>
-              <div class="zin--post zin-chat disallowed item c_4">
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
                 <icon-base
                   icon-name="Bee Chat"
                   width="50px"

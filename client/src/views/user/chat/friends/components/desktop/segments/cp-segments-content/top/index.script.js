@@ -107,6 +107,13 @@ export default {
         };
         this.$store.dispatch("getFriendFacebookBySizeDefault", dataSender);
       }
+    },
+    updateFriendFacebookToSystem(){
+      const dataSender = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("updateFriendFacebookForSystem", dataSender);
     }
   },
   watch: {

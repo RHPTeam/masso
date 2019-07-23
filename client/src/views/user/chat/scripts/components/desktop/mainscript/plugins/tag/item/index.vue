@@ -9,14 +9,14 @@
     >
       <div class="name position_relative"></div>
       <div class="created d_flex align_items_center p_2">
-        <div class="sk left">{{</div>
+        <div class="sk left"></div>
         <div class="tag--created-item">
           <contenteditable
             class="editable"
             placeholder="Tên thuộc tính"
             tag="div"
             :contenteditable="true"
-            v-model="attribute[0].name"
+            v-model="attribute.name"
             @keyup="upTypingText('nameattribute', attribute)"
             @keydown="clear"
             @click="showSuggestNameAttribute"
@@ -51,7 +51,7 @@
           tag="div"
           placeholder="Giá trị thuộc tính"
           :contenteditable="true"
-          v-model="attribute[0].value"
+          v-model="attribute.value"
           @keyup="upTypingText('valueattribute', attribute)"
           @keydown="clear"
           @click="showSuggestValueAttribute"

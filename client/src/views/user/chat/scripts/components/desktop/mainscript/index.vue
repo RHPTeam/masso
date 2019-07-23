@@ -119,7 +119,7 @@
           <div v-if="item.typeContent === 'time'">
             <add-timer :item="item" :block="block"></add-timer>
           </div>
-          <!--Start: add timer-->
+          <!--End: add timer-->
           <!--Start: Add Tag-->
           <div v-if="item.typeContent === 'tag'">
             <add-tag :item="item" :content="block"></add-tag>
@@ -233,12 +233,21 @@
     </transition>
    <!-- Start: Delete Item Popup-->
     <transition name="popup">
-      <delete-campaign-popup
+      <!-- <delete-campaign-popup
         v-if="isDeleteItemBlock === true"
         :data-theme="currentTheme"
         title="Delete Scripts"
         @closePopup="isDeleteItemBlock = $event"
         storeActionName="deleteScripts"
+        typeName="Scripts"
+      ></delete-campaign-popup> -->
+      <delete-campaign-popup
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        title="Delete Scripts"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteBlock"
+        :targetData="block"
         typeName="Scripts"
       ></delete-campaign-popup>
     </transition>

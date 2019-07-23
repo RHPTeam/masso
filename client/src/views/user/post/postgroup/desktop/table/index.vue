@@ -124,7 +124,7 @@
       <div v-else>
         <!--Start: Empty Data-->
         <div class=""
-             v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0"
+             v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0 && postGroupDetail._timeline.length === 0"
         >
           <div class="add--pagegroup d_inline_flex mb_3" @click="seeAllUsers">
             <icon-base
@@ -144,7 +144,7 @@
         <div v-else>
           <!-- Start: Profile Data -->
           <div class="mb_2" v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
-                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Trang' ">
+                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Cá nhân' ">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                  v-for="(v, i) in 1"
                  :key="`fbpf-header${i}`"
@@ -171,7 +171,7 @@
                 </span>
               </div>
             </div>
-            <div class="no--group text_center py_3" v-if="postGroupDetailProfile.length === 0">Không tìm thấy trang nào</div>
+            <div class="no--group text_center py_3" v-if="postGroupDetailProfile.length === 0">Không tìm thấy trang cá nhân nào</div>
           </div>
           <!-- End: Profile Data -->
 

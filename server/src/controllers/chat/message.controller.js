@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-unused-expressions */
-/* eslint-disable one-var */
 /**
  * Controller message for project
  * author: hocpv
@@ -9,11 +8,9 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Message = require( "../../models/chat/Message.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
   /**
@@ -23,45 +20,34 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const role = findSubString( req.headers.authorization, "cfr=", ";" );
 
-    // eslint-disable-next-line semi
-    const userId = req.uid
-    const accountResult = await Account.findOne( { "_id": req.uid } );
-
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    if ( req.query._id && req.query._itemId ) {
+      dataResponse = ( await Message.findOne( { "_id": req.query._id, "_account": req.uid } ) ).contents.find( ( item ) => item.id === req.query._itemId );
+      return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
-
-    if ( role === "Member" ) {
-      if ( req.query._id && req.query._itemId ) {
-        dataResponse = ( await Message.findOne( { "_id": req.query._id, "_account": userId } ) ).contents.find( ( item ) => item.id === req.query._itemId );
-        return res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
-      }
-      await req.query._id ? dataResponse = await Message.find( {
-        "_id": req.query._id,
-        "_account": userId
-      } ).populate( {
-        "path": "_sender",
-        "select": "-cookie"
-      } ) : req.query._fbId ? dataResponse = await Message.find( {
-        "_account": userId,
-        "_sender": req.query._fbId
-      } ).populate( {
-        "path": "_sender",
-        "select": "-cookie"
-      } ) : dataResponse = await Message.find( { "_account": userId } ).populate( { "path": "_sender", "select": "-cookie" } );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Thuộc tính không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } );
+    await req.query._id ? dataResponse = await Message.find( {
+      "_id": req.query._id,
+      "_account": req.uid
+    } ).populate( {
+      "path": "_sender",
+      "select": "-cookie"
+    } ) : req.query._fbId ? dataResponse = await Message.find( {
+      "_account": req.uid,
+      "_sender": req.query._fbId
+    } ).populate( {
+      "path": "_sender",
+      "select": "-cookie"
+    } ) : dataResponse = await Message.find( { "_account": req.uid } ).populate( { "path": "_sender", "select": "-cookie" } );
+    if ( !dataResponse ) {
+      return res.status( 403 ).json( jsonResponse( "fail", "Thuộc tính không tồn tại" ) );
     }
-    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    dataResponse = dataResponse.map( ( item ) => {
+      if ( item._account.toString() === req.uid ) {
+        return item;
+      }
+    } );
+
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
 
   /**
@@ -70,12 +56,7 @@ module.exports = {
    * @param: res
    */
   "delete": async ( req, res ) => {
-    const accountResult = await Account.findOne( { "_id": req.uid } );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     await Message.findByIdAndRemove( req.query._threadId );
-    res.status( 200 ).json( jsonResponse( "Xóa cuộc hội thoại thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };
