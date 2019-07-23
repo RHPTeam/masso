@@ -77,7 +77,6 @@ const state = {
       // reset selected pages and groups
       commit( "postGroupGroupsSelected", [] );
       commit( "postGroupPagesSelected", [] );
-      commit( "postProfileSelected", [] );
     },
     getAllPostGroups: async ( { commit } ) => {
 
