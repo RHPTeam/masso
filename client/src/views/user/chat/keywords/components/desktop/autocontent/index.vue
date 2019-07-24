@@ -174,7 +174,6 @@ export default {
       return this.$store.getters.accountsFB;
     },
     groupBlock() {
-      console.log(this.$store.getters.groups);
       return this.$store.getters.groups;
     },
     sequences() {

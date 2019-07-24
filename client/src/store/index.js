@@ -42,6 +42,9 @@ import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 import HelpStore from "./modules/post/help.store";
 
+// ------ Action cursor Store for post in mobile
+import ActionCursorStore from "./modules/post/cursor.store";
+
 /**
  * Store for Agency
  */
@@ -88,6 +91,7 @@ export default new Vuex.Store( {
     PostFacebookStore,
     PostGroupStore,
     GroupBlock,
+    ActionCursorStore,
     HelpStore,
     /**
      * Store for Agency

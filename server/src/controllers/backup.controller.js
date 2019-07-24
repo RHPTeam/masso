@@ -177,7 +177,7 @@ module.exports = {
       .json(
         jsonResponse( "Backup dữ liệu bài đăng của người dùng thành công!", null )
       );
-  },
+  }
   // "backupPostU981": async ( req, res ) => {
   //   await fs.readFile(
   //     __dirname.includes( "/" ) ? __dirname.replace( "controllers", "databases/backup/postwrite.txt" ) : __dirname.replace(

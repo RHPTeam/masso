@@ -84,3 +84,12 @@
     }
   }
 }
+
+@media screen and (max-width: 575px) {
+  .post--action {
+    flex-direction: column;
+    .action--left {
+      margin-bottom: 0.93rem;
+    }
+  }
+}

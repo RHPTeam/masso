@@ -5,6 +5,10 @@ import AppExpire from "./desktop/expire";
 
 import CookieFunction from "@/utils/functions/cookie";
 
+import HeaderMobile from "./mobile/header";
+import SearchMobile from "./mobile/search";
+import FooterMobile from "./mobile/footer";
+
 export default {
   data() {
     return {
@@ -40,6 +44,8 @@ export default {
     AppHeader,
     AppSidebar,
     AppNotification,
-    AppExpire
+    HeaderMobile,
+    SearchMobile,
+    FooterMobile
   }
 };

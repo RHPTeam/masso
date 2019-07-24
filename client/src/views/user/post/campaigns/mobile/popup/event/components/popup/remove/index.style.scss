@@ -1,0 +1,65 @@
+.popup {
+  position: fixed;
+  bottom: 0;
+  border-radius: .5rem;
+  display: block;
+  font-size: .875rem;
+  right: 2.5%;
+  width: 95%;
+  z-index: 70;
+  &--header {
+    border-bottom: 1px solid #444;
+    border-top-left-radius: 0.625rem;
+    border-top-right-radius: 0.625rem;
+    background-color: #27292c;
+    color: #ccc;
+    font-weight: 600;
+    padding-bottom: .75rem;
+    .btn--close {
+      cursor: pointer;
+      right: 0;
+      top: .75rem;
+      &:hover, &:focus {
+        .icon--close {
+          color: #ccc;
+        }
+      }
+      .icon--close {
+        color: #666;
+        transition: all .4s ease;
+      }
+    }
+  }
+  &--body {
+    padding: .75rem 0;
+    font-size: .875rem;
+    background-color: #27292c;
+    border-bottom: 1px solid #444;
+  }
+  &--footer {
+    background-color: #27292c;
+    padding: 0.5rem 0;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    .save {
+      color: #ccc;
+      border: 0;
+      background: none;
+      width: 100%;
+    }
+  }
+  .cancel {
+    background-color: #27292c;
+    border-radius: 0.625rem;
+    padding: 0.625rem 0;
+    // border: 1px solid #444;
+  }
+}
+
+/*Transition popup*/
+.popup-enter-active, .popup-leave-active {
+  transition: opacity .4s;
+}
+.popup-enter, .popup-leave-to {
+  opacity: 0;
+}

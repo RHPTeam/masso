@@ -272,6 +272,8 @@ module.exports = {
       }
       request( option, async ( err, res, body ) => {
         if ( !err && res.statusCode === 200 ) {
+          console.log( 1 );
+          console.log( body );
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) ).payload;
 
           if ( bodyJson !== null && bodyJson !== undefined && bodyJson.errors ) {

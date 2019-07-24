@@ -1,20 +1,17 @@
 import VueApexCharts from 'vue-apexcharts';
-import AddKeyWord from "./components/keywords";
-import FriendFollow from "./components/friends";
-import VersionPopup from "./components/version";
-import GuidePopup from "./components/guide";
+// import AddKeyWord from "./keywords";
+// import FriendFollow from "./friends";
+// import VersionPopup from "./version";
 export default {
   components: {
-    AddKeyWord,
+    // AddKeyWord,
     VueApexCharts,
-    FriendFollow,
-    VersionPopup,
-    GuidePopup
+    // FriendFollow,
+    // VersionPopup
   },
   data () {
     return {
-      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3"),
-      isShowGuidePopup: true
+      isStatusVersionNotification: !!(localStorage.getItem("version") && localStorage.getItem("version") === "1.0.3")
     };
   },
   computed: {
@@ -25,9 +22,6 @@ export default {
       get() {
         return this.isStatusVersionNotification
       }
-    },
-    variableControlGuide(){
-      return this.$store.getters.variableControlGuide;
     },
     user(){
       return this.$store.getters.userInfo;
@@ -41,7 +35,7 @@ export default {
     allAnalysis() {
       return this.$store.getters.allAnalysis;
     },
-    allStaticCampaign() {
+    allStaticCompaign() {
       const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
         return campaign.amount;
       });
@@ -52,17 +46,18 @@ export default {
       }];
     },
     allSttPost(){
-      const campaignRecommended = [], campaignCurrent = [];
+      const campaingRecommend = [], campaignCurrent = [];
+
 
       this.$store.getters.getAllSttPost.map( ( current ) => {
-        campaignRecommended.push( current.recommend );
+        campaingRecommend.push( current.recommend );
         campaignCurrent.push( current.amount );
       });
 
       return [
         {
           name: "Số bài viết bạn nên có",
-          data: campaignRecommended
+          data: campaingRecommend
         },
         {
           name: "Số bài viết của bạn",
@@ -70,7 +65,7 @@ export default {
         }
       ];
     },
-    campaignDataChart() {
+    chartOptionsLine() {
       const timeCampaign = this.$store.getters.getAllStaticCampaign.map( ( date ) => {
         return date.date;
       } );
@@ -290,16 +285,16 @@ export default {
         },
       }
     },
-    postRecommendDataChart() {
-      const dayRecommendCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
+    chartOptions() {
+      const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
         return date.date.slice( 0, 10 );
       });
-      let maxCampaign = [];
+      let maxCompaign = [];
       this.$store.getters.getAllSttPost.map( ( amount ) => {
-        maxCampaign.push( amount.recommend );
-        maxCampaign.push( amount.amount );
+        maxCompaign.push( amount.recommend );
+        maxCompaign.push( amount.amount );
       });
-      const maxChart = Math.max.apply(null, maxCampaign ) * 1.5;
+      const maxChart = Math.max.apply(null, maxCompaign ) * 1.5;
 
       // Light theme custom
       if ( this.currentTheme === "light" ) {
@@ -339,7 +334,7 @@ export default {
             theme: "light"
           },
           xaxis: {
-            categories: dayRecommendCampaign,
+            categories: dayRecommandCampaign,
             labels: {
               style: {
                 colors: [ "#444", "#444", "#444", "#444", "#444", "#444", "#444" ]
@@ -425,7 +420,7 @@ export default {
           theme: "dark"
         },
         xaxis: {
-          categories: dayRecommendCampaign,
+          categories: dayRecommandCampaign,
           labels: {
             style: {
               colors: [ "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc" ]
@@ -476,14 +471,17 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("getAllAnalysis" );
-    this.$store.dispatch("getAllStaticCampagin" ) ;
-    this.$store.dispatch("getAllSttPost" );
-    this.$store.dispatch("getNewestPosts", 5);
+    // const allAnalysisNo = this.$store.getters.allAnalysis;
+    // if(allAnalysisNo.length === 0) {
+    //   this.$store.dispatch("getAllAnalysis");
+    // }
+    // this.$store.dispatch("getAllStaticCampagin" ) ;
+    // this.$store.dispatch("getAllSttPost" );
+    // this.$store.dispatch("getNewestPosts", 5);
   },
   methods: {
-    async goToThisPost( id ) {
-      await this.$store.dispatch( "getPostById", id );
+    goToThisPost( id ) {
+      return this.$router.push({ params: { id }, name: "post_update_post" } );
     }
   }
 }

@@ -147,7 +147,7 @@ const mutations = {
 const actions = {
   createNewPost: async ( { commit }, payload ) => {
     commit( "post_request" );
-
+    
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
 

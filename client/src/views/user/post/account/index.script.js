@@ -2,6 +2,9 @@
 import AppTop from "./desktop/top/index";
 import UserInfo from "./desktop/info/index";
 import UserKeywords from "./desktop/keywords/index";
+// -- App Mobile
+import AppHeaderMobile from "./mobile/header";
+import AppMainMobile from "./mobile/main";
 
 export default {
   data() {
@@ -19,6 +22,8 @@ export default {
   components: {
     AppTop,
     UserInfo,
-    UserKeywords
+    UserKeywords,
+    AppHeaderMobile,
+    AppMainMobile
   }
 };
