@@ -21,7 +21,11 @@
           @backDefault="isShowDefault = $event"
         />
       </div>
-      <!-- Start:Result Search Left Sidebar -->
+      <!-- End:Result Search Left Sidebar -->
+
+      <!-- Start: Show block whenever create new messages -->
+      <new-messages v-if="variableControl.new === true" />
+      <!-- End: Show block whenever create new messages -->
 
       <!-- Start: List User Left Sidebar -->
       <div v-if="isShowDefault === true">
@@ -43,6 +47,7 @@
 <script>
 import AppHeader from "./header";
 import AppSearch from "./search";
+import NewMessages from "./components/new";
 import AppUser from "./user";
 import ResultSearch from "./friend";
 
@@ -51,6 +56,7 @@ export default {
     AppHeader,
     AppSearch,
     AppUser,
+    NewMessages,
     ResultSearch
   },
   props: {
@@ -206,6 +212,11 @@ export default {
           status: false
         }
       ]
+    }
+  },
+  computed: {
+    variableControl(){
+      return this.$store.getters.caseControl;
     }
   },
   mounted() {
