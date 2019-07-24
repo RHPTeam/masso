@@ -5,23 +5,6 @@
       class="content item--body item--body-post p_2 mb_2 d_flex align_items_center"
       @click="showPost"
     >
-      <!--
-    <div class="col col--action px_3 text_center">
-      <span class="mx_1"
-            @click="addToContentStore"
-      >
-        <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
-          <icon-edit />
-        </icon-base>
-      </span>
-      <span class="mx_1"
-            @click="openPopupDetail"
-      >
-        <icon-base icon-name="icon-info" viewBox="0 0 18 18">
-          <icon-info />
-        </icon-base>
-      </span>
-      </div>-->
       <div class="right">
         <div class="title pb_1">{{ item.content }}</div>
         <div class="more d_flex align_items_center">
@@ -97,7 +80,22 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "../index.style";
+// @import "../index.style";
+.item--body {
+  background-color: #27292d;
+  border-radius: 0.625rem;
+  font-size: 0.875rem;
+  overflow: hidden;
+  .right {
+    width: 100%;
+    overflow: hidden;
+  }
+  .title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 .item {
   position: relative;
   height: 3.5rem;

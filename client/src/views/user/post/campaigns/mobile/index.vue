@@ -51,7 +51,7 @@
           <div
             class="no--campaign text_center"
             v-if="campaigns.length === 0"
-          >Không có chiến dịch nào</div>
+          >Không có chiến dịch nào!</div>
           <item-campaign
             :item="item"
             v-for="item in campaigns"
@@ -64,7 +64,7 @@
           <div
             class="no--campaign text_center"
             v-if="campaignsDefault.length === 0"
-          >Không có chiến dịch nào</div>
+          >Không có chiến dịch mẫu nào!</div>
           <item-campaign-default
             :item="item"
             v-for="item in campaignsDefault"

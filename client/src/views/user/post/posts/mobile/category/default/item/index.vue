@@ -31,12 +31,18 @@ export default {
     async duplicateCategories() {
       await this.$store.dispatch("duplicateCategoriesDefault", this.item._id);
 
-      const dataSender = {
+      const dataSenderCategory = {
         size: 25,
         page: 1
       };
 
-      await this.$store.dispatch("getCategoriesByPage", dataSender);
+      await this.$store.dispatch("getCategoriesByPage", dataSenderCategory);
+      const dataSenderPost = {
+        size: 25,
+        page: 1
+      };
+
+      await this.$store.dispatch("getPostsByPage", dataSenderPost);
       this.$emit("showCategory", false);
     },
     onPan(event) {

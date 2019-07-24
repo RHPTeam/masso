@@ -177,31 +177,6 @@ export default {
     closeKeywordRecentList () {
       this.isStatusKeywordHistory = false;
     }
-    // scrollTrigger() {
-    //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
-    //   const observer = new IntersectionObserver( ( entries ) => {
-    //     entries.forEach( ( entry ) => {
-    //       if ( entry.intersectionRatio > 0 && this.currentPage <= this.numberPageCurrent ) {
-    //         console.log("Hú");
-    //         this.showLoader = true;
-    //         setTimeout( () => {
-    //           this.currentPage += 1;
-    //           this.showLoader = false;
-    //           this.getMorePost();
-    //         }, 2000 );
-    //       }
-    //     } );
-    //   } );
-    //   observer.observe(this.$refs.infiniteScrollTrigger);
-    // },
-    // async getMorePost() {
-    //   console.log("get post");
-    //   await this.$store.dispatch( "searchPostsFacebookByKey", {
-    //     keyword: this.keyword,
-    //     size: this.maxPerPage,
-    //     page: this.currentPage
-    //   } );
-    // }
   },
 };
 </script>

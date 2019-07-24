@@ -97,7 +97,6 @@ export default {
           campaignId: this.selectedCampaign._id,
           facebookId: ''
         };
-        console.log(dataSender);
         this.$store.dispatch("duplicateCampaignSimple", dataSender);
       }
     }

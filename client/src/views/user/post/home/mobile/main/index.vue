@@ -82,12 +82,12 @@
         </div>
         <!-- End: General Analytics-->
         <!-- Start Post Analytics -->
-        <div class="order--server-history mx_0 mt_3 r">
-          <div class="server px_0 c_sm_12 px_0">
+        <div class="order--server-history mx_0 r">
+          <!-- <div class="server px_0 c_sm_12 px_0">
             <div class="view--post-day">
               <VueApexCharts type="line" height="350" :options="chartOptions" :series="allSttPost"></VueApexCharts>
             </div>
-          </div>
+          </div> -->
           <!-- <div class="order c_sm_12 mt_3 pt_3">
             <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
               <h3 class="title--overview">Bài viết gần đây</h3>

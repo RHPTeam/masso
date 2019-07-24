@@ -4,31 +4,40 @@
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center p_3">
         <div class="list--input d_flex justify_content_between align_items_center">
-          <span class="ml_3 mt_1">
+          <span class="ml_3 mt_1" @click="searchPost(keyword)">
             <icon-base icon-name="Tìm kiếm" width="20" height="20" viewBox="0 0 20 20">
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            v-model="keyword"
+            @keydown.enter="searchPost(keyword)"
+          />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
       <!-- End: Header - Search -->
       <!-- Start: Search Near -->
-      <div class="near px_3">
+      <div class="near px_3" v-if="isStatusKeywordHistory === false">
         <h6>Tìm kiếm gần đây</h6>
         <div class="list">
           <ul class="p_0 m_0" v-if="keyPopular && keyPopular.length > 0">
-            <li v-for="(item, index) in keyPopular" :key="index">{{ item }}</li>
+            <li
+              v-for="(item, index) in keyPopular"
+              :key="index"
+              @click="searchPostFromKeywordHistory( item )"
+            >{{ item }}</li>
           </ul>
           <p v-else>Bạn chưa tìm gì.</p>
         </div>
       </div>
       <!-- End: Search Near -->
       <!-- Start: Main - Search -->
-      <div class="items--body px_3">
+      <div class="items--body px_3" v-else>
         <!-- Start: List Content -->
-        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+        <vue-perfect-scrollbar class="infinite">
           <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
           <app-item :item="item"/>
         </div>
@@ -39,50 +48,70 @@
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
           class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
           >Không có dữ liệu</div>-->
-          <div class="content item--body p_2 mb_2 d_flex align_items_center">
-            <!-- Rememer slice array when text overfollow -->
-            <div class="right">
-              <div class="title pb_1">Nội dung Nội dung Nội dung Nội dung</div>
-              <div class="more d_flex align_items_center">
-                <div class="mr_auto">
-                  <icon-base
-                    class="mr_1"
-                    icon-name="icon-like"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <icon-like />
-                  </icon-base>
-                  <span>12123</span>
-                </div>
-                <div class="ml_auto">
-                  <icon-base
-                    class="mr_1"
-                    icon-name="icon-share"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 20 20"
-                  >
-                    <icon-share />
-                  </icon-base>
-                  <span>132123213</span>
-                </div>
-              </div>
+          <div class="content item--body">
+            <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
+              <loading-component></loading-component>
             </div>
-            <div class="left action pl_2 text_center">Chi tiết</div>
+            <div
+              v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
+              class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+            >Không có dữ liệu</div>
+            <add-item
+              v-for="(item, index) in listPostFacebookDefault"
+              :key="`s+${index}`"
+              :item="item"
+              @showPost="showPost($event)"
+            />
           </div>
         </vue-perfect-scrollbar>
         <!-- Start: List Content -->
       </div>
       <!-- End: Main - Search -->
     </div>
+    <transition name="popup--mobile">
+      <popup-create-post
+        v-if="isShowPost === true"
+        @closePopup="isShowPost = $event"
+        :fbSelected="fbSelected"
+        @closeAllEdit="isShowPost = $event"
+      />
+    </transition>
   </div>
 </template>
 
 <script>
+import AddItem from "../../list/item";
+import PopupCreatePost from "../create";
 export default {
+  components: {
+    AddItem,
+    PopupCreatePost
+  },
+  data() {
+    return {
+      fbSelected: {},
+      isShowPost: false,
+      isStatusKeywordHistory: false,
+      keyword: ""
+    };
+  },
+  watch: {
+    "keyword"(value) {
+      if (value.length === 0) {
+        if(this.keyPopular) {
+          this.$store.dispatch("getListPostFacebookDefault", {
+            keyword: this.keyPopular[0],
+            size: 25,
+            page: 1
+          });
+        }
+      }
+    }
+  },
   computed: {
+    listPostFacebookDefault() {
+      return this.$store.getters.listPostFacebookDefault;
+    },
     keyPopular() {
       if (
         Object.entries(this.user).length === 0 &&
@@ -118,6 +147,24 @@ export default {
     },
     closePopupSearch() {
       this.$emit("closePopupSearch", false);
+    },
+    async searchPost() {
+      this.isStatusKeywordHistory = true;
+      // this.currentPage = 1;
+      await this.$store.dispatch("getListPostFacebookDefault", {
+        keyword: this.keyword,
+        size: 25,
+        page: 1
+      });
+      await this.$store.dispatch("getUserInfo");
+    },
+    searchPostFromKeywordHistory(keyword) {
+      this.keyword = keyword;
+      this.searchPost();
+    },
+    showPost(value) {
+      this.isShowPost = true;
+      this.fbSelected = value;
     }
   }
 };
@@ -158,7 +205,7 @@ export default {
       }
     }
     .item--body {
-      background-color: #27292d;
+      // background-color: #27292d;
       border-radius: 0.625rem;
       font-size: 0.875rem;
       overflow: hidden;
@@ -178,6 +225,9 @@ export default {
           list-style: none;
           border-bottom: 1px solid #444;
           padding: 0.5rem 0;
+          &:last-child {
+            border: 0;
+          }
         }
       }
     }
