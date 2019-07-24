@@ -64,10 +64,10 @@
       >
         <a href="#">
           <icon-base
-            icon-name="icon-account"
+            icon-name="Quản lý thành viên"
             width="24"
             height="24"
-            viewBox="0 0 65 65"
+            viewBox="0 0 600 600"
           >
             <icon-agency />
           </icon-base>
@@ -142,7 +142,7 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "index.style";

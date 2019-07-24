@@ -28,6 +28,17 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.navigation {
+  input[type=text] {
+    background-color: #27292d;
+    border-color: #27292d;
+    color: #fff1dc;
+    outline: none;
+    &:focus {
+      border-color: #ffb94a;
+      outline: none;
+    }
+  }
+}
 </style>
