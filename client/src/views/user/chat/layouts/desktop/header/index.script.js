@@ -68,7 +68,7 @@ export default {
       window.location = `${process.env.VUE_APP_PARENT_URL}help`;
     },
     redirectToGetCookie(){
-      window.location.href = "https://chrome.google.com/webstore/detail/zinbee/ddeikniimmegijgfmbbjohajkkbmcndp?authuser=1";
+      window.location.href = "https://chrome.google.com/webstore/detail/zinbee/cldgcfaoiieljdbcbhljginnlknaojib";
     },
     showMessengerDropdown() {
       this.isShowMessengerDropdown = !this.isShowMessengerDropdown;

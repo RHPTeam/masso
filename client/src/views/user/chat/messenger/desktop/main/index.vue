@@ -11,8 +11,8 @@
     <div class="body d_flex flex_row_reverse">
       <!--Start: Sidebar-->
       <transition name="sidebar">
-        <div class="sidebar" v-if="isShowRightSidebar === false">
-          <right-sidebar :currentTheme="currentTheme"/>
+        <div class="sidebar" :class="variableControl.new === true ? 'd_none' : ''" v-if="isShowRightSidebar === false">
+          <right-sidebar :currentTheme="currentTheme" />
         </div>
       </transition>
       <!--End: Sidebar-->
@@ -43,6 +43,11 @@ export default {
   data() {
     return {
       isShowRightSidebar: false
+    }
+  },
+  computed: {
+    variableControl(){
+      return this.$store.getters.caseControl;
     }
   },
 }

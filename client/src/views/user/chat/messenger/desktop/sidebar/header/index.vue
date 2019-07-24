@@ -31,7 +31,7 @@
         </div>
         <!-- End: Dropdown Setting -->
       </div>
-      <div class="icon d_flex align_items_center justify_content_center">
+      <div class="icon d_flex align_items_center justify_content_center" @click="createNewMessages">
         <icon-base
           class="icon--create"
           icon-name="menu"
@@ -62,6 +62,12 @@ export default {
     }
   },
   methods: {
+    createNewMessages(){
+      this.$store.dispatch("setVariableControl", {
+        key: "new",
+        value: true
+      });
+    },
     closeDropdownSetting() {
       this.isShowDropdownSetting = false;
     },
