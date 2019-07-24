@@ -42,33 +42,30 @@ export default {
       ],
       currentPage: 1,
       totalCount: null,
-      perPage: 20,
+      perPage: 25,
       isShowPaginateSearch: false,
       isShowPaginate: true,
       showLoader: true
     };
   },
   async created() {
-    // if (this.$store.getters.allFriends.length === 0) {
-    //   await this.$store.dispatch("getFriendsBySize", 20);
-    // }
-    // await this.$store.dispatch( "getAllFriendFacebook" );
-    await this.$store.dispatch("selectedUIDs", []);
+    const friends = this.$store.getters.friends;
+
+    // await this.$store.dispatch("selectedUIDs", []);
     /**
-     *  get info friends with page = 1 and size default = 20
+     *  get info friends with page = 1 and size default = 25
      * @returns array
      */
-    await this.$store.dispatch("getFriendFacebookBySizeDefault", {
-      size:  this.perPage,
-      page: this.currentPage
-    });
+    if(friends && friends.length === 0) {
+      await this.$store.dispatch("getFriendFbBySize", {
+        size:  this.perPage,
+        page: this.currentPage
+      });
+    }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    friendFilter() {
-      return this.$store.getters.userFilter;
     },
     filteredUsers() {
       if (this.accountSelected.id === "all") {
@@ -143,8 +140,8 @@ export default {
     //   }
     // },
     users() {
-      if(this.$store.getters.friendFacebook === undefined) return;
-      return this.$store.getters.friendFacebook;
+      if(this.$store.getters.friends === undefined) return;
+      return this.$store.getters.friends;
     },
     /**
      *  get info all friends
@@ -212,7 +209,7 @@ export default {
       const dataSender = {
         name: "Bạn bè",
         _friends: val
-      }
+      };
       this.$store.dispatch("setVocateDefault", dataSender);
     },
     sortUsersByProperty(data, index) {

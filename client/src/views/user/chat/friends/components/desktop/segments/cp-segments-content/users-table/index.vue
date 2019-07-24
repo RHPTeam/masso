@@ -151,14 +151,14 @@
       <div v-if="resultsDefault === true">
         <!-- Start : User Table Items Of Group -->
         <div v-if="groupSelected === false">
-<!--          <div v-if="this.$store.getters.frStatus ==='loading'">-->
-<!--            <loading-component />-->
-<!--          </div>-->
+          <div v-if="this.$store.getters.friendStatus ==='loading'">
+            <loading-component />
+          </div>
           <div>
-            <div v-if="listFriendDefault && listFriendDefault.length > 0">
+            <div v-if="users && users.length > 0">
               <div
                 class="user--table-item record"
-                v-for="(user, index) in listFriendDefault"
+                v-for="(user, index) in users"
                 :key="index"
               >
                 <div class="checkbox">

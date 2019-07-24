@@ -1,5 +1,5 @@
 <template>
-  <div class="header" role="main">
+  <div class="header" role="main" :data-theme="currentTheme">
     <!-- Start: If create new chat-->
 <!--    <div class="top d_flex align_items_center">-->
 <!--      <div class="" role="to">Đến:</div>-->
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-  props: [ "status" ],
+  props: [ "status", "currentTheme" ],
   data() {
     return {
       srcTest: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg"
@@ -109,4 +109,18 @@ export default {
     }
   }
 }
+  .header[data-theme="dark"] {
+    background-color: #2F3136;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+    color: #fff;
+    .bottom {
+      .right{
+        .icon {
+          svg {
+            color: #ffb94a;
+          }
+        }
+      }
+    }
+  }
 </style>
