@@ -1,0 +1,118 @@
+.modal--content {
+  .items {
+    &--info {
+      .info {
+        font-size: 0.875rem;
+
+        .item {
+          .arrow-down {
+            transform: rotate(-90deg);
+            margin-bottom: 1px;
+          }
+
+          .content {
+            // width: calc(100vw - 33px);
+            width: 100%;
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #6e6a6a33;
+
+            .name--user {
+              max-width: 45vw;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              padding-right: 2px;
+            }
+          }
+
+          //   &:last-child {
+          //     .content {
+          //       border: 0;
+          //     }
+          //   }
+        }
+      }
+    }
+
+    &--keyword {
+      .list {
+        font-size: 0.875rem;
+
+        .item {
+          .keyword {
+            padding: 0.55rem 0;
+            border-bottom: 1px solid #cccccc57;
+            width: calc(100vw - 33px);
+          }
+        }
+
+        .more {
+          .arrow-down {
+            transform: rotate(-90deg);
+          }
+        }
+      }
+    }
+
+    .logout {
+      font-size: 0.875rem;
+    }
+  }
+}
+
+.item {
+  &--keyword {
+    display: inline-block;
+    width: 60%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.content {
+  font-size: 0.875rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid #6e6a6a33;
+  > div:first-child {
+    padding-left: 0.5rem;
+  }
+  > div:last-child {
+    padding-right: 0.5rem;
+  }
+}
+.icon {
+  &--arrow-right {
+    transform: rotate(-90deg);
+    margin-bottom: 1px;
+  }
+}
+
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+
+// Popup Delete
+.popup-delete-enter {
+  transform: translateY(100%);
+}
+
+.popup-delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup-delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}

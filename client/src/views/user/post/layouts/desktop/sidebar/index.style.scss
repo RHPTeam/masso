@@ -13,7 +13,7 @@
     .menu--item {
         margin-bottom: 32px;
         font-family: "Open Sans", sans-serif;
-        font-size: 1rem;
+        font-size: .95rem;
         white-space: nowrap;
         overflow: hidden;
         &:last-child {
@@ -24,7 +24,7 @@
             transition: all 0.4s ease;
             font-weight: normal;
             svg {
-                margin-right: 24px;
+                margin-right: 1rem;
                 vertical-align: text-top;
             }
         }
@@ -68,8 +68,9 @@
         }
       }
     .flag--sidebar{
-        bottom: 1.25rem;
-        left: 1.75rem;
+      bottom: 1.25rem;
+      left: 1.75rem;
+      z-index: 1000;
     }
     .flags{
       .name--language{
@@ -192,12 +193,21 @@
 @media (min-width: 576px) {}
 
 // Medium devices (tablets, 768px and up)
-@media (max-width: 768px) {}
 
-@media (min-width: 768px) {}
+
 
 // Large devices (desktops, 992px and up)
 @media (min-width: 992px) {}
 
 // Extra large devices (large desktops, 1200px and up)
 @media (min-width: 1200px) {}
+
+
+
+// @media screen and (max-width: 768px) {
+//   .sidebar {
+//     .sidebar--logo {
+//       display: none!important;
+//     }
+//   }
+// }

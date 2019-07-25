@@ -5,10 +5,6 @@
     .sidebar--logo {
         margin-bottom: 48px;
         height: 60px;
-        &-text {
-            position: absolute;
-            top: 28px;
-        }
     }
     .sidebar--menu {
         padding-left: 0;
@@ -17,7 +13,7 @@
     .menu--item {
         margin-bottom: 32px;
         font-family: "Open Sans", sans-serif;
-        font-size: 14px;
+        font-size: .95rem;
         white-space: nowrap;
         overflow: hidden;
         &:last-child {
@@ -124,13 +120,13 @@
         }
     }
     .menu--item {
-        a {
-            color: #666;
-            &.active,
-            &:hover {
-                color: #000;
-            }
+      a {
+        color: #ccc;
+        &.active,
+        &:hover {
+          color: $color-active;
         }
+      }
     }
     .menu--item.active {
         a {
@@ -149,12 +145,18 @@
     }
     .menu--item {
         a {
-            color: #ccc;
-            &.active,
-            &:hover {
-                color: #f7f7f7;
-            }
+           color: #ccc;
+           &.active,
+           &:hover {
+             color: $color-active;
+           }
         }
+    }
+    .menu--item.active {
+      a {
+        color: $color-active;
+        font-weight: 600;
+      }
     }
     .flags{
         .dropdown--lang{

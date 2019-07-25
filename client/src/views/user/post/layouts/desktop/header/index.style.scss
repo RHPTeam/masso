@@ -3,31 +3,39 @@
     .header--icon {
       cursor: pointer;
     }
+    .logo--menu-mobile {
+      display: none;
+    }
   }
   .header--right {
-    .icon--cookie{
-      color: #999;
-      cursor: pointer;
-      margin-right: .75rem;
-      transition: all .4s ease;
-      svg {
-        stroke: #999;
-        stroke-width: 2;
-      }
-      &:hover {
-        color: #FFB94A;
-      }
-    }
     .help {
       cursor: pointer;
-        svg {
-          stroke: #999;
-          color: #ffb94a;
-          transition: 0.4s;
-          &:hover{
-            color: #ffb94a;
-          }
-        }
+      svg {
+        fill: #00c853;
+      }
+    }
+    .icon {
+      color: #999999;
+      cursor: pointer;
+      stroke: #999;
+      transition: all .4s ease;
+      &:hover {
+        color: #FFFFFF;
+      }
+      &.icon--cookie {
+        margin-right: 1rem;
+        stroke-width: 2.5;
+      }
+      &.icon--help {
+        margin-right: .75rem;
+      }
+      &.icon--bell {
+        margin-right: .75rem;
+      }
+      &.icon--play {
+        margin-right: 1rem;
+        stroke-width: 2;
+      }
     }
     .messenger--group {
       .mess{
@@ -50,10 +58,13 @@
           color: #fff;
           svg{
             color: #fff;
+            stroke: #fff;
           }
         }
         svg {
           color: #999999;
+          stroke: #999999;
+          stroke-width: .15;
           transition: all .4s ease;
         }
         .messenger--total {
@@ -80,22 +91,8 @@
       }
     }
     .notification--groups {
-      .icon--help {
-        margin-top: 2px;
-        &:hover{
-          color: #ffb94a;
-        }
-        svg {
-          color: #999;
-          stroke: #999;
-          stroke-width: 2;
-        }
-      }
       .btn--notification {
         cursor: pointer;
-        &:hover{
-          color: #ffb94a;
-        }
         .notification--total {
           background-color: #F96666;
           border-radius: 5px;
@@ -122,22 +119,19 @@
         z-index: 99999;
       }
     }
-
-    .video--guide {
-      cursor: pointer;
-      &:hover{
-        color: #ffb94a;
-      }
-    }
     .more--options{
       .icon--application {
-        color: #a1a1a1;
+        color: #999999;
+        margin-right: .5rem;
+        stroke: #999999;
         transition: all .4s ease;
         &.active {
-          color: #444;
+          color: #FFFFFF;
+          stroke: #FFFFFF;
         }
         &:hover {
-          color: #444;
+          color: #FFFFFF;
+          stroke: #FFFFFF;
         }
       }
       .more{
@@ -194,7 +188,7 @@
             // background: #ffb94a;
             // color: #fff;
           }
-          &.disallowed{
+          &.instagram, &.zalo{
             &:hover{
               cursor: not-allowed;
             }
@@ -473,7 +467,7 @@
         background: #282a2d;
         border: 0;
         &:hover{
-          background: #ffffff;
+          background: #ffffff14;
           color: #fff;
         }
       }
@@ -562,3 +556,16 @@
     }
   }
 }
+
+// @media screen and (max-width: 767px) {
+//   .header {
+//     .header--left {
+//       .header--icon {
+//         display: none;
+//       }
+//       .logo--menu-mobile {
+//         display: block;
+//       }
+//     }
+//   }
+// }

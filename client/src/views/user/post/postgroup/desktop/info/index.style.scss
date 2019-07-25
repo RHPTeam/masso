@@ -107,3 +107,15 @@
         }
     }
 }
+
+
+// ============= RESPONSIVE 
+
+@media screen and (max-width: 410px) {
+    .info {
+        flex-direction: column;
+        .info--left {
+            margin-bottom: 1rem;
+        }
+    }
+}

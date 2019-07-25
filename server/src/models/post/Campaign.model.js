@@ -46,7 +46,7 @@ CampaignSchema.pre( "save", function( next ) {
 
 const Campaign = mongoose.model( "Campaign", CampaignSchema );
 
-CampaignSchema.on( "index", function (error ) {
+CampaignSchema.on( "index", function ( error ) {
   if ( error ) {
     console.log( error.message );
   }

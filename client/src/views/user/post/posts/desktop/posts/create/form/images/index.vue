@@ -50,7 +50,7 @@ export default {
   data() {
     return {
       file: "",
-      imageDefault: require( "@/assets/images/upload/bee-default.jpg" )
+      imageDefault: require("@/assets/images/upload/bee-default.jpg")
     };
   },
   computed: {
@@ -75,13 +75,13 @@ export default {
 
       // reset ref
       const input = this.$refs.file;
-      input.type = 'text';
-      input.type = 'file';
+      input.type = "text";
+      input.type = "file";
     },
     async sendFile() {
       const formData = new FormData();
-      Array.from(this.file).forEach((f) => {
-        formData.append("attachments", f)
+      Array.from(this.file).forEach(f => {
+        formData.append("attachments", f);
       });
 
       await this.$store.dispatch( "uploadPostAttachments", formData );

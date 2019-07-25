@@ -176,3 +176,11 @@
     }
   }
 }
+
+// RESPONSIVE
+
+@media screen and (max-width: 767px) {
+  .vdp-datepicker__calendar {
+    width: 100%;
+  }
+}

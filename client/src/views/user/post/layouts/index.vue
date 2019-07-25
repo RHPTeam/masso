@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper position_relative" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
-    <div class="wrap--content d_none d_md_flex">
+    <div class="wrap--content d_md_flex d_none position_relative">
       <div class="wrap--content-sidebar">
         <app-sidebar></app-sidebar>
       </div>
@@ -32,6 +32,15 @@
     </guide-popup>
     <!-- End: Notification guide for user-->
 
+    <!-- Mobile -->
+    <div class="wrap--content-mobile d_block d_md_none position_relative">
+      <header-mobile />
+      <VuePerfectScrollbar class="mobile-scroll">
+        <!-- <search-mobile /> -->
+        <router-view />
+      </VuePerfectScrollbar>
+      <footer-mobile />
+    </div>
   </div>
 </template>
 <script src="./index.script.js"></script>
@@ -61,4 +70,21 @@
   color: #ccc;
   background-color: #2f3136;
 }
+
+
+// ============ RESPONSIVE 
+
+// @media screen and (max-width: 768px) {
+//   .wrapper {
+//     .wrap--content-sidebar {
+//       position: absolute;
+//       z-index: 1000;
+//       background: #000;
+//       top: 70px;
+//     }
+//     .wrap--content-main {
+//       padding: 1.875rem 1rem;
+//     }
+//   }
+// }
 </style>
