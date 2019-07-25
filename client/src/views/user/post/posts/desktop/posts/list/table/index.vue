@@ -41,7 +41,7 @@
           </icon-base>
         </span>
       </div>
-      <div class="col col--category px_2">Danh mục</div>
+      <div class="col col--category px_2 d_sm_block d_none">Danh mục</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
     <!-- Start: List Data -->

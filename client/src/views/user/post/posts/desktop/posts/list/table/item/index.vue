@@ -12,7 +12,7 @@
     </div>
     <!-- End: Name Column -->
     <!-- Start: Category Column -->
-    <div class="col col--category px_2">
+    <div class="col col--category px_2 d_sm_block d_none">
       <span v-for="(category, index) in item._categories"
             :key="`c-${index}`"
       >

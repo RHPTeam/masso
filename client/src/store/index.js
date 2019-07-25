@@ -16,6 +16,7 @@ import AccountFacebook from "./modules/accountfacebook.store";
  */
 import AttributeStore from "./modules/chat/attribute.store";
 import BlockStore from "./modules/chat/block.store";
+import FriendStore from "./modules/chat/friend.store";
 import GroupFriend from "./modules/chat/groupfriend.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
 import Syntax from "./modules/chat/syntax.store";
@@ -42,6 +43,9 @@ import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 import HelpStore from "./modules/post/help.store";
 
+// ------ Action cursor Store for post in mobile
+import ActionCursorStore from "./modules/post/cursor.store";
+
 /**
  * Store for Agency
  */
@@ -65,6 +69,7 @@ export default new Vuex.Store( {
      */
     AttributeStore,
     BlockStore,
+    FriendStore,
     GroupFriend,
     SequenceFaceBook,
     Syntax,
@@ -88,6 +93,7 @@ export default new Vuex.Store( {
     PostFacebookStore,
     PostGroupStore,
     GroupBlock,
+    ActionCursorStore,
     HelpStore,
     /**
      * Store for Agency

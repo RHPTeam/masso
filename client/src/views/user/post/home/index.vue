@@ -187,12 +187,27 @@
       <!-- End: Notification version updated-->
 
     </div>
+    <app-desktop />
     <!-- End: Desktop Component-->
+
+    <!-- Start: Mobile Component -->
+    <app-mobile />
+    <!-- End: Mobile Component -->
   </div>
 </template>
 
-<script src="./index.script.js"></script>
+<script>
+import AppDesktop from "./desktop"
+import AppMobile from "./mobile/main"
+export default {
+    components: {
+        AppDesktop,
+        AppMobile
+    }
+}
+</script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+// @import "./index.style";
 </style>
+

@@ -146,4 +146,14 @@ export default {
       }
     }
   }
+
+  @media screen and (max-width: 767px) {
+    .modal--wrapper {
+      .modal--dialog {
+        .modal--content {
+          width: 90vw;
+        }
+      }
+    }
+  }
 </style>

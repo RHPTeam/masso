@@ -67,6 +67,7 @@ const state = {
       );
 
       commit( "setPostGroups", postGroups );
+      commit( "setPostGroupDetail", {} );
 
       await PostGroupServices.delete( payload.id );
     },
@@ -104,6 +105,13 @@ const state = {
       await PostGroupServices.updatePostGroup( payload );
       const postGroup = await PostGroupServices.getPostGroupById( payload.postGroupId );
       await commit( "setPostGroupDetail", postGroup.data.data );
+    },
+    // Mobile - update title
+    updateTitlePostGroup: async ( { commit }, payload ) => {
+      await PostGroupServices.updatePostGroup( payload );
+      const res = await PostGroupServices.index();
+
+      await commit( "setPostGroups", res.data.data );
     }
   };
 

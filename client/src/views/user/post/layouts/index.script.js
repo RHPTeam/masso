@@ -6,6 +6,10 @@ import GuidePopup from "./desktop/guide"
 
 import CookieFunction from "@/utils/functions/cookie";
 
+import HeaderMobile from "./mobile/header";
+import SearchMobile from "./mobile/search";
+import FooterMobile from "./mobile/footer";
+
 export default {
   data() {
     return {
@@ -45,6 +49,9 @@ export default {
     AppSidebar,
     AppNotification,
     AppExpire,
-    GuidePopup
+    GuidePopup,
+    HeaderMobile,
+    SearchMobile,
+    FooterMobile
   }
 };

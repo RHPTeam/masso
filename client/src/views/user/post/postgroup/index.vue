@@ -53,6 +53,12 @@
       <!-- End: Content -->
     </div>
     <!-- End: Desktop Component-->
+
+    <!--Start: Mobile Component-->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
+    <!--End: Mobile Component-->
   </div>
 </template>
 
@@ -60,12 +66,14 @@
 import AppGroup from "./desktop/group/index";
 import AppInfo from "./desktop/info/index";
 import AppTable from "./desktop/table/index";
+import AppMobile from "./mobile"
 
 export default {
   components: {
     AppGroup,
     AppInfo,
-    AppTable
+    AppTable,
+    AppMobile
   },
   data(){
     return {

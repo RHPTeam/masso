@@ -11,10 +11,27 @@
         fill: #00c853;
       }
     }
-    .icon--cookie, .video--guide {
+    .icon {
+      color: #999999;
       cursor: pointer;
+      stroke: #999;
+      transition: all .4s ease;
       &:hover {
-        color: #ffb94a;
+        color: #FFFFFF;
+      }
+      &.icon--cookie {
+        margin-right: 1rem;
+        stroke-width: 2.5;
+      }
+      &.icon--help {
+        margin-right: .75rem;
+      }
+      &.icon--bell {
+        margin-right: .75rem;
+      }
+      &.icon--play {
+        margin-right: 1rem;
+        stroke-width: 2;
       }
     }
     .messenger--group {
@@ -38,10 +55,13 @@
           color: #fff;
           svg{
             color: #fff;
+            stroke: #fff;
           }
         }
         svg {
           color: #999999;
+          stroke: #999999;
+          stroke-width: .15;
           transition: all .4s ease;
         }
         .messenger--total {
@@ -98,13 +118,17 @@
     }
     .more--options{
       .icon--application {
-        color: #a1a1a1;
+        color: #999999;
+        margin-right: .5rem;
+        stroke: #999999;
         transition: all .4s ease;
         &.active {
-          color: #444;
+          color: #FFFFFF;
+          stroke: #FFFFFF;
         }
         &:hover {
-          color: #444;
+          color: #FFFFFF;
+          stroke: #FFFFFF;
         }
       }
       .more{
