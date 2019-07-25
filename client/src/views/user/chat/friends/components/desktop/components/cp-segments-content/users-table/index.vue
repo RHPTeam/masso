@@ -238,6 +238,8 @@
                 <input
                   type="checkbox"
                   class="checkbox--control-input"
+                  v-model="selectDeleteUID"
+                  :value="user"
                 />
                 <span class="checkbox--control-checkmark"></span>
               </span>

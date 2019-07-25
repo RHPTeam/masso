@@ -1,7 +1,7 @@
 <template>
   <div class="info d_flex justify_content_between mt_4" :data-theme="currentTheme">
     <!--Start: Info Left Component-->
-    <div class="info--left d_flex">
+    <div class="info--left d_flex mr_auto">
       <div class="segment--total"
             v-if="groupSelected === false"
       >
@@ -19,7 +19,7 @@
     </div>
     <!--End: Info Left Component-->
     <!--Start: Info Right Component-->
-    <div class="info--right d_flex">
+    <div class="info--right d_flex ml_auto">
       <!--Start: Update again pages & groups-->
       <div class="action mr_2" @click="updateGroupsAndPages" >
         Cập nhật

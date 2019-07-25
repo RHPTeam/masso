@@ -49,8 +49,8 @@ export default {
         const dataSender = {
           gr_id: this.groupTarget._id,
           friends: this.selectedUIDs
-        }
-        this.$store.dispatch("deleteFriendsFromGroup", dataSender);
+        };
+        this.$store.dispatch("deleteFriendFromGroup", dataSender);
         this.$emit("closeAddPopup", false);
         this.$store.dispatch("selectedUIDs", []);
       }

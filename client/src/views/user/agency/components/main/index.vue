@@ -6,7 +6,7 @@
       </div>
       <div class="col col--category px_2">Email</div>
       <div class="col col--category px_2">Số điện thoại</div>
-      <div class="col col--category px_2">Loại kích hoạt</div>
+      <div class="col col--category px_2 text_center">Loại kích hoạt</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
     <div>

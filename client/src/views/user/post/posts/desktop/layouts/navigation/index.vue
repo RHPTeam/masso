@@ -1,8 +1,8 @@
 <template>
-  <div class="post--navigation d_flex justify_content_between align_items_center mb_4" :data-theme="currentTheme">
+  <div class="post--navigation d_flex justify_content_between align_items_center mb_4 position_relative" :data-theme="currentTheme">
     <!-- Start: Navigation Left -->
-    <div class="nav--left d_flex justify_content_start align_items_center">
-      <div class="btn--create mr_3"
+    <div class="nav--left mr_auto d_flex align_items_center">
+      <div class="btn--create mr_3 mr_auto"
            @click="createPost"
       >Viết bài mới</div>
       <router-link
@@ -29,7 +29,7 @@
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
-    <div class="nav--right">
+    <div class="nav--right ml_auto">
       <div class="btn--history"
            @click="showHistory"
       >
@@ -184,4 +184,36 @@ export default {
     }
   }
 }
+
+
+// =============== RESPONSIVE
+@media screen and (max-width: 980px) and (min-width: 768px) {
+  .post--navigation {
+    flex-direction: column;
+    .nav--right {
+      margin-top: 0.625rem;
+    }
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .post--navigation {
+    flex-direction: column;
+    .nav--left {
+      flex-direction: column;
+      height: 80px;
+      .action {
+        position: absolute;
+        top: 60px;
+        left: 0;
+      }
+    }
+    .nav--right {
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+  }
+}
+
 </style>

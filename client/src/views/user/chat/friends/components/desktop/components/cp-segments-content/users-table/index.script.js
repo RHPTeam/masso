@@ -176,6 +176,15 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
+    },
+    selectDeleteUID: {
+      get() {
+        return this.$store.getters.uidSelectDelete;
+      },
+      set(value) {
+        console.log(value);
+        this.$store.dispatch("selectDeleteUID", value);
+      }
     }
   },
   methods: {
