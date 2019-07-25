@@ -1,9 +1,9 @@
 <template>
-  <div class="search mb_1">
+  <div class="search" :data-theme="currentTheme">
     <div class="input--wrap position_relative">
       <div class="search--icon position_absolute">
         <icon-base
-          icon-name="input-search"
+          icon-name="tìm kiếm"
           width="16.772"
           height="17.287"
           viewBox="0 0 16.772 17.287"
@@ -14,6 +14,7 @@
       <input
         type="text"
         placeholder="Tìm kiếm"
+        v-model="keywords"
         @click="changeStatus"
       />
     </div>
@@ -22,9 +23,25 @@
 
 <script>
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
+  data() {
+    return {
+      keywords: ""
+    }
+  },
   methods: {
-    changeStatus() {
-      this.$emit("changeStatus", false);
+    async changeStatus() {
+      await this.searchFriend();
+      await this.$emit("changeStatus", false);
+      this.$emit("watchKeyword", this.keywords);
+    },
+    searchFriend(){
+      this.$store.dispatch("getAllFriendFB");
     }
   },
 }
@@ -77,8 +94,9 @@ export default {
 
   //Dark
   .search[data-theme="dark"] {
+    background-color: #2f3136;
     input {
-      background-color: #2f3136;
+      background-color: #27292c;
       color: #f7f7f7;
     }
   }

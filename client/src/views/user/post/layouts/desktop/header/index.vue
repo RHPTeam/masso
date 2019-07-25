@@ -161,7 +161,7 @@
                 </icon-base>
                 <div class="pt_1">Bee Post</div>
               </div>
-              <div class="zin--post zin-chat disallowed item c_4">
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
                 <icon-base
                   icon-name="Bee Chat"
                   width="50px"
@@ -246,6 +246,7 @@
             <div class="mr_2">
               <h4 class="mb_2">{{ user.name }}</h4>
               <p class="mb_2">{{ user.email }}</p>
+              <p class="mb_2">Số điện thoại : {{ user.phone }}</p>
               <div class="more d_flex align_items_center justify_content_between">
                 <router-link class="setting" :to="{ name: 'post_account' }">Thiết lập tài khoản</router-link>
                 <div class="setting ml_4" @click="logOut">Đăng xuất</div>

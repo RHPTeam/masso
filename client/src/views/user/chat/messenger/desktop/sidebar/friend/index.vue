@@ -1,5 +1,5 @@
 <template>
-  <div class="result" v-click-outside="changeStatusDefault">
+  <div class="result" v-click-outside="changeStatusDefault" :data-theme="currentTheme">
     <div class="title px_3 mb_2">Người liên hệ</div>
     <div class="list--item d_flex align_items_center"
          :class="[ item.name === 'Ngọc Hân' ? 'item--active' : null ]"
@@ -17,6 +17,7 @@
 
 <script>
 export default {
+  props: ["keySearch", "currentTheme"],
   data() {
     return {
       friends: [
@@ -29,6 +30,16 @@ export default {
         { name: "Lê Khang", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
         { name: "Đặng Yến", profilePicture: "https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" },
       ]
+    }
+  },
+  computed: {
+    friendsFb(){
+      return this.$store.getters.friends;
+    },
+    resultSearchFriend(){
+      return this.friendsFb.filter(item => {
+        return item.fullName.toString().toLowerCase().includes(this.keySearch.toString().toLowerCase());
+      });
     }
   },
   methods: {
@@ -69,4 +80,19 @@ export default {
     }
   }
 }
+  .result[data-theme="dark"] {
+    background-color: #2F3136;
+    color: #fff;
+    .title {
+      color: #fff;
+    }
+    .list--item {
+      &:hover {
+        background-color: #27292d;
+      }
+      &.item--active {
+        background-color: #27292d;
+      }
+    }
+  }
 </style>

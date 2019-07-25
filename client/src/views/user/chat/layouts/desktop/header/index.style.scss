@@ -11,6 +11,12 @@
         fill: #00c853;
       }
     }
+    .icon--cookie, .video--guide {
+      cursor: pointer;
+      &:hover {
+        color: #ffb94a;
+      }
+    }
     .messenger--group {
       .mess{
         color: unset;
@@ -194,11 +200,12 @@
         border: 0;
         border-radius: .5rem;
         display: none;
-        font-size: 0.875rem;
+        font-size: 13px;
         margin: 0.5rem 0 0;
         position: absolute;
         text-align: left;
         top: 100%;
+        width: 323px;
         z-index: 99;
         &.animated {
           animation-duration: 1s;
@@ -279,6 +286,28 @@
             top: 3px;
             width: 15px;
           }
+        }
+        .info {
+          color: #cccccc;
+          font-size: 12px;
+          .exp {
+            color: #FF9E4A;
+          }
+          .expire {
+            text-decoration: underline;
+          }
+        }
+        .more {
+          .setting {
+            color: #cccccc;
+            font-size: 12px;
+            font-weight: 300;
+            text-decoration: underline;
+          }
+        }
+        h4 {
+          font-size: 16px;
+          font-weight: 600;
         }
         @keyframes flipInY {
           from {
@@ -401,6 +430,11 @@
   }
   .header--right {
     .messenger--group {
+      .icon--cookie {
+        svg {
+          color: #999;
+        }
+      }
       .btn--messenger {
         cursor: pointer;
         background: #282a2d;
@@ -460,7 +494,7 @@
         box-shadow: 1px 1px 15px rgba(255, 255, 255, 0.1);
         color: #3e5569;
         .bg-orange {
-          background-color: #ffb94a;
+          background-color: #282a2d;
           .avatar--wrap {
             &.avatar--default {
               background-color: #f7f7f7;

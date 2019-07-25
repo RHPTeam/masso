@@ -49,7 +49,8 @@ export default {
       this.targetDeletePopupData = {
         id: this.postGroupDetail._id,
         _pages: this.postGroupPagesSelected,
-        _groups: this.postGroupGroupsSelected
+        _groups: this.postGroupGroupsSelected,
+        _timeline: this.postProfileSelected
       };
     },
     showAddtoGrPopup() {

@@ -1,14 +1,13 @@
 <template>
-  <div class="wrapper" :data-theme="currentTheme">
+  <div class="wrapper position_relative" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
     <div class="wrap--content d_none d_md_flex">
       <div class="wrap--content-sidebar">
-        <app-sidebar />
+        <app-sidebar></app-sidebar>
       </div>
       <div class="wrap--content-main">
         <app-header
-          @openExpire="showExpire = $event"
-        />
+          @openExpire="showExpire = $event"></app-header>
         <router-view />
       </div>
     </div>
@@ -25,6 +24,14 @@
     >
     </app-expire>
     <!-- End: Pricing account-->
+
+    <!-- Start: Notification guide for user -->
+    <guide-popup
+      v-if="variableControlGuide === 1"
+    >
+    </guide-popup>
+    <!-- End: Notification guide for user-->
+
   </div>
 </template>
 <script src="./index.script.js"></script>

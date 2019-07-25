@@ -29,16 +29,22 @@ export default {
     AppSegments,
     // AppMobile
   },
+  data() {
+    return {
+      currentSize: 25,
+      currentPage: 1
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
-  async created() {
-    // if (this.$store.getters.allFriends.length === 0) {
-    //   this.$store.dispatch("getFriendsBySize", 20);
-    // }
-    await this.$store.dispatch( "getAllFriendFacebook" );
+  created() {
+    this.$store.dispatch("getFriendFbChatBySize", {
+      size:  this.currentSize,
+      page: this.currentPage
+    });
   }
 };
 </script>

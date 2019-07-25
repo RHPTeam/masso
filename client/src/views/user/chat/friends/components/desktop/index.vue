@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import SegmentsList from "./segments/segments-list";
-import SegmentsAttribute from "./segments/segments-attribute";
-import SegmentsContent from "./segments";
+import SegmentsList from "./components/segments-list";
+import SegmentsAttribute from "./components/segments-attribute";
+import SegmentsContent from "./components";
 
 export default {
   components: {

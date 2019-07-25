@@ -23,7 +23,7 @@ export default {
         }
       ],
       marketUrl: `${process.env.VUE_APP_PARENT_URL}/#/market`,
-      urlGetCookie: "https://chrome.google.com/webstore/detail/zinbee/ddeikniimmegijgfmbbjohajkkbmcndp?authuser=1"
+      urlGetCookie: "https://chrome.google.com/webstore/detail/zinbee/cldgcfaoiieljdbcbhljginnlknaojib"
     };
   },
   async created() {
@@ -86,7 +86,7 @@ export default {
       window.open(routes, '_blank');
     },
     redirectToGetCookie(){
-      const routes = "https://chrome.google.com/webstore/detail/zinbee/ddeikniimmegijgfmbbjohajkkbmcndp?authuser=1";
+      const routes = "https://chrome.google.com/webstore/detail/zinbee/cldgcfaoiieljdbcbhljginnlknaojib";
       window.open(routes, '_blank');
     },
     showOptionsMoreDropdown(){
@@ -109,7 +109,7 @@ export default {
     },
     gotoHomeChat(){
       if ( this.allAccountFb.length === 0 ) {
-        const routeData = this.$router.resolve( { name: "facebook" } );
+        const routeData = this.$router.resolve( { name: "chat_fbaccount" } );
 
         window.open(routeData.href, '_blank');
       } else {
