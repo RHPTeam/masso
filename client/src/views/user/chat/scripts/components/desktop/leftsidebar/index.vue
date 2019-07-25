@@ -1,18 +1,16 @@
 <!--Left Sidebar Page Script Facebook Desktop-->
 <template>
-  <div class="sidebar-scripts group py_3" :data-theme="currentTheme" >
+  <div class="sidebar-scripts group py_3" :data-theme="currentTheme">
     <div class="header d_flex align_items_center mb_4">
       <div
         class="left normal d_flex align_items_center justify_content_center"
         @click="isAddTypeDropdown = !isAddTypeDropdown"
         v-click-outside="closeAddTypeDropdown"
       >
-        <div
-          class="group--item add "
-        >
+        <div class="group--item add">
           <div class="group--item-name d_flex align_items_center">
             <icon-base class="icon--add" icon-name="plus" width="9" height="9" viewBox="0 0 60 60">
-              <icon-plus/>
+              <icon-plus />
             </icon-base>
             <span class="ml_1">Tạo mới</span>
           </div>
@@ -20,9 +18,9 @@
             class="dropdown--menu dropdown--menu-left flipInY animated type"
             :class="{ show: isAddTypeDropdown }"
           >
-        <span class="with--arrow">
-          <span class="bg_light"></span>
-        </span>
+            <span class="with--arrow">
+              <span class="bg_light"></span>
+            </span>
             <div class="dropdown--menu-content">
               <div
                 class="dropdown--menu-item"
@@ -36,16 +34,20 @@
           </div>
         </div>
       </div>
-      <div class="center normal" @click="showScriptDefault" :class="isActive === true ? 'change' : 'off'">
-        Kịch bản
-      </div>
-      <div class="right normal" @click="showScriptSequence" :class="{change: isOption}">
-        Trình tự
-      </div>
+      <div
+        class="center normal"
+        @click="showScriptDefault"
+        :class="isActive === true ? 'change' : 'off'"
+      >Kịch bản</div>
+      <div class="right normal" @click="showScriptSequence" :class="{change: isOption}">Trình tự</div>
     </div>
     <!-- Start Group Scripts -->
     <div v-if="isShowScriptDefault === true">
-      <div class="group--scripts mb_2 mt_2" v-for="(group, index) in groupBlock" :key="`c-${index}`">
+      <div
+        class="group--scripts mb_2 mt_2"
+        v-for="(group, index) in groupBlock"
+        :key="`c-${index}`"
+      >
         <div class="title d_inline_flex">
           <div>
             <icon-base
@@ -55,7 +57,7 @@
               height="10"
               viewBox="0 0 10 10"
             >
-              <icon-sort-down/>
+              <icon-sort-down />
             </icon-base>
           </div>
           <contenteditable
@@ -67,18 +69,27 @@
             @keyup="upTypingText('namegroupblock', group)"
             @keydown="clear"
           />
-          <option-group :groupId="group._id" />
+          <!-- <option-group :groupId="group._id" /> -->
+          <option-group
+            :selectedGroupBlock="group"
+            @isDeletedTarget="onDeleteGroupBlock($event, group)"
+          />
         </div>
         <div class="content my_2">
           <div class="name group-scripts r m_0">
-            <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" v-for="(block, index) in group.blocks" :key="`e-${index}`">
-              <div class="content--item position_relative" @click="showBlock(block._id)">
-                <div class="text_center name">
-                  {{ block.name }}
-                </div>
-                <div class="position_absolute icon--more-group-block">
-                  <option-group-block />
-                </div>
+            <div
+              class="group--items c_xl_6 c_lg_6 c_md_12 mb_2"
+              v-for="block in group.blocks"
+              :key="block._id"
+            >
+              <div @click="showBlock(block);" class="content--item position_relative">
+                <div class="text_center name">{{ block.name }}</div>
+              </div>
+              <div @click="onSelectOption(block)" class="icon--more-group-block position_absolute">
+                <option-group-block
+                  :selectedBlock="selectedBlock"
+                  @isDeletedTarget="onDeleteBlock($event)"
+                />
               </div>
             </div>
             <div class="group--items c_xl_6 c_lg_6 c_md_12 mb_2" @click="createBlock(group._id)">
@@ -91,7 +102,7 @@
                     height="16"
                     viewBox="0 0 60 60"
                   >
-                    <icon-plus/>
+                    <icon-plus />
                   </icon-base>
                 </div>
               </div>
@@ -115,7 +126,7 @@
               height="10"
               viewBox="0 0 10 10"
             >
-              <icon-sort-down/>
+              <icon-sort-down />
             </icon-base>
           </div>
           <contenteditable
@@ -135,7 +146,7 @@
               height="23"
               viewBox="0 0 750 750"
             >
-              <icon-more/>
+              <icon-more />
             </icon-base>
           </div>
           <div
@@ -161,24 +172,18 @@
           >
             <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_2">
               <div class="content--item position_relative">
-                <after-day
-                  :sequenceId="sequence._id"
-                  :item="item"
-                >
-                </after-day>
+                <after-day :sequenceId="sequence._id" :item="item"></after-day>
               </div>
             </div>
-            <div class="c_lg_8 c_xl_8 c_md_12 p_0 mb_2 position_relative" @click="showItemSqc(item._block._id)">
+            <div
+              class="c_lg_8 c_xl_8 c_md_12 p_0 mb_2 position_relative"
+              @click="showItemSqc(item._block._id)"
+            >
               <div class="content--item">
                 <div class="text_center name-script">{{ item._block.name }}</div>
               </div>
               <div class="option">
-                <options-sequence
-                  class="options--sequence"
-                  :sequenceId="sequence._id"
-                  :item="item"
-                >
-                </options-sequence>
+                <options-sequence class="options--sequence" :sequenceId="sequence._id" :item="item"></options-sequence>
               </div>
             </div>
           </div>
@@ -196,7 +201,7 @@
                     height="16"
                     viewBox="0 0 60 60"
                   >
-                    <icon-plus/>
+                    <icon-plus />
                   </icon-base>
                 </div>
               </div>

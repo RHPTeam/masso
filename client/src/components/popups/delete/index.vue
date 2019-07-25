@@ -7,23 +7,23 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }}</span>
-            <span>{{ typeName }} </span>
+            <span class="pr_1">{{ $t('chat.common.popup.delete.allData') }}</span>
+            <span>{{ typeName }}</span>
             <span class="text--bold pr_1">{{ targetName }}</span>
             <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
             <span v-if="confirmDelete === true">
-              <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
+              <span class="pr_1">{{ $t('chat.common.popup.delete.continue') }}</span>
               <span class="text--delete">DELETE</span>
-              <span class=""> {{ $t('chat.common.popup.delete.input') }}</span>
+              <span class>{{ $t('chat.common.popup.delete.input') }}</span>
             </span>
           </div>
           <div class="desc" v-else>
             <span>{{ description }}</span>
-            <span class="text--bold pr_1">{{ targetName }}. </span>
+            <span class="text--bold pr_1">{{ targetName }}.</span>
             <span v-if="confirmDelete === true">
-              <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
+              <span class="pr_1">{{ $t('chat.common.popup.delete.continue') }}</span>
               <span class="text--delete">DELETE</span>
-              <span class=""> {{ $t('chat.common.popup.delete.input') }}</span>
+              <span class>{{ $t('chat.common.popup.delete.input') }}</span>
             </span>
           </div>
           <div v-if="confirmDelete === true">
@@ -39,19 +39,19 @@
           <button
             class="btn--submit"
             @click="closePopup()"
-          > {{ $t('chat.common.popup.delete.cancle') }} </button>
+          >{{ $t('chat.common.popup.delete.cancle') }}</button>
           <span v-if="confirmDelete === true">
             <button
-            class="btn--skip"
-            v-if="deleteConfirm"
-            @click="deleteTargets()"
-          > {{ $t('chat.common.popup.delete.delete') }} </button>
+              class="btn--skip"
+              v-if="deleteConfirm"
+              @click="deleteTargets()"
+            >{{ $t('chat.common.popup.delete.delete') }}</button>
           </span>
           <button
             class="btn--skip"
             v-if="confirmDelete === false"
             @click="deleteTargets()"
-          > {{ $t('chat.common.popup.delete.delete') }} </button>
+          >{{ $t('chat.common.popup.delete.delete') }}</button>
         </div>
       </div>
     </div>
@@ -111,14 +111,14 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit( "closePopup", false );
+      this.$emit("closePopup", false);
     },
     deleteTargets() {
-      console.log(this.storeActionName);
-      console.log(this.targetData);
-      this.$store.dispatch( this.storeActionName, this.targetData._id );
-      
-      this.$emit( "closePopup", false );
+      console.log('targetData',this.targetData);
+      this.$store.dispatch(this.storeActionName, this.targetData._id);
+
+      this.$emit("closePopup", false);
+      this.$emit("isDeletedTarget", true);
     }
   }
 };

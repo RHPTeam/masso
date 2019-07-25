@@ -39,7 +39,7 @@
         </div>
         <div
           class="script--header-delete ml_auto"
-          @click="isDeleteItemBlock = true"
+          @click="isDeleteBlock = true"
         >
           <icon-base
             icon-name="remove"
@@ -144,7 +144,7 @@
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('text', block._id)"
+              @click="createItemBlock('text', selectedBlock._id)"
             >
               <icon-base
                 class="icon-text"
@@ -158,7 +158,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('image', block._id)"
+              @click="createItemBlock('image', selectedBlock._id)"
             >
               <icon-base
                 class="icon-image"
@@ -172,7 +172,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('time', block._id)"
+              @click="createItemBlock('time', selectedBlock._id)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -220,7 +220,7 @@
     <transition name="popup">
       <popup-plugins
         v-if="showPopupPlugins === true"
-        :content="block._id"
+        :content="selectedBlock._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
@@ -233,23 +233,16 @@
     </transition>
    <!-- Start: Delete Item Popup-->
     <transition name="popup">
-      <!-- <delete-campaign-popup
-        v-if="isDeleteItemBlock === true"
+      <delete-popup
+        v-if="isDeleteBlock === true"
         :data-theme="currentTheme"
         title="Delete Scripts"
-        @closePopup="isDeleteItemBlock = $event"
-        storeActionName="deleteScripts"
-        typeName="Scripts"
-      ></delete-campaign-popup> -->
-      <delete-campaign-popup
-        v-if="isDeleteItemBlock === true"
-        :data-theme="currentTheme"
-        title="Delete Scripts"
-        @closePopup="isDeleteItemBlock = $event"
+        @closePopup="isDeleteBlock = $event"
+        @isDeletedTarget="$emit('isDeletedTarget', $event)"
         storeActionName="deleteBlock"
-        :targetData="block"
+        :targetData="selectedBlock"
         typeName="Scripts"
-      ></delete-campaign-popup>
+      ></delete-popup>
     </transition>
     <!-- End: Delete Item Popup -->
   </div>

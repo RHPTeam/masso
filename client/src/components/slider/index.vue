@@ -119,7 +119,8 @@ export default {
     color: #000000ed;
   }
   .time--adjust {
-    max-width: 320px;
+    // max-width: 320px;
+    width: 100%;
   }
   input[type="range"] {
     background-image: linear-gradient(#ffb94a, #ffb94a);
