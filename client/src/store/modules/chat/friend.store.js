@@ -30,21 +30,21 @@ const mutations = {
   }
 };
 const actions = {
-  getAllFriendFB: async  ({commit}) => {
+  getAllFriendFbChat: async  ({commit}) => {
     commit("friend_request");
     const result = await FriendFacebookStore.index();
     console.log(result.data.data);
     commit("setFriends", result.data.data);
     commit("friend_success");
   },
-  getFriendFbBySize: async ({commit}, payload)  => {
+  getFriendFbChatBySize: async ({commit}, payload)  => {
     commit("friend_request");
     const result =  await FriendFacebookStore.getBySize(payload.size, payload.page);
     await commit("setFriends", result.data.data.results);
     await commit("setPage", result.data.data.page);
     commit("friend_success");
   },
-  getFriendById: async  ({commit}, payload) => {
+  getFriendChatById: async  ({commit}, payload) => {
     commit("friend_request");
     const result  = await FriendFacebookStore.getById(payload);
     commit("setFriend", result.data.data);
@@ -57,7 +57,7 @@ const actions = {
     commit("setPage", results.data.data.page);
     commit("friend_success");
   },
-  searchFriendFacebook: async ({commit}, payload) => {
+  searchFriendFacebookChat: async ({commit}, payload) => {
     commit("friend_request");
     const result = FriendFacebookStore.searchFriend(payload);
     commit("friend_success");

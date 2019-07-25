@@ -40,8 +40,8 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  async created() {
-    await this.$store.dispatch("getFriendFbBySize", {
+  created() {
+    this.$store.dispatch("getFriendFbChatBySize", {
       size:  this.currentSize,
       page: this.currentPage
     });

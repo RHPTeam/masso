@@ -66,46 +66,46 @@
       </div>
       <!--End: Filter Friend By Account Component-->
       <!-- Start: Options choose attr or group -->
-      <div class="action sequence--menu mr_2">
-        <div class="btn--sequence" @click="showAttribute">
-          Attribute
-          <icon-base
-            class="ml_1"
-            icon-name="icon-arrow-down"
-            width="14"
-            height="14"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down/>
-          </icon-base>
-        </div>
-        <div class="dropdown text_left" v-if="isShowOptionsAttribute === true" v-click-outside="closeShowAttribute">
-          <div class="dropdown--item px_3" @click="closeShowAttribute">Attribute</div>
-          <div class="dropdown--item px_3" @click="closeShowAttribute">Group</div>
-        </div>
-      </div>
+<!--      <div class="action sequence&#45;&#45;menu mr_2">-->
+<!--        <div class="btn&#45;&#45;sequence" @click="showAttribute">-->
+<!--          Attribute-->
+<!--          <icon-base-->
+<!--            class="ml_1"-->
+<!--            icon-name="icon-arrow-down"-->
+<!--            width="14"-->
+<!--            height="14"-->
+<!--            viewBox="0 0 160 160"-->
+<!--          >-->
+<!--            <icon-arrow-down/>-->
+<!--          </icon-base>-->
+<!--        </div>-->
+<!--        <div class="dropdown text_left" v-if="isShowOptionsAttribute === true" v-click-outside="closeShowAttribute">-->
+<!--          <div class="dropdown&#45;&#45;item px_3" @click="closeShowAttribute">Attribute</div>-->
+<!--          <div class="dropdown&#45;&#45;item px_3" @click="closeShowAttribute">Group</div>-->
+<!--        </div>-->
+<!--      </div>-->
       <!-- End: Options choose attr or group -->
       <!--Start: Number Displayed of Member Component-->
-      <!--      <div class="action sequence&#45;&#45;menu">-->
-      <!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->
-      <!--             v-click-outside="closeNumberDisplayedDropdown">-->
-      <!--          5-->
-      <!--          <icon-base-->
-      <!--            class="ml_1"-->
-      <!--            icon-name="icon-arrow-down"-->
-      <!--            width="14"-->
-      <!--            height="14"-->
-      <!--            viewBox="0 0 160 160"-->
-      <!--          >-->
-      <!--            <icon-arrow-down />-->
-      <!--          </icon-base>-->
-      <!--        </div>-->
-      <!--        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">Tất cả</div>-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">05</div>-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">15</div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+            <div class="action sequence--menu">
+              <div class="btn--sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"
+                   v-click-outside="closeNumberDisplayedDropdown">
+                Hiển thị
+                <icon-base
+                  class="ml_1"
+                  icon-name="icon-arrow-down"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 160 160"
+                >
+                  <icon-arrow-down />
+                </icon-base>
+              </div>
+              <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">
+                <div class="dropdown--item px_3">25</div>
+                <div class="dropdown--item px_3">50</div>
+                <div class="dropdown--item px_3">100</div>
+              </div>
+            </div>
       <!--End: Number Displayed of Member Component-->
     </div>
     <!--End: Top Right Component-->

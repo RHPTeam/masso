@@ -2,6 +2,7 @@ import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
 import AppNotification from "./desktop/notification";
 import AppExpire from "./desktop/expire";
+import GuidePopup from "./desktop/guide"
 
 import CookieFunction from "@/utils/functions/cookie";
 
@@ -20,7 +21,10 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    }
+    },
+    variableControlGuide(){
+      return this.$store.getters.variableControlGuide;
+    },
   },
   methods: {
     setCheckLogin() {
@@ -40,6 +44,7 @@ export default {
     AppHeader,
     AppSidebar,
     AppNotification,
-    AppExpire
+    AppExpire,
+    GuidePopup
   }
 };

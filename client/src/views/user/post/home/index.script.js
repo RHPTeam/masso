@@ -2,14 +2,12 @@ import VueApexCharts from 'vue-apexcharts';
 import AddKeyWord from "./components/keywords";
 import FriendFollow from "./components/friends";
 import VersionPopup from "./components/version";
-import GuidePopup from "./components/guide";
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
     FriendFollow,
-    VersionPopup,
-    GuidePopup
+    VersionPopup
   },
   data () {
     return {
@@ -25,9 +23,6 @@ export default {
       get() {
         return this.isStatusVersionNotification
       }
-    },
-    variableControlGuide(){
-      return this.$store.getters.variableControlGuide;
     },
     user(){
       return this.$store.getters.userInfo;

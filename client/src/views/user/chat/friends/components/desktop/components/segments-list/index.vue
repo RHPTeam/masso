@@ -88,6 +88,9 @@ export default {
     },
     seeAllUsers() {
       this.$emit("groupSelected", false);
+      this.$router.replace( {
+        name: "friends"
+      } );
     },
     async upTypingText(type, group) {
       await clearTimeout(typingTimer);
