@@ -13,4 +13,5 @@ router
   .post( PostGroupController.create )
   .patch( PostGroupController.update )
   .delete( PostGroupController.delete );
+router.route( "/search" ).post( PostGroupController.search );
 module.exports = router;

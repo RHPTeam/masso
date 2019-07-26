@@ -67,7 +67,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllGroupFriend");
+    // await this.$store.dispatch("getAllGroupFriend");
   },
   methods: {
     getInfoGroupById(val) {
@@ -75,6 +75,12 @@ export default {
       this.$store.dispatch("getGroupFriendById", val);
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);
+      // this.$router.replace( {
+      //   name: "friends",
+      //   query: {
+      //     gid: val
+      //   }
+      // } );
     },
     showDeletePopup() {
       this.isDeleteItemBlock = true;

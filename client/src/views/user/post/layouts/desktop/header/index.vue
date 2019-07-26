@@ -54,7 +54,7 @@
 
       <!-- Start: Help Dropdown -->
       <div class="notification--groups help position_relative">
-        <div class="" @click="isShowNotificationHelp = !isShowNotificationHelp">
+        <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
             class="icon icon--help"
             width="23px"
@@ -65,17 +65,15 @@
             <icon-help />
           </icon-base>
         </div>
-        <!--        <div class="notification&#45;&#45;dropdown news position_absolute">-->
-        <!--          <div class="notification&#45;&#45;dropdown position_absolute">-->
-        <!--            <transition name="dropdown">-->
-        <!--              <help-notification-->
-        <!--                v-if="isShowNotificationHelp === true"-->
-        <!--                :notifications="notifications"-->
-        <!--                @close="isShowNotificationHelp = $event"-->
-        <!--              ></help-notification>-->
-        <!--            </transition>-->
-        <!--          </div>-->
-        <!--        </div>-->
+        <div class="notification--dropdown position_absolute">
+                   <transition name="dropdown">
+                     <help-notification
+                       v-if="isShowNotificationHelp === true"
+                       :notifications="notifications"
+                       @close="isShowNotificationHelp = $event"
+                     ></help-notification>
+                   </transition>
+                 </div>
       </div>
       <!-- End: Help Dropdown -->
 
@@ -221,8 +219,9 @@
             <div class="mr_2">
               <h4 class="mb_2">{{ user.name }}</h4>
               <p class="mb_2">{{ user.email }}</p>
+              <p class="mb_2">Số điện thoại : {{ user.phone }}</p>
               <div class="more d_flex align_items_center justify_content_between">
-                <router-link class="setting" :to="{ name: 'chat_account' }">Thiết lập tài khoản</router-link>
+                <router-link class="setting" :to="{ name: 'post_account' }">Thiết lập tài khoản</router-link>
                 <div class="setting ml_4" @click="logOut">Đăng xuất</div>
               </div>
             </div>
