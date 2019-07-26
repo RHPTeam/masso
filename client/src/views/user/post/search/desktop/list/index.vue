@@ -132,6 +132,9 @@ export default {
     this.keyword = keywordDefault;
   },
   methods: {
+    closeKeywordRecentList () {
+      this.isStatusKeywordHistory = false;
+    },
     async loadMore() {
       if ( this.isLoadingData === true ) {
         if ( this.keyword !== "" ) {
@@ -173,9 +176,6 @@ export default {
     searchPostFromKeywordHistory( keyword ) {
       this.keyword = keyword;
       this.searchPost();
-    },
-    closeKeywordRecentList () {
-      this.isStatusKeywordHistory = false;
     }
   },
 };

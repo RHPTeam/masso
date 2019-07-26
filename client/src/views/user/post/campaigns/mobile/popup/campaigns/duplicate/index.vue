@@ -89,6 +89,18 @@ export default {
     closePopup() {
       this.$emit( "closePopup", false );
     },
+    changeDateSetup(value){
+      this.setup.timeStart = new Date(
+        ( new Date( value ) ).getFullYear(),
+        ( new Date( value ) ).getMonth(),
+        ( new Date( value ) ).getDate(),
+        ( new Date( this.event.started_at ) ).getHours(),
+        ( new Date( this.event.started_at ) ).getMinutes(),
+        0 )
+    },
+    chooseAccount(val){
+      this.setup.accountId = val;
+    },
     async duplicateCampaign() {
       await this.$store.dispatch( "duplicateCampaign", this.campaignDuplicate._id );
 
@@ -103,22 +115,9 @@ export default {
         campaignId: this.campaignDuplicate._id,
         facebookId: this.setup.accountId
       };
-      console.log(dataSender);
       await this.$store.dispatch("duplicateCampaignSimple", dataSender);
       await this.$emit("setDefault", false);
       this.closePopup();
-    },
-    changeDateSetup(value){
-      this.setup.timeStart = new Date(
-        ( new Date( value ) ).getFullYear(),
-        ( new Date( value ) ).getMonth(),
-        ( new Date( value ) ).getDate(),
-        ( new Date( this.event.started_at ) ).getHours(),
-        ( new Date( this.event.started_at ) ).getMinutes(),
-        0 )
-    },
-    chooseAccount(val){
-      this.setup.accountId = val;
     }
   }
 };

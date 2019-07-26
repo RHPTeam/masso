@@ -1,0 +1,166 @@
+<template>
+  <div class="main--list">
+    <!-- Start: List post -->
+    <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
+    <VuePerfectScrollbar class="list--post-group">
+      <div
+        v-if="allPostSearchMobile.length === 0"
+        class="text_center py_2 no--post"
+      >Không có bài viết nào được tìm thấy!</div>
+      <div v-else>
+        <item-post
+          v-for="item in allPostSearchMobile"
+          :key="item._id"
+          :item="item"
+          @showDetailPost="showPopupDetail($event)"
+          @showPopupDelete="showPopupDelete($event)"
+        />
+        <!-- <div class="text_center" v-if="postsPageSize === currentPage"></div>
+        <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div> -->
+      </div>
+    </VuePerfectScrollbar>
+    <!-- End: List post -->
+    <!-- Start: Transition -->
+    <transition name="popup">
+      <popup-delete
+        v-if="isShowPopupDelete === true"
+        @closePopup="isShowPopupDelete = $event"
+        title="bài viết"
+        :name="postSelected.title"
+        storeActionName="deletePost"
+        :targetData="targetDataDelete"
+      />
+    </transition>
+    <!-- End: Transition -->
+    <!-- Start: Popup Detail Post -->
+    <transition name="popup--mobile">
+      <popup-detail
+        :post="postSelected"
+        v-if="isShowDetailPost === true"
+        @closePopup="isShowDetailPost = $event"
+      />
+      <!-- <popup-post-now /> -->
+    </transition>
+    <!-- Start: Popup Detail Post -->
+  </div>
+</template>
+
+<script>
+import PopupDelete from "@/components/popups/mobile/delete";
+import PopupDetail from "../../detail";
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+// import PopupPostNow from "../popup/postnow";
+import ItemPost from "./item";
+export default {
+  data() {
+    return {
+      currentPage: 1,
+      isFirstTime: false,
+      isShowPopupDelete: false,
+      isShowDetailPost: false,
+      isLoadingData: true,
+      pageSize: 25,
+      postSelected: {},
+      targetDataDelete: {}
+    };
+  },
+  props: ["search"],
+  components: {
+    VuePerfectScrollbar,
+    // PopupPostNow,
+    ItemPost,
+    PopupDetail,
+    PopupDelete
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    allPostSearchMobile() {
+      return this.$store.getters.allPostSearchMobile;
+    },
+    postsPageSize() {
+      return this.$store.getters.postsPageSize;
+    }
+  },
+  methods: {
+    async loadMore() {
+      this.currentPage += 1;
+
+      await this.$store.dispatch("getPostsByPageMobile", {
+        size: this.pageSize,
+        page: this.currentPage
+      });
+    },
+    showPopupDetail(post) {
+      this.postSelected = post;
+      this.isShowDetailPost = true;
+    },
+    showPopupDelete(post) {
+      this.postSelected = post;
+      this.targetDataDelete = {
+        id: post._id
+      };
+      this.isShowPopupDelete = true;
+    }
+  },
+  async created() {
+    // const dataSender = {
+    //   keyword: this.search,
+    //   page: 1,
+    //   size: 25,
+    // };
+    // await this.$store.dispatch("getPostsByKeyMobile", dataSender);
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+// Start Transition
+.popup--mobile-enter {
+  transform: translateX(100%);
+}
+
+.popup--mobile-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--mobile-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(100%);
+}
+.popup-enter {
+  transform: translateY(100%);
+}
+
+.popup-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+// End Transition
+.main--list {
+  .no--post {
+    font-size: 0.9315rem;
+  }
+  .item--header {
+    background: #27292d;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 0.875rem;
+    line-height: 32px;
+  }
+  .list--post-group {
+    max-height: 74vh;
+    &.ps.ps--active-x > .ps__scrollbar-x-rail,
+    &.ps.ps--active-y > .ps__scrollbar-y-rail {
+      display: none !important;
+    }
+  }
+}
+</style>

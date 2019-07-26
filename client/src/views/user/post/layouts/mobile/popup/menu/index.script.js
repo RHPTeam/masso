@@ -16,6 +16,9 @@ export default {
     }
   },
   methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
     selectFile() {
       this.file = this.$refs.file.files[0];
       this.sendFile();
@@ -25,9 +28,6 @@ export default {
 
       formData.append("profileUrl", this.file);
       this.$store.dispatch("sendFile", formData);
-    },
-    closePopup() {
-      this.$emit("closePopup", false);
     },
     showDashboard() {
       this.$store.dispatch("actionCursorMenu", 0);

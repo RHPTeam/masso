@@ -57,14 +57,15 @@
         </VuePerfectScrollbar>
       </div>
       <!-- End: List Category -->
+
+      <!-- Start: List Category Form -->
       <div class="category--form" v-if="isShowCategoryDefault === true">
         <VuePerfectScrollbar class="scroll--category-form" ref="scroll">
           <category-form @showCategory="showCategory($event)"/>
         </VuePerfectScrollbar>
       </div>
-      <!-- Start: List Category Form -->
-
       <!-- End: List Category Form -->
+      
     </div>
     <!-- End: Content -->
     <!-- Start: Transition Popup -->

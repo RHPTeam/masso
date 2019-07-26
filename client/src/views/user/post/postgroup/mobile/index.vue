@@ -43,9 +43,12 @@
 
       <!-- Start: List -->
       <VuePerfectScrollbar class="list--post-group">
+        <!-- Start: No account fb -->
+        <div v-if="accountsFB && accountsFB.length === 0" class="no--account text_center mt_3">Vui lòng thêm tài khoản facbook để sử dụng chức năng này!</div>
+        <!-- End: No account fb -->
         <!-- Start: Loading Component -->
         <div class="loading--block"
-            v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading' "
+            v-else-if="facebookGroupsStatus === 'loading' && facebookPagesStatus === 'loading' "
         >
           <loading-component class="loading"></loading-component>
         </div>
@@ -91,6 +94,9 @@ export default {
     };
   },
   computed: {
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     facebookPagesStatus() {
       return this.$store.getters.facebookPagesStatus;
     },
@@ -187,6 +193,9 @@ export default {
   .main--content {
     .list--post-group {
       // max-height: 58vh;
+      .no--account {
+        font-size: 0.8315rem;
+      }
     }
   }
 }

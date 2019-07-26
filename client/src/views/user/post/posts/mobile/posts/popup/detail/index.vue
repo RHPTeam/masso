@@ -36,6 +36,7 @@
           <!-- Start: Post Categories -->
           <div class="item">
             <span>Danh mục</span>
+            <div class="error my_1" v-if="isShowAlertCategory === true">Danh mục không được bỏ trống</div>
             <div class="item--categories mt_2">
               <multiselect
                 label="title"

@@ -125,6 +125,9 @@ export default {
     }
   },
   methods: {
+    closePopupSearch() {
+      this.$emit("closePopupSearch", false);
+    },
     async loadMore() {
       if (this.isLoadingData === true) {
         if (this.keyword !== "") {
@@ -144,9 +147,6 @@ export default {
           }
         }
       }
-    },
-    closePopupSearch() {
-      this.$emit("closePopupSearch", false);
     },
     async searchPost() {
       this.isStatusKeywordHistory = true;
@@ -234,7 +234,7 @@ export default {
   }
 }
 .infinite {
-  max-height: calc(100vh - 231px);
+  max-height: calc(100vh - 80px);
 }
 .infinite--control-block {
   width: 100%;

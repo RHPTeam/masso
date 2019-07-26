@@ -4,7 +4,7 @@
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center p_3">
         <div class="list--input d_flex justify_content_between align_items_center">
-          <span class="ml_3 mt_1">
+          <span class="ml_3 mt_1" @click="updateSearch">
             <icon-base icon-name="Tìm kiếm" width="20" height="20" viewBox="0 0 20 20">
               <icon-input-search />
             </icon-base>
@@ -14,31 +14,10 @@
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
       <!-- End: Header - Search -->
-      <!-- Start: Search Near -->
-      <!-- <div class="near px_3">
-        <h6>Tìm kiếm gần đây</h6>
-        <div class="list">
-          <ul class="p_0 m_0" v-if="keyPopular && keyPopular.length > 0">
-            <li v-for="(item, index) in keyPopular" :key="index">{{ item }}</li>
-          </ul>
-          <p v-else>Bạn chưa tìm gì.</p>
-        </div>
-      </div>-->
-      <!-- End: Search Near -->
       <!-- Start: Main - Search -->
       <div class="items--body px_2">
         <!-- Start: List Content -->
         <vue-perfect-scrollbar class="infinite">
-          <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
-          <app-item :item="item"/>
-        </div>
-        <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
-          <loading-component></loading-component>
-        </div>
-        <div
-          v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
-          class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
-          >Không có dữ liệu</div>-->
           <div class="item d_flex align_items_center">
             <div
               class="post tab"
@@ -59,14 +38,14 @@
           <div class="content mt_2">
             <!-- Start: post -->
             <div class="post" v-if="isShowPopupPosts === true">
-              <list-post />
+              <list-post :search="search"/>
             </div>
             <!-- Start: category -->
             <div class="category" v-if="isShowPopupCategories === true">
-              <list-category />
+              <list-category :search="search" />
             </div>
             <div class="post--category" v-if="isShowPopupCategoriesDefault === true">
-              <list-category-default />
+              <list-category-default :search="search" />
             </div>
             <!-- Start: Post category -->
           </div>
@@ -85,9 +64,9 @@
 
 <script>
 import PopupDelete from "../delete";
-import ListPost from "../../list";
-import ListCategory from "../../../category/list";
-import ListCategoryDefault from "../../../category/default";
+import ListPost from "./post";
+import ListCategory from "./category";
+import ListCategoryDefault from "./categorydefault";
 export default {
   components: {
     PopupDelete,
@@ -107,35 +86,28 @@ export default {
     };
   },
   methods: {
-    async closePopupSearch() {
+    closePopupSearch() {
+      this.$emit("closePopupSearch", false);
       const dataSender = {
         keyword: "",
         size: 25,
         page: 1
       };
-      await this.$store.dispatch("getPostsByPage", dataSender);
-      await this.$store.dispatch("getCategoriesByPage", dataSender);
-      await this.$store.dispatch("getCategoryDefault");
-      await this.$router.push({
-        name: "post_posts",
-        query: { size: 25, page: 1 }
-      });
-      this.$emit("closePopupSearch", false);
+      this.$store.dispatch("getPostsByKeyMobile", dataSender);
+      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      this.$store.dispatch("getCategoryDefault");
     },
     showPopupPosts() {
-      // this.$router.push({ name: 'post_posts', query: { size: 25, page: 1 } });
       this.isShowPopupPosts = true;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategories() {
-      // this.$router.push({ name: "post_postCategories", query: { size: 25, page: 1 } });
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = true;
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategoriesDefault() {
-      // this.$router.push({ name: 'categories_default' });
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = true;
@@ -152,8 +124,8 @@ export default {
         size: 25,
         page: 1
       };
-      this.$store.dispatch("getPostsByKey", dataSender);
-      this.$store.dispatch("getCategoriesByKey", dataSender);
+      this.$store.dispatch("getPostsByKeyMobile", dataSender);
+      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
       // Search Default Categories on Client Side.
       await this.$store.dispatch("getCategoryDefault");
       this.$store.dispatch("getCategoriesDefaultByKey", {
@@ -161,14 +133,14 @@ export default {
         categoriesDefault: this.$store.getters.allCateDefault
       });
 
-      this.$router.replace({
-        name: "post_posts",
-        query: {
-          search: this.search,
-          size: 25,
-          page: 1
-        }
-      });
+      // this.$router.replace({
+      //   name: "post_posts",
+      //   query: {
+      //     search: this.search,
+      //     size: 25,
+      //     page: 1
+      //   }
+      // });
 
       // this.$emit( "updateSearch", this.search );
       // this.updateFilterCategorySelected( {
@@ -178,11 +150,6 @@ export default {
     }
   },
   created() {
-    const search = this.$route.query.search;
-
-    if (search !== undefined) {
-      this.search = search;
-    }
   },
   watch: {
     search(val) {

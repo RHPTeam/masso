@@ -250,6 +250,12 @@ export default {
     }
   },
   methods: {
+    clearTypingTimer() {
+      clearTimeout( typingTimer );
+    },
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
     showPopupProfile() {
       this.isShowPopupProfile = true;
       this.isShowPopupFanpage = false;
@@ -277,14 +283,8 @@ export default {
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
     },
-    closePopup() {
-      this.$emit("closePopup", false);
-    },
     showPopupDeletePostGroup() {
       this.isShowPopupDeletePostGroup = true;
-    },
-    clearTypingTimer() {
-      clearTimeout( typingTimer );
     },
     async upTypingText( gr ) {
       await clearTimeout( typingTimer );

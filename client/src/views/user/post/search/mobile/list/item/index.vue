@@ -57,15 +57,15 @@ export default {
     };
   },
   methods: {
-    showPost() {
-      this.$emit("showPost", this.item);
-    },
     addToContentStore() {
       this.showCreatePopup = true;
       this.$store.dispatch("updateDefaultPostByFbPost", {
         content: this.item.content,
         attachments: this.item.attachments
       });
+    },
+    showPost() {
+      this.$emit("showPost", this.item);
     },
     onPan(event) {
       if (event.offsetDirection === 2) {

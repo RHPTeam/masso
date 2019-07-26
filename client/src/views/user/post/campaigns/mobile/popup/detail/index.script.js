@@ -54,28 +54,6 @@ export default {
       this.$store.dispatch("getCampaignsByPage", dataSender);
       this.$emit("closePopup", false);
     },
-    async openEventPopup( event ) {
-      await this.$store.dispatch( "getEventById", event._id );
-      this.showCreateEvent();
-      // this.$store.dispatch( "setCaseEvent", {
-      //   key: "popup",
-      //   value: true
-      // } );
-    },
-    updateTitleCampaign() {
-      const objSender = {
-        campId: this.campaign._id,
-        campaign: {
-          title: this.campaign.title
-        }
-      };
-      this.$store.dispatch( "updateCampaignDetail", objSender );
-    },
-    updateCampaignStatus() {
-      const campaignId = this.campaign._id;
-
-      this.$store.dispatch( "updateCampaignStatus", campaignId );
-    },
     formatDateStartedAt( d ) {
       const dateTime = new Date( d ),
         date = String( dateTime.getDate() ).padStart( 2 , "0" ),
@@ -91,11 +69,33 @@ export default {
 
       return `${hours}:${mins}`;
     },
+    async openEventPopup( event ) {
+      await this.$store.dispatch( "getEventById", event._id );
+      this.showCreateEvent();
+      // this.$store.dispatch( "setCaseEvent", {
+      //   key: "popup",
+      //   value: true
+      // } );
+    },
     showCreateEvent() {
       this.isShowCreateEvent = true;
     },
     showHistory() {
       this.isShowHistory = true;
+    },
+    updateTitleCampaign() {
+      const objSender = {
+        campId: this.campaign._id,
+        campaign: {
+          title: this.campaign.title
+        }
+      };
+      this.$store.dispatch( "updateCampaignDetail", objSender );
+    },
+    updateCampaignStatus() {
+      const campaignId = this.campaign._id;
+
+      this.$store.dispatch( "updateCampaignStatus", campaignId );
     }
   },
   async created() {

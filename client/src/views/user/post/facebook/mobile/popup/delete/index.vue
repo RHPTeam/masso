@@ -9,6 +9,17 @@
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
+      <!-- <div class="modal--body px_3 py_4" v-if="deleteStatus === 'loading'">
+        <div class="modal--title">Xóa tài khoản Facebook</div>
+        <div class="loading--block mt_4 mb_4">
+          <div class="mx_auto">
+            <div class="loading--bar position_relative mx_auto">
+              <div class="percent position_absolute"></div>
+            </div>
+          </div>
+          <div class="desc text_center mt_2">Vui lòng chờ, dữ liệu đang được cập nhật...</div>
+        </div>
+      </div> -->
       <!-- End: Delete Popup -->
     </div>
   </div>
@@ -33,7 +44,6 @@ export default {
     },
     async deleteTargets() {
       this.deleteStatus = "loading";
-      console.log(this.item);
       await this.$store.dispatch("deleteAccountFacebook", this.item._id);
 
       // remove localStorage
@@ -84,6 +94,43 @@ export default {
         background: #212225;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
+      }
+    }
+    .modal--body {      
+      width: 100vw;
+      height: 100vh;
+      .modal--title {
+        font-size: 1rem;
+        font-weight: 700;
+      }
+      .loading--block {
+        .desc {
+          color: #ccc;
+          font-size: 0.875rem;
+        }
+        .loading--bar {
+          background-color: transparent;
+          border: 1px solid #444;
+          border-radius: 8px;
+          height: 16px;
+          overflow: hidden;
+          width: 290px;
+          .percent {
+            background-color: rgb(88, 206, 65);
+            background-size: 16px 16px;
+            height: 100%;
+            width: 40%;
+            animation: animate 1.4s linear infinite;
+          }
+          @keyframes animate {
+            0% {
+              transform: translateX(-100%);
+            }
+            100% {
+              transform: translateX(200%);
+            }
+          }
+        }
       }
     }
   }

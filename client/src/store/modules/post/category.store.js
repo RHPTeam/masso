@@ -5,6 +5,7 @@ const state = {
   allCategories: [],
   categoryById: {},
   categoriesPage: [],
+  categoriesPageMobile: [],
   categoriesPageSize: 1,
   mixCategories: [],
   statusCategories: "",
@@ -14,6 +15,7 @@ const getters = {
   allCategories: ( state ) => state.allCategories,
   categoryById: ( state ) => state.categoryById,
   categoriesPage: ( state ) => state.categoriesPage,
+  categoriesPageMobile: state => state.categoriesPageMobile,
   categoriesPageSize: ( state ) => state.categoriesPageSize,
   mixCategories: ( state ) => state.mixCategories,
   statusCategories: ( state ) => state.statusCategories,
@@ -38,8 +40,15 @@ const mutations = {
   setCategoriesPage: ( state, payload ) => {
     state.categoriesPage = payload
   },
+  setCategoriesPageByKeyMobile: (state, payload) => {
+    state.categoriesPageMobile = payload;
+  },
   setCategoriesPageSize: ( state, payload ) => {
     state.categoriesPageSize = payload;
+  },
+  // Mobile
+  setCategoriesPageMobile: (state, payload) => {
+    state.categoriesPage = state.categoriesPage.concat(payload);
   },
   setMixCategories: ( state, payload ) => {
     state.mixCategories = payload;
@@ -67,12 +76,32 @@ const actions = {
 
     commit( "cate_success"  );
   },
+  // Mobile - get cate by page and concat array
+  getCategoriesByPageMobile: async (  { commit }, payload ) => {
+    commit( "cate_request"  );
+
+    const res = await CategoriesServices.getByPage( payload.size, payload.page );
+    commit( "setCategoriesPageMobile", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
+
+    commit( "cate_success"  );
+  },
   getCategoriesByKey: async (  { commit }, payload ) => {
     commit( "cate_request"  );
     const res = await CategoriesServices.searchByKey( payload.keyword, payload.size, payload.page );
 
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
+
+    commit( "cate_success"  );
+  },
+  // search mobile
+  getCategoriesByKeyMobile: async (  { commit }, payload ) => {
+    commit( "cate_request"  );
+    const res = await CategoriesServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    commit( "setCategoriesPageByKeyMobile", res.data.data.results );
+    // commit( "setCategoriesPageSize", res.data.data.page );
 
     commit( "cate_success"  );
   },

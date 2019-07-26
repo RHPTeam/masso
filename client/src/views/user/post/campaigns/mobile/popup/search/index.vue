@@ -4,7 +4,7 @@
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center p_3">
         <div class="list--input d_flex justify_content_between align_items_center">
-          <span class="ml_3 mt_1">
+          <span class="ml_3 mt_1" @click="updateSearch">
             <icon-base icon-name="Tìm kiếm" width="20" height="20" viewBox="0 0 20 20">
               <icon-input-search />
             </icon-base>
@@ -33,7 +33,7 @@
       <!-- Start: Main - Search -->
       <div class="items--body px_2">
         <!-- Start: List Content -->
-        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+        <vue-perfect-scrollbar class="infinite">
           <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
           <app-item :item="item"/>
         </div>
@@ -59,18 +59,18 @@
           <div class="content mt_2">
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div v-if="campaigns.length === 0" class="text_center">Không có chiến dịch nào</div>
+              <div v-if="campaignsMobile.length === 0" class="text_center">Không có chiến dịch nào được tìm thấy!</div>
               <item-campaign
                 v-else
                 :item="item"
-                v-for="item in campaigns"
+                v-for="item in campaignsMobile"
                 :key="item._id"
                 @showDetailPost="showPopupDetailCampaign($event)"
                 @showPopupDelete="showPopupDelete($event)"
               />
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
-              <div v-if="campaignsDefault.length === 0" class="text_center">Không có chiến dịch mẫu nào</div>
+              <div v-if="campaignsDefault.length === 0" class="text_center">Không có chiến dịch mẫu nào được tìm thấy!</div>
               <item-campaign-default
                 v-else
                 :item="item"
@@ -119,8 +119,8 @@
 import PopupDelete from "../delete";
 import PopupDetailCampaign from "../detail";
 import PopupCopy from "../copy";
-import ItemCampaign from "../../item/campaign";
-import ItemCampaignDefault from "../../item/campaign-default";
+import ItemCampaign from "../../components/campaign";
+import ItemCampaignDefault from "../../components/campaign-default";
 
 export default {
   components: {
@@ -130,22 +130,25 @@ export default {
     ItemCampaign,
     ItemCampaignDefault
   },
-  props: ["campaigns", "campaignsDefault"],
+  props: ["campaignsDefault"],
   data() {
     return {
-      search: "",
       isLoadingData: false,
-      selectedCampaign: {},
       isShowPopupFanpage: true,
       isShowPopupGroup: false,
       isShowPopupPostGroup: false,
       isShowAddToGroup: false,
       isShowPopupDelete: false,
       isShowPopupCopy: false,
-      isShowPopupDetailCampaign: false
+      isShowPopupDetailCampaign: false,
+      search: "",
+      selectedCampaign: {}
     };
   },
   computed: {
+    campaignsMobile() {
+      return this.$store.getters.campaignsMobile;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     }
@@ -165,10 +168,7 @@ export default {
     // }
   },
   created() {
-    const search = this.$route.query.search;
-    if (search !== undefined) {
-      this.search = search;
-    }
+    
   },
   methods: {
     async loadMore() {
@@ -191,29 +191,34 @@ export default {
         }
       }
     },
-    async updateSearch() {
+    closePopupSearch() {   
+      this.$emit("closePopupSearch", false);   
       const dataSender = {
-        keyword: this.search,
+        keyword: "",
         size: 25,
         page: 1
       };
-      await this.$store.dispatch("getCampaignsByKey", dataSender);
-
-      // Search Default Campaign on Client Side.
-      await this.$store.dispatch("getCampaignSimple");
-      await this.$store.dispatch("getCampaignsSimpleByKey", {
-        search: this.search,
-        campaignsDefault: this.campaignsDefault
-      });
-      // this.$emit("updateSearch", this.search);
+      this.$store.dispatch("getCampaignsByKeyMobile", dataSender);
     },
-    closePopupSearch() {
-      const dataSender = {
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch( "getCampaignsByPage", dataSender );
-      this.$emit("closePopupSearch", false);
+    confirmDeleteCampaign(event) {
+      if (event === true) {
+        this.selectedCampaign.id = this.selectedCampaign._id;
+        this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+      }
+    },
+    confirmCopyCampaign(event) {
+      if (event === true) {
+        this.selectedCampaign.id = this.selectedCampaign._id;
+        // this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+      }
+    },
+    formatDate(d) {
+      const dateTime = new Date(d);
+      const date = String(dateTime.getDate()).padStart(2, "0");
+      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+      const year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
     },
     showPopupFanpage() {
       this.isShowPopupFanpage = true;
@@ -237,9 +242,6 @@ export default {
       this.selectedCampaign = campaign;
       this.isShowPopupDelete = true;
     },
-    showPopupSearch() {
-      this.isShowPopupSearch = true;
-    },
     showPopupCopy() {
       this.isShowPopupCopy = true;
     },
@@ -247,28 +249,24 @@ export default {
       this.selectedCampaign = campaign;
       this.isShowPopupDetailCampaign = true;
     },
-    formatDate(d) {
-      const dateTime = new Date(d);
-      const date = String(dateTime.getDate()).padStart(2, "0");
-      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
-      const year = dateTime.getFullYear();
-
-      return `${date}/${month}/${year}`;
-    },
     selectCampaign(campaign) {
       this.selectedCampaign = campaign;
     },
-    confirmDeleteCampaign(event) {
-      if (event === true) {
-        this.selectedCampaign.id = this.selectedCampaign._id;
-        this.$store.dispatch("deleteCampaign", this.selectedCampaign);
-      }
-    },
-    confirmCopyCampaign(event) {
-      if (event === true) {
-        this.selectedCampaign.id = this.selectedCampaign._id;
-        // this.$store.dispatch("deleteCampaign", this.selectedCampaign);
-      }
+    async updateSearch() {
+      const dataSender = {
+        keyword: this.search,
+        size: 25,
+        page: 1
+      };
+      await this.$store.dispatch("getCampaignsByKeyMobile", dataSender);
+
+      // Search Default Campaign on Client Side.
+      await this.$store.dispatch("getCampaignSimple");
+      await this.$store.dispatch("getCampaignsSimpleByKey", {
+        search: this.search,
+        campaignsDefault: this.campaignsDefault
+      });
+      // this.$emit("updateSearch", this.search);
     }
   }
 };

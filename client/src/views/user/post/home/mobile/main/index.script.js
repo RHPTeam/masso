@@ -29,9 +29,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    newestPost() {
-      return this.$store.getters.newestPost;
-    },
     allAnalysis() {
       return this.$store.getters.allAnalysis;
     },
@@ -478,10 +475,5 @@ export default {
     // this.$store.dispatch("getAllStaticCampagin" ) ;
     // this.$store.dispatch("getAllSttPost" );
     // this.$store.dispatch("getNewestPosts", 5);
-  },
-  methods: {
-    goToThisPost( id ) {
-      return this.$router.push({ params: { id }, name: "post_update_post" } );
-    }
   }
 }

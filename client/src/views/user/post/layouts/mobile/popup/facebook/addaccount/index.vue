@@ -12,7 +12,7 @@
           >
             <icon-modal-cookie />
             </icon-base>-->
-            <div @click="closeAddPopup">
+            <div @click="closeAddPopup" v-if="addFbStatus !== 'loading'">
               <icon-base
                 icon-name="arrow-down"
                 class="arrow-down"
@@ -95,14 +95,14 @@ export default {
     }
   },
   methods: {
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
-    },
     async addCookie() {
       this.addFbStatus = "loading";
       await this.$store.dispatch("addCookie", this.cookie);
       this.addFbStatus = "success";
       this.closeAddPopup();
+    },
+    closeAddPopup() {
+      this.$emit("closeAddPopup", false);
     }
   }
 };

@@ -28,7 +28,7 @@
               <p class="mb_0">Nội dung:</p>
               <div
                 class="pl_2"
-                style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;"
+                style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;font-size:0.8315rem;"
                 v-html="fbSelected.content"
               ></div>
             </div>
@@ -97,13 +97,6 @@ export default {
     closeAllEdit(event) {
       this.$emit("closeAllEdit", event);
     },
-    sliceImage() {
-      return this.item.attachments.slice(0, 3);
-    },
-    resetPost() {
-      this.post.title = "";
-      this.post.content = "";
-    },
     closePopup() {
       this.$emit("closePopup", false);
     },
@@ -128,6 +121,13 @@ export default {
         attachments: this.fbSelected.attachments
       });
       // this.closePopup();
+    },
+    resetPost() {
+      this.post.title = "";
+      this.post.content = "";
+    },
+    sliceImage() {
+      return this.item.attachments.slice(0, 3);
     }
   }
 };

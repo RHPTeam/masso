@@ -4,6 +4,7 @@ import RemoveFunction  from "@/utils/functions/array";
 
 const state = {
   allPost: [],
+  allPostSearchMobile: [],
   errorPost: "",
   newPost: [],
   defaultPost: {
@@ -27,36 +28,45 @@ const state = {
     }
   },
   postAttachmentsUpload: [],
+  postsFilterByCategory: [],
   postOfCate: [],
   postsPage: [],
+  postsPageMobile: [],
   postsPageInfinite: [],
   postsPageSize: 1,
+  postsPageSizeFilter: 1,
   statusPost: "",
   statusOnePost: "",
   totalPost: null,
   newestPost: [],
   infoPostCateDefault: 0,
   statusPostCateDefault: "",
-  titleCategory: ""
+  titleCategory: "",
+  idCategoryToLoadMore: ""
 };
 const getters = {
   allPost: ( state ) => state.allPost,
+  allPostSearchMobile: state => state.allPostSearchMobile,
   errorPost: ( state ) => state.errorPost,
   defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postAttachmentsUpload: ( state ) => state.postAttachmentsUpload,
+  postsFilterByCategory: state => state.postsFilterByCategory,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage,
+  postsPageMobile: (state) => state.postsPageMobile,
   postsPageInfinite: ( state ) => state.postsPageInfinite,
   postsPageSize: ( state ) => state.postsPageSize,
+  postsPageSizeFilter: state => state.postsPageSizeFilter,
   statusPost: ( state ) => state.statusPost,
   statusOnePost: ( state ) => state.statusOnePost,
   totalPost: ( state ) => state.totalPost,
   newestPost: state => state.newestPost,
   infoPostCateDefault: state => state.infoPostCateDefault,
   statusPostCateDefault: state => state.statusPostCateDefault,
-  titleCategory: state => state.titleCategory
+  titleCategory: state => state.titleCategory,
+  idCategoryToLoadMore: state => state.idCategoryToLoadMore
 };
 const mutations = {
   post_request: ( state ) => {
@@ -102,11 +112,18 @@ const mutations = {
   setPostsPage: ( state, payload ) => {
     state.allPost = payload;
   },
+  setPostsPageMobile: (state, payload) => {
+    state.allPostSearchMobile = payload;
+  },
   setPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = state.postsPageInfinite.concat( payload );
   },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
+  },
+  // mobile
+  setPostsPageSizeFilter: ( state, payload ) => {
+    state.postsPageSizeFilter = payload;
   },
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
@@ -142,6 +159,20 @@ const mutations = {
   },
   setTitleCategories: (state, payload) => {
     state.titleCategory = payload;
+  },
+  // set post by page to get number posts in that page
+  setPostByPage: (state, payload) => {
+    state.allPost = state.allPost.concat(payload);
+  },
+  // Mobile
+  setPostsFilterByCategoryMobile: (state, payload) => {
+    state.postsFilterByCategory = payload;
+  },
+  setPostsByCategoryToLoadMore: (state, payload) => {
+    state.postsFilterByCategory = state.postsFilterByCategory.concat(payload);
+  },
+  setIdCategoryToLoadmore: (state, payload) => {
+    state.idCategoryToLoadMore = payload;
   }
 };
 const actions = {
@@ -195,6 +226,34 @@ const actions = {
 
     commit( "post_success" );
   },
+  // mobile ...
+  getPostByCategoriesMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getByCategories(
+      payload.categoryId,
+      payload.size,
+      payload.page
+    );
+    await commit( "setPostsFilterByCategoryMobile", res.data.data.results );
+    await commit( "setPostsPageSizeFilter", res.data.data.page );
+    await commit( "setIdCategoryToLoadmore", payload.categoryId );
+
+    commit( "post_success" );
+  },
+  getPostByCategoriesLoadMoreMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getByCategories(
+      payload.categoryId,
+      payload.size,
+      payload.page
+    );
+    await commit( "setPostsByCategoryToLoadMore", res.data.data.results );
+    await commit( "setPostsPageSizeFilter", res.data.data.page );
+
+    commit( "post_success" );
+  },
 
   showPostCateDefaultById: async ({commit}, payload) => {
     commit("post_request");
@@ -219,7 +278,6 @@ const actions = {
   setTitleCate: async ({commit}, payload) => {
     commit("setTitleCategories", payload);
   },
-
   getPostsByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
 
@@ -228,6 +286,18 @@ const actions = {
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
     await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  // get post by page to concat post to load more
+  getPostsByPageMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostByPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    // await commit( "setTotalPost", res.data.data.total );
+    // await commit( "setPostsPageInfinite", res.data.data.results );
 
     commit( "post_success" );
   },
@@ -264,6 +334,15 @@ const actions = {
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setPostsPageInfinite", res.data.data.results );
 
+    commit( "post_success" );
+  },
+  // get post by key when search mobile
+  getPostsByKeyMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPageMobile", res.data.data.results );
+    
     commit( "post_success" );
   },
   resetPostsPageInfinite: async ( { commit } ) => {
@@ -329,11 +408,6 @@ const actions = {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
-  },
-  // get newest post -- Khanh 13.06
-  getNewestPosts: async ({ commit }, payload) => {
-    const resGetNewestPost = await PostServices.getNewestPost(payload);
-    commit("setNewestPost", resGetNewestPost.data.data);
   }
 };
 
