@@ -1,0 +1,48 @@
+.auto--form {
+  font-size: inherit;
+  position: relative;
+  textarea {
+    background-color: transparent;
+    border: 0;
+    border-radius: .375rem;
+    font-size: inherit;
+    overflow: hidden;
+    outline: none;
+    padding: .5rem;
+    white-space: pre-wrap;
+    width: 100%;
+    &:focus {
+      &~ .characters--count {
+        display: block;
+      }
+    }
+    &::placeholder {
+      color: #999;
+    }
+  }
+  .characters--count {
+    background-color: #2bc34b;
+    border-radius: .5rem;
+    bottom: 0;
+    color: #fff;
+    display: none;
+    font-size: 10px;
+    margin-bottom: 6px;
+    padding: 0 4px;
+    position: absolute;
+    right: 0;
+    transition: all .4s ease;
+    &.warning {
+      background-color: #e9604a !important;
+    }
+  }
+  .wrap--mask {
+    background-color: transparent;
+    overflow: hidden;
+    padding: .5rem;
+    position: absolute;
+    top: 0;
+    white-space: pre-wrap;
+    width: 100%;
+  }
+}
