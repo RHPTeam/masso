@@ -291,55 +291,73 @@
 
       <!--Start: show info user filter-->
       <div v-if="resultsDefault === false">
-        <div class="none--data">
-          Không có dữ liệu
+        <div v-if="this.$store.getters.friendStatus ==='loading'">
+          <loading-component />
         </div>
-        <div
-          class="user--table-item record"
-        >
-          <div class="checkbox">
-          <span class="checkbox--control">
-            <input
-              type="checkbox"
-              class="checkbox--control-input"
-            />
-            <span class="checkbox--control-checkmark"></span>
-          </span>
-          </div>
-          <div class="name">
-            <div class="name--avatar mr_2">
-              <img
-                width="32px"
-                height="32px"
-              />
-            </div>
-            <div class="name--text">
-              <span class="btn--action">FullName</span>
-            </div>
-          </div>
-          <div class="gender">
-            <span class="btn--action">Gender</span>
-          </div>
-          <div class="pronoun">
-            <!-- <span
-              class="btn--action"
+        <div>
+          <div v-if="users && users.length > 0">
+            <div
+              class="user--table-item record"
+              v-for="(user, index) in users"
+              :key="index"
             >
-             Danh xung ne
-            </span> -->
-            <span class="btn--action" @click="isShowPronounPopup = true">
-            Chọn để thiết lập
-          </span>
+              <div class="checkbox">
+                <span class="checkbox--control">
+                  <input
+                    type="checkbox"
+                    class="checkbox--control-input"
+                    v-model="selectedUIDs"
+                    :value="user"
+                  />
+                  <span class="checkbox--control-checkmark"></span>
+                </span>
+              </div>
+
+              <div class="name">
+                <div class="name--avatar mr_2">
+                  <img
+                    :src="user.profilePicture"
+                    alt="ảnh đại diện"
+                    width="32px"
+                    height="32px"
+                  />
+                </div>
+                <div class="name--text">
+                  <span class="btn--action"> {{user.fullName }}</span>
+                </div>
+              </div>
+
+              <div class="gender">
+                <span class="btn--action">{{user.gender === 'female_singular' ? 'Nữ' : 'Nam'}}</span>
+              </div>
+
+              <div class="pronoun">
+                  <span
+                    class="btn--action"
+                    @click="showPronounPopup(user.userID)"
+                  >
+                    {{user.vocate}}
+                  </span>
+              </div>
+
+              <div class="updated-date">
+                <span class="btn--action">0</span>
+              </div>
+              <div class="go--mess">
+                <icon-base
+                  class="icon--mess"
+                  icon-name="icon-mess"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 12 12"
+                >
+                  <icon-messenger />
+                </icon-base>
+              </div>
+            </div>
           </div>
-          <!-- <div class="updated-date d_none">
-            <span class="btn--action">
-              user.updated_at | covertDateUpdatedAt
-            }}</span>
-          </div> -->
-          <div class="attributes d_none">
-            <span class="btn--action">None</span>
-          </div>
-          <div class="status d_none">
-            <span class="btn--action">None</span>
+          <div v-else class="none--data">
+            {{ $t("chat.friends.table.main.loading") }}
           </div>
         </div>
       </div>

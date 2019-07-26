@@ -52,8 +52,10 @@ const mutations = {
   },
   uidSelectDelete: (state, payload) => {
     state.uidSelectDelete = payload;
+  },
+  setDeleteFriendOnGroup: (state, payload) => {
+    state.friendsOfGroup = payload;
   }
-
 }
 const actions = {
   /**
@@ -113,11 +115,20 @@ const actions = {
     },
   deleteFriendFromGroup: async ({commit,state}, payload) => {
     commit("group_request");
-    const listFriend = payload.map(uid => {
-      state.friends.filter(item => item.uid !== uid);
+
+    const listFriend = payload.friends.map(uid => {
+       return state.friendsOfGroup.filter(item => {
+        if (item.userID !== uid) return item;
+      });
     });
-    console.log(listFriend);
-    await GroupFriend.deleteFriendsOnGroup(payload);
+    commit("setDeleteFriendOnGroup", listFriend);
+
+    const dataSender = {
+      friendId: payload.friends
+    };
+
+    await GroupFriend.deleteFriendsOnGroup(payload.gr_id, dataSender);
+
     commit("group_success");
   },
   selectedUIDs: async ({commit}, payload) => {

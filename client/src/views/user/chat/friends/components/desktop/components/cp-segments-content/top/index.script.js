@@ -1,4 +1,4 @@
-import DeleteFriendsPopup from "../../../popup/delete-popup";
+import DeleteFriendsPopup from "../../../popup/delete";
 import AddtoGroupPopup from "../../../popup/addto-group-popup";
 import AppTooltip from "./tooltip";
 let typingTimer;
@@ -18,7 +18,7 @@ export default {
       isShowAddtoGrPopup: false,
       statusNumberDisplayedDropdown: false,
       keySearch: "",
-      size: 20,
+      size: 25,
       currentPage: 1,
       isShowOptionsAttribute: false,
       showButtonDelete: false
@@ -98,18 +98,18 @@ export default {
     async searchFriendFacebook(){
       if(this.keySearch.length !== 0) {
         const dataSender = {
-          key: this.keySearch,
+          keyword: this.keySearch,
           size: this.size,
           page: this.currentPage
         };
-        await this.$store.dispatch("searchFriendFacebookByKey", dataSender);
+        await this.$store.dispatch("searchFriendFacebookChat", dataSender);
         this.$emit("changeStatusDefault", false);
       } else {
         const dataSender = {
           size: this.size,
           page: this.currentPage
         };
-        this.$store.dispatch("getFriendFacebookBySizeDefault", dataSender);
+        this.$store.dispatch("getFriendFbChatBySize", dataSender);
       }
     },
     updateFriendFacebookToSystem(){
@@ -127,12 +127,12 @@ export default {
     }
   },
   watch: {
-    keySearch(value){
-      const dataSender = {
-        name: value,
-        size: 20
-      };
-      this.$store.dispatch("searchFriendsByName", dataSender);
-    }
+    // keySearch(value){
+    //   const dataSender = {
+    //     name: value,
+    //     size: 20
+    //   };
+    //   this.$store.dispatch("searchFriendsByName", dataSender);
+    // }
   }
 };

@@ -143,14 +143,6 @@ export default {
       return this.$store.getters.friends;
     },
     /**
-     *  get info all friends
-     * @returns array
-     */
-    listFriendDefault(){
-      if(this.$store.getters.friendFacebookDefault === undefined) return;
-      return this.$store.getters.friendFacebookDefault;
-    },
-    /**
      *  get info group friends by id
      * @returns array
      */
@@ -182,7 +174,6 @@ export default {
         return this.$store.getters.uidSelectDelete;
       },
       set(value) {
-        console.log(value);
         this.$store.dispatch("selectDeleteUID", value);
       }
     }
@@ -236,7 +227,7 @@ export default {
             return 0;
           });
         } else {
-          this.usersOfGroup.sort(function(a, b) {
+          this.memberOfGroup.sort(function(a, b) {
             var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
             var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA < valB) {
@@ -264,7 +255,7 @@ export default {
             return 0;
           });
         } else {
-          this.usersOfGroup.sort(function(a, b) {
+          this.memberOfGroup.sort(function(a, b) {
             var valA = ConvertUnicode.convertUnicode(a[attr].toUpperCase());
             var valB = ConvertUnicode.convertUnicode(b[attr].toUpperCase());
             if (valA > valB) {

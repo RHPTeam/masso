@@ -136,9 +136,8 @@
         :data-theme="currentTheme"
         title="Xoá bạn bè khỏi nhóm"
         :isShowDeletePopup="isShowDeleteFrPopup"
-        @closeAddPopup="isShowDeleteFrPopup = $event"
-        :groupTarget="groupInfo"
-        type="friends"
+        @closePopup="isShowDeleteFrPopup = $event"
+        typeName="friends"
       ></delete-friends-popup>
       <addto-group-popup
         v-if="isShowAddtoGrPopup === true"

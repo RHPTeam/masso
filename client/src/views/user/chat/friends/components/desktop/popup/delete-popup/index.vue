@@ -5,6 +5,7 @@
         <div class="modal--header">
           <div class="title--small mt_2">{{ title }}</div>
           <div class="desc mt_3">Hành động này sẽ không thể hoàn tác. Bạn có chắc chắn muốn xóa không?</div>
+          {{friendSelected}}
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
@@ -38,6 +39,9 @@ export default {
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
     },
+    friendSelected() {
+      return this.$store.getters.uidSelectDelete;
+    }
   },
 
   methods: {
@@ -46,13 +50,14 @@ export default {
     },
     deleteSelected() {
       if (this.type === 'friends') {
+        console.log("con cac");
         const dataSender = {
           gr_id: this.groupTarget._id,
-          friends: this.selectedUIDs
+          friends: this.friendSelected.map(item => item.userID)
         };
         this.$store.dispatch("deleteFriendFromGroup", dataSender);
         this.$emit("closeAddPopup", false);
-        this.$store.dispatch("selectedUIDs", []);
+        this.$store.dispatch("friendSelected", []);
       }
       else if (this.typeName === 'group') {
         const gr_id = this.targetData._id;
