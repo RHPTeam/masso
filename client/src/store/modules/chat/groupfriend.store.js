@@ -44,9 +44,6 @@ const mutations = {
   setGroupFriend: (state, payload) => {
     state.groupFriend = payload;
   },
-  setListFriendOfGroup: (state, payload) => {
-    state.friendsOfGroup  = payload;
-  },
   selectedUIDs: (state, payload) => {
     state.selectedUIDs = payload;
   },
@@ -74,7 +71,7 @@ const actions = {
     const result = await GroupFriend.addFriendGroup(payload.gr_id, dataSender);
     commit("setGroupFriend", result);
     const resultAllGroup = await GroupFriend.getAllGroupFriends();
-    commit("setAllGroupFriend", resultAllGroup.data.data.data);
+    commit("setAllGroupFriend", resultAllGroup.data.data);
     commit("group_success");
   },
     // create item friends
@@ -82,13 +79,13 @@ const actions = {
       await GroupFriend.createGroupFriend( payload );
 
       const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-      commit("setAllGroupFriend", rsGetAllGroup.data.data.data);
+      commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
 
     // get all item friends
   getAllGroupFriend: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsGetAllGroup.data.data.data);
+        commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
     // update Group friends
     updateGroupFriend: async ( { commit }, payload ) => {
@@ -99,16 +96,14 @@ const actions = {
     // get Id Group Friend
   getGroupFriendById: async ( { commit }, payload ) => {
     const rsGetId = await GroupFriend.getInfoGroupFriend( payload );
-    commit("setGroupFriend", rsGetId.data.data.data);
-    commit("setListFriendOfGroup", rsGetId.data.data.friends);
-
-  },
+    commit("setGroupFriend", rsGetId.data.data);
+    },
 
     // delete item friends
     deleteGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.deleteGroupFriends( payload._id );
         const rsDelete = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsDelete.data.data.data);
+        commit("setAllGroupFriend", rsDelete.data.data);
 
         // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         // commit("setAllGroupFriend", rsGetAllGroup.data.data);
