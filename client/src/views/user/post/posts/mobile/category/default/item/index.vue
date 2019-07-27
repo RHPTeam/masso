@@ -9,40 +9,51 @@
     </div>
     <div class="item--body item--body-action d_flex align_items_center">
       <div class="action align_items_center">
-        <span class="ml_2" @click="duplicateCategories">
+        <span class="ml_2" @click="showPopupDuplicate">
           <icon-base class="icon--copy m_2" icon-name="duplicate" width="25" height="25" viewBox="0 0 520 520">
             <icon-copy />
           </icon-base>
         </span>
       </div>
     </div>
+    <transition name="popup-delete">
+      <popup-duplicate :deleteTargets="duplicateCategories" @closePopup="closePopupDuplicate" v-if="isShowPopupDuplicate === true" :name="item.title"/>
+    </transition>
   </div>
 </template>
 
 <script>
+import PopupDuplicate from "../popup/duplicate";
 export default {
   props: ["item"],
   data() {
     return {
+      isShowPopupDuplicate: false,
       isTriggerAction: false
     };
   },
+  components: {
+    PopupDuplicate
+  },
   methods: {
+    closePopupDuplicate() {
+      this.isShowPopupDuplicate = false;
+    },
     async duplicateCategories() {
       await this.$store.dispatch("duplicateCategoriesDefault", this.item._id);
 
-      const dataSenderCategory = {
-        size: 25,
-        page: 1
-      };
+      // const dataSenderCategory = {
+      //   size: 25,
+      //   page: 1
+      // };
 
-      await this.$store.dispatch("getCategoriesByPage", dataSenderCategory);
-      const dataSenderPost = {
-        size: 25,
-        page: 1
-      };
+      // await this.$store.dispatch("getCategoriesByPage", dataSenderCategory);
+      // const dataSenderPost = {
+      //   size: 25,
+      //   page: 1
+      // };
 
-      await this.$store.dispatch("getPostsByPage", dataSenderPost);
+      // await this.$store.dispatch("getPostsByPage", dataSenderPost);
       this.$emit("showCategory", false);
     },
     onPan(event) {
@@ -52,6 +63,9 @@ export default {
       if (event.offsetDirection === 4) {
         this.isTriggerAction = false;
       }
+    },
+    showPopupDuplicate() {
+      this.isShowPopupDuplicate = true;
     }
   }
 };
@@ -59,6 +73,21 @@ export default {
 
 <style scoped lang="scss">
 @import "../index.style";
+// Popup Duplicate
+.popup-delete-enter {
+  transform: translateY(100%);
+}
+
+.popup-delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
+}
+
+.popup-delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+
 .item {
   position: relative;
   height: 3.5rem;

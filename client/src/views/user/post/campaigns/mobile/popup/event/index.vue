@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center">
-      <div class="modal--content">
+      <div class="modal--content" :class="isShowDropdownAction === true ? 'active' : ''">
         <!-- Start: Modal Header -->
         <div class="modal--header d_flex align_items_center">
           <div @click="closePopup">
@@ -56,12 +56,41 @@
         <div class="modal--footer action--events">
           <div class="items d_flex align_items_center">
             <div
-              class="mr_auto item pl_2"
+              class="mr_auto item pl_2 delete"
               v-if="event._id"
               @click="showPopupDeleteEvent"
             >Xóa sự kiện</div>
-            <div class="ml_auto item pr_2" @click="showContentAdvane">Nội dung nâng cao</div>
+            <!-- <div class="ml_auto item pr_2" @click="showContentAdvane">Nội dung nâng cao</div> -->
           </div>
+        </div>
+      </div>
+      <div class="action--more">
+        <div class="action" @click="showDropdownAction">
+          <icon-base icon-name="Thêm" width="27" height="27" viewBox="0 0 60 60" v-if="isShowDropdownAction === false">
+            <icon-plus />
+          </icon-base>
+          <icon-base icon-name="close" width="20" height="20" viewBox="0 0 20 20" v-else>
+            <icon-close/>
+          </icon-base>
+        </div>
+        <div class="dropdown--action" v-if="isShowDropdownAction === true" :class="isShowDropdownAction === true ? 'active' : ''" v-click-outside="closeDropdownAction">
+          <ul class="p_0 m_0">
+            <li @click="showContentAdvane" class="d_flex align_items_center justify_content_end">
+              <div class="title p_2">
+                Nội dung nâng cao
+              </div>
+              <div class="ml_3">
+                <icon-base
+                  class="icon icon--mix mr_2"
+                  height="14px"
+                  width="14px"
+                  viewBox="0 0 580 580"
+                >
+                  <icon-mix></icon-mix>
+                </icon-base>
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
 
@@ -117,6 +146,7 @@ export default {
         "#FF8787"
       ],
       isShowColorDropdown: false,
+      isShowDropdownAction: false,
       isShowPopupCategory: false,
       isShowPopupDelete: false,
       isShowPopupTime: false,
@@ -155,6 +185,9 @@ export default {
       this.$store.dispatch("setEventReset");
       this.$emit("closePopup", false);
     },
+    closeDropdownAction() {
+      this.isShowDropdownAction = false;
+    },
     async createEvent() {
       // Validate
       if (
@@ -190,6 +223,9 @@ export default {
     },
     showContentAdvane() {
       this.isShowContentAdvance = true;
+    },
+    showDropdownAction() {
+      this.isShowDropdownAction = true;
     },
     showMoreOptions() {
       this.isShowMoreOptions = true;

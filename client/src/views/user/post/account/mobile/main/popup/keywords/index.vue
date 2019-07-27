@@ -195,6 +195,9 @@ export default {
           text-overflow: ellipsis;
         }
       }
+      .icon-remove {        
+        color: #e62b33;
+      }
     }
   }
 }

@@ -119,9 +119,6 @@
                 @click="showPopupDetailPostgroup(postgroup._id, index)"
               >
                 <div class="col col--name d_flex align_items_center">
-                  <div class="avatar px_2">
-                    <!-- <img alt="avatar" width="30px" height="30px"> -->
-                  </div>
                   <span class="col col--name-text">{{ postgroup.title }}</span>
                 </div>
                 <div class="col col--checkbox ml_auto">

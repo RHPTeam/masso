@@ -344,8 +344,8 @@ export default {
         width: 50%;
         outline: none;
       }
-      .desc {
-        color: #999999;
+      .active {
+        color: #e62b33;
       }
     }
     .items--body {
@@ -382,6 +382,9 @@ export default {
       bottom: 0;
       left: 0;
       width: 100%;
+      .cancel {
+        color: #e62b33;
+      }
     }
   }
 }
