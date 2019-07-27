@@ -153,23 +153,6 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  watch: {
-    // async search(val) {
-    //   if (val.length === 0) {
-    //     const dataSender = {
-    //       size: 25,
-    //       page: 1
-    //     };
-    //     await this.$store.dispatch("getCampaignsByPage", dataSender);
-    //     await this.$store.dispatch("getCampaignSimple");
-    //     this.$emit("updateCurrentPage", 1);
-    //     this.$emit("updateSearch", this.search);
-    //   }
-    // }
-  },
-  created() {
-    
-  },
   methods: {
     async loadMore() {
       if (this.isLoadingData === true) {
@@ -192,7 +175,11 @@ export default {
       }
     },
     closePopupSearch() {   
-      this.$emit("closePopupSearch", false);   
+      this.$emit("closePopupSearch", false);
+      this.$store.dispatch("getCampaignsByPage", {
+        size: 25,
+        page: 1
+      });
       const dataSender = {
         keyword: "",
         size: 25,
@@ -203,7 +190,7 @@ export default {
     confirmDeleteCampaign(event) {
       if (event === true) {
         this.selectedCampaign.id = this.selectedCampaign._id;
-        this.$store.dispatch("deleteCampaign", this.selectedCampaign);
+        this.$store.dispatch("deleteCampaignMobileWhenSearch", this.selectedCampaign);
       }
     },
     confirmCopyCampaign(event) {

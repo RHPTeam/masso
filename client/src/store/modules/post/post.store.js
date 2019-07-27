@@ -115,6 +115,10 @@ const mutations = {
   setPostsPageMobile: (state, payload) => {
     state.allPostSearchMobile = payload;
   },
+  // mobile - search - load more
+  setPostsPageMobileSearch: (state, payload) => {
+    state.allPostSearchMobile = state.allPostSearchMobile.concat(payload);
+  },
   setPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = state.postsPageInfinite.concat( payload );
   },
@@ -138,6 +142,10 @@ const mutations = {
   },
   setDeletePost: (state, payload) => {
     state.allPost = payload;
+  },
+  // mobile
+  setDeletePostSearch: (state, payload) => {
+    state.allPostSearchMobile = payload;
   },
   // setNewestPost
   setNewestPost: (state, payload) => {
@@ -195,6 +203,16 @@ const actions = {
     );
 
     commit("setDeletePost", allPost);
+    await PostServices.deletePost( payload.id );
+  },
+  // delete post when search for mobile
+  deletePostSearch: async ( { commit }, payload ) => {
+
+    const allPostSearchMobile = state.allPostSearchMobile.filter(
+      ( allPostSearchMobile ) => allPostSearchMobile._id !== payload.id
+    );
+
+    commit("setDeletePostSearch", allPostSearchMobile);
     await PostServices.deletePost( payload.id );
   },
   getAllPost: async ( { commit } ) => {
@@ -345,6 +363,15 @@ const actions = {
     
     commit( "post_success" );
   },
+  getPostsByKeyMobileLoadMore: async ({commit}, payload) => {
+    commit( "post_request" );
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPageMobileSearch", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    
+    commit( "post_success" );
+  },
   resetPostsPageInfinite: async ( { commit } ) => {
     commit( "resetPostsPageInfinite", [] );
   },
@@ -408,6 +435,11 @@ const actions = {
     await PostServices.deleteAttachmentPost(payload.postId, payload.attachmentId);
     const resultPost = await PostServices.getById( payload.postId );
     commit( "setPost", resultPost.data.data );
+  },
+  // get newest post -- Khanh 13.06
+  getNewestPosts: async ({ commit }, payload) => {
+    const resGetNewestPost = await PostServices.getNewestPost(payload);
+    commit("setNewestPost", resGetNewestPost.data.data);
   }
 };
 

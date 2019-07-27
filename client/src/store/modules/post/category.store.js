@@ -50,6 +50,9 @@ const mutations = {
   setCategoriesPageMobile: (state, payload) => {
     state.categoriesPage = state.categoriesPage.concat(payload);
   },
+  setDeleteCategoryWhenSearch: (state, payload) => {
+    state.categoriesPageMobile = payload;
+  },
   setMixCategories: ( state, payload ) => {
     state.mixCategories = payload;
   }
@@ -147,6 +150,21 @@ const actions = {
     res = await CategoriesServices.getByPage( payload.size, payload.page );
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
+  },
+  // mobile: delete category when search
+  deleteCategorySearch: async ( { commit }, payload ) => {
+    const categories = state.categoriesPageMobile.filter( ( category ) => {
+      return category._id !== payload.id;
+    } );
+
+    commit( "setDeleteCategoryWhenSearch", categories );
+    // commit( "setCategoriesPageSize", categories.length );
+
+    await CategoriesServices.deleteCategory( payload.id );
+
+    // res = await CategoriesServices.getByPage( payload.size, payload.page );
+    // commit( "setCategoriesPageMobile", res.data.data.results );
+    // commit( "setCategoriesPageSize", res.data.data.page );
   },
   duplicateCategoriesDefault: async ( {commit}, payload ) => {
     await CategoryDefaultService.duplicateFolder(payload);

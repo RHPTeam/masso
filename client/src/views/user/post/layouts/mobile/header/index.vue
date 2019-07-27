@@ -81,7 +81,7 @@
             </div>
           </div>
           <div
-            class="add category action mx_1"
+            class="add category action"
             @click="showPopupCreateCategory"
             v-if="gestureUser === 12"
           >

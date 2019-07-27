@@ -2,24 +2,24 @@
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <!-- Start: Delete Popup -->
-      <div class="modal--content text_center">
+      <div class="modal--content text_center" v-if="deleteStatus !== 'loading'">
         <div class="item mb_2 delete">
           <div class="text mb_2 pb_2">Bạn có muốn xóa tài khoản này không?</div>
           <div @click="deleteTargets()">Xóa</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
-      <!-- <div class="modal--body px_3 py_4" v-if="deleteStatus === 'loading'">
-        <div class="modal--title">Xóa tài khoản Facebook</div>
+      <div class="modal--body" v-else>
+        <div class="modal--title text_center py_2">Xóa tài khoản Facebook</div>
         <div class="loading--block mt_4 mb_4">
           <div class="mx_auto">
             <div class="loading--bar position_relative mx_auto">
               <div class="percent position_absolute"></div>
             </div>
           </div>
-          <div class="desc text_center mt_2">Vui lòng chờ, dữ liệu đang được cập nhật...</div>
+          <div class="desc text_center mt_2">Vui lòng chờ, tài khoản đang được xóa...</div>
         </div>
-      </div> -->
+      </div>
       <!-- End: Delete Popup -->
     </div>
   </div>
@@ -96,12 +96,17 @@ export default {
         padding: 0.625rem 0;
       }
     }
-    .modal--body {      
+    .modal--body {
       width: 100vw;
       height: 100vh;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      background: #212225;
       .modal--title {
-        font-size: 1rem;
-        font-weight: 700;
+        font-size: 0.8315rem;
+        border-bottom: 1px solid #444;
       }
       .loading--block {
         .desc {

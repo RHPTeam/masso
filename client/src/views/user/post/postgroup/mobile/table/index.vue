@@ -32,19 +32,19 @@
               :key="`fbpf-${index}`"
             >
               <div class="col col--name d_flex align_items_center">
-                <div class="avatar px_2">
+                <div class="avatar pr_2">
                   <img :src="item.userInfo.thumbSrc" alt="avatar" width="30px" height="30px" />
                 </div>
                 <span class="col col--name-text">{{ item.userInfo.name }}</span>
               </div>
-              <div class="col col--checkbox pr_3">
+              <div class="col col--checkbox pr_2">
                 <label class="custom--checkbox mb_0">
                   <input type="checkbox" v-model="selectedProfile" :value="item.userInfo.id" />
                 </label>
               </div>
             </div>
             <div
-              class="no--group text_center py_3"
+              class="no--group text_center py_2"
               v-if="accountsFB.length === 0"
             >Không tìm thấy trang cá nhân nào</div>
           </div>
@@ -58,19 +58,19 @@
             :key="index"
           >
             <div class="col col--name d_flex align_items_center">
-              <div class="avatar px_2">
+              <div class="avatar pr_2">
                 <img alt="avatar" width="30px" height="30px" :src="fanpage.profile_picture" />
               </div>
               <span class="col col--name-text">{{ fanpage.name }}</span>
             </div>
-            <div class="col col--checkbox pr_3">
+            <div class="col col--checkbox pr_2">
               <label class="custom--checkbox mb_0">
                 <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
               </label>
             </div>
           </div>
           <div
-            class="no--group text_center py_3"
+            class="no--group text_center py_2"
             v-if="facebookPages.length === 0"
           >Không tìm thấy trang nào</div>
         </div>
@@ -83,12 +83,12 @@
             :key="`g+${index}`"
           >
             <div class="col col--name d_flex align_items_center">
-              <div class="avatar px_2">
+              <div class="avatar pr_2">
                 <img alt="avatar" width="30px" height="30px" :src="group.profile_picture" />
               </div>
               <div class="col--name-text">{{ group.name }}</div>
             </div>
-            <div class="col col--checkbox pr_3">
+            <div class="col col--checkbox pr_2">
               <label class="custom--checkbox mb_0">
                 <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
               </label>

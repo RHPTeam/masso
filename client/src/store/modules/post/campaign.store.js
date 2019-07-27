@@ -42,6 +42,9 @@ const state = {
     setCampaigns: ( s, payload ) => {
       s.campaigns = payload;
     },
+    setCampaignsSearch: (s, payload) => {
+      s.campaignsMobile = payload;
+    },
     setCampaignsByKeyMobile: (state, payload) => {
       state.campaignsMobile = payload;
     },
@@ -95,6 +98,24 @@ const state = {
       // commit( "setCampaignsPagesSize", res.data.data.page );
 
       await CampaignsServices.delete( payload.id );
+    },
+    // mobile: delete when search
+    deleteCampaignMobileWhenSearch: async ( { commit }, payload ) => {
+      const campaigns = state.campaignsMobile.filter(
+        ( campaign ) => campaign._id !== payload.id
+      );
+
+      let res;
+
+      commit( "setCampaignsSearch", campaigns );
+
+      await CampaignsServices.delete( payload.id );
+
+      // get campaign when delete
+      // res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+
+      // await commit( "setCampaignsMobile", res.data.data.results );
+      // await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     duplicateCampaign: async ( { commit }, payload ) => {
       const res = await CampaignsServices.duplicate( payload );

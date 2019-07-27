@@ -15,8 +15,8 @@
           @showDetailPost="showPopupDetail($event)"
           @showPopupDelete="showPopupDelete($event)"
         />
-        <!-- <div class="text_center" v-if="postsPageSize === currentPage"></div>
-        <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div> -->
+        <div class="text_center" v-if="postsPageSize === currentPage"></div>
+        <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
       </div>
     </VuePerfectScrollbar>
     <!-- End: List post -->
@@ -27,7 +27,7 @@
         @closePopup="isShowPopupDelete = $event"
         title="bài viết"
         :name="postSelected.title"
-        storeActionName="deletePost"
+        storeActionName="deletePostSearch"
         :targetData="targetDataDelete"
       />
     </transition>
@@ -87,7 +87,8 @@ export default {
     async loadMore() {
       this.currentPage += 1;
 
-      await this.$store.dispatch("getPostsByPageMobile", {
+      await this.$store.dispatch("getPostsByKeyMobileLoadMore", {
+        keyword: this.search,
         size: this.pageSize,
         page: this.currentPage
       });
