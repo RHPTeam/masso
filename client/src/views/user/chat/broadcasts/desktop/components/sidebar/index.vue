@@ -1,4 +1,3 @@
-<!--Left Sidebar Page Script Facebook Desktop-->
 <template>
   <div class="group py_3" :data-theme="currentTheme">
     <!--Start: Component Deliver your message now-->
