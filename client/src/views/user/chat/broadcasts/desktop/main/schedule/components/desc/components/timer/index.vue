@@ -10,6 +10,8 @@
         placeholder="Chọn ngày"
         v-model="scheduleBlockDetail.timeSetting.dateMonth"
         format="DD/MM/YYYY"
+        clearable="false"
+        :disabled-days="disabledDays"
         @change="updateScheduleBlockDate($event)"
       ></date-picker>
       <!-- End: Day Setting-->
@@ -150,6 +152,9 @@ export default {
     },
     closeShowOptionRepeat(){
       this.showOptionRepeat = false;
+    },
+    disabledDays( date ) {
+      return false;
     },
     updateScheduleBlockDate( date ) {
       const dateTime = new  Date( date ),

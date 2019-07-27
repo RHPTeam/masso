@@ -44,18 +44,21 @@
             <span class="px_1">1</span>
             <span>{{ $t("chat.broadcast.main.scripts.header.search.people") }}</span>
           </div>
-          <div class="option--user-list d_flex align_items_center mt_3">
+          <div class="option--user-list d_flex align_items_center mt_2">
             <div
             >
               <div
                 class="option--user-item item d_flex align_items_center justify_content_center mr_2"
-              ></div>
+              >
+                <img src="https://banner2.kisspng.com/20180409/flq/kisspng-mr-square-android-big-time-cash-make-money-free-mr-amp-mrs-5acc0a6c86dcc5.8660035915233214525524.jpg"
+                     alt="" width="28px" height="28px">
+              </div>
             </div>
             <!--        Click show data user in item-->
             <div
               class="option--user-more item text_center"
             >
-              AAAA
+              +132
             </div>
           </div>
         </div>

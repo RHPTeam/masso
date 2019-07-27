@@ -2,7 +2,7 @@
 
 /**
 * NOTE: U have to code scss with 3 level which mean is 3 indent
- */
+*/
 
 .group {
   height: 100%;
@@ -176,11 +176,12 @@ div[data-theme="dark"] {
     }
   }
   .content--setup {
-    transition: 0.3s;
+    transition: all 0.4s ease;
     &:hover {
-      background: #ffb94a;
-      color: #fff;
-      border-color: #ffb94a;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+      .icon--add {
+        color: #F7F7F7;
+      }
     }
   }
 }

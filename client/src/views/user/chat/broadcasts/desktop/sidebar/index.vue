@@ -1,6 +1,6 @@
 <template>
   <div class="group py_3" :data-theme="currentTheme">
-    <!--Start: Component Deliver your message now-->
+    <!--Start: Deliver your message now-->
     <div class="group--item now">
       <div class="group--item-header mb_2 text_left">
         <div class="title">
@@ -26,10 +26,8 @@
         </div>
       </div>
     </div>
-    <!--End: Component Deliver your message now-->
-    <!--Start: Component Trigger-->
-    <!--End: Component Trigger-->
-    <!--Start: Component Schedule later-->
+    <!--End: Deliver your message now-->
+    <!--Start: Schedule -->
     <div class="group--item schedule">
       <!--Start: Schedule Header -->
       <div class="group--item-header text_left">
@@ -54,7 +52,7 @@
         <!--End: Block Item Loop-->
         <!--Start: Block Item Add-->
         <div class="c_xl_6 c_lg_12 c_md_12 text_center px_0 mb_2 setup" @click="createScheduleBlock">
-          <div class="content--setup d_flex align_items_center justify_content_center">
+          <div class="content--setup d_flex align_items_center justify_content_center mx_1">
             <icon-base
               class="icon--add"
               width="20"
@@ -101,7 +99,7 @@
         </div> -->
       </div>
     </div>
-    <!--End: Component Schedule later-->
+    <!--End: Schedule -->
   </div>
 </template>
 

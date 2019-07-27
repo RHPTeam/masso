@@ -48,5 +48,8 @@ div[data-theme="light"] .main--desc {
 /******** 02. Theme Dark *********/
 
 div[data-theme="dark"] .main--desc {
+  .desc {
+    color: #999;
+  }
 }
 </style>
