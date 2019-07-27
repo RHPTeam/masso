@@ -306,7 +306,7 @@
                 class="d_flex align_items_center m_1 more py_2"
                 @click="isShowMoreOption = !isShowMoreOption"
               >
-                Thêm vào văn bản
+                Thêm vào bài viết của bạn
                 <div class="ml_auto">
                   <icon-base
                     class="icon--image mr_2"

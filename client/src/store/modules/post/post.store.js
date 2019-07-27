@@ -360,6 +360,7 @@ const actions = {
     const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
 
     await commit( "setPostsPageMobile", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
     
     commit( "post_success" );
   },
@@ -399,6 +400,21 @@ const actions = {
 
     const resultPostById = await PostServices.getById( payload._id );
     commit( "setPost", resultPostById.data.data );
+
+    commit("setPost", payload);
+
+    commit("setUpdatePost", payload);
+
+    commit( "post_success" );
+  },
+  // Mobile: update dont get info
+  updatePostMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    await PostServices.updatePost( payload._id, payload );
+
+    // const resultPostById = await PostServices.getById( payload._id );
+    // commit( "setPost", resultPostById.data.data );
 
     commit("setPost", payload);
 

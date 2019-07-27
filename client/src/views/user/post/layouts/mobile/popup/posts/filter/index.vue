@@ -80,6 +80,7 @@ export default {
         page: 1
       };
       this.$store.dispatch("getPostByCategoriesMobile", dataSender);
+      this.$store.dispatch("getCategoryById", val._id);
     }
   },
   created() {

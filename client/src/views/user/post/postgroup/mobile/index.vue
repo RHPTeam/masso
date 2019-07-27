@@ -44,7 +44,10 @@
       <!-- Start: List -->
       <VuePerfectScrollbar class="list--post-group">
         <!-- Start: No account fb -->
-        <div v-if="accountsFB && accountsFB.length === 0" class="no--account text_center mt_3">Vui lòng thêm tài khoản facbook để sử dụng chức năng này!</div>
+        <div v-if="accountsFB && accountsFB.length === 0" class="no--account text_center mt_3">
+          <div class="mb_3">Vui lòng thêm tài khoản facbook để sử dụng chức năng này!</div>
+          <div class="add--fb text_center" @click="goToAccountFacebook">Thêm tài khoản</div>
+        </div>
         <!-- End: No account fb -->
         <!-- Start: Loading Component -->
         <div class="loading--block"
@@ -121,6 +124,9 @@ export default {
     },
     showPopupDetailGroup() {
       this.isShowPopupDetailGroup = true;
+    },
+    goToAccountFacebook() {
+      this.$router.push({name: "post_fbaccount"});
     }
   },
   created() {
@@ -195,6 +201,11 @@ export default {
       // max-height: 58vh;
       .no--account {
         font-size: 0.8315rem;
+      }
+      .add--fb {
+        padding: 0.625rem 0;
+        border-radius: 0.625rem;
+        border: 1px solid #444;
       }
     }
   }

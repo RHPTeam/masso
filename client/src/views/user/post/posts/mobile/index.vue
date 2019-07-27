@@ -30,7 +30,7 @@
           class="posts items"
           @click="showPosts"
           :class="gestureUser === 11 || isShowPosts === true ? 'active' : '' "
-        >Tất cả</div>
+        >Bài viết</div>
         <div
           class="category items"
           @click="showCategory"

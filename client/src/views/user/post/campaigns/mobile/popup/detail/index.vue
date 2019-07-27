@@ -13,7 +13,18 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <div class="active ml_auto d_flex align_items_center">
+        <div class="m_auto name--campaign">
+          <contenteditable
+            class="editable name"
+            tag="div"
+            placeholder="Nhập tên..."
+            :noNL="true"
+            :contenteditable="true"
+            v-model='campaign.title'
+            @returned="updateTitleCampaign()"
+          />
+        </div>
+        <div class="active d_flex align_items_center">
           <div @click="showHistory">
             <icon-base icon-name="Lịch sử" width="24" height="24" viewBox="0 0 480 480" class="mr_2">
               <icon-history />
@@ -35,15 +46,7 @@
     <VuePerfectScrollbar class="scroll--campaign">
       <div class="items--body mt_3 px_2">
         <div class="top d_flex align_items_center mb_2">
-          <contenteditable
-            class="editable name"
-            tag="div"
-            placeholder="Nhập tên..."
-            :noNL="true"
-            :contenteditable="true"
-            v-model='campaign.title'
-            @returned="updateTitleCampaign()"
-          />
+         <div class="status">Trạng thái</div>
           <div class="active ml_auto">
             <toggle-switch
               @change="updateCampaignStatus()"

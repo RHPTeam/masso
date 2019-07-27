@@ -99,6 +99,10 @@ export default {
       this.isShowTabCampaginDefault = false;
     },
     showTabCampaginDefault() {
+      const campaignDefaultNo = this.$store.getters.campSimple;
+      if (campaignDefaultNo.length === 0) {
+        this.$store.dispatch("getCampaignSimple");
+      }
       this.isShowTabCampaign = false;
       this.isShowTabCampaginDefault = true;
     },
@@ -127,9 +131,5 @@ export default {
     //   };
     //   await this.$store.dispatch( "getCampaignsByPageMobile", dataSender );
     // }
-    const campaignDefaultNo = this.$store.getters.campSimple;
-    if (campaignDefaultNo.length === 0) {
-      this.$store.dispatch("getCampaignSimple");
-    }
   }
 };

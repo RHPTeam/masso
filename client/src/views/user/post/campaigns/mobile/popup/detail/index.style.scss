@@ -16,19 +16,24 @@
           transform: rotate(90deg);
           margin-left: 0.5rem;
         }
+        .name--campaign {
+          width: 85%;
+          text-align: center;
+          overflow: hidden;
+        }
+        .name {
+          outline: none;
+          max-width: 100%;
+          white-space: nowrap; 
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
     }
     .scroll--campaign {
       max-height: calc(100vh - 48px);
     }
     .items--body {
         font-size: 1rem;
-        .name {
-          outline: none;
-          max-width: 80%;
-          white-space: nowrap; 
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
         .main {
           font-size: 0.8315rem;
           .event {

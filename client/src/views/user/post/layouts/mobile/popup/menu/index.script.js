@@ -19,6 +19,10 @@ export default {
     closePopup() {
       this.$emit("closePopup", false);
     },
+    async logout() {
+      await this.$store.dispatch('logout');
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
+    },
     selectFile() {
       this.file = this.$refs.file.files[0];
       this.sendFile();

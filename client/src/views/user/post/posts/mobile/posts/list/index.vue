@@ -4,6 +4,7 @@
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
       <div v-if="gestureUser === 14">
+        <div class="mb_2 filter">Lọc theo danh mục: <b>{{ categoryById.title }}</b></div>
         <div
           v-if="postsFilterByCategory.length === 0"
           class="text_center py_2 no--post"
@@ -92,12 +93,15 @@ export default {
     PopupDelete
   },
   computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
     allPost() {
       // console.log("this.$store.getters.allPost", this.$store.getters.allPost);
       return this.$store.getters.allPost;
+    },
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    categoryById() {
+      return this.$store.getters.categoryById;
     },
     numberPageCurrent() {
       return this.$store.getters.numberPageCurrent;
@@ -194,6 +198,12 @@ export default {
 }
 // End Transition
 .main--list {
+  .filter {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
   .no--post {
     font-size: 0.9315rem;
   }

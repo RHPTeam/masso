@@ -102,12 +102,22 @@ export default {
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = false;
     },
-    showPopupCategories() {
+    showPopupCategories() {      
+      const dataSender = {
+        keyword: this.search,
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = true;
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategoriesDefault() {
+      this.$store.dispatch("getCategoriesDefaultByKey", {
+        search: this.search,
+        categoriesDefault: this.$store.getters.allCateDefault
+      });
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = true;
@@ -125,28 +135,13 @@ export default {
         page: 1
       };
       this.$store.dispatch("getPostsByKeyMobile", dataSender);
-      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      // this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
       // Search Default Categories on Client Side.
-      await this.$store.dispatch("getCategoryDefault");
-      this.$store.dispatch("getCategoriesDefaultByKey", {
-        search: this.search,
-        categoriesDefault: this.$store.getters.allCateDefault
-      });
-
-      // this.$router.replace({
-      //   name: "post_posts",
-      //   query: {
-      //     search: this.search,
-      //     size: 25,
-      //     page: 1
-      //   }
+      // await this.$store.dispatch("getCategoryDefault");
+      // this.$store.dispatch("getCategoriesDefaultByKey", {
+      //   search: this.search,
+      //   categoriesDefault: this.$store.getters.allCateDefault
       // });
-
-      // this.$emit( "updateSearch", this.search );
-      // this.updateFilterCategorySelected( {
-      //   id: "all",
-      //   title: "Tất cả"
-      // } );
     }
   },
   created() {

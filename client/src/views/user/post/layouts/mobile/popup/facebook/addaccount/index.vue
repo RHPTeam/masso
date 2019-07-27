@@ -30,8 +30,7 @@
               class="active mr_3"
             >Xong</div>
           </div>
-          <div class="modal--body px_3 py_4" v-if="addFbStatus === 'loading'">
-            <div class="modal--title">Thêm tài khoản Facebook</div>
+          <div class="modal--body px_3 py_4 transition--loading" v-if="addFbStatus === 'loading'">
             <div class="loading--block mt_4 mb_4">
               <div class="mx_auto">
                 <div class="loading--bar position_relative mx_auto">
@@ -131,6 +130,12 @@ export default {
         margin: auto;
       }
     }
+    .transition--loading {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   .modal--dialog {
     textarea {
@@ -195,7 +200,7 @@ export default {
   }
 }
 
-.scroll-area{
+.scroll-area {
   width: 100%;
 }
 </style>

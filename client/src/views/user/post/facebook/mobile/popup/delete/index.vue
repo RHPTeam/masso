@@ -109,6 +109,10 @@ export default {
         border-bottom: 1px solid #444;
       }
       .loading--block {
+        position: fixed;
+        top: 40%;
+        left: 50%;
+        transform: translateX(-50%);
         .desc {
           color: #ccc;
           font-size: 0.875rem;

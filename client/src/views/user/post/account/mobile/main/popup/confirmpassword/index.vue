@@ -21,7 +21,7 @@
         <p class="mb_0 p_2 text">Vì lý do bảo mật. Vui lòng nhập lại mật khẩu để tiếp tục.</p>
         <!-- Start: Password -->
         <div class="m_2">
-          <input type="password" class="form--input" placeholder="Nhập mật khẩu" v-model="password" />
+          <input type="password" class="form--input" placeholder="Nhập mật khẩu" v-model="password" autocomplete="off"/>
         </div>
         <!-- End: Password -->
       </div>
