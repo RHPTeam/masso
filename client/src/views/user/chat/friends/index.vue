@@ -39,12 +39,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  created() {
-    this.$store.dispatch("getFriendFbChatBySize", {
-      size:  this.currentSize,
-      page: this.currentPage
-    });
   }
 };
 </script>

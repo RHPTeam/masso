@@ -105,26 +105,31 @@
       <!--End: Filter Friend By Account Component-->
 
       <!--Start: Number Displayed of Member Component-->
-            <div class="action sequence--menu">
-              <div class="btn--sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"
-                   v-click-outside="closeNumberDisplayedDropdown">
-                Hiển thị
-                <icon-base
-                  class="ml_1"
-                  icon-name="icon-arrow-down"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 160 160"
-                >
-                  <icon-arrow-down />
-                </icon-base>
-              </div>
-              <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">
-                <div class="dropdown--item px_3">25</div>
-                <div class="dropdown--item px_3">50</div>
-                <div class="dropdown--item px_3">100</div>
-              </div>
-            </div>
+      <div class="action sequence--menu">
+        <div class="btn--sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"
+             v-click-outside="closeNumberDisplayedDropdown">
+          Hiển thị
+          <icon-base
+            class="ml_1"
+            icon-name="icon-arrow-down"
+            width="14"
+            height="14"
+            viewBox="0 0 160 160"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </div>
+        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">
+          <div
+            class="dropdown--item px_3"
+            v-for="(item, sindex) in currentSize"
+            :key="sindex"
+            @click="changeCurrentSize(item)"
+          >
+            {{item.size}}
+          </div>
+        </div>
+      </div>
       <!--End: Number Displayed of Member Component-->
     </div>
     <!--End: Top Right Component-->
@@ -134,10 +139,7 @@
       <delete-friends-popup
         v-if="isShowDeleteFrPopup === true"
         :data-theme="currentTheme"
-        title="Xoá bạn bè khỏi nhóm"
-        :isShowDeletePopup="isShowDeleteFrPopup"
         @closePopup="isShowDeleteFrPopup = $event"
-        typeName="friends"
       ></delete-friends-popup>
       <addto-group-popup
         v-if="isShowAddtoGrPopup === true"

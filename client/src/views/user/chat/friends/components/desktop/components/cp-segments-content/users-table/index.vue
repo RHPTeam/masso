@@ -364,6 +364,14 @@
       <!--End: show info user filter-->
     </vue-perfect-scrollbar>
 
+    <!--Start: Paginate Component-->
+    <paginate
+      class="mt_3"
+      :currentPage="currentPage"
+      :sizeDefault="sizeDefault"
+    />
+    <!--End: Paginate Component-->
+
     <!--*********** POPUP *************-->
     <transition name="popup-enter-active">
       <pronoun-popup

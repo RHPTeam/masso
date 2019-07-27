@@ -103,8 +103,9 @@ export default {
       if (this.typeName === 'friends') {
         const dataSender = {
           gr_id: this.$route.query.gid,
-          friends: this.friendSelected.map(item => item.userID)
+          friendsId: this.friendSelected.map(item => item.userID)
         };
+        console.log(dataSender);
         this.$store.dispatch("deleteFriendFromGroup", dataSender);
         this.$store.dispatch("selectDeleteUID", []);
         this.closePopup();

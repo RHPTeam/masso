@@ -68,7 +68,8 @@ export default {
       window.location = `${process.env.VUE_APP_PARENT_URL}help`;
     },
     redirectToGetCookie(){
-      window.location.href = "https://chrome.google.com/webstore/detail/zinbee/cldgcfaoiieljdbcbhljginnlknaojib";
+      const routes = "https://chrome.google.com/webstore/detail/zinbee/cipkmgkhejgoakjjilpjhnidhaockmbe?fbclid=IwAR2Ev0DDQWdUWRoeIvhVZ_quz4K2VkuAPuq2tl_ogBywlZim84nwIRxNpRM";
+      window.open(routes, '_blank');
     },
     showMessengerDropdown() {
       this.isShowMessengerDropdown = !this.isShowMessengerDropdown;

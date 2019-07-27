@@ -44,15 +44,16 @@ const mutations = {
   setGroupFriend: (state, payload) => {
     state.groupFriend = payload;
   },
+  setListFriendOfGroup: (state, payload) => {
+    state.friendsOfGroup  = payload;
+  },
   selectedUIDs: (state, payload) => {
     state.selectedUIDs = payload;
   },
   uidSelectDelete: (state, payload) => {
     state.uidSelectDelete = payload;
-  },
-  setDeleteFriendOnGroup: (state, payload) => {
-    state.friendsOfGroup = payload;
   }
+
 }
 const actions = {
   /**
@@ -71,7 +72,7 @@ const actions = {
     const result = await GroupFriend.addFriendGroup(payload.gr_id, dataSender);
     commit("setGroupFriend", result);
     const resultAllGroup = await GroupFriend.getAllGroupFriends();
-    commit("setAllGroupFriend", resultAllGroup.data.data);
+    commit("setAllGroupFriend", resultAllGroup.data.data.data);
     commit("group_success");
   },
     // create item friends
@@ -79,13 +80,13 @@ const actions = {
       await GroupFriend.createGroupFriend( payload );
 
       const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-      commit("setAllGroupFriend", rsGetAllGroup.data.data);
+      commit("setAllGroupFriend", rsGetAllGroup.data.data.data);
     },
 
     // get all item friends
   getAllGroupFriend: async ( { commit } ) => {
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsGetAllGroup.data.data);
+        commit("setAllGroupFriend", rsGetAllGroup.data.data.data);
     },
     // update Group friends
     updateGroupFriend: async ( { commit }, payload ) => {
@@ -96,33 +97,30 @@ const actions = {
     // get Id Group Friend
   getGroupFriendById: async ( { commit }, payload ) => {
     const rsGetId = await GroupFriend.getInfoGroupFriend( payload );
-    commit("setGroupFriend", rsGetId.data.data);
-    },
+    commit("setGroupFriend", rsGetId.data.data.data);
+    commit("setListFriendOfGroup", rsGetId.data.data.friends);
+
+  },
 
     // delete item friends
     deleteGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.deleteGroupFriends( payload._id );
         const rsDelete = await GroupFriend.getAllGroupFriends();
-        commit("setAllGroupFriend", rsDelete.data.data);
+        commit("setAllGroupFriend", rsDelete.data.data.data);
 
         // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
-  deleteFriendFromGroup: async ({commit,state}, payload) => {
+  deleteFriendFromGroup: async ({commit}, payload) => {
     commit("group_request");
-
-    const listFriend = payload.friends.map(uid => {
-       return state.friendsOfGroup.filter(item => {
-        if (item.userID !== uid) return item;
-      });
-    });
-    commit("setDeleteFriendOnGroup", listFriend);
-
     const dataSender = {
-      friendId: payload.friends
+      friendId: payload.friendsId
     };
-
     await GroupFriend.deleteFriendsOnGroup(payload.gr_id, dataSender);
+
+    const rsGetId = await GroupFriend.getInfoGroupFriend( payload.gr_id );
+    commit("setGroupFriend", rsGetId.data.data.data);
+    commit("setListFriendOfGroup", rsGetId.data.data.friends);
 
     commit("group_success");
   },

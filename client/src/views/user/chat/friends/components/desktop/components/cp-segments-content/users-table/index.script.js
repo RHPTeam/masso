@@ -1,8 +1,9 @@
 import PronounPopup from "../../../popup/pronoun-popup";
 import ConvertUnicode from "@/utils/functions/string";
+import Paginate from "./components/paginate";
 
 export default {
-  props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault"],
+  props: ["groupSelected", "keywordSearch", "accountSelected", "selectFilter", "resultsDefault", "sizeDefault"],
   data() {
     return {
       selectedArr: [],
@@ -49,19 +50,10 @@ export default {
     };
   },
   created() {
-    // const groupId = this.$route.query.gid,
-      // friendsGr  = this.$store.getters.friendsOfGroup;
-
-    // console.log(groupId);
-
-    // await this.$store.dispatch("selectedUIDs", []);
-    /**
-     *  get info friends with page = 1 and size default = 25
-     * @returns array
-     */
-    // if(groupId && friendsGr.length === 0) {
-    //   this.$store.dispatch("getGroupFriendById", groupId);
-    // }
+    this.$store.dispatch("getFriendFbChatBySize", {
+      size:  this.sizeDefault,
+      page: this.currentPage
+    });
   },
   computed: {
     currentTheme() {
@@ -150,13 +142,6 @@ export default {
       return this.$store.getters.friendsOfGroup;
     },
     /**
-     *  get page in results
-     * @returns array
-     */
-    numberPageCurrent(){
-      return this.$store.getters.numberPageFriendCurrent;
-    },
-    /**
      *  set, get user when select user add to group friends
      *  save array in store
      * @returns array
@@ -169,6 +154,11 @@ export default {
         this.$store.dispatch("selectedUIDs", value);
       }
     },
+    /**
+     *  set, get user when select user delete from group friends
+     *  save array in store
+     * @returns array
+     */
     selectDeleteUID: {
       get() {
         return this.$store.getters.uidSelectDelete;
@@ -179,29 +169,6 @@ export default {
     }
   },
   methods: {
-    /**
-     *  check currenPage  and dispatch event paginate when load all friends
-     *
-     * @returns array
-     */
-    async loadMore(){
-      if( this.showLoader === true ) {
-        if(this.currentPage > this.numberPageCurrent) {
-          return false;
-        } else {
-          this.showLoader = false;
-
-          this.currentPage += 1;
-
-          await this.$store.dispatch("getFriendFbChatBySize", {
-            size: this.perPage,
-            page: this.currentPage
-          });
-
-          this.showLoader = true;
-        }
-      }
-    },
     showPronounPopup(val) {
       this.isShowPronounPopup = true;
       const dataSender = {
@@ -289,14 +256,6 @@ export default {
     onPageChange(page) {
       this.currentPage = page;
     },
-    goToPage(page) {
-      const dataSender = {
-        name: this.keywordSearch,
-        size: 20,
-        page: page
-      };
-      this.$store.dispatch("searchFriendsByNameAndPage", dataSender);
-    },
     userOfFBAccount(uid, fid) {
       let check = false;
       this.users.forEach(user => {
@@ -335,6 +294,7 @@ export default {
     }
   },
   components: {
-    PronounPopup
+    PronounPopup,
+    Paginate
   }
 };
