@@ -2,10 +2,24 @@
   <div class="main">
     <!-- Start: Desktop Component-->
     <div class="d_none d_md_block">
-      <breadcrumb
-        nameBread="Thiết lập chiến dịch"
-        subBread="Giúp bạn thiết lập bộ hẹn cho bài đăng theo ý muốn và trực quan hơn"
-      />
+      <div class="d_flex align_items_center">
+        <breadcrumb
+          nameBread="Thiết lập chiến dịch"
+          subBread="Giúp bạn thiết lập bộ hẹn cho bài đăng theo ý muốn và trực quan hơn"
+        />
+        <div class="guide ml_3" @click="redirectBlogHelp">
+          <icon-base
+            class="icon icon--help"
+            width="18px"
+            height="18px"
+            icon-name="Hướng dẫn"
+            viewBox="0 0 320 320"
+          >
+            <icon-help />
+          </icon-base>
+        </div>
+      </div>
+
       <!-- Start: Content -->
       <app-header v-if="variableControl === 0"/>
       <div class="main--content">
@@ -37,8 +51,19 @@ export default {
   },
   async created(){
     await this.$store.dispatch("setCampainControl", 0);
-  }
+  },
+  methods: {
+    redirectBlogHelp() {
+      const routes = "https://www.zinbee.vn/#/help/lam-cach-nao-de-tim-kiem-cac-bai-viet-tren-facebook";
+      window.open(routes, '_blank');
+    }
+  },
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+  .guide {
+    cursor: pointer;
+    margin-bottom: -2.3rem;
+  }
+</style>
