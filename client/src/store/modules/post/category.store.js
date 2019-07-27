@@ -1,10 +1,12 @@
-import CategoriesServices from "@/services/modules/categories.services";
+import CategoriesServices from "@/services/modules/post/category.service";
+import CategoryDefaultService from "@/services/modules/post/categorydefault.service";
 
 const state = {
   allCategories: [],
   categoryById: {},
   categoriesPage: [],
   categoriesPageSize: 1,
+  mixCategories: [],
   statusCategories: "",
   statusError: ""
 };
@@ -13,6 +15,7 @@ const getters = {
   categoryById: ( state ) => state.categoryById,
   categoriesPage: ( state ) => state.categoriesPage,
   categoriesPageSize: ( state ) => state.categoriesPageSize,
+  mixCategories: ( state ) => state.mixCategories,
   statusCategories: ( state ) => state.statusCategories,
   statusError: ( state ) => state.statusError
 };
@@ -37,6 +40,9 @@ const mutations = {
   },
   setCategoriesPageSize: ( state, payload ) => {
     state.categoriesPageSize = payload;
+  },
+  setMixCategories: ( state, payload ) => {
+    state.mixCategories = payload;
   }
 };
 const actions = {
@@ -60,6 +66,19 @@ const actions = {
     commit( "setCategoriesPageSize", res.data.data.page );
 
     commit( "cate_success"  );
+  },
+  getCategoriesByKey: async (  { commit }, payload ) => {
+    commit( "cate_request"  );
+    const res = await CategoriesServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    commit( "setCategoriesPage", res.data.data.results );
+    commit( "setCategoriesPageSize", res.data.data.page );
+
+    commit( "cate_success"  );
+  },
+  getMixCategories: async ( { commit } ) => {
+    const result = await CategoriesServices.getMixCategories();
+    await  commit( "setMixCategories", result.data.data );
   },
   createCategory: async ( { commit }, payload ) => {
     try {
@@ -99,6 +118,9 @@ const actions = {
     res = await CategoriesServices.getByPage( payload.size, payload.page );
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
+  },
+  duplicateCategoriesDefault: async ( {commit}, payload ) => {
+    await CategoryDefaultService.duplicateFolder(payload);
   }
 };
 

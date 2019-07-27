@@ -2,15 +2,16 @@
 /* eslint-disable camelcase */
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
-
   PostFacebookSchema = new Schema( {
     "title": String,
     "content": String,
     "color": String,
-    "attachments": [ {
-      "link": String,
-      "typeAttachment": Number // 0 video 1 image
-    } ],
+    "attachments": [
+      {
+        "link": String,
+        "typeAttachment": Number // 0 video 1 image
+      }
+    ],
     "place": String,
     "scrape": String,
     "tags": Array,
@@ -46,7 +47,7 @@ PostFacebookSchema.pre( "save", function( next ) {
 
 const PostFacebook = mongoose.model( "PostFacebook", PostFacebookSchema );
 
-PostFacebook.on( "index", function( error ) {
+PostFacebook.on( "index.vue", function (error ) {
   if ( error ) {
     console.log( error.message );
   }

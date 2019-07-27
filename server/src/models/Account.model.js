@@ -9,7 +9,7 @@
 const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema;
 
-const rcrypt = require( "../secures" ),
+const rcrypt = require( "../helpers/secures/rcrypt" ),
 
   AccountSchema = new Schema( {
     "name": String,
@@ -26,20 +26,9 @@ const rcrypt = require( "../secures" ),
     },
     "presenter": { "type": String, "default": "" },
     "imageAvatar": String,
-    "ip": [],
-    "_role": {
-      "type": Schema.Types.ObjectId,
-      "ref": "Role"
-    },
-    "_accountfb": [
-      {
-        "type": Schema.Types.ObjectId,
-        "ref": "AccountFacebook"
-      }
-    ],
-    "_server": {
-      "type": Schema.Types.ObjectId,
-      "ref": "Server"
+    "language": {
+      "type": String,
+      "default": "vi"
     },
     "settings": {
       "themeCustom": {
@@ -51,10 +40,24 @@ const rcrypt = require( "../secures" ),
         "suggest": { "type": Number, "default": 1 }
       }
     },
+    "_role": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Role"
+    },
+    "_server": {
+      "type": Schema.Types.ObjectId,
+      "ref": "Server"
+    },
     "created_at": {
       "type": Date,
       "default": Date.now()
     },
+    "keywordSearch": [ {
+      "content": String,
+      "time": Date
+    } ],
+    "other01": String, // id of phpMyadmin from older server
+    "other02": String,
     "updated_at": Date
   } );
 

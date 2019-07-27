@@ -1,4 +1,4 @@
-import PageFacebookServices from "@/services/modules/pagefacebook.services";
+import PageFacebookServices from "@/services/modules/post/pagefacebook.service";
 
 const state = {
     facebookPages: [],
@@ -30,8 +30,14 @@ const state = {
       commit( "setFacebookPagesStatus", "success" );
 
     },
-    updateFacebookPages: () => {
-      PageFacebookServices.update();
+    updateFacebookPages: async ({commit}) => {
+      commit( "setFacebookPagesStatus", "loading" );
+      await PageFacebookServices.update();
+
+      const res = await PageFacebookServices.index();
+
+      await commit( "setFacebookPages", res.data.data );
+      commit( "setFacebookPagesStatus", "success" );
     }
   };
 

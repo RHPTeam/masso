@@ -3,7 +3,7 @@
   <div class="scripts">
     <!--Component Loading-->
     <loading-component
-      v-if="this.$store.getters.statusGroupBlocks === 'loading'"
+      v-if="this.$store.getters.statusBlocks === 'loading'"
     />
     <!--Regions Scripts Header-->
     <div v-else>
@@ -12,11 +12,13 @@
           class="script--header-title"
           tag="div"
           :contenteditable="true"
+          :placeholder="$t('chat.scripts.content.name.placeholder')"
+          v-model="block.name"
           @keyup="upTypingText('nameblock', block)"
           @keydown="clear"
         />
         <div class="script--header-copy-link disabled--icon">
-          <icon-base
+          <!-- <icon-base
             class="disable"
             icon-name="copy"
             width="26"
@@ -33,11 +35,11 @@
             viewBox="0 0 482.8 482.8"
           >
             <icon-link />
-          </icon-base>
+          </icon-base> -->
         </div>
         <div
           class="script--header-delete ml_auto"
-          @click="isDeletePopup = true"
+          @click="isDeleteItemBlock = true"
         >
           <icon-base
             icon-name="remove"
@@ -51,8 +53,6 @@
         <div class="script--header-dropdown d_none ml_auto position_relative">
           <div
             class="icon--dropdown"
-            v-click-outside="closeOptionTablet"
-            @click="showOptionTablet = !showOptionTablet"
           >
             <icon-base
               icon-name="remove"
@@ -63,8 +63,7 @@
               <icon-remove />
             </icon-base>
             <ul
-              class="header--dropdown-wrap position_absolute text_left p_0 m_0"
-              v-if="showOptionTablet == true"
+              class="header--dropdown-wrap d_none position_absolute text_left p_0 m_0"
             >
               <li class="disabled--icon">
                 <icon-base
@@ -88,7 +87,7 @@
                 </icon-base>
                 <span class="ml_2">Sao chép link</span>
               </li>
-              <li @click="isDeletePopup = true">
+              <li>
                 <icon-base
                   icon-name="remove"
                   width="16"
@@ -103,51 +102,49 @@
           </div>
         </div>
       </div>
-      <!--Start: Regions Scripts Body-->
-      <!-- <div class="script--body">
-        <div v-for="(item, index) in block.contents" :key="index"> -->
+      <!-- Start: Regions Scripts Body-->
+      <div class="script--body">
+        <div v-for="(item, index) in block.contents" :key="index">
           <!--Start: Add text-->
-          <!-- <div v-if="item.typeContent === 'text'">
-            <add-text :item="item" :block="block" />
-          </div> -->
+          <div v-if="item.typeContent === 'text'">
+            <add-text :item="item" :block="block"></add-text>
+          </div>
           <!--End: Add text-->
           <!--Start: add images-->
-          <!-- <div v-if="item.typeContent === 'image'">
-            <add-image :item="item" :block="block" />
-          </div> -->
+          <div v-if="item.typeContent === 'image'">
+            <add-image :item="item" :block="block"></add-image>
+          </div>
           <!-- End: add images-->
           <!--Start: add timer-->
-          <!-- <add-timer :item="item" :block="block" /> -->
+          <div v-if="item.typeContent === 'time'">
+            <add-timer :item="item" :block="block"></add-timer>
+          </div>
           <!--Start: add timer-->
           <!--Start: Add Tag-->
-          <!-- <div v-if="item.typeContent === 'tag'">
-            <add-tag :item="item" :content="block" />
-          </div> -->
+          <div v-if="item.typeContent === 'tag'">
+            <add-tag :item="item" :content="block"></add-tag>
+          </div>
           <!--End: Add Tag-->
           <!--Start: Subscribe-->
-          <!-- <div v-if="item.typeContent === 'subscribe'">
-            <subcrible
-              :item="item"
-              :content="block"
-              @updateItemFromMiddleComponent="block.contents[index] = $event"
-            />
-          </div> -->
+          <div v-if="item.typeContent === 'subscribe'">
+            <subcrible :item="item" :block="block"></subcrible>
+          </div>
           <!--End: Subscribe-->
           <!--Start: Unsubcrible-->
-          <!-- <div v-if="item.typeContent === 'unsubscribe'">
-            <un-subcrible :item="item" :content="block" />
-          </div> -->
+          <div v-if="item.typeContent === 'unsubscribe'">
+            <un-subcrible :item="item" :block="block"></un-subcrible>
+          </div>
           <!--End: Unsubcrible-->
-        <!-- </div>
-      </div> -->
+        </div>
+      </div>
       <!--Regions Script Footer-->
-      <!-- <div class="script--footer">
+      <div class="script--footer">
         <div class="script--footer-addelm">
-          <div class="title">Thêm phần tử</div>
+          <div class="title">{{ $t("chat.common.card.add.title") }}</div>
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('text', block._id)"
+              @click="createItemBlock('text', block._id)"
             >
               <icon-base
                 class="icon-text"
@@ -156,12 +153,12 @@
                 viewBox="0 0 13.53 20.11"
               >
                 <icon-text /> </icon-base
-              >Văn bản
+              >{{ $t('chat.common.card.add.text') }}
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('image', block._id)"
+              @click="createItemBlock('image', block._id)"
             >
               <icon-base
                 class="icon-image"
@@ -170,12 +167,12 @@
                 viewBox="0 0 26 26"
               >
                 <icon-image /> </icon-base
-              >Hình ảnh
+              >{{ $t('chat.common.card.add.images') }}
             </div>
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click.prevent="addItemBlock('time', block._id)"
+              @click="createItemBlock('time', block._id)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -184,7 +181,7 @@
                 viewBox="0 0 14.41 20.14"
               >
                 <icon-sand-clock /> </icon-base
-              >Thời gian
+              >{{ $t('chat.common.card.add.time') }}
             </div>
 
             <div
@@ -199,7 +196,7 @@
                 viewBox="0 0 60 60"
               >
                 <icon-plus /> </icon-base
-              >Thêm
+              >{{ $t('chat.common.card.add.add') }}
             </div>
           </div>
         </div>
@@ -217,12 +214,12 @@
             placeholder="Nhập các cụm từ tại đây"
           ></textarea>
         </div>
-      </div> -->
+      </div>
     </div>
     <!--Popup filter Attribute-->
-    <!-- <transition name="popup">
+    <transition name="popup">
       <popup-plugins
-        v-if="showPopupPlugins == true"
+        v-if="showPopupPlugins === true"
         :content="block._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
@@ -231,16 +228,21 @@
         @showSubcrible="showSubcrible = $event"
         @showUnSubcrible="showUnSubcrible = $event"
         @closePopupPluginClick="showPopupPlugins = $event"
-      />
-    </transition> -->
-    <!--Delete popup-->
-    <!-- <delete-popup
-      v-if="isDeletePopup === true"
-      desc="Bạn có thực sự muốn xóa kịch bản này không?"
-      :content="block._id"
-      target="block"
-      @close="isDeletePopup = $event"
-    /> -->
+      >
+      </popup-plugins>
+    </transition>
+   <!-- Start: Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isDeleteItemBlock === true"
+        :data-theme="currentTheme"
+        title="Delete Scripts"
+        @closePopup="isDeleteItemBlock = $event"
+        storeActionName="deleteScripts"
+        typeName="Scripts"
+      ></delete-campaign-popup>
+    </transition>
+    <!-- End: Delete Item Popup -->
   </div>
 </template>
 

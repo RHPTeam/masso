@@ -7,12 +7,13 @@ const express = require( "express" ),
   app = express(),
   logger = require( "morgan" );
 const api = require( "./src/routes" );
-const cookieParser = require( "cookie-parser" );
 const mongoose = require( "mongoose" );
 const passport = require( "passport" );
+const dotenv = require( "dotenv" );
 
-let server = null;
+let server = null, directoryLog = null;
 
+dotenv.config( { "path": ".env" } );
 if ( process.env.APP_ENV === "production" ) {
   const options = {
     "pfx": fs.readFileSync( process.env.HTTPS_URL ),
@@ -25,7 +26,7 @@ if ( process.env.APP_ENV === "production" ) {
 }
 
 // Multi
-require( "./src/helpers/service/passport.service" );
+require( "./src/helpers/services/passport.service" );
 require( "./src/process" );
 require( "./src/microservices" );
 
@@ -38,21 +39,41 @@ mongoose.set( "useFindAndModify", false );
 
 app.set( "port", process.env.PORT_BASE );
 
-app.use( cors() );
+app.use( cors( {
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "allowedHeaders": [ "Content-Type", "Authorization" ],
+  "exposedHeaders": [ "Cookie" ] } ) );
 app.use( bodyParser.json( { "limit": "500MB", "extended": true } ) );
 app.use( bodyParser.urlencoded( { "limit": "500MB", "extended": true } ) );
 app.use( passport.initialize() );
 app.use( passport.session() );
-app.use( logger( "tiny" ) );
+app.use( logger( "dev" ) );
 // file image local
 app.use( "/uploads", express.static( "uploads" ) );
-app.use( cookieParser( process.env.APP_KEY ) );
 app.use( "/api/v1", api );
 app.use( "/", ( req, res ) => res.send( "API running!" ) );
 
 // listen a port
 server.listen( process.env.PORT_BASE, () => {
-  console.log( `Api server running on ${process.env.APP_URL}` );
+  console.log( `Api server running on ${process.env.APP_URL}:${process.env.PORT_BASE}` );
 } );
+
+directoryLog = __dirname.includes( "/" ) ? `${__dirname }/src/databases/log` : `${__dirname }\\src\\databases\\log`;
+
+if ( !fs.existsSync( directoryLog ) ) {
+  fs.mkdir( directoryLog, ( err ) => {
+    if ( err ) {
+      throw err;
+    }
+    fs.writeFile( __dirname.includes( "/" ) ? directoryLog + "/schedule.txt" : directoryLog + "\\schedule.txt", "Starting Log...\r\n", function ( err ) {
+      if ( err ) {
+        throw err;
+      }
+      console.log( "File log is created successfully." );
+    } );
+  } );
+}
+
 
 module.exports = app;

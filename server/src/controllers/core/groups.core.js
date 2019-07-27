@@ -3,8 +3,8 @@
 /* eslint-disable strict */
 const request = require( "request" ),
   { linkgraphfacebook } = require( "../../configs/crawl" ),
-  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
+  { getDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
   handle = async ( { cookie, agent, token } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -38,7 +38,7 @@ const request = require( "request" ),
             };
           } ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -46,7 +46,7 @@ const request = require( "request" ),
             "results": groupListNode
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"

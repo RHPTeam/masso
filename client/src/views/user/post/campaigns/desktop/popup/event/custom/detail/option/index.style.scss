@@ -1,12 +1,11 @@
 .detail {
   color: $mainDarkLight;
-  min-height: 320px;
   .top {
     font-size: .825rem;
-    .top--left {
+    .top--left{
       color: #666;
       cursor: pointer;
-      &:hover {
+      &:hover{
         text-decoration: underline;
       }
     }
@@ -26,6 +25,8 @@
         }
       }
       input {
+        background: #27292d;
+        color: #ccc;
         border: none;
         border-radius: .625rem;
         height: 36px;
@@ -45,8 +46,9 @@
   }
   .body {
     font-size: .85rem;
+    margin-bottom: 2.2rem;
     .result {
-      background-color: #ffffff;
+      background-color: #000087;
       border-top-left-radius: .5rem;
       border-top-right-radius: .5rem;
       color: #999;
@@ -54,13 +56,15 @@
       height: 38px;
     }
     .result--item {
-      background-color: #fafafa;
+      background-color: #2f3136;
+      color: #ccc;
+      font-size: calc(1rem - 3px);
       &.empty {
         color: #999;
         font-size: .825rem;
       }
       &:hover {
-        background-color: #fff;
+        background-color: #51515257;
       }
       &:last-child {
         border-bottom-left-radius: .5rem;
@@ -113,5 +117,59 @@
         }
       }
     }
+    .scroll-categories{
+      max-height: 160px;
+    }
+  }
+  .footer--back{
+    // background: #27292d;
+    background: #303236;
+    position: absolute;
+    bottom: -36px;
+    left: 0;
+    width: 100%;
+    border-bottom-left-radius: 0.625rem;
+    border-bottom-right-radius: 0.625rem;
+    .top--left {
+      color: #fff;
+      background: #ffb94a;
+      height: 35px;
+      line-height: 35px;
+      padding: 0 0.625rem;
+      border-radius: 5px;
+      // margin-top: 0.625rem;
+      cursor: pointer;
+      &:hover {
+        background: #ff9e4a;
+      }
+    }
   }
 }
+
+
+// ================== THEME
+
+// dark 
+.detail[data-theme="dark"] {
+
+}
+
+
+//  ************ RESPONSIVE
+
+// @media only screen and (min-width: 990px) and (max-width: 1200px) {
+//   .detail{
+//     .footer--back{
+//       left: 15%;
+//       width: 70%;
+//     }
+//   }
+// }
+// @media only screen and (min-width: 768px) and (max-width: 989px) {
+//   .detail{
+//     .footer--back{
+//       left: 10%;
+//       width: 80%;
+//     }
+//   }
+// }

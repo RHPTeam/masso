@@ -44,6 +44,11 @@
   </component>
 </template>
 
-<script src="./main.js"></script>
+<script src="./index.script.js"></script>
 
-<style scoped></style>
+<style scoped>
+  [contenteditable=true]:empty:before{
+    content: attr(placeholder);
+    display: block; /* For Firefox */
+  }
+</style>

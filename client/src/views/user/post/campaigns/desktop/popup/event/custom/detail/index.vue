@@ -1,27 +1,6 @@
 <template>
-  <div class="wrap">
+  <div class="wrap" :data-theme="currentTheme">
     <div class="custom" v-if="caseEvent.libraries === 0">
-      <!-- Start: Top -->
-      <div class="top d_flex align_items_center justify_content_between mb_3">
-        <div class="top--left"
-             @click="resetPostType"
-        >≪ Quay lại</div>
-        <div class="top--right d_flex align_items_center">
-          <div class="mr_2">Tùy chọn đăng bài viết cụ thể</div>
-          <div class="icon">
-            <icon-base
-              class="icon--reply-post"
-              :style="[ { color: event.color }, { stroke: event.color } ]"
-              height="22px"
-              width="18px"
-              viewBox="0 0 460 460"
-            >
-              <icon-reply-post></icon-reply-post>
-            </icon-base>
-          </div>
-        </div>
-      </div>
-      <!-- End: Top -->
       <!-- Start: Body -->
       <div class="body p_3 mb_4">
         <div class="body--top d_flex align_items_center justify_content_between mb_3">
@@ -40,6 +19,8 @@
         </div>
         <!--Start: Results Option Post detail -->
         <div class="wrapper">
+          <div class="text_warning mb_3">Khuyên dùng! Một bài viết không được đăng quá 5 vị trí khác nhau. Điều này, giúp tài khoản của bạn an toàn, spam, vi phạm tiêu chuẩn công động, v.v</div>
+
           <div class="item--header d_flex align_items_center px_3 py_2">
             <div class="col col--name pr_3">Tên bài viết</div>
             <div class="col col--category pr_3">Danh mục</div>
@@ -55,8 +36,8 @@
               </icon-base>
             </div>-->
           </div>
-          <div>
-            <div class="item--empty text_center pt_3" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
+          <div class="content">
+            <div class="item--empty text_center pt_3 pb_2" v-if="event.post_custom.length === 0">Chưa có bài viết nào được chọn</div>
             <div v-else class="item--body d_flex align_items_center px_3 py_2" v-for="(post, index) in event.post_custom" :key="`d-${index}`">
               <div class="col col--name pr_3">
                 <div class="col col--name-text">
@@ -79,6 +60,7 @@
                   width="18px"
                   height="18px"
                   viewBox="0 0 16 16"
+                  icon-name="Xóa"
                 >
                   <icon-remove></icon-remove>
                 </icon-base>
@@ -115,6 +97,9 @@ export default {
     GlobalOption
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     caseEvent() {
       return this.$store.getters.caseEvent;
     },
@@ -137,6 +122,8 @@ export default {
         key: "post_custom",
         value: []
       } );
+      // Remove target_category
+      // this.$store.dispatch( "setEventRemove", "target_category" );
     },
     removePostSelect( id ) {
       this.$store.dispatch( "setEventPostRemove", id );

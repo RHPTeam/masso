@@ -1,4 +1,4 @@
-import GroupFacebookServices from "@/services/modules/groupfacebook.services";
+import GroupFacebookServices from "@/services/modules/post/groupfacebook.service";
 
 const state = {
     facebookGroups: [],
@@ -29,8 +29,14 @@ const state = {
       await commit( "setFacebookGroups", res.data.data );
       commit( "setFacebookGroupsStatus", "success" );
     },
-    updateFacebookGroups: () => {
-      GroupFacebookServices.update();
+    updateFacebookGroups: async ({commit}) => {
+      commit("setFacebookGroupsStatus", "loading")
+      await GroupFacebookServices.update();
+
+      const res = await GroupFacebookServices.index();
+
+      await commit( "setFacebookGroups", res.data.data );
+      commit( "setFacebookGroupsStatus", "success" );
     }
   };
 

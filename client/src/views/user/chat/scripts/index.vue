@@ -3,14 +3,14 @@
     <!--Desktop-->
     <div class="d_none d_md_block">
       <app-bread-crumb
-        nameBread="Kịch bản"
-        subBread="Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn"
+        :nameBread="$t('chat.scripts.title')"
+        :subBread="$t('chat.scripts.desc')"
       />
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script />
         </div>
-        <div class="main--scripts d_flex  c_md_8">
+        <div class="main--scripts d_flex c_md_8">
           <app-main-script />
         </div>
       </div>
@@ -24,18 +24,18 @@ import AppLeftSidebarScript from "./components/desktop/leftsidebar";
 import AppMainScript from "./components/desktop/mainscript";
 
 export default {
+  components: {
+    AppLeftSidebarScript,
+    AppMainScript,
+    AppBreadCrumb
+  },
   data() {
     return {};
   },
   computed: {},
   async created() {
     await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence");
-  },
-  components: {
-    AppLeftSidebarScript,
-    AppMainScript,
-    AppBreadCrumb
+    await this.$store.dispatch("getAllSequenceScript");
   }
 };
 </script>
@@ -43,7 +43,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   font-family: "Open Sans", sans-serif;
-  background: #2f31368a;
+  // background: #2f31368a;
   .main--content {
     border-radius: 10px;
     min-height: calc(100vh - 260px);

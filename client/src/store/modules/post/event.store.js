@@ -1,6 +1,6 @@
 
-import EventsServices from "@/services/modules/events.services";
-import CampaignsServices from "@/services/modules/campaigns.services";
+import EventsServices from "@/services/modules/post/event.service";
+import CampaignsServices from "@/services/modules/post/campaign.service";
 
 import ArrayFunction from "@/utils/functions/array";
 
@@ -13,14 +13,19 @@ const state = {
     break_point: 15,
     started_at: new Date,
     post_custom: [],
-    target_custom: []
+    post_category: "",
+    target_custom: [],
+    timeline: [],
+    plugins: "",
   },
   errorEvent: [],
   statusEvent: "",
   caseEvent: {
     post: 0, // 0: None, 1: Category, 2: Custom
-    target: 0, // 0: None, 1: Category, 2: Custom
-    libraries: 0, // 0: All, 1: Libraries
+    target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
+    libraries: 0, // 0: All, 1: Libraries,
+    active: 1, // 0: Active
+    listPost: 1, // 0: Category, 1: Custom
     popup: false
   }
 };
@@ -52,16 +57,21 @@ const mutations = {
     state.event[ payload.key ] = payload.value;
   },
   set_event_special: ( state, payload ) => {
-    let tempPage = [], temGroup = [];
-    state.event[ payload.key ] = state.event[ payload.key ].concat( payload.value );
-
-    tempPage = state.event[ payload.key ].filter( target => target.typeTarget === 1 );
-    tempPage = ArrayFunction.removeDuplicateObject( tempPage, "target", "pageId" );
-
-    temGroup = state.event[ payload.key ].filter( target => target.typeTarget === 0 );
-    temGroup = ArrayFunction.removeDuplicateObject( temGroup, "target", "groupId" );
-
-    state.event[ payload.key ] = tempPage.concat( temGroup );
+    if ( payload.typeTarget === 0 ) {
+      // remove all old selected groups
+      const arr = state.event[ payload.key ].filter( ( target ) => {
+        return target.typeTarget === 1;
+      } );
+      // update new selected groups
+      state.event[ payload.key ] = arr.concat( payload.value );
+    } else {
+      // remove all old selected pages
+      const arr = state.event[ payload.key ].filter( ( target ) => {
+        return target.typeTarget === 0;
+      } );
+      // update new selected pages
+      state.event[ payload.key ] = arr.concat( payload.value );
+    }
   },
   set_event_push: ( state, payload ) => {
     state.event[ payload.key ].push( payload.value );
@@ -91,6 +101,7 @@ const mutations = {
 const actions = {
   createEvent: async ( { commit }, payload ) => {
     commit( "ev_request");
+
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {
@@ -106,10 +117,29 @@ const actions = {
         }
       } );
     }
+    if ( payload.event.post_category === "" ) {
+      delete payload.event.post_category;
+    }
+    if ( payload.event.post_custom.length === 0 ) {
+      delete payload.event.post_custom;
+    }
+    if ( payload.event.post_custom && payload.event.post_custom.length > 0 )  {
+      payload.event.post_custom  =  payload.event.post_custom.map( item => item._id );
+    }
+    if ( payload.event.timeline && payload.event.timeline.length > 0 )  {
+      payload.event.timeline  =  payload.event.timeline.map( item => item._id );
+    }
+    if ( payload.event.plugins === "" ) {
+      delete payload.event.plugins;
+    }
+
     await EventsServices.create(payload.campaignId, payload.event);
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
     commit( "ev_success");
+  },
+  duplicateEvent: async ( { commit }, payload ) => {
+    await EventsServices.duplicate( payload.eventId, payload.data );
   },
   getAllEvents: async ( { commit } ) => {
     const res = await EventsServices.index();
@@ -117,15 +147,32 @@ const actions = {
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
-    await  commit( "setEvent", res.data.data );;
+    if ( res.data.data.plugins === undefined ) {
+      res.data.data.plugins = "";
+    }
+    await  commit( "setEvent", res.data.data );
     commit( "set_caseEvent", {
       key: "post",
       value: res.data.data.post_custom.length > 0 ? 2 : 1
     } );
-    commit( "set_caseEvent", {
-      key: "target",
-      value: res.data.data.target_custom.length > 0 ? 2 : 1
-    } );
+
+    // check case event target
+    // let targetType = 0;
+    // if ( res.data.data.target_custom.length === 0 ) {
+    //   if ( res.data.data.hasOwnProperty( "target_category" ) ) {
+    //     targetType = 1;
+    //   } else {
+    //     if ( res.data.data.timeline.length > 0 ) {
+    //       targetType = 3;
+    //     }
+    //   }
+    // } else {
+    //   targetType = 2;
+    // }
+    // commit( "set_caseEvent", {
+    //   key: "target",
+    //   value: targetType
+    // } );
   },
   updateEvent: async ( { commit }, payload ) => {
     if ( payload.event.type_event === 0 ) {
@@ -143,11 +190,35 @@ const actions = {
         }
       } );
     }
+    if ( payload.event.post_category === "" ) {
+      delete payload.event.post_category;
+    }
+    if ( payload.event.post_custom && payload.event.post_custom.length === 0 ) {
+      delete payload.event.post_custom;
+    }
+    if ( payload.event.post_custom && payload.event.post_custom.length > 0 )  {
+      payload.event.post_custom  =  payload.event.post_custom.map( item => item._id );
+    }
+    if ( payload.event.plugins === "" ) {
+      delete payload.event.plugins;
+    }
+
     const res = await EventsServices.updateEvent( payload.event._id, payload.event );
     await  commit( "setEvent", res.data.data );
     //update campaign detail
     const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
     await commit( "setCampaignDetail", campaignDetail.data.data );
+  },
+  deleteEvent: async ({commit}, payload) => {
+    await EventsServices.delete(payload.eventId);
+    const result = await EventsServices.index();
+    await commit( "setEvents", result.data.data );
+    //update campaign detail
+    const campaignDetail = await CampaignsServices.getCampaignById( payload.campaignId );
+    await commit( "setCampaignDetail", campaignDetail.data.data );
+  },
+  setErrorEvent: ( { commit }, payload ) => {
+    commit( "setErrorEvent", payload );
   },
   setEvent: ( { commit }, payload ) => {
     commit( "set_event", payload );
@@ -174,12 +245,15 @@ const actions = {
       type_event: 0,
       break_point: 15,
       started_at: new Date,
+      post_category: "",
       post_custom: [],
-      target_custom: []
+      target_custom: [],
+      timeline: [],
+      plugins: ""
     } );
     commit( "setCaseEvent", {
-      post: 0, // 0: None, 1: Category, 2: Custom
-      target: 0, // 0: None, 1: Category, 2: Custom
+      post: 1, // 0: None, 1: Category, 2: Custom
+      target: 0, // 0: None, 1: Category, 2: Custom, 3: Timeline
       libraries: 0, // 0: All, 1: Libraries
       popup: false
     } );

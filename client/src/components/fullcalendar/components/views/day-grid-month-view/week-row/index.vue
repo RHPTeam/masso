@@ -35,9 +35,12 @@
                 monthDays[rowIndex * 7 + i] &&
                   monthDays[rowIndex * 7 + i].status
               "
+              :id="[ i === 0 ? 'eventColumnWidth' : null ]"
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
+              title="Chọn để tạo sự kiện"
+              @click="dayClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             >
               <a class="rc--day-number">{{
                 monthDays[rowIndex * 7 + i].text
@@ -50,7 +53,6 @@
             <td class="rc--event-container"
                 v-for="(v, j) in 7"
                 :key="j"
-                :id="[ i === 0 && j === 0 ? 'eventColumnWidth' : null ]"
             >
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable"

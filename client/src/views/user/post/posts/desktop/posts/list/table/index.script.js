@@ -1,16 +1,19 @@
-import ConvertUnicode from "@/utils/functions/string.js";
+import ConvertUnicode from "@/utils/functions/string";
 import DeletePopup from "@/components/popups/delete";
 import ItemPost from "./item/index";
+import PostNowPopup from "../../../popups/postnow";
 
 export default {
   components: {
     DeletePopup,
-    ItemPost
+    ItemPost,
+    PostNowPopup
   },
   props: [ "currentPage", "filterCategorySelected", "filterShowSelected", "search" ],
   data() {
     return {
       isShowDeletePopup: false,
+      isShowPostNowPopup: false,
       isSort: [
         {
           name: "title",
@@ -18,7 +21,7 @@ export default {
           desc: false
         }
       ],
-      postDelete: {},
+      postSelected: {},
       targetDataDelete: {}
     }
   },
@@ -27,35 +30,32 @@ export default {
       return this.$store.getters.themeName;
     },
     allPost() {
-      return this.$store.getters.postsPage;
-    },
-    filterAllPost() {
-      if ( this.filterCategorySelected.id === "all" ) {
-        return this.allPost.filter( ( post ) => {
-          return post.title
-            .toString()
-            .toLowerCase()
-            .includes( this.search.toString().toLowerCase() );
-        } );
-      }
-      return this.allPost.filter( ( post ) => {
-        const checkedArr = post._categories.filter( ( category ) => {
-          return category._id === this.filterCategorySelected.id;
-        } );
-
-        return post.title.toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() ) && checkedArr.length !== 0;
-      } );
+      return this.$store.getters.allPost;
     }
   },
   async created  () {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
+    const categoryId = this.$route.query.categoryId;
 
-    await this.$store.dispatch( "getPostsByPage", dataSender );
+    if ( categoryId !== undefined ) {
+      await this.$store.dispatch("getPostByCategories", {
+        categoryId: categoryId,
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      } );
+    } else if ( this.search.length === 0 ) {
+      const dataSender = {
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      await this.$store.dispatch( "getPostsByPage", dataSender );
+    } else {
+      const dataSender = {
+        keyword: this.search,
+        size: this.filterShowSelected.id,
+        page: this.currentPage
+      };
+      this.$store.dispatch("getPostsByKey", dataSender);
+    }
   },
   methods: {
     activeCurrentSort( i, type ) {
@@ -75,13 +75,17 @@ export default {
       } );
     },
     showDeletePopup( post ) {
-      this.postDelete = post;
+      this.postSelected = post;
       this.targetDataDelete = {
         id: post._id,
         page: this.currentPage,
         size: this.filterShowSelected.id
       };
       this.isShowDeletePopup = true;
+    },
+    showPostNowPopup( post ) {
+      this.postSelected = post;
+      this.isShowPostNowPopup = true;
     },
     sortPostsByProperty( sortSelected, index ) {
       const attr = sortSelected.name;

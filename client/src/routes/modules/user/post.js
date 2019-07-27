@@ -19,7 +19,7 @@ const generalPostRouter = {
       component: require( "@/views/user/post/posts" ).default,
       children: [
         {
-          path: "",
+          path: "list",
           name: "post_posts",
           component: require( "@/views/user/post/posts/desktop/posts/list" )
             .default
@@ -35,29 +35,43 @@ const generalPostRouter = {
           name: "post_postCategories",
           component: require( "@/views/user/post/posts/desktop/categories" )
             .default
+        },
+        {
+          path: "categories-default",
+          name: "categories_default",
+          component: require( "@/views/user/post/posts/desktop/categoriesdefault" )
+            .default
+        },
+        {
+          path: ":id/categories",
+          name: "post_categories",
+          component: require( "@/views/user/post/posts/desktop/categories/components/post" )
+            .default
         }
       ]
     },
     {
       path: "campaigns",
       component: require( "@/views/user/post/campaigns" ).default,
-      children: [ {
-        path: "",
-        name: "post_campaigns",
-        component: require( "@/views/user/post/campaigns/desktop/list" )
-          .default
-      },
+      children: [
         {
-          path: "history",
-          name: "post_campaign_history",
-          component: require( "@/views/user/post/campaigns/desktop/history" ).default
+          path: "list",
+          name: "post_campaigns",
+          component: require( "@/views/user/post/campaigns/desktop/advance/list" )
+            .default
         },
-      {
-        path: ":campaignId",
-        name: "post_campaigns_detail",
-        component: require( "@/views/user/post/campaigns/desktop/detail" )
-          .default
-      }
+        {
+          path: "detail/:campaignId",
+          name: "post_campaigns_detail",
+          component: require( "@/views/user/post/campaigns/desktop/advance/detail" )
+            .default
+        },
+        {
+          path: "campaigns-default",
+          name: "campaigns_default",
+          component: require( "@/views/user/post/campaigns/desktop/advance/simple" )
+            .default
+        }
       ]
     },
     {
@@ -72,13 +86,34 @@ const generalPostRouter = {
     },
     {
       path: "f-account",
-      name: "post_fbaccount",
-      component: require( "@/views/user/post/facebook" ).default
+      component: require( "@/views/user/post/facebook" ).default,
+      children: [
+        {
+          path: "",
+          name: "post_fbaccount",
+          component: require( "@/views/user/post/facebook/desktop/list" ).default
+        },
+        {
+          path: ":fbAccountId",
+          name: "post_fbaccount_detail",
+          component: require( "@/views/user/post/facebook/desktop/detail" ).default
+        }
+      ]
     },
     {
-      path: "notifications",
-      name: "post_notifications",
-      component: require( "@/views/user/post/notifications" ).default
+      path: "support",
+      name: "post_support",
+      component: require( "@/views/user/post/support" ).default
+    },
+    {
+      path: "fb-search",
+      name: "post_fb_search",
+      component: require( "@/views/user/post/search" ).default
+    },
+    {
+      path: "agency",
+      name: "post_agency",
+      component: require( "@/views/user/agency" ).default
     }
   ]
 };

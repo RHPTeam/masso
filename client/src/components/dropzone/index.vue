@@ -12,7 +12,7 @@
                   <span class="file--cta d_flex align_items_center justify_content_center flex_column">
                     <span class="file--cta-icon">
                       <icon-base
-                        icon-name="icon-upload-image"
+                        icon-name="upload-image"
                         class="icon-sort-down"
                         width="90"
                         height="90"

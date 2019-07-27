@@ -4,9 +4,9 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   EventSchema = new Schema( {
-    "title": { "type": String, "required": true },
+    "title": { "type": String },
     "color": { "type": String, "default": "#85CFFF" },
-    "type_event": Number,
+    "type_event": Number, // 0: Custom, 1: Auto
     "status": Boolean,
     "post_category": {
       "type": Schema.Types.ObjectId,
@@ -32,6 +32,19 @@ const mongoose = require( "mongoose" ),
       "type": Number,
       "default": 15
     },
+    "plugins": {
+      "mix": {
+        "open": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        },
+        "close": {
+          "type": Schema.Types.ObjectId,
+          "ref": "PostCategory"
+        }
+      }
+    },
+    "activites": Array,
     "started_at": Date,
     "_account": {
       "type": Schema.Types.ObjectId,

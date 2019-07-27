@@ -18,15 +18,17 @@ export default {
   .main--header-title {
     font-size: 30px;
     font-weight: 600;
+    text-transform: capitalize;
   }
   .main--header-desc {
     font-size: 14px;
+    display: none;
     font-weight: normal;
     margin-left: 16px;
     margin-bottom: 5px;
   }
 }
-@media screen and (min-width: 768px) and (max-width: 1024px) {
+@media screen and (min-width: 768px) and (max-width: 1200px) {
   .main--header {
     display: flex !important;
     flex-direction: column !important;

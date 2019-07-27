@@ -12,199 +12,207 @@
     <div class="list--content">
       <div class="list--filter mb_3">
         <div
-          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2"
+          class="list--input d_flex justify_content_between align_items_center mx_auto mb_2 position_relative"
+          v-click-outside="closeKeywordRecentList"
         >
-          <span class="ml_3 mt_1">
-            <icon-base
-              icon-name="input-search"
-              width="20"
-              height="20"
-              viewBox="0 0 20 20"
-            >
-              <icon-input-search />
-            </icon-base>
-          </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchPostByKeyword" />
+            <span class="ml_3 mt_1">
+              <icon-base
+                icon-name="Tìm kiếm"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
+              >
+                <icon-input-search />
+              </icon-base>
+            </span>
+          <input type="text"
+                 placeholder="Tìm kiếm"
+                 v-model="keyword"
+                 @click="isStatusKeywordHistory = true"
+                 @keydown.enter="searchPost(keyword)" />
+          <!-- Start: History Search -->
+          <div class="history position_absolute" v-if="isStatusKeywordHistory === true">
+            <div class="history--header">
+              <div class="d_flex justify_content_between">
+                <span>Tìm kiếm gần đây</span>
+              </div>
+            </div>
+            <div class="history--body">
+              <ul v-if="keywordRecentList.length > 0">
+                <li v-for="( keyword, index ) in keywordRecentList" :key="index" @click="searchPostFromKeywordHistory( keyword.content )">{{ keyword.content }}</li>
+              </ul>
+              <ul v-if="keywordRecentList.length === 0">
+                <li>Bạn không có từ khóa tìm kiếm nào trước đây...</li>
+              </ul>
+            </div>
+          </div>
+          <!-- End: History Search -->
         </div>
+        <!-- Start: User Keywords -->
         <div
-          class="list--keywork d_flex justify_content_center align_items_center flex_wrap m_n1"
+          class="list--keywords d_flex justify_content_center align_items_center flex_wrap m_n1"
         >
           <span
             v-show="keyPopular && keyPopular.length > 0"
-            class="list--keywork-item py_1 m_1"
+            class="list--keywords-item py_1 m_1"
             v-for="(item, index) in keyPopular"
             :key="index"
-            @click="searchPostByKey(item)"
+            @click="searchPostByKeyword(item)"
           >
             {{ item }}
           </span>
         </div>
+        <!-- End: User Keywords -->
       </div>
-      <app-list
-        :keyword="keyword"
-      />
+      <div class="list--data my_3">
+        <div class="item--header d_flex align_items_center px_2 py_2">
+          <div class="col col--content px_3">Nội dung</div>
+          <div class="col col--image px_3">Hình ảnh</div>
+          <div class="col col--like px_3">Thích</div>
+          <div class="col col--share px_3">Chia sẻ</div>
+          <div class="col col--action px_3">Hành động</div>
+        </div>
+        <!-- Start: List Content -->
+        <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+          <div v-for="(item, index) in listPostFacebookDefault" :key="index">
+            <app-item :item="item" />
+          </div>
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
+            <loading-component></loading-component>
+          </div>
+          <div v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
+               class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+          >
+            Không có dữ liệu
+          </div>
+        </vue-perfect-scrollbar>
+        <!-- Start: List Content -->
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import AppList from "./table/index";
+import AppItem from "./item";
 export default {
   components: {
-    AppList
+    AppItem
   },
   data() {
     return {
+      currentPage: 1,
+      maxPerPage: 20,
       keyword: "",
-      limit: 12,
-      page: 1,
+      isLoadingData: true,
+      isStatusKeywordHistory: false
     }
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    listPostFacebookDefault(){
+      return this.$store.getters.listPostFacebookDefault;
+    },
+    keyPopular(){
+      if ( Object.entries( this.user ).length === 0 && this.user.constructor === Object ) return;
+      return this.user.keywords.slice( 0, 5 );
+    },
+    numberPageCurrent() {
+      return this.$store.getters.numberPageCurrent;
+    },
     user(){
       return this.$store.getters.userInfo;
     },
-    keyPopular(){
-      if(Object.entries(this.user).length === 0 && this.user.constructor === Object) return;
-      return this.user.keywords.slice(0,5);
+    keywordRecentList() {
+      return this.$store.getters.keywordRecentList;
     }
   },
-  async created() {
+  async created () {
     await this.$store.dispatch( "getUserInfo" );
-
-    if( this.user.keywords ) {
-      const dataSender = {
-        key: this.user.keywords[0],
-        size: this.limit,
-        page: 1
-      };
-
-      await this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-    }
+    const keywordDefault = this.user.keywords[Math.floor(Math.random() * this.user.keywords.length)]
+    await this.$store.dispatch( "getListPostFacebookDefault", {
+      keyword: keywordDefault,
+      size: this.maxPerPage,
+      page: this.currentPage
+    } );
+    this.keyword = keywordDefault;
   },
   methods: {
-    searchPostByKey( val ) {
-      const dataSender = {
-        key: val,
-        size: this.limit,
-        page: 1
-      };
-      this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-    },
-    searchPostByKeyword(){
-      if( this.keyword.length > 0 ) {
-        const dataSender = {
-          key: this.keyword,
-          size: this.limit,
-          page: 1
-        };
+    async loadMore() {
+      if ( this.isLoadingData === true ) {
+        if ( this.keyword !== "" ) {
+          if ( this.currentPage >= this.numberPageCurrent ) {
+            return false;
+          } else {
+            this.isLoadingData = false;
+            this.currentPage += 1;
 
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
-      } else {
-        const dataSender = {
-          key: this.user.keywords[0],
-          size: this.limit,
-          page: 1
-        };
-
-        this.$store.dispatch( "searchPostFromLibrariesByPage", dataSender );
+            await this.$store.dispatch( "searchPostsFacebookByKey", {
+              keyword: this.keyword,
+              size: this.maxPerPage,
+              page: this.currentPage
+            } );
+            this.isLoadingData = true;
+          }
+        }
       }
+    },
+    async searchPost() {
+      this.isStatusKeywordHistory = false;
+      this.currentPage = 1;
+      await this.$store.dispatch( "getListPostFacebookDefault", {
+        keyword: this.keyword,
+        size: this.maxPerPage,
+        page: this.currentPage
+      } );
+      await this.$store.dispatch("getUserInfo");
+    },
+    async searchPostByKeyword(keyword) {
+      this.currentPage = 1;
+      this.keyword = keyword;
+      this.$store.dispatch( "getListPostFacebookDefault", {
+        keyword: keyword,
+        size: this.maxPerPage,
+        page: this.currentPage
+      } );
+    },
+    searchPostFromKeywordHistory( keyword ) {
+      this.keyword = keyword;
+      this.searchPost();
+    },
+    closeKeywordRecentList () {
+      this.isStatusKeywordHistory = false;
     }
+    // scrollTrigger() {
+    //   console.log(`Scroll Trigger ${this.currentPage} - ${this.numberPageCurrent}` );
+    //   const observer = new IntersectionObserver( ( entries ) => {
+    //     entries.forEach( ( entry ) => {
+    //       if ( entry.intersectionRatio > 0 && this.currentPage <= this.numberPageCurrent ) {
+    //         console.log("Hú");
+    //         this.showLoader = true;
+    //         setTimeout( () => {
+    //           this.currentPage += 1;
+    //           this.showLoader = false;
+    //           this.getMorePost();
+    //         }, 2000 );
+    //       }
+    //     } );
+    //   } );
+    //   observer.observe(this.$refs.infiniteScrollTrigger);
+    // },
+    // async getMorePost() {
+    //   console.log("get post");
+    //   await this.$store.dispatch( "searchPostsFacebookByKey", {
+    //     keyword: this.keyword,
+    //     size: this.maxPerPage,
+    //     page: this.currentPage
+    //   } );
+    // }
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.list--header {
-  color: #444444;
-  margin-bottom: 1.25rem;
-  &-title {
-    font-size: 1rem;
-    font-weight: 600;
-  }
-  &-description {
-    color: #999999;
-    font-size: .875rem;
-  }
-}
-.list--input {
-  border-radius: 10px;
-  font-size: 0.875rem;
-  height: 40px;
-  max-width: 100%;
-  width: 60%;
-  min-width: 400px;
-  > input[type="text"] {
-    background-color: transparent;
-    border-top-right-radius: calc(0.5rem + 2px);
-    border-bottom-right-radius: calc(0.5rem + 2px);
-    border: 0;
-    font-size: 0.875rem;
-    height: 100%;
-    outline: none;
-    width: calc(100% - 48px);
-  }
-  ::-webkit-input-placeholder {
-    /* Chrome/Opera/Safari */
-    color: #ccc;
-  }
-  ::-moz-placeholder {
-    /* Firefox 19+ */
-    color: #ccc;
-  }
-  :-ms-input-placeholder {
-    /* IE 10+ */
-    color: #ccc;
-  }
-  :-moz-placeholder {
-    /* Firefox 18- */
-    color: #999;
-  }
-  svg {
-    color: #999;
-  }
-}
-.list--keywork {
-  &-item {
-    cursor: pointer;
-    color: $color-dark-2;
-    font-size: calc(1rem - 3px);
-    font-weight: 500;
-    text-decoration: underline;
-    &:hover,
-    &:active,
-    &:visited,
-    &:focus {
-      color: #ffb94a;
-    }
-  }
-}
-// CHANGE COLOR THEME
-.list[data-theme="light"] {
-  .list--header {
-    color: #444444;
-  }
-  .list--input {
-    background-color: #ffffff;
-    input[type="text"] {
-      background: #ffffff;
-      color: #000;
-    }
-  }
-}
-.list[data-theme="dark"] {
-  .list--header {
-    color: #ccc;
-  }
-  .list--input {
-    background-color: #27292d;
-    input[type="text"] {
-      background: #27292d;
-      color: #ccc;
-    }
-  }
-}
+@import "./index.style";
 </style>

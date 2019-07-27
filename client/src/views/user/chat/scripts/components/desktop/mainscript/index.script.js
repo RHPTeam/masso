@@ -1,10 +1,11 @@
-import PopupPlugins from "../popup/add_plugins.vue";
+import PopupPlugins from "../popup/add";
 import AddTimer from "@/components/slider/index";
 import Subcrible from "./plugins/subcrible";
 import UnSubcrible from "./plugins/unsubcrible";
-import AddTag from "./plugins/add-tag";
-import AddText from "./plugins/add_text";
-import AddImage from "./plugins/add_images";
+import AddTag from "./plugins/tag";
+import AddText from "./plugins/text";
+import AddImage from "./plugins/images";
+import DeleteCampaignPopup from "@/components/popups/delete";
 
 import BlockService from "@/services/modules/chat/block.service";
 
@@ -20,15 +21,16 @@ export default {
       isDeletePopup: false,
       showSubcrible: false,
       showUnSubcrible: false,
+      isDeleteItemBlock: false
     };
   },
   methods: {
     // Close option in screen tablet
-    closeOptionTablet() {
-      this.showOptionTablet = false;
-    },
-    // Add Text Value in block
-    addItemBlock(type, blockId) {
+    // closeOptionTablet() {
+    //   this.showOptionTablet = false;
+    // },
+    // // Add Text Value in block
+    createItemBlock(type, blockId) {
       const dataSender = {
         value: "",
         type: type,
@@ -36,10 +38,10 @@ export default {
       };
       this.$store.dispatch("createItemBlock", dataSender);
     },
-    async upTypingText(type, group) {
+    async upTypingText(type, item) {
       clearTimeout(typingTimer);
       if (type === "nameblock") {
-        typingTimer = setTimeout(this.updateNameBlock(group), 2000);
+        typingTimer = setTimeout(this.updateNameBlock(item), 2000);
       }
     },
     clear() {
@@ -47,7 +49,7 @@ export default {
     },
     //Update name block
     updateNameBlock() {
-      this.$store.dispatch("updateBlock", this.$store.getters.block);
+      this.$store.dispatch("updateBlock", this.block);
     }
   },
   computed: {
@@ -57,14 +59,17 @@ export default {
     block() {
       return this.$store.getters.block;
     },
-    sequence() {
-      return this.$store.getters.itemSqc;
+    // sequence() {
+    //   return this.$store.getters.itemSqc;
+    // }
+    inforBlockGroup(){
+      return this.$store.getters.inforBlockGroup;
     }
   },
   async created() {
-    // const blocks = await BlockService.index();
-    // const firstBlockId = blocks.data.data[0]._id;
-    // this.$store.dispatch("getBlock", firstBlockId);
+    const blocks = await BlockService.index();
+    const firstBlockId = blocks.data.data[0]._id;
+    this.$store.dispatch("getInfoBlock", firstBlockId);
     this.$store.dispatch("getBlocks");
   },
   components: {
@@ -75,5 +80,6 @@ export default {
     AddTag,
     AddText,
     AddImage,
+    DeleteCampaignPopup
   }
 };

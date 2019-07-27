@@ -1,12 +1,13 @@
 
-import PostGroupServices from "@/services/modules/postgroup.services";
+import PostGroupServices from "@/services/modules/post/postgroup.service";
 
 const state = {
     postGroups: [],
     postGroupDetail: {},
     postGroupDetailStatus: "",
     postGroupGroupsSelected: [],
-    postGroupPagesSelected: []
+    postGroupPagesSelected: [],
+    postProfileSelected: []
   },
   getters = {
     postGroups: ( s ) => {
@@ -23,6 +24,9 @@ const state = {
     },
     postGroupPagesSelected: ( s ) => {
       return s.postGroupPagesSelected;
+    },
+    postProfileSelected: (state) => {
+      return state.postProfileSelected;
     }
   },
   mutations = {
@@ -34,6 +38,9 @@ const state = {
     },
     postGroupPagesSelected: ( s, payload ) => {
       s.postGroupPagesSelected = payload;
+    },
+    postProfileSelected: (state, payload) => {
+      state.postProfileSelected = payload;
     },
     setPostGroups: ( s, payload ) => {
       s.postGroups = payload;
@@ -48,10 +55,6 @@ const state = {
   actions = {
     addToPostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
-
-      const res = await PostGroupServices.index();
-
-      await commit( "setPostGroups", res.data.data );
     },
     createPostGroup: async ( { commit }, payload ) => {
       const res = await PostGroupServices.create( payload );
@@ -63,15 +66,20 @@ const state = {
         ( postGroup ) => postGroup._id !== payload.id
       );
 
-      let res;
-
       commit( "setPostGroups", postGroups );
 
       await PostGroupServices.delete( payload.id );
-      res = await PostGroupServices.index();
-      commit( "setPostGroups", res.data.data );
+    },
+    deletePagesNGroupsFromPostGroup: async ( { commit }, payload ) => {
+      await PostGroupServices.deletePagesNGroups( payload );
+      const postGroup = await PostGroupServices.getPostGroupById( payload.id );
+      await commit( "setPostGroupDetail", postGroup.data.data );
+      // reset selected pages and groups
+      commit( "postGroupGroupsSelected", [] );
+      commit( "postGroupPagesSelected", [] );
     },
     getAllPostGroups: async ( { commit } ) => {
+
       const res = await PostGroupServices.index();
 
       await commit( "setPostGroups", res.data.data );
@@ -89,11 +97,14 @@ const state = {
     postGroupPagesSelected: ( { commit }, payload ) => {
       commit( "postGroupPagesSelected", payload );
     },
+    postProfileSelected: ( { commit }, payload ) => {
+      commit( "postProfileSelected", payload );
+    },
     updatePostGroup: async ( { commit }, payload ) => {
       await PostGroupServices.updatePostGroup( payload );
       const postGroup = await PostGroupServices.getPostGroupById( payload.postGroupId );
       await commit( "setPostGroupDetail", postGroup.data.data );
-    },
+    }
   };
 
 export default {

@@ -7,7 +7,6 @@
     >
       Xem tất cả
     </div>
-
     <div class="group--item mr_2 mb_2"
          :class="[currentIndex === index ? 'active' : '']"
          v-for="(postGroup, index) in postGroups"
@@ -20,7 +19,7 @@
           placeholder="Nhập tên..."
           :contenteditable="true"
           :noNL="true"
-          v-model='postGroup.title'
+          v-model="postGroup.title"
           @keyup="upTypingText( postGroup )"
           @keydown="clearTypingTimer"
         />
@@ -28,7 +27,7 @@
       <div class="btn--delete" @click="showDeletePopup(postGroup)">
         <icon-base
           class="icon--add mr_1"
-          icon-name="remove"
+          icon-name="Xóa nhóm"
           width="20"
           height="20"
           viewBox="0 0 26 26"
@@ -41,7 +40,7 @@
     <div class="group--item btn--add mb_2" @click="isShowCreateGroup = true">
       <icon-base
         class="icon--add mr_2"
-        icon-name="plus"
+        icon-name="Tạo nhóm mới"
         width="14"
         height="14"
         viewBox="0 0 60 60"

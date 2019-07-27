@@ -13,4 +13,8 @@ router
   .post( PostCategoryController.create )
   .patch( PostCategoryController.update )
   .delete( PostCategoryController.delete );
+router
+  .route( "/search" )
+  .post( PostCategoryController.search );
+router.route( "/mix/:categoryId" ).post( PostCategoryController.addToMix );
 module.exports = router;

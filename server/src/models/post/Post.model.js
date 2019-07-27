@@ -6,17 +6,32 @@ const mongoose = require( "mongoose" ),
   PostSchema = new Schema( {
     "title": { "type": String, "default": "" },
     "content": { "type": String, "default": "" },
-    "color": String,
+    "color": {
+      "id": String,
+      "value": String
+    },
     "attachments": [ {
       "link": String,
       "typeAttachment": Number
     } ],
-    "place": String,
-    "scrape": String,
-    "tags": Array,
-    "activity": {
-      "typeActivity": String,
+    "place": {
       "id": String,
+      "text": String
+    },
+    "scrape": String,
+    "tags": [ {
+      "uid": String,
+      "text": String
+    } ],
+    "activity": {
+      "typeActivity": {
+        "id": String,
+        "text": String
+      },
+      "id": {
+        "id": String,
+        "photo": String
+      },
       "text": String
     },
     "_account": {
@@ -34,11 +49,24 @@ const mongoose = require( "mongoose" ),
     "updated_at": Date
   } );
 
+PostSchema.index( {
+  "title": "text",
+  "content": "text",
+  "scrape": "text",
+  "tags": "text"
+} );
+
 PostSchema.pre( "save", function( next ) {
   this.updated_at = Date.now();
   next();
 } );
 
 const Post = mongoose.model( "Post", PostSchema );
+
+Post.on( "index", function ( error ) {
+  if ( error ) {
+    console.log( error.message );
+  }
+} );
 
 module.exports = Post;

@@ -10,29 +10,57 @@ const generalChatRouter = {
     },
     children: [
       {
+        path: "",
+        name: "chat_account",
+        component: require("@/views/user/chat/account").default
+      },
+      {
         path: "scripts",
-        name: "scripts",
+        name: "chat_scripts",
         component: require("@/views/user/chat/scripts").default
       },
       {
         path: "keywords",
-        name: "keywords",
+        name: "chat_keywords",
         component: require("@/views/user/chat/keywords").default
       },
       {
         path: "friends",
-        name: "friends",
+        name: "chat_friends",
         component: require("@/views/user/chat/friends").default
       },
       {
         path: "broadcasts",
-        name: "broadcasts",
-        component: require("@/views/user/chat/broadcasts").default
+        component: require("@/views/user/chat/broadcasts").default,
+        children: [
+          {
+            path: "",
+            name: "chat_broadcasts",
+            component: require("@/views/user/chat/broadcasts/desktop/main/default").default,
+          },
+          {
+            path: "/schedule/:scheduleBlockId",
+            name: "chat_broadcast_schedule",
+            component: require("@/views/user/chat/broadcasts/desktop/main/schedule")
+              .default
+          }
+        ]
       },
       {
-        path: "account",
-        name: "account",
-        component: require("@/views/user/chat/account").default
+        path: "facebook",
+        component: require( "@/views/user/chat/facebook" ).default,
+        children: [
+          {
+            path: "",
+            name: "chat_facebook",
+            component: require( "@/views/user/chat/facebook/desktop/list" ).default
+          },
+          {
+            path: ":fbAccountId",
+            name: "chat_facebook_detail",
+            component: require( "@/views/user/chat/facebook/desktop/detail" ).default
+          }
+        ]
       }
     ]
   };

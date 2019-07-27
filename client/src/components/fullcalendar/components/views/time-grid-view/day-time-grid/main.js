@@ -39,11 +39,13 @@ export default {
       this.eventHoverData = eventData;
     },
     filterEventsByTime( hour) {
-      return this.eventOfDay.filter( ( event ) => {
-        const eventStartTime = new Date( event.started_at ).getHours();
+      if ( Array.isArray( this.eventOfDay ) ) {
+        return this.eventOfDay.filter( ( event ) => {
+          const eventStartTime = new Date( event.started_at ).getHours();
 
-        return eventStartTime === hour;
-      } );
+          return eventStartTime === hour;
+        } );
+      }
     },
     formatTime( d ) {
       const dateTime = new Date( d ),

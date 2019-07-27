@@ -1,6 +1,7 @@
-import AccountServices from "@/services/modules/account.services";
-
+import AccountServices from "@/services/modules/account.service";
 import CookieFunction from "@/utils/functions/cookie";
+import StringFunction from "@/utils/functions/string";
+
 import axios from "axios";
 
 const state = {
@@ -20,7 +21,7 @@ const state = {
 
 const getters = {
   isLoggedIn: ( state ) => !!state.token,
-  authStatus: ( state ) => state.status,
+  status: ( state ) => state.status,
   userInfo: ( state ) => state.user,
   statusNotification: ( state ) => state.statusNotification,
   mailSender: ( state ) => state.mailSender,
@@ -30,7 +31,8 @@ const getters = {
   usersFilter: ( state ) => state.usersFilter,
   fileAvatar: ( state ) => state.fileAvatar,
   roles: ( state ) => state.roles,
-  activeAccountError: ( state ) => state.activeAccountError
+  activeAccountError: ( state ) => state.activeAccountError,
+  keywordRecentList: ( state ) => state.user.keywordSearch.reverse().splice( 0, 8 )
 };
 
 const mutations = {
@@ -40,15 +42,16 @@ const mutations = {
   auth_request_success: ( state ) => {
     state.status = "success";
   },
-  auth_success: ( state, payload ) => {
+  auth_success: ( state ) => {
     state.status = "success";
-    state.token = payload.token;
-    state.user = payload.user;
   },
   auth_error: ( state, payload ) => {
     state.status = payload;
   },
-  user_set: ( state, payload ) => {
+  setUser: ( state, payload ) => {
+    state.user = payload;
+  },
+  user_set: (state, payload) => {
     state.user = payload;
   },
   user_action: ( state, payload ) => {
@@ -88,97 +91,30 @@ const mutations = {
 };
 
 const actions = {
-  signIn: async ( { commit }, user ) => {
-    try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signIn( user );
-
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data.user._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
-
-      // remove localStorage
-      localStorage.removeItem( "rid" );
-
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
-
-      commit( "auth_success", sendDataToMutation );
-    } catch ( e ) {
-      if ( e.response.status === 401 ) {
-        commit( "auth_error", "401" );
-      }
-      if ( e.response.status === 405 ) {
-        commit( "auth_error", "405" );
-      }
-    }
-  },
-  signUp: async ( { commit }, user ) => {
-    try {
-      commit( "auth_request" );
-      const resData = await AccountServices.signUp( user );
-      // set cookie
-
-      CookieFunction.setCookie( "sid", resData.data.data.token, 1 );
-      CookieFunction.setCookie( "uid", resData.data.data._id );
-      CookieFunction.setCookie( "cfr", resData.data.data.role );
-
-      // remove localStorage
-      localStorage.removeItem( "rid" );
-
-      // set Authorization
-      axios.defaults.headers.common.Authorization = resData.data.data.token;
-      const sendDataToMutation = {
-        token: resData.data.data.token,
-        user: resData.data.data.user
-      };
-
-      commit( "auth_success", sendDataToMutation );
-    } catch ( e ) {
-      commit( "auth_error" );
-      if ( e.response.status === 405 ) {
-        commit( "set_textAuth", e.response.data.data.details[ 0 ].context.label );
-      } else if ( e.response.status === 404 ) {
-        commit( "set_textAuth", "404" );
-      } else {
-        commit( "set_textAuth", e.response.data.status );
-      }
-      return false;
-    }
-  },
   logOut: async ( { commit } ) => {
     commit( "logout" );
     // remove cookie
     CookieFunction.removeCookie( "sid" );
     CookieFunction.removeCookie( "uid" );
     CookieFunction.removeCookie( "cfr" );
-    // remove localstorage
-    localStorage.removeItem( "rid" );
+    CookieFunction.removeCookie( "token" );
+    CookieFunction.removeCookie( "_sub" );
+    CookieFunction.removeCookie( "__v" );
     // delete token on headers
-    delete axios.defaults.headers.common.Authorization;
+    delete axios.defaults.headers["Authorization"];
   },
   getUserInfo: async ( { commit } ) => {
     commit( "auth_request" );
     const userInfoRes = await AccountServices.show(
       CookieFunction.getCookie( "uid" )
     );
-    const sendDataToMutation = {
-      token: CookieFunction.getCookie( "sid" ),
-      user: userInfoRes.data.data[ 0 ]
-    };
 
-    commit( "auth_success", sendDataToMutation );
+    commit( "setUser", userInfoRes.data.data );
   },
   updateUser: async ( { commit }, payload ) => {
-    await AccountServices.update( payload );
-    const userInfoRes = await AccountServices.show(
-      CookieFunction.getCookie( "uid" )
-    );
+    const userInfoRes = await AccountServices.update( payload );
 
-    commit( "updateUser", userInfoRes.data.data[ 0 ] );
+    commit( "updateUser", userInfoRes.data.data );
   },
   updateUserByAdmin: async ( { commit }, payload ) => {
     const res = await AccountServices.updateUserByAdmin( payload );
@@ -265,7 +201,11 @@ const actions = {
   },
   sendFile: async ( { commit }, payload ) => {
     commit( "setFileAvatar", payload );
-    const result = await AccountServices.upload( payload );
+    await AccountServices.upload( payload );
+
+    const result = await AccountServices.show(
+      CookieFunction.getCookie( "uid" )
+    );
 
     commit( "user_set", result.data.data );
   },

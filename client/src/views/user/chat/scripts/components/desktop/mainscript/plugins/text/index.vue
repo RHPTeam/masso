@@ -1,0 +1,163 @@
+<template>
+  <div class="card card_body script--body-text mt_3">
+    <div class="script--body-delete" @click="isShowDeleteTextPopup = true">
+      <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 15 15">
+        <icon-remove/>
+      </icon-base>
+    </div>
+    <div class="script--body-move d_none">
+      <icon-base icon-name="remove" width="20" height="20" viewBox="0 0 64 64">
+        <icon-move/>
+      </icon-base>
+    </div>
+    <div class="script--body-text-edit position_relative">
+      <contenteditable
+        class="editable"
+        tag="div"
+        :placeholder="$t('chat.common.card.text')"
+        :contenteditable="true"
+        v-model="item.valueText"
+        @keyup="upTypingText('updateitem', item)"
+        @keydown="clear"
+      />
+      <div class="list--suggest position_absolute d_none">
+        <VuePerfectScrollbar class="suggest">
+          <div class="suggest--item">
+            <span class="custom custom--item">list.name</span>
+          </div>
+          <div class="suggest--item">
+            <span class="custom custom--fixed">fixed.value</span>
+          </div>
+        </VuePerfectScrollbar>
+      </div>
+    </div>
+    <!--Start:Delete Item Popup-->
+    <transition name="popup">
+      <delete-campaign-popup
+        v-if="isShowDeleteTextPopup === true"
+        :data-theme="currentTheme"
+        :block="block"
+        :item="item"
+        title="Delete Text"
+        @closePopup="isShowDeleteTextPopup = $event"
+        storeActionName="deleteText"
+        typeName="itemblock"
+      ></delete-campaign-popup>
+    </transition>
+
+    <!--End: Delete Item Popup-->
+  </div>
+</template>
+<script>
+// import AttributeService from "@/services/modules/attributes.service";
+
+import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import DeleteCampaignPopup from "../../../popup/delete";
+
+let typingTimer;
+
+export default {
+  components: {
+    VuePerfectScrollbar,
+    DeleteCampaignPopup
+  },
+  props: ["item", "block"],
+  data() {
+    return {
+      isShowDeleteTextPopup: false,
+      isDeleteItemBlock: false,
+      showSuggestAttribute: false,
+      listAttribute: null,
+      resultFilterAttr: null,
+      dataFixed: [
+        { id: 0, value: "Danh xưng" },
+        { id: 1, value: "Tên" },
+        { id: 2, value: "Họ tên" }
+      ],
+      title: "AAAAAAAAA"
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
+  },
+  methods: {
+    async upTypingText(type, item) {
+      clearTimeout(typingTimer);
+      if (type === "updateitem") {
+        typingTimer = setTimeout(this.updateItem(item), 2000);
+        if (item.valueText === "{{") {
+          this.showSuggestAttribute = true;
+          // Filter item have name # null
+          const resultAttribute = await AttributeService.index();
+          this.listAttribute = resultAttribute.data.data;
+          this.resultFilterAttr = this.listAttribute.filter(
+            item => item.name !== ""
+          );
+        }
+      }
+    },
+    clear() {
+      clearTimeout(typingTimer);
+    },
+    // // Update item in block
+    updateItem(item) {
+      const objSender = {
+        itemId: item._id,
+        valueText: item.valueText,
+        block: this.block
+      };
+      this.$store.dispatch("updateItemBlock", objSender);
+    },
+    closeSuggestAttributeInItem() {
+      this.showSuggestAttribute = false;
+    },
+    // attachValue(list, item) {
+    //   item.valueText = "{{" + list.name + "}}";
+    //   // item.valueText += '{{' +list.name + '}}' + ' ';
+    //   const dataSender = {
+    //     itemId: item._id,
+    //     valueText: item.valueText,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemBlock", dataSender);
+    // },
+    // attachValueFixed(fixed, item) {
+    //   item.valueText = "{{" + fixed.value + "}}";
+    //   const dataSender = {
+    //     itemId: item._id,
+    //     valueText: item.valueText,
+    //     block: this.block
+    //   };
+    //   this.$store.dispatch("updateItemBlock", dataSender);
+    // }
+  }
+};
+</script>
+<style lang="scss" scoped>
+@import "../../index.style";
+.custom {
+  border-radius: 0.5rem;
+  color: #ffffff;
+  padding: 0.5rem;
+  &:before {
+    content: "{{ ";
+    color: #ffffff;
+  }
+  &:after {
+    content: " }}";
+    color: #ffffff;
+  }
+}
+.custom--item {
+  background-color: #ffb94a;
+}
+.custom--fixed {
+  background-color: #906d60;
+}
+.script--body-text-edit {
+  color: #fff;
+  font-size: 1rem;
+}
+</style>

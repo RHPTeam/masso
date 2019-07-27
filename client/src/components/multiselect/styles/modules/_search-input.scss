@@ -15,6 +15,7 @@ $font-size: 1em;
 .vs__search:focus {
   appearance: none;
   line-height: $line-height;
+  color: #F7F7F7;
   font-size: $font-size;
   border: 1px solid transparent;
   border-left: none;

@@ -13,6 +13,9 @@ export default {
     },
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
+    },
+    postProfileSelected() {
+      return this.$store.getters.postProfileSelected;
     }
   },
   methods: {
@@ -23,7 +26,8 @@ export default {
             postGroupId: item,
             title: postGroup.title,
             _pages: this.postGroupPagesSelected,
-            _groups: this.postGroupGroupsSelected
+            _groups: this.postGroupGroupsSelected,
+            _timeline: this.postProfileSelected
           };
 
         this.$store.dispatch( "addToPostGroup" , dataSender );
@@ -33,6 +37,7 @@ export default {
 
       this.$store.dispatch( "postGroupGroupsSelected", [] );
       this.$store.dispatch( "postGroupPagesSelected", [] );
+      this.$store.dispatch( "postProfileSelected", [] );
     },
     closePopup() {
       this.$emit( "closePopup", false );

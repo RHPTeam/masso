@@ -3,15 +3,21 @@
     <div
       class="section--header d_flex justify_content_start align_items_center"
     >
-      <!--<h5 class="mb_0">Viết bài mới</h5>
-      <span class="space"></span>-->
+      <a
+        class="btn--back mr_2"
+        @click="$router.go(-1)"
+        v-if="historyRouteLength > 1"
+      >
+        « Quay lại
+      </a>
+      <div class="divider mr_3"
+           v-if="historyRouteLength > 1"
+      ></div>
       <router-link
-        class="mr_3"
-        tag="a"
-        :to="{ name: 'post_posts' }"
+        class="nav--link"
+        :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
         active-class="active"
-        exact
-        >Xem tất cả bài viết</router-link
+      >Danh mục</router-link
       >
     </div>
     <div class="section--body ct_0">
@@ -37,6 +43,7 @@ export default {
   },
   data() {
     return {
+      historyRouteLength: 0
     };
   },
   computed: {
@@ -44,12 +51,8 @@ export default {
       return this.$store.getters.themeName;
     }
   },
-  created (){
-    this.$store.dispatch( "getAllFriendFb" );
-    this.$store.dispatch( "getPlaceFromFb" );
-    this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getActivityFb" );
-    this.$store.dispatch( "getColorFromFb" );
+  created() {
+    this.historyRouteLength = window.history.length;
   }
 };
 </script>
@@ -62,16 +65,30 @@ export default {
       font-size: 18px;
       font-weight: 600;
     }
-
     span.space {
       height: 1rem;
       margin: 0 0.75rem 0 1rem;
       width: 1px;
     }
-    > a {
-      font-size: 14px;
+    .btn--back {
+      cursor: pointer;
+      font-size: .825rem;
+      padding-right: .5rem;
+      transition: all .4s ease;
+      &:hover {
+        color: #F7F7F7;
+        text-decoration: underline;
+      }
+    }
+    .nav--link {
+      font-size: .95rem;
+      font-weight: 600;
       text-decoration: none;
       transition: all 0.4s ease;
+    }
+    .divider {
+      height: 16px;
+      width: 2px;
     }
   }
 }
@@ -83,11 +100,14 @@ export default {
     span.space {
       background-color: #666;
     }
-    > a {
+    .nav--link {
       color: #666;
       &:hover {
         color: #ffb94a;
       }
+    }
+    .divider {
+      background-color: #ccc;
     }
   }
 }
@@ -97,11 +117,14 @@ export default {
     span.space {
       background-color: #999999;
     }
-    > a {
+    .nav--link {
       color: #999999;
       &:hover {
         color: #ffb94a;
       }
+    }
+    .divider {
+      background-color: #666;
     }
   }
 }

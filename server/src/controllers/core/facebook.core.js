@@ -1,11 +1,12 @@
+/* eslint-disable no-shadow */
 const {
   linkGetActionTypeLoader,
   linkGetItemActionTypeLoader,
   linkGetAllFriends,
   linkSearchPlaces
 } = require( "../../configs/crawl" );
-const { getDtsgAg } = require( "../../helpers/utils/dtsgfb.util" );
-const { findSubString } = require( "../../helpers/utils/functions.util" );
+const { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" );
+const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 const cheerio = require( "cheerio" ),
   request = require( "request" );
@@ -72,7 +73,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -80,7 +81,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -110,7 +111,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -118,7 +119,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -144,15 +145,15 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
             },
-            "results": bodyJson.payload.entries
+            "results": bodyJson.payload ? bodyJson.payload.entries : []
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -178,7 +179,7 @@ module.exports = {
           const $ = cheerio.load( body );
 
           if ( body.includes( "https://www.facebook.com/login" ) ) {
-            return resolve( {
+            resolve( {
               "error": {
                 "code": 405,
                 "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
@@ -186,7 +187,7 @@ module.exports = {
               "results": []
             } );
           }
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -194,7 +195,7 @@ module.exports = {
             "results": {
               "id": findSubString( cookie, "c_user=", ";" ),
               "fullName": $( "title" ).text(),
-              "thumbSrc": `http://graph.facebook.com/${findSubString(
+              "thumbSrc": `https://graph.facebook.com/${findSubString(
                 cookie,
                 "c_user=",
                 ";"
@@ -207,7 +208,43 @@ module.exports = {
             }
           } );
         }
-        return resolve( {
+        resolve( {
+          "error": {
+            "code": 404,
+            "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+          },
+          "results": []
+        } );
+      } );
+    } );
+  },
+  "loadFans": ( { cookie, agent } ) => {
+    return new Promise( ( resolve ) => {
+      const option = {
+        "method": "GET",
+        "url": `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`,
+        "headers": {
+          "User-Agent": agent,
+          "Cookie": cookie
+        }
+      };
+
+      request( option, ( err, res, body ) => {
+        if ( !err && res.statusCode === 200 ) {
+          // eslint-disable-next-line no-unused-vars
+          const $ = cheerio.load( body );
+
+          if ( body.includes( "https://www.facebook.com/login" ) ) {
+            resolve( {
+              "error": {
+                "code": 405,
+                "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
+              },
+              "results": []
+            } );
+          }
+        }
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -238,7 +275,7 @@ module.exports = {
         if ( !err && res.statusCode === 200 ) {
           const bodyJson = JSON.parse( body.replace( "for (;;);", "" ) );
 
-          return resolve( {
+          resolve( {
             "error": {
               "code": 200,
               "text": null
@@ -246,7 +283,7 @@ module.exports = {
             "results": bodyJson.payload.entries
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"

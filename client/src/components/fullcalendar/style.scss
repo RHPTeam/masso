@@ -164,8 +164,10 @@ Docs & License: https://rfullcalendar.io/
       line-height: 32px;
     }
     .rc--day-top {
+      cursor: pointer;
       text-align: right;
       margin-right: 2px;
+      transition: all .4s ease;
     }
     .rc--day-number {
       font-size: .85rem;
@@ -323,6 +325,19 @@ Docs & License: https://rfullcalendar.io/
       table {
         position: relative;
         z-index: 1;
+      }
+    }
+    .rc--view-overlay {
+      background-color: rgba(39, 41, 44, 0.8);
+      height: 100%;
+      position: absolute;
+      width: 100%;
+      z-index: 3;
+      .rc--notification {
+        color: #F7F7F7;
+        font-size: 0.875rem;
+        margin: 3rem;
+        text-align: center;
       }
     }
   }
@@ -538,6 +553,11 @@ Docs & License: https://rfullcalendar.io/
     .rc--day-header {
       color: #cccccc;
     }
+    .rc--day-top {
+      &:hover {
+        background-color: #2f3136;
+      }
+    }
     .rc--future {
       color: #666;
     }
@@ -672,12 +692,13 @@ Docs & License: https://rfullcalendar.io/
     z-index: 11;
     .card--hover-item {
       display: flex;
-      align-items: center;
       margin-top: 1rem;
       &.card--hover--title {
         margin-bottom: 1rem;
         margin-top: 0;
-        align-items: start;
+      }
+      &.item--page {
+        margin-top: .75rem;
       }
       .item--left {
         margin-right: 1rem;
@@ -702,9 +723,28 @@ Docs & License: https://rfullcalendar.io/
               stroke-width: 12;
             }
           }
+          &.icon--timeline {
+            svg {
+              stroke-width: 10;
+            }
+          }
         }
       }
       .item--right {
+        .account--info {
+          display: inline-block;
+          margin-right: .5rem;
+          margin-bottom: .25rem;
+          .avatar {
+            border-radius: 100%;
+            height: 20px;
+            vertical-align: middle;
+            width: 20px;
+          }
+          .name {
+            display: inline-block;
+          }
+        }
         .title--content {
           font-size: 1rem;
         }
@@ -734,6 +774,11 @@ Docs & License: https://rfullcalendar.io/
           &.icon--page {
           }
           &.icon--group {
+            svg {
+              stroke: #999;
+            }
+          }
+          &.icon--timeline {
             svg {
               stroke: #999;
             }
@@ -773,6 +818,11 @@ Docs & License: https://rfullcalendar.io/
           &.icon--page {
           }
           &.icon--group {
+            svg {
+              stroke: #ccc;
+            }
+          }
+          &.icon--timeline {
             svg {
               stroke: #ccc;
             }

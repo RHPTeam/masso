@@ -11,7 +11,7 @@
         <div class="overview">
           <!-- Start: General Analytics-->
           <div class="r total mx_0">
-            <div class="c_md_12 c_lg_5 content px_0 pr_lg_3" style="maxHeight: 367px">
+            <div class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3 mb_lg_3" style="maxHeight: 367px">
               <div class="r pd15">
                 <!-- Start: Posts -->
                 <div class="c_6 text_center">
@@ -91,29 +91,29 @@
                 <!-- End: Pages -->
               </div>
             </div>
-            <div class="c_md_12 c_lg_7 line--chart mt_md_3 mt_lg_0 pt_3" style="maxHeight: 367px">
+            <div class="c_md_12 c_lg_12 c_xl_7 line--chart mt_md_3 mt_lg_0 pt_3" style="maxHeight: 367px">
               <VueApexCharts
                 type="line"
                 height="350"
-                :options="chartOptionsLine"
-                :series="allStaticCompaign"
+                :options="campaignDataChart"
+                :series="allStaticCampaign"
               ></VueApexCharts>
             </div>
           </div>
           <!-- End: General Analytics-->
           <!-- Start Post Analytics -->
-          <div class="r order--server-history mx_0 mt_3">
-            <div class="c_md_12 c_lg_6 server px_0 pr_lg_3" style="max-height: 405px;">
+          <div class="order--server-history mx_0 mt_3 r">
+            <div class="server px_0 c_md_12 c_lg_12 c_xl_6 px_0 pr_xl_3" style="max-height: 405px;">
               <div class="view--post-day">
                 <VueApexCharts
                   type="line"
                   height="350"
-                  :options="chartOptions"
+                  :options="postRecommendDataChart"
                   :series="allSttPost"
                 ></VueApexCharts>
               </div>
             </div>
-            <div class="c_md_12 c_lg_6 order mt_md_3 mt_lg_0" style="max-height: 405px;">
+            <div class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3" style="max-height: 405px;">
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
                 <router-link class="view--all" :to="{ name: 'post_posts' }">Xem tất cả</router-link>
@@ -124,15 +124,17 @@
                   <div class="flex-row" role="columnheader">Danh mục</div>
                   <div class="flex-row" role="columnheader">Hình ảnh</div>
                 </div>
-                <div v-if="allPost.length > 0">
-                  <div
+                <div v-if="newestPost.length > 0">
+                  <router-link
                     class="flex-table row"
                     role="rowgroup"
-                    v-for="(item, index) in fivePost"
+                    v-for="(item, index) in newestPost"
                     :key="index"
-                    @click="goToThisPost(item._id)"
+                    :to="{ name: 'post_update_post', params: { id: item._id } }"
+                    @click.native="goToThisPost(item._id)"
                   >
-                    <div class="flex-row first" role="cell">{{ item.title }}</div>
+                    <div class="flex-row first" role="cell">
+                      {{ item.title !== undefined && item.title.length > 0 ? item.title : "Bài đăng chưa có tiêu đề" }}</div>
                     <div class="flex-row" role="cell">
                       <span
                         v-for="(category, index) in item._categories"
@@ -152,7 +154,7 @@
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </router-link>
                 </div>
                 <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
               </div>
@@ -160,25 +162,43 @@
             <!-- End: Content -->
           </div>
           <!-- End: Post Analytics -->
+
+          <!-- Start: Friend Follow -->
+          <!-- <friends-follow
+            :currentTheme="currentTheme"
+          >
+          </friends-follow> -->
+          <!-- End: Friend Follow -->
         </div>
       </div>
       <!-- End: Content -->
 
       <!-- Start: Notification for check key word account-->
       <add-key-word
-        v-if="user.keywords && user.keywords.length === 0"
+        v-if="user && user.keywords && user.keywords.length === 0"
         :user="user"
         :currentTheme="currentTheme"
       >
       </add-key-word>
       <!-- End: Notification for check key word account-->
 
+      <!-- Start: Notification version updated-->
+      <version-popup v-if="isStatusVersionNotification === false" @close="isReadVersionNotification = $event"></version-popup>
+      <!-- End: Notification version updated-->
+
+      <!-- Start: Notification guide for user -->
+      <guide-popup
+        v-if="variableControlGuide === 1"
+      >
+      </guide-popup>
+      <!-- End: Notification guide for user-->
+
     </div>
     <!-- End: Desktop Component-->
   </div>
 </template>
 
-<script src="./index.style.js"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
   @import "./index.style";

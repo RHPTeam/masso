@@ -1,25 +1,38 @@
+/* eslint-disable no-unused-vars */
 const Role = require( "../models/Role.model" );
-const Help = require( "../models/help/Help.model" );
+const Facebook = require( "../models/Facebook.model" );
+const { roleSync } = require( "../microservices/synchronize/role.service" );
+
+// Other process
+require( "./cron/post/campaign" );
+require( "./cron/post/post" );
+const chatAuto = require( "./cron/chat/index" );
 
 ( async () => {
-  const foundHelp = await Help.find( {} ),
-    foundRole = await Role.find( {} );
+  const roleList = await Role.find( {} ),
+    accountFacebookList = await Facebook.find( {} ),
+    resRole = await roleSync( "roles/sync" );
 
   // Check Role First Time Server running
-  if ( foundRole.length === undefined || foundRole.length === 0 ) {
-    const arr = [
-      { "level": "SuperAdmin" },
-      { "level": "Admin" },
-      { "level": "Member" }
-    ];
+  if ( resRole.data.data.length > roleList.length ) {
+    console.log( "Start sync role" );
 
-    Role.insertMany( arr );
+    // Catch
+    if ( resRole.data.status !== "success" ) {
+      console.log( resRole.data );
+    }
+    resRole.data.data.map( async ( role ) => {
+      let findRole = await Role.findOne( { "level": role.level } );
+
+      if ( !findRole ) {
+        let newRole = await new Role( role );
+
+        await newRole.save();
+      }
+    } );
+
+    console.log( "Sync role successfully!" );
   }
 
-  // Check Help First Time Server running
-  if ( foundHelp.length === undefined || foundHelp.length === 0 ) {
-    const defaultHelp = await new Help( {} );
-
-    await defaultHelp.save();
-  }
+  accountFacebookList.map( ( e ) => chatAuto( e ) );
 } )();

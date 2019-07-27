@@ -36,6 +36,9 @@ export default {
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
+    dayClick( date ) {
+      this.$emit( "dayClick", date );
+    },
     eventClick( data) {
       this.$emit( "eventClick", data );
     },
@@ -75,9 +78,11 @@ export default {
       this.$emit( "eventHover", eventData );
     },
     eventOfDay( day ) {
-      return this.eventsOfWeek.filter( ( event ) => {
-        return this.compareDate( day, event.started_at );
-      } );
+      if ( Array.isArray(this.eventsOfWeek) ) {
+        return this.eventsOfWeek.filter( ( event ) => {
+          return this.compareDate( day, event.started_at );
+        } );
+      }
     },
     formatTime( d ) {
       const dateTime = new Date( d ),

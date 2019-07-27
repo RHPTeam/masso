@@ -3,6 +3,7 @@ import ImagePost from "./images/index";
 import TagPost from "./tag/index";
 import CheckinPost from "./checkin/index";
 import ActivityPost from "./activity/index";
+import PostNowPopup from "../../../popups/postnow";
 
 import StringFunction from "@/utils/functions/string";
 
@@ -14,7 +15,8 @@ export default {
     ImagePost,
     TagPost,
     CheckinPost,
-    ActivityPost
+    ActivityPost,
+    PostNowPopup
   },
   data() {
     return {
@@ -35,10 +37,16 @@ export default {
       isShowCheckIn: false,
       isShowActivity: false,
       isShowMoreOption: false,
-      isActiveImage: false
+      isActiveImage: false,
+      isShowChangeScrape: false,
+      isShowPostNowPopup: false,
+      isShowAlert: false
     };
   },
   computed: {
+    activity() {
+      return this.$store.getters.activity;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -51,63 +59,54 @@ export default {
       if(Object.entries(this.$store.getters.post).length === 0 && this.$store.getters.post.constructor === Object) return;
       return this.$store.getters.post;
     },
+    placesPopular(){
+      return this.$store.getters.places;
+    },
     //Get Categories
     categories() {
       return this.$store.getters.allCategories;
     },
-    //Get friend Facebook
+    //Get friends Facebook
     friendFb() {
       if(Object.entries(this.$store.getters.allFriend).length === 0 && this.$store.getters.allFriend.constructor === Object) return;
       return this.$store.getters.allFriend;
     },
     // Get 12 first item from more color
     randomColor() {
-      return this.colorFb[2].textFormats.slice(0, 11);
-    },
-    // Get name friend from uid item tags of post
-    nameFriend(){
-      let result = this.post.tags;
-      if( result === undefined || result === "" ) {
-        return result = [];
-      } else {
-        const results = [];
-        let arrOther = this.friendFb;
-        result.map( uid => {
-          return arrOther.map( item => {
-            if( item.uid == uid ) results.push( item.text );
-          } );
-        } );
-        return results;
+      if(this.colorFb && this.colorFb.length > 0) {
+        return this.colorFb[2].textFormats.slice(0, 11);
       }
     },
-    // Get friend from item 1 to end
+    // Get friends from item 1 to end
     moreFriend(){
-      return this.nameFriend.slice(1);
-    },
-    /*listIconActivity() {
-      if ( this.$store.getters.listActivity === undefined ) return;
-      return this.$store.getters.listActivity;
-    },
-    iconActivity() {
-      let result = this.post.activity.id;
-      let arrIcon = this.listIconActivity;
-      if (arrIcon === undefined) {
-        return;
-      } else {
-        let arr =  arrIcon.navigation(item => {
-          if( item.uid == result ) return item.photo;
-        });
-        return arr[0].photo;
+      if(this.post && this.post.tags && this.post.tags.length > 0) {
+        return this.post.tags.slice(1);
       }
-    },*/
-    // Get name item activity
-    // activityFeelName() {
-    //   let result = this.post.activity.typeActivity;
-    //   let newStr = result.slice( 4 );
-    //   let str = newStr.split(".");
-    //   return str[0];
-    // }
+    },
+    checkColor: function () {
+      return this.post.color === undefined || this.post.color.length === 0;
+    },
+    postAttachmentsUpload() {
+      return this.$store.getters.postAttachmentsUpload;
+    }
+
   },
+  async created (){
+    this.$store.dispatch( "getAllCategories" );
+    const infoStatus = this.$store.getters.statusOnePost;
+    const infoCateDefault = this.$store.getters.infoPostCateDefault;
+    const statusCateDefault = this.$store.getters.statusPostCateDefault;
+    if (infoCateDefault === 0 && infoStatus !== 'success') {
+      this.$store.dispatch( "getPostById", this.$route.params.id );
+    } else if(infoCateDefault === 1 && statusCateDefault !== "success") {
+      this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
+    }
+
+    this.$store.dispatch( "getAllFriendFb" );
+    this.$store.dispatch( "getPlaceFromFb" );
+    this.$store.dispatch( "getActivityFb" );
+    this.$store.dispatch( "getColorFromFb" );
+    },
   watch: {
     /**
      * check contetn of post using StringFunction get urls have in content
@@ -115,20 +114,19 @@ export default {
      */
     "post.content"( value ) {
       //check scrape
-      // this.linkContent = StringFunction.detectUrl(value);
-      // // this.$store.dispatch( "updatePost", this.post  );
-      // // this.post.content = StringFunction.urlify(value);
-      // if( value.length >= 200 ) {
-      //   this.isShowColor = false;
-      //   delete this.post.color;
-      //   this.$store.dispatch( "updatePost", this.post );
-      // } else {
-      //   this.$store.dispatch( "updatePost", this.post );
-      // }
+      this.linkContent = StringFunction.detectUrl(value);
+      // this.$store.dispatch( "updatePost", this.post  );
+      // this.post.content = StringFunction.urlify(value);
+      if( this.post.color && this.post.color.value !== '' && value.length >= 200 ) {
+        this.isShowColor = false;
+        delete this.post.color;
+        this.$store.dispatch( "updatePostColor", this.post );
+        // this.$store.dispatch( "updatePost", this.post );
+      } else if(value.length > 0) {
+        this.isShowAlert = false;
+        // this.$store.dispatch( "updatePost", this.post );
+      }
     }
-  },
-  async created() {
-    await this.$store.dispatch( "getPostById", this.$route.params.id );
   },
   methods: {
     /**
@@ -142,9 +140,10 @@ export default {
     chooseLinkContent( val ){
       this.post.scrape = val;
       this.$store.dispatch( "updatePost", this.post );
+      this.isShowChangeScrape = false
     },
     // Update categories post
-    updateCate( value ) {
+    updateCate() {
       this.$store.dispatch( "updatePost", this.post );
     },
     updateTitlePost( value ){
@@ -181,8 +180,11 @@ export default {
       this.isShowActivity = true;
     },
     changeContentDefault() {
-      this.post.color = "";
-      this.$store.dispatch( "updatePost", this.post );
+      this.$store.dispatch("setPostDefault", {
+        key: "color",
+        value: ""
+      });
+      this.$store.dispatch( "updatePostColor", this.post );
     },
     showOptionPostImages(){
       this.isShowColor = false;
@@ -194,30 +196,48 @@ export default {
       this.bgColorActive = ev;
     },
     // Update post when click button Save
-    savePost(){
-      this.$store.dispatch( "updatePost", this.post );
-      this.$router.push( { name: "post_posts" } );
-    },
-    // Select file images
-    selectFile( id ) {
-      this.file = this.$refs.file.files;
-      this.sendFile( id );
-    },
-    // Update file images to post
-    sendFile() {
-      const formData = new FormData();
-      Array.from( this.file ).forEach(( f ) => {
-        formData.append( "attachments", f )
-      });
-      const objSender = {
-        id: this.post._id,
-        formData: formData
-      };
-      if( objSender.formData.length > 20  ) {
-        this.$store.dispatch( "sendErrorUpdate" );
+    async savePost(){
+      if ( this.post.content.length === 0 && this.post.attachments.length === 0 ) {
+        this.isShowAlert = true;
       } else {
-        this.$store.dispatch( "updateAttachmentPost", objSender );
+        if ( this.linkContent.length > 0 ) {
+          this.post.scrape = this.linkContent[0];
+        }
+        await this.$store.dispatch( "updatePost", this.post );
+        this.$store.dispatch("setPostCateDefault", 0);
+        this.$router.go(-1);
       }
+    },
+    //update post and post now
+    async saveAndPostNow(){
+      await this.$store.dispatch( "updatePost", this.post );
+      this.isShowPostNowPopup = true;
+    },
+
+    selectFile() {
+      this.file = this.$refs.file.files;
+      this.sendFile();
+
+      // reset ref
+      const input = this.$refs.file;
+      input.type = 'text';
+      input.type = 'file';
+    },
+    async sendFile() {
+      const formData = new FormData();
+      Array.from(this.file).forEach((f) => {
+        formData.append("attachments", f)
+      });
+
+      await this.$store.dispatch( "uploadPostAttachments", formData );
+
+      const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        return {
+          link: item,
+          typeAttachment: 1
+        }
+      } );
+      this.post.attachments = this.post.attachments.concat( uploadFiles );
     }
   }
 };

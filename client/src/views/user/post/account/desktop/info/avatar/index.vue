@@ -5,18 +5,20 @@
       <div class="title">Ảnh đại diện</div>
       <div class="change--icon ml_auto">
         <div class="icon" @click="isDropZone = true">
-          <icon-base icon-name viewBox="0 0 20 20">
+          <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
             <icon-edit />
           </icon-base>
         </div>
       </div>
       <!--Start: Dropzone Component-->
-    <dropzone :status="isDropZone" @close="isDropZone = $event" />
+<!--    <dropzone :status="isDropZone" @close="isDropZone = $event" />-->
+      <upload-avatar v-if="isDropZone === true" @close="isDropZone = $event" />
     <!--End: Dropzone Component-->
     </div>
     <!-- End: Wrapper Top -->
     <!-- Start: Wrapper Content -->
-    <div class="wrapper--content">
+    <div v-if="!user"></div>
+    <div v-else class="wrapper--content">
       <!-- Start: Content Avatar -->
       <div class="content--avatar position_relative" v-if="user.imageAvatar">
         <div
@@ -51,7 +53,11 @@
 </template>
 
 <script>
+import UploadAvatar from "../../popup/avatar";
 export default {
+  components: {
+    UploadAvatar
+  },
   filters: {
     getFirstLetter( string ) {
       if ( typeof string == "undefined" ) {

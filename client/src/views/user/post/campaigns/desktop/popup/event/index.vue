@@ -50,24 +50,7 @@ export default {
     event() {
       return this.$store.getters.event;
     }
-  },
-  mounted(){
-
-  },
-
-  created(){
-    this.$store.dispatch( "getAllCategories" );
-    this.$store.dispatch( "getAllPostGroups" );
-    this.$store.dispatch( "getAllPost" );
-    this.$store.dispatch( "getFacebookGroups" );
-    this.$store.dispatch( "getFacebookPages" );
-  },
-  // methods: {
-  //   close() {
-  //     console.log( "cak" );
-  //     this.$emit("close", false);
-  //   }
-  // }
+  }
 }
 </script>
 

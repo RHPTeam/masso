@@ -15,7 +15,10 @@
         class="suggest position_absolute"
         v-if="isShowSuggestDefault === true"
       >
-        <VuePerfectScrollbar class="show">
+        <VuePerfectScrollbar
+          class="show"
+          v-click-outside="closeSuggestActivityDefault"
+        >
           <div
             v-if="this.$store.getters.faceBStatus === 'loading'"
             class="loading-block d_flex align_items_cente justify_content_center py_3"
@@ -42,8 +45,10 @@
       v-if="isShowActivityDefault === true"
       class="activity--suggets d_flex align_items_center"
     >
-      <div class="activity--desc text_center">
-        {{ activityDefault.typeActivity }}
+      <div class="activity--desc text_center"
+           @click="isShowActivityDefault = false"
+      >
+        {{ typeActivityDefault.text }}
       </div>
       <div class="activity--option position_relative">
         <input
@@ -101,10 +106,20 @@ export default {
   data() {
     return {
       activityName: "",
+      typeActivityDefault: {
+        id: "",
+        text: ""
+      },
       activityDefault: {
-        "typeActivity": "",
-        "id": "",
-        "text": ""
+        typeActivity: {
+          title: "",
+          id: ""
+        },
+        id: {
+          id: "",
+          photo: ""
+        },
+        text: ""
       },
       isShowActivityDefault: false,
       isShowSuggestOptionActivity: true,
@@ -122,33 +137,53 @@ export default {
       return this.$store.getters.listActivity;
     }
   },
-  watch: {
-  },
   async created() {
+    if ( this.post.activity ) {
+      this.isShowActivityDefault = true;
+      this.typeActivityDefault = this.post.activity.typeActivity;
+      this.activityName = this.post.activity.text;
+
+      await this.$store.dispatch( "getListActivityFb", this.post.activity.typeActivity.id );
+    }
   },
   methods: {
     attachActivity( item ) {
-      this.activityDefault.id = item.uid;
+
+      this.activityDefault.id.id = item.uid;
+      this.activityDefault.id.photo = item.photo;
       this.activityDefault.text = item.text;
+      this.activityDefault.typeActivity.text = this.typeActivityDefault.text;
+      this.activityDefault.typeActivity.id = this.typeActivityDefault.id;
+
       this.post.activity = this.activityDefault;
       this.$store.dispatch( "updatePost", this.post );
+
       this.isShowSuggestOptionActivity = false;
       this.$emit( "sendPhoto", item.photo );
       this.$emit( "closeActivity", false );
     },
     close(){
-      this.isShowSuggestOptionActivity = false
+      this.isShowSuggestOptionActivity = false;
+    },
+    closeSuggestActivityDefault() {
+      this.isShowSuggestDefault = false;
     },
     showSuggestActivityDefault() {
       this.isShowSuggestDefault = true;
     },
     showOptionActivity(val) {
       this.isShowActivityDefault = true;
-      this.activityDefault.typeActivity = val.uid;
+      this.activityName = "";
+      this.typeActivityDefault.text = val.prompt_text;
+      this.typeActivityDefault.id = val.uid;
+
+      this.activityDefault.typeActivity.text = val.prompt_text;
+      this.activityDefault.typeActivity.id = val.uid;
+
       this.$store.dispatch( "getListActivityFb", val.uid );
     },
     showSuggestOptionActivityFb(){
-      this.isShowSuggestOptionActivity = true
+      this.isShowSuggestOptionActivity = true;
     }
   }
 };

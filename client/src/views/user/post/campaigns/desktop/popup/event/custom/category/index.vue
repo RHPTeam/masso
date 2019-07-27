@@ -1,26 +1,5 @@
 <template>
-  <div class="category">
-    <!-- Start: Top -->
-    <div class="top d_flex align_items_center justify_content_between mb_3">
-      <div class="top--left"
-           @click="resetPostType"
-      >≪ Quay lại</div>
-      <div class="top--right d_flex align_items_center">
-        <div class="mr_2">Đăng bài viết từ danh mục</div>
-        <div class="icon">
-          <icon-base
-            class="icon--categories"
-            :style="[ { color: event.color }, { stroke: event.color } ]"
-            height="20px"
-            width="20px"
-            viewBox="0 0 460 460"
-          >
-            <icon-categories></icon-categories>
-          </icon-base>
-        </div>
-      </div>
-    </div>
-    <!-- End: Top -->
+  <div class="category" :data-theme="currentTheme">
     <!-- Start: Body -->
     <div class="body p_3 mb_4">
       <div class="desc mb_2">
@@ -58,8 +37,16 @@ export default {
     event: Object
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     categories(){
       return this.$store.getters.allCategories;
+    }
+  },
+  async created(){
+    if ( this.categories.length === 0 ) {
+      await this.$store.dispatch( "getAllCategories" );
     }
   },
   methods: {
@@ -78,7 +65,10 @@ export default {
     selectCategory( category ){
       this.$store.dispatch( "setEvent", {
         key: "post_category",
-        value: category._id
+        value: {
+          _id: category._id,
+          title: category.title
+        }
       } );
     }
   },
@@ -124,6 +114,23 @@ export default {
       border: 1px solid #e4e4e4;
       border-radius: calc(.5rem + 2px);
       width: 50%;
+    }
+  }
+}
+
+
+// ========================= CHANGE THEME
+
+// dark
+.category[data-theme="dark"] { 
+  background: #2f3236;
+  .body {
+    background: #272a2c;
+    .desc--text {
+      color: #ccc;
+    }
+    .option {
+      border-color: #484848;
     }
   }
 }

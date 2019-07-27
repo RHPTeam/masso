@@ -1,6 +1,6 @@
 
 export default {
-  props: [ "groupSelected", "typeFilterSelected" ],
+  props: [ "groupSelected", "typeFilterSelected", "search" ],
   data() {
     return {
       groupsSelectedArr: [],
@@ -8,16 +8,20 @@ export default {
       pagesSelectedArr: []
     };
   },
-  created() {
-    this.$store.dispatch( "getFacebookPages" );
-    this.$store.dispatch( "getFacebookGroups" );
-  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     },
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     facebookGroups() {
       return this.$store.getters.facebookGroups;
+    },
+    facebookGroupsSearch(){
+      return this.facebookGroups.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
     },
     facebookGroupsStatus() {
       return this.$store.getters.facebookGroupsStatus;
@@ -25,11 +29,31 @@ export default {
     facebookPages() {
       return this.$store.getters.facebookPages;
     },
+    facebookPagesSearch(){
+      return this.facebookPages.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
     facebookPagesStatus() {
       return this.$store.getters.facebookPagesStatus;
     },
     postGroupDetail() {
       return this.$store.getters.postGroupDetail;
+    },
+    postGroupDetailPage(){
+      return this.postGroupDetail._pages.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
+    postGroupDetailGroup(){
+      return this.postGroupDetail._groups.filter( ( item ) => {
+        return item.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
+    postGroupDetailProfile(){
+      return this.postGroupDetail._timeline.filter( ( item ) => {
+        return item.userInfo.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
     },
     postGroupDetailStatus() {
       return this.$store.getters.postGroupDetailStatus;
@@ -48,6 +72,14 @@ export default {
       },
       set( val ) {
         this.$store.dispatch( "postGroupPagesSelected", val );
+      }
+    },
+    selectedProfile: {
+      get() {
+        return this.$store.getters.postProfileSelected;
+      },
+      set( val ) {
+        this.$store.dispatch( "postProfileSelected", val );
       }
     },
     selectAllGroups: {
@@ -113,6 +145,26 @@ export default {
         this.pagesSelectedArr = selected;
         this.$store.dispatch( "postGroupPagesSelected", this.pagesSelectedArr );
       }
+    }
+  },
+  methods: {
+    seeAllUsers() {
+      this.$emit( "updateGroupSelected", false );
+    }
+  },
+  async created() {
+    const facebookGroupsNo = this.$store.getters.facebookGroups;
+    const facebookPagesNo = this.$store.getters.facebookPages;
+    const facebookProfileNo = this.$store.getters.accountsFB;
+
+    if(facebookProfileNo.length === 0){
+      this.$store.dispatch( "getAccountsFB" );
+    }
+    if ( facebookGroupsNo.length === 0 ) {
+      this.$store.dispatch( "getFacebookGroups" );
+    }
+    if ( facebookPagesNo.length === 0 ) {
+      this.$store.dispatch( "getFacebookPages" );
     }
   }
 };

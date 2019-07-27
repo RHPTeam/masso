@@ -1,4 +1,84 @@
+import CookieFunction from "@/utils/functions/cookie";
 export default {
+  data() {
+    return {
+      isShowFlagDropdown: false,
+      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
+      menus: [ {
+        text: "Bảng điều khiển",
+        icon: {
+          iconName: "Bảng điều khiển",
+          tagName: "icon-home",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 24 24"
+        },
+        to: { name: "post_dashboard" }
+      },
+        {
+          text: "Tài khoản Facebook",
+          icon: {
+            iconName: "Tài khoản Facebook",
+            tagName: "icon-account",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_fbaccount" }
+        },
+        {
+          text: "Facebook Tìm kiếm",
+          icon: {
+            iconName: "Facebook tìm kiếm",
+            tagName: "icon-input-search",
+            width: 22,
+            height: 22,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_fb_search" }
+        },
+      {
+        text: "Kho nội dung",
+        icon: {
+          iconName: "Kho nội dung",
+          tagName: "icon-post",
+          width: 20,
+          height: 20,
+          viewBox: "0 0 540 540"
+        },
+        to: {
+          name: "post_posts",
+          query: { size: 25, page: 1 }
+        }
+      },
+        {
+          text: "Nhóm & Trang",
+          icon: {
+            iconName: "Nhóm & Trang",
+            tagName: "icon-friend",
+            width: 20,
+            height: 20,
+            viewBox: "0 0 24 24"
+          },
+          to: { name: "post_group" }
+        },
+      {
+        text: "Đăng bài tự động",
+        icon: {
+          iconName: "Chiến dịch",
+          tagName: "icon-broadcast",
+          width: 21,
+          height: 21,
+          viewBox: "0 0 24 24"
+        },
+        to: {
+          name: "post_campaigns",
+          query: { size: 25, page: 1 }
+        }
+      }
+      ]
+    };
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -7,64 +87,16 @@ export default {
       return this.$store.getters.collapseMenu;
     }
   },
-  data() {
-    return {
-      menus: [ {
-        text: "Bảng điều khiển",
-        icon: {
-          iconName: "home",
-          tagName: "icon-home",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 24 24"
-        },
-        to: "post_dashboard"
-      },
-      {
-        text: "Kho nội dung",
-        icon: {
-          iconName: "script",
-          tagName: "icon-post",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 540 540"
-        },
-        to: "post_posts"
-      },
-      {
-        text: "Chiến dịch",
-        icon: {
-          iconName: "broadcasts",
-          tagName: "icon-broadcast",
-          width: 21,
-          height: 21,
-          viewBox: "0 0 24 24"
-        },
-        to: "post_campaigns"
-      },
-      {
-        text: "Nhóm & Trang",
-        icon: {
-          iconName: "friend",
-          tagName: "icon-friend",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 24 24"
-        },
-        to: "post_group"
-      },
-      {
-        text: "Tài khoản Facebook",
-        icon: {
-          iconName: "fbaccount",
-          tagName: "icon-account",
-          width: 20,
-          height: 20,
-          viewBox: "0 0 24 24"
-        },
-        to: "post_fbaccount"
-      }
-      ]
-    };
-  }
+  async created() {
+    const res = CookieFunction.getCookie("cfr");
+    this.roles = res;
+  },
+  methods: {
+    closeFlagDropdown(){
+      this.isShowFlagDropdown = false;
+    },
+    showFlagDropdown(){
+      this.isShowFlagDropdown = true;
+    }
+  },
 };

@@ -5,14 +5,18 @@ const mongoose = require( "mongoose" ),
 
   FacebookSchema = new Schema( {
     "cookie": String,
+    "email": String,
+    "password": String,
     "userInfo": {
       "id": {
         "type": String,
-        "default": ""
+        "default": "",
+        "unique": true
       },
       "name": {
         "type": String,
-        "default": ""
+        "default": "",
+        "unique": true
       },
       "thumbSrc": {
         "type": String,
@@ -22,6 +26,11 @@ const mongoose = require( "mongoose" ),
         "type": String,
         "default": ""
       }
+    },
+    "token": {
+      "agent": String,
+      "privacy": String,
+      "token": String
     },
     "status": { "type": Boolean, "default": 0 },
     "_account": {

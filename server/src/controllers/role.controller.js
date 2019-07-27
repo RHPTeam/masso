@@ -8,8 +8,8 @@
  */
 const Role = require( "../models/Role.model" );
 
-const decodeRole = require( "../helpers/utils/decodeRole.util" );
-const jsonResponse = require( "../configs/res" );
+const decodeRole = require( "../helpers/utils/secures/role" );
+const jsonResponse = require( "../configs/response" );
 
 module.exports = {
   /**

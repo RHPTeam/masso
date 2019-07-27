@@ -23,21 +23,25 @@ export default {
     categories() {
       return this.$store.getters.categoriesPage;
     },
-    filterCategories() {
-      return this.categories.filter( ( category ) => {
-        return category.title.toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() );
-      } );
+    categoriesDefault(){
+      return this.$store.getters.allCateDefault;
+    },
+    statusCategories() {
+      return this.$store.getters.statusCategories;
     }
   },
   async created() {
+    const defaultNumberNo = this.$store.getters.allCateDefault;
+
+    if ( defaultNumberNo.length === 0 ) {
+      this.$store.dispatch("getCategoryDefault");
+    }
     const dataSender = {
       size: this.filterShowSelected.id,
       page: this.currentPage
     };
 
-    await this.$store.dispatch( "getCategoriesByPage", dataSender );
+    this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {

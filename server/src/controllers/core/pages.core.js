@@ -1,8 +1,8 @@
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable strict */
 const request = require( "request" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
-  { getDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
+  { getDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   { pages } = require( "../../configs/crawl" ),
   handle = ( { cookie, agent, token } ) => {
     return new Promise( ( resolve ) => {
@@ -21,7 +21,7 @@ const request = require( "request" ),
       };
 
       request( option, function( _err, _res, body ) {
-        if ( body.includes( "https://www.facebook.com/login" ) ) {
+        if ( body && body.includes( "https://www.facebook.com/login" ) ) {
           resolve( {
             "error": {
               "code": 405,
@@ -37,7 +37,7 @@ const request = require( "request" ),
               "code": 200,
               "text": null
             },
-            "results": bodyJson.payload.items[ 0 ].sections
+            "results": bodyJson.payload.items.length > 0 ? bodyJson.payload.items[ 0 ].sections : []
           } );
         }
       } );

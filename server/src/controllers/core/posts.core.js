@@ -5,14 +5,14 @@ const cheerio = require( "cheerio" ),
   fs = require( "fs" ),
   request = require( "request" ),
   { post, mpost } = require( "../../configs/crawl" ),
-  { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/dtsgfb.util" ),
+  { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   {
     createNewFeed,
     getPreviewScrape,
     handleImageUpload,
     uploadImage
-  } = require( "../../helpers/utils/facebook.util" ),
-  { findSubString } = require( "../../helpers/utils/functions.util" ),
+  } = require( "../../helpers/utils/facebook/facebook" ),
+  { findSubString } = require( "../../helpers/utils/functions/string" ),
   getPost = ( { cookie, agent, url, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -26,7 +26,7 @@ const cheerio = require( "cheerio" ),
 
       /**
        * When id of post appear effect background text. Handle duplicate text.
-       * When id of post is new member of group. Handle get like
+       * When id of post is new member of item. Handle get like
        */
 
       request( option, ( err, res, body ) => {
@@ -45,7 +45,7 @@ const cheerio = require( "cheerio" ),
                 .each( function() {
                   images.push( $( this ).attr( "data-ploi" ) );
                 } );
-              return resolve( {
+              resolve( {
                 "results": {
                   "content": $( "div.permalinkPost" )
                     .find( "div.userContentWrapper" )
@@ -77,7 +77,7 @@ const cheerio = require( "cheerio" ),
                     } );
                 }
               } );
-            return resolve( {
+            resolve( {
               "results": {
                 "content": $( "div" )
                   .find( "div.userContent" )
@@ -103,7 +103,7 @@ const cheerio = require( "cheerio" ),
               }
             } );
 
-          return resolve( {
+          resolve( {
             "results": {
               "like": parseInt(
                 $( "div" )
@@ -121,7 +121,7 @@ const cheerio = require( "cheerio" ),
             "next": false
           } );
         }
-        return resolve( {
+        resolve( {
           "error": {
             "code": 404,
             "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
@@ -138,6 +138,17 @@ module.exports = {
       token = tokenFull.value,
       privacy = tokenFull.privacy,
       feedObject = {};
+
+    // Check catch if cookie logged out
+    if ( tokenFull === false ) {
+      return {
+        "error": {
+          "code": 1037,
+          "text": "Tài khoản của bạn đã bị đăng xuất, vui lòng cung cấp lại mã kích hoạt để tiêp tục!"
+        },
+        "results": null
+      };
+    }
 
     // Check if user upload image or paste link image
     if ( feed.photos ) {
@@ -158,7 +169,7 @@ module.exports = {
           return;
         }
 
-        // Assign variable for "av" author vendor | 0: timeline, 1: group, 2: page
+        // Assign variable for "av" author vendor | 0: timeline, 1: item, 2: page
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           feedObject.privacy = findSubString( cookie, "c_user=", ";" );
         } else if ( feed.location.type === 2 ) {
@@ -174,11 +185,16 @@ module.exports = {
           "av": feedObject.privacy
         } );
 
+        // Check error ( if user use image for feed now, check if facebook return error or return null array )
+        if ( photoID.error && photoID.error.code === 404 ) {
+          photoID = undefined;
+        }
+
         await fs.unlinkSync( path.results );
         return photoID;
       } );
 
-      feedObject.photos = await Promise.all( sources );
+      feedObject.photos = ( await Promise.all( sources ) ).filter( ( source ) => source !== undefined && source !== null );
     }
 
     // Check if user want scrape / share something
@@ -197,11 +213,15 @@ module.exports = {
       feedObject.scrape = resultPreviewScrape.results;
     }
 
+    // Check activity
+    if ( feed.activity && feed.activity.type.length > 0 ) {
+      feedObject.activity = feed.activity;
+    }
+
     // Check if user change privacy of feed
     feedObject.privacy = privacy;
 
     // Pass data from original object of client
-    feedObject.activity = feed.activity;
     feedObject.color = feed.color;
     feedObject.content = feed.content;
     feedObject.location = feed.location;

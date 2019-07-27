@@ -7,7 +7,7 @@ export default {
   props: {
     events: {
       type: Array,
-      default: [],
+      default: []
     },
     theme: {
       type: String,
@@ -16,6 +16,10 @@ export default {
     view: {
       type: String,
       default: "month"
+    },
+    disabledView: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -112,7 +116,7 @@ export default {
       return (
         `${String( firstDay.getDate() ).padStart( 2, "0" ) }/${ String( firstDay.getMonth() + 1 ).padStart( 2, "0" ) }/${ firstDay.getFullYear() } - ${ String( lastDay.getDate() ).padStart( 2, "0" ) }/${ String( lastDay.getMonth() + 1 ).padStart( 2, "0" ) }/${ lastDay.getFullYear()}`
       );
-      
+
     },
     eventOfDay() {
       return this.events.filter( ( event ) => {
@@ -235,6 +239,9 @@ export default {
         d2Year = d2Time.getFullYear();
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
+    },
+    dayClick( date ) {
+      this.$emit( "dayClick", date );
     },
     eventClick( data ) {
       this.$emit( "eventClick", data );

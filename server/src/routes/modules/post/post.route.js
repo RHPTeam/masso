@@ -5,15 +5,13 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const secure = require( "../../../helpers/utils/secure.util" );
 const PostController = require( "../../../controllers/post/post.controller" );
 // Handle save image
 const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": ( req, file, cb ) => {
-      const userId = secure( file, req.headers.authorization ),
-        path = `./uploads/posts/person/${userId}`;
+      path = `./uploads/posts/person/${req.uid}`;
 
       fs.mkdirsSync( path );
       cb( null, path );
@@ -28,7 +26,7 @@ const multer = require( "multer" ),
   upload = multer( {
     "storage": storage,
     "limits": {
-      "fileSize": 1024 * 1024 * 5
+      "fileSize": 1024 * 1024 * 25
     },
     "fileFilter": function( req, file, cb ) {
       if ( !file.originalname.match( /\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/ ) ) {
@@ -44,4 +42,29 @@ router
   .post( PostController.create )
   .patch( upload.array( "attachments", 20 ), PostController.update )
   .delete( PostController.delete );
+
+// route create post by content
+router.route( "/create" ).post( PostController.createPost );
+
+router
+  .route( "/now" )
+  .get( PostController.getPostSchedule )
+  .post( PostController.createPostSchedule );
+router
+  .route( "/search" )
+  .post( PostController.search );
+router.route( "/sync" ).post( PostController.createSyncFromMarket );
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
+router.route( "/sync/duplicate" ).post( PostController.syncDuplicatePostInFolderExample );
+router.route( "/sync/duplicate/folder" ).post( PostController.syncDuplicateFolderExample );
+
+router.route( "/remove/image" ).post( PostController.removeImageNotExist );
+
+// Get Newest Post
+router
+  .route( "/newest" ).get( PostController.getNewestPosts );
+
+// Upload image
+router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
+
 module.exports = router;

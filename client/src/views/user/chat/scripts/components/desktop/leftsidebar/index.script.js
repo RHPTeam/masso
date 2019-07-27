@@ -1,17 +1,27 @@
 let typingTimer;
+
+import AfterDay from "../popup/time";
+import OptionsSequence from "../popup/optionssequence";
+import OptionGroup from "../popup/optiongroup";
+import OptionGroupBlock from "../popup/optiongroupblock";
+
 export default {
+  props: ["clickShowAfterDay", "closeAfterDay"],
   data() {
     return {
       isAddTypeDropdown: false,
       isActionItemDropdown: false,
+      isShowScriptDefault: true,
+      isActive: true,
+      isOption: false,
       currentIndexActionItemDropdown: null,
       currentIndexGroupItemButton: null,
       showItemAction: false,
       showActionSequence: false,
       showOptionSequence: false,
-      showCopyScripts: false,
-      showOptionsScripts: false,
-      showCopySequenceScripts: false
+      showCopySequenceScripts: false,
+      currentSequenceIndex: "",
+      currentAfterDayIndex: ""
     };
   },
   computed: {
@@ -25,7 +35,7 @@ export default {
       return this.$store.getters.groups;
     },
     groupSequence() {
-      return this.$store.getters.groupSqc;
+      return this.$store.getters.allSequenceScript;
     },
     status() {
       return this.$store.getters.statusBlocks;
@@ -35,36 +45,45 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getGroupBlock");
-    await this.$store.dispatch("getSequence");
+    // await this.$store.dispatch("getGroupBlock");
+    // await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
-    closeShowCopyScripts(){
-      this.showCopyScripts = false;
+    showScriptDefault(){
+      this.isShowScriptDefault = true;
+      this.isActive = true;
+      this.isOption = false;
     },
-    closeShowOptionsScripts(){
-      this.showOptionsScripts = false;
+    showScriptSequence(){
+      this.isShowScriptDefault = false;
+      this.isActive = false;
+      this.isOption = true;
+    },
+    openSequenceDropdown( id ){
+      this.showCopySequenceScripts = true;
+      this.currentSequenceIndex = id;
     },
     closeCopySequenceScripts(){
       this.showCopySequenceScripts = false;
+      this.currentSequenceIndex = "";
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
     showBlock(id) {
-      this.$store.dispatch("getBlock", id);
+      this.$store.dispatch("getInfoBlock", id);
     },
     showItemSqc(SqcId) {
-      this.$store.dispatch("getItemSqc", SqcId);
+      this.$store.dispatch("getInfoBlock", SqcId);
     },
     createBlock(groupId) {
       this.$store.dispatch("createBlock", groupId);
     },
     createItemSqc(sequenceId) {
-      this.$store.dispatch("createItemSequences", sequenceId);
+      this.$store.dispatch("createBlockInSequence", sequenceId);
     },
     createSequence() {
-      this.$store.dispatch("createSequence");
+      this.$store.dispatch("createSequenceScript");
     },
     createGroup() {
       this.$store.dispatch("createGroupBlock");
@@ -101,27 +120,33 @@ export default {
     }
   },
   sockets: {
-    async receiveMessage(value) {
-      let _ = this;
-      if (
-        this.curConversation._sender === undefined ||
-        this.curConversation._receiver === undefined
-      ) {
-        if (localStorage.getItem("rid")) {
-          await this.$store.dispatch(
-            "getAllConversationsByAcc",
-            localStorage.getItem("rid")
-          );
-        }
-      } else if (
-        value.message._sender._id === this.curConversation._sender._id &&
-        value.message._receiver._id === this.curConversation._receiver._id
-      ) {
-        // Listen receive messages of current conversation
-        this.$store.dispatch("updateMessage", value.message);
-        // Play audio when client listen new message
-        _.$refs.audioTone.play();
-      }
-    }
+    // async receiveMessage(value) {
+    //   let _ = this;
+    //   if (
+    //     this.curConversation._sender === undefined ||
+    //     this.curConversation._receiver === undefined
+    //   ) {
+    //     if (localStorage.getItem("rid")) {
+    //       await this.$store.dispatch(
+    //         "getAllConversationsByAcc",
+    //         localStorage.getItem("rid")
+    //       );
+    //     }
+    //   } else if (
+    //     value.message._sender._id === this.curConversation._sender._id &&
+    //     value.message._receiver._id === this.curConversation._receiver._id
+    //   ) {
+    //     // Listen receive messages of current conversation
+    //     this.$store.dispatch("updateMessage", value.message);
+    //     // Play audio when client listen new message
+    //     _.$refs.audioTone.play();
+    //   }
+    // }
+  },
+  components: {
+    AfterDay,
+    OptionsSequence,
+    OptionGroup,
+    OptionGroupBlock
   }
 };

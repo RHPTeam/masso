@@ -1,11 +1,6 @@
 <template>
   <div class="post--data my_3" :data-theme="currentTheme">
     <div class="item--header d_flex align_items_center px_3 py_2">
-      <!--<div class="col col--checkbox px_2">
-        <label class="detail--checkbox mb_0">
-          <input type="checkbox" />
-        </label>
-      </div>-->
       <div class="col col--name px_2">
         <span
           class="sort"
@@ -47,28 +42,28 @@
         </span>
       </div>
       <div class="col col--category px_2">Danh mục</div>
-      <div class="col col--image px_4">Hình ảnh</div>
       <div class="col col--action px_4">Hành động</div>
     </div>
-    <!-- if all post === undefined call component loading -->
-    <div v-if="filterAllPost.length === 0"
-         class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
-      Không có dữ liệu
-    </div>
-    <!-- else call component item post -->
-    <div v-else>
+    <!-- Start: List Data -->
+    <div>
       <div v-if="this.$store.getters.statusPost === 'loading'" class="mt_3">
         <loading-component></loading-component>
       </div>
+      <div v-if="this.$store.getters.statusPost === 'success' && allPost.length === 0"
+           class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
+        Không có dữ liệu
+      </div>
       <div v-else>
         <item-post
-          v-for="(item, index) in filterAllPost"
+          v-for="(item, index) in allPost"
           :key="index"
           :item="item"
           @showDeletePopup="showDeletePopup($event)"
+          @showPostNowPopup="showPostNowPopup($event)"
         ></item-post>
       </div>
     </div>
+    <!-- End: List Data -->
     <!--*********** POPUP *************-->
     <transition name="popup">
       <delete-popup
@@ -78,9 +73,16 @@
         @closePopup="isShowDeletePopup = $event"
         storeActionName="deletePost"
         :targetData="targetDataDelete"
-        :targetName="postDelete.title"
+        :targetName="postSelected.title"
         typeName="bài viết"
       ></delete-popup>
+    </transition>
+    <transition name="popup">
+      <post-now-popup
+        v-if="isShowPostNowPopup === true"
+        @closePopup="isShowPostNowPopup = $event"
+        :post="postSelected"
+      ></post-now-popup>
     </transition>
   </div>
 </template>

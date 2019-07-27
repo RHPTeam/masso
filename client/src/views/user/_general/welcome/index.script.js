@@ -1,9 +1,8 @@
-/* eslint-disable global-require */
-/* eslint-disable prettier/prettier */
 import IconBase from "@/components/icons/IconBase";
 import IconArrowDown from "@/components/icons/IconArrowDown";
 import IconAccount from "@/components/icons/IconAccount";
 import IconLogout from "@/components/icons/IconLogout";
+
 export default {
   data() {
     return {
@@ -33,18 +32,21 @@ export default {
   computed: {
     user() {
       return this.$store.getters.userInfo;
+    },
+    allAccountFb() {
+      return this.$store.getters.accountsFB;
     }
   },
   async created() {
+    // Get User Info
     await this.$store.dispatch( "getUserInfo" );
+    // Get User FB Accounts
+    await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
     async logOut() {
       await this.$store.dispatch( "logOut" );
-      this.$router.push( "/signin" );
-    },
-    gotoHomePost() {
-      this.$router.push( "/post" );
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     },
     showDropdown() {
       this.showdropdown = !this.showdropdown;
@@ -52,10 +54,27 @@ export default {
     closeDropdownUser() {
       this.showdropdown = false;
     },
+    gotoHomePost() {
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "post_fbaccount" } );
 
-    // go to home chat
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( "/post" );
+
+        window.open(routeData.href, '_blank');
+      }
+    },
     gotoHomeChat(){
-      this.$router.push( "/chat" );
+      if ( this.allAccountFb.length === 0 ) {
+        const routeData = this.$router.resolve( { name: "facebook" } );
+
+        window.open(routeData.href, '_blank');
+      } else {
+        const routeData = this.$router.resolve( { name: "scripts" } );
+
+        window.open(routeData.href, '_blank');
+      }
     }
   },
   filters: {

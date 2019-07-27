@@ -1,3 +1,7 @@
+// VARIABLE BORDER
+
+$border_radius: rgb(72, 72, 72);
+
 .scripts {
     font-size: 14px;
     /********Script Header*******/
@@ -6,13 +10,24 @@
   
       .script--header-title {
         font-size: 30px;
+        max-width: 70%;
+        border: 1px solid transparent;
+        &:focus{
+          box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.07);
+          outline: none;
+          border: solid 1px rgba(0, 0, 0, 0.33);
+          border-radius: 7px;
+          cursor: text;
+          padding: 0 0.625rem;
+        }
         text-overflow: ellipsis;
+        cursor: pointer;
         white-space: nowrap;
         overflow: hidden;
       }
       div[contenteditable="true"]:empty:before {
-        content: 'Tên kịch bản';
-        color: #444
+        color: #444;
+
       }
       .script--header-copy-link {
         margin-left: 30px;
@@ -56,7 +71,8 @@
         cursor: pointer;
         position: absolute;
         right: -30px;
-        top: 0;
+        top: 50%;
+        transform: translateY(-50%);
       }
   
       /*    Icon Move   */
@@ -72,17 +88,19 @@
         margin: 0 0 25px;
         max-width: 280px;
         position: relative;
-  
+        border-radius: 10px;
+        transition: 0.3s;
+        &:hover{
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.11), 0 1px 0 0 rgba(0, 0, 0, 0.08);
+        }  
         .script--body-text-edit {
           background: #27292D;
           border-radius: 10px;
-          border: 10px solid #2F3136;
-          min-height: 60px;
+          // border: 10px solid #2F3136;
+          // min-height: 60px;
           text-align: left;
-          padding: 8px 10px;
-  
+          outline: none;
           div[contenteditable="true"]:empty:before {
-            content: 'Nhập văn bản';
             color: #444
           }
           .list--suggest {
@@ -111,16 +129,20 @@
         max-width: 280px;
         position: relative;
         width: 280px;
+        border-radius: 10px;
   
         .scrip--body-image-link {
           position: absolute;
           border-radius: 10px;
           overflow: hidden;
           z-index: 2;
+          // background: #fff;
+          // color: #000;
         }
   
         .script--body-upload-image {
           background: #2F3136;
+          transition: 0.3s;
           border-radius: 10px;
           height: 100%;
           position: absolute;
@@ -146,6 +168,9 @@
             height: 100%;
             cursor: pointer;
             width: 100%;
+            span{
+              color: #666;
+            }
           }
         }
       }
@@ -156,6 +181,7 @@
         padding: 15px;
         border-radius: 10px;
         max-width: 590px;
+        background: #fff;
   
         &-icon {
           align-items: center;
@@ -165,17 +191,24 @@
           height: 30px;
           width: 30px;
           margin-right: 10px;
+          border: 1px solid #666;
         }
   
         &-title {
           display: flex;
           align-items: center;
-        }
-  
-        &-title {
           font-size: 18px;
           font-weight: 600;
           margin-bottom: 15px;
+        }
+
+        &-list{
+          .describle{
+            font-size: 14px;
+            line-height: 1.71;
+            flex: 1;
+            white-space: normal;
+          }
         }
   
         &-description {
@@ -206,7 +239,13 @@
             }
           }
           .tag--created {
-            width: 50%;
+            width: 48%;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            transition: 0.3s;
+            &:hover{
+              border: 1px solid $border_radius;
+            }
             .list--attribute {
               border: 1px solid #707070;
               border-radius: 6px;
@@ -250,13 +289,15 @@
             }
             .tag--created-value {
               width: 100%;
+              .editable{
+                outline: none;
+              }
             }
             .created {
-              //width: 100%;
+              width: 100%;
             }
             &-item {
-              color: #e9604a;
-              max-width: 100%;
+              width: 100%;
               padding: 0.25rem .5rem;
               text-overflow: ellipsis;
               overflow: hidden;
@@ -268,9 +309,11 @@
               &[placeholder]:focus:before {
                 color: #e4e4e4;
               }
-              &:focus, &:hover, &:active, &:visited {
-                box-shadow: none;
-                outline: 0;
+              .editable{
+                &:focus, &:hover, &:active, &:visited {
+                  box-shadow: none;
+                  outline: 0;
+                }
               }
             }
             input {
@@ -362,8 +405,7 @@
           justify-content: center;
           height: 40px;
           margin: 15px 0 0;
-          padding: 10px;
-  
+          padding: 10px;  
           span + span {
             margin-left: 10px;
           }
@@ -423,7 +465,7 @@
             }
   
             .tag--created {
-              width: 50%;
+              width: 48%;
             }
   
             .tag--icon-delete {
@@ -549,7 +591,7 @@
           }
         }
   
-        @media (min-width: 992px) and (max-width: 1200px) {
+        @media (min-width: 768px) and (max-width: 1200px) {
           flex-wrap: wrap;
           .addelm-item {
             width: calc(50% - 10px);
@@ -666,16 +708,17 @@
     }
     /*********Script Body*******/
     .script--body {
-      svg {
+      .script--body-delete svg {
         fill: #ccc;
-        color: #ccc;
+        cursor: pointer;
+        color: #333;
       }
   
       /*****Script Body Text Edit*****/
       .script--body-text {
         .script--body-text-edit {
           background: #fff;
-          border: 10px solid #e4e4e4;
+          // border: 10px solid #e4e4e4;
           color: #444;
   
           > div {
@@ -705,14 +748,14 @@
   
         &:hover {
           .scrip--body-image-link + .script--body-upload-image {
-            color: #f7f7f7;
-            background: rgba(0, 0, 0, 0.60);
             z-index: 2;
           }
-  
+          .script--body-image-icon span{
+            color: #000;
+          }
           svg {
             fill: #f7f7f7;
-            color: #f7f7f7;
+            color: #000;
           }
         }
       }
@@ -733,7 +776,7 @@
       /***********Script Tag**********/
       .script--body-tag {
         color: #444;
-        background: #f7f7f7;
+        background: #fff;
   
         &-icon {
           background: #fff;
@@ -769,11 +812,11 @@
           &:hover {
             background: #FFB94A;
             color: #fff;
+            span svg {
+              color: #ccc;
+            }
           }
   
-          svg {
-            color: #ccc;
-          }
         }
       }
   
@@ -865,6 +908,10 @@
   
       .script--header-title {
         color: #fff;
+        &:focus{
+          border: 1px solid $border_radius;
+          
+        }
       }
   
       .header--dropdown-wrap {
@@ -894,14 +941,16 @@
     .script--body {
       svg {
         fill: #ccc;
-        color: #ccc;
+        color: #fff;
       }
   
       /*****Script Body Text Edit*****/
       .script--body-text {
+        background: #f0f0f04f;
+        border: 1px solid $border_radius;
         .script--body-text-edit {
           background: #27292D;
-          border: 10px solid #2F3136;
+          padding: 10px;
           color: #fff;
   
           > div {
@@ -925,6 +974,10 @@
   
       /*****Script Body Upload Image*****/
       .script--body-image {
+        border: 1px solid $border_radius;
+        background: none;
+        transition: 0.3s;
+        cursor: pointer;
         .script--body-upload-image {
           background: #2F3136;
         }
@@ -932,7 +985,7 @@
         &:hover {
           .scrip--body-image-link + .script--body-upload-image {
             color: #fff;
-            background: rgba(153, 153, 153, 0.60);
+            background: #252627;
             z-index: 2;
           }
   
@@ -940,12 +993,18 @@
             fill: #fff;
             color: #fff;
           }
+          .script--body-upload-image{
+            span{
+              color: #fff;
+            }
+          }
         }
       }
   
       /*****Script Body Timer*****/
       .script--body-timer {
         color: #ccc;
+        transition: 0.3s;
   
         input[type="range"] {
           background-color: #2f3136;
@@ -960,7 +1019,11 @@
       .script--body-tag {
         color: #fff;
         background: #2F3136;
-  
+        &-title{
+          span, svg{
+            color: #f0f0f0;
+          }
+        }
         &-icon {
           background: #27292D;
   
@@ -1087,6 +1150,26 @@
           border: 10px solid #2f3136;
           color: #fff;
         }
+      }
+    }
+  }
+
+
+
+  // ***************** RESPONSIVE
+
+  @media only screen and (max-width: 856px) and (min-width: 768px){
+    .wrap--content-main{
+      padding-right: 15px;
+    }
+    .scripts{
+      padding-right: 0;
+      padding-left: 0;
+      .script--body{
+        &-text, &-timer, &-tag, .subcrible, .unsubcrible{
+          width: 280px;
+        }
+        
       }
     }
   }

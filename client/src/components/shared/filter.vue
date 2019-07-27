@@ -19,7 +19,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listAttr"
+            v-for="(item, index) in $t('chat.friends.attribute.listAttr')"
             :key="index"
             @click="showListAttribute(item.value)"
           >
@@ -38,7 +38,7 @@
           v-model="resultFilter"
           class="filter--item filter--body-created"
           @click="showResultFilterDefault"
-          placeholder="Tên thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderAttr')"
           v-click-outside="closeResultListFilter"
         />
         <div
@@ -57,9 +57,9 @@
       </div>
       <!--End: create attribue-->
       <!--Start: option other-->
-      <div class="filter--attribute position_relative" v-if="control === true">
+      <div class="filter--attribute filter--like position_relative" v-if="control === true">
         <div
-          class="filter--attribute-name filter--item"
+          class="filter--attribute-name filter--item filter--item-like"
           v-click-outside="closeFilterOption"
           @click="showFilterOption = true"
         >
@@ -71,7 +71,7 @@
         >
           <div
             class="filter--attribute-item filter--item p_2"
-            v-for="(item, index) in listCondition"
+            v-for="(item, index) in $t('chat.friends.attribute.listCondition')"
             :key="index"
             @click="getCondition = item.value"
           >
@@ -87,7 +87,7 @@
           v-model="valueFilter"
           class="filter--item filter--body-created"
           @click="showValueListFilter = true"
-          placeholder="Giá trị thuộc tính"
+          :placeholder="$t('chat.friends.attribute.placeholderValue')"
           v-click-outside="closeValueListFilter"
         />
         <div
@@ -133,6 +133,14 @@ export default {
       valueFilter: ""
     };
   },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    listFilter() {
+      return this.$store.getters.listFilter;
+    }
+  },
   async created() {
     // await this.$store.dispatch("listFilterAttribute");
   },
@@ -173,7 +181,7 @@ export default {
     showInfoGroupFriend(item) {
       this.resultFilter = item.name;
       if (item.value === undefined) {
-        // dispatch show group friend when choose option segments
+        // dispatch show item friends when choose option segments
         const dataSender = {
           itemId: item._id,
           bcId: this.bcId,
@@ -186,7 +194,7 @@ export default {
           this.$store.dispatch("getInfoGroupFriend", dataSender);
         }
       } else {
-        // dispatch show friend when choose option attribute
+        // dispatch show friends when choose option attribute
         const dataSender = {
           item: item,
           bcId: this.bcId,
@@ -245,14 +253,6 @@ export default {
       this.showFilterAttribute = true;
       this.$emit("openDone", true);
     }
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    listFilter() {
-      return this.$store.getters.listFilter;
-    }
   }
 };
 </script>
@@ -277,7 +277,6 @@ export default {
     width: 60% !important;
   }
   .list--filter {
-    width: calc((100% - 240px) / 2);
     .list {
       top: 101%;
       left: 0;
@@ -327,13 +326,14 @@ export default {
     border-left: 0 !important;
   }
   .filter--item {
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem .75rem .5rem 0;
     cursor: pointer;
     input {
-      width: 100%;
       border: none;
       background: transparent;
       color: #444444;
+      padding: 0 .75rem;
+      width: 100%;
       &:hover,
       &:focus,
       &:active,
@@ -347,7 +347,7 @@ export default {
   .filter--body-option {
     background: #ffffff;
     border: 1px solid #e4e4e4;
-    /*border-radius: 10px;*/
+    border-radius: 5px;
     font-size: 15px;
   }
   .filter--attribute-option {
@@ -411,14 +411,23 @@ div[data-theme="light"] .filter {
 
 div[data-theme="dark"] .filter {
   background: #2f3136;
-  border-color: #2f3136;
+  border: 0;
   .filter--item {
     background-color: #27292d;
     color: #cccccc;
+    font-size: .875rem;
   }
   .filter--attribute-name {
-    border-left: 1px solid #707070;
-    border-right: 1px solid #707070;
+    input {
+      border-right: 1px solid #444;
+      color: #ccc;
+      font-size: .875rem;
+    }
+    &.filter--item-like {
+      input {
+        border-left: 1px solid #444;
+      }
+    }
   }
   .last--item.filter--item {
     border-right: 0 !important;
@@ -437,4 +446,15 @@ div[data-theme="dark"] .filter {
     border-color: #27292d;
   }
 }
+
+// ************ RESPONSIVE
+@media only screen and (max-width: 1350px) and (min-width: 768px){
+    .filter .filter--body-option{
+      flex-wrap: wrap;
+      .filter--attribute, .list--filter{
+        width: 100%;
+      }
+    }
+}
+
 </style>

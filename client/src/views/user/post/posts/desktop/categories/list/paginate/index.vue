@@ -1,9 +1,10 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ categoriesPage.length }} trong số  {{ allCategories.length }}
+      Kết quả {{ categoriesPage.length }} bản ghi
     </div>
     <paginate
+      :value="currentPage"
       :pageCount="categoriesPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
@@ -17,7 +18,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected" ],
+  props: [ "currentPage", "filterShowSelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -25,32 +26,42 @@ export default {
     }
   },
   computed: {
-    allCategories() {
-      return this.$store.getters.allCategories;
-    },
     categoriesPage() {
       return this.$store.getters.categoriesPage;
     },
     categoriesPageSize() {
       return this.$store.getters.categoriesPageSize;
-    },
+    }
   },
   async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getPostsByPage", dataSender );
   },
   methods: {
-    goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+    async goToPage( page ) {
+      if(this.search.length > 0) {
 
-      this.$store.dispatch( "getCategoriesByPage", dataSender );
+        const dataSender = {
+          keyword: this.search,
+          size: this.this.filterShowList.id,
+          page: page
+        };
+
+        await this.$store.dispatch("getCategoriesByKey", dataSender);
+
+      } else {
+
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+
+        await this.$store.dispatch( "getCategoriesByPage", dataSender );
+      }
+
+      this.$router.replace( {
+        name: "post_postCategories",
+        query: { size: this.filterShowSelected.id, page: page }
+      } );
+      this.$parent.$parent.$parent.$parent.$parent.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

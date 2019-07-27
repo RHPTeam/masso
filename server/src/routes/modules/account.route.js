@@ -5,7 +5,7 @@
  * team: BE-RHP
  */
 const router = require( "express-promise-router" )();
-const secure = require( "../../helpers/utils/secure.util" );
+const auth = require( "../../helpers/middleware/authenticate.middleware" );
 const AccountController = require( "../../controllers/account.controller" );
 
 // Handle save image
@@ -13,8 +13,7 @@ const fs = require( "fs-extra" );
 const multer = require( "multer" ),
   storage = multer.diskStorage( {
     "destination": ( req, file, cb ) => {
-      const userId = secure( file, req.headers.authorization ),
-        path = `./uploads/users/person/${userId}`;
+      const path = `./uploads/users/person/${req.uid}`;
 
       fs.mkdirsSync( path );
       cb( null, path );
@@ -29,7 +28,7 @@ const multer = require( "multer" ),
   upload = multer( {
     "storage": storage,
     "limits": {
-      "fileSize": 1024 * 1024 * 5
+      "fileSize": 1024 * 1024 * 25
     },
     "fileFilter": function( req, file, cb ) {
       if ( !file.originalname.match( /\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/ ) ) {
@@ -39,14 +38,13 @@ const multer = require( "multer" ),
     }
   } );
 
-router
-  .route( "/" )
-  .post( upload.single( "file" ), AccountController.upload )
-  .get( AccountController.index )
-  .patch( AccountController.update )
-  .put( AccountController.deleteUser );
-router.route( "/admin" ).patch( AccountController.updateExpire );
-router.route( "/active" ).post( AccountController.active );
-router.route( "/change-password" ).patch( AccountController.changePassword );
+router.route( "/" ).patch( auth, upload.single( "profileUrl" ), AccountController.update );
+router.route( "/active" ).patch( AccountController.activeAccountById );
+router.route( "/change-password" ).patch( auth, AccountController.changePassword );
+router.route( "/create-password" ).post( auth, AccountController.createNewPassword );
+router.route( "/info" ).get( auth, AccountController.show );
+router.route( "/sync/change-status" ).patch( auth, AccountController.changeStatusSync );
+router.route( "/search" ).patch( auth, AccountController.searchKeyword );
+
 
 module.exports = router;

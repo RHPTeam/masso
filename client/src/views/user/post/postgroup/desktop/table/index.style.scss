@@ -1,5 +1,11 @@
 .postgroup--data {
   font-size: 0.875rem;
+  .no--group, .no--page{
+    background: #f1f1f1;
+    color: #666;
+    border-bottom-left-radius: .625rem;
+    border-bottom-right-radius: .625rem;
+  }
   .col--checkbox {
     height: 20px;
     width: calc(20px + 1rem);
@@ -35,6 +41,18 @@
     &:last-child {
       border-bottom-left-radius: .625rem;
       border-bottom-right-radius: .625rem;
+    }
+  }
+  .add--pagegroup {
+    border: 1px solid #484848;
+    padding: 0.7rem 0.625rem;
+    border-radius: 10px;
+    display: inline-block;
+    cursor: pointer;
+    transition: all .4s ease;
+    &:hover {
+      border: 1px solid transparent;
+      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
     }
   }
 }
@@ -125,5 +143,9 @@
   .image--wrap-more {
     background-color: #2f3136;
     color: #999999;
+  }
+  .no--group, .no--page{
+    background: #27292d;
+    color: #fafafa;
   }
 }

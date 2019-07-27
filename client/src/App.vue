@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <VuePerfectScrollbar class="scroll-area">
+    <VuePerfectScrollbar class="scroll-area" ref="scroll">
       <router-view />
     </VuePerfectScrollbar>
   </div>
@@ -10,6 +10,11 @@ import VuePerfectScrollbar from "vue-perfect-scrollbar";
 export default {
   components: {
     VuePerfectScrollbar
+  },
+  watch:{
+    $route (to, from){
+      this.$refs.scroll.$el.scrollTop = 0;
+    }
   }
 };
 </script>

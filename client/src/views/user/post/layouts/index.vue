@@ -6,15 +6,25 @@
         <app-sidebar />
       </div>
       <div class="wrap--content-main">
-        <app-header />
+        <app-header
+          @openExpire="showExpire = $event"
+        />
         <router-view />
       </div>
     </div>
     <!-- End: Desktop Component-->
 
     <!-- Start: Notification for check login facebook account-->
-    <app-notification :statusNetwork="statusNetwork" />
+    <app-notification :statusNetwork="statusNetwork"></app-notification>
     <!-- End: Notification for check login facebook account-->
+
+    <!-- Start: Pricing account-->
+    <app-expire
+      v-if="showExpire === true"
+      @close="showExpire = $event"
+    >
+    </app-expire>
+    <!-- End: Pricing account-->
   </div>
 </template>
 <script src="./index.script.js"></script>

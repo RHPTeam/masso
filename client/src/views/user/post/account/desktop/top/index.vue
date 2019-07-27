@@ -1,6 +1,6 @@
 <template>
   <div class="main--top d_flex align_items_center p_3" :data-theme="currentTheme">
-    <div class="exp--account">
+    <div class="exp--account" v-if="user">
       Tài khoản hết hạn: {{ user.expireDate | formatDate }}
     </div>
     <div class="renewed--account text_center ml_auto">
@@ -88,6 +88,12 @@ export default {
 
 .main--top[data-theme="dark"] {
   background: $mainDark;
+  button:disabled,
+  button[disabled] {
+    background-color: #282a2d;
+    border: 1px solid #484848;
+    color: #ccc;
+  }
 }
 
 </style>

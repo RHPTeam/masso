@@ -7,29 +7,51 @@
         </div>
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
-            Toàn bộ dữ liệu liên quan đến {{ typeName }}
-            <span class="text--bold">{{ targetName }}</span> sẽ bị xóa hoàn toàn.
-            <span v-if="description !== '' ">{{ description }}</span>
-            Để tiếp tục, nhập
-            <span class="text--delete">DELETE</span> vào ô bên dưới.
+            <span class="pr_1"> {{ $t('chat.common.popup.delete.allData') }}</span>
+            <span>{{ typeName }} </span>
+            <span class="text--bold pr_1">{{ targetName }}</span>
+            <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
+            <span v-if="confirmDelete === true">
+              <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
+              <span class="text--delete">DELETE</span>
+              <span class=""> {{ $t('chat.common.popup.delete.input') }}</span>
+            </span>
           </div>
-          <input
-            class="modal--body-input mt_3"
-            placeholder="DELETE"
-            type="text"
-            v-model="deleteText"
-          />
+          <div class="desc" v-else>
+            <span>{{ description }}</span>
+            <span class="text--bold pr_1">{{ targetName }}. </span>
+            <span v-if="confirmDelete === true">
+              <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }}</span>
+              <span class="text--delete">DELETE</span>
+              <span class=""> {{ $t('chat.common.popup.delete.input') }}</span>
+            </span>
+          </div>
+          <div v-if="confirmDelete === true">
+            <input
+              class="modal--body-input mt_3"
+              placeholder="DELETE"
+              type="text"
+              v-model="deleteText"
+            />
+          </div>
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
           <button
             class="btn--submit"
             @click="closePopup()"
-          >HỦY</button>
-          <button
+          > {{ $t('chat.common.popup.delete.cancle') }} </button>
+          <span v-if="confirmDelete === true">
+            <button
             class="btn--skip"
             v-if="deleteConfirm"
             @click="deleteTargets()"
-          >XÓA</button>
+          > {{ $t('chat.common.popup.delete.delete') }} </button>
+          </span>
+          <button
+            class="btn--skip"
+            v-if="confirmDelete === false"
+            @click="deleteTargets()"
+          > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
       </div>
     </div>
@@ -65,6 +87,10 @@ export default {
     typeName: {
       type: String,
       default: ""
+    },
+    confirmDelete: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -89,7 +115,7 @@ export default {
     },
     deleteTargets() {
       this.$store.dispatch( this.storeActionName, this.targetData );
-
+      
       this.$emit( "closePopup", false );
     }
   }

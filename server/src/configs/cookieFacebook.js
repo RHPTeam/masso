@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 module.exports = ( fr, datr, c_user, xs ) => {
   return [
     {

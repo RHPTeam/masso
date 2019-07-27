@@ -1,5 +1,9 @@
 .wrapper {
   border-radius: 10px;
+  .alert--error {
+    color: #f44542;
+    font-size: .875rem;
+  }
   .item {
     font-size: 14px;
     .description {
@@ -79,6 +83,14 @@
       padding-right: 20px;
     }
   }
+
+  .question {
+    cursor: pointer;
+    .item {
+      cursor: pointer;
+    }
+  }
+
   .wrap {
     border: 1px solid $border-color;
     border-radius: calc(.5rem + 2px);
@@ -117,14 +129,14 @@
       }
       .tagger--summary {
         font-size: .825rem;
+        .feel {
+          text-transform: lowercase;
+        }
         .emoji {
           min-width: 0;
-          max-width: 25px;
-          height: 25px;
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: cover;
-          margin: 0 4px;
+          max-width: 16px;
+          height: 16px;
+          margin: 0 .25rem;
         }
         .result {
           font-size: .825rem;
@@ -254,6 +266,9 @@
       }
     }
   }
+  .error {
+    border-radius: .625rem;
+  }
   .aqua_hidden {
     opacity: .5;
   }
@@ -329,6 +344,17 @@
         }
       }
     }
+  }
+}
+
+.footer {
+  .item--button {
+    background-color: #ffb94a;
+    border: 1px solid #ffb94a;
+    border-radius: .625rem;
+    cursor: pointer;
+    color: #ffffff;
+    padding: .5rem 2rem;
   }
 }
 

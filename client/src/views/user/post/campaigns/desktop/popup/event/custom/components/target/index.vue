@@ -1,42 +1,19 @@
 <template>
-  <div class="target p_3 mb_2">
+  <div class="target p_3 mb_2" :data-theme="currentTheme">
     <div class="header d_flex align_items_center mb_3">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
         <span>Nơi đăng</span>
       </div>
-      <div class="target--selected" v-if="caseEvent.target === 3">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Trang cá nhân
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
-      <div class="target--selected" v-if="caseEvent.target === 1">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Nhóm đã lưu
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
-      <div class="target--selected" v-if="caseEvent.target === 2">
-        <span class="title px_1 py_0 mr_2"
-              :style="[ { borderColor: event.color }, { color: event.color } ]"
-        >
-          Tùy chọn nơi đăng
-        </span>
-        <span class="change" @click="resetTargetType">Thay đổi</span>
-      </div>
       <!-- End: Title header -->
     </div>
     <!-- Start: Option Post detail -->
-    <div class="body" v-if="caseEvent.target === 0">
+    <div class="body mb_4">
       <div class="r">
         <!-- Start: FB Profile -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 3 ? 'active' : null"
                @click="selectTargetType( 3 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -49,7 +26,7 @@
                   width="22px"
                   viewBox="0 0 500 500"
                 >
-                  <icon-group></icon-group>
+                  <icon-profile />
                 </icon-base>
               </div>
               <div class="card--content">
@@ -62,6 +39,7 @@
         <!-- Start: Target Group -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 1 ? 'active' : null"
                @click="selectTargetType( 1 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -87,6 +65,7 @@
         <!-- Start: Target Custom -->
         <div class="c_md_4">
           <div class="card"
+               :class="caseEvent.target === 2 ? 'active' : null"
                @click="selectTargetType( 2 )"
           >
             <div class="card_body d_flex align_items_center">
@@ -99,7 +78,7 @@
                   width="22px"
                   viewBox="0 0 500 500"
                 >
-                  <icon-group></icon-group>
+                  <icon-conf />
                 </icon-base>
               </div>
               <div class="card--content">
@@ -112,9 +91,8 @@
       </div>
     </div>
     <!-- End: Option Post detail -->
-
     <!-- Start: Show Option Group -->
-    <target-group v-else-if="caseEvent.target === 1" />
+    <target-group v-if="caseEvent.target === 1" />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
@@ -144,6 +122,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     caseEvent() {
       return this.$store.getters.caseEvent;
     },
@@ -164,14 +145,30 @@ export default {
       } );
     },
     selectTargetType( value ) {
-      if ( value === 0 ) {
+      if ( value === 1 ) {
         this.$store.dispatch( "setEvent", {
           key: "target_custom",
           value: []
         } );
-      } else if ( value === 1 ) {
+
+        this.$store.dispatch( "setEvent", {
+          key: "timeline",
+          value: []
+        } );
+      } else if ( value === 2 ) {
+        this.$store.dispatch( "setEventRemove", "target_category" );
+        this.$store.dispatch( "setEvent", {
+          key: "timeline",
+          value: []
+        } );
+      } else if ( value === 3 ) {
+        this.$store.dispatch( "setEvent", {
+          key: "target_custom",
+          value: []
+        } );
         this.$store.dispatch( "setEventRemove", "target_category" );
       }
+
       this.$store.dispatch( "setCaseEvent", {
         key: "target",
         value: value
@@ -216,6 +213,9 @@ export default {
       cursor: pointer;
       height: 100%;
       transition: all .4s ease;
+      &.active {
+        box-shadow: 0 0 8px rgba(0, 0, 0, .1);
+      }
       &:hover {
         box-shadow: 0 0 8px rgba(0, 0, 0, .1);
       }
@@ -225,7 +225,6 @@ export default {
           border-radius: 100%;
           height: 36px;
           width: 36px;
-          opacity: .75;
           transition: all 1s ease;
           svg {
             color: #fff;
@@ -247,6 +246,34 @@ export default {
     }
     .empty {
       border: none !important;
+    }
+  }
+}
+
+
+// ========================= CHANGE THEME
+
+// dark
+.target[data-theme="dark"] {
+  background: #272a2c;
+  .header {
+    .icon {
+      color: #ccc;
+    }
+  }
+  .body {
+    .card {
+      background: none;
+      color: #ccc;
+      border-color: #444;
+      &.active {
+        box-shadow: 0 0 10px rgba(255, 255, 255, .15);
+        font-weight: 600;
+        transition: all .4s ease;
+      }
+      &:hover {
+        box-shadow: 0 0 10px rgba(255, 255, 255, .15);
+      }
     }
   }
 }

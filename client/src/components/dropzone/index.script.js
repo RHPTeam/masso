@@ -32,7 +32,7 @@ export default {
     sendFile() {
       const formData = new FormData();
 
-      formData.append( "file", this.file );
+      formData.append( "profileUrl", this.file );
       this.$store.dispatch( "sendFile", formData );
       this.closeZone();
     }

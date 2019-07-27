@@ -5,7 +5,7 @@
   >
     <div class="modal--content p_4">
       <VuePerfectScrollbar class="detail--scroll">
-        <div v-html="item.content"></div>
+        <div style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;" v-html="item.content"></div>
       </VuePerfectScrollbar>
       <div
         class="gallery d_flex justify_content_start align_items_center flex_wrap"
@@ -47,7 +47,7 @@
               <icon-like />
             </icon-base>
           </span>
-          <span class="reaction--item-number ml_1">1018</span>
+          <span class="reaction--item-number ml_1">{{ item.like }}</span>
         </div>
         <div
           class="reaction--item d_flex justify_content_start align_items_center ml_3"
@@ -62,12 +62,12 @@
               <icon-share />
             </icon-base>
           </span>
-          <span class="reaction--item-number ml_1">354</span>
+          <span class="reaction--item-number ml_1">{{ item.share }}</span>
         </div>
       </div>
-      <div class="action d_flex justify_content_end align_items_center">
+      <div class="action d_flex justify_content_between align_items_center">
         <button class="btn--cancel" @click="closePopupDetail">Hủy</button>
-        <button class="btn--edit ml_4">Chỉnh sửa</button>
+        <button class="btn--edit ml_4" @click="updatePost">Chỉnh sửa</button>
       </div>
     </div>
   </div>
@@ -83,10 +83,21 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    post() {
+      if ( Object.entries( this.$store.getters.post ).length === 0 && this.$store.getters.post.constructor === Object ) return;
+      return this.$store.getters.post;
     }
   },
   methods: {
     closePopupDetail() {
+      this.$emit( "closePopupDetail", false );
+    },
+    updatePost() {
+      this.post.attachments = this.item.attachments;
+      this.post.content = this.item.content;
+
+      this.$store.dispatch( "updatePost", this.post );
       this.$emit( "closePopupDetail", false );
     }
   }
@@ -171,16 +182,18 @@ export default {
     border: 1px solid transparent;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 16px;
-    font-weight: 500;
+    font-size: .875rem;
+    font-weight: 600;
     height: 40px;
+    padding: 0 .75rem;
     outline: none;
-    transition: all 0.4s ease;
-    width: 112px;
+    text-transform: uppercase;
+    transition: background-color .4s ease;
     &.btn--cancel {
-      color: #ffb94a;
+      background-color: transparent;
+      color: #999;
       &:hover {
-        border-color: #ffb94a;
+        background-color: #F7F7F7;
       }
     }
     &.btn--edit {
@@ -188,8 +201,7 @@ export default {
       border-color: #ffb94a;
       color: #fff;
       &:hover {
-        background-color: transparent;
-        color: #ffb94a;
+        background-color: #FF9E4A;
       }
     }
   }

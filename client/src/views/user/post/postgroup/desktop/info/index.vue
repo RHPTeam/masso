@@ -20,20 +20,37 @@
     <!--End: Info Left Component-->
     <!--Start: Info Right Component-->
     <div class="info--right d_flex">
+      <!--Start: Update again pages & groups-->
+      <div class="action mr_2" @click="updateGroupsAndPages" >
+        Cập nhật
+      </div>
+      <!--End: Update again pages & groups-->
+      <!--Start: Remove  selected pages & groups-->
+      <div class="action mr_2"
+         v-if="postGroupGroupsSelected.length !== 0 && groupSelected === true ||
+               postGroupPagesSelected.length !== 0 && groupSelected === true ||
+                postProfileSelected.length !== 0 && groupSelected === true"
+         @click="showDeletePopup"
+      >
+        Xóa khỏi nhóm
+      </div>
+      <!--Start: Remove  selected pages & groups-->
+      <!--Start: Add  selected pages & groups-->
       <div class="action mr_2"
            @click="showAddtoGrPopup"
-           v-if="postGroupGroupsSelected.length !== 0 || postGroupPagesSelected.length !== 0"
+           v-if="postGroupGroupsSelected.length !== 0 || postGroupPagesSelected.length !== 0 || postProfileSelected.length !== 0"
       >Thêm vào nhóm</div>
+      <!--Start: Add  selected pages & groups-->
       <!--Start: Filter Friend By Account Component-->
       <div class="action dropdown--menu mr_2">
         <div
           class="btn--dropdown"
-          @click="showDropdown = !showDropdown"
+          @click="showDropdown = !showDropdown" v-click-outside="closeShowDropdown"
         >
           {{ typeFilterSelected }}
           <icon-base
             class="ml_1"
-            icon-name="icon-arrow-down"
+            icon-name="Lựa chọn"
             width="14"
             height="14"
             viewBox="0 0 160 160"
@@ -45,6 +62,9 @@
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Tất cả')"
           >Tất cả</div>
+          <div class="dropdown--item px_3"
+               @click="updateTypeSelected('Cá nhân')"
+          >Cá nhân</div>
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Trang')"
           >Trang</div>
@@ -64,6 +84,19 @@
         :data-theme="currentTheme"
         @closePopup="isShowAddtoGrPopup = $event"
       ></add-group-popup>
+    </transition>
+    <transition name="popup">
+    <delete-popup
+      v-if="isShowDeletePopup"
+      :data-theme="currentTheme"
+      :multiple="true"
+      title="Xoá nhóm và trang"
+      description="Các nhóm và trang đã chọn sẽ bị xóa khỏi nhóm "
+      @closePopup="isShowDeletePopup = $event"
+      storeActionName="deletePagesNGroupsFromPostGroup"
+      :targetData="targetDeletePopupData"
+      :targetName="postGroupDetail.title"
+    ></delete-popup>
     </transition>
   </div>
 </template>

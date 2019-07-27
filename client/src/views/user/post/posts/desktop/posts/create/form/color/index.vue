@@ -11,7 +11,7 @@
     </div>
     <div class="color--box d_flex align_items_center position_relative" v-if="isShowOption === true">
       <div class="color--item back" @click="comeBackDefault">
-        <icon-base class="ic--search" icon-name="copy" width="15" height="15" viewBox="0 0 28 28">
+        <icon-base class="ic--search" icon-name="Arrow" width="15" height="15" viewBox="0 0 28 28">
           <icon-arrow-left/>
         </icon-base>
       </div>
@@ -19,7 +19,7 @@
       <div v-for="(colors, index) in randomColor" :key="index">
         <div
           class="color--item"
-          @click="hiddeOptionColor(colors.bodyStyle)"
+          @click="hiddeOptionColor(colors.bodyStyle, colors.presetID)"
           :style="colors.bodyStyle"
         ></div>
       </div>
@@ -52,7 +52,7 @@
                     <div
                       class="option"
                       :style="color.bodyStyle"
-                      @click="hiddeOptionColor(color.bodyStyle)"
+                      @click="hiddeOptionColor(color.bodyStyle, color.presetID)"
                     >
                     </div>
                   </div>
@@ -95,12 +95,18 @@ export default {
     close(){
       this.isShowMoreColor = false;
     },
-    async hiddeOptionColor( color ) {
+    async hiddeOptionColor( value, id ) {
+
       await this.$emit( "openContentColor", true );
-      await this.$emit( "changeBgColor", color );
-      this.post.color = color;
-      delete this.post.attachments;
-      this.$store.dispatch( "updatePost", this.post );
+      await this.$emit( "changeBgColor", value );
+      this.$store.dispatch("setPostDefault", {
+        key: "color",
+        value: {
+          id: id,
+          value: value
+        }
+      });
+      this.$store.dispatch( "updatePostColor", this.post );
       this.changeBgColorDefault();
     }
   }

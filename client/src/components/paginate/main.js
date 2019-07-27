@@ -197,6 +197,7 @@ export default {
       if ( this.selected === selected ) {
         return;
       }
+
       this.innerValue = selected;
       this.$emit( "input", selected );
       this.clickHandler( selected );

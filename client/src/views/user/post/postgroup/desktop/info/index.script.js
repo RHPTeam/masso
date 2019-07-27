@@ -1,14 +1,18 @@
-import DeleteFriendsPopup from "../../../../../../components/popups/delete/index";
-import AddGroupPopup from "../popup/addgroup/index";
+import DeletePopup from "@/components/popups/delete";
+import AddGroupPopup from "../popup/addgroup";
 
 export default {
+  components: {
+    DeletePopup,
+    AddGroupPopup
+  },
   props: [ "groupSelected", "typeFilterSelected" ],
   data() {
     return {
       showDropdown: false,
-      isShowDeleteFrPopup: false,
+      isShowDeletePopup: false,
       isShowAddtoGrPopup: false,
-      search: ""
+      targetDeletePopupData: {},
     };
   },
   computed: {
@@ -30,22 +34,36 @@ export default {
     postGroupPagesSelected() {
       return this.$store.getters.postGroupPagesSelected;
     },
+    postProfileSelected() {
+      return this.$store.getters.postProfileSelected;
+    }
   },
 
   methods: {
-    showDeleteFrPopup() {
-      this.isShowDeleteFrPopup = true;
+    closeShowDropdown(){
+      this.showDropdown = false;
+    },
+    showDeletePopup() {
+      this.isShowDeletePopup = true;
+
+      this.targetDeletePopupData = {
+        id: this.postGroupDetail._id,
+        _pages: this.postGroupPagesSelected,
+        _groups: this.postGroupGroupsSelected,
+        _timeline: this.postProfileSelected
+      };
     },
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
+    },
+    updateGroupsAndPages() {
+      this.$store.dispatch( "getAccountsFB" );
+      this.$store.dispatch( "updateFacebookPages" );
+      this.$store.dispatch( "updateFacebookGroups" );
     },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );
       this.showDropdown = false
     }
-  },
-  components: {
-    DeleteFriendsPopup,
-    AddGroupPopup
   }
 };

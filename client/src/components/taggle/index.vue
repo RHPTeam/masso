@@ -6,6 +6,7 @@
       'vue-input-tag-wrapper--active': isInputActive,
     }"
     class="vue-input-tag-wrapper"
+    :data-theme="currentTheme"
   >
     <span v-for="(tag, index) in innerTags" :key="index" class="input-tag">
       <span>{{ tag }}</span>
@@ -30,13 +31,13 @@
 
 <script src="./main.js"></script>
 
-<style>
+<style lang="scss">
 .vue-input-tag-wrapper {
+  border-radius: 10px;
   background-color: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid rgba(16, 16, 16, 0.08);
   overflow: hidden;
-  padding-left: 4px;
-  padding-top: 4px;
+  padding: 4px .375rem 0 .375rem;
   cursor: text;
   text-align: left;
   -webkit-appearance: textfield;
@@ -44,21 +45,21 @@
   flex-wrap: wrap;
 }
 .vue-input-tag-wrapper .input-tag {
-  background-color: #cde69c;
-  border-radius: 2px;
-  border: 1px solid #a5d24a;
-  color: #638421;
+  background-color: #1c1d1fad;
+  border-radius: .375rem;
+  color: #ccc;
   display: inline-block;
-  font-size: 13px;
+  font-size: .875rem;
   font-weight: 400;
+  height: 32px;
+  line-height: 32px;
   margin-bottom: 4px;
   margin-right: 4px;
-  padding: 3px;
+  padding: 0 .5rem;
 }
 .vue-input-tag-wrapper .input-tag .remove {
   cursor: pointer;
-  font-weight: bold;
-  color: #638421;
+  color: #999;
 }
 .vue-input-tag-wrapper .input-tag .remove:hover {
   text-decoration: none;
@@ -70,16 +71,32 @@
   background: transparent;
   border: 0;
   color: #777;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   margin-bottom: 6px;
   margin-top: 1px;
   outline: none;
   padding: 4px;
-  padding-left: 0;
   flex-grow: 1;
+  &::placeholder {
+    color: #ccc;
+  }
 }
 .vue-input-tag-wrapper.read-only {
   cursor: default;
+}
+
+/* CHANGE THEME _________________________ */
+
+/* DARK */
+.vue-input-tag-wrapper[data-theme="dark"]{
+  .new-tag {
+    color: #ccc;
+  }
+}
+
+
+/* LIGHT */
+.vue-input-tag-wrapper[data-theme="light"] {
 }
 </style>

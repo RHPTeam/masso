@@ -1,9 +1,11 @@
 <template>
   <div class="post--info d_flex justify_content_between align_items_center">
     <div class="post--info-show">
-      Hiển thị {{ postsPage.length }} trong số {{ allPosts.length }}
+      Hiển thị {{ allPosts.length }} bản ghi
     </div>
     <paginate
+      v-if="allPosts.length > 0"
+      :value="currentPage"
       :pageCount="postsPageSize"
       :clickHandler="goToPage"
       :prev-text="prevText"
@@ -17,7 +19,7 @@
 
 <script>
 export default {
-  props: [ "currentPage", "filterShowSelected" ],
+  props: [ "currentPage", "filterShowSelected", "filterCategorySelected", "search" ],
   data() {
     return {
       nextText: "&#x203A;",
@@ -33,25 +35,64 @@ export default {
     },
     postsPageSize() {
       return this.$store.getters.postsPageSize;
+    },
+    totalPost(){
+      return this.$store.getters.totalPost;
     }
   },
-  async created() {
-    const dataSender = {
-      size: this.filterShowSelected.id,
-      page: this.currentPage
-    };
-
-    await this.$store.dispatch( "getPostsByPage", dataSender );
-    await this.$store.dispatch( "getAllPost" );
+  async created(){
+    // const page = this.$store.getters.postsPageSize;
+    // if(page === undefined || page === '') {
+    // }
+    await this.$store.dispatch("setPageSizeDefault", 1);
   },
   methods: {
-    goToPage( page ) {
-      const dataSender = {
-        size: this.filterShowSelected.id,
-        page: page
-      };
+    async goToPage( page ) {
+      if ( this.filterCategorySelected.id !== "all" ) {
+        await this.$store.dispatch("getPostByCategories", {
+          categoryId: this.filterCategorySelected.id,
+          size: this.filterShowSelected.id,
+          page: page
+        } );
 
-      this.$store.dispatch( "getPostsByPage", dataSender );
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            categoryId: this.filterCategorySelected.id,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
+      } else if ( this.search.length > 0 ) {
+        const dataSender = {
+          keyword: this.search,
+          size: this.filterShowSelected.id,
+          page: page
+        };
+        await this.$store.dispatch("getPostsByKey", dataSender);
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: {
+            search: this.search,
+            size: this.filterShowSelected.id,
+            page: page
+          }
+        } );
+      } else  {
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: page
+        };
+        await this.$store.dispatch( "getPostsByPage", dataSender );
+
+        this.$router.replace( {
+          name: "post_posts",
+          query: { size: this.filterShowSelected.id, page: page }
+        } );
+      }
+
+      this.$parent.$parent.$parent.$parent.$parent.$refs.scroll.$el.scrollTop = 0;
     },
     updateCurrentPage( val ) {
       this.$emit( "updateCurrentPage", val );

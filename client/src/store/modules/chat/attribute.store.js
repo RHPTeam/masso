@@ -1,4 +1,4 @@
-import AttributeService from "@/services/modules/attributes.service";
+import AttributeService from "@/services/modules/chat/attribute.service";
 
 const state = {
   attr: [],

@@ -3,11 +3,12 @@
     class="btn btn--filter"
     @click="showFilterDropdown = !showFilterDropdown"
     :data-theme="currentTheme"
+    v-click-outside="closeFilterDropdown"
   >
     {{ filterSelected.name }}
     <icon-base
       class="ml_1"
-      icon-name="icon-sort-down"
+      icon-name="Lựa chọn"
       width="16"
       height="16"
       viewBox="0 0 16 16"
@@ -52,6 +53,9 @@ export default {
   methods: {
     updateFilterSelected( data ) {
       this.$emit( "updateFilterSelected", data );
+    },
+    closeFilterDropdown(){
+      this.showFilterDropdown = false;
     }
   }
 };

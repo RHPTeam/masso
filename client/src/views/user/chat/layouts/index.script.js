@@ -1,23 +1,23 @@
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import Loading from "@/components/shared/loading";
-import MobileLoading from "@/components/shared/mobile_loading";
-import AppNotification from "@/components/shared/notification";
-import AppHeader from "@/components/layouts/header";
-import AppSidebar from "@/components/layouts/sidebar";
-import HeaderMobile from "@/components/layouts/mobile/header";
-import SearchMobile from "@/components/layouts/mobile/search";
-import FooterMobile from "@/components/layouts/mobile/footer";
+import AppNotification from "./desktop/notification";
+import AppHeader from "./desktop/header";
+import AppSidebar from "./desktop/sidebar";
+import AppExpire from "./desktop/expire";
 
 export default {
   data() {
     return {
-      timer: ""
+      timer: "",
+      statusNetwork: true,
+      isShowPopupExpire: false
     };
   },
-  async created() {
+  created() {
     this.startUpdateTimer();
-    await this.$store.dispatch("getUserInfo");
-    await this.$store.dispatch("getAccountsFB");
+    this.$store.dispatch("getUserInfo");
+    this.$store.dispatch("getAccountsFB");
+    this.$store.dispatch( "getAllFriendFacebook" );
   },
   beforeDestroy() {
     this.stopUpdateTimer();
@@ -50,7 +50,7 @@ export default {
       if (!value) return;
       if (typeof value === "number") return;
       if (parseInt(value.getHours()) > 5 && parseInt(value.getHours()) < 18) {
-        this.$store.dispatch("changeThemeName", "light");
+        this.$store.dispatch("changeThemeName", "dark");
       } else if (
         (parseInt(value.getHours()) >= 18 &&
           parseInt(value.getHours()) <= 23) ||
@@ -61,22 +61,21 @@ export default {
     }
   },
   sockets: {
-    async checkLogout(value) {
+    async statusAccount(value) {
       console.log(value);
-      if (value.account.status == false && value.code === 1403) {
+      if (value === 405) {
         this.$store.dispatch("getAccountsFB");
+      } else if (value === 404) {
+        this.statusNetwork = false;
       }
     }
   },
   components: {
     VuePerfectScrollbar,
     Loading,
-    MobileLoading,
     AppHeader,
     AppSidebar,
-    HeaderMobile,
-    SearchMobile,
-    FooterMobile,
-    AppNotification
+    AppNotification,
+    AppExpire
   }
 };

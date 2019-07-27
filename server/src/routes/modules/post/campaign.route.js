@@ -17,4 +17,13 @@ router
 router
   .route( "/duplicate" )
   .post( CampaignController.duplicate );
+
+router
+  .route( "/sync/duplicate" )
+  .post( CampaignController.duplicateSyncCampaignExample );
+
+router
+  .route( "/search" )
+  .post( CampaignController.search );
+
 module.exports = router;

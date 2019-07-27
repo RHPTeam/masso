@@ -58,3 +58,23 @@
     }
   }
 }
+
+// *************** CHANGE THEME
+
+
+// DARK
+.perinfo--wrapper[data-theme="dark"]{
+  .wrapper--form .form_group input{
+    background: #27292d;
+    color: #fff;
+    border: 1px solid #ccc;
+  }
+}
+
+
+// LIGHT
+.perinfo--wrapper[data-theme="dark"]{
+  .wrapper--form .form_group input{
+    
+  }
+}

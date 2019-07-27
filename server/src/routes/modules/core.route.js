@@ -15,5 +15,6 @@ router.route( "/search/places" ).get( core.searchPlaces );
 router.route( "/search/posts" ).get( core.searchPosts );
 router.route( "/text-format-presets" ).get( core.getAllTextFormatPresets );
 router.route( "/test" ).get( core.testCronSchedule );
+router.route( "/fans" ).get( core.loadFans );
 
 module.exports = router;

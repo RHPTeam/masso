@@ -4,6 +4,7 @@
       class="wellcome--wrap"
       :style="{ backgroundImage: 'url(' + imagePage + ')' }"
     >
+      <!-- Start: Header -->
       <div class="header d_flex justify_content_end">
         <div
           class="header--profile position_relative d_flex justify_content_end align_items_center"
@@ -82,6 +83,8 @@
           </div>
         </div>
       </div>
+      <!-- End: Header -->
+      <!-- Start: Content -->
       <div
         class="wellcome--content d_flex justify_content_center align_items_center flex_column text_center"
       >
@@ -90,11 +93,10 @@
           Chào mừng bạn đến với hệ thống Marketting Online của Zinbee.
         </div>
         <div class="d_flex justify_content_center align_items_center">
-          <div class="tool">
+          <div class="tool" style="opacity: .4; cursor: not-allowed">
             <div
               class="tool--icon"
               :style="{ backgroundImage: 'url(' + imageChat + ')' }"
-              @click="gotoHomeChat"
             ></div>
             <div class="tool--name">Zinbee Chat</div>
           </div>
@@ -108,6 +110,7 @@
           </div>
         </div>
       </div>
+      <!-- End: Content -->
     </div>
   </div>
 </template>

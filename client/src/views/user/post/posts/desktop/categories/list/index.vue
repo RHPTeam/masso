@@ -2,17 +2,11 @@
   <div class="category--data my_3" :data-theme="currentTheme">
     <div class="wrapper">
       <div class="item--header d_flex align_items_center px_3 py_2">
-        <!--<div class="col col--checkbox px_2">
-          <label class="detail--checkbox mb_0">
-            <input type="checkbox"/>
-          </label>
-        </div>-->
         <div class="col col--category px_2">Tên danh mục</div>
-        <div class="col col--posts text_center px_2">Số bài viết</div>
         <div class="col col--description px_2">Mô tả</div>
-        <div class="col col--action px_4">Hành động</div>
+        <div class="col col--posts text_center px_2">Số bài viết</div>
+        <div class="col col--action text_center px_4">Hành động</div>
       </div>
-
       <div class="loading--block mt_3"
            v-if="this.$store.getters.statusCategories === 'loading'"
       >
@@ -20,13 +14,13 @@
       </div>
 
       <div class="item--wrap" v-else>
-        <div v-if="filterCategories.length === 0"
+        <div v-if="statusCategories === 'success' && categories.length === 0"
              class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
           Không có dữ liệu
         </div>
         <div v-else>
           <item-categories
-            v-for="(item, index) in filterCategories"
+            v-for="(item, index) in categories"
             :key="index"
             :item="item"
             @updateCategory="updateCategory($event)"
@@ -37,6 +31,7 @@
       <!-- Start: Paginate Categories -->
       <div class="mt_3">
         <category-paginate
+          :search="search"
           :currentPage="currentPage"
           :filterShowSelected="filterShowSelected"
           @updateCurrentPage="updateCurrentPage($event)"

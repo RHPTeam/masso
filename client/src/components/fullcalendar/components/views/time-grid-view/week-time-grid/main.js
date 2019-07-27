@@ -73,16 +73,20 @@ export default {
       this.eventHoverData = eventData;
     },
     filterEventsByDay( day ) {
-      return this.eventsOfWeek.filter( ( event ) => {
-        return this.compareDate( day, event.started_at );
-      } );
+      if ( Array.isArray( this.eventsOfWeek ) ) {
+        return this.eventsOfWeek.filter( ( event ) => {
+          return this.compareDate( day, event.started_at );
+        } );
+      }
     },
     filterEventsByTime( hour, events ) {
-      return events.filter( ( event ) => {
-        const eventStartTime = new Date( event.started_at ).getHours();
+      if ( Array.isArray( events ) ) {
+        return events.filter( ( event ) => {
+          const eventStartTime = new Date( event.started_at ).getHours();
 
-        return eventStartTime === hour;
-      } );
+          return eventStartTime === hour;
+        } );
+      }
     },
     formatTime( d ) {
       const dateTime = new Date( d ),

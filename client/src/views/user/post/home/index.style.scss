@@ -68,6 +68,7 @@
   $table-border: #e4e4e4;
   $row-bg: #f4f2f1;
   .order {
+    flex: 1;
     .top {
       .title--overview{
         font-size: 1rem;
@@ -82,6 +83,10 @@
         }
       }
     }
+  }
+  .server{
+    // margin-right: 1rem;
+    // flex: 1;
   }
   .table-container {
     display: block;
@@ -174,7 +179,7 @@
     .flex-table {
       color: #ccc;
       &.header {
-        background-color: #ffbf54;
+        background-color: #2f3136;
         .flex-row {
           color: #fff;
         }
@@ -193,4 +198,22 @@
       color: #f7f7f7;
     }
   }
+}
+
+
+
+//  ***************** RESPONSIVE  *****************
+
+@media only screen and (min-width: 768px) and (max-width: 1225px) {
+  .order--server-history{
+    .order, .server{
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+    .server{
+      margin-bottom: 1rem;
+      padding-right: 0!important;
+    }
+  }
+  
 }

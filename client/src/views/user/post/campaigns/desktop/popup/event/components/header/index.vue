@@ -26,10 +26,12 @@
             <icon-copy />
           </icon-base>
         </div>-->
-        <div class="button remove mr_2">
+        <div class="button remove mr_2"
+             v-if="event._id"
+             @click="isDeleteEvent = true">
           <icon-base
             class="ic--remove"
-            icon-name="ic--remove"
+            icon-name="Xóa"
             width="24"
             height="24"
             viewBox="0 0 16 16"
@@ -48,23 +50,24 @@
     </div>
     <!-- End: Row -->
     <!-- Start: Row -->
-    <div class="r mx_0 justify_content_between mt_3">
+    <div class="r mx_0 justify_content_between mt_2">
       <div class="left">
         <div class="d_flex">
-          <toggle-switch
-            class="mr_2"
-            :value="event.type_event === 0 ? false : true"
-            @change="changeStatus($event.value)"
-            :sync="true"
-            :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"
-            :switch-color="{
-              checked: event.color,
-              unchecked: '#e4e4e4'
-            }"
-          />
-          <span>
-            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng
-          </span>
+<!--          <toggle-switch-->
+<!--            class="mr_2"-->
+<!--            :value="event.type_event === 0 ? false : true"-->
+<!--            @change="changeStatus($event.value)"-->
+<!--            :sync="true"-->
+<!--            :color="{ checked: '#FFFFFF', unchecked: '#FFFFFF' }"-->
+<!--            :switch-color="{-->
+<!--              checked: event.color,-->
+<!--              unchecked: '#e4e4e4'-->
+<!--            }"-->
+<!--          />-->
+<!--          <span>-->
+<!--            Tự động đăng bài trên trang cá nhân vào các khung giờ vàng-->
+<!--          </span>-->
+          <div class="desc">Tên sự kiện giúp bạn phân biệt giữa các sự kiện trong một ngày</div>
         </div>
       </div>
       <div class="right">
@@ -108,7 +111,7 @@
     </div>
     <!-- End: Row -->
     <!-- Start: Row -->
-    <div class="r mx_0 justify_content_between mt_3">
+    <div class="r mx_0 justify_content_between mt_2">
       <header-time></header-time>
     </div>
     <!-- End: Row -->
@@ -119,15 +122,28 @@
       </div>
     </div>
     <!-- End: Row -->
+
+    <!-- Start: POPUP DELETE-->
+    <delete-event
+      v-if="isDeleteEvent === true"
+      title="Xóa sự kiện trong chiến dịch"
+      @closePopup="changeStatusDelete($event)"
+      storeActionName="Xóa sự kiện"
+      :targetData="event"
+      typeName="sự kiện"
+    ></delete-event>
+    <!--End: POPUP DELETE-->
   </div>
 </template>
 
 <script>
 import HeaderTime from "./time";
+import DeleteEvent from "./delete"
 
 export default {
   components: {
-    HeaderTime
+    HeaderTime,
+    DeleteEvent
   },
   props: {
     event: Object
@@ -137,7 +153,13 @@ export default {
       colors: [ "#85CFFF", "#BE92E3", "#7BD48A", "#999999", "#FFB94A", "#FF8787" ],
       isShowColorDropdown: false,
       error: false,
-      errorData: []
+      errorData: [],
+      isDeleteEvent: false
+    }
+  },
+  computed: {
+    categories() {
+      return this.$store.getters.allCategories;
     }
   },
   methods: {
@@ -205,9 +227,21 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
+        } else if ( this.event.hasOwnProperty( "post_category" ) ) {
+          const categoryFilter = this.categories.filter( ( item ) => {
+            return item._id === this.event.post_category._id;
+          } );
+
+          if ( categoryFilter[0].totalPosts === 0 ) {
+            this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
+            return false;
+          }
         }
       }
 
@@ -230,7 +264,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -245,6 +279,11 @@ export default {
         value: []
       } );
 
+      this.$store.dispatch( "setEventReset" );
+    },
+    changeStatusDelete(val){
+      this.isDeleteEvent = val;
+      this.close();
     },
     async updateEvent() {
       this.error = false;
@@ -263,9 +302,21 @@ export default {
         if ( this.event.post_custom.length === 0 && !this.event.post_category ) {
           this.errorData.push( "Vui lòng chọn bài đăng để hoàn tất việc tạo sự kiện!" );
           return false;
-        } else if ( this.event.target_custom.length === 0 && !this.event.target_category ) {
+        } else if ( this.event.target_custom.length === 0 &&
+          !this.event.target_category &&
+          this.event.timeline.length === 0
+        ) {
           this.errorData.push( "Vui lòng chọn nơi đăng để hoàn tất việc tạo sự kiện!" );
           return false;
+        } else if ( this.event.hasOwnProperty( "post_category" ) ) {
+          const categoryFilter = this.categories.filter( ( item ) => {
+            return item._id === this.event.post_category._id;
+          } );
+
+          if ( categoryFilter[0].totalPosts === 0 ) {
+            this.errorData.push( "Danh mục đã chọn không có bài viết nào!" );
+            return false;
+          }
         }
       }
 
@@ -288,7 +339,7 @@ export default {
       } );
       this.$store.dispatch( "setCaseEvent", {
         key: "post",
-        value: 0
+        value: 1
       } );
       this.$store.dispatch( "setEvent", {
         key: "break_point",
@@ -302,6 +353,8 @@ export default {
         key: "target_custom",
         value: []
       } );
+
+      this.$store.dispatch( "setEventReset" );
     }
   }
 }
