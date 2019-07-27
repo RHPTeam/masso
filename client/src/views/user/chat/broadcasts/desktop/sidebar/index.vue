@@ -27,6 +27,7 @@
       </div>
     </div>
     <!--End: Deliver your message now-->
+    <div>{{ allBroadcasts }}</div>
     <!--Start: Schedule -->
     <div class="group--item schedule">
       <!--Start: Schedule Header -->

@@ -9,10 +9,13 @@
     }
   }
   .option--time-item {
-    height: 40px;
-    border-radius: 10px;
+    border: 0;
+    border-radius: .625rem;
+    box-shadow: none;
     cursor: pointer;
     font-size: .875rem;
+    height: 40px;
+    outline: 0;
     transition: 0.3s ease-in;
     &:hover,
     &:focus,
@@ -32,7 +35,6 @@
 }
 .option--time-hours {
   cursor: pointer;
-  width: 100px;
 }
 .option--time-repeat {
   input {
@@ -194,5 +196,58 @@ div.timer[data-theme="dark"] {
   .option--custom-wrap {
     background: #27292d;
     color: #ffffff;
+  }
+}
+
+div[data-theme="light"] .timer {
+  .option--time-days {
+    input[name="date-setting"] {
+      background: #ffffff;
+      border: 1px solid #e4e4e4;
+      color: #495057;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 10px;
+      height: 40px;
+      padding-left: 1rem;
+      &:hover,
+      &:active,
+      &:visited,
+      &:focus {
+        box-shadow: none;
+        outline: 0;
+        border-color: #e4e4e4;
+      }
+    }
+  }
+  .option--time .icon svg {
+    color: #666;
+  }
+}
+
+div[data-theme="dark"] .timer {
+  .option--time-days {
+    input[name="date-setting"] {
+      background: #27292d;
+      border: 1px solid #27292d;
+      color: #ccc;
+      cursor: pointer;
+      font-size: 1rem;
+      border-radius: 0.5rem;
+      height: 40px;
+      padding-left: 1rem;
+      &:hover,
+      &:active,
+      &:visited,
+      &:focus {
+        box-shadow: none;
+        outline: 0;
+        border-color: #27292d;
+      }
+    }
+  }
+  .mx-input {
+    background: #27292d;
+    border: 0;
   }
 }
