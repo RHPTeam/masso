@@ -39,12 +39,6 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  },
-  async created() {
-    await this.$store.dispatch("getFriendFbBySize", {
-      size:  this.currentSize,
-      page: this.currentPage
-    });
   }
 };
 </script>

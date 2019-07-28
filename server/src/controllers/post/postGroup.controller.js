@@ -150,7 +150,7 @@ module.exports = {
     if ( req.query.keyword === undefined ) {
       return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
     }
-    console.log( req.query.keyword )
+    
     const findPostGroup = ( await PostGroup.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } ).lean() );
 
     res.status( 200 ).json( jsonResponse( "success", findPostGroup ) );

@@ -12,7 +12,7 @@
     </div>
     <!-- End: Name Column -->
     <!-- Start: Category Column -->
-    <div class="col col--category px_2">
+    <div class="col col--category px_2 d_sm_block d_none">
       <span v-for="(category, index) in item._categories"
             :key="`c-${index}`"
       >
@@ -42,7 +42,7 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1 d_none" @click="showPostNowPopup">
+      <span class="mx_1" @click="showPostNowPopup">
         <icon-base
           class="icon--post-now"
           icon-name="Đăng ngay"

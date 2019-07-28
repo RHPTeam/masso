@@ -24,7 +24,7 @@ const MessageSchema = new Schema( {
     "type": Schema.Types.ObjectId,
     "ref": "Facebook"
   },
-  "_receiver": Object,
+  "_receiver": Array,
   "stranger": {
     "id": String,
     "name": String,

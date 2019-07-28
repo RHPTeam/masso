@@ -1,3 +1,4 @@
+/* eslint-disable prefer-template */
 /**
  * Controller campaign (profile) for project
  * author: hoc-anms
@@ -452,7 +453,6 @@ module.exports = {
         await newCampaign.save();
       }
     }
-
     // eslint-disable-next-line one-var
     const findCampaign = await Campaign.findOne( { "_id": newCampaign._id, "_account": req.uid } ).populate( "_events" ).lean();
 

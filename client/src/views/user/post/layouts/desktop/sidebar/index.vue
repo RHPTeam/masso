@@ -142,7 +142,7 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "index.style";

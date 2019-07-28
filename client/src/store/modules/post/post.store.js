@@ -4,6 +4,7 @@ import RemoveFunction  from "@/utils/functions/array";
 
 const state = {
   allPost: [],
+  allPostSearchMobile: [],
   errorPost: "",
   newPost: [],
   defaultPost: {
@@ -27,36 +28,45 @@ const state = {
     }
   },
   postAttachmentsUpload: [],
+  postsFilterByCategory: [],
   postOfCate: [],
   postsPage: [],
+  postsPageMobile: [],
   postsPageInfinite: [],
   postsPageSize: 1,
+  postsPageSizeFilter: 1,
   statusPost: "",
   statusOnePost: "",
   totalPost: null,
   newestPost: [],
   infoPostCateDefault: 0,
   statusPostCateDefault: "",
-  titleCategory: ""
+  titleCategory: "",
+  idCategoryToLoadMore: ""
 };
 const getters = {
   allPost: ( state ) => state.allPost,
+  allPostSearchMobile: state => state.allPostSearchMobile,
   errorPost: ( state ) => state.errorPost,
   defaultPost: ( state ) => state.defaultPost,
   newPost: ( state ) => state.newPost,
   post: ( state ) => state.post,
   postAttachmentsUpload: ( state ) => state.postAttachmentsUpload,
+  postsFilterByCategory: state => state.postsFilterByCategory,
   postOfCate: ( state ) => state.postOfCate,
   postsPage: ( state ) => state.postsPage,
+  postsPageMobile: (state) => state.postsPageMobile,
   postsPageInfinite: ( state ) => state.postsPageInfinite,
   postsPageSize: ( state ) => state.postsPageSize,
+  postsPageSizeFilter: state => state.postsPageSizeFilter,
   statusPost: ( state ) => state.statusPost,
   statusOnePost: ( state ) => state.statusOnePost,
   totalPost: ( state ) => state.totalPost,
   newestPost: state => state.newestPost,
   infoPostCateDefault: state => state.infoPostCateDefault,
   statusPostCateDefault: state => state.statusPostCateDefault,
-  titleCategory: state => state.titleCategory
+  titleCategory: state => state.titleCategory,
+  idCategoryToLoadMore: state => state.idCategoryToLoadMore
 };
 const mutations = {
   post_request: ( state ) => {
@@ -102,11 +112,22 @@ const mutations = {
   setPostsPage: ( state, payload ) => {
     state.allPost = payload;
   },
+  setPostsPageMobile: (state, payload) => {
+    state.allPostSearchMobile = payload;
+  },
+  // mobile - search - load more
+  setPostsPageMobileSearch: (state, payload) => {
+    state.allPostSearchMobile = state.allPostSearchMobile.concat(payload);
+  },
   setPostsPageInfinite: ( state, payload ) => {
     state.postsPageInfinite = state.postsPageInfinite.concat( payload );
   },
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
+  },
+  // mobile
+  setPostsPageSizeFilter: ( state, payload ) => {
+    state.postsPageSizeFilter = payload;
   },
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
@@ -121,6 +142,10 @@ const mutations = {
   },
   setDeletePost: (state, payload) => {
     state.allPost = payload;
+  },
+  // mobile
+  setDeletePostSearch: (state, payload) => {
+    state.allPostSearchMobile = payload;
   },
   // setNewestPost
   setNewestPost: (state, payload) => {
@@ -142,12 +167,26 @@ const mutations = {
   },
   setTitleCategories: (state, payload) => {
     state.titleCategory = payload;
+  },
+  // set post by page to get number posts in that page
+  setPostByPage: (state, payload) => {
+    state.allPost = state.allPost.concat(payload);
+  },
+  // Mobile
+  setPostsFilterByCategoryMobile: (state, payload) => {
+    state.postsFilterByCategory = payload;
+  },
+  setPostsByCategoryToLoadMore: (state, payload) => {
+    state.postsFilterByCategory = state.postsFilterByCategory.concat(payload);
+  },
+  setIdCategoryToLoadmore: (state, payload) => {
+    state.idCategoryToLoadMore = payload;
   }
 };
 const actions = {
   createNewPost: async ( { commit }, payload ) => {
     commit( "post_request" );
-
+    
     const resultPostCreate = await PostServices.createNewPost( payload );
     commit( "setNewPost", resultPostCreate.data.data );
 
@@ -164,6 +203,16 @@ const actions = {
     );
 
     commit("setDeletePost", allPost);
+    await PostServices.deletePost( payload.id );
+  },
+  // delete post when search for mobile
+  deletePostSearch: async ( { commit }, payload ) => {
+
+    const allPostSearchMobile = state.allPostSearchMobile.filter(
+      ( allPostSearchMobile ) => allPostSearchMobile._id !== payload.id
+    );
+
+    commit("setDeletePostSearch", allPostSearchMobile);
     await PostServices.deletePost( payload.id );
   },
   getAllPost: async ( { commit } ) => {
@@ -195,6 +244,34 @@ const actions = {
 
     commit( "post_success" );
   },
+  // mobile ...
+  getPostByCategoriesMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getByCategories(
+      payload.categoryId,
+      payload.size,
+      payload.page
+    );
+    await commit( "setPostsFilterByCategoryMobile", res.data.data.results );
+    await commit( "setPostsPageSizeFilter", res.data.data.page );
+    await commit( "setIdCategoryToLoadmore", payload.categoryId );
+
+    commit( "post_success" );
+  },
+  getPostByCategoriesLoadMoreMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getByCategories(
+      payload.categoryId,
+      payload.size,
+      payload.page
+    );
+    await commit( "setPostsByCategoryToLoadMore", res.data.data.results );
+    await commit( "setPostsPageSizeFilter", res.data.data.page );
+
+    commit( "post_success" );
+  },
 
   showPostCateDefaultById: async ({commit}, payload) => {
     commit("post_request");
@@ -219,7 +296,6 @@ const actions = {
   setTitleCate: async ({commit}, payload) => {
     commit("setTitleCategories", payload);
   },
-
   getPostsByPage: async ( { commit }, payload ) => {
     commit( "post_request" );
 
@@ -228,6 +304,18 @@ const actions = {
     await commit( "setPostsPageSize", res.data.data.page );
     await commit( "setTotalPost", res.data.data.total );
     await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  // get post by page to concat post to load more
+  getPostsByPageMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostByPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    // await commit( "setTotalPost", res.data.data.total );
+    // await commit( "setPostsPageInfinite", res.data.data.results );
 
     commit( "post_success" );
   },
@@ -266,6 +354,25 @@ const actions = {
 
     commit( "post_success" );
   },
+  // get post by key when search mobile
+  getPostsByKeyMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPageMobile", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    
+    commit( "post_success" );
+  },
+  getPostsByKeyMobileLoadMore: async ({commit}, payload) => {
+    commit( "post_request" );
+    const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
+
+    await commit( "setPostsPageMobileSearch", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    
+    commit( "post_success" );
+  },
   resetPostsPageInfinite: async ( { commit } ) => {
     commit( "resetPostsPageInfinite", [] );
   },
@@ -293,6 +400,21 @@ const actions = {
 
     const resultPostById = await PostServices.getById( payload._id );
     commit( "setPost", resultPostById.data.data );
+
+    commit("setPost", payload);
+
+    commit("setUpdatePost", payload);
+
+    commit( "post_success" );
+  },
+  // Mobile: update dont get info
+  updatePostMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    await PostServices.updatePost( payload._id, payload );
+
+    // const resultPostById = await PostServices.getById( payload._id );
+    // commit( "setPost", resultPostById.data.data );
 
     commit("setPost", payload);
 

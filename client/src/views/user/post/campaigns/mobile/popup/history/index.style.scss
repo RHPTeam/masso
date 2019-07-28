@@ -1,0 +1,123 @@
+.modal--wrapper {
+  background-color: #fafafa;
+  box-shadow: 0 0 8px rgba( 0, 0, 0, .1 );
+  font-size: .95rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999;
+  .modal--header {
+    padding: 0.625rem 0;
+    border-bottom: 1px solid #444;
+    .arrow-down {
+      transform: rotate(90deg);
+      margin-left: 0.5rem;
+    }
+    .title {
+      font-weight: 600;
+    }
+  }
+  .modal--body {
+    font-size: .825rem;
+    .data--empty {
+      color: #999;
+    }
+    .history--list {
+      .history--list-item {
+        background-color: #fff;
+        border-radius: .5rem;
+        margin-bottom: .75rem;
+        padding: .5rem .75rem;
+        .account--group {
+          font-size: .8rem;
+          .account--list {
+            .account--list-item {
+              display: inline-block;
+              margin-right: .5rem;
+              margin-bottom: .25rem;
+              .avatar {
+                border-radius: 100%;
+                height: 16px;
+                margin-right: .25rem;
+                vertical-align: middle;
+                width: 16px;
+              }
+              .name {
+                display: inline-block;
+              }
+            }
+          }
+        }
+        .post--title {
+          font-weight: 600;
+          .see--post {
+            font-size: .75rem;
+            font-style: italic;
+            font-weight: normal;
+            a {
+              color: #008ed6;
+              transition: all .4s ease;
+              &:hover {
+                color: #008ed6;
+              }
+            }
+          }
+          .link--post {
+            color: #008ed6;
+            cursor: pointer;
+            font-size: .7rem;
+          }
+        }
+        .post--time {
+          color: #999;
+          font-size: .7rem;
+        }
+        .post--status {
+          border: 1px solid;
+          border-radius: .25rem;
+          font-size: .75rem;
+          padding: 0 .25rem;
+          &.success {
+            border-color: #58CE41;
+            color: #58CE41;
+          }
+          &.uploading {
+            border-color: #ffcf3f;
+            color: #ffcf3f;
+          }
+        }
+      }
+    }
+  }
+  .modal--scroll {
+    max-height: calc( 100vh - 46px);
+  }
+}
+
+/* Transition */
+.slide-fade-enter-active {
+  transition: all .5s ease;
+}
+.slide-fade-leave-active {
+  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+.slide-fade-enter, .slide-fade-leave-to {
+  transform: translateX(100%);
+  opacity: 0;
+}
+
+.modal--wrapper[data-theme="dark"] {
+  background-color: #2f3136;
+  .modal--header {
+    background-color: #2f3136;
+  }
+  .modal--body {
+    .history--list {
+      .history--list-item {
+        background-color: #27292d;
+      }
+    }
+  }
+}

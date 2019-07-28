@@ -9,16 +9,11 @@
  */
 
 const GroupFriend = require( "../../models/chat/GroupFriend.model" );
+const Friend = require( "../../models/chat/Friend.model" );
 
 const jsonResponse = require( "../../configs/response" );
 const Dictionaries = require( "../../configs/dictionaries" );
-const ArrayFunction = require( "../../helpers/utils/functions/array" );
-
-const checkObjectExist = ( arr, property ) => {
-  return arr.some( function( el ) {
-    return el.uid === property;
-  } );
-};
+const { removeDuplicates } = require( "../../helpers/utils/functions/array" );
 
 module.exports = {
   /**
@@ -28,14 +23,21 @@ module.exports = {
    *
    */
   "index": async ( req, res ) => {
-    let dataResponse = null;
+    let dataResponse = null, friends = null;
 
     if ( req.query._id ) {
-      dataResponse = await GroupFriend.find( { "_id": req.query._id, "_account": req.uid } ).lean();
+      dataResponse = await GroupFriend.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
+      if ( dataResponse && dataResponse._friends.length > 0 ) {
+        friends = await Promise.all( dataResponse._friends.map( async ( friend ) => {
+          const findFriend = await Friend.findOne( { "_account": req.uid, "userID": friend }, "-__v -created_at -_id -updated_at" ).lean();
+
+          return findFriend;
+        } ) );
+      }
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await GroupFriend.find( { "_account": req.uid } ).lean();
     }
-    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "success", { "data": dataResponse, "friends": friends } ) );
   },
   /**
    *  create item friends
@@ -103,11 +105,14 @@ module.exports = {
     }
     foundGroupFriend.name = req.body.name;
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findOne( {
-      "_id": req.query._groupId
-    } ).lean();
+    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId, "_account": req.uid } ).lean(),
+      resultFriend = await Promise.all( resFriend.map( async ( friend ) => {
+        const findFriend = await Friend.findOne( { "_account": req.uid, "userID": friend }, "-__v -created_at -_id -updated_at" ).lean();
 
-    res.status( 201 ).json( jsonResponse( "success", resGroupFriend ) );
+        return findFriend;
+      } ) );
+
+    res.status( 201 ).json( jsonResponse( "success", { "groupFriend": resGroupFriend, "friends": resultFriend } ) );
   },
   /**
    *  add friends to item friends
@@ -122,29 +127,19 @@ module.exports = {
       return res.status( 403 ).json( jsonResponse( "fail", "Nhóm bạn bè không tồn tại!" ) );
     }
 
-    const friends = req.body.friendId;
-    let checkCon = false;
+    const friends = req.body.friendId,
+      resFriend = removeDuplicates( friends.concat( friends, foundGroupFriend._friends ) );
 
-    friends.map( async ( val ) => {
-      if ( checkObjectExist( foundGroupFriend._friends, val.uid ) ) {
-        checkCon = true;
-        return checkCon;
-      }
-    } );
-    if ( checkCon ) {
-      return res.status( 405 ).json( jsonResponse( "fail", "Bạn đã thêm một trong những bạn bè này!" ) );
-    }
-    const checkFriend = ArrayFunction.removeObjectDuplicates( friends, "uid" );
-
-    checkFriend.map( ( val ) => {
-      foundGroupFriend._friends.push( val );
-    } );
+    foundGroupFriend._friends = resFriend;
     await foundGroupFriend.save();
-    const resGroupFriend = await GroupFriend.findOne( {
-      "_id": req.query._groupId
-    } );
+    const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId } ).lean(),
+      resultFriend = await Promise.all( resFriend.map( async ( friend ) => {
+        const findFriend = await Friend.findOne( { "_account": req.uid, "userID": friend }, "-__v -created_at -_id -updated_at" ).lean();
 
-    res.status( 200 ).json( jsonResponse( "success", resGroupFriend ) );
+        return findFriend;
+      } ) );
+
+    res.status( 200 ).json( jsonResponse( "success", { "groupFriend": resGroupFriend, "friends": resultFriend } ) );
   },
   /**
    *  delete item friends
@@ -163,7 +158,7 @@ module.exports = {
       let checkCon = false;
 
       friends.map( async ( val ) => {
-        if ( checkObjectExist( foundGroupFriend._friends, val.uid ) === false ) {
+        if ( foundGroupFriend._friends.indexOf( val ) < 0 ) {
           checkCon = true;
           return checkCon;
         }
@@ -172,15 +167,20 @@ module.exports = {
         return res.status( 405 ).json( jsonResponse( "fail", "Bạn không có một trong những người bạn ở nhóm bạn bè này!" ) );
       }
 
-      const checkFriend = ArrayFunction.removeObjectDuplicates( friends );
+      const checkFriend = removeDuplicates( friends );
 
       checkFriend.map( ( val ) => {
         foundGroupFriend._friends.pull( val );
       } );
       await foundGroupFriend.save();
-      const resGroupFriend = await GroupFriend.findById( req.query._groupId );
+      const resGroupFriend = await GroupFriend.findOne( { "_id": req.query._groupId, "_account": req.uid } ).lean(),
+        resultFriend = await Promise.all( resGroupFriend._friends.map( async ( friend ) => {
+          const findFriend = await Friend.findOne( { "_account": req.uid, "userID": friend }, "-__v -created_at -_id -updated_at" ).lean();
 
-      return res.status( 200 ).json( jsonResponse( "success", resGroupFriend ) );
+          return findFriend;
+        } ) );
+
+      return res.status( 200 ).json( jsonResponse( "success", { "groupFriend": resGroupFriend, "friends": resultFriend } ) );
     }
     await GroupFriend.findByIdAndRemove( req.query._groupId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

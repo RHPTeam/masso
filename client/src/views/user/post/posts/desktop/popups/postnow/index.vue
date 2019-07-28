@@ -10,26 +10,26 @@
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <vue-perfect-scrollbar class="modal--scroll my_3">
-          <div class="modal--body">
+        <div class="modal--body">
             <!-- Start: Target -->
             <target
               :postSchedule="postSchedule"
+              @changeTimer ="showTimer = $event"
               @updatePostSchedule="postSchedule = $event"
             ></target>
             <!-- End: Target -->
+
             <!-- Start: Timer -->
             <transition name="faded">
               <timer
                 class="mt_4"
-                v-if="postSchedule._facebookId.length > 1"
+                v-if="showTimer === true"
                 :postSchedule="postSchedule"
                 @updatePostSchedule="postSchedule = $event"
               ></timer>
             </transition>
             <!-- End: Timer -->
           </div>
-        </vue-perfect-scrollbar>
         <!-- End: Modal Body -->
         <!-- Start: Modal Footer -->
         <div class="modal--footer d_flex justify_content_between align_items_center">
@@ -60,9 +60,13 @@ export default {
   props: [ "post" ],
   data() {
     return {
+      showTimer: false,
       postSchedule: {
         breakPoint: 10,
-        _facebookId: []
+        started_at: new Date(),
+        _facebookId: [],
+        _groupId: [],
+        _fanpageId: []
       }
     };
   },
@@ -76,15 +80,53 @@ export default {
       this.$emit( "closePopup", false );
     },
     postNow() {
-      const dataSender = {
-        id: this.post._id,
-        dataSender: {
-          "location": 0,
-          "_facebookId": this.postSchedule._facebookId,
-          "break_point": Number( this.postSchedule.breakPoint )
-        }
-      };
-      this.$store.dispatch( "postNow", dataSender );
+      if(this.postSchedule._facebookId && this.postSchedule._facebookId.length > 0)  {
+
+        const dataSender = {
+          id: this.post._id,
+          objSender: {
+            "location": 0,
+            "_facebookId": this.postSchedule._facebookId,
+            "break_point": Number( this.postSchedule.breakPoint ),
+            "started_at": this.postSchedule.started_at
+          }
+        };
+
+        this.$store.dispatch( "postNow", dataSender );
+
+      }
+
+      else if(this.postSchedule._groupId && this.postSchedule._groupId.length > 0) {
+
+        const dataSender = {
+          id: this.post._id,
+          objSender: {
+            "location": 0,
+            "_groupId": this.postSchedule._groupId.map(item => item.groupId),
+            "break_point": Number( this.postSchedule.breakPoint ),
+            "started_at": this.postSchedule.started_at
+          }
+        };
+
+        this.$store.dispatch( "postNow", dataSender );
+
+      }
+
+      else if(this.postSchedule._fanpageId && this.postSchedule._fanpageId.length > 0){
+
+        const dataSender = {
+          id: this.post._id,
+          objSender: {
+            "location": 0,
+            "_fanpageId": this.postSchedule._fanpageId.map(item => item.pageId),
+            "break_point": Number( this.postSchedule.breakPoint ),
+            "started_at": this.postSchedule.started_at
+          }
+        };
+
+        this.$store.dispatch( "postNow", dataSender );
+      }
+
       this.$emit( "closePopup", false );
     }
   }

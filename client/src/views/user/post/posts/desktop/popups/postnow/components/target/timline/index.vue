@@ -57,7 +57,10 @@ export default {
     await this.$store.dispatch( "getAccountsFB" );
   },
   methods: {
-    updatePostSchedule() {
+    async updatePostSchedule() {
+      await this.$emit( "openTimer", true );
+      delete (this.postSchedule._groupId);
+      delete (this.postSchedule._fanpageId);
       this.$emit( "updatePostSchedule", this.postSchedule );
     }
   }

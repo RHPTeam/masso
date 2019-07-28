@@ -13,10 +13,10 @@
 
       <!-- Start: chat content-->
       <div class="inside py_2">
-        <div class="time text_center">19:00</div>
+        <div class="time  mb_3 text_center">19:00</div>
 
         <!-- Start: if it's first chat -->
-        <div class="first--chat mb_3">
+        <div class="first--chat mb_3" v-if="variableControl.new  === true">
           <div class="d_flex align_items_center justify_content_center">
             <div class="round av_y" aria-label="your avatar" :style="{backgroundImage: 'url('+srcTest+')'}"></div>
             <div class="round av_f" aria-label="avatar of friend" :style="{backgroundImage: 'url('+srcTest+')'}"></div>
@@ -24,56 +24,64 @@
           <div class="text_center mt_2" role="welcome">Hãy gửi lời chào đến thành viên nào đó</div>
         </div>
         <!-- End: if it's first chat -->
-        <!-- Start: receiver-->
-        <div class="left d_flex align_items_start justify_content_start position_relative mb_3">
-          <div class="mr_2 position_absolute" role="receiver" :style="{backgroundImage:'url('+srcTest+')'}"></div>
-          <div class="receiver">
-            <div class="content d_flex flex_column">
+
+        <div v-if="variableControl.new  === true">
+
+        </div>
+
+        <div v-else>
+          <!-- Start: receiver-->
+          <div class="left d_flex align_items_start justify_content_start position_relative mb_3">
+            <div class="mr_2 position_absolute" role="receiver" :style="{backgroundImage:'url('+srcTest+')'}"></div>
+            <div class="receiver">
+              <div class="content d_flex flex_column">
               <span class="ms rcv_m position_relative">
                 Lorem ipsum dolor sit amet, consectetur.
                 <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
               </span>
-            </div>
-            <!--Start: If have images-->
-            <div class="gallery">
-              <div
-                class="gallery--item rcv position_relative"
-                :style="{ backgroundImage: 'url('+ srcTest +')' }"
-                @click="isShowGallery = true"
-              >
-                <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
               </div>
+              <!--Start: If have images-->
+              <div class="gallery">
+                <div
+                  class="gallery--item rcv position_relative"
+                  :style="{ backgroundImage: 'url('+ srcTest +')' }"
+                  @click="isShowGallery = true"
+                >
+                  <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
+                </div>
+              </div>
+              <!--End: If have images-->
             </div>
-            <!--End: If have images-->
+            <div role="empty"></div>
           </div>
-          <div role="empty"></div>
-        </div>
-        <!-- End: receiver-->
+          <!-- End: receiver-->
 
-        <!-- Start: sender -->
-        <div class="right d_flex justify_content_end align_items_end mb_3">
-          <div role="empty"></div>
-          <div class="sender">
-            <div class="content d_flex flex_column">
+          <!-- Start: sender -->
+          <div class="right d_flex justify_content_end align_items_end mb_3">
+            <div role="empty"></div>
+            <div class="sender">
+              <div class="content d_flex flex_column">
               <span class="ms sd_m ml_auto position_relative">
                 Lorem ipsum dolor sit amet, consectetur.
                 <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
               </span>
-            </div>
-            <!--Start: If have images-->
-            <div class="gallery d_flex">
-              <div
-                class="gallery--item ml_auto sdr position_relative"
-                :style="{ backgroundImage: 'url('+ srcTest +')' }"
-                @click="isShowGallery = true"
-              >
-                <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
               </div>
+              <!--Start: If have images-->
+              <div class="gallery d_flex">
+                <div
+                  class="gallery--item ml_auto sdr position_relative"
+                  :style="{ backgroundImage: 'url('+ srcTest +')' }"
+                  @click="isShowGallery = true"
+                >
+                  <span class="time position_absolute">Chủ nhật 13:00 Chiều</span>
+                </div>
+              </div>
+              <!--End: If have images-->
             </div>
-            <!--End: If have images-->
           </div>
+          <!-- End: sender -->
         </div>
-        <!-- End: sender -->
+
       </div>
       <!-- End: Chat content-->
     </vue-perfect-scrollbar>
@@ -146,14 +154,14 @@
 
     <!-- Start: Search messenger -->
     <app-search
-      v-if="variableControlSearch.messenger === true"
+      v-if="variableControl.messenger === true"
       :currentTheme="currentTheme"
     />
     <!-- End: Search messenger -->
 
     <!--Start: Change Color messenger-->
     <app-select-color
-      v-if="variableControlSearch.color === true"
+      v-if="variableControl.color === true"
       :currentTheme="currentTheme"
     />
     <!--End: Change Color messenger -->
@@ -192,7 +200,7 @@ export default {
     }
   },
   computed: {
-    variableControlSearch(){
+    variableControl(){
       return this.$store.getters.caseControl;
     }
   },
