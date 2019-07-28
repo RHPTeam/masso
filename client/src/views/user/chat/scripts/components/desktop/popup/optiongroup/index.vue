@@ -32,7 +32,7 @@
         title="Delete Group Block"
         @closePopup="isDeletedTarget = $event"
         @isDeletedTarget="$emit('isDeletedTarget', $event)"
-        storeActionName="deleteGroupBlock"
+        :storeActionName="storeAction"
         :targetData="selectedGroupBlock"
         typeName="Group Block"
       ></delete-popup>
@@ -44,7 +44,7 @@
 import DeletePopup from "@/components/popups/delete";
 
 export default {
-  props: ["selectedGroupBlock"],
+  props: ["selectedGroupBlock", "storeAction"],
   components: {
     DeletePopup
   },

@@ -53,11 +53,13 @@ export default {
       this.isShowScriptDefault = true;
       this.isActive = true;
       this.isOption = false;
+      this.$emit('activeTab', 'script')
     },
     showScriptSequence() {
       this.isShowScriptDefault = false;
       this.isActive = false;
       this.isOption = true;
+      this.$emit('activeTab', 'sequence')
     },
     openSequenceDropdown(id) {
       this.showCopySequenceScripts = true;
@@ -75,8 +77,12 @@ export default {
       this.$emit('selectedBlock', block);
       this.$emit('isShowBlock', false);
     },
-    showItemSqc(SqcId) {
-      this.$store.dispatch('getInfoBlock', SqcId);
+    showItemSqc(item, sequence) {
+      // this.$store.dispatch('getInfoBlock', item._block._id);
+      this.$emit('isShowBlock', false);
+      this.$emit('currentSequence', sequence);
+      this.$emit('selectedBlock', item._block);
+      this.$emit('selectedBlockSequence', item);
     },
     createBlock(groupId) {
       this.$store.dispatch('createBlock', groupId);
@@ -84,6 +90,7 @@ export default {
     },
     createItemSqc(sequenceId) {
       this.$store.dispatch('createBlockInSequence', sequenceId);
+      this.$emit('isCreateBlock', true);
     },
     createSequence() {
       this.$store.dispatch('createSequenceScript');
@@ -123,10 +130,10 @@ export default {
       this.$store.dispatch('updateSequence', objSender);
     },
     onDeleteBlock(event, id) {
-      // this.$emit('isDeletedTarget', event);
       this.$emit('isDeletedBlock', event);
     },
     onSelectOption(block) {
+      console.log(block);
       this.$emit('selectedBlock', block);
     },
     onDeleteGroupBlock(event, group) {

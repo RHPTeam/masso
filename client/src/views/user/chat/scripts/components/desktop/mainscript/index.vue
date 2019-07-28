@@ -37,9 +37,13 @@
             <icon-link />
           </icon-base> -->
         </div>
+        <!-- <div
+          class="script--header-delete ml_auto"
+          @click="isDeleteBlock = true;"
+        > -->
         <div
           class="script--header-delete ml_auto"
-          @click="isDeleteBlock = true"
+          @click="onDeleteBlock()"
         >
           <icon-base
             icon-name="remove"
@@ -144,7 +148,7 @@
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('text', selectedBlock._id)"
+              @click="createItemBlock('text', selectedBlock)"
             >
               <icon-base
                 class="icon-text"
@@ -158,7 +162,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('image', selectedBlock._id)"
+              @click="createItemBlock('image', selectedBlock)"
             >
               <icon-base
                 class="icon-image"
@@ -172,7 +176,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('time', selectedBlock._id)"
+              @click="createItemBlock('time', selectedBlock)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -238,9 +242,9 @@
         :data-theme="currentTheme"
         title="Delete Scripts"
         @closePopup="isDeleteBlock = $event"
-        @isDeletedTarget="$emit('isDeletedTarget', $event)"
-        storeActionName="deleteBlock"
-        :targetData="selectedBlock"
+        @isDeletedTarget="$emit('isDeletedBlock', $event)"
+        :storeActionName="storeAction"
+        :targetData="selectedData"
         typeName="Scripts"
       ></delete-popup>
     </transition>

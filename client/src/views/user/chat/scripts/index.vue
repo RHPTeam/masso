@@ -6,6 +6,9 @@
       <div class="main--content r">
         <div class="left-sidebar d_flex c_md_4 pr_0">
           <app-left-sidebar-script
+            @activeTab="activeTab = $event"
+            @currentSequence="currentSequence = $event"
+            @selectedBlockSequence="selectedBlockSequence = $event"
             :selectedBlock="selectedBlock"
             @selectedBlock="onSelectBlock($event)"
             @isDeletedBlock="onDeleteBlock($event)"
@@ -17,6 +20,9 @@
         <div class="main--scripts d_flex c_md_8">
           <app-main-script
             v-if="!isShowWelcome"
+            :activeTab="activeTab"
+            :currentSequence="currentSequence"
+            :selectedBlockSequence="selectedBlockSequence"
             :selectedBlock="selectedBlock"
             @isDeletedBlock="onDeleteBlock($event)"
             @isCreateBlock="isCreateBlock = $event"
@@ -49,7 +55,10 @@ export default {
       isShowWelcome: true,
       isDeletedTarget: false,
       selectedBlock: {},
-      isCreateBlock: false
+      isCreateBlock: false,
+      currentSequence: {},
+      selectedBlockSequence: {},
+      activeTab: "script"
     };
   },
   computed: {
@@ -65,6 +74,12 @@ export default {
     await this.$store.dispatch("getAllSequenceScript");
   },
   watch: {
+    activeTab(value) {
+      console.log('active Tab',value);
+    },
+    selectedBlockSequence() {
+      console.log('selectedBlockSequence',this.selectedBlockSequence);
+    },
   },
   methods: {
     onDeleteBlock(event) {

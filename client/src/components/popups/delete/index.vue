@@ -114,8 +114,19 @@ export default {
       this.$emit("closePopup", false);
     },
     deleteTargets() {
-      console.log('targetData',this.targetData);
-      this.$store.dispatch(this.storeActionName, this.targetData._id);
+      console.log("action", this.storeActionName);
+      console.log("targetData", this.targetData);
+      const actionDeleteBlock = ["deleteBlock", "deleteGroupBlock"];
+      if (actionDeleteBlock.includes(this.storeActionName)) {
+        this.$store.dispatch(this.storeActionName, this.targetData._id);
+      }
+      if (this.storeActionName === "deleteASequence") {
+        this.$store.dispatch(this.storeActionName, this.targetData);
+      }
+      const actionDeleteBlockSequence = ["deleteBlock", "deleteGroupBlock"];
+      if (actionDeleteBlockSequence.includes(this.storeActionNam)) {
+        this.$store.dispatch(this.storeActionName, this.targetData);
+      }
 
       this.$emit("closePopup", false);
       this.$emit("isDeletedTarget", true);

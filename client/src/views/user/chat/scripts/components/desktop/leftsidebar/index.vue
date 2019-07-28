@@ -69,8 +69,8 @@
             @keyup="upTypingText('namegroupblock', group)"
             @keydown="clear"
           />
-          <!-- <option-group :groupId="group._id" /> -->
           <option-group
+            storeAction="deleteGroupBlock"
             :selectedGroupBlock="group"
             @isDeletedTarget="onDeleteGroupBlock($event, group)"
           />
@@ -138,7 +138,12 @@
             @keyup="upTypingText('namegroupsequence', sequence)"
             @keydown="clear"
           />
-          <div @click="openSequenceDropdown(sequence._id)">
+          <option-group
+            storeAction="deleteASequence"
+            :selectedGroupBlock="sequence"
+            @isDeletedTarget="onDeleteGroupBlock($event, sequence)"
+          />
+          <!-- <div @click="openSequenceDropdown(sequence._id)">
             <icon-base
               class="icon--more"
               icon-name="IconMore"
@@ -160,9 +165,9 @@
             </div>
             <div
               class="dropdown--menu-item mb_2 pl_3"
-              @click="deleteASequence(sequence._id)"
+              @click="onDeleteSequenceGroupBloc(sequence)"
             >{{ $t("chat.scripts.sidebar.sequence.copy.delete") }}</div>
-          </div>
+          </div>-->
         </div>
         <div class="content">
           <div
@@ -176,15 +181,21 @@
               </div>
             </div>
             <div
+              @click="showItemSqc(item, sequence)"
               class="c_lg_8 c_xl_8 c_md_12 p_0 mb_2 position_relative"
-              @click="showItemSqc(item._block._id)"
             >
               <div class="content--item">
                 <div class="text_center name-script">{{ item._block.name }}</div>
               </div>
-              <div class="option">
-                <options-sequence class="options--sequence" :sequenceId="sequence._id" :item="item"></options-sequence>
-              </div>
+            </div>
+            <div @click="onSelectOption(item._block)" class="option">
+              <!-- <options-sequence class="options--sequence" :sequenceId="sequence._id" :item="item"></options-sequence> -->
+              <options-sequence
+                :sequence="sequence"
+                :selectedBlock="item"
+                @isDeletedTarget="onDeleteBlock($event)"
+                class="options--sequence"
+              ></options-sequence>
             </div>
           </div>
           <div

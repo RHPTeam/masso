@@ -9,7 +9,7 @@
     >
       <div class="name position_relative"></div>
       <div class="created d_flex align_items_center p_2">
-        <div class="sk left"></div>
+        <div class="sk left">{{'{{'}}</div>
         <div class="tag--created-item">
           <contenteditable
             class="editable"
@@ -111,6 +111,7 @@ export default {
   },
   computed: {},
   async created() {
+    
     const attr = await AttributeService.show(this.item);
     this.attribute = attr.data.data;
   },
@@ -142,7 +143,7 @@ export default {
       this.resultFilterName = this.listAttr.filter(item => item.name !== "");
       // Suggest name atribute when create
       this.resultSuggestName = this.resultFilterName.filter(item => {
-        item.name.toLowerCase().includes(this.attribute[0].name.toLowerCase());
+        item.name.toLowerCase().includes(this.attribute.name.toLowerCase());
       });
     },
     // show value attribute suggest when click on contenteditable
@@ -165,21 +166,21 @@ export default {
     },
     //Update name attribute
     updateNameAttribute() {
-      this.$store.dispatch("updateAttribute", this.attribute[0]);
+      this.$store.dispatch("updateAttribute", this.attribute);
     },
     // update value attribute
     updateValueAttribute() {
-      this.$store.dispatch("updateAttribute", this.attribute[0]);
+      this.$store.dispatch("updateAttribute", this.attribute);
     },
     // attach name attribute when click
     attachNameAttribute (item, attribute) {
-      attribute[0].name = item.name;
-      this.$store.dispatch("updateAttribute", attribute[0]);
+      attribute.name = item.name;
+      this.$store.dispatch("updateAttribute", attribute);
     },
     // attach value attribute when click
     attachValueAttribute (item, attribute) {
-      attribute[0].value = item.value;
-      this.$store.dispatch("updateAttribute", attribute[0]);
+      attribute.value = item.value;
+      this.$store.dispatch("updateAttribute", attribute);
     }
   }
 };

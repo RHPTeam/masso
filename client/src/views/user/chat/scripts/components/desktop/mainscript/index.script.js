@@ -12,7 +12,7 @@ import BlockService from '@/services/modules/chat/block.service';
 let typingTimer;
 
 export default {
-  props: ['selectedBlock', 'isCreateBlock'],
+  props: ['selectedBlock', 'isCreateBlock', 'activeTab', 'currentSequence', 'selectedBlockSequence'],
   data() {
     return {
       textValue: '',
@@ -23,7 +23,8 @@ export default {
       showSubcrible: false,
       showUnSubcrible: false,
       isDeleteBlock: false,
-      currentBlock: {}
+      storeAction: '',
+      selectedData: {}
     };
   },
   methods: {
@@ -32,26 +33,61 @@ export default {
     //   this.showOptionTablet = false;
     // },
     // // Add Text Value in block
-    createItemBlock(type, blockId) {
-      const dataSender = {
-        value: '',
-        type: type,
-        id: blockId
-      };
+    createItemBlock(type, item) {
+      let dataSender = {};
+      if (this.activeTab === 'script') {
+        dataSender = {
+          value: '',
+          type: type,
+          id: item._id
+        };
+      }
+      if (this.activeTab === 'sequence') {
+        dataSender = {
+          value: '',
+          type: type,
+          id: item._id
+        };
+      }
       this.$store.dispatch('createItemBlock', dataSender);
     },
     async upTypingText(type, item) {
       clearTimeout(typingTimer);
       if (type === 'nameblock') {
-        typingTimer = setTimeout(this.updateNameBlock(item), 2000);
+        // typingTimer = setTimeout(this.updateNameBlock(item), 2000);
+        if (this.activeTab === 'script') {
+          typingTimer = setTimeout(this.updateNameBlock(item), 2000);
+        }
+        if (this.activeTab === 'sequence') {
+          typingTimer = setTimeout(this.updateNameBlockSequence(item), 2000);
+        }
       }
     },
     clear() {
       clearTimeout(typingTimer);
     },
     //Update name block
-    updateNameBlock() {
-      this.$store.dispatch('updateBlock', this.selectedBlock);
+    updateNameBlock(item) {
+      this.$store.dispatch('updateBlock', item);
+    },
+    updateNameBlockSequence(item) {
+      this.$store.dispatch('updateSequenceName', item);
+    },
+    onDeleteBlock() {
+      this.isDeleteBlock = true;
+      if (this.activeTab === 'script') {
+        this.selectedData = this.selectedBlock;
+        this.storeAction = 'deleteBlock';
+        console.log('this.selectedBlock', this.selectedBlock);
+      } else if (this.activeTab === 'sequence') {
+        this.selectedData = {
+          sqId: this.currentSequence._id,
+          blockId: this.selectedBlockSequence._id
+        };
+
+
+        this.storeAction = 'deleteBlockInSequence';
+      }
     }
   },
   computed: {
@@ -59,7 +95,6 @@ export default {
       return this.$store.getters.themeName;
     },
     block() {
-      // console.log(this.$store.getters.block);
       return this.$store.getters.block;
     }
   },
@@ -69,6 +104,7 @@ export default {
     },
     async isCreateBlock() {
       if (this.isCreateBlock === true) {
+        console.log('isCreateBlock');
         await this.$store.dispatch('getInfoBlock', this.selectedBlock._id);
         this.$emit('isCreateBlock', false);
       }
@@ -79,7 +115,7 @@ export default {
     // const firstBlockId = blocks.data.data[0]._id;
     // this.$store.dispatch("getInfoBlock", firstBlockId);
     this.$store.dispatch('getInfoBlock', this.selectedBlock._id);
-    this.$store.dispatch('getBlocks');
+    // this.$store.dispatch('getBlocks');
   },
   components: {
     AddTimer,

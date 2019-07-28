@@ -202,6 +202,7 @@
   }
   .content {
     .group--items {
+      position: relative;
       font-size: 14px;
       &:hover {
         .content--item {
@@ -243,7 +244,7 @@
         right: 0;
         top: 13px;
         display: none;
-        width: 100%;
+        width: 25px;
       }
       &:hover {
         .option {
