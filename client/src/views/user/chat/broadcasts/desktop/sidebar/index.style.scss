@@ -110,8 +110,9 @@
 .group--item-body {
   .active {
     .content--setup {
-      background-color: #ffb94a !important;
-      color: #ffffff !important;
+      border: 1px solid #FFB94A;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+      color: #FFB94A;
       transition: all 0.5s ease !important;
     }
   }
@@ -120,7 +121,7 @@
     background: #fff;
     border-radius: 0.625rem;
     font-size: 0.825rem;
-    height: 40px;
+    height: 46px;
     padding: 0 0.5rem;
     width: 95%;
     .icon--add {

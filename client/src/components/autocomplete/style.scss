@@ -2,7 +2,7 @@
   font-size: inherit;
   position: relative;
   textarea {
-    background-color: transparent;
+    background-color: #F7F7F7;
     border: 0;
     border-radius: .375rem;
     font-size: inherit;
@@ -41,6 +41,7 @@
     overflow: hidden;
     padding: .5rem;
     position: absolute;
+    pointer-events: none;
     top: 0;
     white-space: pre-wrap;
     width: 100%;
