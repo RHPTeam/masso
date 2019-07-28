@@ -68,8 +68,13 @@ export default {
     };
   },
   methods: {
-    updateCategory() {
-      this.$emit("updateCategory", this.item);
+    onPan(event) {
+      if (event.offsetDirection === 2) {
+        this.isTriggerAction = true;
+      }
+      if (event.offsetDirection === 4) {
+        this.isTriggerAction = false;
+      }
     },
     showDeletePopup(category) {
       this.categoryDelete = category;
@@ -83,13 +88,8 @@ export default {
     showPopupEdit() {
       this.isShowPopupEdit = true;
     },
-    onPan(event) {
-      if (event.offsetDirection === 2) {
-        this.isTriggerAction = true;
-      }
-      if (event.offsetDirection === 4) {
-        this.isTriggerAction = false;
-      }
+    updateCategory() {
+      this.$emit("updateCategory", this.item);
     }
   }
 };

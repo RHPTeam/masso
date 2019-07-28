@@ -250,6 +250,12 @@ export default {
     }
   },
   methods: {
+    clearTypingTimer() {
+      clearTimeout( typingTimer );
+    },
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
     showPopupProfile() {
       this.isShowPopupProfile = true;
       this.isShowPopupFanpage = false;
@@ -277,14 +283,8 @@ export default {
     showPopupAddToGroup() {
       this.isShowAddToGroup = true;
     },
-    closePopup() {
-      this.$emit("closePopup", false);
-    },
     showPopupDeletePostGroup() {
       this.isShowPopupDeletePostGroup = true;
-    },
-    clearTypingTimer() {
-      clearTimeout( typingTimer );
     },
     async upTypingText( gr ) {
       await clearTimeout( typingTimer );
@@ -344,8 +344,8 @@ export default {
         width: 50%;
         outline: none;
       }
-      .desc {
-        color: #999999;
+      .active {
+        color: #e62b33;
       }
     }
     .items--body {
@@ -359,7 +359,7 @@ export default {
           text-align: center;
           flex: 1;
           padding-bottom: 0.5rem;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           &.active {
             color: #ffb94a;
             border-color: #ffb94a;
@@ -371,7 +371,7 @@ export default {
       .list {
         li {
           list-style: none;
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
           padding: 0.5rem 0;
         }
       }
@@ -382,6 +382,9 @@ export default {
       bottom: 0;
       left: 0;
       width: 100%;
+      .cancel {
+        color: #e62b33;
+      }
     }
   }
 }

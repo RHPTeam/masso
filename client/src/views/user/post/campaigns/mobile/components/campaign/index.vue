@@ -57,14 +57,13 @@ export default {
   },
   computed: {},
   methods: {
-    showDetailPost() {
-      this.$emit("showDetailPost", this.item);
-    },
-    showPopupDelete() {
-      this.$emit("showPopupDelete", this.item);
-    },
-    showPopupCopy() {
-      this.$emit("showPopupCopy", this.item);
+    formatDate(d) {
+      const dateTime = new Date(d);
+      const date = String(dateTime.getDate()).padStart(2, "0");
+      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
+      const year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
     },
     onPan(event) {
       if (event.offsetDirection === 2) {
@@ -74,13 +73,14 @@ export default {
         this.isTriggerAction = false;
       }
     },
-    formatDate(d) {
-      const dateTime = new Date(d);
-      const date = String(dateTime.getDate()).padStart(2, "0");
-      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
-      const year = dateTime.getFullYear();
-
-      return `${date}/${month}/${year}`;
+    showDetailPost() {
+      this.$emit("showDetailPost", this.item);
+    },
+    showPopupDelete() {
+      this.$emit("showPopupDelete", this.item);
+    },
+    showPopupCopy() {
+      this.$emit("showPopupCopy", this.item);
     }
   }
 };

@@ -3,21 +3,21 @@
     <div class="m_auto">
       <ul class="p_0 m_0 d_flex justify_content_center align_items_center">
         <!-- <router-link tag="li" :to="{ name: 'post_posts' }" active-class="active" > -->
-          <li @click="showPosts" :class="gestureCursorMenuUser === 1 || this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' ? 'active' : '' ">
+          <li @click="showPosts" :class="this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' ? 'active' : '' ">
             <icon-base icon-name="icon-chat" width="20" height="20" viewBox="0 0 540 540">
               <icon-post/>
             </icon-base>
           </li>
         <!-- </router-link> -->
         <!-- <router-link tag="li" :to="{ name: 'post_campaigns' }" active-class="active"> -->
-          <li @click="showCampaign" :class="gestureCursorMenuUser === 2 || this.$route.name === 'post_campaigns' ? 'active' : '' ">
+          <li @click="showCampaign" :class="this.$route.name === 'post_campaigns' ? 'active' : '' ">
             <icon-base icon-name="icon-timer" width="24" height="24" viewBox="0 0 25 25">
               <icon-broadcast/>
             </icon-base>
           </li>
         <!-- </router-link> -->
         <!-- <router-link tag="li" :to="{ name: 'post_group' }" active-class="active"> -->
-          <li @click="showPostgroup" :class="gestureCursorMenuUser === 3 || this.$route.name === 'post_group' ? 'active' : '' ">
+          <li @click="showPostgroup" :class="this.$route.name === 'post_group' ? 'active' : '' ">
             <icon-base icon-name="icon-autoreply" width="24" height="24" viewBox="0 0 25 25">
               <icon-friend/>
             </icon-base>

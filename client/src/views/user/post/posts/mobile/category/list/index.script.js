@@ -8,6 +8,8 @@ export default {
   },
   data() {
     return {
+      currentPage: 1,
+      pageSize: 25,
       isShowDeletePopup: false,
       categoryDelete: {},
       targetDataDelete: {},
@@ -20,28 +22,31 @@ export default {
     categories() {
       return this.$store.getters.categoriesPage;
     },
+    categoriesPageSize() {
+      return this.$store.getters.categoriesPageSize;
+    },
     statusCategories() {
       return this.$store.getters.statusCategories;
     }
   },
   async created() {
-    if( this.$router.name === 'post_posts') {
-      const categoryNo = this.$store.getters.categoriesPage;
-      if( categoryNo.length === 0 ) {
-        const dataSender = {
-          size: 25,
-          page: 1
-        };
-        this.$store.dispatch( "getCategoriesByPage", dataSender );
-      }
-
-      const defaultNumberNo = this.$store.getters.allCateDefault;  
-      if ( defaultNumberNo.length === 0 ) {
-        this.$store.dispatch("getCategoryDefault");
-      }
+    const noCategory = this.$store.getters.categoriesPage;
+    if( noCategory.length === 0 ) {
+      await this.$store.dispatch("getCategoriesByPageMobile", {
+        size: this.pageSize,
+        page: this.currentPage
+      });
     }
   },
   methods: {
+    async loadMore() {
+      this.currentPage += 1;
+
+      await this.$store.dispatch("getCategoriesByPageMobile", {
+        size: this.pageSize,
+        page: this.currentPage
+      });
+    },
     updateCategory( val ) {
       // this.$emit( "updateCategory", val );
     },

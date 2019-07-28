@@ -23,13 +23,13 @@
             <span>Tất cả</span>
             <span class="ml_auto mr_2">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </div>
@@ -56,41 +56,38 @@ export default {
   },
   computed: {
     categories() {
-      return this.$store.getters.categoriesPage;
+      return this.$store.getters.allCategories;
     }
   },
   methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
     showAllPost() {
+      this.$store.dispatch("actionCursor", 11);
       const dataSender = {
-        size: 25,
-        page: 1
+        page: 1,
+        size: 25
       };
-      this.$store.dispatch( "getPostsByPage", dataSender );
+      this.$store.dispatch("getPostsByPage", dataSender);
       this.closePopup();
     },
     updateFilterCategorySelected(val) {
-      // console.log(val);
-      // this.$emit( "updateFilterCategorySelected", val );
+      this.$store.dispatch("actionCursor", 14);
       const dataSender = {
         categoryId: val._id,
         size: 25,
         page: 1
       };
-      this.$store.dispatch("getPostByCategories", dataSender);
-    },
-    closePopup() {
-      this.$emit("closePopup", false);
+      this.$store.dispatch("getPostByCategoriesMobile", dataSender);
+      this.$store.dispatch("getCategoryById", val._id);
     }
   },
   created() {
-    const categoriesNo = this.$store.getters.categoriesPage;
+    const categoriesNo = this.$store.getters.allCategories;
     if( categoriesNo.length === 0 ) {
-      const dataSender = {
-        size: 25,
-        page: 1
-      };
 
-      this.$store.dispatch("getCategoriesByPage", dataSender);
+      this.$store.dispatch("getAllCategories");
     }
   }
 };
@@ -115,19 +112,16 @@ export default {
   }
   .item {
     color: #ccc;
-    // background: #fff;
-    // margin-bottom: 0.625rem;
-    // border-radius: 0.625rem;
-    // padding: 0.625rem 0;
     font-size: 0.875rem;
     border-top: 1px solid #514f4fa1;
     padding: 0.5rem 0;
     padding-left: 0.625rem;
-    // text-align: center;
-    // border: 1px solid #ccc;
+    .icon--arrow-right {
+      transform: rotate(-90deg);
+    }
   }
   .list--category {
-    max-height: 90vh;
+    max-height: 89vh;
   }
 }
 </style>
