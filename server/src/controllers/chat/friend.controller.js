@@ -50,7 +50,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let page,
       dataRes;
-    const findFriend = await Friend.find( { "_account": req.uid }, "-__v -_id" ).lean();
+    const findFriend = !req.query._facebookId ? await Friend.find( { "_account": req.uid }, "-__v -_id" ).lean() : await Friend.find( { "_account": req.uid, "_facebook": req.query._facebookId }, "-__v -_id" ).lean();
 
     Promise.all(
       removeObjectDuplicates( findFriend, "userID" ).map( async ( friend ) => {

@@ -1,49 +1,46 @@
 <template>
   <div class="group">
-    <div class="title mt_3 mb_2">Chọn nhóm bạn muốn đăng</div>
+    <div class="title mt_3 mb_2">Chọn Group Facebook bạn muốn đăng</div>
     <div class="body">
       <div class="row--group">
         <div class="main">
           <multiselect
-            label="title"
-            placeholder="Chọn nhóm muốn đăng"
-            :value="selectedPostGroup"
+            label="name"
+            placeholder="Chọn group facebook muốn đăng"
+            v-model="postSchedule._groupId"
             :clearable="false"
-            :options="postGroups"
+            :options="fbGroups"
             @input="selectPostGroup"
           />
         </div>
-        <div class="desc mt_1 px_2">Bao gồm
-          <span>{{ selectedPostGroup !== {} && selectedPostGroup._pages !== undefined ? selectedPostGroup._pages.length : 0  }} trang</span> và
-          <span>{{ selectedPostGroup !== {} && selectedPostGroup._groups !== undefined ? selectedPostGroup._groups.length : 0  }} nhóm</span> được chọn.
-        </div>
-      </div>
-      <div class="mt_3">
-        <timeline></timeline>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import Timeline from "../timline";
 export default {
-  components: {
-    Timeline
-  },
+  props: ["postSchedule"],
   data() {
     return {
-      selectedPostGroup: {}
+      selectedPostGroup: []
     }
   },
   computed: {
-    postGroups(){
-      return this.$store.getters.postGroups;
+    fbGroups(){
+      return this.$store.getters.facebookGroups;
     }
   },
+  async created(){
+    await this.$store.dispatch("getFacebookGroups");
+  },
   methods: {
-    selectPostGroup( value ) {
-      this.selectedPostGroup = value;
+    async selectPostGroup( value ) {
+        await this.$emit( "openTimer", true );
+
+      delete (this.postSchedule._facebookId);
+      delete (this.postSchedule._fanpageId);
+      this.$emit( "updatePostSchedule", this.postSchedule );
     }
   },
 }
@@ -57,7 +54,7 @@ export default {
         color: #666;
       }
       .row--group {
-        width: 50%;
+        width: 100%;
       }
       .main {
         border: 1px solid $border-color;

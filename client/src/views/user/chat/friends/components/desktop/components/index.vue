@@ -3,9 +3,12 @@
     <segments-content-top
       :accountSelected="accountSelected"
       :groupSelected="groupSelected"
+      :sizeDefault="sizeDefault"
+      @changeSizeDefault="changeSize($event)"
       @updateAccountSelected="accountSelected = $event"
       @updateSearch="keywordSearch = $event"
       @changeStatusDefault="changeStatusDefault($event)"
+      @openFilterFriend ="changeStatusFilter($event)"
     ></segments-content-top>
 
     <segments-content-users-table
@@ -13,6 +16,7 @@
       :groupSelected="groupSelected"
       :keywordSearch="keywordSearch"
       :selectFilter="selectFilter"
+      :sizeDefault="sizeDefault"
       :resultsDefault="resultsDefault"
     ></segments-content-users-table>
   </div>
@@ -27,7 +31,7 @@ export default {
     SegmentsContentTop,
     SegmentsContentUsersTable
   },
-  props: ["groupSelected", "selectFilter", "resultsDefault"],
+  props: ["groupSelected", "selectFilter", "resultsDefault", "sizeDefault"],
   data() {
     return {
       keywordSearch: "",
@@ -40,6 +44,12 @@ export default {
   methods: {
     changeStatusDefault(val) {
       this.$emit("changeResultDefault", val);
+    },
+    changeStatusFilter(val){
+      this.$emit("openFilter", val);
+    },
+    changeSize(val){
+      this.$emit("changedSize", val);
     }
   },
 };

@@ -1,7 +1,7 @@
 const state = {
   caseControl: {
-    color: false,
     messenger: false,
+    color: false,
     new: false
   }
 };

@@ -65,15 +65,17 @@
             <icon-help />
           </icon-base>
         </div>
-        <div class="notification--dropdown position_absolute">
-                   <transition name="dropdown">
-                     <help-notification
-                       v-if="isShowNotificationHelp === true"
-                       :notifications="notifications"
-                       @close="isShowNotificationHelp = $event"
-                     ></help-notification>
-                   </transition>
-                 </div>
+        <div class="notification--dropdown news position_absolute">
+          <div class="notification--dropdown position_absolute">
+            <transition name="dropdown">
+              <help-notification
+                v-if="isShowNotificationHelp === true"
+                :notifications="notifications"
+                @close="isShowNotificationHelp = $event"
+              ></help-notification>
+            </transition>
+          </div>
+        </div>
       </div>
       <!-- End: Help Dropdown -->
 

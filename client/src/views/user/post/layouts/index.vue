@@ -70,21 +70,4 @@
   color: #ccc;
   background-color: #2f3136;
 }
-
-
-// ============ RESPONSIVE 
-
-// @media screen and (max-width: 768px) {
-//   .wrapper {
-//     .wrap--content-sidebar {
-//       position: absolute;
-//       z-index: 1000;
-//       background: #000;
-//       top: 70px;
-//     }
-//     .wrap--content-main {
-//       padding: 1.875rem 1rem;
-//     }
-//   }
-// }
 </style>

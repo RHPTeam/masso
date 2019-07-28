@@ -4,11 +4,11 @@ export default {
   /**
    *
    * @param grId
-   * @param data has userID friends get from Facebook
+   * @param data has id friends
    * @returns {*}
    */
   addFriendGroup( grId, data ){
-    return Api().post(`group-friend/addFriend?_groupId=${grId}`, data);
+    return Api().post(`group-friends/addFriend?_groupId=${grId}`, data);
   },
     // create a item in friends
     createGroupFriend( name ){
@@ -22,17 +22,20 @@ export default {
 
     // get info group friends by id
     getInfoGroupFriend( id ){
-      return Api().get(`group-friend?_id=${id}`);
+      return Api().get(`group-friends?_id=${id}`);
     },
 
     // update item friends
     updateGroupFriend( id, content){
-        return Api().patch(`group-friend?_groupId=${id}`, content );
+        return Api().patch(`group-friends?_groupId=${id}`, content );
     },
 
     // delete item friends
     deleteGroupFriends( id ){
-        return Api().put(`group-friend?_groupId=${id}`)
-    }
+        return Api().put(`group-friends?_groupId=${id}`);
+    },
+  deleteFriendsOnGroup( groupId,friendId ){
+    return Api().put(`group-friends?_groupId=${groupId}&_friend=true`, friendId);
+  }
 
 }

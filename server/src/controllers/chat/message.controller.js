@@ -49,6 +49,15 @@ module.exports = {
 
     res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
+  "create": async ( req, res ) => {
+    const newMessage = await new Message( { "_account": req.uid, "_sender": req.body.facebookId } );
+
+    await newMessage.save();
+    res.status( 200 ).json( jsonResponse( "success", newMessage ) );
+  },
+  "update": async ( req, res ) => {
+    res.status( 200 ).json( jsonResponse( "success", await Message.findByIdAndUpdate( req.query._id, { "$set": req.body }, { "new": true } ) ) );
+  },
 
   /**
    * Delete conversation

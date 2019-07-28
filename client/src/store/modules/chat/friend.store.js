@@ -59,7 +59,12 @@ const actions = {
   },
   searchFriendFacebookChat: async ({commit}, payload) => {
     commit("friend_request");
-    const result = FriendFacebookStore.searchFriend(payload);
+
+    const result = await FriendFacebookStore.searchFriend(payload.keyword, payload.size, payload.page);
+    console.log(result.data.data);
+    commit("setFriends", result.data.data.results);
+    commit("setPage", result.data.data.page);
+
     commit("friend_success");
   }
 };

@@ -45,11 +45,11 @@
 </template>
 
 <script>
-import AppHeader from "./header";
-import AppSearch from "./search";
+import AppHeader from "./components/header";
+import AppSearch from "./components/search";
 import NewMessages from "./components/new";
-import AppUser from "./user";
-import ResultSearch from "./friend";
+import AppUser from "./components/user";
+import ResultSearch from "./components/friend";
 
 export default {
   components: {

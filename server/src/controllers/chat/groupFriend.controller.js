@@ -158,7 +158,7 @@ module.exports = {
       let checkCon = false;
 
       friends.map( async ( val ) => {
-        if ( foundGroupFriend._friends.indexOf( val ) > -1 ) {
+        if ( foundGroupFriend._friends.indexOf( val ) < 0 ) {
           checkCon = true;
           return checkCon;
         }
@@ -180,7 +180,7 @@ module.exports = {
           return findFriend;
         } ) );
 
-      res.status( 200 ).json( jsonResponse( "success", { "groupFriend": resGroupFriend, "friends": resultFriend } ) );
+      return res.status( 200 ).json( jsonResponse( "success", { "groupFriend": resGroupFriend, "friends": resultFriend } ) );
     }
     await GroupFriend.findByIdAndRemove( req.query._groupId );
     res.status( 200 ).json( jsonResponse( "success", null ) );

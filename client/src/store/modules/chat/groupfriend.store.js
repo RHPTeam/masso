@@ -8,7 +8,8 @@ const state = {
   groupFriend: {},
   groupStatus: "",
   friendsOfGroup: [],
-  selectedUIDs: []
+  selectedUIDs: [],
+  uidSelectDelete: []
 };
 const getters = {
     // all item friends
@@ -18,7 +19,8 @@ const getters = {
   groupFriend: state => state.groupFriend,
   groupStatus: state => state.groupStatus,
   friendsOfGroup: state => state.friendsOfGroup,
-  selectedUIDs: state => state.selectedUIDs
+  selectedUIDs: state => state.selectedUIDs,
+  uidSelectDelete: state => state.uidSelectDelete
 };
 const mutations = {
   group_request: (state) => {
@@ -47,6 +49,9 @@ const mutations = {
   },
   selectedUIDs: (state, payload) => {
     state.selectedUIDs = payload;
+  },
+  uidSelectDelete: (state, payload) => {
+    state.uidSelectDelete = payload;
   }
 
 }
@@ -59,7 +64,6 @@ const actions = {
    */
   addFriendToGroup: async ({commit}, payload) =>  {
     commit("group_request");
-    console.log(payload);
 
     const dataSender = {
       friendId: payload.friendId
@@ -88,7 +92,6 @@ const actions = {
     updateGroupFriend: async ( { commit }, payload ) => {
         await GroupFriend.updateGroupFriend( payload._id, payload );
         const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
-        // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
 
     // get Id Group Friend
@@ -108,10 +111,26 @@ const actions = {
         // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
+  deleteFriendFromGroup: async ({commit}, payload) => {
+    commit("group_request");
+    const dataSender = {
+      friendId: payload.friendsId
+    };
+    await GroupFriend.deleteFriendsOnGroup(payload.gr_id, dataSender);
+
+    const rsGetId = await GroupFriend.getInfoGroupFriend( payload.gr_id );
+    commit("setGroupFriend", rsGetId.data.data.data);
+    commit("setListFriendOfGroup", rsGetId.data.data.friends);
+
+    commit("group_success");
+  },
   selectedUIDs: async ({commit}, payload) => {
     commit("selectedUIDs", payload);
+  },
+  selectDeleteUID: async ({commit}, payload) => {
+    commit("uidSelectDelete", payload);
   }
-}
+};
 
 export default {
     state,

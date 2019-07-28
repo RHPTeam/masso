@@ -9,7 +9,7 @@ export default {
     AddtoGroupPopup,
     AppTooltip
   },
-  props: ["groupSelected", "accountSelected"],
+  props: ["groupSelected", "accountSelected", "sizeDefault"],
   data() {
     return {
       showUsers: false,
@@ -18,13 +18,18 @@ export default {
       isShowAddtoGrPopup: false,
       statusNumberDisplayedDropdown: false,
       keySearch: "",
-      size: 20,
       currentPage: 1,
-      isShowOptionsAttribute: false
+      isShowOptionsAttribute: false,
+      showButtonDelete: false,
+      currentSize: [
+        {id: 1, size: 25},
+        {id: 2, size: 50},
+        {id: 3, size: 100},
+      ]
     };
   },
   async created() {
-    // await this.$store.dispatch("getAccountsFB");
+    await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {
@@ -33,7 +38,7 @@ export default {
     groupInfo() {
       return this.$store.getters.groupInfo;
     },
-    listAccountFacebook() {
+    accountFb() {
       return this.$store.getters.accountsFB;
     },
     users() {
@@ -41,6 +46,9 @@ export default {
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
+    },
+    friendSelected() {
+      return this.$store.getters.uidSelectDelete;
     }
   },
   methods: {
@@ -58,6 +66,13 @@ export default {
     },
     closeNumberDisplayedDropdown() {
       this.statusNumberDisplayedDropdown = false;
+    },
+    async changeCurrentSize(val){
+      await this.$store.dispatch("getFriendFbChatBySize", {
+        size:  val.size,
+        page: this.currentPage
+      });
+      this.$emit("changeSizeDefault", val);
     },
     showDeleteFrPopup() {
       this.isShowDeleteFrPopup = true;
@@ -94,35 +109,32 @@ export default {
     async searchFriendFacebook(){
       if(this.keySearch.length !== 0) {
         const dataSender = {
-          key: this.keySearch,
-          size: this.size,
+          keyword: this.keySearch,
+          size: this.sizeDefault,
           page: this.currentPage
         };
-        await this.$store.dispatch("searchFriendFacebookByKey", dataSender);
+        await this.$store.dispatch("searchFriendFacebookChat", dataSender);
         this.$emit("changeStatusDefault", false);
       } else {
         const dataSender = {
-          size: this.size,
+          size: this.sizeDefault,
           page: this.currentPage
         };
-        this.$store.dispatch("getFriendFacebookBySizeDefault", dataSender);
+        this.$store.dispatch("getFriendFbChatBySize", dataSender);
       }
     },
     updateFriendFacebookToSystem(){
       const dataSender = {
-        size: 25,
-        page: 1
+        size: this.sizeDefault,
+        page: this.currentPage
       };
       this.$store.dispatch("updateFriendFacebookForSystem", dataSender);
-    }
-  },
-  watch: {
-    keySearch(value){
-      const dataSender = {
-        name: value,
-        size: 20
-      };
-      this.$store.dispatch("searchFriendsByName", dataSender);
+    },
+    showFilterFriendByAtribute(){
+      this.$emit("openFilterFriend", true);
+    },
+    openPopupDeleteFriend(){
+      this.isShowDeleteFrPopup = true;
     }
   }
 };
