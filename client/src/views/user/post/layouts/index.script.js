@@ -48,7 +48,6 @@ export default {
     AppSidebar,
     AppNotification,
     HeaderMobile,
-    SearchMobile,
     FooterMobile,
     AppExpire,
     GuidePopup
