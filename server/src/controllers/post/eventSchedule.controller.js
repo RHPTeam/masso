@@ -38,15 +38,17 @@ module.exports = {
         if ( event && event.target_category ) {
           const postGroupInfo = await PostGroup.findOne( { "_id": event.target_category } ).lean();
 
-          // Handle Page
-          listTarget = listTarget.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
-            return convert( 2, page );
-          } ) ) );
+          if ( postGroupInfo ) {
+            // Handle Page
+            listTarget = listTarget.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
+              return convert( 2, page );
+            } ) ) );
 
-          // Handle Group
-          listTarget = listTarget.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
-            return convert( 1, group );
-          } ) ) );
+            // Handle Group
+            listTarget = listTarget.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
+              return convert( 1, group );
+            } ) ) );
+          }
         }
 
         // Check target custom
