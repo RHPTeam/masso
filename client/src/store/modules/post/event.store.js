@@ -190,7 +190,7 @@ const actions = {
         }
       } );
     }
-    if ( payload.event.post_category  && payload.event.post_category.length === 0 ) {
+    if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
     if ( payload.event.post_custom && payload.event.post_custom.length === 0 ) {
