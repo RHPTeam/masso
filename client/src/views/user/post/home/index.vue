@@ -1,11 +1,15 @@
 <template>
   <div class="main">
     <!-- Start: Desktop Component-->
-    <app-desktop />
+    <div class="d_md_block d_none">
+      <app-desktop />
+    </div>
     <!-- End: Desktop Component-->
 
     <!-- Start: Mobile Component -->
-    <app-mobile />
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
     <!-- End: Mobile Component -->
   </div>
 </template>
@@ -17,7 +21,13 @@ export default {
   components: {
     AppDesktop,
     AppMobile
-  }
+  },
+  created() {
+    this.$store.dispatch("getAllAnalysis");
+    this.$store.dispatch("getAllStaticCampagin");
+    this.$store.dispatch("getAllSttPost");
+    this.$store.dispatch("getNewestPosts", 5);
+  },
 }
 </script>
 

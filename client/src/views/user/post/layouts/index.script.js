@@ -8,10 +8,20 @@ import HeaderMobile from "./mobile/header";
 import FooterMobile from "./mobile/footer";
 
 export default {
+  components: {
+    AppHeader,
+    AppSidebar,
+    AppNotification,
+    AppExpire,
+    GuidePopup,
+    HeaderMobile,
+    FooterMobile
+  },
   data() {
     return {
       statusNetwork: true,
-      showExpire: false
+      showExpire: false,
+      innerWidth: 0
     };
   },
   computed: {
@@ -22,13 +32,18 @@ export default {
       return this.$store.getters.variableControlGuide;
     },
   },
-  components: {
-    AppHeader,
-    AppSidebar,
-    AppNotification,
-    AppExpire,
-    GuidePopup,
-    HeaderMobile,
-    FooterMobile
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
+  methods: {
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
+    }
   }
 };

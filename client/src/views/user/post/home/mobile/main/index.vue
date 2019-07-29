@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile--dashboard d_block d_md_none position_relative p_3">
+  <div class="mobile--dashboard position_relative p_3">
     <!-- Start: Content -->
     <div class="main--content">
       <div class="overview">

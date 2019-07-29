@@ -222,7 +222,6 @@ import PopupFilterByCategory from "../popup/posts/filter";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 
 export default {
-  props: ["fbPost"],
   components: {
     AppSidebarMobile,
     PopupCreateCategory,
@@ -234,6 +233,15 @@ export default {
     PopupFilterByCategory,
     UpgradeProPopup
   },
+  filters: {
+    getFirstLetter(string) {
+      if (typeof string == "undefined") return;
+      if (string.length == 0) return;
+      return string.charAt(0).toUpperCase();
+    }
+  },
+  props: ["fbPost"],
+
   data() {
     return {
       isShowPopup: false,
@@ -306,12 +314,9 @@ export default {
       return this.$store.getters.accountsFB;
     }
   },
-  filters: {
-    getFirstLetter(string) {
-      if (typeof string == "undefined") return;
-      if (string.length == 0) return;
-      return string.charAt(0).toUpperCase();
-    }
+  async created() {
+    await this.$store.dispatch( "getUserInfo" );
+    this.$store.dispatch("actionCursor", 11);
   },
   methods: {
     closeDropdownFilterByCategory() {
@@ -354,9 +359,6 @@ export default {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
     }
-  },
-  created() {
-    this.$store.dispatch("actionCursor", 11);
   }
 };
 </script>
