@@ -80,7 +80,7 @@ export default {
     },
     async openEventPopup( event ) {
       await this.$store.dispatch( "getEventById", event._id );
-      this.$store.dispatch( "setCaseEvent", {
+      await this.$store.dispatch( "setCaseEvent", {
         key: "popup",
         value: true
       } );

@@ -1,7 +1,8 @@
 <template>
   <div class="main">
+    <!-- Start: Desktop Component -->
     <div class="d_none d_md_block">
-      <app-bread-crumb
+      <breadcrumb
         :nameBread="$t('chat.broadcast.title')"
         :subBread="$t('chat.broadcast.desc')"
       />
@@ -16,16 +17,14 @@
       </div>
       <!-- End: Content -->
     </div>
+    <!-- End: Desktop Component -->
   </div>
 </template>
 <script>
-import AppBreadCrumb from "@/components/breadcrumb";
-import AppSidebar from "./desktop/components/sidebar";
-// import AppMobile from "./mobile/index_mobile";
+import AppSidebar from "./desktop/sidebar";
 
 export default {
   components: {
-    AppBreadCrumb,
     AppSidebar
   },
   async created() {

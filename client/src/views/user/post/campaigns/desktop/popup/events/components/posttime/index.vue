@@ -48,7 +48,7 @@
                         <div class="col--title mb_2">Thời gian</div>
                         <input type="text"
                                :class="inputTimeInvalid ? 'error' : null"
-                               placeholder="hh:mm"
+                               placeholder="HH:mm"
                                title="Time Picker"
                                v-model="timeStartedAt"
                                v-click-outside="resetTimeStartedAt"

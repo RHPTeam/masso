@@ -1,0 +1,203 @@
+/************* CUSTOM CSS COMPONENT ****************/
+
+/**
+* NOTE: U have to code scss with 3 level which mean is 3 indent
+*/
+
+.group {
+  height: 100%;
+  &--item {
+    margin-bottom: 2rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &-header {
+    }
+    &-body {
+    }
+  }
+  .title {
+    > span {
+      cursor: default;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 26px;
+      text-transform: uppercase;
+    }
+  }
+  .above {
+    background-color: #ffb94a;
+    border-radius: 0.5rem;
+    color: #fff;
+    bottom: 0;
+    left: 0;
+    padding: 0.5rem;
+    width: 100%;
+    z-index: 999;
+    &--txt {
+      font-size: 13px;
+      margin: 0;
+    }
+  }
+  .box {
+    border-radius: 0.625rem;
+    height: 40px;
+    overflow: hidden;
+    padding: 0 0.5rem;
+    text-align: center;
+    text-overflow: ellipsis;
+    transition: box-shadow 80ms ease, border-color 80ms ease,
+      background-color 80ms ease;
+    white-space: nowrap;
+    &.add {
+      line-height: 40px;
+      .icon--add {
+        color: #ccc;
+      }
+    }
+    > span {
+      font-size: 12px;
+    }
+    > svg {
+      color: #ccc;
+    }
+    &:hover {
+      cursor: pointer;
+      > svg {
+        color: #ffffff;
+      }
+    }
+  }
+  &--item.schedule {
+    .box {
+      flex: 0 0 calc((100% - 16px) / 2);
+      margin-bottom: 0.25rem;
+      max-width: calc((100% - 16px) / 2);
+    }
+  }
+}
+.now {
+  .group--item-body {
+    .add {
+      background-color: #707070;
+      cursor: not-allowed;
+      &:hover,
+      &:focus,
+      &:active,
+      &:visited {
+        color: #707070 !important;
+      }
+    }
+    .tooltip--now {
+      background-color: #ffb94a;
+      bottom: 109%;
+      border-radius: 1rem;
+      color: #f7f7f7;
+      font-size: 13px;
+      left: 0;
+      transition: all 1s ease;
+      width: 100%;
+      display: none;
+    }
+    &:hover {
+      .tooltip--now {
+        display: block;
+      }
+    }
+  }
+}
+
+.group--item-body {
+  .active {
+    .content--setup {
+      border: 1px solid #FFB94A;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+      color: #FFB94A;
+      transition: all 0.5s ease !important;
+    }
+  }
+  .content--setup {
+    cursor: pointer;
+    background: #fff;
+    border-radius: 0.625rem;
+    font-size: 0.825rem;
+    height: 46px;
+    padding: 0 0.5rem;
+    width: 95%;
+    .icon--add {
+      color: #ccc;
+    }
+  }
+}
+
+/************* CUSTOM CSS THEME ****************/
+
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] {
+  color: #999;
+  .group {
+    .box {
+      background-color: #fff;
+      > svg {
+        color: #27292c;
+      }
+    }
+  }
+  .now {
+    .group--item-body .add {
+      background-color: #ffffff;
+    }
+  }
+  .content--setup {
+    transition: 0.3s;
+    &:hover {
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.15);
+      .icon--add {
+        color: #666;
+      }
+    }
+  }
+}
+
+// LIGHT
+.group[data-theme="light"] {
+  .group--item {
+    color: #666;
+  }
+}
+
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] {
+  color: #ccc;
+  .group {
+    .box {
+      background-color: #27292c;
+    }
+  }
+  .content--setup {
+    transition: all 0.4s ease;
+    &:hover {
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+      .icon--add {
+        color: #F7F7F7;
+      }
+    }
+  }
+}
+
+// DARK
+.group[data-theme="dark"] {
+  .content--setup {
+    background: #27292c;
+  }
+}
+
+// *********** RESPONSIVE
+
+@media only screen and (max-width: 1200px) and (min-width: 768px) {
+  .setup {
+    width: 100% !important;
+  }
+}
