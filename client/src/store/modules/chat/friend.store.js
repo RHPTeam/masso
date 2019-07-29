@@ -33,7 +33,6 @@ const actions = {
   getAllFriendFbChat: async  ({commit}) => {
     commit("friend_request");
     const result = await FriendFacebookStore.index();
-    console.log(result.data.data);
     commit("setFriends", result.data.data);
     commit("friend_success");
   },
