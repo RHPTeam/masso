@@ -2,7 +2,7 @@
   <div class="modal--detail-campaign">
     <div class="modal--content">
       <div class="items--header d_flex align_items_center">
-        <div @click="closePopup">
+        <div @click="closePopup" v-if="isShowActionSave === false">
           <icon-base
             icon-name="arrow-down"
             class="arrow-down"
@@ -13,6 +13,7 @@
             <icon-arrow-down />
           </icon-base>
         </div>
+        <div class="pl_2" v-else @click="updateTitleCampaign">Lưu</div>
         <div class="m_auto name--campaign">
           <contenteditable
             class="editable name"
@@ -22,6 +23,8 @@
             :contenteditable="true"
             v-model='campaign.title'
             @returned="updateTitleCampaign()"
+            @click="showActionSave"
+            v-click-outside="closeActiveSave"
           />
         </div>
         <div class="active d_flex align_items_center">

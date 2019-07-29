@@ -31,7 +31,7 @@
         </div>
         <div
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
-          class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+          class="item--body empty--data d_flex align_items_center justify_content_center px_2"
         >Không có dữ liệu</div>
         <add-item v-for="(item, index) in listPostFacebookDefault" :key="`s+${index}`" :item="item" @showPost="showPost($event)"/>
       </vue-perfect-scrollbar>

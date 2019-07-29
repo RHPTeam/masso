@@ -10,7 +10,8 @@ export default {
       dateStartedAtDetail: this.formatDateStartedAt( new Date() ),
       dateStartedAtDatePicker: new Date(),
       isShowHistory: false,
-      isShowCreateEvent: false
+      isShowCreateEvent: false,
+      isShowActionSave: false
     };
   },
   props: ["campaign"],
@@ -42,6 +43,9 @@ export default {
     }
   },
   methods: {
+    closeActiveSave() {
+      this.isShowActionSave = false;
+    },
     changeStartedAt( value ) {
       this.dateStartedAtDetail = this.formatDateStartedAt(value);
       // this.showCreateEvent();
@@ -68,6 +72,9 @@ export default {
         mins = String( dateTime.getMinutes() ).padStart( 2, "0" );
 
       return `${hours}:${mins}`;
+    },
+    showActionSave() {
+      this.isShowActionSave = true;
     },
     async openEventPopup( event ) {
       await this.$store.dispatch( "getEventById", event._id );

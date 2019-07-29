@@ -3,7 +3,7 @@
     <div class="modal--content">
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center mb_3">
-        <div @click="closePopup">
+        <div @click="closePopup" v-if="isShowActionSave === false">
           <icon-base
             icon-name="arrow-down"
             class="arrow-down"
@@ -14,6 +14,7 @@
             <icon-arrow-down />
           </icon-base>
         </div>
+        <div class="save pl_2" v-else @click="upTypingText( postGroupDetail )">Lưu</div>
         <!-- <p class="">{{ postGroupDetail.title }}</p> -->
         <contenteditable
           class="name--modal mb_0 m_auto text_center"
@@ -24,6 +25,8 @@
           v-model="postGroupDetail.title"
           @keyup.enter="upTypingText( postGroupDetail )"
           @keydown="clearTypingTimer"
+          @click="showActionSave"
+          v-click-outside="closeActiveSave"
         />
         <div class="active mr_2" @click="showPopupDeletePostGroup">Xóa</div>
         <!-- <div class="active mr_2">
@@ -205,7 +208,8 @@ export default {
       isShowAddToGroup: false,
       isShowPopupDeletePageGroup: false,
       isShowPopupDeletePostGroup: false,
-      isShowPopupProfile: true
+      isShowPopupProfile: true,
+      isShowActionSave: false
     };
   },
   computed: {
@@ -255,6 +259,12 @@ export default {
     },
     closePopup() {
       this.$emit("closePopup", false);
+    },
+    closeActiveSave() {
+      this.isShowActionSave = false;
+    },
+    showActionSave() {
+      this.isShowActionSave = true;
     },
     showPopupProfile() {
       this.isShowPopupProfile = true;
