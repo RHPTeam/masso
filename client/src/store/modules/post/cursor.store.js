@@ -23,6 +23,7 @@ const actions = {
       11: Tat ca bai viet
       12: Danh muc
       13: Danh muc mau
+      14: Filter Categoory
       // Setup Account
       61: Tên người dùng
       62: Số điện thoại
@@ -43,7 +44,8 @@ const actions = {
   */
   actionCursorMenu: ({ commit }, payload) => {
     commit("setActionCursorMenu", payload);
-  }
+  },
+
 };
 
 export default {

@@ -5,21 +5,13 @@
       subBread="Trang giúp bạn thiết lập các tài khoản Facebook"
     />
     <app-header/>
-    <app-navigation
-      @openPopup="isShowPopupInfo = $event"
-      @openUpdateAgencyInfo="isShowPopupAgencyInfo = $event"
-    />
+    <app-navigation @openPopup="isShowPopupInfo = $event"/>
     <app-main
       @openPopupEdit="isShowPopupEdit = $event"
     />
 
-    <!--************* POPUP SIGN UP AND UPDATE ***************-->
+    <!--************* POPUP SIGNUP AND UPDATE ***************-->
     <transition name="popup">
-      <app-agency-info
-        v-if="isShowPopupAgencyInfo === true"
-        @close="isShowPopupAgencyInfo = $event"
-      />
-
       <app-info
         v-if="isShowPopupInfo === true"
         @closePopup="isShowPopupInfo = $event"
@@ -43,13 +35,10 @@ import AppHeader from "./components/header";
 import AppNavigation from "./components/navigation";
 import AppMain from "./components/main";
 import AppInfo from "./components/popup/info";
-import AppAgencyInfo from "./components/popup/setting";
 import AppDelete from "./components/popup/delete";
 import AppEdit from "./components/popup/edit";
-
 export default {
   components: {
-    AppAgencyInfo,
     AppHeader,
     AppNavigation,
     AppMain,
@@ -59,7 +48,6 @@ export default {
   },
   data() {
     return {
-      isShowPopupAgencyInfo: false,
       isShowPopupInfo: false,
       isShowPopupDelete: false,
       isShowPopupEdit: false

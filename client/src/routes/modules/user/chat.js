@@ -11,22 +11,22 @@ const generalChatRouter = {
     children: [
       {
         path: "",
-        name: "chat_account",
+        name: "account",
         component: require("@/views/user/chat/account").default
       },
       {
         path: "scripts",
-        name: "chat_scripts",
+        name: "scripts",
         component: require("@/views/user/chat/scripts").default
       },
       {
         path: "keywords",
-        name: "chat_keywords",
+        name: "keywords",
         component: require("@/views/user/chat/keywords").default
       },
       {
         path: "friends",
-        name: "chat_friends",
+        name: "friends",
         component: require("@/views/user/chat/friends").default
       },
       {
@@ -35,7 +35,7 @@ const generalChatRouter = {
         children: [
           {
             path: "",
-            name: "chat_broadcasts",
+            name: "broadcasts",
             component: require("@/views/user/chat/broadcasts/desktop/components/main/default").default,
           },
           {
@@ -48,19 +48,8 @@ const generalChatRouter = {
       },
       {
         path: "facebook",
-        component: require( "@/views/user/chat/facebook" ).default,
-        children: [
-          {
-            path: "",
-            name: "chat_facebook",
-            component: require( "@/views/user/chat/facebook/desktop/list" ).default
-          },
-          {
-            path: ":fbAccountId",
-            name: "chat_facebook_detail",
-            component: require( "@/views/user/chat/facebook/desktop/detail" ).default
-          }
-        ]
+        name: "facebook",
+        component: require("@/views/user/chat/facebook").default
       }
     ]
   };

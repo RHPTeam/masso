@@ -242,7 +242,7 @@ export default {
       type: Function,
       default( option ) {
         let newOption = option;
-
+        
         if ( typeof this.optionList[ 0 ] === "object" ) {
           newOption = { [ this.label ]: newOption };
         }
@@ -275,10 +275,10 @@ export default {
       type: String
     },
     /**
-     * Sets RTL support. Accepts 'ltr', 'rtl', 'srv'.
+     * Sets RTL support. Accepts 'ltr', 'rtl', 'auto'.
      * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/dir
      * @type {String}
-     * @default 'srv'
+     * @default 'auto'
      */
     dir: {
       type: String,
