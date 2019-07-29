@@ -17,6 +17,7 @@ const { findSubString } = require( "../helpers/utils/functions/string" );
 const { agent } = require( "../configs/crawl" );
 const { getDtsgAg, getFullDtsgFB } = require( "../helpers/utils/facebook/dtsgfb" );
 const jsonResponse = require( "../configs/response" );
+// const chatAuto = require( "../process/cron/chat/index" );
 
 module.exports = {
   "index": async ( req, res ) => {
@@ -79,6 +80,9 @@ module.exports = {
 
     await newFacebook.save();
 
+    // handle srv chat
+    // await chatAuto( newFacebook );
+
     // Remove cookie and token when add facebook account
     newFacebook = newFacebook.toObject();
     delete newFacebook.cookie;
@@ -131,6 +135,9 @@ module.exports = {
     }
 
     dataResponse = await Facebook.findByIdAndUpdate( req.query._facebookId, { "$set": newFacebook }, { "new": true } );
+
+    // handle srv chat
+    // await chatAuto( dataResponse );
 
     dataResponse = dataResponse.toObject();
     delete dataResponse.cookie;

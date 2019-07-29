@@ -163,7 +163,7 @@
           </icon-base>
         </div>
       </div>
-      <div class="icon add--script" v-if="this.$route.path === '/f-script'">
+      <div class="icon add--scripts" v-if="this.$route.path === '/f-scripts'">
         <icon-base icon-name="plus" width="24" height="24" viewBox="0 0 64 64">
           <icon-plus />
         </icon-base>
@@ -185,14 +185,14 @@
       />
     </transition>-->
     <!--    End: Add new message-->
-    <!--    Start: Add new script-->
+    <!--    Start: Add new scripts-->
     <!-- <transition name="popup">
       <change-account
         v-if="showNewScript === true"
         @closeModal="showNewScript = $event"
       />
     </transition>-->
-    <!--    End: Add new script-->
+    <!--    End: Add new scripts-->
     <!-- Start: transition popup mobile -->
     <transition name="popup">
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
