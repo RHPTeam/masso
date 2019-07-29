@@ -178,6 +178,12 @@ module.exports = {
 
     // Remove item Id, page Id of facebook account
     Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
+      // Remove timelines of facebook
+      Promise.all( postGroup._timeline.map( ( timelineId, index ) => {
+        if ( listPageFacebook.includes( timelineId ) ) {
+          postGroup._timeline.splice( index, 1 );
+        }
+      } ) );
       // Remove pages of facebook
       Promise.all( postGroup._pages.map( ( pageId, index ) => {
         if ( listPageFacebook.includes( pageId ) ) {
