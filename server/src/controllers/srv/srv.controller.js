@@ -8,7 +8,7 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "index": async ( req, res ) => {
-    const commandLineScript = `sh scripts/auto_built_client.sh${ process.env.FOLDER_ROOT}`,
+    const commandLineScript = `sh scripts/auto_built_client.sh ${ process.env.FOLDER_ROOT}`,
       handleScript = await exec( commandLineScript );
 
     handleScript.stdout.on( "data", ( data ) => {
