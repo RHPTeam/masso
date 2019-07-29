@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const Role = require( "../models/Role.model" );
-const Facebook = require( "../models/Facebook.model" );
+// const Facebook = require( "../models/Facebook.model" );
 const { roleSync } = require( "../microservices/synchronize/role.service" );
 
 // Other process
@@ -10,7 +10,7 @@ require( "./cron/post/post" );
 
 ( async () => {
   const roleList = await Role.find( {} ),
-    accountFacebookList = await Facebook.find( {} ),
+    // accountFacebookList = await Facebook.find( {} ),
     resRole = await roleSync( "roles/sync" );
 
   // Check Role First Time Server running
