@@ -4,8 +4,8 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   PostSchema = new Schema( {
-    "title": { "type": String, "default": "" },
-    "content": { "type": String, "default": "" },
+    "title": { "type": String, "default": "", "text": true },
+    "content": { "type": String, "default": "", "text": true },
     "color": {
       "id": String,
       "value": String

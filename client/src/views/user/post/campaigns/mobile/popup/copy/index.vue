@@ -3,10 +3,10 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
-        <div class="item mb_2 delete">
+        <div class="item mb_2 no--account" v-if="allAccountFB.length === 0">Vui lòng thêm tài khoản để thực hiện chức năng này!</div>
+        <div class="item mb_2 delete" v-else>
           <div class="text pb_2 px_2">
-            Bạn có muốn sao chép
-            <b>{{selectedCampaign.title}}</b> này không?
+            Sao chép chiến dịch mẫu <b>{{selectedCampaign.title}}</b>
           </div>
           <div class="item--selection p_2">
             <div class="title text_left">Chọn tài khoản sử dụng chiến dịch</div>
@@ -65,6 +65,9 @@ export default {
     closePopup() {
       this.$emit("closePopup", false);
     },
+    chooseAccount(val){
+      this.setup.accountId = val;
+    },
     duplicateCampaignSimple() {
       this.closePopup();
       const dataSender = {
@@ -78,9 +81,6 @@ export default {
       };
       this.$store.dispatch( "getCampaignsByPage", dataSenderCampaign );
       this.$emit("showCampaign", true);
-    },
-    chooseAccount(val){
-      this.setup.accountId = val;
     }
   }
 };
@@ -105,6 +105,11 @@ export default {
     color: #cccccc;
     .modal--content {
       width: 90%;
+      .no--account {
+        background: #212225;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
+      }
       .delete {
         font-size: 0.8315rem;
         background: #212225;

@@ -55,19 +55,14 @@
         <!-- Start: Action in Posts -->
         <div
           class="posts d_flex align_items_center"
-          v-if="gestureCursorMenuUser === 1 || this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' "
+          v-if="this.$route.name === 'post_posts' || this.$route.name === 'post_postCategories' || this.$route.name === 'categories_default' "
         >
-          <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11">
-            <div class="action mr_1" @click="showPopupHistory">
+          <div class="all-posts d_flex align_items_center" v-if="gestureUser === 11 || gestureUser === 14">
+            <!-- <div class="action mr_1" @click="showPopupHistory">
               <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
                 <icon-history />
               </icon-base>
-            </div>
-            <div class="add posts action mx_1" @click="showPopupCreatePost">
-              <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-                <icon-plus />
-              </icon-base>
-            </div>
+            </div> -->
             <div class="filter--posts" @click="showDropdownFilterByCategory">
               <icon-base
                 class="mt_1"
@@ -79,9 +74,14 @@
                 <icon-filter />
               </icon-base>
             </div>
+            <div class="add posts action ml_2" @click="showPopupCreatePost">
+              <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+                <icon-plus />
+              </icon-base>
+            </div>
           </div>
           <div
-            class="add category action mx_1"
+            class="add category action"
             @click="showPopupCreateCategory"
             v-if="gestureUser === 12"
           >
@@ -96,7 +96,7 @@
         <div
           class="add action campaign"
           @click="showPopupCreateCampaign"
-          v-if="gestureCursorMenuUser === 2 || this.$route.name === 'post_campaigns'"
+          v-if="this.$route.name === 'post_campaigns'"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />
@@ -107,7 +107,7 @@
         <!-- Start: Action in PostGroup -->
         <div
           class="post--group d_flex align_items_center"
-          v-if="gestureCursorMenuUser === 3 || this.$route.name === 'post_group' "
+          v-if="this.$route.name === 'post_group' "
         >
           <div class="update action" @click="updateGroupsAndPages">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
@@ -314,15 +314,11 @@ export default {
     }
   },
   methods: {
-    updateGroupsAndPages() {
-      this.$store.dispatch("updateFacebookPages");
-      this.$store.dispatch("updateFacebookGroups");
+    closeDropdownFilterByCategory() {
+      this.isShowDropdownFilterByCategory = false;
     },
     showDropdownFilterByCategory() {
       this.isShowDropdownFilterByCategory = true;
-    },
-    closeDropdownFilterByCategory() {
-      this.isShowDropdownFilterByCategory = false;
     },
     showPopupCreateCategory() {
       this.isShowPopupCreateCategory = true;
@@ -353,6 +349,10 @@ export default {
     },
     showPopupHistory() {
       this.isShowPopupHistory = true;
+    },
+    updateGroupsAndPages() {
+      this.$store.dispatch("updateFacebookPages");
+      this.$store.dispatch("updateFacebookGroups");
     }
   },
   created() {

@@ -100,13 +100,6 @@ export default {
     closeKeywords() {
       this.$emit("closeKeywords", false);
     },
-    showPopupAddKeywords() {
-      this.isShowPopupAddKeywords = true;
-    },
-    showPopupDelete(index) {
-      this.isShowPopupDelete = true;
-      this.selectedKeywordIndex = index;
-    },
     confirmDelete(event) {
       if (event === true) {
         this.user.keywords.splice(this.selectedKeywordIndex, 1);
@@ -122,6 +115,13 @@ export default {
           this.isShowPopupAddKeywords = false;
         });
       }
+    },
+    showPopupAddKeywords() {
+      this.isShowPopupAddKeywords = true;
+    },
+    showPopupDelete(index) {
+      this.isShowPopupDelete = true;
+      this.selectedKeywordIndex = index;
     }
   }
 };
@@ -194,6 +194,9 @@ export default {
           overflow: hidden;
           text-overflow: ellipsis;
         }
+      }
+      .icon-remove {        
+        color: #e62b33;
       }
     }
   }

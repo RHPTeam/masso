@@ -90,23 +90,23 @@
         </div>
         <div class="content py_2 my_2" @click="showKeywords" v-if="user.keywords">
           <div v-if="user.keywords.length === 0" class="item d_flex align_items_center">
-            <div class="item--keyword">
-              Không có từ khóa
-            </div>
+            <div class="item--keyword">Không có từ khóa</div>
             <div class="ml_auto">
-              <icon-base
-                icon-name="Them"
-                width="20"
-                height="20"
-                viewBox="0 0 64 64"
-              >
+              <icon-base icon-name="Them" width="20" height="20" viewBox="0 0 64 64">
                 <icon-plus />
               </icon-base>
             </div>
           </div>
           <div v-else class="item d_flex align_items_center">
-            <div class="item--keyword">
+            <div v-if="user.keywords.length <= 3" class="item--keyword">
+              <template v-for="(keyword,index) in user.keywords" v-bind="index">
+                {{keyword}}
+                <span v-if="index !== (user.keywords.length - 1)">,</span>
+              </template>
+            </div>
+            <div v-if="user.keywords.length > 3" class="item--keyword">
               <template v-for="keyword in user.keywords.slice(0, 3)">{{keyword + ', '}}</template>
+              <span>...</span>
             </div>
             <div class="ml_auto">
               Xem tất cả

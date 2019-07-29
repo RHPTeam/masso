@@ -110,6 +110,7 @@ export default {
     width: 800px;
     border-radius: 50%;
     opacity: 0.5;
+    background-position: top center;
   }
   .had--avt {
     &::before {

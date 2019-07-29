@@ -17,6 +17,15 @@
     <app-notification :statusNetwork="statusNetwork"></app-notification>
     <!-- End: Notification for check login facebook account-->
 
+    <!-- Mobile -->
+    <div class="wrap--content-mobile d_block d_md_none position_relative">
+      <header-mobile />
+      <VuePerfectScrollbar class="mobile-scroll">
+        <!-- <search-mobile /> -->
+        <router-view />
+      </VuePerfectScrollbar>
+      <footer-mobile />
+    </div>
     <!-- Start: Pricing account-->
     <app-expire
       v-if="showExpire === true"
@@ -32,15 +41,6 @@
     </guide-popup>
     <!-- End: Notification guide for user-->
 
-    <!-- Mobile -->
-    <div class="wrap--content-mobile d_block d_md_none position_relative">
-      <header-mobile />
-      <VuePerfectScrollbar class="mobile-scroll">
-        <!-- <search-mobile /> -->
-        <router-view />
-      </VuePerfectScrollbar>
-      <footer-mobile />
-    </div>
   </div>
 </template>
 <script src="./index.script.js"></script>
@@ -70,21 +70,4 @@
   color: #ccc;
   background-color: #2f3136;
 }
-
-
-// ============ RESPONSIVE 
-
-// @media screen and (max-width: 768px) {
-//   .wrapper {
-//     .wrap--content-sidebar {
-//       position: absolute;
-//       z-index: 1000;
-//       background: #000;
-//       top: 70px;
-//     }
-//     .wrap--content-main {
-//       padding: 1.875rem 1rem;
-//     }
-//   }
-// }
 </style>

@@ -8,23 +8,39 @@
         <div
           class="title"
         >{{ item.title !== undefined && item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}</div>
-      </div>
-      <div class="status ml_auto">
-        <span :class="[ item.status ? 'active' : 'deactive' ]"></span>
+        <div class="category--parent">
+          <span
+            v-for="(category, index) in item._categories"
+            :key="`c-${index}`"
+          >{{ category.title + [ index === item._categories.length - 1 ? '' : ', ' ] }}</span>
+        </div>
       </div>
     </div>
     <!-- Start: action posts -->
     <div class="item--body item--body-action d_flex align_items_center py_2 pl_2">
-      <div class="d_flex ml_auto align_items_center justify_content_center pr_3 text_center">
-        <span class="icon m_2" @click="showPopupCopy">
+      <div
+        class="col col--action d_flex align_items_center justify_content_center pr_3 text_center"
+      >
+        <span class="icon m_2" @click="showPopupDelete">
           <icon-base
-            class="icon--copy"
-            icon-name="duplicate"
+            class="icon--delete"
+            icon-name="Xóa"
             width="25"
             height="25"
-            viewBox="0 0 520 520"
+            viewBox="0 0 15 15"
           >
-            <icon-copy />
+            <icon-remove />
+          </icon-base>
+        </span>
+        <span class="icon m_2">
+          <icon-base
+            class="icon--post-now"
+            icon-name="Đăng ngay"
+            width="25"
+            height="25"
+            viewBox="0 0 506 506"
+          >
+            <icon-post-now />
           </icon-base>
         </span>
       </div>
@@ -45,15 +61,6 @@ export default {
   },
   computed: {},
   methods: {
-    showDetailPost() {
-      this.$emit("showDetailPost", this.item);
-    },
-    showPopupDelete() {
-      this.$emit("showPopupDelete", this.item);
-    },
-    showPopupCopy() {
-      this.$emit("showPopupCopy", this.item);
-    },
     onPan(event) {
       if (event.offsetDirection === 2) {
         this.isTriggerAction = true;
@@ -62,13 +69,11 @@ export default {
         this.isTriggerAction = false;
       }
     },
-    formatDate(d) {
-      const dateTime = new Date(d);
-      const date = String(dateTime.getDate()).padStart(2, "0");
-      const month = String(dateTime.getMonth() + 1).padStart(2, "0");
-      const year = dateTime.getFullYear();
-
-      return `${date}/${month}/${year}`;
+    showDetailPost() {
+      this.$emit("showDetailPost", this.item);
+    },
+    showPopupDelete() {
+      this.$emit("showPopupDelete", this.item);
     }
   }
 };
@@ -104,11 +109,11 @@ export default {
       font-size: 0.8125rem;
       color: #999;
     }
-    .title {
-    }
-    .date {
-      font-size: 0.8125rem;
-      color: #999;
+    .title,
+    .category--parent {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
@@ -117,28 +122,16 @@ export default {
   &--delete {
     color: #ec2c49;
   }
-  &--copy {
-    color: white;
+  &--post-now {
+    color: #ff923c;
   }
 }
 
-.active {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background: green;
-  display: block;
-  margin-right: 0.625rem;
+.col {
+  &--action {
+    margin-left: auto;
+  }
 }
-.deactive {
-  height: 10px;
-  width: 10px;
-  border-radius: 50%;
-  background: gray;
-  display: block;
-  margin-right: 0.625rem;
-}
-
 .swipe {
   &-left {
     transform: translateX(-7rem);

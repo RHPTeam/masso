@@ -66,22 +66,22 @@ export default {
     bottom: 0;
     width: 100vw;
     left: 0;
-    font-size: 1rem;
-    color: #333;
+    font-size: 0.8315rem;
+    color: #ccc;
     .modal--content {
       width: 90%;
       .delete {
-        border: 1px solid #ccc;
-        background: #fff;
+        // border: 1px solid #ccc;
+        background: #212225;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
         .text {
-          border-bottom: 1px solid #ccc;
+          border-bottom: 1px solid #444;
         }
       }
       .cancel {
-        border: 1px solid #ccc;
-        background: #fff;
+        // border: 1px solid #ccc;
+        background: #212225;
         border-radius: 0.625rem;
         padding: 0.625rem 0;
       }
