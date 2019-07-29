@@ -2,7 +2,7 @@
   <div class="post--navigation d_flex justify_content_between align_items_center mb_4 position_relative" :data-theme="currentTheme">
     <!-- Start: Navigation Left -->
     <div class="nav--left mr_auto d_flex align_items_center">
-      <div class="btn--create mr_3 mr_auto"
+      <div class="btn--create mr_4 mr_auto"
            @click="createPost"
       >Viết bài mới</div>
       <router-link
