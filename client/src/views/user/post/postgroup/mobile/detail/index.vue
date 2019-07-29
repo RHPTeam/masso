@@ -81,7 +81,7 @@
           <div class="content mt_2">
             <!-- Start: Profile -->
             <div class="profile" v-if="isShowPopupProfile === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -103,7 +103,7 @@
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -125,7 +125,7 @@
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
               <div v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(group, index) in postGroupDetailGroup"
