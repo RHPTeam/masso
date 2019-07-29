@@ -14,10 +14,10 @@
 import AppDesktop from "./desktop"
 import AppMobile from "./mobile/main"
 export default {
-    components: {
-        AppDesktop,
-        AppMobile
-    }
+  components: {
+    AppDesktop,
+    AppMobile
+  }
 }
 </script>
 

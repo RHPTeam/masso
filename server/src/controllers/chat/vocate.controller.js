@@ -9,7 +9,6 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Vocate = require( "../../models/chat/Vocate.model" );
 
 const jsonResponse = require( "../../configs/response" );
@@ -26,7 +25,7 @@ module.exports = {
   "index": async ( req, res ) => {
     let dataResponse = null;
 
-    if ( req.query.id ) {
+    if ( req.query._id ) {
       dataResponse = await Vocate.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
     } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
       dataResponse = await Vocate.find( { "_account": req.uid } ).lean();
@@ -42,8 +41,7 @@ module.exports = {
   "create": async ( req, res ) => {
     // Remove item same value in array _friends
     const friends = req.body._friends,
-      friendsChecked = ArrayFunction.removeObjectDuplicates( friends, "uid" );
-
+      friendsChecked = ArrayFunction.removeDuplicates( friends );
 
     const listVocates = await Vocate.find( { "_account": req.uid } );
 
@@ -76,7 +74,7 @@ module.exports = {
           } ).map( ( item ) => {
             item._friends.map( ( friendItem, index, item ) => {
               friendsChecked.map( ( fi ) => {
-                if ( fi.toString() === friendItem._id.toString() ) {
+                if ( fi.toString() === friendItem.toString() ) {
                   return item.pop( friendItem );
                 }
               } );

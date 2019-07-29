@@ -42,7 +42,7 @@
           <icon-remove />
         </icon-base>
       </span>
-      <span class="mx_1 d_none" @click="showPostNowPopup">
+      <span class="mx_1" @click="showPostNowPopup">
         <icon-base
           class="icon--post-now"
           icon-name="Đăng ngay"

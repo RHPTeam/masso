@@ -8,13 +8,8 @@
     <!-- Start: Header Left -->
     <div class="header--left d_flex justify_content_start align_items_center">
       <div class="header--icon" @click="toogleSidebar">
-        <icon-base
-          icon-name="menu"
-          width="20"
-          height="20"
-          viewBox="0 0 500 500"
-        >
-          <icon-menu />
+        <icon-base icon-name="menu" width="20" height="20" viewBox="0 0 500 500">
+          <icon-menu/>
         </icon-base>
       </div>
     </div>
@@ -36,22 +31,19 @@
             >
               <icon-shop />
             </icon-base>
-            <!-- <div class="messenger--total position_absolute">
-              <div class="text text_center">0</div>
-            </div> -->
             <div class="pl_2 open--mess">Cửa hàng</div>
           </div>
         </a>
         <!-- End: Btn Messenger -->
-
       </div>
-      <!-- End: Messenger Link-->
+      <!-- Start: Messenger Link-->
 
       <!-- Start: Icon GetCookie -->
-      <div class="icon--cookie" @click="redirectToGetCookie">
+      <div class="" @click="redirectToGetCookie">
         <icon-base
-          width="20px"
-          height="20px"
+          class="icon icon--cookie"
+          width="22px"
+          height="22px"
           icon-name="Lấy mã kích hoạt Facebook"
           viewBox="0 0 512 512"
         >
@@ -64,8 +56,9 @@
       <div class="notification--groups help position_relative">
         <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
-            width="20px"
-            height="20px"
+            class="icon icon--help"
+            width="23px"
+            height="23px"
             icon-name="Bạn cần trợ giúp?"
             viewBox="0 0 300 300"
           >
@@ -88,14 +81,13 @@
 
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
-        <div class="btn--notification position_relative mr_2"
-          @click="showNotificationDropdown"
-        >
+        <div class="btn--notification position_relative mr_3" @click="showNotificationDropdown">
           <icon-base
+            class="icon--bell"
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
             icon-name="Thông báo"
-            width="22px"
-            height="22px"
+            width="24px"
+            height="24px"
             viewBox="0 0 512 512"
           >
             <icon-bell></icon-bell>
@@ -120,13 +112,13 @@
       <!-- End: Notification Groups -->
 
       <!-- Start: Video Guide For User -->
-      <div class="video--guide mr_2" @click="showGuidePopup">
+      <div class="video--guide" @click="showGuidePopup">
         <icon-base
-          class="icon--arrow-left"
+          class="icon icon--play"
           icon-name="Hướng dẫn sử dụng"
           width="22"
           height="22"
-          viewBox="0 0 60 60"
+          viewBox="0 0 410 410"
         >
           <icon-play></icon-play>
         </icon-base>
@@ -135,62 +127,45 @@
 
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
-        <div @click="showOptionsMoreDropdown" class="more mt_2">
+        <div @click="showOptionsMoreDropdown" class="more">
           <icon-base
-            class="icon--application"
+            class="icon icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
-            width="24px"
-            icon-name="Lựa chọn"
-            height="24px"
-            viewBox="0 0 512 512"
+            width="20px"
+            height="20px"
+            viewBox="0 0 60 60"
           >
-            <icon-application />
+            <icon-application/>
           </icon-base>
         </div>
         <transition name="dropdown">
-          <div class="position_absolute options" v-if="isShowOptionsMoreDropdown === true" v-click-outside="closeOptionsMoreDropdown">
+          <div
+            class="position_absolute options"
+            v-if="isShowOptionsMoreDropdown === true"
+            v-click-outside="closeOptionsMoreDropdown"
+          >
             <div class="d_flex text_center r m_0 application">
               <div class="zin--post item c_4" @click="gotoHomePost">
-                <icon-base
-                  icon-name="Bee Post"
-                  width="50px"
-                  height="50px"
-                  viewBox="0 0 512 512"
-                >
-                  <icon-zin-post />
+                <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
+                  <icon-zin-post/>
                 </icon-base>
-                <div class="pt_1">Bee Post</div>
+                <div class="pt_1">Zin Post</div>
               </div>
-              <div class="zin--post zin-chat disallowed item c_4">
-                <icon-base
-                  icon-name="Bee Chat"
-                  width="50px"
-                  height="50px"
-                  viewBox="0 0 512 512"
-                >
-                  <icon-zin-chat />
+              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+                <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
+                  <icon-zin-chat/>
                 </icon-base>
-                <div class="pt_1">Bee Chat</div>
+                <div class="pt_1">Zin Chat</div>
               </div>
-              <div class="zin--post instagram disallowed item c_4">
-                <icon-base
-                  icon-name="Instagram"
-                  width="50px"
-                  height="50px"
-                  viewBox="0 0 550 550"
-                >
-                  <icon-instagram />
+              <div class="zin--post instagram item c_4">
+                <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 550 550">
+                  <icon-instagram/>
                 </icon-base>
                 <div class="pt_1">Instagram</div>
               </div>
-              <div class="zin--post zalo disallowed item c_4">
-                <icon-base
-                  icon-name="Zalo"
-                  width="50px"
-                  height="50px"
-                  viewBox="0 0 512 512"
-                >
-                  <icon-zalo />
+              <div class="zin--post zalo item c_4">
+                <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
+                  <icon-zalo/>
                 </icon-base>
                 <div class="pt_1">Zalo</div>
               </div>
@@ -246,6 +221,7 @@
             <div class="mr_2">
               <h4 class="mb_2">{{ user.name }}</h4>
               <p class="mb_2">{{ user.email }}</p>
+              <p class="mb_2">Số điện thoại : {{ user.phone }}</p>
               <div class="more d_flex align_items_center justify_content_between">
                 <router-link class="setting" :to="{ name: 'post_account' }">Thiết lập tài khoản</router-link>
                 <div class="setting ml_4" @click="logOut">Đăng xuất</div>
@@ -285,6 +261,6 @@
 <script src="./index.script.js"></script>
 
 <style scoped lang="scss">
-@import "index.style";
+  @import "index.style";
 </style>
 

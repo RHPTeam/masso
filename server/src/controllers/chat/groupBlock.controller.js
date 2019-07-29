@@ -168,7 +168,7 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const dataGroupGroupUpdated = await GroupBlock.findOne( { "_id": query._groupId, "_account": req.uid } ),
+    const dataGroupGroupUpdated = await GroupBlock.findOne( { "_id": req.query._groupId, "_account": req.uid } ),
       findAllGroup = await GroupBlock.find( { "_account": req.uid } ).lean();
     // check name item block exists
     let checkName = false;
@@ -184,7 +184,7 @@ module.exports = {
     if ( checkName ) {
       return res.status( 403 ).json( jsonResponse( "fail", "Tên item đã tồn tại!" ) );
     }
-    dataGroupGroupUpdated.name = body.name;
+    dataGroupGroupUpdated.name = req.body.name;
     await dataGroupGroupUpdated.save();
     res.status( 201 ).json( jsonResponse( "success", dataGroupGroupUpdated ) );
   },

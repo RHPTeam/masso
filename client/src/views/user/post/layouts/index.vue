@@ -1,14 +1,13 @@
 <template>
-  <div class="wrapper" :data-theme="currentTheme">
+  <div class="wrapper position_relative" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
     <div class="wrap--content d_md_flex d_none position_relative">
       <div class="wrap--content-sidebar">
-        <app-sidebar />
+        <app-sidebar></app-sidebar>
       </div>
       <div class="wrap--content-main">
         <app-header
-          @openExpire="showExpire = $event"
-        />
+          @openExpire="showExpire = $event"></app-header>
         <router-view />
       </div>
     </div>
@@ -27,6 +26,21 @@
       </VuePerfectScrollbar>
       <footer-mobile />
     </div>
+    <!-- Start: Pricing account-->
+    <app-expire
+      v-if="showExpire === true"
+      @close="showExpire = $event"
+    >
+    </app-expire>
+    <!-- End: Pricing account-->
+
+    <!-- Start: Notification guide for user -->
+    <guide-popup
+      v-if="variableControlGuide === 1"
+    >
+    </guide-popup>
+    <!-- End: Notification guide for user-->
+
   </div>
 </template>
 <script src="./index.script.js"></script>
@@ -56,21 +70,4 @@
   color: #ccc;
   background-color: #2f3136;
 }
-
-
-// ============ RESPONSIVE 
-
-// @media screen and (max-width: 768px) {
-//   .wrapper {
-//     .wrap--content-sidebar {
-//       position: absolute;
-//       z-index: 1000;
-//       background: #000;
-//       top: 70px;
-//     }
-//     .wrap--content-main {
-//       padding: 1.875rem 1rem;
-//     }
-//   }
-// }
 </style>

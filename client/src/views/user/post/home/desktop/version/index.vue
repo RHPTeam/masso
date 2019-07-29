@@ -3,7 +3,7 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <vue-perfect-scrollbar class="modal--content">
         <div class="modal--header">
-          <div class="title">THÔNG TIN CẬP NHẬT ZINBEE v2.0.1 - 08/07/2019 </div>
+          <div class="title">THÔNG TIN CẬP NHẬT ZINBEE v3.0.1 - 17/07/2019 </div>
         </div>
         <div class="modal--body mt_3">
           <div class="intro"><img :src="require( '@/assets/images/undraw_content_vbqo.svg' )" alt="Update version zinbee"></div>

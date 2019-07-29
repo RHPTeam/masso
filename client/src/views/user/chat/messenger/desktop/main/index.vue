@@ -1,7 +1,8 @@
 <template>
-  <span class="wrap">
+  <span class="wrap" :data-theme="currentTheme">
     <!--Start: Header Content-->
      <main-header
+       :currentTheme="currentTheme"
        :status="isShowRightSidebar"
         @toggleRightSidebar="isShowRightSidebar = $event"
      />
@@ -10,13 +11,13 @@
     <div class="body d_flex flex_row_reverse">
       <!--Start: Sidebar-->
       <transition name="sidebar">
-        <div class="sidebar" v-if="isShowRightSidebar === false">
-          <right-sidebar/>
+        <div class="sidebar" :class="variableControl.new === true ? 'd_none' : ''" v-if="isShowRightSidebar === false">
+          <right-sidebar :currentTheme="currentTheme" />
         </div>
       </transition>
       <!--End: Sidebar-->
       <!--Start: Chat Content-->
-      <chat-content />
+      <chat-content :currentTheme="currentTheme" />
       <!--End: Chat Content-->
     </div>
     <!--End: Main Content-->
@@ -33,9 +34,20 @@ export default {
     MainHeader,
     RightSidebar
   },
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
   data() {
     return {
       isShowRightSidebar: false
+    }
+  },
+  computed: {
+    variableControl(){
+      return this.$store.getters.caseControl;
     }
   },
 }
@@ -77,4 +89,11 @@ export default {
     }
   }
 }
+  .wrap[data-theme="dark"] {
+    .body {
+      .sidebar {
+        border-color: #27292d;
+      }
+    }
+  }
 </style>

@@ -27,7 +27,7 @@
             <!-- <div class="messenger--total position_absolute">
               <div class="text text_center">0</div>
             </div>-->
-            <div class="pl_2 open--mess">Mở messenger</div>
+            <div class="pl_2 open--mess">Trò chuyện</div>
           </div>
         </router-link>
         <!-- End: Btn Messenger -->
@@ -44,12 +44,55 @@
         <!-- End: Messenger Dropdown -->
       </div>
       <!-- Start: Messenger Link-->
+
+      <!-- Start: Icon GetCookie -->
+      <div class="" @click="redirectToGetCookie">
+        <icon-base
+          class="icon icon--cookie"
+          width="22px"
+          height="22px"
+          icon-name="Lấy mã kích hoạt Facebook"
+          viewBox="0 0 512 512"
+        >
+          <icon-plugin />
+        </icon-base>
+      </div>
+      <!-- End: Icon GetCookie -->
+
+      <!-- Start: Help Dropdown -->
+      <div class="notification--groups help position_relative">
+        <div class="" @click="isShowNotificationHelp = !isShowNotificationHelp">
+          <icon-base
+            class="icon icon--help"
+            width="23px"
+            height="23px"
+            icon-name="Bạn cần trợ giúp?"
+            viewBox="0 0 300 300"
+          >
+            <icon-help />
+          </icon-base>
+        </div>
+<!--        <div class="notification&#45;&#45;dropdown news position_absolute">-->
+<!--          <div class="notification&#45;&#45;dropdown position_absolute">-->
+<!--            <transition name="dropdown">-->
+<!--              <help-notification-->
+<!--                v-if="isShowNotificationHelp === true"-->
+<!--                :notifications="notifications"-->
+<!--                @close="isShowNotificationHelp = $event"-->
+<!--              ></help-notification>-->
+<!--            </transition>-->
+<!--          </div>-->
+<!--        </div>-->
+      </div>
+      <!-- End: Help Dropdown -->
+
       <!-- Start: Notification Groups -->
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3" @click="showNotificationDropdown">
           <icon-base
+            class="icon--bell"
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
-            icon-name="bell"
+            icon-name="Thông báo"
             width="24px"
             height="24px"
             viewBox="0 0 512 512"
@@ -74,15 +117,30 @@
         <!-- End: Notification Dropdown -->
       </div>
       <!-- End: Notification Groups -->
+
+      <!-- Start: Video Guide For User -->
+      <div class="video--guide" @click="showGuidePopup">
+        <icon-base
+          class="icon icon--play"
+          icon-name="Hướng dẫn sử dụng"
+          width="22"
+          height="22"
+          viewBox="0 0 410 410"
+        >
+          <icon-play></icon-play>
+        </icon-base>
+      </div>
+      <!-- End: Video Guide For User -->
+
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
-        <div @click="showOptionsMoreDropdown" class="more mt_2">
+        <div @click="showOptionsMoreDropdown" class="more">
           <icon-base
-            class="icon--application"
+            class="icon icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
-            width="24px"
-            height="24px"
-            viewBox="0 0 512 512"
+            width="20px"
+            height="20px"
+            viewBox="0 0 60 60"
           >
             <icon-application/>
           </icon-base>
@@ -125,24 +183,10 @@
       </div>
       <!-- End: More Options -->
 
-      <!-- Start: Redirect to help -->
-            <div class="help mr_2 ml_1" @click="redirectToGetCookie">
-              <icon-base
-                icon-name="menu"
-                width="25"
-                height="25"
-                viewBox="0 0 25 25"
-              >
-                <icon-help />
-              </icon-base>
-            </div>
-      <!-- End: Redirect to help -->
-
       <!-- Start: User Info -->
       <div
         class="profile position_relative d_flex justify_content_end align_items_center"
-        @click="showProfileDropdown"
-        v-click-outside="closeProfileDropdown"
+        @click="showProfileDropdown" v-click-outside="closeProfileDropdown"
       >
         <div class="profile--image">
           <div
@@ -150,18 +194,24 @@
             class="avatar--wrap avatar--img position_relative d_block"
             :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
           ></div>
-          <div v-else class="avatar--wrap avatar--default position_relative d_block">
-            <span class="position_absolute">
-              {{
+          <div
+            v-else
+            class="avatar--wrap avatar--default position_relative d_block"
+          >
+            <span class="position_absolute">{{
               user.name | getFirstLetter
-              }}
-            </span>
+            }}</span>
           </div>
         </div>
         <span class="profile--name ml_2 mr_2">{{ user.name }}</span>
         <div class="profile--icon">
-          <icon-base icon-name="arrow-down" width="10" height="10" viewBox="0 0 130 130">
-            <icon-arrow-down/>
+          <icon-base
+            icon-name="Hiển thị thêm"
+            width="10"
+            height="10"
+            viewBox="0 0 130 130"
+          >
+            <icon-arrow-down />
           </icon-base>
         </div>
         <!-- Start: Dropdown Menu -->
@@ -172,35 +222,39 @@
           <span class="with--arrow">
             <span class="bg-orange"></span>
           </span>
-          <div class="d_flex align_items_center py_2 px_3 bg-orange border--custom text_white mb_2">
-            <div
-              v-if="user.imageAvatar"
-              class="avatar--wrap avatar--img position_relative d_block"
-              :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
-            ></div>
-            <div v-else class="avatar--wrap avatar--default position_relative d_block">
-              <span class="position_absolute">
-                {{
-                user.name | getFirstLetter
-                }}
-              </span>
+          <div
+            class="d_flex align_items_center py_3 px_4 border--custom text_white mb_2"
+          >
+            <div class="mr_2">
+              <h4 class="mb_2">{{ user.name }}</h4>
+              <p class="mb_2">{{ user.email }}</p>
+              <div class="more d_flex align_items_center justify_content_between">
+                <router-link class="setting" :to="{ name: 'chat_account' }">Thiết lập tài khoản</router-link>
+                <div class="setting ml_4" @click="logOut">Đăng xuất</div>
+              </div>
             </div>
-            <div class="ml_2">
-              <h4 class="mb_0">{{ user.name }}</h4>
-              <p class="mb_0">{{ user.email }}</p>
+            <div class="ml_auto">
+              <div
+                v-if="user.imageAvatar"
+                class="avatar--wrap avatar--img position_relative d_block"
+                :style="{ backgroundImage: 'url(' + user.imageAvatar + ')' }"
+              ></div>
+              <div
+                v-else
+                class="avatar--wrap avatar--default position_relative d_block"
+              >
+            <span class="position_absolute">{{
+              user.name | getFirstLetter
+            }}</span>
+              </div>
             </div>
           </div>
-          <router-link class="dropdown--item" :to="{ name: 'post_account' }">
-            <icon-base icon-name="account" width="20" height="20" viewBox="0 0 24 24">
-              <icon-account/>
-            </icon-base>Thiết lập tài khoản
-          </router-link>
           <div class="dropdown--divider"></div>
-          <a class="dropdown--item" href="javascript:void(0)" @click="logOut">
-            <icon-base icon-name="logout" width="20" height="20" viewBox="0 0 20 20">
-              <icon-logout/>
-            </icon-base>Đăng xuất
-          </a>
+          <div class="info px_4 py_3">
+            <h4 class="mb_2">Thông tin khác</h4>
+            <p class="exp mb_2">Tài khoản sử dụng đến ngày: {{formatDate(user.expireDate)}}</p>
+            <p class="expire" @click="openExpireModal">Gia hạn tài khoản</p>
+          </div>
         </div>
         <!-- End: Dropdown Menu -->
       </div>
@@ -210,7 +264,7 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style scoped lang="scss">
 @import "index.style";

@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       setup: {
-        accountId: "",
+        accountId: [],
         timeStart: new Date()
       }
     }
@@ -125,7 +125,7 @@ export default {
         0 )
     },
     chooseAccount(val){
-      this.setup.accountId = val;
+      this.setup.accountId.push(val);
     }
   }
 };

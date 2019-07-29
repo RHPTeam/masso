@@ -1,5 +1,5 @@
 <template>
-  <div class="libraries p_3">
+  <div class="libraries p_3" :data-theme="currentTheme">
     <div class="title mb_3">Ảnh đã chia sẻ</div>
     <div class="gallery d_flex">
       <div class="gallery--item"
@@ -14,6 +14,12 @@
 
 <script>
 export default {
+  props: {
+    currentTheme: {
+      type: String,
+      default: "dark"
+    }
+  },
   data() {
     return {
       imageList: [
@@ -125,8 +131,25 @@ export default {
 
   //Dark
   .libraries[data-theme="dark"] {
+    .title {
+      color: #fff;
+    }
     .libraries--desc {
-      color: #ccc;
+      color: #fff;
+    }
+    .gallery {
+      &--item {
+        &:nth-of-type(3n+1) {
+          border-right: 2px solid #27292d;
+        }
+        &:nth-of-type(3n+2) {
+          border-left: 1px solid #27292d;
+          border-right: 1px solid #27292d;
+        }
+        &:nth-of-type(3n+3) {
+          border-left: 2px solid #27292d
+        }
+      }
     }
   }
 </style>
