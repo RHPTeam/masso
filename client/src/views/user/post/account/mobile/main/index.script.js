@@ -37,10 +37,22 @@ export default {
     };
   },
   methods: {
+    confirmDelete(event) {
+      if (event === true) {
+        this.user.keywords.splice(this.selectedKeywordIndex, 1);
+        this.$store.dispatch('updateUser', this.user).then(() => {
+          this.isShowPopupDelete = false;
+        });
+      }
+    },
     showChangeName() {
       // this.isShowChangeName = true;
       this.$store.dispatch('actionCursor', 61);
       this.isShowInfoUser = true;
+    },
+    async logout() {
+      await this.$store.dispatch('logout');
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     },
     showChangePassword() {
       this.$store.dispatch('actionCursor', 63);
@@ -55,18 +67,6 @@ export default {
     },
     showPopupDelete() {
       this.isShowPopupDelete = true;
-    },
-    confirmDelete(event) {
-      if (event === true) {
-        this.user.keywords.splice(this.selectedKeywordIndex, 1);
-        this.$store.dispatch('updateUser', this.user).then(() => {
-          this.isShowPopupDelete = false;
-        });
-      }
-    },
-    async logout() {
-      await this.$store.dispatch('logout');
-      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
     }
   }
 };

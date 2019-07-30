@@ -47,6 +47,10 @@ export default new Router( {
     {
       path: "*",
       redirect: "/404"
+    },
+    {
+      path: "/test",
+      component: require( "@/views/test" ).default,
     }
   ]
 } );

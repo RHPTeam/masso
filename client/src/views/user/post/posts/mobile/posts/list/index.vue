@@ -3,15 +3,41 @@
     <!-- Start: List post -->
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
-      <div v-if="allPost.length === 0" class="text_center py_2 no--post">Không có bài viết nào</div>
-      <item-post
-        v-else
-        v-for="item in allPost"
-        :key="item._id"
-        :item="item"
-        @showDetailPost="showPopupDetail($event)"
-        @showPopupDelete="showPopupDelete($event)"
-      />
+      <div v-if="gestureUser === 14">
+        <div class="mb_2 filter">Lọc theo danh mục: <b>{{ categoryById.title }}</b></div>
+        <div
+          v-if="postsFilterByCategory.length === 0"
+          class="text_center py_2 no--post"
+        >Không có bài viết nào</div>
+        <div v-else>
+          <item-post
+            v-for="item in postsFilterByCategory"
+            :key="item._id"
+            :item="item"
+            @showDetailPost="showPopupDetail($event)"
+            @showPopupDelete="showPopupDelete($event)"
+          />
+          <div class="text_center" v-if="postsPageSizeFilter === currentPageFilter"></div>
+          <div class="text_center py_2 load--more" @click="loadMorePostWhenFilter" v-else>Hiển thị thêm...</div>
+        </div>
+      </div>
+      <div v-else>
+        <div
+          v-if="allPost.length === 0"
+          class="text_center py_2 no--post"
+        >Không có bài viết nào</div>
+        <div v-else>
+          <item-post
+            v-for="item in allPost"
+            :key="item._id"
+            :item="item"
+            @showDetailPost="showPopupDetail($event)"
+            @showPopupDelete="showPopupDelete($event)"
+          />
+          <div class="text_center" v-if="postsPageSize === currentPage"></div>
+          <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
+        </div>
+      </div>
     </VuePerfectScrollbar>
     <!-- End: List post -->
     <!-- Start: Transition -->
@@ -49,6 +75,7 @@ export default {
   data() {
     return {
       currentPage: 1,
+      currentPageFilter: 1,
       isFirstTime: false,
       isShowPopupDelete: false,
       isShowDetailPost: false,
@@ -66,36 +93,55 @@ export default {
     PopupDelete
   },
   computed: {
+    allPost() {
+      // console.log("this.$store.getters.allPost", this.$store.getters.allPost);
+      return this.$store.getters.allPost;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    allPost() {
-      return this.$store.getters.allPost;
+    categoryById() {
+      return this.$store.getters.categoryById;
     },
-    postsPageInfinite(){
+    numberPageCurrent() {
+      return this.$store.getters.numberPageCurrent;
+    },
+    postsPageInfinite() {
       return this.$store.getters.postsPageInfinite;
     },
     postsPageSize() {
       return this.$store.getters.postsPageSize;
+    },
+    postsPageSizeFilter() {
+      return this.$store.getters.postsPageSizeFilter;
+    },
+    gestureUser() {
+      return this.$store.getters.gestureUser;
+    },
+    postsFilterByCategory() {
+      return this.$store.getters.postsFilterByCategory;
+    },
+    idCategoryToLoadMore() {
+      return this.$store.getters.idCategoryToLoadMore;
     }
   },
   methods: {
     async loadMore() {
-      if (this.isLoadingData === true) {
-        console.log("this.currentPage", this.currentPage);
-        console.log("this.postsPageSize", this.postsPageSize);
-        if (this.currentPage >= this.postsPageSize) {
-          return false;
-        } else if (this.isFirstTime === true) {
-          this.isLoadingData = false;
-          this.currentPage += 1;
-          await this.$store.dispatch("getPostsPageInfinite", {
-            page: this.currentPage,
-            size: this.pageSize
-          });
-          this.isLoadingData = true;
-        }
-      }
+      this.currentPage += 1;
+
+      await this.$store.dispatch("getPostsByPageMobile", {
+        size: this.pageSize,
+        page: this.currentPage
+      });
+    },
+    loadMorePostWhenFilter() {
+      this.currentPageFilter += 1;
+
+      this.$store.dispatch("getPostByCategoriesLoadMoreMobile", {
+        categoryId: this.idCategoryToLoadMore,
+        size: this.pageSize,
+        page: this.currentPageFilter
+      });
     },
     showPopupDetail(post) {
       this.postSelected = post;
@@ -110,14 +156,12 @@ export default {
     }
   },
   async created() {
-    if (this.$router.name === "post_posts") {
-      const postNo = this.$store.getters.allPost;
-      if (postNo.length === 0) {
-        const dataSender = {
-          page: this.currentPage,
-          size: this.pageSize
-        };
-        await this.$store.dispatch("getPostsByPage", dataSender);
+    
+  },
+  watch: {
+    "gestureUser"(value) {
+      if(value === 14) {
+      this.currentPage = 1;
       }
     }
   }
@@ -154,6 +198,12 @@ export default {
 }
 // End Transition
 .main--list {
+  .filter {
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
   .no--post {
     font-size: 0.9315rem;
   }

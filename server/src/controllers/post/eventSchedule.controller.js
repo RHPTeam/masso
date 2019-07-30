@@ -1,5 +1,6 @@
 const GroupFacebook = require( "../../models/post/GroupFacebook.model" );
 const PageFacebook = require( "../../models/post/PageFacebook.model" );
+const Facebook = require( "../../models/Facebook.model" );
 const Post = require( "../../models/post/Post.model" );
 const PostGroup = require( "../../models/post/PostGroup.model" );
 const EventSchedule = require( "../../models/post/EventSchedule.model" ),
@@ -38,15 +39,26 @@ module.exports = {
         if ( event && event.target_category ) {
           const postGroupInfo = await PostGroup.findOne( { "_id": event.target_category } ).lean();
 
-          // Handle Page
-          listTarget = listTarget.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
-            return convert( 2, page );
-          } ) ) );
+          if ( postGroupInfo ) {
+            // Handle Timeline
+            listTarget = listTarget.concat( await Promise.all( postGroupInfo._timeline.map( async ( timeline ) => {
+              const facebookID = await Facebook.findOne( { "userInfo.id": timeline } ).lean();
 
-          // Handle Group
-          listTarget = listTarget.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
-            return convert( 1, group );
-          } ) ) );
+              if ( facebookID ) {
+                return convert( 0, facebookID._id );
+              }
+            } ) ) );
+
+            // Handle Page
+            listTarget = listTarget.concat( await Promise.all( postGroupInfo._pages.map( async ( page ) => {
+              return convert( 2, page );
+            } ) ) );
+
+            // Handle Group
+            listTarget = listTarget.concat( await Promise.all( postGroupInfo._groups.map( async ( group ) => {
+              return convert( 1, group );
+            } ) ) );
+          }
         }
 
         // Check target custom

@@ -24,6 +24,9 @@ export default {
     currentTheme(){
       return this.$store.getters.themeName;
     }
+  },
+  created() {
+    this.$store.dispatch("getAllFriendFbChat");
   }
 }
 </script>

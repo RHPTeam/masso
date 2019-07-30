@@ -14,6 +14,6 @@ export default {
     return Api().get(`friends?_size=${size}&_page=${page}`);
   },
   searchFriend(keyword, size, page){
-    return Api().get(`friends/search?keyword=${keyword}&_size=${size}&_page=${page}`);
+    return Api().post(`friends/search?keyword=${keyword}&_size=${size}&_page=${page}`);
   }
 }

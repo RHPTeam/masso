@@ -113,6 +113,7 @@ const actions = {
       // If status === true then index account.
       const result = await AccountFacebookChatService.index();
       await commit('addNewAccountFacebook', result.data.data);
+      commit('setAccountsFB', result.data.data);
 
       commit('facebook_success');
     } catch (e) {

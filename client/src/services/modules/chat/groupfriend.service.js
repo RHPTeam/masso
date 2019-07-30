@@ -32,7 +32,7 @@ export default {
 
     // delete item friends
     deleteGroupFriends( id ){
-        return Api().put(`group-friends?_groupId=${id}`)
+        return Api().put(`group-friends?_groupId=${id}`);
     },
   deleteFriendsOnGroup( groupId,friendId ){
     return Api().put(`group-friends?_groupId=${groupId}&_friend=true`, friendId);

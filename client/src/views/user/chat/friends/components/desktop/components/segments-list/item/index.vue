@@ -74,6 +74,11 @@ export default {
       this.$store.dispatch("getGroupFriendById", val);
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);
+
+      this.$router.replace({
+        name: "chat_friends",
+        query: {gid: val}
+      })
     },
     showDeletePopup() {
       this.isDeleteItemBlock = true;

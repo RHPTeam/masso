@@ -1,6 +1,6 @@
 <template>
   <div :data-theme="currentTheme">
-    <div class="position_absolute" style="bottom: 1rem; left: 1rem;">
+    <div class="position_fixed" style="bottom: 4rem; left: 1rem;z-index:+10">
 
       <!-- Then put toasts within -->
       <div

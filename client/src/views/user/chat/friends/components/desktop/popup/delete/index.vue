@@ -69,6 +69,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    friendSelected() {
+      return this.$store.getters.uidSelectDelete;
     }
   },
   watch: {
@@ -83,25 +86,23 @@ export default {
     deleteTargets() {
       this.$store.dispatch( this.storeActionName, this.targetData );
 
-      this.$emit( "closePopup", false );
-    },
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+      this.closePopup();
     },
     deleteSelected() {
-      if (this.type === 'friends') {
+      if (this.typeName === 'friends') {
         const dataSender = {
-          gr_id: this.targetData._id,
-          friends: this.selectedUIDs
-        }
-        this.$store.dispatch("deleteFriendsFromGroup", dataSender);
-        this.$emit("closeAddPopup", false);
-        this.$store.dispatch("selectedUIDs", []);
+          gr_id: this.$route.query.gid,
+          friendsId: this.friendSelected.map(item => item.userID)
+        };
+        console.log(dataSender);
+        this.$store.dispatch("deleteFriendFromGroup", dataSender);
+        this.$store.dispatch("selectDeleteUID", []);
+        this.closePopup();
       }
       else if (this.typeName === 'group') {
         const gr_id = this.targetData._id;
         this.$store.dispatch("deleteGroupFriend", gr_id);
-        this.$emit("closeAddPopup", false);
+        this.closePopup();
       }
     }
   }

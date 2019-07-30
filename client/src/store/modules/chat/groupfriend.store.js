@@ -111,13 +111,17 @@ const actions = {
         // const rsGetAllGroup = await GroupFriend.getAllGroupFriends();
         // commit("setAllGroupFriend", rsGetAllGroup.data.data);
     },
-  deleteFriendFromGroup: async ({commit,state}, payload) => {
+  deleteFriendFromGroup: async ({commit}, payload) => {
     commit("group_request");
-    const listFriend = payload.map(uid => {
-      state.friends.filter(item => item.uid !== uid);
-    });
-    console.log(listFriend);
-    await GroupFriend.deleteFriendsOnGroup(payload);
+    const dataSender = {
+      friendId: payload.friendsId
+    };
+    await GroupFriend.deleteFriendsOnGroup(payload.gr_id, dataSender);
+
+    const rsGetId = await GroupFriend.getInfoGroupFriend( payload.gr_id );
+    commit("setGroupFriend", rsGetId.data.data.data);
+    commit("setListFriendOfGroup", rsGetId.data.data.friends);
+
     commit("group_success");
   },
   selectedUIDs: async ({commit}, payload) => {

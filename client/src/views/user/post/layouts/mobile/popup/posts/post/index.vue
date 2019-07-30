@@ -36,6 +36,7 @@
           <!-- Start: Post Categories -->
           <div class="item">
             <span>Danh mục</span>
+            <div class="error my_1" v-if="isShowAlertCategory === true">Danh mục không được bỏ trống</div>
             <div class="item--categories mt_2">
               <multiselect
                 label="title"
@@ -306,7 +307,7 @@
                 class="d_flex align_items_center m_1 more py_2"
                 @click="isShowMoreOption = !isShowMoreOption"
               >
-                Thêm vào văn bản
+                Thêm vào bài viết của bạn
                 <div class="ml_auto">
                   <icon-base
                     class="icon--image mr_2"

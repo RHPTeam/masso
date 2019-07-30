@@ -2,8 +2,12 @@
   <div class="category--data mt_2" :data-theme="currentTheme">
     <div class="wrapper">
       <VuePerfectScrollbar class="list--category">
-      <div v-if="categories.length === 0" class="text_center py_2 no--post">Không có danh mục nào</div>
-        <item-categories :item="item" v-for="item in categories" :key="item._id"/>
+        <div v-if="categories.length === 0" class="text_center py_2 no--category">Không có danh mục nào</div>
+        <div v-else>
+          <item-categories :item="item" v-for="item in categories" :key="item._id"/>
+          <div class="text_center" v-if="categoriesPageSize === currentPage"></div>
+          <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
+        </div>
       </VuePerfectScrollbar>
     </div>
   </div>
@@ -13,7 +17,7 @@
 
 <style lang="scss" scoped>
 @import "index.style";
-  .no--post {
+  .no--category {
     font-size: 0.9315rem;
   }
 </style>

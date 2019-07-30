@@ -26,14 +26,45 @@
             <div class="share mb_1">Số lượt share: {{ fbSelected.share }}</div>
             <div class="content">
               <p class="mb_0">Nội dung:</p>
-              <p class="mb_0 pl_2 text">{{ fbSelected.content}}</p>
+              <div
+                class="pl_2"
+                style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;font-size:0.8315rem;"
+                v-html="fbSelected.content"
+              ></div>
+            </div>
+            <div class="pl_2 gallery d_flex justify_content_start align_items_center flex_wrap">
+              <div
+                class="gallery--block position_relative"
+                v-for="(gallery, index) in fbSelected.attachments.slice(0,3)"
+                :key="`i-${index}`"
+              >
+                <div class="image--wrap position_relative">
+                  <img :src="gallery.link" />
+                </div>
+              </div>
+              <div class="gallery--block position_relative" v-if="fbSelected.attachments.length > 4">
+                <div class="image--wrap position_relative">
+                  <img
+                    src="https://is1-ssl.mzstatic.com/image/thumb/Purple124/v4/26/40/90/264090b4-017b-758e-9e32-f4cb602fe70e/AppIcon-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-4.png/246x0w.jpg"
+                    alt
+                  />
+                </div>
+                <div
+                  class="gallery--block-more d_flex align_items_center justify_content_center position_absolute"
+                >+ {{ fbSelected.attachments.length - 4 }}</div>
+              </div>
             </div>
           </div>
         </vue-perfect-scrollbar>
         <!-- End: Modal Body -->
         <!-- Start: Transition  -->
         <transition name="popup--mobile">
-          <modal-edit :post="post" v-if="isShowEdit === true" @closePopup="isShowEdit = $event" @closeAllEdit="closeAllEdit($event)"/>
+          <modal-edit
+            :post="post"
+            v-if="isShowEdit === true"
+            @closePopup="isShowEdit = $event"
+            @closeAllEdit="closeAllEdit($event)"
+          />
         </transition>
         <!-- End: Transition  -->
       </div>
@@ -64,14 +95,7 @@ export default {
   },
   methods: {
     closeAllEdit(event) {
-      this.$emit("closeAllEdit", event)
-    },
-    sliceImage() {
-      return this.item.attachments.slice(0, 3);
-    },
-    resetPost() {
-      this.post.title = "";
-      this.post.content = "";
+      this.$emit("closeAllEdit", event);
     },
     closePopup() {
       this.$emit("closePopup", false);
@@ -97,6 +121,13 @@ export default {
         attachments: this.fbSelected.attachments
       });
       // this.closePopup();
+    },
+    resetPost() {
+      this.post.title = "";
+      this.post.content = "";
+    },
+    sliceImage() {
+      return this.item.attachments.slice(0, 3);
     }
   }
 };
