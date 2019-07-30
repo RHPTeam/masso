@@ -116,6 +116,9 @@ export default {
     // }
   },
   methods: {
+    closePopupActiveAccount() {
+      this.isShowAction = false;
+    },
     formatDate(date) {
       const dateTime = new Date(date);
       const hour = String(dateTime.getHours()).padStart(2, 0);
@@ -124,9 +127,6 @@ export default {
       const month = String(dateTime.getMonth() + 1).padStart(2, 0);
       const year = dateTime.getFullYear();
       return `${hour}:${min} ngày ${day}/${month}/${year}`;
-    },
-    closePopupActiveAccount() {
-      this.isShowAction = false;
     },
     showPopupActiveAccount() {
       this.isShowAction = true;

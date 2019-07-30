@@ -1,24 +1,24 @@
 <template>
   <div class="wrapper" :data-theme="currentTheme">
     <div class="content mb_3">
-      <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
-        <!-- Start: Modal Header -->
-        <div class="modal--header d_flex align_items_center mb_3">
-          <div @click="closePopup">
-            <icon-base
-              icon-name="arrow-down"
-              class="arrow-down"
-              width="20"
-              height="20"
-              viewBox="0 0 130 130"
-            >
-              <icon-arrow-down />
-            </icon-base>
-          </div>
-          <div class="title m_auto">Sửa bài viết</div>
-          <div class="edit mr_3" @click="savePost">Xong</div>
+      <!-- Start: Modal Header -->
+      <div class="modal--header d_flex align_items_center mb_3">
+        <div @click="closePopup">
+          <icon-base
+            icon-name="arrow-down"
+            class="arrow-down"
+            width="20"
+            height="20"
+            viewBox="0 0 130 130"
+          >
+            <icon-arrow-down />
+          </icon-base>
         </div>
-        <!-- End: Modal Header -->
+        <div class="title m_auto">Sửa bài viết</div>
+        <div class="edit mr_3" @click="savePost">Xong</div>
+      </div>
+      <!-- End: Modal Header -->
+      <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
         <div class="modal--main px_2">
           <!-- Start: Post Title -->
           <div class="item mb_4">
@@ -36,6 +36,7 @@
           <!-- Start: Post Categories -->
           <div class="item">
             <span>Danh mục</span>
+            <div class="error my_1" v-if="isShowAlertCategory === true">Danh mục không được bỏ trống</div>
             <div class="item--categories mt_2">
               <multiselect
                 label="title"
@@ -305,7 +306,7 @@
                 class="d_flex align_items_center m_1 more py_2"
                 @click="isShowMoreOption = !isShowMoreOption"
               >
-                Thêm vào văn bản
+                Thêm vào bài viết của bạn
                 <div class="ml_auto">
                   <icon-base
                     class="icon--image mr_2"
@@ -339,7 +340,11 @@
               <!-- End: show option-->
               <transition name="popup--list">
                 <!--Start: Show option when click-->
-                <div v-if="isShowMoreOption === true" class="list" v-click-outside="closeMoreOption">
+                <div
+                  v-if="isShowMoreOption === true"
+                  class="list"
+                  v-click-outside="closeMoreOption"
+                >
                   <div
                     class="item d_flex align_items_center"
                     :class="isActiveImage === true ? 'aqua_hidden' : ''"
@@ -412,35 +417,35 @@
           </div>
           <!-- End: Post Content -->
         </div>
-        <!-- Start: Transition -->
-        <transition name="popup">
-          <!-- Start: Activity -->
-          <activity-post
-            v-if="isShowActivity === true"
-            :post="post"
-            @sendPhoto="photo = $event"
-            @closeActivity="isShowActivity = $event"
-          ></activity-post>
-          <!--End: Activity -->
-          <!-- Start: Tag-->
-          <tag-post
-            v-if="isShowTag === true"
-            :post="post"
-            @updatePostTags="updatePostTags($event)"
-            @closeTag="isShowTag = $event"
-          ></tag-post>
-          <!--End: Tag-->
-          <!-- Start: Checkin-->
-          <checkin-post
-            v-if="isShowCheckIn === true"
-            :post="post"
-            @closeAddress="isShowCheckIn = $event"
-            @updateCheckin="updateCheckin($event)"
-          ></checkin-post>
-          <!-- End: Checkin-->
-        </transition>
-        <!-- End: Transition -->
       </vue-perfect-scrollbar>
+      <!-- Start: Transition -->
+      <transition name="popup">
+        <!-- Start: Activity -->
+        <activity-post
+          v-if="isShowActivity === true"
+          :post="post"
+          @sendPhoto="photo = $event"
+          @closeActivity="isShowActivity = $event"
+        ></activity-post>
+        <!--End: Activity -->
+        <!-- Start: Tag-->
+        <tag-post
+          v-if="isShowTag === true"
+          :post="post"
+          @updatePostTags="updatePostTags($event)"
+          @closeTag="isShowTag = $event"
+        ></tag-post>
+        <!--End: Tag-->
+        <!-- Start: Checkin-->
+        <checkin-post
+          v-if="isShowCheckIn === true"
+          :post="post"
+          @closeAddress="isShowCheckIn = $event"
+          @updateCheckin="updateCheckin($event)"
+        ></checkin-post>
+        <!-- End: Checkin-->
+      </transition>
+      <!-- End: Transition -->
     </div>
   </div>
 </template>
@@ -483,7 +488,7 @@
     }
   }
   .modal--scroll-edit {
-    max-height: 97vh;
+    height: calc(100vh - 70px);
   }
 }
 </style>

@@ -116,6 +116,15 @@ module.exports = {
     // Check status of campaign to create status for event
     req.body.status = findCampaign.status;
     req.body._account = req.uid;
+
+    // Check if client send body without props
+    if ( req.body.plugins && req.body.plugins.mix && req.body.plugins.mix.close === "" ) {
+      delete req.body.plugins.mix.close;
+    }
+    if ( req.body.plugins && req.body.plugins.mix && req.body.plugins.mix.open === "" ) {
+      delete req.body.plugins.mix.open;
+    }
+
     // eslint-disable-next-line one-var
     const newEvent = new Event( req.body );
 
@@ -233,6 +242,13 @@ module.exports = {
     }
     if ( req.body.plugins === undefined ) {
       findEvent.plugins = undefined;
+    }
+    // Check if client send body without props
+    if ( req.body.plugins && req.body.plugins.mix && req.body.plugins.mix.close === "" ) {
+      delete req.body.plugins.mix.close;
+    }
+    if ( req.body.plugins && req.body.plugins.mix && req.body.plugins.mix.open === "" ) {
+      delete req.body.plugins.mix.open;
     }
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {

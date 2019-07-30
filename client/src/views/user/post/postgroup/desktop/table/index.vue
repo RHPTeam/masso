@@ -4,7 +4,7 @@
     <div v-if="groupSelected === false">
       <!-- Start: Loading Component -->
       <div class="loading--block"
-           v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading' "
+           v-if="facebookGroupsStatus === 'loading' && facebookPagesStatus === 'loading' "
       >
         <loading-component class="loading"></loading-component>
       </div>
@@ -28,9 +28,10 @@
             >
               <div class="col col--checkbox px_2">
                 <label class="custom--checkbox mb_0">
-                  <input type="checkbox"
-                         v-model="selectedProfile"
-                         :value="item.userInfo.id"
+                  <input
+                    type="checkbox"
+                    v-model="selectedProfile"
+                    :value="item.userInfo.id"
                   />
                 </label>
               </div>
@@ -51,7 +52,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Trang Facebook</div>
+            >Fanpage Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
@@ -81,7 +82,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Nhóm Facebook</div>
+            >Group Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"
@@ -180,7 +181,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Trang
+            >Fanpage Facebook
             </div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in postGroupDetailPage"
@@ -211,7 +212,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Nhóm</div>
+            >Group Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in postGroupDetailGroup"
                 :key="`fbp-${index}`"

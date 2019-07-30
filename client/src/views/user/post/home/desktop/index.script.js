@@ -470,12 +470,6 @@ export default {
       }
     }
   },
-  created() {
-    this.$store.dispatch("getAllAnalysis" );
-    this.$store.dispatch("getAllStaticCampagin" ) ;
-    this.$store.dispatch("getAllSttPost" );
-    this.$store.dispatch("getNewestPosts", 5);
-  },
   methods: {
     async goToThisPost( id ) {
       await this.$store.dispatch( "getPostById", id );

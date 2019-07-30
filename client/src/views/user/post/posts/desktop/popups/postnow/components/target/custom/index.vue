@@ -1,36 +1,7 @@
 <template>
   <div class="page">
-    <div class="mb_3">Tùy chọn đăng vào các nhóm và trang mà bạn có mặt trên facebook.</div>
+    <div class="mb_3">Chọn Fanpage Facebook bạn muốn đăng</div>
     <div class="body">
-      <!-- Start: Pages Selected -->
-      <div class="item d_flex mb_3">
-        <div class="icon mr_2">
-          <icon-base
-            class="icon--page"
-            height="20px"
-            width="20px"
-            viewBox="0 0 500 500"
-          >
-            <icon-page></icon-page>
-          </icon-base>
-        </div>
-        <div class="content">
-          <div class="main">
-            <multiselect
-              multiple
-              label="name"
-              placeholder="Chọn trang muốn đăng"
-              :value="selectedFbPages"
-              :options="facebookPages"
-              @input="selectFacebookPage"
-            />
-          </div>
-          <div class="desc px_2 mt_1">Bao gồm
-            <span>{{ selectedFbPages.length }} trang</span> được chọn.
-          </div>
-        </div>
-      </div>
-      <!-- End: Pages Selected -->
       <!-- Start: Groups Selected -->
       <div class="item d_flex ">
         <div class="icon mr_2">
@@ -46,23 +17,17 @@
         <div class="content">
           <div class="main">
             <multiselect
-              multiple
               label="name"
-              placeholder="Chọn nhóm muốn đăng"
-              :value="selectedFbGroups"
-              :options="facebookGroups"
-              @input="selectFacebookGroup"
+              placeholder="Chọn Fanpage Facebook muốn đăng"
+              :clearable="false"
+              v-model="postSchedule._fanpageId"
+              :options="facebookPages"
+              @input="selectFacebookPage"
             />
-          </div>
-          <div class="desc px_2 mt_1">Bao gồm
-            <span>{{ selectedFbGroups.length }} nhóm</span> được chọn.
           </div>
         </div>
       </div>
       <!-- End: Groups Selected -->
-    </div>
-    <div class="bottom mt_3">
-      <timeline></timeline>
     </div>
   </div>
 </template>
@@ -71,30 +36,27 @@
 import Timeline from "../timline";
 
 export default {
-  components: {
-    Timeline
-  },
+  props: ["postSchedule"],
   data() {
     return {
       custom: [],
-      selectedFbPages: [],
-      selectedFbGroups: []
+      selectedFbPages: []
     }
   },
   computed: {
-    facebookGroups(){
-      return this.$store.getters.facebookGroups;
-    },
     facebookPages(){
       return this.$store.getters.facebookPages;
     }
   },
+  async created(){
+    await this.$store.dispatch( "getFacebookPages" );
+  },
   methods: {
-    selectFacebookGroup( value ) {
-      this.selectFacebookGroup = value;
-    },
-    selectFacebookPage( value ) {
-      this.selectFacebookPage = value;
+    async selectFacebookPage() {
+      await this.$emit( "openTimer", true );
+      delete (this.postSchedule._facebookId);
+      delete (this.postSchedule._groupId);
+      this.$emit( "updatePostSchedule", this.postSchedule );
     }
   },
 }

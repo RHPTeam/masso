@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile--dashboard d_block d_md_none position_relative p_3">
+  <div class="mobile--dashboard position_relative p_3">
     <!-- Start: Content -->
     <div class="main--content">
       <div class="overview">
@@ -81,60 +81,6 @@
           </div>
         </div>
         <!-- End: General Analytics-->
-        <!-- Start Post Analytics -->
-        <div class="order--server-history mx_0 mt_3 r">
-          <div class="server px_0 c_sm_12 px_0">
-            <div class="view--post-day">
-              <VueApexCharts type="line" height="350" :options="chartOptions" :series="allSttPost"></VueApexCharts>
-            </div>
-          </div>
-          <!-- <div class="order c_sm_12 mt_3 pt_3">
-            <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
-              <h3 class="title--overview">Bài viết gần đây</h3>
-              <router-link class="view--all" :to="{ name: 'post_posts' }">Xem tất cả</router-link>
-            </div>
-            <div class="table-container" role="table" aria-label="Destinations">
-              <div class="flex-table header" role="rowgroup">
-                <div class="flex-row first" role="columnheader">Tiêu đề</div>
-                <div class="flex-row d_none d_sm_block" role="columnheader">Danh mục</div>
-                <div class="flex-row" role="columnheader">Hình ảnh</div>
-              </div>
-              <div v-if="newestPost.length > 0">
-                <div
-                  class="flex-table row"
-                  role="rowgroup"
-                  v-for="(item, index) in newestPost"
-                  :key="index"
-                  @click="goToThisPost(item._id)"
-                >
-                  <div class="flex-row first" role="cell">{{ item.title }}</div>
-                  <div class="flex-row d_none d_sm_block" role="cell">
-                    <span
-                      v-for="(category, index) in item._categories"
-                      :key="`c-${index}`"
-                    >{{ category.title + [ index === item._categories.length - 1 ? '' : ', ' ] }}</span>
-                  </div>
-                  <div class="flex-row" role="cell">
-                    <div class="d_flex">
-                      <span v-if="item.attachments.length === 0">Không có ảnh</span>
-                      <div
-                        v-else
-                        v-for="(img, index) in item.attachments.slice(0, 3)"
-                        :key="`i-${index}`"
-                        class="img--select"
-                      >
-                        <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
-            </div>
-          </div>-->
-          <!-- End: Content -->
-        </div>
-        <!-- End: Post Analytics -->
 
         <!-- Start: Friend Follow -->
         <!-- <friends-follow
