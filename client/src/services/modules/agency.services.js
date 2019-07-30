@@ -50,11 +50,11 @@ export default {
       }
     } );
   },
-  searchMember(){
+  searchMember(agencyId, value){
+    console.log(value);
     return request( {
       "method": "post",
-      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user/search?_keyword=${keyword}`,
-      "data": info,
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user/search?_id=${agencyId}&value=${value}`,
       "headers": {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }

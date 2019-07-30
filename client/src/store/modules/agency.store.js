@@ -91,8 +91,12 @@ const actions = {
   },
   searchMemberByAgency: async ({commit}, payload) => {
     commit("agency_request");
-    const result = await AgencyServices.searchMember(payload);
-    console.log(result);
+    const agencyId = CookieFunction.getCookie("uid");
+    const objSender = {
+      value: payload
+    };
+    const result = await AgencyServices.searchMember(agencyId, objSender);
+    console.log(result.data.data);
     commit("agency_success");
   }
 
