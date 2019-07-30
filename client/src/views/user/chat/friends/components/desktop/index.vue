@@ -5,11 +5,11 @@
       @changeSelectedGroup="groupSelected = $event"
       :groupSelected="groupSelected"
     ></segments-list>
-<!--    <segments-attribute-->
-<!--      :selectFilter="selectFilter"-->
-<!--      @openResultsFilter="selectFilter = $event"-->
-<!--      @hiddenDefault="resultsDefault = $event"-->
-<!--    ></segments-attribute>-->
+    <segments-attribute
+      :selectFilter="selectFilter"
+      @openResultsFilter="selectFilter = $event"
+      @hiddenDefault="resultsDefault = $event"
+    ></segments-attribute>
     <segments-content
       :groupSelected="groupSelected"
       :selectFilter="selectFilter"
@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import SegmentsList from "./segments/segments-list";
-import SegmentsAttribute from "./segments/segments-attribute";
-import SegmentsContent from "./segments";
+import SegmentsList from "./components/segments-list";
+import SegmentsAttribute from "./components/segments-attribute";
+import SegmentsContent from "./components";
 
 export default {
   components: {

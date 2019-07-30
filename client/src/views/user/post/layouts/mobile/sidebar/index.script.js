@@ -40,7 +40,7 @@ export default {
         {
           text: "Nhóm & Trang",
           icon: {
-            iconName: "auto-answer",
+            iconName: "srv-answer",
             tagName: "icon-auto-answer",
             width: 20,
             height: 20,

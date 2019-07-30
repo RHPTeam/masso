@@ -67,11 +67,10 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getAllGroupFriend");
+    // await this.$store.dispatch("getAllGroupFriend");
   },
   methods: {
     getInfoGroupById(val) {
-      // this.currentIndex = index;
       this.$store.dispatch("getGroupFriendById", val);
       this.$store.dispatch("selectedUIDs", []);
       this.$emit("groupSelected", true);

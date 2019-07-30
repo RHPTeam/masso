@@ -48,20 +48,20 @@ export default {
       showLoader: true
     };
   },
-  async created() {
-    const friends = this.$store.getters.friends;
+  created() {
+    // const groupId = this.$route.query.gid,
+      // friendsGr  = this.$store.getters.friendsOfGroup;
+
+    // console.log(groupId);
 
     // await this.$store.dispatch("selectedUIDs", []);
     /**
      *  get info friends with page = 1 and size default = 25
      * @returns array
      */
-    if(friends && friends.length === 0) {
-      await this.$store.dispatch("getFriendFbBySize", {
-        size:  this.perPage,
-        page: this.currentPage
-      });
-    }
+    // if(groupId && friendsGr.length === 0) {
+    //   this.$store.dispatch("getGroupFriendById", groupId);
+    // }
   },
   computed: {
     currentTheme() {
@@ -107,40 +107,39 @@ export default {
         });
       }
     },
-    // selectAll: {
-    //   get() {
-    //     if (this.groupSelected === false) {
-    //       return this.users
-    //         ? this.selectedUIDs.length === this.users.length
-    //         : false;
-    //     } else {
-    //       return this.usersOfGroup
-    //         ? this.selectedUIDs.length === this.usersOfGroup.length
-    //         : false;
-    //     }
-    //   },
-    //   set(value) {
-    //     let selected = [];
-    //     if (this.groupSelected === false) {
-    //       if (value) {
-    //         this.users.forEach(function(user) {
-    //           selected.push(user._id);
-    //         });
-    //       }
-    //     } else {
-    //       if (value) {
-    //         this.usersOfGroup.forEach(function(user) {
-    //           selected.push(user._id);
-    //         });
-    //       }
-    //     }
-    //
-    //     this.selectedArr = selected;
-    //     this.$store.dispatch("selectedUIDs", this.selectedArr);
-    //   }
-    // },
+    selectAll: {
+      get() {
+        if (this.groupSelected === false) {
+          return this.users
+            ? this.selectedUIDs.length === this.users.length
+            : false;
+        } else {
+          return this.usersOfGroup
+            ? this.selectedUIDs.length === this.usersOfGroup.length
+            : false;
+        }
+      },
+      set(value) {
+        let selected = [];
+        if (this.groupSelected === false) {
+          if (value) {
+            this.users.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
+        } else {
+          if (value) {
+            this.usersOfGroup.forEach(function(user) {
+              selected.push(user._id);
+            });
+          }
+        }
+
+        this.selectedArr = selected;
+        this.$store.dispatch("selectedUIDs", this.selectedArr);
+      }
+    },
     users() {
-      if(this.$store.getters.friends === undefined) return;
       return this.$store.getters.friends;
     },
     /**
@@ -155,9 +154,8 @@ export default {
      *  get info group friends by id
      * @returns array
      */
-    listFriendOfGroup(){
-      if(this.$store.getters.groupFriend === undefined) return;
-      return this.$store.getters.groupFriend;
+    memberOfGroup(){
+      return this.$store.getters.friendsOfGroup;
     },
     /**
      *  get page in results
@@ -178,6 +176,15 @@ export default {
       set(value) {
         this.$store.dispatch("selectedUIDs", value);
       }
+    },
+    selectDeleteUID: {
+      get() {
+        return this.$store.getters.uidSelectDelete;
+      },
+      set(value) {
+        console.log(value);
+        this.$store.dispatch("selectDeleteUID", value);
+      }
     }
   },
   methods: {
@@ -195,7 +202,7 @@ export default {
 
           this.currentPage += 1;
 
-          await this.$store.dispatch("getFriendFacebookBySize", {
+          await this.$store.dispatch("getFriendFbChatBySize", {
             size: this.perPage,
             page: this.currentPage
           });

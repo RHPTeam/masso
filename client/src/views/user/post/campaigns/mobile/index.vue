@@ -104,12 +104,14 @@
         @closePopup="isShowPopupDelete = $event"
         @confirmDelete="confirmDeleteCampaign($event)"
         v-if="isShowPopupDelete === true"
+        title="chiến dịch"
       />
       <popup-copy
         :selectedCampaign="selectedCampaign"
         @closePopup="isShowPopupCopy = $event"
         @confirmCopy="confirmCopyCampaign($event)"
         v-if="isShowPopupCopy === true"
+        @showCampaign="showCampaign"
       />
       <!-- <popup-duplicate-campaign/> -->
     </transition>

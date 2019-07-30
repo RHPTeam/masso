@@ -142,7 +142,8 @@
     </div>
     <!-- End User Table Header -->
     <!--Start: Loading Component-->
-    <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
+    <vue-perfect-scrollbar class="infinite">
+<!--      @ps-y-reach-end="loadMore"-->
 <!--      <loading-component-->
 <!--        class="friends text_center pt_3"-->
 <!--      />-->
@@ -225,11 +226,11 @@
 
         <!--Start: Show all info user in table-->
         <div v-if="groupSelected === true">
-          <div v-if="listFriendOfGroup && listFriendOfGroup.length > 0">
+          <div v-if="memberOfGroup && memberOfGroup.length > 0">
 
             <div
               class="user--table-item record"
-              v-for="(user, index) in listFriendOfGroup[0]._friends"
+              v-for="(user, index) in memberOfGroup"
               :key="`g-${index}`"
             >
               <div class="checkbox">
@@ -237,6 +238,8 @@
                 <input
                   type="checkbox"
                   class="checkbox--control-input"
+                  v-model="selectDeleteUID"
+                  :value="user"
                 />
                 <span class="checkbox--control-checkmark"></span>
               </span>
@@ -254,13 +257,10 @@
                 </div>
               </div>
 
-              <div class="updated-date">
-                <span class="btn--action">Chưa thiết lập</span>
+              <div class="gender">
+                <span class="btn--action">{{user.gender === 'female_singular' ? 'Nữ' : 'Nam'}}</span>
               </div>
 
-              <div class="gender">
-                <span class="btn--action">{{user.gender}}</span>
-              </div>
               <div class="pronoun">
                 <span
                   class="btn--action"
@@ -268,6 +268,10 @@
                 >
                   {{ $t("chat.friends.table.main.setup") }}
                 </span>
+              </div>
+
+              <div class="updated-date">
+                <span class="btn--action">Chưa thiết lập</span>
               </div>
 
               <div class="attributes d_none">

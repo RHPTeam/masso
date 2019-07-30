@@ -56,7 +56,7 @@
     </div>
     <div class="popup--main text_left mt_3">
       <h4>Chức năng</h4>
-      <VuePerfectScrollbar class="scroll-function">
+      <VuePerfectScrollbar class="scroll-function px_2">
         <ul class="p_0 m_0">
           <li @click="showDashboard" class="d_flex align_items_center">
             <icon-base icon-name="Bảng điều khiển" width="20" height="20" viewBox="0 0 24 24">
@@ -65,13 +65,13 @@
             <span class="ml_2">Bảng điều khiển</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -82,13 +82,13 @@
             <span class="ml_2">Tài khoản Facebook</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -99,13 +99,13 @@
             <span class="ml_2">Facebook tìm kiếm</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -116,13 +116,13 @@
             <span class="ml_2">Kho nội dung</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -133,13 +133,13 @@
             <span class="ml_2">Nhóm & Trang</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -150,13 +150,13 @@
             <span class="ml_2">Đăng bài tự động</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>
@@ -173,13 +173,13 @@
             <span class="ml_2">Thiết lập tài khoản</span>
             <span class="ml_auto">
               <icon-base
-                class="icon--go-to"
-                icon-name="Submit"
-                width="22"
-                height="22"
-                viewBox="0 0 33 33"
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
               >
-                <icon-arrow-right />
+                <icon-arrow-down />
               </icon-base>
             </span>
           </li>

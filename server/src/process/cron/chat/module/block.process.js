@@ -1,7 +1,7 @@
 const MessageProcess = require( "./message.process" );
 
 module.exports = {
-  // Handle message when vocative and script
+  // Handle message when vocative and scripts
   "handleBlock": async ( message, foundBlock, account, api ) => {
     return new Promise( async ( resolve ) => {
       for ( let i = 0 ; i < foundBlock.contents.length ; i++ ) {

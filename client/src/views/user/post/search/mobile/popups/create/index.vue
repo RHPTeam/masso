@@ -33,7 +33,7 @@
         <!-- End: Modal Body -->
         <!-- Start: Transition  -->
         <transition name="popup--mobile">
-          <modal-edit :post="post" v-if="isShowEdit === true" @closePopup="isShowEdit = $event" />
+          <modal-edit :post="post" v-if="isShowEdit === true" @closePopup="isShowEdit = $event" @closeAllEdit="closeAllEdit($event)"/>
         </transition>
         <!-- End: Transition  -->
       </div>
@@ -63,6 +63,9 @@ export default {
     }
   },
   methods: {
+    closeAllEdit(event) {
+      this.$emit("closeAllEdit", event)
+    },
     sliceImage() {
       return this.item.attachments.slice(0, 3);
     },

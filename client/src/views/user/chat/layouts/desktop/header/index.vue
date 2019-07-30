@@ -27,7 +27,7 @@
             <!-- <div class="messenger--total position_absolute">
               <div class="text text_center">0</div>
             </div>-->
-            <div class="pl_2 open--mess">Mở messenger</div>
+            <div class="pl_2 open--mess">Trò chuyện</div>
           </div>
         </router-link>
         <!-- End: Btn Messenger -->
@@ -46,10 +46,11 @@
       <!-- Start: Messenger Link-->
 
       <!-- Start: Icon GetCookie -->
-      <div class="icon--cookie mr_3" @click="redirectToGetCookie">
+      <div class="" @click="redirectToGetCookie">
         <icon-base
-          width="20px"
-          height="20px"
+          class="icon icon--cookie"
+          width="22px"
+          height="22px"
           icon-name="Lấy mã kích hoạt Facebook"
           viewBox="0 0 512 512"
         >
@@ -60,10 +61,11 @@
 
       <!-- Start: Help Dropdown -->
       <div class="notification--groups help position_relative">
-        <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
+        <div class="" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
-            width="20px"
-            height="20px"
+            class="icon icon--help"
+            width="23px"
+            height="23px"
             icon-name="Bạn cần trợ giúp?"
             viewBox="0 0 300 300"
           >
@@ -88,8 +90,9 @@
       <div class="notification--groups position_relative">
         <div class="btn--notification position_relative mr_3" @click="showNotificationDropdown">
           <icon-base
+            class="icon--bell"
             :class="[ isShowNotificationDropdown ? 'active' : null ]"
-            icon-name="bell"
+            icon-name="Thông báo"
             width="24px"
             height="24px"
             viewBox="0 0 512 512"
@@ -116,13 +119,13 @@
       <!-- End: Notification Groups -->
 
       <!-- Start: Video Guide For User -->
-      <div class="video--guide mr_2" @click="showGuidePopup">
+      <div class="video--guide" @click="showGuidePopup">
         <icon-base
-          class="icon--arrow-left"
+          class="icon icon--play"
           icon-name="Hướng dẫn sử dụng"
           width="22"
           height="22"
-          viewBox="0 0 60 60"
+          viewBox="0 0 410 410"
         >
           <icon-play></icon-play>
         </icon-base>
@@ -131,13 +134,13 @@
 
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
-        <div @click="showOptionsMoreDropdown" class="more mt_2">
+        <div @click="showOptionsMoreDropdown" class="more">
           <icon-base
-            class="icon--application"
+            class="icon icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
-            width="24px"
-            height="24px"
-            viewBox="0 0 512 512"
+            width="20px"
+            height="20px"
+            viewBox="0 0 60 60"
           >
             <icon-application/>
           </icon-base>

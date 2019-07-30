@@ -82,6 +82,20 @@
         width: auto;
         z-index: 999;
         &--item {
+          .icon--filter {
+            border-radius: 50%;
+            border: 1px solid #e4e4e4;
+            width: 35px;
+            height: 35px;
+          }
+          .avatar {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            width: 35px;
+            height: 35px;
+          }
           &:hover {
             background-color: #ffb94a;
             color: #fff;

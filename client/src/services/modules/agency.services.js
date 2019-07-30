@@ -39,5 +39,15 @@ export default {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }
     } );
+  },
+  updateAgencyInfo( agencyId, info ) {
+    return request( {
+      "method": "patch",
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/info?_account=${agencyId}`,
+      "data": info,
+      "headers": {
+        "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
+      }
+    } );
   }
 };

@@ -20,11 +20,12 @@ export default {
       keySearch: "",
       size: 20,
       currentPage: 1,
-      isShowOptionsAttribute: false
+      isShowOptionsAttribute: false,
+      showButtonDelete: false
     };
   },
   async created() {
-    // await this.$store.dispatch("getAccountsFB");
+    await this.$store.dispatch("getAccountsFB");
   },
   computed: {
     currentTheme() {
@@ -33,7 +34,7 @@ export default {
     groupInfo() {
       return this.$store.getters.groupInfo;
     },
-    listAccountFacebook() {
+    accountFb() {
       return this.$store.getters.accountsFB;
     },
     users() {
@@ -41,6 +42,9 @@ export default {
     },
     selectedUIDs() {
       return this.$store.getters.selectedUIDs;
+    },
+    friendSelected() {
+      return this.$store.getters.uidSelectDelete;
     }
   },
   methods: {
@@ -114,6 +118,12 @@ export default {
         page: 1
       };
       this.$store.dispatch("updateFriendFacebookForSystem", dataSender);
+    },
+    showFilterFriendByAtribute(){
+      console.log(1);
+    },
+    openPopupDeleteFriend(){
+      this.isShowDeleteFrPopup = true;
     }
   },
   watch: {

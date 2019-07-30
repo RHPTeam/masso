@@ -29,26 +29,41 @@
     <!--Start: Top Right Component-->
     <div class="top--right d_flex c_md_12 c_xl_7 c_lg_12 px_0">
       <!--Start: Update Friend Facebook-->
-      <div class="action mr_2" @click="updateFriendFacebookToSystem">Cập nhật</div>
+      <div
+        class="action mr_2"
+        v-if="groupSelected === false"
+        @click="updateFriendFacebookToSystem"
+      >
+        Cập nhật
+      </div>
       <!--End: Update Friend Facebook-->
 
       <!--Start: Add Member to Group Component-->
-      <div class="action mr_2" @click="isShowAddtoGrPopup = true">{{ $t("chat.friends.table.top.right.addInGroup") }}</div>
+      <div
+        class="action mr_2"
+        v-if="selectedUIDs && selectedUIDs.length > 0"
+        @click="isShowAddtoGrPopup = true"
+      >
+        {{ $t("chat.friends.table.top.right.addInGroup") }}
+      </div>
       <!--End: Add Member to Group Component-->
       <!--Start: Delete Member in Group Component-->
-      <div class="action mr_2 d_none">{{ $t("chat.friends.table.top.right.delete") }}</div>
+      <div
+        class="action mr_2"
+        v-if="friendSelected && friendSelected.length > 0"
+        @click="openPopupDeleteFriend"
+      >
+        {{ $t("chat.friends.table.top.right.delete") }}
+      </div>
       <!--End: Delete Member in Group Component-->
-      <!--Start: Export Data Component-->
-      <!-- <div class="action export disabled position_relative mr_2">
-        {{ $t("chat.friends.table.top.right.exportData") }}
-        <div class="action--tooltip">
-          <app-tooltip/>
-        </div>
-      </div> -->
-      <!--End: Export Data Component-->
+
       <!--Start: Filter Friend By Account Component-->
       <div class="action sequence--menu mr_2">
-        <div class="btn--sequence" @click="showUsers = !showUsers" v-click-outside="closeShowUsers">
+        <div
+          class="btn--sequence"
+          @click="showUsers = !showUsers"
+          v-click-outside="closeShowUsers"
+        >
           {{ $t("chat.friends.table.top.right.all") }}
           <icon-base
             class="ml_1"
@@ -61,51 +76,55 @@
           </icon-base>
         </div>
         <div class="dropdown text_left" v-show="showUsers">
-          <div class="dropdown--item px_3" v-for="item in $t('chat.friends.table.top.right.dropdown')" :key="item">{{ item }}</div>
+          <div
+            class="dropdown--item d_flex align_items_center px_3"
+            @click="showFilterFriendByAtribute"
+          >
+            <div class="icon--filter d_flex align_items_center justify_content_center">
+              <icon-base
+                icon-name="Lọc thuộc tính"
+                width="18"
+                height="18"
+                viewBox="0 0 410 410"
+              >
+                <icon-filter/>
+              </icon-base>
+            </div>
+            <div class="ml_3">Thuộc tính</div>
+          </div>
+          <div
+            class="dropdown--item mt_1 d_flex align_items_center px_3"
+            v-for="(account, aindex) in accountFb"
+            :key="aindex"
+          >
+            <div class="avatar mr_3" :style="{backgroundImage: 'url(' + account.userInfo.thumbSrc +')'}"></div>
+            <div>{{account.userInfo.name}}</div>
+          </div>
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->
-      <!-- Start: Options choose attr or group -->
-      <div class="action sequence--menu mr_2">
-        <div class="btn--sequence" @click="showAttribute">
-          Attribute
-          <icon-base
-            class="ml_1"
-            icon-name="icon-arrow-down"
-            width="14"
-            height="14"
-            viewBox="0 0 160 160"
-          >
-            <icon-arrow-down/>
-          </icon-base>
-        </div>
-        <div class="dropdown text_left" v-if="isShowOptionsAttribute === true" v-click-outside="closeShowAttribute">
-          <div class="dropdown--item px_3" @click="closeShowAttribute">Attribute</div>
-          <div class="dropdown--item px_3" @click="closeShowAttribute">Group</div>
-        </div>
-      </div>
-      <!-- End: Options choose attr or group -->
+
       <!--Start: Number Displayed of Member Component-->
-      <!--      <div class="action sequence&#45;&#45;menu">-->
-      <!--        <div class="btn&#45;&#45;sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"-->
-      <!--             v-click-outside="closeNumberDisplayedDropdown">-->
-      <!--          5-->
-      <!--          <icon-base-->
-      <!--            class="ml_1"-->
-      <!--            icon-name="icon-arrow-down"-->
-      <!--            width="14"-->
-      <!--            height="14"-->
-      <!--            viewBox="0 0 160 160"-->
-      <!--          >-->
-      <!--            <icon-arrow-down />-->
-      <!--          </icon-base>-->
-      <!--        </div>-->
-      <!--        <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">Tất cả</div>-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">05</div>-->
-      <!--          <div class="dropdown&#45;&#45;item px_3">15</div>-->
-      <!--        </div>-->
-      <!--      </div>-->
+            <div class="action sequence--menu">
+              <div class="btn--sequence" @click="statusNumberDisplayedDropdown = !statusNumberDisplayedDropdown"
+                   v-click-outside="closeNumberDisplayedDropdown">
+                Hiển thị
+                <icon-base
+                  class="ml_1"
+                  icon-name="icon-arrow-down"
+                  width="14"
+                  height="14"
+                  viewBox="0 0 160 160"
+                >
+                  <icon-arrow-down />
+                </icon-base>
+              </div>
+              <div class="dropdown text_left" v-show="statusNumberDisplayedDropdown">
+                <div class="dropdown--item px_3">25</div>
+                <div class="dropdown--item px_3">50</div>
+                <div class="dropdown--item px_3">100</div>
+              </div>
+            </div>
       <!--End: Number Displayed of Member Component-->
     </div>
     <!--End: Top Right Component-->

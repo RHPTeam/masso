@@ -4,7 +4,14 @@
     <!-- <div class="item--header py_2 pl_3">Tên bài viết</div> -->
     <VuePerfectScrollbar class="list--post-group">
       <div v-if="allPost.length === 0" class="text_center py_2 no--post">Không có bài viết nào</div>
-      <item-post v-else v-for="item in allPost" :key="item._id" :item="item" @showDetailPost="showPopupDetail($event)" @showPopupDelete="showPopupDelete($event)"/>
+      <item-post
+        v-else
+        v-for="item in allPost"
+        :key="item._id"
+        :item="item"
+        @showDetailPost="showPopupDetail($event)"
+        @showPopupDelete="showPopupDelete($event)"
+      />
     </VuePerfectScrollbar>
     <!-- End: List post -->
     <!-- Start: Transition -->
@@ -40,9 +47,13 @@ import PopupPostNow from "../popup/postnow";
 import ItemPost from "./item";
 export default {
   data() {
-    return {      
+    return {
+      currentPage: 1,
+      isFirstTime: false,
       isShowPopupDelete: false,
       isShowDetailPost: false,
+      isLoadingData: true,
+      pageSize: 25,
       postSelected: {},
       targetDataDelete: {}
     };
@@ -51,7 +62,7 @@ export default {
     VuePerfectScrollbar,
     PopupPostNow,
     ItemPost,
-    PopupDetail, 
+    PopupDetail,
     PopupDelete
   },
   computed: {
@@ -60,14 +71,37 @@ export default {
     },
     allPost() {
       return this.$store.getters.allPost;
+    },
+    postsPageInfinite(){
+      return this.$store.getters.postsPageInfinite;
+    },
+    postsPageSize() {
+      return this.$store.getters.postsPageSize;
     }
   },
   methods: {
+    async loadMore() {
+      if (this.isLoadingData === true) {
+        console.log("this.currentPage", this.currentPage);
+        console.log("this.postsPageSize", this.postsPageSize);
+        if (this.currentPage >= this.postsPageSize) {
+          return false;
+        } else if (this.isFirstTime === true) {
+          this.isLoadingData = false;
+          this.currentPage += 1;
+          await this.$store.dispatch("getPostsPageInfinite", {
+            page: this.currentPage,
+            size: this.pageSize
+          });
+          this.isLoadingData = true;
+        }
+      }
+    },
     showPopupDetail(post) {
       this.postSelected = post;
       this.isShowDetailPost = true;
     },
-    showPopupDelete(post) {      
+    showPopupDelete(post) {
       this.postSelected = post;
       this.targetDataDelete = {
         id: post._id
@@ -76,14 +110,14 @@ export default {
     }
   },
   async created() {
-    if( this.$router.name === 'post_posts') {
+    if (this.$router.name === "post_posts") {
       const postNo = this.$store.getters.allPost;
-      if( postNo.length === 0 ) {
+      if (postNo.length === 0) {
         const dataSender = {
-          size: 25,
-          page: 1
+          page: this.currentPage,
+          size: this.pageSize
         };
-        await this.$store.dispatch( "getPostsByPage", dataSender );
+        await this.$store.dispatch("getPostsByPage", dataSender);
       }
     }
   }

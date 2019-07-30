@@ -16,9 +16,8 @@ import AccountFacebook from "./modules/accountfacebook.store";
  */
 import AttributeStore from "./modules/chat/attribute.store";
 import BlockStore from "./modules/chat/block.store";
-import FriendFacebookStore from "./modules/chat/friend.store";
+import FriendStore from "./modules/chat/friend.store";
 import GroupFriend from "./modules/chat/groupfriend.store";
-import MessengerStore from "./modules/chat/messenger.store";
 import SequenceFaceBook from "./modules/chat/sequence.store";
 import Syntax from "./modules/chat/syntax.store";
 import VocateStore from "./modules/chat/vocate.store";
@@ -70,9 +69,8 @@ export default new Vuex.Store( {
      */
     AttributeStore,
     BlockStore,
-    FriendFacebookStore,
+    FriendStore,
     GroupFriend,
-    MessengerStore,
     SequenceFaceBook,
     Syntax,
     VocateStore,

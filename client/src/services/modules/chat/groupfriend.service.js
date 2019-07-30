@@ -4,7 +4,7 @@ export default {
   /**
    *
    * @param grId
-   * @param data has id friends
+   * @param data has userID friends get from Facebook
    * @returns {*}
    */
   addFriendGroup( grId, data ){
@@ -33,6 +33,9 @@ export default {
     // delete item friends
     deleteGroupFriends( id ){
         return Api().put(`group-friends?_groupId=${id}`)
-    }
+    },
+  deleteFriendsOnGroup( groupId,friendId ){
+    return Api().put(`group-friends?_groupId=${groupId}&_friend=true`, friendId);
+  }
 
 }
