@@ -185,10 +185,10 @@
       <!-- End: Notification version updated-->
 
       <!-- Start: Notification guide for user -->
-      <!-- <guide-popup
-        v-if="variableControlGuide === 1"
-      >
-      </guide-popup> -->
+<!--      <guide-popup-->
+<!--        v-if="variableControlGuide === 1"-->
+<!--      >-->
+<!--      </guide-popup>-->
       <!-- End: Notification guide for user-->
 
     </div>

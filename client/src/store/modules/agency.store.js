@@ -61,12 +61,6 @@ const actions = {
     const result = await AgencyServices.expireInfoMember(payload.userId, objSender);
     commit("setMemberAgency", result.data.data);
     commit("agency_success");
-  },
-  updateAgencyInfo: async ({commit}, payload) => {
-    commit("agency_request");
-    const result = await AgencyServices.updateAgencyInfo( CookieFunction.getCookie("uid"), payload );
-    commit("setAgency", result.data.data);
-    commit("agency_success");
   }
 };
 

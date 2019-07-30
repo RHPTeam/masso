@@ -160,5 +160,6 @@ export default {
   },
   created() {
     this.$store.dispatch("actionCursor", 11);
+    this.$store.dispatch( "getUserInfo" );
   }
 };

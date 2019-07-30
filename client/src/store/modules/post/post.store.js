@@ -328,8 +328,20 @@ const actions = {
 
     commit("post_success");
   },
-  getPostsPageInfinite: async ({ commit }, payload) => {
-    commit("post_request");
+  // get post by page to concat post to load more
+  getPostsByPageMobile: async ( { commit }, payload ) => {
+    commit( "post_request" );
+
+    const res = await PostServices.getPostsByPage( payload.size, payload.page );
+    await commit( "setPostByPage", res.data.data.results );
+    await commit( "setPostsPageSize", res.data.data.page );
+    // await commit( "setTotalPost", res.data.data.total );
+    // await commit( "setPostsPageInfinite", res.data.data.results );
+
+    commit( "post_success" );
+  },
+  getPostsPageInfinite: async ( { commit }, payload ) => {
+    commit( "post_request" );
 
     const res = await PostServices.getPostsByPage(payload.size, payload.page);
     await commit("setPostsPageSize", res.data.data.page);

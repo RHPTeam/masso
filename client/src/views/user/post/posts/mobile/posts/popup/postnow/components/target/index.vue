@@ -1,6 +1,6 @@
 <template>
   <div class="target" :data-theme="currentTheme">
-    <div class="header d_flex align_items_center mb_2">
+    <div class="header d_none align_items_center mb_2">
       <!-- Start: Title header -->
       <div class="icon mr_2 d_flex align_items_center">
         <span>Nơi đăng</span>
@@ -11,7 +11,7 @@
     <div class="body mb_4 px_3">
       <div class="r">
         <!-- Start: FB Timeline -->
-        <div class="c_md_4 mb_3">
+        <div class="c_md_4 pl_0">
           <div class="card"
                :class="{ active: targetType === 3 }"
                @click="selectTargetType( 3 )"
@@ -37,7 +37,7 @@
         </div>
         <!-- Start: FB Timeline -->
         <!-- Start: Target Group -->
-        <div class="c_md_4 group mb_3">
+        <div class="c_md_4 px_2 group">
           <div class="card disabled"
                :class="{ active: targetType === 1 }"
                @click="selectTargetType( 3 )"
@@ -63,7 +63,7 @@
         </div>
         <!-- End: Target Group -->
         <!-- Start: Target Custom -->
-        <div class="c_md_4 option">
+        <div class="c_md_4 pr_0 option">
           <div class="card disabled"
                :class="{ active: targetType === 2 }"
                @click="selectTargetType( 3 )"
@@ -93,11 +93,21 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-if="targetType === 1" />
+    <target-group
+      v-if="targetType === 1"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
+    />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
-    <target-custom v-else-if="targetType=== 2" />
+    <target-custom
+      v-else-if="targetType=== 2"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
+    />
     <!-- End: Show Option Page -->
 
     <!-- Start: Show Option Timeline -->
@@ -105,6 +115,7 @@
       v-else-if="targetType === 3"
       :postSchedule="postSchedule"
       @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
     />
     <!-- End: Show Option Timeline -->
   </div>
@@ -136,6 +147,9 @@ export default {
   methods: {
     selectTargetType( value ) {
       this.targetType = value;
+    },
+    showSetupTimer(val){
+      this.$emit("changeTimer", val);
     },
     updatePostSchedule( val ) {
       this.$emit( "updatePostSchedule", val );

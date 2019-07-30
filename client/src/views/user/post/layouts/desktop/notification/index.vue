@@ -272,9 +272,11 @@ div[data-theme="dark"] {
 // RESPONSIVE
 @media screen and (max-width: 767px) {
   .notification {
-    width: 100%;
-    bottom: 0;
-    left: 0;
+    width: 90%;
+    bottom: 3.5rem;
+    left: 5%;
+    // border: 1px solid #444;
+    border-radius: 0.625rem;
     .toast {
       max-width: 100%;
     }
