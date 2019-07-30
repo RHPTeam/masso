@@ -25,7 +25,13 @@ export default {
       this.$emit("openUpdateAgencyInfo", true);
     },
     searchMemberOfAgency(){
-      this.$store.dispatch("searchMemberByAgency", this.keyword);
+      if(this.keyword.length === 0) {
+        this.$store.dispatch("getInfoAgency");
+        this.$emit("showResultSearch", false);
+      } else {
+        this.$store.dispatch("searchMemberByAgency", this.keyword);
+        this.$emit("showResultSearch", true);
+      }
     }
   },
 }

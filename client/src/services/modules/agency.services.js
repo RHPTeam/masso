@@ -51,7 +51,6 @@ export default {
     } );
   },
   searchMember(agencyId, value){
-    console.log(value);
     return request( {
       "method": "post",
       "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user/search?_id=${agencyId}&value=${value}`,

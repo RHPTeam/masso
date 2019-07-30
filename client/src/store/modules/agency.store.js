@@ -6,6 +6,7 @@ const state = {
   agencyStatus: "",
   errorStatus: "",
   error: "",
+  infoOfMember: {},
   memberAgency: [],
   memberInfo: {}
 };
@@ -14,6 +15,7 @@ const getters = {
   agencyStatus: state => state.agencyStatus,
   errorStatus: state => state.errorStatus,
   error: state => state.error,
+  infoOfMember: state => state.infoOfMember,
   memberInfo: state => state.memberInfo,
   memberAgency: state => state.memberAgency
 };
@@ -35,6 +37,9 @@ const mutations = {
   },
   setMemberOfAgency: (state, payload) => {
     state.memberAgency = payload;
+  },
+  setInfoMemberAgency: (state, payload) => {
+    state.infoOfMember = payload;
   },
   setErrorStatus: (state, payload) => {
     state.errorStatus = payload;
@@ -91,12 +96,11 @@ const actions = {
   },
   searchMemberByAgency: async ({commit}, payload) => {
     commit("agency_request");
+
     const agencyId = CookieFunction.getCookie("uid");
-    // const objSender = {
-    //   value: payload
-    // };
     const result = await AgencyServices.searchMember(agencyId, payload);
-    console.log(result.data.data);
+    commit("setInfoMemberAgency", result.data.data);
+
     commit("agency_success");
   }
 
