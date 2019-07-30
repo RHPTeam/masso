@@ -25,7 +25,6 @@ export default {
       this.$emit("openUpdateAgencyInfo", true);
     },
     searchMemberOfAgency(){
-        console.log(this.keyword);
       this.$store.dispatch("searchMemberByAgency", this.keyword);
     }
   },
