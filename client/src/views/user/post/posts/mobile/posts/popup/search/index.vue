@@ -15,7 +15,7 @@
       </div>
       <!-- End: Header - Search -->
       <!-- Start: Main - Search -->
-      <div class="items--body px_2">
+      <div class="items--body px_3">
         <!-- Start: List Content -->
         <vue-perfect-scrollbar class="infinite">
           <div class="item d_flex align_items_center">

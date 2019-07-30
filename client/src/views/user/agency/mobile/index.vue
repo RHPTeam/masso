@@ -1,7 +1,7 @@
 <template>
   <div class="modal--main-mobile">
     <!-- Start: Search -->
-    <div class="items--header mx_2 d_flex align_items_center position_relative mb_3">
+    <div class="items--header mx_3 d_flex align_items_center position_relative mb_3">
       <div class="mr_auto search">
         <span class="ml_2">
           <icon-base
@@ -19,7 +19,7 @@
     </div>
     <!-- End: Search -->
     <!-- Start: Main -->
-    <div class="items--body px_2">
+    <div class="items--body px_3">
       <!-- Start: Months -->
       <app-month />
       <!-- End: Months -->

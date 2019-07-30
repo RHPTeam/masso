@@ -18,7 +18,7 @@
     <!-- End: Modal Header -->
     <!-- Start: Modal Body -->
     <vue-perfect-scrollbar class="modal--scroll">
-      <div class="modal--body p_2">
+      <div class="modal--body px_3 py_2">
         <div class="history--list">
           <item-history
             v-for="( item, index ) in campaignDetail"

@@ -57,9 +57,9 @@
           </icon-base>
         </div>
       </div>
-      <div class="popup--main text_left mt_3 pl_2">
+      <div class="popup--main text_left mt_3 pl_3">
         <h4>Chức năng</h4>
-        <ul class="p_0 pr_2 m_0">
+        <ul class="p_0 pr_3 m_0">
           <li @click="showDashboard" class="d_flex align_items_center">
             <icon-base icon-name="Bảng điều khiển" width="20" height="20" viewBox="0 0 24 24">
               <icon-home />

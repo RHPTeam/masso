@@ -23,7 +23,7 @@
         </div>-->
       </div>
       <!-- End: Header -->
-      <div class="items--body px_2">
+      <div class="items--body px_3">
         <!-- Start: Form Body -->
         <form>
           <div class="font_weight_bold mb_1">Tên đăng ký</div>

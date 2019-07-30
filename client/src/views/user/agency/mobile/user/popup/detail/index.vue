@@ -18,7 +18,7 @@
         <div class="text_center m_auto">Cấu hình tài khoản</div>
         <div class="active mr_2" @click="updateAccount">Xong</div>
       </div>
-      <div class="modal--body px_2" v-if="user">
+      <div class="modal--body px_3" v-if="user">
         <!-- Start: User General Info -->
         <div class="user d_flex justify_content_start align_items_center mb_4">
           <div class="user--avatar mr_4">
@@ -125,7 +125,7 @@
         </div>
         <!-- End: User Edit -->
       </div>
-      <div v-else>Không có dữ liệu!</div>
+      <div v-else class="text_center">Không có dữ liệu!</div>
     </div>
   </div>
 </template>

@@ -34,7 +34,7 @@
               width="24"
               height="24"
               viewBox="0 0 480 480"
-              class="mr_2"
+              class="mr_3"
             >
               <icon-history />
             </icon-base>
@@ -53,7 +53,7 @@
         </div>
       </div>
       <VuePerfectScrollbar class="scroll--campaign">
-        <div class="items--body mt_3 px_2">
+        <div class="items--body mt_3 px_3">
           <div class="top d_flex align_items_center mb_2">
             <div class="status">Trạng thái</div>
             <div class="active ml_auto">
@@ -82,7 +82,7 @@
             <!-- End: Date time picker -->
 
             <!-- Start: Event of Day -->
-            <div class="event mt_2 px_2">
+            <div class="event mt_2">
               <!-- <div class="items no--event text_center">Không có sự kiện nào</div> -->
               <div class="items text_center" v-if="eventsOfDay.length === 0">Không có sự kiện nào</div>
               <div

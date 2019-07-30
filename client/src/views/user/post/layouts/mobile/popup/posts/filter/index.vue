@@ -114,8 +114,7 @@ export default {
     color: #ccc;
     font-size: 0.875rem;
     border-top: 1px solid #514f4fa1;
-    padding: 0.5rem 0;
-    padding-left: 0.625rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
     .icon--arrow-right {
       transform: rotate(-90deg);
     }

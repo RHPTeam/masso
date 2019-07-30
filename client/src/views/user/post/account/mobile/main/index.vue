@@ -1,7 +1,7 @@
 <template>
   <div class="modal--main--mobile">
     <!-- Start: Content -->
-    <div class="modal--content py_3 px_2">
+    <div class="modal--content p_3">
       <!-- Start: Info -->
       <div class="items items--info">
         <div class="title d_flex">

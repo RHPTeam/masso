@@ -166,10 +166,11 @@
 
 .edit--account {
   input[type="number"] {
-    border: solid 1px #e4e4e4;
+    border: solid 1px #444;
     border-radius: 10px;
-    color: #444444;
+    color: #ccc;
     font-size: 14px;
+    background: none;
     height: 40px;
     outline: none;
     text-align: center;

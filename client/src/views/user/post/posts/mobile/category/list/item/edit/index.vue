@@ -17,7 +17,7 @@
         <p class="name--modal mb_0">Sửa danh mục</p>
         <div class="active mr_3" @click="updateCategory">Xong</div>
       </div>
-      <div class="items--body px_2 mt_3">
+      <div class="items--body px_3 mt_3">
         <div class="item">
           <span>Tên danh mục</span>
           <div class="error my_1" v-if="isShowAlertTitle === true">Tên danh mục không được bỏ trống</div>

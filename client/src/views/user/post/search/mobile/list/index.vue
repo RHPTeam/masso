@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile--search-fb px_2">
+  <div class="mobile--search-fb px_3">
     <!-- Start: Search -->
     <div class="list--filter mb_2">
       <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2" @click="showPopupSearch">
