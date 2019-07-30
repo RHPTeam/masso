@@ -3,7 +3,7 @@
     font-size: 0.875rem;
     width: 100%;
     .group--block {
-        // overflow-x: auto!important;
+        // overflow-x: srv!important;
         // overflow-y: hidden!important;
         width: 100%;
         padding: 5px 0;
@@ -77,12 +77,12 @@
     .popup--mobile-enter {
         transform: translateX(100%);
     }
-    
+
     .popup--mobile-enter-to {
         transition: transform 0.75s;
         transform: translateX(0);
     }
-    
+
     .popup--mobile-leave-to {
         transition: transform 0.75s;
         transform: translateX(100%);

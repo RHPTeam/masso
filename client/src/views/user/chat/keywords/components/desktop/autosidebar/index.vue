@@ -1,6 +1,6 @@
 <template>
   <div class="auto--sidebar-wrap p_4">
-    <!-- <auto-header /> -->
+    <!-- <srv-header /> -->
     <auto-search :search.sync="search" @update="search = $event"/>
     <loading-component v-if="this.$store.getters.statusSyntaxList === 'loading'"/>
     <div v-else class="auto--list r d_flex align_items_center">

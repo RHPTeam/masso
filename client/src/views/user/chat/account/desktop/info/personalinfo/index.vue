@@ -9,7 +9,7 @@
             <icon-envelope />
           </icon-base>
         </div>
-        <div class="text">mouse@gmail.com</div>
+        <div class="text">{{ user.email }}</div>
       </div>
       <!-- End: Email -->
       <!-- Start: Name & Phone-->

@@ -228,7 +228,7 @@ let chatAuto = async function( account ) {
 
       // Event: Stop send message broadcast (Cron)
       socket.on( "removeCronBroadcast", async function( dataEmit, callback ) {
-        // Handle auto send message in broadcast
+        // Handle srv send message in broadcast
         if ( dataEmit.accountId.toString() === account._account.toString() ) {
           let sendData = await BroadcastProcess.handleStopMessageScheduleBroadcast(
             dataEmit,
@@ -329,6 +329,7 @@ let chatAuto = async function( account ) {
 
       // Handle message which facebook return something
       if ( message !== undefined && message.isGroup !== true ) {
+        console.log( message )
         // Define variable message
         const messageContent = message.body,
           receiverID = message.senderID;
@@ -361,6 +362,15 @@ let chatAuto = async function( account ) {
               "timeStamp": Date.now(),
               "typeContent": "sticker",
               "valueContent": message.attachments[ 0 ].url
+            };
+          }
+          // 3: type gif
+          if ( message.attachments[ 0 ].type === "animated_image" ) {
+            messageObject = {
+              "reference": 1,
+              "timeStamp": Date.now(),
+              "typeContent": "gif",
+              "valueContent": message.attachments[ 0 ].previewUrl
             };
           }
         }
@@ -398,9 +408,8 @@ let chatAuto = async function( account ) {
             const messageResult = await Message.findOne( {
               "_account": account._account,
               "_sender": account._id,
-              "_receiver": friend._id
+              "_receiver": friend.userID
             } )
-              .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
               .populate( {
                 "path": "_sender",
                 "select": "-cookie"
@@ -414,7 +423,7 @@ let chatAuto = async function( account ) {
                   "seen": false,
                   "status": "online",
                   "_account": account._account,
-                  "_receiver": friend._id,
+                  "_receiver": friend.userID,
                   "_sender": account._id
                 },
                 // console.log(2)
@@ -429,7 +438,7 @@ let chatAuto = async function( account ) {
               await messageResult.save();
             }
 
-            // Handle message  is a script in syntax
+            // Handle message  is a scripts in syntax
             const foundAllSyntax = await Syntax.find( {
                 "_account": account._account
               } ),
@@ -469,7 +478,7 @@ let chatAuto = async function( account ) {
               );
             }
 
-            // Handle message  is a script in block
+            // Handle message  is a scripts in block
             // const foundAllBlock = await Block.find({'_account': account._account})
             // const foundBlock = foundAllBlock.find(val => convertUnicode(val.name).toString().toLowerCase() === convertUnicode(message.body).toString().toLowerCase())
             // if (foundBlock !== undefined) {
@@ -480,9 +489,8 @@ let chatAuto = async function( account ) {
             const messageUpdated = await Message.findOne( {
               "_account": account._account,
               "_sender": account._id,
-              "_receiver": friend._id
+              "_receiver": friend.userID
             } )
-              .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
               .populate( {
                 "path": "_sender",
                 "select": "-cookie"
@@ -498,9 +506,8 @@ let chatAuto = async function( account ) {
         const messageResult = await Message.findOne( {
           "_account": account._account,
           "_sender": account._id,
-          "_receiver": userInfoFB._id
+          "_receiver": receiverID
         } )
-          .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
           .populate( {
             "path": "_sender",
             "select": "-cookie"
@@ -514,7 +521,7 @@ let chatAuto = async function( account ) {
               "seen": false,
               "status": "online",
               "_account": account._account,
-              "_receiver": userInfoFB._id,
+              "_receiver": receiverID,
               "_sender": account._id
             },
             // console.log(2)
@@ -529,7 +536,7 @@ let chatAuto = async function( account ) {
           await messageResult.save();
         }
 
-        // Handle message  is a script in syntax
+        // Handle message  is a scripts in syntax
         const foundAllSyntax = await Syntax.find( {
             "_account": account._account
           } ),
@@ -567,7 +574,7 @@ let chatAuto = async function( account ) {
           );
         }
 
-        // Handle message  is a script in block
+        // Handle message  is a scripts in block
         // const foundAllBlock = await Block.find({'_account': account._account})
         // const foundBlock = foundAllBlock.find(val => convertUnicode(val.name).toString().toLowerCase() === convertUnicode(message.body).toString().toLowerCase())
         // if (foundBlock !== undefined) {
@@ -578,9 +585,8 @@ let chatAuto = async function( account ) {
         const messageUpdated = await Message.findOne( {
           "_account": account._account,
           "_sender": account._id,
-          "_receiver": userInfoFB._id
+          "_receiver": receiverID
         } )
-          .populate( { "path": "_receiver", "select": "-_account -_facebook" } )
           .populate( {
             "path": "_sender",
             "select": "-cookie"
