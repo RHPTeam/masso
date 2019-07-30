@@ -1,9 +1,11 @@
 <template>
   <div class="main--facebook" :data-theme="currentTheme">
+    <div v-if="accountsFB && accountsFB.length === 0" class="no--account text_center">Bạn chưa thêm tài khoản facebook nào!</div>
     <div
+      v-else
       v-for="item in accountsFB"
       :key="item.userInfo.id"
-      class="wrapper--top d_flex align_items_center justify_content_between p_3 mb_2 position_relative"
+      class="wrapper--top d_flex align_items_center justify_content_between p_2 mb_2 position_relative"
     >
       <!-- Start: Top account-->
       <div class="account">
@@ -114,6 +116,9 @@ export default {
     // }
   },
   methods: {
+    closePopupActiveAccount() {
+      this.isShowAction = false;
+    },
     formatDate(date) {
       const dateTime = new Date(date);
       const hour = String(dateTime.getHours()).padStart(2, 0);
@@ -122,9 +127,6 @@ export default {
       const month = String(dateTime.getMonth() + 1).padStart(2, 0);
       const year = dateTime.getFullYear();
       return `${hour}:${min} ngày ${day}/${month}/${year}`;
-    },
-    closePopupActiveAccount() {
-      this.isShowAction = false;
     },
     showPopupActiveAccount() {
       this.isShowAction = true;
@@ -184,6 +186,9 @@ export default {
 }
 // End: Transition
 .main--facebook {
+  .no--account {
+    font-size: 0.8315rem;
+  }
   .wrapper--top {
     background-color: #fff;
     border-radius: 0.625rem;

@@ -4,30 +4,38 @@ const mongoose = require( "mongoose" );
 const Schema = mongoose.Schema;
 
 const BroadcastSchema = new Schema( {
-  "typeBroadCast": String,
-  "blocks": [
-    {
-      "content": [
-        {
-          "valueText": String,
-          "typeContent": String
-        }
-      ],
-      "_friends": [ {
-        "type": Schema.Types.ObjectId,
-        "ref": "Friend"
-      } ],
-      "timeSetting": {
-        "dateMonth": String,
-        "hour": String,
-        "repeat": {
-          "typeRepeat": String,
-          "valueRepeat": String
-        }
-      },
-      "status": { "type": Boolean, "default": 0 }
-    }
-  ],
+  "enabled": {
+    "type": Boolean,
+    "default": false
+  },
+  "isValid": {
+    "type": Boolean,
+    "default": true
+  },
+  "synced": {
+    "type": Boolean,
+    "default": false
+  },
+  "title": {
+    "type": String,
+    "default": ""
+  },
+  "type": {
+    "type": String,
+    "default": "broadcast"
+  },
+  "cards": [ {
+    "type": Schema.Types.ObjectId,
+    "ref": "Card"
+  } ],
+  "userFilter": [ {
+    "type": Schema.Types.ObjectId,
+    "ref": "Friend"
+  } ],
+  "userActive": [ {
+    "type": Schema.Types.ObjectId,
+    "ref": "Facebook"
+  } ],
   "_account": {
     "type": Schema.Types.ObjectId,
     "ref": "Account"

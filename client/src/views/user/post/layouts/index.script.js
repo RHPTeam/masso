@@ -2,50 +2,48 @@ import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
 import AppNotification from "./desktop/notification";
 import AppExpire from "./desktop/expire";
-
-import CookieFunction from "@/utils/functions/cookie";
+import GuidePopup from "./desktop/guide"
 
 import HeaderMobile from "./mobile/header";
-import SearchMobile from "./mobile/search";
 import FooterMobile from "./mobile/footer";
 
 export default {
-  data() {
-    return {
-      statusNetwork: true,
-      showExpire: false
-    };
-  },
-  created() {
-
-    // Check Login
-    this.setCheckLogin();
-  },
-  computed: {
-    currentTheme() {
-      return this.$store.getters.themeName;
-    }
-  },
-  methods: {
-    setCheckLogin() {
-      this.interval = setInterval(() => this.$socket.emit( "check_login", CookieFunction.getCookie( "uid" ) ), 5000);
-    }
-  },
-  sockets: {
-    async statusAccount(value) {
-      if (value === 405) {
-        this.$store.dispatch("getAccountsFB");
-      } else if (value === 404) {
-        this.statusNetwork = false;
-      }
-    }
-  },
   components: {
     AppHeader,
     AppSidebar,
     AppNotification,
+    AppExpire,
+    GuidePopup,
     HeaderMobile,
-    SearchMobile,
     FooterMobile
+  },
+  data() {
+    return {
+      statusNetwork: true,
+      showExpire: false,
+      innerWidth: 0
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    variableControlGuide(){
+      return this.$store.getters.variableControlGuide;
+    },
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
+  methods: {
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
+    }
   }
 };

@@ -26,17 +26,14 @@
     <div class="list--data">
       <!-- Start: List Content -->
       <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
-        <!-- <div v-for="(item, index) in listPostFacebookDefault" :key="index">
-          <app-item :item="item"/>
-        </div>
         <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
           <loading-component></loading-component>
         </div>
         <div
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
           class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
-        >Không có dữ liệu</div>-->
-        <add-item v-for="(item, index) in fbSearch" :key="`s+${index}`" :item="item" @showPost="showPost($event)"/>
+        >Không có dữ liệu</div>
+        <add-item v-for="(item, index) in listPostFacebookDefault" :key="`s+${index}`" :item="item" @showPost="showPost($event)"/>
       </vue-perfect-scrollbar>
       <!-- Start: List Content -->
     </div>
@@ -44,7 +41,7 @@
 
     <transition name="popup--mobile">
       <popup-search @closePopupSearch="isShowPopupSearch = $event" v-if="isShowPopupSearch === true"/>
-      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event" :fbSelected="fbSelected"/>
+      <popup-create-post v-if="isShowPost === true" @closePopup="isShowPost = $event" :fbSelected="fbSelected" @closeAllEdit="isShowPost = $event"/>
     </transition>
   </div>
 </template>
@@ -67,23 +64,6 @@ export default {
       isLoadingData: true,
       isShowPopupSearch: false,
       isShowPost: false,
-      fbSearch: [
-        {
-          content: "Noi dung 1",
-          like: 1,
-          share: 2
-        },
-        {
-          content: "Noi dung 2",
-          like: 11,
-          share: 22
-        },
-        {
-          content: "Noi dung 3",
-          like: 12,
-          share: 23
-        }
-      ],
       fbSelected: {}
     };
   },
@@ -113,16 +93,16 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getUserInfo");
-    const keywordDefault = this.user.keywords[
-      Math.floor(Math.random() * this.user.keywords.length)
-    ];
-    await this.$store.dispatch("getListPostFacebookDefault", {
-      keyword: keywordDefault,
-      size: this.maxPerPage,
-      page: this.currentPage
-    });
-    this.keyword = keywordDefault;
+    // await this.$store.dispatch("getUserInfo");
+    // const keywordDefault = this.user.keywords[
+    //   Math.floor(Math.random() * this.user.keywords.length)
+    // ];
+    // await this.$store.dispatch("getListPostFacebookDefault", {
+    //   keyword: this.user.keywords[0],
+    //   size: 25,
+    //   page: 1
+    // });
+    // this.keyword = keywordDefault;
   },
   methods: {
     async loadMore() {

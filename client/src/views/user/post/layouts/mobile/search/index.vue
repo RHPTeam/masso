@@ -42,16 +42,16 @@ export default {
     showSearchModules() {
       if (this.$route.path === "/f-message") {
         this.showSearchMessage = true;
-      } else if (this.$route.path === "/f-script") {
-        console.log("hello script");
+      } else if (this.$route.path === "/f-scripts") {
+        console.log("hello scripts");
       } else if (this.$route.path === "/f-broadcasts") {
         console.log("hello broadcasts");
       } else if (this.$route.path === "/f-account") {
         console.log("hello account");
       } else if (this.$route.path === "/f-friend") {
         console.log("hello friend");
-      } else if (this.$route.path === "/f-auto") {
-        console.log("hello reply auto");
+      } else if (this.$route.path === "/f-srv") {
+        console.log("hello reply srv");
       }
     }
   },

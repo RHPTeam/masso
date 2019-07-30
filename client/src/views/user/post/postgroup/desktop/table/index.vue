@@ -4,7 +4,7 @@
     <div v-if="groupSelected === false">
       <!-- Start: Loading Component -->
       <div class="loading--block"
-           v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading' "
+           v-if="facebookGroupsStatus === 'loading' && facebookPagesStatus === 'loading' "
       >
         <loading-component class="loading"></loading-component>
       </div>
@@ -28,9 +28,10 @@
             >
               <div class="col col--checkbox px_2">
                 <label class="custom--checkbox mb_0">
-                  <input type="checkbox"
-                         v-model="selectedProfile"
-                         :value="item.userInfo.id"
+                  <input
+                    type="checkbox"
+                    v-model="selectedProfile"
+                    :value="item.userInfo.id"
                   />
                 </label>
               </div>
@@ -51,7 +52,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Trang Facebook</div>
+            >Fanpage Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookPagesSearch"
                 :key="`fbg-${index}`"
@@ -81,7 +82,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Nhóm Facebook</div>
+            >Group Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in facebookGroupsSearch"
                 :key="`fbp-${index}`"
@@ -124,7 +125,7 @@
       <div v-else>
         <!--Start: Empty Data-->
         <div class=""
-             v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0"
+             v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0 && postGroupDetail._timeline.length === 0"
         >
           <div class="add--pagegroup d_inline_flex mb_3" @click="seeAllUsers">
             <icon-base
@@ -144,7 +145,7 @@
         <div v-else>
           <!-- Start: Profile Data -->
           <div class="mb_2" v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
-                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Trang' ">
+                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Cá nhân' ">
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                  v-for="(v, i) in 1"
                  :key="`fbpf-header${i}`"
@@ -171,7 +172,7 @@
                 </span>
               </div>
             </div>
-            <div class="no--group text_center py_3" v-if="postGroupDetailProfile.length === 0">Không tìm thấy trang nào</div>
+            <div class="no--group text_center py_3" v-if="postGroupDetailProfile.length === 0">Không tìm thấy trang cá nhân nào</div>
           </div>
           <!-- End: Profile Data -->
 
@@ -180,7 +181,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(v, i) in 1"
                 :key="`fbp-header${i}`"
-            >Trang
+            >Fanpage Facebook
             </div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in postGroupDetailPage"
@@ -211,7 +212,7 @@
             <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
                 v-for="(x, j) in 1"
                 :key="`fbg-header${j}`"
-            >Nhóm</div>
+            >Group Facebook</div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in postGroupDetailGroup"
                 :key="`fbp-${index}`"

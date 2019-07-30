@@ -28,7 +28,7 @@ router.use( "/page-facebook", auth, require( "./modules/post/pageFacebook.route"
 // Chat Route
 router.use( "/attr", auth, require( "./modules/chat/attribute.route" ) );
 router.use( "/block", auth, require( "./modules/chat/block.route" ) );
-router.use( "/broadcast", auth, require( "./modules/chat/broadcast.route" ) );
+router.use( "/bc", auth, require( "./modules/chat/broadcast.route" ) );
 router.use( "/friends", auth, require( "./modules/chat/friend.route" ) );
 router.use( "/group-block", auth, require( "./modules/chat/groupBlock.route" ) );
 router.use( "/group-friends", auth, require( "./modules/chat/groupFriend.route" ) );
@@ -39,5 +39,9 @@ router.use( "/vocate", auth, require( "./modules/chat/vocate.route" ) );
 
 // Server Route
 router.use( "/vps", auth, require( "./modules/server.route" ) );
+
+// Auto Scripts
+router.use( "/srv", require( "./modules/srv/srv.route" ) );
+
 
 module.exports = router;

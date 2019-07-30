@@ -103,6 +103,10 @@ module.exports = {
       await Promise.all( req.body._groups.map( ( group ) => {
         findPostGroup._groups.pull( group );
       } ) );
+      // remove timeline
+      await Promise.all( req.body._timeline.map( ( account ) => {
+        findPostGroup._timeline.pull( account );
+      } ) );
       // save to database
       await findPostGroup.save();
       // response to client
@@ -112,8 +116,10 @@ module.exports = {
     // check exists in database
     req.body._groups = req.body._groups.concat( findPostGroup._groups );
     req.body._pages = req.body._pages.concat( findPostGroup._pages );
+    req.body._timeline = req.body._timeline.concat( findPostGroup._timeline );
     req.body._groups = [ ...new Set( req.body._groups ) ];
     req.body._pages = [ ...new Set( req.body._pages ) ];
+    req.body._timeline = [ ...new Set( req.body._timeline ) ];
 
     res.status( 201 ).json( jsonResponse( "success", await PostGroup.findByIdAndUpdate( req.query._postGroupId, { "$set": req.body }, { "new": true } ) ) );
   },
@@ -133,5 +139,20 @@ module.exports = {
 
     await PostGroup.findByIdAndDelete( req.query._postGroupId );
     res.status( 200 ).json( jsonResponse( "success", null ) );
+  },
+  /**
+   *  Search Post Group
+   * @param req
+   * @param res
+   * @returns {Promise<*>}
+   */
+  "search": async ( req, res ) => {
+    if ( req.query.keyword === undefined ) {
+      return res.status( 404 ).json( { "status": "fail", "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!" } );
+    }
+    
+    const findPostGroup = ( await PostGroup.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } ).lean() );
+
+    res.status( 200 ).json( jsonResponse( "success", findPostGroup ) );
   }
 };

@@ -50,7 +50,7 @@ export default {
       this.selectedGroups.forEach(gr_id => {
         const dataSender = {
           gr_id: gr_id,
-          friendId: this.selectedUIDs
+          friendId: this.selectedUIDs.map(item  => item.userID)
         };
         this.$store.dispatch("addFriendToGroup", dataSender);
       });

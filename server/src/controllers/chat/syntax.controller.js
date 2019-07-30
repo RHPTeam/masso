@@ -8,13 +8,10 @@
  * team: BE-RHP
  */
 
-const Account = require( "../../models/Account.model" );
 const Syntax = require( "../../models/chat/Syntax.model" );
 
 const jsonResponse = require( "../../configs/response" );
-const secure = require( "../../helpers/utils/secures/jwt" );
 const Dictionaries = require( "../../configs/dictionaries" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
 
 module.exports = {
 
@@ -26,49 +23,23 @@ module.exports = {
    */
   "index": async ( req, res ) => {
     let dataResponse = null;
-    const authorization = req.headers.authorization,
-      role = findSubString( authorization, "cfr=", ";" ),
-      userId = secure( res, authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
 
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
+    if ( req.query._id ) {
+      dataResponse = await Syntax.findOne( { "_id": req.query._id, "_account": req.uid } ).lean();
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await Syntax.find( { "_account": req.uid } ).lean();
     }
-
-    if ( role === "Member" ) {
-      !req.query ? dataResponse = await Syntax.find( { "_account": userId } ) : dataResponse = await Syntax.find( req.query );
-      if ( !dataResponse ) {
-        return res.status( 403 ).json( jsonResponse( "Cú pháp không tồn tại" ) );
-      }
-      dataResponse = dataResponse.map( ( item ) => {
-        if ( item._account.toString() === userId ) {
-          return item;
-        }
-      } ).filter( ( item ) => {
-        if ( item === undefined ) {
-          return;
-        }
-        return true;
-      } );
-    }
-    res.status( 200 ).json( jsonResponse( "Lấy dữ liệu thành công =))", dataResponse ) );
+    res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
   },
 
   /**
-   * 	When user create, system auto generate name of syntax. Currently, when user setup, system will apply for all their customer
+   * 	When user create, system srv generate name of syntax. Currently, when user setup, system will apply for all their customer
    *  @param req
    *  @param res
    *
    */
   "create": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
-
-    if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
-
-    const syntaxCurrentDatabase = await Syntax.find( { "_account": userId } );
+    const syntaxCurrentDatabase = await Syntax.find( { "_account": req.uid } );
     let nameArr = syntaxCurrentDatabase.map( ( syntax ) => {
       if ( syntax.title.toLowerCase().includes( Dictionaries.SYNTAX.toLowerCase() ) === true ) {
         return syntax.title;
@@ -82,13 +53,13 @@ module.exports = {
     const indexCurrent = Math.max( ...nameArr ),
       syntaxObjectSaver = {
         "title": indexCurrent.toString() === "NaN" || syntaxCurrentDatabase.length === 0 || nameArr.length === 0 ? `${Dictionaries.SYNTAX} 0` : `${Dictionaries.SYNTAX} ${indexCurrent + 1}`,
-        "_account": userId,
+        "_account": req.uid,
         "created_at": Date.now()
       },
       syntaxResult = await new Syntax( syntaxObjectSaver );
 
     await syntaxResult.save();
-    res.status( 201 ).json( jsonResponse( "Tạo cú pháp thành công!", syntaxResult ) );
+    res.status( 201 ).json( jsonResponse( "success", syntaxResult ) );
   },
 
   /**
@@ -98,20 +69,14 @@ module.exports = {
    *
    */
   "update": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
-
-    if ( !accountResult ) {
-      return res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     if ( !req.query._id ) {
-      return res.status( 403 ).json( jsonResponse( "Cú pháp query sai, vui lòng kiểm tra lại!", req.query ) );
+      return res.status( 403 ).json( jsonResponse( "fail", `Cú pháp query sai, vui lòng kiểm tra lại! ${req.query}` ) );
     }
 
     const syntaxObjectSaver = {
       "name": req.body.name ? req.body.name : [],
       "title": req.body.title,
-      "_account": userId,
+      "_account": req.uid,
       "updated_at": Date.now()
     };
 
@@ -121,7 +86,7 @@ module.exports = {
     const syntaxResult = await Syntax.findByIdAndUpdate( req.query._id, { "$set": syntaxObjectSaver }, { "new": true } );
 
     await syntaxResult.save();
-    res.status( 200 ).json( jsonResponse( "Cập nhật cú pháp thành công!", syntaxResult ) );
+    res.status( 200 ).json( jsonResponse( "success", syntaxResult ) );
   },
 
   /**
@@ -131,24 +96,18 @@ module.exports = {
    *
    */
   "delete": async ( req, res ) => {
-    const userId = secure( res, req.headers.authorization ),
-      accountResult = await Account.findOne( { "_id": userId } );
-
-    if ( !accountResult ) {
-      res.status( 403 ).json( jsonResponse( "Người dùng không tồn tại!", null ) );
-    }
     if ( !req.query._id ) {
-      return res.status( 404 ).json( jsonResponse( "Query thất bại! Vui lòng kiểm tra lại api", null ) );
+      return res.status( 403 ).json( jsonResponse( "fail", `Cú pháp query sai, vui lòng kiểm tra lại! query:${req.query}` ) );
     }
     const syntaxResult = await Syntax.findOne( { "_id": req.query._id } );
 
     if ( !syntaxResult ) {
-      res.status( 403 ).json( jsonResponse( "Cú pháp này không tồn tại!", null ) );
+      res.status( 403 ).json( jsonResponse( "fail", "Cú pháp này không tồn tại!" ) );
     }
-    if ( syntaxResult._account.toString() !== userId ) {
-      return res.status( 405 ).json( jsonResponse( "Bạn không có quyền cho mục này!", null ) );
+    if ( syntaxResult._account.toString() !== req.uid ) {
+      return res.status( 405 ).json( jsonResponse( "fail", "Bạn không có quyền cho mục này!" ) );
     }
     await syntaxResult.remove();
-    res.status( 200 ).json( jsonResponse( "Xóa dữ liệu thành công!", null ) );
+    res.status( 200 ).json( jsonResponse( "success", null ) );
   }
 };

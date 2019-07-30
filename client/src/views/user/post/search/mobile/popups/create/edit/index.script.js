@@ -154,7 +154,8 @@ export default {
 
       // Create post request
       await this.$store.dispatch( "createPostByContent", this.post );
-      this.closePopup();
+      // this.resetPost();
+      this.$emit("closeAllEdit", false);
     },
     // Update post when click button Save
     async savePost(){

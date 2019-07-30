@@ -16,6 +16,13 @@ export default {
     }
   },
   methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
+    async logout() {
+      await this.$store.dispatch('logout');
+      window.location.href = `${process.env.VUE_APP_PARENT_URL}/#/redirect`;
+    },
     selectFile() {
       this.file = this.$refs.file.files[0];
       this.sendFile();
@@ -25,9 +32,6 @@ export default {
 
       formData.append("profileUrl", this.file);
       this.$store.dispatch("sendFile", formData);
-    },
-    closePopup() {
-      this.$emit("closePopup", false);
     },
     showDashboard() {
       this.$store.dispatch("actionCursorMenu", 0);

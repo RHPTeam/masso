@@ -3,10 +3,10 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
-        <div class="item mb_2 delete">
+        <div class="item mb_2 no--account" v-if="allAccountFB.length === 0">Vui lòng thêm tài khoản để thực hiện chức năng này!</div>
+        <div class="item mb_2 delete" v-else>
           <div class="text pb_2 px_2">
-            Bạn có muốn sao chép
-            <b>{{selectedCampaign.title}}</b> này không?
+            Sao chép chiến dịch mẫu <b>{{selectedCampaign.title}}</b>
           </div>
           <div class="item--selection p_2">
             <div class="title text_left">Chọn tài khoản sử dụng chiến dịch</div>
@@ -21,12 +21,14 @@
               <div class="user--name">{{account.userInfo.name }}</div>
               <div class="user--checkbox">
                 <label class="custom--checkbox">
-                  <input class type="checkbox" />
+                  <input class type="checkbox"
+                      :value="account._id"
+                      @click="chooseAccount(account._id)" />
                 </label>
               </div>
             </div>
           </div>
-          <div class="item--confirm" @click="confirmCopy()">Sao chép</div>
+          <div class="item--confirm" @click="duplicateCampaignSimple()">Sao chép</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
       </div>
@@ -40,7 +42,10 @@ export default {
   props: ["selectedCampaign"],
   data() {
     return {
-      selectedFbAccount:[]
+      setup: {
+        accountId: "",
+        timeStart: new Date()
+      }
     };
   },
   computed: {
@@ -52,18 +57,30 @@ export default {
     }
   },
   async created() {
-    if (this.allAccountFB.length === 0) {
+    if (this.$store.getters.accountsFB.length === 0) {
       await this.$store.dispatch("getAccountsFB");
-      console.log(this.allAccountFB);
     }
   },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
     },
-    confirmCopy() {
-      this.$emit("confirmCopy", true);
+    chooseAccount(val){
+      this.setup.accountId = val;
+    },
+    duplicateCampaignSimple() {
       this.closePopup();
+      const dataSender = {
+        campaignId: this.selectedCampaign._id,
+        facebookId: this.setup.accountId
+      };
+      this.$store.dispatch("duplicateCampaignSimple", dataSender);
+      const dataSenderCampaign = {
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch( "getCampaignsByPage", dataSenderCampaign );
+      this.$emit("showCampaign", true);
     }
   }
 };
@@ -88,6 +105,11 @@ export default {
     color: #cccccc;
     .modal--content {
       width: 90%;
+      .no--account {
+        background: #212225;
+        border-radius: 0.625rem;
+        padding: 0.625rem 0;
+      }
       .delete {
         font-size: 0.8315rem;
         background: #212225;

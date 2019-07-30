@@ -12,7 +12,7 @@
           >
             <icon-modal-cookie />
             </icon-base>-->
-            <div @click="closeAddPopup">
+            <div @click="closeAddPopup" v-if="addFbStatus !== 'loading'">
               <icon-base
                 icon-name="arrow-down"
                 class="arrow-down"
@@ -30,8 +30,7 @@
               class="active mr_3"
             >Xong</div>
           </div>
-          <div class="modal--body px_3 py_4" v-if="addFbStatus === 'loading'">
-            <div class="modal--title">Thêm tài khoản Facebook</div>
+          <div class="modal--body px_3 py_4 transition--loading" v-if="addFbStatus === 'loading'">
             <div class="loading--block mt_4 mb_4">
               <div class="mx_auto">
                 <div class="loading--bar position_relative mx_auto">
@@ -95,14 +94,14 @@ export default {
     }
   },
   methods: {
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
-    },
     async addCookie() {
       this.addFbStatus = "loading";
       await this.$store.dispatch("addCookie", this.cookie);
       this.addFbStatus = "success";
       this.closeAddPopup();
+    },
+    closeAddPopup() {
+      this.$emit("closeAddPopup", false);
     }
   }
 };
@@ -130,6 +129,12 @@ export default {
       .name--modal {
         margin: auto;
       }
+    }
+    .transition--loading {
+      position: fixed;
+      top: 40%;
+      left: 50%;
+      transform: translateX(-50%);
     }
   }
   .modal--dialog {
@@ -176,7 +181,7 @@ export default {
     border-radius: 8px;
     height: 16px;
     overflow: hidden;
-    width: 320px;
+    width: 290px;
     .percent {
       background-color: rgb(88, 206, 65);
       background-size: 16px 16px;
@@ -195,7 +200,7 @@ export default {
   }
 }
 
-.scroll-area{
+.scroll-area {
   width: 100%;
 }
 </style>

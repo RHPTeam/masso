@@ -13,6 +13,7 @@ Vue.component("IconArrowUp", () =>
 Vue.component("IconAutoAnswer", () =>
   import("@/components/icons/IconAutoAnswer")
 );
+Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 Vue.component("IconAutoReply", () => import("@/components/icons/IconAutoReply"));
 Vue.component("IconAutopost", () => import("@/components/icons/IconAutopost"));
 Vue.component("IconArrowLeft", () => import("@/components/icons/IconArrowLeft"));
@@ -31,6 +32,7 @@ Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
 Vue.component( "IconCheck", () => import( "@/components/icons/IconCheck" ) );
 Vue.component( "IconCheckActive", () => import( "@/components/icons/IconCheckActive" ) );
+Vue.component( "IconCheckCircle", () => import( "@/components/icons/IconCheckCircle" ) );
 Vue.component( "IconCookie", () => import( "@/components/icons/IconCookie" ) );
 Vue.component( "IconConf", () => import( "@/components/icons/IconConf" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );

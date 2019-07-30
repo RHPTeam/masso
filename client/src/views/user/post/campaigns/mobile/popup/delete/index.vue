@@ -1,12 +1,12 @@
 <template>
-  <div class="modal--wrapper" :data-theme="currentTheme">
+  <div class="modal--delete" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center">
         <div class="item mb_2 delete">
           <div class="text mb_2 pb_2 px_1">
-            Bạn có muốn xóa
-            <b>{{selectedCampaign.title}}</b> này không?
+            Bạn có muốn xóa {{ title }}
+            <b>{{selectedCampaign.title}}{{ nameEvent }}</b> này không?
           </div>
           <div @click="confirmDelete()">Xóa</div>
         </div>
@@ -19,9 +19,10 @@
 
 <script>
 export default {
-  props: ["selectedCampaign"],
+  props: ["selectedCampaign", "title", "nameEvent"],
   data() {
-    return {};
+    return {
+    };
   },
   computed: {
     currentTheme() {
@@ -42,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 // @import "index.style";
-.modal--wrapper {
+.modal--delete {
   height: 100vh;
   width: 100vw;
   // background: #404040b0;

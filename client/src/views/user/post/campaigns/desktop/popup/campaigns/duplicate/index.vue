@@ -72,7 +72,7 @@ export default {
   data() {
     return {
       setup: {
-        accountId: "",
+        accountId: [],
         timeStart: new Date()
       }
     }
@@ -111,7 +111,6 @@ export default {
         campaignId: this.campaignDuplicate._id,
         facebookId: this.setup.accountId
       };
-      console.log(dataSender);
       await this.$store.dispatch("duplicateCampaignSimple", dataSender);
       await this.$emit("setDefault", false);
       this.closePopup();
@@ -126,7 +125,7 @@ export default {
         0 )
     },
     chooseAccount(val){
-      this.setup.accountId = val;
+      this.setup.accountId.push(val);
     }
   }
 };

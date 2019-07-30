@@ -13,7 +13,18 @@
             <icon-arrow-down />
           </icon-base>
         </div>
-        <div class="active ml_auto d_flex align_items_center">
+        <div class="m_auto name--campaign">
+          <contenteditable
+            class="editable name"
+            tag="div"
+            placeholder="Nhập tên..."
+            :noNL="true"
+            :contenteditable="true"
+            v-model='campaign.title'
+            @returned="updateTitleCampaign()"
+          />
+        </div>
+        <div class="active d_flex align_items_center">
           <div @click="showHistory">
             <icon-base icon-name="Lịch sử" width="24" height="24" viewBox="0 0 480 480" class="mr_2">
               <icon-history />
@@ -35,7 +46,7 @@
     <VuePerfectScrollbar class="scroll--campaign">
       <div class="items--body mt_3 px_2">
         <div class="top d_flex align_items_center mb_2">
-          <div class="name">{{ campaign.title }}</div>
+         <div class="status">Trạng thái</div>
           <div class="active ml_auto">
             <toggle-switch
               @change="updateCampaignStatus()"
@@ -54,67 +65,19 @@
           /> -->
           <!-- End: FullCalendar -->
           <!-- Start: Date time picker -->
-          <date-picker-inline :inline="true"  />
+          <date-picker-inline :inline="true" v-model="dateStartedAtDatePicker" @input="changeStartedAt"/>
           <!-- End: Date time picker -->
 
           <!-- Start: Event of Day -->
           <div class="event mt_2 px_2">
             <!-- <div class="items no--event text_center">Không có sự kiện nào</div> -->
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:00</div>
+            <div class="items text_center" v-if="eventsOfDay.length === 0">Không có sự kiện nào</div>
+            <div class="items d_flex align_items_center" v-else v-for="(item, index) in eventsOfDay" :key="index" @click="openEventPopup(item)">
+              <div class="time item">{{ formatTime(item.started_at) }}</div>
               <div class="item color mx_3">
-                <span></span>
+                <span :style="{ backgroundColor: item.color }"></span>
               </div>
-              <div class="name item">Event nè!!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
-            </div>
-            <div class="items d_flex align_items_center">
-              <div class="time item">00:01</div>
-              <div class="item color mx_3">
-                <span></span>
-              </div>
-              <div class="name item">Event!!</div>
+              <div class="name item">{{ item.title }}</div>
             </div>
           </div>
           <!-- End: Event of Day -->

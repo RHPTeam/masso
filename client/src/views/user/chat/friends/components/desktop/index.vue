@@ -6,23 +6,28 @@
       :groupSelected="groupSelected"
     ></segments-list>
     <segments-attribute
+      v-if="showFilterFriend === true"
       :selectFilter="selectFilter"
       @openResultsFilter="selectFilter = $event"
       @hiddenDefault="resultsDefault = $event"
+      @closeFilter="showFilterFriend = $event"
     ></segments-attribute>
     <segments-content
       :groupSelected="groupSelected"
       :selectFilter="selectFilter"
+      :sizeDefault="sizeDefault"
       :resultsDefault="resultsDefault"
+      @changedSize="changeSizeDefault($event)"
       @changeResultDefault="resultsDefault = $event"
+      @openFilter="showFilterFriend = $event"
     ></segments-content>
   </div>
 </template>
 
 <script>
-import SegmentsList from "./segments/segments-list";
-import SegmentsAttribute from "./segments/segments-attribute";
-import SegmentsContent from "./segments";
+import SegmentsList from "./components/segments-list";
+import SegmentsAttribute from "./components/segments-attribute";
+import SegmentsContent from "./components";
 
 export default {
   components: {
@@ -34,9 +39,16 @@ export default {
     return {
       groupSelected: false,
       selectFilter: false,
-      resultsDefault: true
+      resultsDefault: true,
+      showFilterFriend: false,
+      sizeDefault: 25
     };
-  }
+  },
+  methods: {
+    changeSizeDefault(val) {
+      this.sizeDefault = val.size
+    }
+  },
 };
 </script>
 

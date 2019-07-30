@@ -1,31 +1,23 @@
 <template>
-  <div class="header" role="main">
+  <div class="header" role="main" :data-theme="currentTheme">
     <!-- Start: If create new chat-->
-<!--    <div class="top d_flex align_items_center">-->
-<!--      <div class="" role="to">Đến:</div>-->
-<!--      <div role="right" aria-label="option friends">-->
-<!--        <multiselect-->
-<!--          placeholder="Nhập tên của một người hoặc nhóm"-->
-<!--        />-->
-<!--      </div>-->
-<!--    </div>-->
+    <div class="top d_flex align_items_center" v-if="variableControl.new === true">
+      <div class="" role="to">Đến:</div>
+      <div role="right" aria-label="option friends">
+        <multiselect
+          class="style-chooser"
+          label="fullName"
+          placeholder="Nhập tên của một người hoặc nhóm"
+        />
+      </div>
+    </div>
     <!-- End: If create new chat-->
-    <div class="bottom d_flex align_items_center justify_content_between">
+    <div class="bottom d_flex align_items_center justify_content_between" v-else>
       <div class="left d_flex align_items_center">
         <div role="image" :style="{ backgroundImage: 'url('+ srcTest +')' }"></div>
         <div role="name">Chat zinbee</div>
       </div>
       <div class="right d_flex align_items_center">
-        <div class="icon mr_2">
-          <icon-base
-            icon-name="menu"
-            width="24"
-            height="24"
-            viewBox="0 0 60 60"
-          >
-            <icon-location />
-          </icon-base>
-        </div>
         <div class="icon mr_3" @click="toggleRightSidebar">
           <icon-base
             icon-name="menu"
@@ -43,10 +35,15 @@
 
 <script>
 export default {
-  props: [ "status" ],
+  props: [ "status", "currentTheme" ],
   data() {
     return {
       srcTest: "https://cdn.arstechnica.net/wp-content/uploads/2016/02/5718897981_10faa45ac3_b-640x624.jpg"
+    }
+  },
+  computed: {
+    variableControl(){
+      return this.$store.getters.caseControl;
     }
   },
   methods: {
@@ -79,8 +76,8 @@ export default {
     div[role="to"] {
 
     }
-    div[aria-label="option friend"] {
-      width: 100%;
+    div[role="right"] {
+      width: 40%;
     }
   }
   .bottom {
@@ -109,4 +106,21 @@ export default {
     }
   }
 }
+.style-chooser .vs__dropdown-toggle .vs__actions {
+  display: none !important;
+}
+  .header[data-theme="dark"] {
+    background-color: #2F3136;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .1);
+    color: #fff;
+    .bottom {
+      .right{
+        .icon {
+          svg {
+            color: #ffb94a;
+          }
+        }
+      }
+    }
+  }
 </style>

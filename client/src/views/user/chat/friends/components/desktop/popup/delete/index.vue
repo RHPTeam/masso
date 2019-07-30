@@ -12,17 +12,7 @@
             <span class="text--bold pr_1">{{ targetName }}</span>
             {{ $t('chat.common.popup.delete.willDelete') }}
             <span v-if="description !== '' ">{{ description }}</span>
-            
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
-            <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
           </div>
-          <input
-            class="modal--body-input mt_3"
-            placeholder="DELETE"
-            type="text"
-            v-model="deleteText"
-          />
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
           <button
@@ -31,7 +21,6 @@
           > {{ $t('chat.common.popup.delete.cancle') }} </button>
           <button
             class="btn--skip"
-            v-if="deleteConfirm"
             @click="deleteTargets()"
           > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
@@ -80,6 +69,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    friendSelected() {
+      return this.$store.getters.uidSelectDelete;
     }
   },
   watch: {
@@ -94,25 +86,23 @@ export default {
     deleteTargets() {
       this.$store.dispatch( this.storeActionName, this.targetData );
 
-      this.$emit( "closePopup", false );
-    },
-    closeAddPopup() {
-      this.$emit("closeAddPopup", false);
+      this.closePopup();
     },
     deleteSelected() {
-      if (this.type === 'friends') {
+      if (this.typeName === 'friends') {
         const dataSender = {
-          gr_id: this.targetData._id,
-          friends: this.selectedUIDs
-        }
-        this.$store.dispatch("deleteFriendsFromGroup", dataSender);
-        this.$emit("closeAddPopup", false);
-        this.$store.dispatch("selectedUIDs", []);
+          gr_id: this.$route.query.gid,
+          friendsId: this.friendSelected.map(item => item.userID)
+        };
+        console.log(dataSender);
+        this.$store.dispatch("deleteFriendFromGroup", dataSender);
+        this.$store.dispatch("selectDeleteUID", []);
+        this.closePopup();
       }
       else if (this.typeName === 'group') {
         const gr_id = this.targetData._id;
         this.$store.dispatch("deleteGroupFriend", gr_id);
-        this.$emit("closeAddPopup", false);
+        this.closePopup();
       }
     }
   }

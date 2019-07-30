@@ -31,12 +31,11 @@ const CronJob = require( "cron" ).CronJob;
  */
 const sendMessageTextType = async ( data, api, account ) => {
   return new Promise( async ( resolve ) => {
-
     // HANDLE BEFORE SEND MESSAGE TEXT TYPE (UPDATE BY TOAN VERSION TEMP 03/04/2019)
     data = await handleBeforeSendMessageText( data );
 
     // Get userID Facebook (Important)
-    const userInfoFriend = await Friend.findOne( { "_id": data._receiver } );
+    const userInfoFriend = await Friend.findOne( { "userID": data._receiver } );
 
     api.sendMessage( { "body": data.message }, userInfoFriend.userID, async ( err, message ) => {
       let result = {};
@@ -82,7 +81,7 @@ const sendMessageTextType = async ( data, api, account ) => {
       }
 
       // Update message
-      const messageUpdated = await Message.findOne( { "_account": data._account, "_sender": data._sender, "_receiver": data._receiver } ).populate( { "path": "_receiver", "select": "-_account -_facebook" } ).populate( {
+      const messageUpdated = await Message.findOne( { "_account": data._account, "_sender": data._sender, "_receiver": data._receiver } ).populate( {
         "path": "_sender",
         "select": "-cookie"
       } );
@@ -313,7 +312,7 @@ const sendMessageImageTypeInBlock = async ( message, val, api, account ) => {
  */
 const handleBeforeSendMessageText = async ( data ) => {
   // Step 01: Get info of receiver
-  const userInfoReceiver = await Friend.findOne( { "_id": data._receiver } ).select( "-_facebook -_account" );
+  const userInfoReceiver = await Friend.findOne( { "userID": data._receiver } ).select( "-_facebook -_account" );
 
   // Step 02: Get all vocate and attribute
   const vocaList = await Vocate.find( { "_account": data._account } );
@@ -431,13 +430,14 @@ const handleMessageSequenceInBlock = async ( message, val, account, api ) => {
 
 module.exports = {
   /**
-   * Handle message when vocative and script
+   * Handle message when vocative and scripts
    * @param data
    * @param account
    * @param api
    * @returns {Promise<*>}
    */
   "handleMessage": async ( data, account, api ) => {
+    console.log(data)
     return new Promise( async ( resolve, reject ) => {
 
       // Check if message of account and receiver

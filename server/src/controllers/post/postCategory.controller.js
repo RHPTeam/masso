@@ -51,15 +51,12 @@ module.exports = {
     // Handle get mix categories
     if ( parseInt( req.query.mix ) === 1 ) {
       dataResponse = await PostCategory.find( { "_account": req.uid, "mix": true }, "title description mix totalPosts" ).lean();
-
-      dataResponse = await Promise.all( dataResponse.filter( async ( category ) => {
-        return ( await Post.find( { "_categories": category._id } ).lean() ).length > 0;
-      } ) );
+      dataResponse = dataResponse.filter( ( category ) => category.totalPosts > 0 );
 
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
 
-    res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
+    res.status( 404 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
     // Check validator
@@ -106,7 +103,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Danh mục mặc định không thể bị xóa!" } );
     }
 
-    // When delete auto which all of post of that auto will deleted
+    // When delete srv which all of post of that srv will deleted
     if ( findPost.length > 0 ) {
       // add to un_ categories
       const unCategory = await PostCategory.findOne( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } );

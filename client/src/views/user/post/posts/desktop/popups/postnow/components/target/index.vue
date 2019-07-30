@@ -93,11 +93,21 @@
     <!-- End: Option Post detail -->
 
     <!-- Start: Show Option Group -->
-    <target-group v-if="targetType === 1" />
+    <target-group
+      v-if="targetType === 1"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
+    />
     <!-- End: Show Option Group -->
 
     <!-- Start: Show Option Page -->
-    <target-custom v-else-if="targetType=== 2" />
+    <target-custom
+      v-else-if="targetType=== 2"
+      :postSchedule="postSchedule"
+      @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
+    />
     <!-- End: Show Option Page -->
 
     <!-- Start: Show Option Timeline -->
@@ -105,6 +115,7 @@
       v-else-if="targetType === 3"
       :postSchedule="postSchedule"
       @updatePostSchedule="updatePostSchedule($event)"
+      @openTimer="showSetupTimer($event)"
     />
     <!-- End: Show Option Timeline -->
   </div>
@@ -136,6 +147,9 @@ export default {
   methods: {
     selectTargetType( value ) {
       this.targetType = value;
+    },
+    showSetupTimer(val){
+      this.$emit("changeTimer", val);
     },
     updatePostSchedule( val ) {
       this.$emit( "updatePostSchedule", val );

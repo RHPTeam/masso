@@ -25,6 +25,9 @@ const multer = require( "multer" ),
   } ),
   upload = multer( {
     "storage": storage,
+    "limits": {
+      "fileSize": 1024 * 1024 * 25
+    },
     "fileFilter": function ( req, file, cb ) {
       if ( !file.originalname.match( /\.(jpg|jpeg|png|gif|JPG|JPEG|PNG|GIF)$/ ) ) {
         return cb( new Error( "Only image files are allowed!" ) );
@@ -33,14 +36,10 @@ const multer = require( "multer" ),
     }
   } );
 
-
 router.route( "/" )
   .get( BroadcastController.index )
   .post( BroadcastController.create )
-  .patch( upload.single( "file" ), BroadcastController.update )
+  .patch( BroadcastController.update )
   .delete( BroadcastController.delete );
-
-router.route( "/addBlock" )
-  .post( BroadcastController.addBlock );
 
 module.exports = router;
