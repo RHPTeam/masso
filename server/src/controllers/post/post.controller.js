@@ -135,12 +135,13 @@ module.exports = {
     }
 
     // Check validator
-    if ( !req.body.title || req.body.title.length === 0 ) {
-      return res.status( 403 ).json( {
-        "status": "fail",
-        "title": "Tiêu đề bài đăng không được bỏ trống!"
-      } );
-    } else if (
+    // if ( !req.body.title || req.body.title.length === 0 ) {
+    //   return res.status( 403 ).json( {
+    //     "status": "fail",
+    //     "title": "Tiêu đề bài đăng không được bỏ trống!"
+    //   } );
+    // } else
+    if (
       req.body.scrape && /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/gm.test(
         req.body.scrape
       ) === false
@@ -162,8 +163,8 @@ module.exports = {
       const categoryInfo = await PostCategory.findOne( { "_id": category._id } ),
         totalPostsOfCategory = await Post.countDocuments( { "_categories": category._id } );
 
-      categoryInfo.totalPosts = totalPostsOfCategory;
-      categoryInfo.save();
+      categoryInfo.totalPosts = totalPostsOfCategory + 1;
+      await categoryInfo.save();
     } ) );
 
     res
@@ -227,8 +228,10 @@ module.exports = {
     await Promise.all( findPost._categories.map( async ( category ) => {
       const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
-      categoryInfo.totalPosts -= 1;
-      categoryInfo.save();
+      if ( categoryInfo.totalPosts > 0 ) {
+        categoryInfo.totalPosts -= 1;
+        categoryInfo.save();
+      }
     } ) );
 
     // Remove a post exist in a campaign

@@ -33,7 +33,7 @@ module.exports = {
   },
 
   /**
-   * 	When user create, system auto generate name of syntax. Currently, when user setup, system will apply for all their customer
+   * 	When user create, system srv generate name of syntax. Currently, when user setup, system will apply for all their customer
    *  @param req
    *  @param res
    *

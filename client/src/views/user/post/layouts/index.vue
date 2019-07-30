@@ -1,31 +1,31 @@
 <template>
   <div class="wrapper position_relative" :data-theme="currentTheme">
     <!-- Start: Desktop Component-->
-    <div class="wrap--content d_md_flex d_none position_relative">
+    <div class="wrap--content d_md_flex d_none position_relative" v-if="innerWidth > 768">
       <div class="wrap--content-sidebar">
         <app-sidebar></app-sidebar>
       </div>
       <div class="wrap--content-main">
-        <app-header
-          @openExpire="showExpire = $event"></app-header>
+        <app-header @openExpire="showExpire = $event"></app-header>
         <router-view />
       </div>
     </div>
     <!-- End: Desktop Component-->
 
-    <!-- Start: Notification for check login facebook account-->
-    <app-notification :statusNetwork="statusNetwork"></app-notification>
-    <!-- End: Notification for check login facebook account-->
-
     <!-- Mobile -->
-    <div class="wrap--content-mobile d_block d_md_none position_relative">
-      <header-mobile />
+    <div class="wrap--content-mobile d_block d_md_none position_relative" v-else>
+      <header-mobile></header-mobile>
       <VuePerfectScrollbar class="mobile-scroll">
         <!-- <search-mobile /> -->
         <router-view />
       </VuePerfectScrollbar>
-      <footer-mobile />
+      <footer-mobile></footer-mobile>
     </div>
+
+    <!-- Start: Notification for check login facebook account-->
+    <app-notification :statusNetwork="statusNetwork"></app-notification>
+    <!-- End: Notification for check login facebook account-->
+
     <!-- Start: Pricing account-->
     <app-expire
       v-if="showExpire === true"

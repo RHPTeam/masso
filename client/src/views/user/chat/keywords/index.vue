@@ -1,7 +1,7 @@
 <template>
   <div class="main" :data-theme="currentTheme">
     <div class="d_block d_md_none">
-      <!-- <app-auto-mobile /> -->
+      <!-- <app-srv-mobile /> -->
     </div>
     <div class="d_none d_md_block">
       <app-bread-crumb
@@ -46,7 +46,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Start: Delete Item Popup-->
     <transition name="popup">
       <delete-campaign-popup

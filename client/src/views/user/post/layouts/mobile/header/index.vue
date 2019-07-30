@@ -163,7 +163,7 @@
           </icon-base>
         </div>
       </div>
-      <div class="icon add--script" v-if="this.$route.path === '/f-script'">
+      <div class="icon add--scripts" v-if="this.$route.path === '/f-scripts'">
         <icon-base icon-name="plus" width="24" height="24" viewBox="0 0 64 64">
           <icon-plus />
         </icon-base>
@@ -185,14 +185,14 @@
       />
     </transition>-->
     <!--    End: Add new message-->
-    <!--    Start: Add new script-->
+    <!--    Start: Add new scripts-->
     <!-- <transition name="popup">
       <change-account
         v-if="showNewScript === true"
         @closeModal="showNewScript = $event"
       />
     </transition>-->
-    <!--    End: Add new script-->
+    <!--    End: Add new scripts-->
     <!-- Start: transition popup mobile -->
     <transition name="popup">
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
@@ -222,7 +222,6 @@ import PopupFilterByCategory from "../popup/posts/filter";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 
 export default {
-  props: ["fbPost"],
   components: {
     AppSidebarMobile,
     PopupCreateCategory,
@@ -234,6 +233,15 @@ export default {
     PopupFilterByCategory,
     UpgradeProPopup
   },
+  filters: {
+    getFirstLetter(string) {
+      if (typeof string == "undefined") return;
+      if (string.length == 0) return;
+      return string.charAt(0).toUpperCase();
+    }
+  },
+  props: ["fbPost"],
+
   data() {
     return {
       isShowPopup: false,
@@ -306,12 +314,9 @@ export default {
       return this.$store.getters.accountsFB;
     }
   },
-  filters: {
-    getFirstLetter(string) {
-      if (typeof string == "undefined") return;
-      if (string.length == 0) return;
-      return string.charAt(0).toUpperCase();
-    }
+  async created() {
+    await this.$store.dispatch( "getUserInfo" );
+    this.$store.dispatch("actionCursor", 11);
   },
   methods: {
     closeDropdownFilterByCategory() {
@@ -354,9 +359,6 @@ export default {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
     }
-  },
-  created() {
-    this.$store.dispatch("actionCursor", 11);
   }
 };
 </script>

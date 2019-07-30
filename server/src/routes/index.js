@@ -40,4 +40,8 @@ router.use( "/vocate", auth, require( "./modules/chat/vocate.route" ) );
 // Server Route
 router.use( "/vps", auth, require( "./modules/server.route" ) );
 
+// Auto Scripts
+router.use( "/srv", require( "./modules/srv/srv.route" ) );
+
+
 module.exports = router;
