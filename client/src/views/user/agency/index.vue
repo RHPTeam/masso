@@ -20,6 +20,25 @@ export default {
   components: {
     AppDesktop,
     AppMobile
+  },
+  data() {
+    return {
+      innerWidth: 0
+    };
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
+  methods: {
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
+    }
   }
 };
 </script>

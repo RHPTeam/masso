@@ -97,11 +97,14 @@ export default {
     // const keywordDefault = this.user.keywords[
     //   Math.floor(Math.random() * this.user.keywords.length)
     // ];
-    // await this.$store.dispatch("getListPostFacebookDefault", {
-    //   keyword: this.user.keywords[0],
-    //   size: 25,
-    //   page: 1
-    // });
+    // const fbSearch = this.$store.getters.listPostFacebookDefault;
+    // if(fbSearch.length === 0) {
+    //   await this.$store.dispatch("getListPostFacebookDefault", {
+    //     keyword: this.user.keywords[0],
+    //     size: 25,
+    //     page: 1
+    //   });
+    // }
     // this.keyword = keywordDefault;
   },
   methods: {

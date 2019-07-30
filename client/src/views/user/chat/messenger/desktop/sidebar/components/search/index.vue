@@ -34,6 +34,11 @@ export default {
       keywords: ""
     }
   },
+  watch: {
+    "keywords"(value) {
+      this.$emit("watchKeyword", value);
+    }
+  },
   methods: {
     async changeStatus() {
       await this.searchFriend();
@@ -41,7 +46,7 @@ export default {
       this.$emit("watchKeyword", this.keywords);
     },
     searchFriend(){
-      this.$store.dispatch("getAllFriendFB");
+      // this.$store.dispatch("getAllFriendFB");
     }
   },
 }

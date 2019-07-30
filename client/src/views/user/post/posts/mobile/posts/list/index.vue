@@ -37,6 +37,8 @@
           <div class="text_center" v-if="postsPageSize === currentPage"></div>
           <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
         </div>
+        {{ postsPageSize }}
+        {{ currentPage }}
       </div>
     </VuePerfectScrollbar>
     <!-- End: List post -->
@@ -103,12 +105,6 @@ export default {
     categoryById() {
       return this.$store.getters.categoryById;
     },
-    numberPageCurrent() {
-      return this.$store.getters.numberPageCurrent;
-    },
-    postsPageInfinite() {
-      return this.$store.getters.postsPageInfinite;
-    },
     postsPageSize() {
       return this.$store.getters.postsPageSize;
     },
@@ -127,6 +123,9 @@ export default {
   },
   methods: {
     async loadMore() {
+      // if(this.$store.getters.gestureUser === 15) {
+      //   this.currentPage = 1;
+      // }
       this.currentPage += 1;
 
       await this.$store.dispatch("getPostsByPageMobile", {
@@ -161,7 +160,7 @@ export default {
   watch: {
     "gestureUser"(value) {
       if(value === 14) {
-      this.currentPage = 1;
+        this.currentPage = 1;
       }
     }
   }

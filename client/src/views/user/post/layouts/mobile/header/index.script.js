@@ -127,6 +127,7 @@ export default {
 
       await this.$store.dispatch("createNewPost", dataSender);
       await this.$store.dispatch("getPostById", this.post._id);
+      await this.$store.dispatch("actionCursor", 15);
       // this.$router.push( {
       //   name: "post_update_post",
       //   params: { id: this.post._id }

@@ -42,7 +42,8 @@ const state = {
   infoPostCateDefault: 0,
   statusPostCateDefault: "",
   titleCategory: "",
-  idCategoryToLoadMore: ""
+  idCategoryToLoadMore: "",
+  postsPageSizeSearch: 1
 };
 const getters = {
   allPost: ( state ) => state.allPost,
@@ -66,7 +67,8 @@ const getters = {
   infoPostCateDefault: state => state.infoPostCateDefault,
   statusPostCateDefault: state => state.statusPostCateDefault,
   titleCategory: state => state.titleCategory,
-  idCategoryToLoadMore: state => state.idCategoryToLoadMore
+  idCategoryToLoadMore: state => state.idCategoryToLoadMore,
+  postsPageSizeSearch: state => state.postsPageSizeSearch
 };
 const mutations = {
   post_request: ( state ) => {
@@ -125,9 +127,15 @@ const mutations = {
   setPostsPageSize: ( state, payload ) => {
     state.postsPageSize = payload;
   },
+  setPostsPageSizeCreate: ( state, payload ) => {
+    state.postsPageSize = payload;
+  },
   // mobile
   setPostsPageSizeFilter: ( state, payload ) => {
     state.postsPageSizeFilter = payload;
+  },
+  setPostsPageSizeSearch: (state, payload) => {
+    state.postsPageSizeSearch = payload;
   },
   setTotalPost: (state, payload) => {
     state.totalPost = payload;
@@ -171,6 +179,7 @@ const mutations = {
   // set post by page to get number posts in that page
   setPostByPage: (state, payload) => {
     state.allPost = state.allPost.concat(payload);
+    // state.allPost = [... new(state.allPost)];
   },
   // Mobile
   setPostsFilterByCategoryMobile: (state, payload) => {
@@ -314,7 +323,7 @@ const actions = {
     const res = await PostServices.getPostsByPage( payload.size, payload.page );
     await commit( "setPostByPage", res.data.data.results );
     await commit( "setPostsPageSize", res.data.data.page );
-    // await commit( "setTotalPost", res.data.data.total );
+    await commit( "setTotalPost", res.data.data.total );
     // await commit( "setPostsPageInfinite", res.data.data.results );
 
     commit( "post_success" );
@@ -360,7 +369,7 @@ const actions = {
     const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
 
     await commit( "setPostsPageMobile", res.data.data.results );
-    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageSizeSearch", res.data.data.page );
     
     commit( "post_success" );
   },
@@ -369,7 +378,7 @@ const actions = {
     const res = await PostServices.searchByKey( payload.keyword, payload.size, payload.page );
 
     await commit( "setPostsPageMobileSearch", res.data.data.results );
-    await commit( "setPostsPageSize", res.data.data.page );
+    await commit( "setPostsPageSizeSearch", res.data.data.page );
     
     commit( "post_success" );
   },
@@ -416,7 +425,7 @@ const actions = {
     // const resultPostById = await PostServices.getById( payload._id );
     // commit( "setPost", resultPostById.data.data );
 
-    commit("setPost", payload);
+    // commit("setPost", payload);
 
     commit("setUpdatePost", payload);
 

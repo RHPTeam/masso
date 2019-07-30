@@ -80,7 +80,7 @@
               <div class="item color mx_3">
                 <span :style="{ backgroundColor: item.color }"></span>
               </div>
-              <div class="name item">{{ item.title }}</div>
+              <div class="name item">{{ item.title.length > 0 ? item.title : 'Sự kiện chưa có tiêu đề' }}</div>
             </div>
           </div>
           <!-- End: Event of Day -->

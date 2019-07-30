@@ -67,7 +67,7 @@
         >
           <div
             class="all-posts d_flex align_items_center"
-            v-if="gestureUser === 11 || gestureUser === 14"
+            v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15"
           >
             <!-- <div class="action mr_1" @click="showPopupHistory">
               <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
@@ -94,7 +94,7 @@
           <div
             class="add category action"
             @click="showPopupCreateCategory"
-            v-if="gestureUser === 12"
+            v-if="gestureUser === 12 || gestureUser === 16"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />

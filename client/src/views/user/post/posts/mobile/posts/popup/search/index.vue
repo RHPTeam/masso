@@ -88,36 +88,26 @@ export default {
   methods: {
     closePopupSearch() {
       this.$emit("closePopupSearch", false);
-      const dataSender = {
-        keyword: "",
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch("getPostsByKeyMobile", dataSender);
-      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
-      this.$store.dispatch("getCategoryDefault");
+      // const dataSender = {
+      //   keyword: "",
+      //   size: 25,
+      //   page: 1
+      // };
+      // this.$store.dispatch("getPostsByKeyMobile", dataSender);
+      // this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      // this.$store.dispatch("getCategoryDefault");
     },
     showPopupPosts() {
       this.isShowPopupPosts = true;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = false;
     },
-    showPopupCategories() {      
-      const dataSender = {
-        keyword: this.search,
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+    showPopupCategories() {
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = true;
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategoriesDefault() {
-      this.$store.dispatch("getCategoriesDefaultByKey", {
-        search: this.search,
-        categoriesDefault: this.$store.getters.allCateDefault
-      });
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = true;
@@ -129,47 +119,27 @@ export default {
       this.isShowPopupDelete = true;
     },
     async updateSearch() {
-      const dataSender = {
-        keyword: this.search,
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch("getPostsByKeyMobile", dataSender);
-      // this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
-      // Search Default Categories on Client Side.
-      // await this.$store.dispatch("getCategoryDefault");
-      // this.$store.dispatch("getCategoriesDefaultByKey", {
-      //   search: this.search,
-      //   categoriesDefault: this.$store.getters.allCateDefault
-      // });
-    }
-  },
-  created() {
-  },
-  watch: {
-    search(val) {
-      if (val.length === 0) {
+      if(this.isShowPopupPosts === true) {        
         const dataSender = {
+          keyword: this.search,
           size: 25,
           page: 1
         };
-        // this.$store.dispatch("getPostsByPage", dataSender);
-        // this.$store.dispatch("getCategoriesByPage", dataSender);
-
-        // this.$router.replace( {
-        //   name: "post_posts",
-        //   query: {
-        //     size: this.filterShowSelected.id,
-        //     page: 1
-        //   }
-        // } );
-
-        // this.$emit( "updateCurrentPage", 1 );
-        // this.$emit( "updateSearch", this.search );
-        // this.updateFilterCategorySelected( {
-        //   id: "all",
-        //   title: "Tất cả"
-        // } );
+        this.$store.dispatch("getPostsByKeyMobile", dataSender);
+      }
+      if(this.isShowPopupCategories === true) {
+        const dataSender = {
+          keyword: this.search,
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      }
+      if(this.isShowPopupCategoriesDefault === true) {
+        this.$store.dispatch("getCategoriesDefaultByKey", {
+          search: this.search,
+          categoriesDefault: this.$store.getters.allCateDefault
+        });
       }
     }
   }

@@ -14,7 +14,7 @@
             <icon-input-search />
           </icon-base>
         </span>
-        <input v-model="search" class="search--input" placeholder="Tìm kiếm" type="text" />
+        <input class="search--input" placeholder="Tìm kiếm" type="text" />
       </div>
     </div>
     <!-- End: Search -->
@@ -51,6 +51,8 @@
             <div class="text_center" v-if="campaignsPagesSize === currentPage"></div>
             <div class="text_center py_3 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
           </div>
+          {{ campaignsPagesSize }}
+          {{ currentPage }}
         </div>
         <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
           <div

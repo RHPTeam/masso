@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- Start: Desktop Component-->
-    <div class="d_md_block d_none position_relative">
+    <div class="position_relative">
       <breadcrumb
         nameBread="Bảng điều khiển"
         subBread="Giúp bạn quản lý nhanh các thông tin trên hệ thống."

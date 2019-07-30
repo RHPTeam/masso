@@ -51,11 +51,11 @@ export default {
       // this.showCreateEvent();
     },
     closePopup() {
-      const dataSender = {
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch("getCampaignsByPage", dataSender);
+      // const dataSender = {
+      //   size: 25,
+      //   page: 1
+      // };
+      // this.$store.dispatch("getCampaignsByPage", dataSender);
       this.$emit("closePopup", false);
     },
     formatDateStartedAt( d ) {
