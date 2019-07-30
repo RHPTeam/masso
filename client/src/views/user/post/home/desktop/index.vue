@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <!-- Start: Desktop Component-->
-    <div class="d_md_block d_none position_relative">
+    <div class="position_relative">
       <breadcrumb
         nameBread="Bảng điều khiển"
         subBread="Giúp bạn quản lý nhanh các thông tin trên hệ thống."
@@ -184,11 +184,15 @@
       <version-popup v-if="isStatusVersionNotification === false" @close="isReadVersionNotification = $event"></version-popup>
       <!-- End: Notification version updated-->
 
+      <!-- Start: Notification guide for user -->
+<!--      <guide-popup-->
+<!--        v-if="variableControlGuide === 1"-->
+<!--      >-->
+<!--      </guide-popup>-->
+      <!-- End: Notification guide for user-->
+
     </div>
     <!-- End: Desktop Component-->
-
-    <!-- Start: Mobile Component -->
-    <!-- End: Mobile Component -->
   </div>
 </template>
 

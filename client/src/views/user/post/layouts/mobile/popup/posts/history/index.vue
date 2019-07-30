@@ -81,6 +81,9 @@ export default {
     await this.$store.dispatch( "getAllPostSchedules" );
   },
   methods: {
+    close() {
+      this.$emit( "close", false );
+    },
     dateTimeFormat( date ) {
       let dateTime = new Date( date );
       dateTime.setMinutes(dateTime.getMinutes() + 1);
@@ -92,9 +95,6 @@ export default {
             year = dateTime.getFullYear();
 
       return `${hour}:${min}, ${day}/${month}/${year}`;
-    },
-    close() {
-      this.$emit( "close", false );
     }
   }
 }

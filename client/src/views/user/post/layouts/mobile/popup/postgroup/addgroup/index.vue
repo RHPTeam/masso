@@ -15,7 +15,7 @@
             </icon-base>
           </div>
           <p class="name--modal mb_0 m_auto">Thêm vào nhóm</p>
-          <div class="active mr_3" @click="addToGroup">Xong</div>
+          <div class="active mr_3" @click="addToGroup" v-if="selectedGroups.length > 0">Xong</div>
         </div>
         <div class="modal--body mt_3">
           <div class="text_center" v-if="postGroups.length === 0"
@@ -26,7 +26,7 @@
                    v-for="( item, index ) in postGroups"
                    :key="index"
               >
-                <div class="text">
+                <div class="text pl_2">
                   {{ item.title }}
                 </div>
                 <div class="custom--checkbox ml_auto mr_3">

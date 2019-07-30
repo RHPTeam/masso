@@ -17,7 +17,7 @@
 
       .modal--header {
         padding: 0.625rem 0;
-        border-bottom: 1px solid #ccc;
+        border-bottom: 1px solid #444;
         .arrow-down {
           transform: rotate(90deg);
           margin-left: 0.5rem;
@@ -32,12 +32,8 @@
           font-size: .875rem;
           padding: .5rem .75rem;
           width: 100%;
-          &:active,
-          &:focus {
-            border-color: #ff9e4a;
-            border-radius: 10px;
-            outline: 0 !important;
-          }
+          border-radius: 10px;
+          outline: 0 !important;
           &::placeholder {
             text-transform: none;
             color: #cccccc;
@@ -62,8 +58,8 @@
                   -webkit-appearance: none;
                   -moz-appearance: none;
                   &:checked {
-                    background-color: #ffb94a;
-                    border: solid 1px #ffb94a;
+                    // background-color: #ffb94a;
+                    // border: solid 1px #ffb94a;
                     &:before {
                       border-bottom: 2px solid #fff;
                       border-right: 2px solid #fff;
@@ -192,7 +188,7 @@
         }
         &:active,
         &:focus {
-          border-color: #ffb94a;
+          // border-color: #ffb94a;
         }
       }
     }

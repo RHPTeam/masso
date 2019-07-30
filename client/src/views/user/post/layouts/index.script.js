@@ -4,23 +4,25 @@ import AppNotification from "./desktop/notification";
 import AppExpire from "./desktop/expire";
 import GuidePopup from "./desktop/guide"
 
-import CookieFunction from "@/utils/functions/cookie";
-
 import HeaderMobile from "./mobile/header";
-import SearchMobile from "./mobile/search";
 import FooterMobile from "./mobile/footer";
 
 export default {
+  components: {
+    AppHeader,
+    AppSidebar,
+    AppNotification,
+    AppExpire,
+    GuidePopup,
+    HeaderMobile,
+    FooterMobile
+  },
   data() {
     return {
       statusNetwork: true,
-      showExpire: false
+      showExpire: false,
+      innerWidth: 0
     };
-  },
-  created() {
-
-    // Check Login
-    this.setCheckLogin();
   },
   computed: {
     currentTheme() {
@@ -30,28 +32,18 @@ export default {
       return this.$store.getters.variableControlGuide;
     },
   },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
   methods: {
-    setCheckLogin() {
-      this.interval = setInterval(() => this.$socket.emit( "check_login", CookieFunction.getCookie( "uid" ) ), 5000);
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
     }
-  },
-  sockets: {
-    async statusAccount(value) {
-      if (value === 405) {
-        this.$store.dispatch("getAccountsFB");
-      } else if (value === 404) {
-        this.statusNetwork = false;
-      }
-    }
-  },
-  components: {
-    AppHeader,
-    AppSidebar,
-    AppNotification,
-    AppExpire,
-    GuidePopup,
-    HeaderMobile,
-    SearchMobile,
-    FooterMobile
   }
 };

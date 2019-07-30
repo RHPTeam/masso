@@ -36,26 +36,27 @@ export default {
       this.isShowCategoryDefault = event;
     },
     showPosts() {
+      const dataSender = {
+        page: 1,
+        size: 25
+      };
+      this.$store.dispatch("getPostsByPage", dataSender);
       this.isShowPosts = true;
       this.isShowCategory = false;
       this.isShowCategoryDefault = false;
       this.$store.dispatch("actionCursor", 11);
       // this.$router.push({ name: 'post_posts', query: { size: 25, page: 1 } });
     },
-    showCategory() {
+    async showCategory() {
+      const dataSender = {
+        page: 1,
+        size: 25
+      };
+      await this.$store.dispatch("getCategoriesByPage", dataSender);
       this.isShowPosts = false;
       this.isShowCategory = true;
       this.isShowCategoryDefault = false;
       this.$store.dispatch("actionCursor", 12);
-
-      const categoryNo = this.$store.getters.categoriesPage;
-      if( categoryNo.length === 0 ) {
-        const dataSender = {
-          size: 25,
-          page: 1
-        };
-        this.$store.dispatch( "getCategoriesByPage", dataSender );
-      }
       // this.$router.push({ name: "post_postCategories", query: { size: 25, page: 1 } });
     },
     showCategoryForm() {
@@ -71,14 +72,6 @@ export default {
       // this.$router.push({ name: 'categories_default' });
     },
     async showPopupSearch() {
-      await this.$router.replace( {
-        name: "post_posts",
-        query: {
-          search: '',
-          size: 25,
-          page: 1
-        }
-      } );
       this.isShowPopupSearch = true;
     }
   },

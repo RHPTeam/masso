@@ -354,12 +354,6 @@
       width: 100%;
     }
 
-    &:hover {
-      .block--bg {
-        opacity: 1;
-      }
-    }
-
     img {
       height: 100%;
       left: 50%;
@@ -383,28 +377,19 @@
     }
 
     .block--bg {
-      background-color: rgba(0, 0, 0, .5);
-      height: 100%;
-      left: 0;
-      opacity: 0;
-      position: absolute;
-      top: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      /* height: 100%; */
+      right: 5px;
+      top: 5px;
       transition: all .6s ease;
-      width: 100%;
+      /* width: 100%; */
       z-index: 9;
-
-      .icon--remove {
-        cursor: pointer;
-        color: #cccccc;
-        stroke: #cccccc;
-        stroke-width: .5;
-        transition: all .4s ease;
-
-        &:hover {
-          color: #ffffff;
-          stroke: #ffffff;
-        }
-      }
+      height: 15px;
+      width: 15px;
+      padding-bottom: 2px;
+      line-height: 15px;
+      border-radius: 10px;
+      font-size: 0.8135rem;
     }
   }
 }
