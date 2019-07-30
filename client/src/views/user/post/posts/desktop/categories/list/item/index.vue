@@ -92,11 +92,11 @@ export default {
       this.$emit( "showDeletePopup", this.item );
     },
     async showListPostInCategory(){
-      await this.$store.dispatch("getPostByCategories", {
-        categoryId: item._id,
-        size: 25,
-        page: 1
-      } );
+      // await this.$store.dispatch("getPostByCategories", {
+      //   categoryId: item._id,
+      //   size: 25,
+      //   page: 1
+      // } );
     }
   }
 };

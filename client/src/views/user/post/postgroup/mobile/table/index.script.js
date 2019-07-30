@@ -69,18 +69,18 @@ export default {
     }
   },
   created() {
-    const facebookGroupsNo = this.$store.getters.facebookGroups;
-    const facebookPagesNo = this.$store.getters.facebookPages;
-    const facebookProfileNo = this.$store.getters.accountsFB;
+    // const facebookGroupsNo = this.$store.getters.facebookGroups;
+    // const facebookPagesNo = this.$store.getters.facebookPages;
+    // const facebookProfileNo = this.$store.getters.accountsFB;
 
-    if (facebookGroupsNo.length === 0) {
-      this.$store.dispatch("getFacebookGroups");
-    }
-    if (facebookPagesNo.length === 0) {
-      this.$store.dispatch("getFacebookPages");
-    }
-    if(facebookProfileNo.length === 0){
-      this.$store.dispatch( "getAccountsFB" );
-    }
+    // if (facebookGroupsNo.length === 0) {
+    //   this.$store.dispatch("getFacebookGroups");
+    // }
+    // if (facebookPagesNo.length === 0) {
+    //   this.$store.dispatch("getFacebookPages");
+    // }
+    // if(facebookProfileNo.length === 0){
+    //   this.$store.dispatch( "getAccountsFB" );
+    // }
   }
 }
