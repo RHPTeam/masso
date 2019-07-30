@@ -34,7 +34,10 @@ export default {
     }
   },
   async created(){
-    await this.$store.dispatch("getInfoAgency");
+    const agencies = this.$store.getters.memberAgency;
+    if(agencies && agencies.length === 0) {
+      await this.$store.dispatch("getInfoAgency");
+    }
   },
   methods: {
     openPopupEditInfoMember(val) {

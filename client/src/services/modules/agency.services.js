@@ -49,5 +49,15 @@ export default {
         "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
       }
     } );
+  },
+  searchMember(){
+    return request( {
+      "method": "post",
+      "url": `${process.env.VUE_APP_API_MAIN_URL}/agency/user/search?_keyword=${keyword}`,
+      "data": info,
+      "headers": {
+        "Authorization": `sid=${CookieFunction.getCookie( "sid" )}; uid=${CookieFunction.getCookie( "uid" )}; cfr=${CookieFunction.getCookie( "cfr" )};`
+      }
+    } );
   }
 };

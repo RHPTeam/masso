@@ -156,7 +156,11 @@ export default {
   methods: {
     async createNewMember() {
       await this.$store.dispatch("createNewMember", this.user);
-      this.close();
+      if(this.$store.getters.errorStatus === '') {
+        this.close();
+      } else {
+        return;
+      }
     },
     close(){
       this.$emit("closePopup", false);
