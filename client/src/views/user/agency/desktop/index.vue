@@ -8,9 +8,12 @@
     <app-navigation
       @openPopup="isShowPopupInfo = $event"
       @openUpdateAgencyInfo="isShowPopupAgencyInfo = $event"
+      @showResultSearch="resultsDefault = $event"
     />
     <app-main
+      :resultsDefault="resultsDefault"
       @openPopupEdit="isShowPopupEdit = $event"
+      @openPopup="isShowPopupEdit = $event"
     />
 
     <!--************* POPUP SIGN UP AND UPDATE ***************-->
@@ -62,7 +65,8 @@ export default {
       isShowPopupAgencyInfo: false,
       isShowPopupInfo: false,
       isShowPopupDelete: false,
-      isShowPopupEdit: false
+      isShowPopupEdit: false,
+      resultsDefault: false
     }
   },
   async created(){

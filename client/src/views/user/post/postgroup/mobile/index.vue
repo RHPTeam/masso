@@ -130,15 +130,15 @@ export default {
     }
   },
   // created() {
-    // const facebookGroupsNo = this.$store.getters.facebookGroups;
-    // const facebookPagesNo = this.$store.getters.facebookPages;
+  //   const facebookGroupsNo = this.$store.getters.facebookGroups;
+  //   const facebookPagesNo = this.$store.getters.facebookPages;
 
-    // if ( facebookGroupsNo.length === 0 ) {
-    //   this.$store.dispatch( "getFacebookGroups" );
-    // }
-    // if ( facebookPagesNo.length === 0 ) {
-    //   this.$store.dispatch( "getFacebookPages" );
-    // }
+  //   if ( facebookGroupsNo.length === 0 ) {
+  //     this.$store.dispatch( "getFacebookGroups" );
+  //   }
+  //   if ( facebookPagesNo.length === 0 ) {
+  //     this.$store.dispatch( "getFacebookPages" );
+  //   }
   // }
 };
 </script>

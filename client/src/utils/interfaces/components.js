@@ -3,6 +3,7 @@ import Vue from "vue";
 // Icon Component
 Vue.component("IconAccount", () => import("@/components/icons/IconAccount"));
 Vue.component("IconActivity", () => import("@/components/icons/IconActivity"));
+Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 Vue.component("IconApplication", () => import("@/components/icons/IconApplication"));
 Vue.component("IconArrowDown", () =>
   import("@/components/icons/IconArrowDown")

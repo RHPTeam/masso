@@ -45,7 +45,7 @@
 
 <script>
 import AppNavigation from "./desktop/layouts/navigation/index";
-import AppMobile from "./mobile"
+import AppMobile from "./mobile";
 
 export default {
   components: {
@@ -55,27 +55,45 @@ export default {
   computed: {
     showNavigation() {
       const isCategoriesRoute = this.$route.name === "post_postCategories",
-            isPostRoute = this.$route.name === "post_posts",
-            isPostCategoriesRoute = this.$route.name === "post_categories",
-            isPostCategoriesDeFaultRoute = this.$route.name === "categories_default";
+        isPostRoute = this.$route.name === "post_posts",
+        isPostCategoriesRoute = this.$route.name === "post_categories",
+        isPostCategoriesDeFaultRoute =
+          this.$route.name === "categories_default";
 
-      return isCategoriesRoute || isPostRoute || isPostCategoriesRoute || isPostCategoriesDeFaultRoute;
+      return (
+        isCategoriesRoute ||
+        isPostRoute ||
+        isPostCategoriesRoute ||
+        isPostCategoriesDeFaultRoute
+      );
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (from.query.categoryId && to.name === "post_posts") {
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getPostsByPage", dataSender);
+      }
     }
   },
   methods: {
     redirectBlogHelp() {
-      const routes = "https://www.zinbee.vn/#/help/viet-bai-moi-trong-kho-noi-dung-nhu-the-nao";
-      window.open(routes, '_blank');
+      const routes =
+        "https://www.zinbee.vn/#/help/viet-bai-moi-trong-kho-noi-dung-nhu-the-nao";
+      window.open(routes, "_blank");
     }
-  },
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-  .guide {
-    cursor: pointer;
-    margin-bottom: -2.3rem;
-  }
+.guide {
+  cursor: pointer;
+  margin-bottom: -2.3rem;
+}
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */
 .slide-fade-enter-active {
