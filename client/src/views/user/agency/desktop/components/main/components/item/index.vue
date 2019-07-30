@@ -49,9 +49,7 @@
 
 <script>
 export default {
-  props: {
-    member: Object
-  },
+  props: ["member"],
   methods: {
     async editMember() {
       await this.$store.dispatch("getInfoMember", this.member.user._id);

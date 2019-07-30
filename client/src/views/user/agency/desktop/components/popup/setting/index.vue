@@ -52,6 +52,7 @@ export default {
     },
     updateAgencyInfo() {
       this.$store.dispatch( "updateAgencyInfo", { "domain": this.agency.subDomain } );
+      this.close();
     }
   }
 }

@@ -157,14 +157,15 @@ export default {
     const facebookPagesNo = this.$store.getters.facebookPages;
     const facebookProfileNo = this.$store.getters.accountsFB;
 
+
     if(facebookProfileNo.length === 0){
-      this.$store.dispatch( "getAccountsFB" );
+      await this.$store.dispatch( "getAccountsFB" );
     }
     if ( facebookGroupsNo.length === 0 ) {
-      this.$store.dispatch( "getFacebookGroups" );
+      await this.$store.dispatch( "getFacebookGroups" );
     }
     if ( facebookPagesNo.length === 0 ) {
-      this.$store.dispatch( "getFacebookPages" );
+      await this.$store.dispatch( "getFacebookPages" );
     }
   }
 };
