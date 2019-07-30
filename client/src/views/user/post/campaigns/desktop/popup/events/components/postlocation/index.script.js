@@ -61,17 +61,18 @@ export default {
     }
 
     // convert fb accounts in timeline
-    const fbAcounts = this.event.timeline.map( ( account ) => {
+    if ( this.event.timeline.length > 0 && this.event.timeline[0].userInfo === undefined ) return;
+    const fbAccounts = this.event.timeline.map( ( account ) => {
       return {
-        "_id": account._id,
-        "name": account.userInfo.name,
-        "thumbSrc": account.userInfo.thumbSrc
+        _id: account._id,
+        name: account.userInfo.name,
+        thumbSrc: account.userInfo.thumbSrcs
       };
     } );
 
     await this.$store.dispatch("setEvent", {
       key: "timeline",
-      value: fbAcounts
+      value: fbAccounts
     })
   },
   methods: {

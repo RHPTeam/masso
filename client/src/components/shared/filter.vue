@@ -57,9 +57,9 @@
       </div>
       <!--End: create attribue-->
       <!--Start: option other-->
-      <div class="filter--attribute position_relative" v-if="control === true">
+      <div class="filter--attribute filter--like position_relative" v-if="control === true">
         <div
-          class="filter--attribute-name filter--item"
+          class="filter--attribute-name filter--item filter--item-like"
           v-click-outside="closeFilterOption"
           @click="showFilterOption = true"
         >
@@ -277,7 +277,6 @@ export default {
     width: 60% !important;
   }
   .list--filter {
-    // width: calc((100% - 240px) / 2);
     .list {
       top: 101%;
       left: 0;
@@ -327,13 +326,14 @@ export default {
     border-left: 0 !important;
   }
   .filter--item {
-    padding: 0.375rem 0.75rem;
+    padding: 0.5rem .75rem .5rem 0;
     cursor: pointer;
     input {
-      width: 100%;
       border: none;
       background: transparent;
       color: #444444;
+      padding: 0 .75rem;
+      width: 100%;
       &:hover,
       &:focus,
       &:active,
@@ -411,16 +411,22 @@ div[data-theme="light"] .filter {
 
 div[data-theme="dark"] .filter {
   background: #2f3136;
-  border-color: #2f3136;
+  border: 0;
   .filter--item {
     background-color: #27292d;
     color: #cccccc;
+    font-size: .875rem;
   }
   .filter--attribute-name {
-    border-left: 1px solid #707070;
-    border-right: 1px solid #707070;
-    input{
+    input {
+      border-right: 1px solid #444;
       color: #ccc;
+      font-size: .875rem;
+    }
+    &.filter--item-like {
+      input {
+        border-left: 1px solid #444;
+      }
     }
   }
   .last--item.filter--item {

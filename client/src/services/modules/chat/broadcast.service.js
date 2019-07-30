@@ -7,7 +7,8 @@ export default {
   createScheduleBlock( id ) {
     return Api().post(`broadcast/addBlock?_bcId=${id}`);
   },
-  createItem(broadId, blockId, item) {
+  createItemSchedule(broadId, blockId, item) {
+    console.log( item );
     return Api().patch(
       `broadcast?_broadId=${broadId}&_blockId=${blockId}`,
       item
