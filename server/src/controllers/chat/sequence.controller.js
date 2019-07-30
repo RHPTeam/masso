@@ -211,17 +211,17 @@ module.exports = {
       return res.status( 403 ).json( jsonResponse( "fail", "Trình tự kịch bản không tồn tại!" ) );
     }
     if ( req.query._blockId ) {
-      let checkExist = false;
+      // let checkExist = false;
 
-      foundSequence.sequences.map( ( val ) => {
-        if ( val._id.toString() !== req.query._blockId ) {
-          checkExist = true;
-          return checkExist;
-        }
-      } );
-      if ( !checkExist ) {
-        return res.status( 403 ).json( jsonResponse( "fail", "Kịch bản không tồn tại trong trình tự này!" ) );
-      }
+      // foundSequence.sequences.map( ( val ) => {
+      //   if ( val._id.toString() !== req.query._blockId ) {
+      //     checkExist = true;
+      //     return checkExist;
+      //   }
+      // } );
+      // if ( !checkExist ) {
+      //   return res.status( 403 ).json( jsonResponse( "fail", "Kịch bản không tồn tại trong trình tự này!" ) );
+      // }
       foundSequence.sequences.pull( req.query._blockId );
       await foundSequence.save();
       return res.status( 200 ).json( jsonResponse( "success", foundSequence ) );

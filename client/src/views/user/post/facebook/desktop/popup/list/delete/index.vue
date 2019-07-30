@@ -31,17 +31,7 @@
             <span class="text--bold pr_1">{{ targetData.userInfo.name }}</span>
             <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
             <span v-if="description !== '' ">{{ description }}</span>
-
-            <span class="pr_1"> {{ $t('chat.common.popup.delete.continue') }} </span>
-            <span class="text--delete">DELETE</span>
-            <span class="pl_1"> {{ $t('chat.common.popup.delete.input') }} </span>
           </div>
-          <input
-            class="modal--body-input mt_3"
-            placeholder="DELETE"
-            type="text"
-            v-model="deleteText"
-          />
         </div>
         <div class="modal--footer d_flex justify_content_between align_items_center">
           <button
@@ -50,7 +40,6 @@
           > {{ $t('chat.common.popup.delete.cancle') }} </button>
           <button
             class="btn--skip"
-            v-if="deleteConfirm"
             @click="deleteTargets()"
           > {{ $t('chat.common.popup.delete.delete') }} </button>
         </div>
@@ -93,8 +82,6 @@ export default {
   },
   data() {
     return {
-      deleteConfirm: false,
-      deleteText: "",
       deleteStatus: ""
     };
   },
@@ -104,9 +91,6 @@ export default {
     }
   },
   watch: {
-    deleteText() {
-      this.deleteConfirm = this.deleteText === "DELETE";
-    }
   },
   methods: {
     closePopup() {

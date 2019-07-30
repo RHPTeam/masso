@@ -116,7 +116,7 @@
     <!-- Start sequence scripts  -->
     <div v-if="isShowScriptDefault === false">
       <loading-component v-if="this.$store.getters.statusItemSqc === 'loading'" />
-      <div class="sequences--scripts" v-for="(sequence,index) in groupSequence" :key="sequence._id">
+      <div class="sequences--scripts" v-for="(sequence,index) in groupSequence" :key="index">
         <div class="title d_inline_flex mb_2">
           <div>
             <icon-base
@@ -173,7 +173,7 @@
           <div
             class="r m_0 group--items"
             v-for="(item, index) in sequence.sequences"
-            :key="item._block._id"
+            :key="`b-${index}`"
           >
             <div class="c_lg_4 c_xl_4 c_md_12 p_0 mb_2">
               <div class="content--item position_relative">
