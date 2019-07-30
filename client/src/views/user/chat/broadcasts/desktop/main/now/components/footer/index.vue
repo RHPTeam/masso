@@ -1,0 +1,128 @@
+<template>
+  <div class="footer mt_3">
+    <div class="title text_left">Thêm phần tử</div>
+    <div class="group d_flex align_items_center">
+      <div
+        class="item d_flex align_items_center justify_content_center flex_column"
+        @click="addItemSchedule('text')"
+      >
+        <icon-base
+          class="icon-text"
+          width="20"
+          height="20"
+          viewBox="0 0 13.53 20.11"
+        >
+          <icon-text />
+        </icon-base>
+        Văn bản
+      </div>
+
+      <div
+        class="item d_flex align_items_center justify_content_center flex_column"
+        @click="addItemSchedule('image')"
+      >
+        <icon-base
+          class="icon-image"
+          width="20"
+          height="20"
+          viewBox="0 0 26 26"
+        >
+          <icon-image />
+        </icon-base>
+        Hình ảnh
+      </div>
+      <div
+        class="item d_flex align_items_center justify_content_center flex_column"
+        @click="addItemSchedule('time')"
+      >
+        <icon-base
+          class="icon-sand-clock"
+          width="20"
+          height="20"
+          viewBox="0 0 14.41 20.14"
+        >
+          <icon-sand-clock />
+        </icon-base>
+        Thời gian chờ
+      </div>
+      <div
+        class="item d_flex align_items_center justify_content_center flex_column"
+      >
+        <icon-base class="icon-plus" width="20" height="20" viewBox="0 0 68 68">
+          <icon-plus />
+        </icon-base>
+        Thêm mới
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+export default {
+  data() {
+    return {};
+  },
+  computed: {
+
+  },
+  methods: {
+    addItemSchedule(type) {
+      const dataSender = {
+        value: "",
+        type: type
+      };
+      this.$store.dispatch("createBroadcastsNow", dataSender);
+      this.$emit("addText", true);
+    }
+  }
+};
+</script>
+<style lang="scss" scoped>
+.title {
+  box-shadow: none;
+  font-size: 20px;
+  font-weight: 300;
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+  color: #666666;
+  margin: 0 0 10px;
+}
+.group {
+  margin: 0 -5px;
+
+  .item {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 9.5px 12px;
+    font-size: 14px;
+    width: calc((100% - 80px) / 4);
+    margin: 5px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    &:hover, &:focus, &:active, &:visited {
+      background-color: #FF9E4A;
+    }
+
+    svg {
+      margin-bottom: 10px;
+    }
+  }
+}
+/******** 01. Theme Light *********/
+
+div[data-theme="light"] .footer {
+}
+
+/******** 02. Theme Dark *********/
+
+div[data-theme="dark"] .footer {
+  .title {
+    color: #ffffff;
+  }
+  .item {
+    background: #27292d;
+    color: #ffffff;
+  }
+}
+</style>
