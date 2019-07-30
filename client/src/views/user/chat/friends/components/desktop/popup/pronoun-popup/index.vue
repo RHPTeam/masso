@@ -8,7 +8,7 @@
             Tạo danh xưng hay tên thường gọi của bạn bè giúp bạn quản lý tốt hơn các phân khúc khách hàng, cũng như những người thường xuyên được bạn quan tâm.
           </div>
         </div>
-        <div class="modal--body mt_3">
+        <div class="modal--body mt_3" v-if="isShowSuggestion === false">
           <input
             type="text"
             class="modal--body-input"
@@ -17,17 +17,16 @@
             v-model="pronounInput"
           />
         </div>
-        <div class="suggestion--list mt_2">
-          <VuePerfectScrollbar class="scroll">
-            <div
-              class="suggestion--list-item"
-              v-for="(item, index) in allVocate"
-              :key="index"
-              @click="selectPronoun(item.name)"
-            >
-              {{ item.name }}
-            </div>
-          </VuePerfectScrollbar>
+        <div class="desc--error py_2" v-if="isShowAlert === true">(*) Tên danh xưng không được bỏ trống!</div>
+        <div class="desc--more py_2" @click="isShowSuggestion = !isShowSuggestion">(*) Xem thêm danh xưng đã sử dụng</div>
+        <div class="list--vocate mt_1" v-if="isShowSuggestion  === true">
+          <multiselect
+            label="name"
+            placeholder="Chọn danh xưng đã tạo"
+            :options="allVocate"
+            v-model="vocate"
+          >
+          </multiselect>
         </div>
         <div
           class="modal--footer d_flex justify_content_between align_items_center"
@@ -49,7 +48,9 @@ export default {
   data() {
     return {
       isShowSuggestion: false,
-      pronounInput: '',
+      isShowAlert: false,
+      pronounInput: "",
+      vocate: ""
     };
   },
 
@@ -64,36 +65,46 @@ export default {
       return this.$store.getters.allVocate;
     }
   },
+  watch: {
+    "pronounInput"(value){
+      if(value.length > 0) {
+        this.isShowAlert = false
+      }
+    }
+  },
   async created() {
     await this.$store.dispatch("getAllVocate");
   },
-
   methods: {
     closeAddPopup() {
       this.$emit("closeAddPopup", false);
     },
-    selectPronoun(val) {
-      const dataSender = {
-        name: val,
-        _friends: this.vocateDefault._friends
-      };
-      console.log(dataSender);
-      this.$store.dispatch("createVocate", dataSender);
-      this.closeAddPopup();
-    },
     createVocate(){
-      const dataSender = {
-        name: this.pronounInput,
-        _friends: this.vocateDefault._friends
-      };
-      this.$store.dispatch("createVocate", dataSender);
-      this.closeAddPopup();
+      if(this.vocate.length === 0 && this.pronounInput.length === 0) {
+        this.isShowAlert = true;
+      } else if(this.vocate.length !== 0 && this.pronounInput.length === 0) {
+        const dataSender = {
+          name: this.vocate.name,
+          _friends: this.vocateDefault._friends
+        };
+        this.$store.dispatch("createVocate", dataSender);
+        this.closeAddPopup();
+        this.$router.go({name: "chat_friends"})
+      } else if(this.vocate.length === 0 && this.pronounInput.length !== 0) {
+        const dataSender = {
+          name: this.pronounInput,
+          _friends: this.vocateDefault._friends
+        };
+        this.$store.dispatch("createVocate", dataSender);
+        this.closeAddPopup();
+        this.$router.go({name: "chat_friends"})
+      }
     }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-@import "../index.style";
+/*@import "../index.style";*/
 @import "./index.style";
 </style>

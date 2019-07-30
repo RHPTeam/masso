@@ -36,14 +36,10 @@ const multer = require( "multer" ),
     }
   } );
 
-
 router.route( "/" )
   .get( BroadcastController.index )
   .post( BroadcastController.create )
-  .patch( upload.single( "file" ), BroadcastController.update )
+  .patch( BroadcastController.update )
   .delete( BroadcastController.delete );
-
-router.route( "/addBlock" )
-  .post( BroadcastController.addBlock );
 
 module.exports = router;

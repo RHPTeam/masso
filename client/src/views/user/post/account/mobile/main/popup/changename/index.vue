@@ -15,7 +15,7 @@
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
       <div class="button--done active mr_3">
-        <div v-if="user.name.length > 0" @click="updateChangedName">Xong</div>
+        <div v-if="user.name.trim().length > 0" @click="updateChangedName">Xong</div>
       </div>
     </div>
     <!-- End: Header -->

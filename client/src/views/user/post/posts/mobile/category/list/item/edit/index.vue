@@ -15,11 +15,12 @@
           </icon-base>
         </div>
         <p class="name--modal mb_0">Sửa danh mục</p>
-        <div class="active mr_3" @click="updateCategory">Sửa</div>
+        <div class="active mr_3" @click="updateCategory">Xong</div>
       </div>
       <div class="items--body px_2 mt_3">
         <div class="item">
           <span>Tên danh mục</span>
+          <div class="error my_1" v-if="isShowAlertTitle === true">Tên danh mục không được bỏ trống</div>
           <input type="text" placeholder="Nhập tên danh mục" v-model="item.title" />
         </div>
         <div class="item mt_3">
@@ -29,12 +30,12 @@
         <div class="item d_flex align_items_center mt_3">
           <toggle-switch
             class="mb_0 mr_3"
-            color=""
+            color
             :value="item.mix"
             :sync="true"
             @change="updateCategoryMix()"
           ></toggle-switch>
-          <div class="">Cho phép là danh mục nâng cao</div>
+          <div class>Cho phép là danh mục nâng cao</div>
         </div>
       </div>
     </div>
@@ -46,8 +47,9 @@ export default {
   props: ["item"],
   data() {
     return {
+      desCategory: "",
       nameCategory: "",
-      desCategory: ""
+      isShowAlertTitle: false
     };
   },
   computed: {
@@ -56,23 +58,27 @@ export default {
     }
   },
   methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
     updateCategoryMix() {
       this.item.mix = !this.item.mix;
     },
     updateCategory() {
-      const dataSender = {
-        id: this.item._id,
-        category: {
-          title: this.item.title,
-          description: this.item.description,
-          mix: this.item.mix
-        },
-      };
-      this.$store.dispatch( "updateCategory", dataSender );
-      this.$emit("closePopup", false);
-    },
-    closePopup() {
-      this.$emit("closePopup", false);
+      if (this.item.title.length === 0) {
+        this.isShowAlertTitle = true;
+      } else {
+        const dataSender = {
+          id: this.item._id,
+          category: {
+            title: this.item.title,
+            description: this.item.description,
+            mix: this.item.mix
+          }
+        };
+        this.$store.dispatch("updateCategory", dataSender);
+        this.$emit("closePopup", false);
+      }
     }
   }
 };
@@ -154,10 +160,9 @@ export default {
     }
   }
 
-  .text--error {
-    color: red;
+  .error {
+    color: #da2c2c;
     font-size: 0.825rem;
-    padding: 0 0.75rem;
   }
 }
 

@@ -17,7 +17,7 @@ const actions = {
     await commit( "setAllPostSchedules", res.data.data );
   },
   postNow: async ( { commit }, payload ) => {
-    await PostScheduleService.postNow( payload.id, payload.dataSender );
+    await PostScheduleService.postNow( payload.id, payload.objSender );
   }
 };
 

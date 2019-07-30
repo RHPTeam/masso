@@ -4,6 +4,7 @@ import CampaignsServices from "@/services/modules/post/campaign.service";
 const state = {
   allCampaigns: [],
   campaigns: [],
+  campaignsMobile: [],
   campaignDetail: {},
   campaignsPagesSize: 1,
   campaignStatus: "",
@@ -17,6 +18,7 @@ const state = {
     campaigns: ( s ) => {
       return s.campaigns;
     },
+    campaignsMobile: state => state.campaignsMobile,
     campaignDetail: ( s ) => {
       return s.campaignDetail;
     },
@@ -39,6 +41,16 @@ const state = {
     },
     setCampaigns: ( s, payload ) => {
       s.campaigns = payload;
+    },
+    setCampaignsSearch: (s, payload) => {
+      s.campaignsMobile = payload;
+    },
+    setCampaignsByKeyMobile: (state, payload) => {
+      state.campaignsMobile = payload;
+    },
+    // concat campaign to load more
+    setCampaignsMobile: (state, payload) => {
+      state.campaigns = state.campaigns.concat(payload);
     },
     setCampaignDetail: ( s, payload ) => {
       s.campaignDetail = payload;
@@ -74,6 +86,37 @@ const state = {
 
       await CampaignsServices.delete( payload.id );
     },
+    // Delete campaign and get totals page = campage.page for mobile
+    deleteCampaignMobile: async ( { commit }, payload ) => {
+      const campaigns = state.campaigns.filter(
+        ( campaign ) => campaign._id !== payload.id
+      );
+
+      let res;
+
+      commit( "setCampaigns", campaigns );
+      // commit( "setCampaignsPagesSize", res.data.data.page );
+
+      await CampaignsServices.delete( payload.id );
+    },
+    // mobile: delete when search
+    deleteCampaignMobileWhenSearch: async ( { commit }, payload ) => {
+      const campaigns = state.campaignsMobile.filter(
+        ( campaign ) => campaign._id !== payload.id
+      );
+
+      let res;
+
+      commit( "setCampaignsSearch", campaigns );
+
+      await CampaignsServices.delete( payload.id );
+
+      // get campaign when delete
+      // res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+
+      // await commit( "setCampaignsMobile", res.data.data.results );
+      // await commit( "setCampaignsPagesSize", res.data.data.page );
+    },
     duplicateCampaign: async ( { commit }, payload ) => {
       const res = await CampaignsServices.duplicate( payload );
       await commit( "setCampaignDetail", res.data.data );
@@ -96,6 +139,17 @@ const state = {
 
       commit ( "setCampaignStatus", "success" );
     },
+    // Get campaign and concat campaign for mobile
+    getCampaignsByPageMobile: async ( { commit }, payload ) => {
+      commit ( "setCampaignStatus", "loading" );
+
+      const res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
+
+      await commit( "setCampaignsMobile", res.data.data.results );
+      await commit( "setCampaignsPagesSize", res.data.data.page );
+
+      commit ( "setCampaignStatus", "success" );
+    },
     getCampaignsByPageWithStatus: async ( { commit }, payload ) => {
       commit ( "setCampaignStatus", "loading" );
 
@@ -113,6 +167,16 @@ const state = {
 
       await commit( "setCampaigns", res.data.data.results );
       await commit( "setCampaignsPagesSize", res.data.data.page );
+
+      commit ( "setCampaignStatus", "success" );
+    },
+    // search mobile: get campaign by key
+    getCampaignsByKeyMobile: async ( { commit }, payload ) => {
+      commit ( "setCampaignStatus", "loading" );
+
+      const res = await CampaignsServices.searchCampaignsByKey( payload.keyword, payload.size, payload.page );
+
+      await commit( "setCampaignsByKeyMobile", res.data.data.results );
 
       commit ( "setCampaignStatus", "success" );
     },

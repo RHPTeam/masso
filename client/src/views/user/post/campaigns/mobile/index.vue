@@ -24,47 +24,39 @@
         class="item text_center"
         @click="showTabCampaign"
         :class="isShowTabCampaign === true ? 'active' : '' "
-      >Danh sách</div>
+      >Chiến dịch</div>
       <div
         class="item text_center"
         @click="showTabCampaginDefault"
         :class="isShowTabCampaginDefault === true ? 'active' : '' "
       >Chiến dịch mẫu</div>
-      <!-- <router-link
-         class="item text_center"
-        tag="button"
-        :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
-        active-class="active"
-      >Danh sách</router-link>
-      <router-link
-         class="item text_center"
-        tag="button"
-        :to="{ name: 'campaigns_default' }"
-        active-class="active"
-      >Chiến dịch mẫu</router-link>-->
     </div>
     <!-- End: Main -->
     <!-- Start: list campaign -->
     <div class="list--data pl_2 mt_2">
-      <VuePerfectScrollbar class="scroll-campaign" ref="scroll">
+      <VuePerfectScrollbar class="scroll-campaign">
         <div class="campaign pr_2" v-if="isShowTabCampaign === true">
           <div
             class="no--campaign text_center"
             v-if="campaigns.length === 0"
-          >Không có chiến dịch nào</div>
-          <item-campaign
-            :item="item"
-            v-for="item in campaigns"
-            :key="item._id"
-            @showDetailPost="showPopupDetailCampaign($event)"
-            @showPopupDelete="showPopupDelete($event)"
-          />
+          >Không có chiến dịch nào!</div>
+          <div v-else>
+            <item-campaign
+              :item="item"
+              v-for="item in campaigns"
+              :key="item._id"
+              @showDetailPost="showPopupDetailCampaign($event)"
+              @showPopupDelete="showPopupDelete($event)"
+            />
+            <div class="text_center" v-if="campaignsPagesSize === currentPage"></div>
+            <div class="text_center py_3 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
+          </div>
         </div>
         <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
           <div
             class="no--campaign text_center"
             v-if="campaignsDefault.length === 0"
-          >Không có chiến dịch nào</div>
+          >Không có chiến dịch mẫu nào!</div>
           <item-campaign-default
             :item="item"
             v-for="item in campaignsDefault"
@@ -77,16 +69,8 @@
     <!-- End: list campaign -->
     <!-- Start: Transition Popup -->
     <transition name="popup--mobile">
-      <!-- <popup-search
-        v-if="isShowPopupSearch === true"
-        :campaigns="campaigns"
-        :campaignsDefault="campaignsDefault"
-        @closePopupSearch="isShowPopupSearch = $event"
-        @searchKeyword="search = $event"
-      />-->
       <popup-search
         v-if="isShowPopupSearch === true"
-        :campaigns="campaigns"
         :campaignsDefault="campaignsDefault"
         @closePopupSearch="onClosePopupSearch($event)"
       />

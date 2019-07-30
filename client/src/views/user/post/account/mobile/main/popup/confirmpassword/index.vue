@@ -21,7 +21,7 @@
         <p class="mb_0 p_2 text">Vì lý do bảo mật. Vui lòng nhập lại mật khẩu để tiếp tục.</p>
         <!-- Start: Password -->
         <div class="m_2">
-          <input type="password" class="form--input" placeholder="Nhập mật khẩu" v-model="password" />
+          <input type="password" class="form--input" placeholder="Nhập mật khẩu" v-model="password" autocomplete="off"/>
         </div>
         <!-- End: Password -->
       </div>
@@ -123,25 +123,6 @@ export default {
     closeConfirmPassword() {
       this.$emit("closeConfirmPassword", false);
     },
-    showActionInfo() {
-      if (this.gestureUser === 61) {
-        this.isShowChangeName = true;
-      }
-      if (this.gestureUser === 62) {
-        this.isShowChangePhone = true;
-      }
-      if (this.gestureUser === 63) {
-        this.isShowChangePassword = true;
-      }
-    },
-    async confirmPassword() {
-      this.isClickedSubmit = true;
-      await this.$store.dispatch("verifyPassword", this.password);
-      if (this.status === "success") {
-        this.isClickedSubmit = false;
-        this.showActionInfo();
-      }
-    },
     closeShowChangeName() {
       this.isShowChangeName = false;
       this.closeConfirmPassword();
@@ -153,6 +134,25 @@ export default {
     closeShowChangePhone() {
       this.isShowChangePassword = false;
       this.closeConfirmPassword();
+    },
+    async confirmPassword() {
+      this.isClickedSubmit = true;
+      await this.$store.dispatch("verifyPassword", this.password);
+      if (this.status === "success") {
+        this.isClickedSubmit = false;
+        this.showActionInfo();
+      }
+    },
+    showActionInfo() {
+      if (this.gestureUser === 61) {
+        this.isShowChangeName = true;
+      }
+      if (this.gestureUser === 62) {
+        this.isShowChangePhone = true;
+      }
+      if (this.gestureUser === 63) {
+        this.isShowChangePassword = true;
+      }
     }
   }
 };

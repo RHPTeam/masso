@@ -184,7 +184,7 @@ module.exports = {
     if ( checkName ) {
       return res.status( 403 ).json( jsonResponse( "fail", "Tên item đã tồn tại!" ) );
     }
-    dataGroupGroupUpdated.name = body.name;
+    dataGroupGroupUpdated.name = req.body.name;
     await dataGroupGroupUpdated.save();
     res.status( 201 ).json( jsonResponse( "success", dataGroupGroupUpdated ) );
   },

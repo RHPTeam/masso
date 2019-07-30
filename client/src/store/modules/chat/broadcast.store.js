@@ -233,7 +233,7 @@ const actions = {
    *
    */
   getSchedule: async ({ commit }, payload) => {
-    const resultShowData = await BroadcastService.showSchedule(
+    const resultShowData = await BroadcastService.getScheduleBlockById(
       payload.broadId,
       payload.blockId
     );

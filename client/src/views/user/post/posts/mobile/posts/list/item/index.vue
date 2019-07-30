@@ -21,7 +21,7 @@
       <div
         class="col col--action d_flex align_items_center justify_content_center pr_3 text_center"
       >
-        <span class="icon m_2" @click="showPopupDelete">
+        <span class="icon" @click="showPopupDelete">
           <icon-base
             class="icon--delete"
             icon-name="Xóa"
@@ -32,7 +32,7 @@
             <icon-remove />
           </icon-base>
         </span>
-        <span class="icon m_2">
+        <!-- <span class="icon m_2">
           <icon-base
             class="icon--post-now"
             icon-name="Đăng ngay"
@@ -42,7 +42,7 @@
           >
             <icon-post-now />
           </icon-base>
-        </span>
+        </span> -->
       </div>
     </div>
     <!-- End: action posts -->
@@ -61,12 +61,6 @@ export default {
   },
   computed: {},
   methods: {
-    showDetailPost() {
-      this.$emit("showDetailPost", this.item);
-    },
-    showPopupDelete() {
-      this.$emit("showPopupDelete", this.item);
-    },
     onPan(event) {
       if (event.offsetDirection === 2) {
         this.isTriggerAction = true;
@@ -74,6 +68,12 @@ export default {
       if (event.offsetDirection === 4) {
         this.isTriggerAction = false;
       }
+    },
+    showDetailPost() {
+      this.$emit("showDetailPost", this.item);
+    },
+    showPopupDelete() {
+      this.$emit("showPopupDelete", this.item);
     }
   }
 };

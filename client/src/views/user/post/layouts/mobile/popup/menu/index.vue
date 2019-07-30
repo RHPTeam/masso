@@ -1,63 +1,65 @@
 <template>
   <div class="popup--wrap">
-    <div class="popup--header text_center position_relative">
-      <div class="avatar--wrapper">
-        <div v-if="user.imageAvatar">
-          <div
-            class="user--info d_flex flex_column justify_content_center align_items_center py_4 position_relative"
-          >
-            <div class="info position_relative text_center align_items_center">
-              <div class="avt--user position_relative">
-                <div
-                  class="user--info-avatar had--avt"
-                  :style="{
+    <VuePerfectScrollbar class="scroll-function">
+      <div class="popup--header text_center position_relative">
+        <div class="avatar--wrapper">
+          <div v-if="user.imageAvatar">
+            <div
+              class="user--info d_flex flex_column justify_content_center align_items_center py_4 position_relative"
+            >
+              <div class="info position_relative text_center align_items_center">
+                <div class="avt--user position_relative">
+                  <div
+                    class="user--info-avatar had--avt"
+                    :style="{
                   backgroundImage: 'url(' + user.imageAvatar + ')'
                 }"
-                ></div>
+                  ></div>
+                  <input type="file" ref="file" @change="selectFile" class="file" />
+                </div>
+                <div class="user--info-title mt-2">{{ user.name }}</div>
+                <div class="user--info-sub mb_3">{{ user.email }}</div>
+              </div>
+              <div
+                class="bg--avt"
+                :style="{
+                backgroundImage: 'url(' + user.imageAvatar + ')'
+              }"
+              ></div>
+            </div>
+            <!--End: User Info Component-->
+            <div
+              class="popup--wrap-head position_absolute"
+              :style="{
+              backgroundImage: 'url(' + user.imageAvatar + ')'
+            }"
+            ></div>
+          </div>
+          <div v-else>
+            <div
+              class="user--info d_flex flex_column justify_content_center align_items_center mt_3"
+            >
+              <div class="avt--user position_relative">
+                <div
+                  class="user--info-avatar text_center d_flex align_items_center justify_content_center"
+                >{{ user.name | getFirstLetter }}</div>
                 <input type="file" ref="file" @change="selectFile" class="file" />
               </div>
               <div class="user--info-title mt-2">{{ user.name }}</div>
               <div class="user--info-sub mb_3">{{ user.email }}</div>
             </div>
-            <div
-              class="bg--avt"
-              :style="{
-                backgroundImage: 'url(' + user.imageAvatar + ')'
-              }"
-            ></div>
+            <!--End: User Info Component-->
           </div>
-          <!--End: User Info Component-->
-          <div
-            class="popup--wrap-head position_absolute"
-            :style="{
-              backgroundImage: 'url(' + user.imageAvatar + ')'
-            }"
-          ></div>
         </div>
-        <div v-else>
-          <div class="user--info d_flex flex_column justify_content_center align_items_center mt_3">
-            <div class="avt--user position_relative">
-              <div
-                class="user--info-avatar text_center d_flex align_items_center justify_content_center"
-              >{{ user.name | getFirstLetter }}</div>
-              <input type="file" ref="file" @change="selectFile" class="file" />
-            </div>
-            <div class="user--info-title mt-2">{{ user.name }}</div>
-            <div class="user--info-sub mb_3">{{ user.email }}</div>
-          </div>
-          <!--End: User Info Component-->
+        <div class="popup--close position_absolute" @click="closePopup">
+          <icon-base icon-name="close" width="18" height="18" viewBox="0 0 20 20">
+            <icon-close />
+          </icon-base>
         </div>
       </div>
-      <div class="popup--close position_absolute" @click="closePopup">
-        <icon-base icon-name="close" width="18" height="18" viewBox="0 0 20 20">
-          <icon-close />
-        </icon-base>
-      </div>
-    </div>
-    <div class="popup--main text_left mt_3">
-      <h4>Chức năng</h4>
-      <VuePerfectScrollbar class="scroll-function px_2">
-        <ul class="p_0 m_0">
+      <div class="popup--main text_left mt_3 pl_2">
+        <h4>Chức năng</h4>
+        <ul class="p_0 pr_2 m_0">
           <li @click="showDashboard" class="d_flex align_items_center">
             <icon-base icon-name="Bảng điều khiển" width="20" height="20" viewBox="0 0 24 24">
               <icon-home />
@@ -183,6 +185,23 @@
               </icon-base>
             </span>
           </li>
+          <li @click="logout" class="d_flex align_items_center">
+            <icon-base icon-name="logout" width="20" height="20" viewBox="0 0 20 20">
+              <icon-logout />
+            </icon-base>
+            <span class="ml_2">Đăng xuất</span>
+            <span class="ml_auto">
+              <icon-base
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
+              >
+                <icon-arrow-down />
+              </icon-base>
+            </span>
+          </li>
           <!-- <li class="align_items_center">
             <a :href="helpCenterUrl" target="_blank" class="d_flex help--center">
               <icon-base
@@ -208,8 +227,8 @@
             </a>
           </li>-->
         </ul>
-      </VuePerfectScrollbar>
-    </div>
+      </div>
+    </VuePerfectScrollbar>
   </div>
 </template>
 <script src="./index.script.js"></script>
