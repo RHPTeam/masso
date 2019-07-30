@@ -32,7 +32,6 @@ const actions = {
       63: Thay đổi mật khẩu
   */
   actionCursor: ({ commit }, payload) => {
-    console.log("payload", payload);
     commit("setActionCursor", payload);
   },
   // Action gesture tab menu

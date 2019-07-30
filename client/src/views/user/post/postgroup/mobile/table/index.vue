@@ -4,7 +4,8 @@
       class="alert alert_warning text_center p_2"
       v-if="facebookPages.length === 0 && facebookGroups.length === 0"
     >Nếu không tìm thấy bất kì nhóm hoặc fanpage nào, hãy thử cập nhật lại! Nếu có điều gì đó không đúng, hãy liên lạc với bộ phận CSKH của Zinbee để được trợ giúp.</div>
-    <div class="tab--page-group d_flex align_items_center text_center" v-else>
+    <div v-else>
+      <div class="tab--page-group d_flex align_items_center text_center">
       <div
         class="profile items"
         @click="showTabprofile"
@@ -105,6 +106,7 @@
         </div>
         <!-- End: Group -->
       </VuePerfectScrollbar>
+    </div>
     </div>
   </div>
 </template>
