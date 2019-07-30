@@ -1,7 +1,7 @@
 <template>
   <div class="navigation d_flex align_items_center justify_content_between mb_3">
     <div class="left">
-      <input type="text" class="form_control" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchMemberOfAgency" />
+      <input type="text" class="form_control" placeholder="Tìm kiếm" />
     </div>
     <div class="right">
       <button class="btn btn_success mr_3" @click="openUpdateAgencyInfo">Thiết lập thông tin</button>
@@ -14,7 +14,7 @@
 export default {
   data() {
     return {
-      keyword: ""
+      key: ""
     }
   },
   methods: {
@@ -23,15 +23,6 @@ export default {
     },
     openUpdateAgencyInfo() {
       this.$emit("openUpdateAgencyInfo", true);
-    },
-    searchMemberOfAgency(){
-      if(this.keyword.length === 0) {
-        this.$store.dispatch("getInfoAgency");
-        this.$emit("showResultSearch", false);
-      } else {
-        this.$store.dispatch("searchMemberByAgency", this.keyword);
-        this.$emit("showResultSearch", true);
-      }
     }
   },
 }

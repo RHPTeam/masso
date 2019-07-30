@@ -81,7 +81,7 @@ export default {
           size: 25,
           page: 1
         };
-        await this.$store.dispatch("getCampaignsByPage", dataSender);
+        await this.$store.dispatch("getCampaignsByPageMobile", dataSender);
         this.closePopup();
       }
     }

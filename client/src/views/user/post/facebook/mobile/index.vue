@@ -9,7 +9,7 @@
     >
       <!-- Start: Top account-->
       <div class="account">
-        <div class="item d_flex align_items_center" @click="showPopupActiveAccount">
+        <div class="item d_flex align_items_center" @click="showPopupActiveAccount(item)">
           <div class="avatar mr_2">
             <img :src="item.userInfo.thumbSrc" alt />
           </div>
@@ -128,7 +128,8 @@ export default {
       const year = dateTime.getFullYear();
       return `${hour}:${min} ngày ${day}/${month}/${year}`;
     },
-    showPopupActiveAccount() {
+    showPopupActiveAccount(account) {
+      this.selectAccount(account);
       this.isShowAction = true;
     },
     showPopupUpdateCookie() {
@@ -221,7 +222,7 @@ export default {
       }
     }
     .more {
-      top: 1rem;
+      top: 50%;
       right: 1rem;
     }
   }

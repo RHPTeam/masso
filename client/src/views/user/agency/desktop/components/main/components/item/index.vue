@@ -25,7 +25,7 @@
     </div>
     <!-- End: Phone Column -->
     <!-- Start: Type Column -->
-    <div class="col col--category px_2 text_center">
+    <div class="col col--category px_2">
       <span>
         {{member.typeUser}}
       </span>

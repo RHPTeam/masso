@@ -13,7 +13,6 @@ Vue.component("IconArrowUp", () =>
 Vue.component("IconAutoAnswer", () =>
   import("@/components/icons/IconAutoAnswer")
 );
-Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 Vue.component("IconAutoReply", () => import("@/components/icons/IconAutoReply"));
 Vue.component("IconAutopost", () => import("@/components/icons/IconAutopost"));
 Vue.component("IconArrowLeft", () => import("@/components/icons/IconArrowLeft"));

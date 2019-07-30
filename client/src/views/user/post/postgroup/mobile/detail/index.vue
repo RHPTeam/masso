@@ -3,7 +3,7 @@
     <div class="modal--content">
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center mb_3">
-        <div @click="closePopup">
+        <div @click="closePopup" v-if="isShowActionSave === false">
           <icon-base
             icon-name="arrow-down"
             class="arrow-down"
@@ -14,6 +14,7 @@
             <icon-arrow-down />
           </icon-base>
         </div>
+        <div class="save pl_2" v-else @click="upTypingText( postGroupDetail )">Lưu</div>
         <!-- <p class="">{{ postGroupDetail.title }}</p> -->
         <contenteditable
           class="name--modal mb_0 m_auto text_center"
@@ -24,6 +25,8 @@
           v-model="postGroupDetail.title"
           @keyup.enter="upTypingText( postGroupDetail )"
           @keydown="clearTypingTimer"
+          @click="showActionSave"
+          v-click-outside="closeActiveSave"
         />
         <div class="active mr_2" @click="showPopupDeletePostGroup">Xóa</div>
         <!-- <div class="active mr_2">
@@ -78,7 +81,7 @@
           <div class="content mt_2">
             <!-- Start: Profile -->
             <div class="profile" v-if="isShowPopupProfile === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -100,7 +103,7 @@
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -122,7 +125,7 @@
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
+              <div class="py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
               <div v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(group, index) in postGroupDetailGroup"
@@ -205,7 +208,8 @@ export default {
       isShowAddToGroup: false,
       isShowPopupDeletePageGroup: false,
       isShowPopupDeletePostGroup: false,
-      isShowPopupProfile: true
+      isShowPopupProfile: true,
+      isShowActionSave: false
     };
   },
   computed: {
@@ -255,6 +259,12 @@ export default {
     },
     closePopup() {
       this.$emit("closePopup", false);
+    },
+    closeActiveSave() {
+      this.isShowActionSave = false;
+    },
+    showActionSave() {
+      this.isShowActionSave = true;
     },
     showPopupProfile() {
       this.isShowPopupProfile = true;

@@ -4,7 +4,7 @@
       <!-- Start: Delete Popup -->
       <div class="modal--content text_center" v-if="deleteStatus !== 'loading'">
         <div class="item mb_2 delete">
-          <div class="text mb_2 pb_2">Bạn có muốn xóa tài khoản này không?</div>
+          <div class="text mb_2 pb_2">Bạn có muốn xóa tài khoản <b>{{ item.userInfo.name }}</b> không?</div>
           <div @click="deleteTargets()">Xóa</div>
         </div>
         <div class="item mb_2 cancel" @click="closePopup">Hủy</div>
