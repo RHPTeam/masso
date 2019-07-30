@@ -37,9 +37,13 @@
             <icon-link />
           </icon-base> -->
         </div>
+        <!-- <div
+          class="script--header-delete ml_auto"
+          @click="isDeleteBlock = true;"
+        > -->
         <div
           class="script--header-delete ml_auto"
-          @click="isDeleteItemBlock = true"
+          @click="onDeleteBlock()"
         >
           <icon-base
             icon-name="remove"
@@ -119,7 +123,7 @@
           <div v-if="item.typeContent === 'time'">
             <add-timer :item="item" :block="block"></add-timer>
           </div>
-          <!--Start: add timer-->
+          <!--End: add timer-->
           <!--Start: Add Tag-->
           <div v-if="item.typeContent === 'tag'">
             <add-tag :item="item" :content="block"></add-tag>
@@ -144,7 +148,7 @@
           <div class="gr-addelm d_flex align_items_center">
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('text', block._id)"
+              @click="createItemBlock('text', selectedBlock)"
             >
               <icon-base
                 class="icon-text"
@@ -158,7 +162,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('image', block._id)"
+              @click="createItemBlock('image', selectedBlock)"
             >
               <icon-base
                 class="icon-image"
@@ -172,7 +176,7 @@
 
             <div
               class="addelm-item d_flex align_items_center justify_content_center flex_column"
-              @click="createItemBlock('time', block._id)"
+              @click="createItemBlock('time', selectedBlock)"
             >
               <icon-base
                 class="icon-sand-clock"
@@ -220,7 +224,7 @@
     <transition name="popup">
       <popup-plugins
         v-if="showPopupPlugins === true"
-        :content="block._id"
+        :content="selectedBlock._id"
         :data-theme="currentTheme"
         :popupData="showPopupPlugins"
         @closePopupPlugin="showPopupPlugins = $event"
@@ -233,14 +237,16 @@
     </transition>
    <!-- Start: Delete Item Popup-->
     <transition name="popup">
-      <delete-campaign-popup
-        v-if="isDeleteItemBlock === true"
+      <delete-popup
+        v-if="isDeleteBlock === true"
         :data-theme="currentTheme"
         title="Delete Scripts"
-        @closePopup="isDeleteItemBlock = $event"
-        storeActionName="deleteScripts"
+        @closePopup="isDeleteBlock = $event"
+        @isDeletedTarget="$emit('isDeletedBlock', $event)"
+        :storeActionName="storeAction"
+        :targetData="selectedData"
         typeName="Scripts"
-      ></delete-campaign-popup>
+      ></delete-popup>
     </transition>
     <!-- End: Delete Item Popup -->
   </div>

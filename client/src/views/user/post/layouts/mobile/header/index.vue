@@ -187,14 +187,14 @@
       />
     </transition>-->
     <!--    End: Add new message-->
-    <!--    Start: Add new script-->
+    <!--    Start: Add new scripts-->
     <!-- <transition name="popup">
       <change-account
         v-if="showNewScript === true"
         @closeModal="showNewScript = $event"
       />
     </transition>-->
-    <!--    End: Add new script-->
+    <!--    End: Add new scripts-->
     <!-- Start: transition popup mobile -->
     <transition name="popup">
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />

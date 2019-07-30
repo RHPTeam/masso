@@ -155,7 +155,7 @@ export default {
       this.$store.dispatch("updateFacebookGroups");
     },
     showPopupSetupInfo() {
-        this.isShowPopupSetupInfo = true;
+      this.isShowPopupSetupInfo = true;
     }
   },
   created() {

@@ -102,12 +102,22 @@ export default {
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = false;
     },
-    showPopupCategories() {
+    showPopupCategories() {      
+      const dataSender = {
+        keyword: this.search,
+        size: 25,
+        page: 1
+      };
+      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = true;
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategoriesDefault() {
+      this.$store.dispatch("getCategoriesDefaultByKey", {
+        search: this.search,
+        categoriesDefault: this.$store.getters.allCateDefault
+      });
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = false;
       this.isShowPopupCategoriesDefault = true;
@@ -119,7 +129,7 @@ export default {
       this.isShowPopupDelete = true;
     },
     async updateSearch() {
-      if(this.isShowPopupPosts === true) {        
+      if(this.isShowPopupPosts === true) { 
         const dataSender = {
           keyword: this.search,
           size: 25,

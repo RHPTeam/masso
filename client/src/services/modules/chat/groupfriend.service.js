@@ -4,7 +4,7 @@ export default {
   /**
    *
    * @param grId
-   * @param data has id friends
+   * @param data has userID friends get from Facebook
    * @returns {*}
    */
   addFriendGroup( grId, data ){

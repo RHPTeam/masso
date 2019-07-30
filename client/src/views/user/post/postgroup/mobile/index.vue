@@ -129,7 +129,7 @@ export default {
       this.$router.push({name: "post_fbaccount"});
     }
   },
-  created() {
+  // created() {
     // const facebookGroupsNo = this.$store.getters.facebookGroups;
     // const facebookPagesNo = this.$store.getters.facebookPages;
 
@@ -139,7 +139,7 @@ export default {
     // if ( facebookPagesNo.length === 0 ) {
     //   this.$store.dispatch( "getFacebookPages" );
     // }
-  }
+  // }
 };
 </script>
 

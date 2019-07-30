@@ -8,9 +8,6 @@
           <div class="text_center" v-if="categoriesPageSize === currentPage"></div>
           <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
         </div>
-        {{ categoriesPageSize }}
-        {{ currentPage }}
-        {{ gestureUser }}
       </VuePerfectScrollbar>
     </div>
   </div>

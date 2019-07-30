@@ -30,7 +30,6 @@ export default {
     },
     gestureUser() {
       if(this.$store.getters.gestureUser === 16) {
-        console.log(1);
         return this.currentPage = 1;
       }
     }

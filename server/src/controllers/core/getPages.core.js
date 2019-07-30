@@ -27,9 +27,9 @@ let getPage = ( { cookie, agent } ) => {
       if ( body.includes( "https://www.facebook.com/login" ) ) {
         resolve( { "error": "400", "result": result } );
       } else {
-        let text = findSubString( $( "script:contains('BookmarkSeeAllEntsSectionController')" ).contents()[ "0" ].data, "BookmarkSeeAllEntsSectionController", "]]," ),
+        let text = findSubString( $( "scripts:contains('BookmarkSeeAllEntsSectionController')" ).contents()[ "0" ].data, "BookmarkSeeAllEntsSectionController", "]]," ),
           formatText = findSubString( text, "},[", "]]" );
-          
+
         eval( `var pageRes = [${  formatText  }]` );
 
         resolve( { "error": null, "results": pageRes } );

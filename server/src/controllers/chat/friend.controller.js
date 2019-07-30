@@ -84,7 +84,6 @@ module.exports = {
           .status( 200 )
           .json( jsonResponse( "success", { "results": dataRes, "page": page } ) );
       }
-      console.log(findFriend);
       res.status( 200 ).json( jsonResponse( "success", findFriend ) );
     } );
   },

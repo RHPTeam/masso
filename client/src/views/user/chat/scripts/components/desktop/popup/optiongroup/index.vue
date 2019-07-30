@@ -8,7 +8,7 @@
         height="23"
         viewBox="0 0 750 750"
       >
-        <icon-more/>
+        <icon-more />
       </icon-base>
     </div>
     <div
@@ -22,26 +22,42 @@
       </div>
       <div
         class="dropdown--menu-item mb_2 pl_3"
-        @click="deleteGroupBlock(groupId)"
+        @click="isDeletedTarget = true"
       >{{ $t("chat.scripts.sidebar.name.copy.delete") }}</div>
     </div>
+    <transition name="popup">
+      <delete-popup
+        v-if="isDeletedTarget === true"
+        :data-theme="currentTheme"
+        title="Delete Group Block"
+        @closePopup="isDeletedTarget = $event"
+        @isDeletedTarget="$emit('isDeletedTarget', $event)"
+        :storeActionName="storeAction"
+        :targetData="selectedGroupBlock"
+        typeName="Group Block"
+      ></delete-popup>
+    </transition>
   </div>
 </template>
 
 <script>
+import DeletePopup from "@/components/popups/delete";
+
 export default {
-  props: {
-    groupId: String
+  props: ["selectedGroupBlock", "storeAction"],
+  components: {
+    DeletePopup
   },
   data() {
     return {
-      isShowCopyScripts: false
+      isShowCopyScripts: false,
+      isDeletedTarget: false
     };
   },
-  computed: {    
+  computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
   },
   methods: {
     showCopyScripts() {
@@ -49,19 +65,19 @@ export default {
     },
     closeShowCopyScripts() {
       this.isShowCopyScripts = false;
-    },
-    deleteGroupBlock( idGroup ){
-      this.isShowCopyScripts = false;
-      this.$store.dispatch("deleteGroupBlock", idGroup);
     }
-  },
+    // deleteGroupBlock() {
+    //   this.isShowCopyScripts = false;
+    //   this.$store.dispatch("deleteGroupBlock", this.selectedGroupBlock._id);
+    //   this.$emit("isDeletedTarget", true);
+    // }
+  }
 };
 </script>
 
 <style lang="scss" scoped>
-div[data-theme="dark"]{
-  .icon--more{
-    
+div[data-theme="dark"] {
+  .icon--more {
   }
 }
 .icon--more {

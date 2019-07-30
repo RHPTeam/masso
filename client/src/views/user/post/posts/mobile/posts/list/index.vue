@@ -155,7 +155,6 @@ export default {
     }
   },
   async created() {
-    
   },
   watch: {
     "gestureUser"(value) {

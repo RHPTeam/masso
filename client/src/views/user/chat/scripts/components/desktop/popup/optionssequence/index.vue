@@ -8,7 +8,7 @@
         height="22"
         viewBox="0 0 760 760"
       >
-        <icon-more/>
+        <icon-more />
       </icon-base>
     </div>
     <div
@@ -23,22 +23,51 @@
             class="desc--copy"
           >Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
         </li>
-        <li @click="deleteBlockInSequence( sequenceId, item._id )" class="delete">Xóa</li>
+        <li @click="isDeletedTarget = true;" class="delete">Xóa</li>
+        <!-- <li @click="deleteBlockInSequence( sequenceId, item._id )" class="delete">Xóa</li> -->
       </ul>
     </div>
+    <transition name="popup">
+      <delete-popup
+        v-if="isDeletedTarget === true"
+        :data-theme="currentTheme"
+        title="Delete Scripts"
+        @closePopup="isDeletedTarget = $event"
+        @isDeletedTarget="$emit('isDeletedTarget', $event)"
+        storeActionName="deleteBlockInSequence"
+        :targetData="selectedSequenceBlock"
+        typeName="Scripts"
+      ></delete-popup>
+    </transition>
   </div>
 </template>
 
 <script>
+import DeletePopup from "@/components/popups/delete";
+
 export default {
-  props: {
-    sequenceId: String,
-    item: Object
+  // props: {
+  //   sequenceId: String,
+  //   item: Object
+  // },
+  props: ["selectedBlock", "sequence"],
+  components: {
+    DeletePopup
   },
   data() {
     return {
-      isOptionsSequence: false
+      isOptionsSequence: false,
+      isDeletedTarget: false,
+      selectedSequenceBlock: {
+        sqId: this.sequence._id,
+        blockId: this.selectedBlock._id
+      }
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    }
   },
   methods: {
     showOptionsSequence() {
@@ -47,19 +76,18 @@ export default {
     closeOptionsSequence() {
       this.isOptionsSequence = false;
     },
-    deleteBlockInSequence(sqId, blockId) {
-      const dataSender = {
-        sqId: sqId,
-        blockId: blockId
-      };
-      this.$store.dispatch("deleteBlockInSequence", dataSender);
-    }
+    // deleteBlockInSequence(sqId, blockId) {
+    //   const dataSender = {
+    //     sqId: sqId,
+    //     blockId: blockId
+    //   };
+    //   this.$store.dispatch("deleteBlockInSequence", dataSender);
+    // }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-
 .icon-more:hover {
   cursor: pointer;
 }
@@ -68,7 +96,7 @@ export default {
   top: 29px;
   right: 0;
   z-index: 11;
-  width: 100%;
+  width: 250px;
   overflow: hidden;
   border-radius: 5px;
   box-shadow: 0 0 0px 1px rgba(16, 16, 16, 0.08);
@@ -94,7 +122,8 @@ export default {
     color: #fff;
   }
   .disable {
-    cursor: not-allowed;.copy {
+    cursor: not-allowed;
+    .copy {
       font-weight: bold;
     }
     .desc--copy {
@@ -104,6 +133,5 @@ export default {
   .delete {
     font-weight: bold;
   }
-  
 }
 </style>
