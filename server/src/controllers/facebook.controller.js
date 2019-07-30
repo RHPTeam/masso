@@ -170,16 +170,16 @@ module.exports = {
     }
 
     // Remove item Id, page Id of facebook account
-    Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
+    await Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
       // Remove pages of facebook
-      Promise.all( postGroup._pages.map( ( pageId, index ) => {
+      await Promise.all( postGroup._pages.map( ( pageId, index ) => {
         if ( listPageFacebook.includes( pageId ) ) {
           postGroup._pages.splice( index, 1 );
         }
       } ) );
 
       // Remove groups of facebook
-      Promise.all( postGroup._groups.map( ( groupId, index ) => {
+      await Promise.all( postGroup._groups.map( ( groupId, index ) => {
         if ( listGroupFacebook.includes( groupId ) ) {
           postGroup._groups.splice( index, 1 );
         }
