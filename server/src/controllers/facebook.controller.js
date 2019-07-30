@@ -179,20 +179,18 @@ module.exports = {
     // Remove item Id, page Id of facebook account
     Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
       // Remove timelines of facebook
-      Promise.all( postGroup._timeline.map( ( timelineId, index ) => {
-        if ( listPageFacebook.includes( timelineId ) ) {
-          postGroup._timeline.splice( index, 1 );
-        }
-      } ) );
+      if ( postGroup._timeline.includes( findFacebook.userInfo.id ) ) {
+        postGroup._timeline.pull( findFacebook.userInfo.id );
+      }
       // Remove pages of facebook
-      Promise.all( postGroup._pages.map( ( pageId, index ) => {
+      await Promise.all( postGroup._pages.map( ( pageId, index ) => {
         if ( listPageFacebook.includes( pageId ) ) {
           postGroup._pages.splice( index, 1 );
         }
       } ) );
 
       // Remove groups of facebook
-      Promise.all( postGroup._groups.map( ( groupId, index ) => {
+      await Promise.all( postGroup._groups.map( ( groupId, index ) => {
         if ( listGroupFacebook.includes( groupId ) ) {
           postGroup._groups.splice( index, 1 );
         }
