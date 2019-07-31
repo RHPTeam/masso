@@ -43,7 +43,7 @@
         <!-- Start: Form -->
         <div v-else>
           <div class="modal--body">
-            <div class="modal--title">Cập nhật tài khoản</div>
+            <div class="title">Cập nhật tài khoản: <b>{{ item.userInfo.name }}</b></div>
             <div class="modal--desc">Dán mã kích hoạt Facebook vào ô bên dưới để cập nhật tài khoản.</div>
             <div class="modal--error mb_3">
               <span

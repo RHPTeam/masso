@@ -25,7 +25,7 @@
     </div>
     <!-- End: Phone Column -->
     <!-- Start: Type Column -->
-    <div class="col col--category px_2 text_center">
+    <div class="col col--category px_2">
       <span>
         {{member.typeUser}}
       </span>
@@ -49,9 +49,7 @@
 
 <script>
 export default {
-  props: {
-    member: Object
-  },
+  props: ["member"],
   methods: {
     async editMember() {
       await this.$store.dispatch("getInfoMember", this.member.user._id);

@@ -29,7 +29,7 @@ let getPage = ( { cookie, agent } ) => {
       } else {
         let text = findSubString( $( "script:contains('BookmarkSeeAllEntsSectionController')" ).contents()[ "0" ].data, "BookmarkSeeAllEntsSectionController", "]]," ),
           formatText = findSubString( text, "},[", "]]" );
-          
+
         eval( `var pageRes = [${  formatText  }]` );
 
         resolve( { "error": null, "results": pageRes } );

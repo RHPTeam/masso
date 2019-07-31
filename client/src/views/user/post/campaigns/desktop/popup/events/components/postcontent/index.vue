@@ -95,19 +95,22 @@ export default {
     },
   },
   async created(){
-    if ( this.allPost.length === 0 ) {
+    const posts = this.$store.getters.allPost,
+          categories = this.$store.getters.allCategories,
+          caseEvent = this.$store.getters.caseEvent;
+    if ( posts && posts.length === 0 ) {
       await this.$store.dispatch( "getAllPost" );
     }
-    if ( this.categories.length === 0 ) {
+    if ( categories && categories.length === 0 ) {
       await this.$store.dispatch( "getAllCategories" );
     }
-    if ( this.caseEvent.post === 0 ) {
+    if ( caseEvent.post === 0 ) {
       await this.$store.dispatch( "setCaseEvent", {
         key: "post",
         value: 1
       } );
     }
-    this.postType = String( this.caseEvent.post );
+    this.postType = String( caseEvent.post );
   },
   methods: {
     async selectPost( value ){

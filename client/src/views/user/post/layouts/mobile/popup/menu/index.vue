@@ -162,6 +162,27 @@
               </icon-base>
             </span>
           </li>
+          <li
+            @click="showAgency"
+            class="d_flex align_items_center"
+            v-if="roles && roles === 'Agency'"
+          >
+            <icon-base icon-name="Quản lý thành viên" width="24" height="24" viewBox="0 0 600 600">
+              <icon-agency />
+            </icon-base>
+            <span class="ml_2">Quản lý thành viên</span>
+            <span class="ml_auto">
+              <icon-base
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
+              >
+                <icon-arrow-down />
+              </icon-base>
+            </span>
+          </li>
           <li @click="showSetupAccount" class="d_flex align_items_center">
             <icon-base
               class="icon--setting"

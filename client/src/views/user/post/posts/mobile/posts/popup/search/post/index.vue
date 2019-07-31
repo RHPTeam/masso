@@ -15,7 +15,7 @@
           @showDetailPost="showPopupDetail($event)"
           @showPopupDelete="showPopupDelete($event)"
         />
-        <div class="text_center" v-if="postsPageSize === currentPage"></div>
+        <div class="text_center" v-if="postsPageSizeSearch === currentPage"></div>
         <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
       </div>
     </VuePerfectScrollbar>
@@ -79,8 +79,8 @@ export default {
     allPostSearchMobile() {
       return this.$store.getters.allPostSearchMobile;
     },
-    postsPageSize() {
-      return this.$store.getters.postsPageSize;
+    postsPageSizeSearch() {
+      return this.$store.getters.postsPageSizeSearch;
     }
   },
   methods: {

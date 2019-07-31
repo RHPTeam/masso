@@ -27,6 +27,11 @@ export default {
     },
     statusCategories() {
       return this.$store.getters.statusCategories;
+    },
+    gestureUser() {
+      if(this.$store.getters.gestureUser === 16) {
+        return this.currentPage = 1;
+      }
     }
   },
   async created() {
@@ -47,20 +52,5 @@ export default {
         page: this.currentPage
       });
     },
-    updateCategory( val ) {
-      // this.$emit( "updateCategory", val );
-    },
-    showDeletePopup( category ) {
-      // this.categoryDelete = category;
-      // this.targetDataDelete = {
-      //   id: category._id,
-      //   page: this.currentPage,
-      //   size: this.filterShowSelected.id
-      // };
-      // this.isShowDeletePopup = true;
-    },
-    updateCurrentPage( val ) {
-      // this.$emit( "updateCurrentPage", val );
-    }
   }
 };

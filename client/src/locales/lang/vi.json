@@ -178,7 +178,11 @@
     "scripts": {
       "title": "Thiết lập kịch bản",
       "desc": "Trang giúp bạn tạo ra các kịch bản cho khách hàng của bạn",
-
+      "main": {
+        "default": {
+          "title": "Tính năng thiết lập kịch bản cho phép bạn chủ động tiếp cận với khách hàng của mình. Lọc khách hàng của bạn dựa trên các thuộc tính của họ và gửi tin nhắn được cá nhân hóa. Bắt đầu bằng cách chọn loại thiết lập kịch bản bạn muốn gửi ở bên trái. "
+        }
+      },
       "sidebar": {
         "name": {
           "placeholder": "Nhap ten kich ban...",
@@ -300,9 +304,7 @@
       },
 
       "table": {
-
         "top": {
-
           "left": {
             "inNumber": "trong số",
             "people": "người",
@@ -333,7 +335,6 @@
       "desc": "Trang giúp bạn thiết lập các chiến dịch cá nhân hóa khách hàng",
 
       "sidebar": {
-
         "messeger": {
           "title": "Tin nhắn gửi ngay",
           "desc": "Tính năng này đang được phát triển và được cập nhật trong phiên bản sắp tới."
@@ -342,7 +343,6 @@
         "schedule": {
           "title": "THIẾT LẬP BỘ HẸN"
         }
-
       },
 
       "main": {
@@ -362,12 +362,18 @@
           },
           "timer": {
             "placeholderDay": "Chọn ngày",
-            "repeatOptions": [ "Không", "Hằng ngày", "Cuối tuần", "Hằng tháng", "Ngày làm việc", "Tùy chỉnh" ],
-            "options": [ "CN", "T2", "T3", "T4", "T5", "T6", "T7" ]
+            "repeatOptions": [
+              "Không",
+              "Hằng ngày",
+              "Cuối tuần",
+              "Hằng tháng",
+              "Ngày làm việc",
+              "Tùy chỉnh"
+            ],
+            "options": ["CN", "T2", "T3", "T4", "T5", "T6", "T7"]
           }
         }
       }
-
     },
 
     "facebook": {
@@ -404,7 +410,6 @@
           "repass": "Nhập lại mật khẩu của bạn"
         }
       }
-
     }
   }
 }

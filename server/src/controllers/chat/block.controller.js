@@ -304,7 +304,7 @@ module.exports = {
     if ( !foundBlock ) {
       return res.status( 404 ).json( jsonResponse( "fail", { "message": "Block không tồn tại!" } ) );
     }
-    // delete item in script using query
+    // delete item in scripts using query
     if ( req.query._itemId ) {
       const findItem = foundBlock.contents.filter( ( x ) => x.id === req.query._itemId )[ 0 ];
 

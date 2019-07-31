@@ -1,5 +1,5 @@
 <template>
-  <div class>
+  <div class="option">
     <div class="icon-more" @click="showOptionsSequence">
       <icon-base
         class="icon--more"
@@ -8,7 +8,7 @@
         height="22"
         viewBox="0 0 760 760"
       >
-        <icon-more/>
+        <icon-more />
       </icon-base>
     </div>
     <div
@@ -18,27 +18,56 @@
     >
       <ul>
         <li @click="closeOptionsSequence" class="disable">
-          <div class="pb_1 copy">Sao chép</div>
-          <div
-            class="desc--copy"
-          >Các bản cập nhật trong tương lai cho nhóm ban đầu sẽ không được sao chép sang các phiên bản được sao chép</div>
+          <div class="pb_1 copy">{{ $t("chat.scripts.sidebar.name.copy.title") }}</div>
+          <div class="desc--copy">{{ $t("chat.scripts.sidebar.name.copy.desc") }}</div>
         </li>
-        <li class="delete">Xóa</li>
+        <li @click="isDeletedTarget = true" class="delete">Xóa</li>
       </ul>
     </div>
+    <transition name="popup">
+      <delete-popup
+        v-if="isDeletedTarget === true"
+        :data-theme="currentTheme"
+        title="Delete Scripts"
+        @closePopup="isDeletedTarget = $event"
+        @isDeletedTarget="$emit('isDeletedTarget', $event)"
+        storeActionName="deleteBlock"
+        :targetData="selectedBlock"
+        typeName="Scripts"
+      >
+      </delete-popup>
+    </transition>
   </div>
 </template>
 
 <script>
+import DeletePopup from "@/components/popups/delete";
+
 export default {
-  props: {
-    sequenceId: String,
-    item: Object
+  // props: {
+  //   sequenceId: String,
+  //   item: Object,
+  // },
+  props: ['selectedBlock'],
+  components: {
+    DeletePopup
   },
   data() {
     return {
-      isOptionsSequence: false
+      isOptionsSequence: false,
+      isDeletedTarget: false
     };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    // block() {
+    //   return this.$store.getters.block;
+    // }
+  },
+  watch:{
+
   },
   methods: {
     showOptionsSequence() {
@@ -52,15 +81,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.option{
+  display: block;
+  width: 25px;
+  height:25px;
+}
+
 .icon-more {
   float: right;
-  // display: none;
-  &[hover="true"] {
-    display: block;
-    .icon--more {
-      color: #fff;
-    }
-  }
 }
 .infor {
   cursor: pointer;

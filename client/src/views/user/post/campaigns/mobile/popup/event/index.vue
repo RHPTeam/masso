@@ -108,7 +108,7 @@
           :nameEvent="event.title"
           @closePopup="isShowPopupDelete = $event"
           @confirmDelete="deleteEvent"
-        :selectedCampaign="campaign.title"        
+          :selectedCampaign="campaign.title"    
         />
       </transition>
       <!-- End: Transition Popup -->

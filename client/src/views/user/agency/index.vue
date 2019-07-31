@@ -1,76 +1,47 @@
 <template>
-  <div class="agency">
-    <breadcrumb
-      nameBread="Trang quản lý thành viên cho đại lý"
-      subBread="Trang giúp bạn thiết lập các tài khoản Facebook"
-    />
-    <app-header/>
-    <app-navigation
-      @openPopup="isShowPopupInfo = $event"
-      @openUpdateAgencyInfo="isShowPopupAgencyInfo = $event"
-    />
-    <app-main
-      @openPopupEdit="isShowPopupEdit = $event"
-    />
-
-    <!--************* POPUP SIGN UP AND UPDATE ***************-->
-    <transition name="popup">
-      <app-agency-info
-        v-if="isShowPopupAgencyInfo === true"
-        @close="isShowPopupAgencyInfo = $event"
-      />
-
-      <app-info
-        v-if="isShowPopupInfo === true"
-        @closePopup="isShowPopupInfo = $event"
-      />
-
-      <app-edit
-        v-if="isShowPopupEdit === true"
-        @closeAddEdit="isShowPopupEdit = $event"
-      />
-
-      <app-delete
-        v-if="isShowPopupDelete === true"
-      />
-    </transition>
-
+  <div class="main--agency">
+    <!-- Start: Desktop -->
+    <div class="d_none d_md_block">
+      <app-desktop />
+    </div>
+    <!-- End: Desktop -->
+    <!-- Start: Mobile -->
+    <div class="d_block d_md_none">
+      <app-mobile />
+    </div>
+    <!-- End: Mobile -->
   </div>
 </template>
 
 <script>
-import AppHeader from "./components/header";
-import AppNavigation from "./components/navigation";
-import AppMain from "./components/main";
-import AppInfo from "./components/popup/info";
-import AppAgencyInfo from "./components/popup/setting";
-import AppDelete from "./components/popup/delete";
-import AppEdit from "./components/popup/edit";
-
+import AppDesktop from "./desktop";
+import AppMobile from "./mobile";
 export default {
   components: {
-    AppAgencyInfo,
-    AppHeader,
-    AppNavigation,
-    AppMain,
-    AppInfo,
-    AppDelete,
-    AppEdit
+    AppDesktop,
+    AppMobile
   },
   data() {
     return {
-      isShowPopupAgencyInfo: false,
-      isShowPopupInfo: false,
-      isShowPopupDelete: false,
-      isShowPopupEdit: false
-    }
+      innerWidth: 0
+    };
   },
-  async created(){
-    await this.$store.dispatch("getInfoAgency");
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
+  methods: {
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
+    }
   }
-}
+};
 </script>
 
 <style scoped>
-
 </style>

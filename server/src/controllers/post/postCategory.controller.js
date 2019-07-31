@@ -103,7 +103,7 @@ module.exports = {
       return res.status( 405 ).json( { "status": "error", "message": "Danh mục mặc định không thể bị xóa!" } );
     }
 
-    // When delete auto which all of post of that auto will deleted
+    // When delete srv which all of post of that srv will deleted
     if ( findPost.length > 0 ) {
       // add to un_ categories
       const unCategory = await PostCategory.findOne( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } );

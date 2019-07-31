@@ -51,7 +51,7 @@ or, **B**: Include distribution files with `<script>` and `<style>`
 **NOTE:** When using the `dist` files, a `Vue.use()` call is needed
 
 ```javascript
-// Work with <script> block
+scripts
 Vue.use(window.VueTimepicker)
 
 // Else

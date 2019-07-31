@@ -24,6 +24,8 @@ const actions = {
       12: Danh muc
       13: Danh muc mau
       14: Filter Categoory
+      15: Create post
+      16: Create Category
       // Setup Account
       61: Tên người dùng
       62: Số điện thoại
