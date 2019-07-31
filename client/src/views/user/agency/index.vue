@@ -1,12 +1,12 @@
 <template>
   <div class="main--agency">
     <!-- Start: Desktop -->
-    <div class="d_none d_md_block">
+    <div class="d_none d_md_block" v-if="innerWidth > 768">
       <app-desktop />
     </div>
     <!-- End: Desktop -->
     <!-- Start: Mobile -->
-    <div class="d_block d_md_none">
+    <div class="d_block d_md_none" v-else>
       <app-mobile />
     </div>
     <!-- End: Mobile -->

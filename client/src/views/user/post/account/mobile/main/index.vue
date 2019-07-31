@@ -76,13 +76,13 @@
       <div class="items items--keyword py_2">
         <div class="title d_flex">
           <icon-base
-            icon-name="icon-autoreply"
-            class="icon--info mr_2"
-            width="25"
-            height="25"
-            viewBox="0 0 25 15"
+            class="icon--setting mr_2"
+            icon-name="menu"
+            width="22"
+            height="22"
+            viewBox="0 0 265 265"
           >
-            <icon-friend />
+            <icon-setting />
           </icon-base>
           <div>
             <b>Từ khóa</b>
@@ -123,17 +123,34 @@
           </div>
         </div>
       </div>
+      <!-- Start: Info -->
+      <div class="items pb_3">
+        <div class="title d_flex mb_2">
+          <icon-base class="icon--info mr_2" icon-name="info" width="25" height="25" viewBox="0 0 20 20">
+            <icon-info />
+          </icon-base>
+          <div>
+            <b>Thông tin khác</b>
+          </div>
+        </div>
+        <div class="content logout d_flex align_items_center">
+          <div class="mb_0">Tài khoản sử dụng đến ngày</div>
+          <div class="ml_auto">
+            {{formatDate(user.expireDate)}}
+          </div>
+        </div>
+      </div>
       <!-- Start: Logout -->
       <div class="items">
         <div class="title d_flex mb_2">
           <icon-base
-            icon-name="icon-autoreply"
-            class="icon--info mr_2"
-            width="25"
-            height="25"
-            viewBox="0 0 25 15"
+            icon-name="Tài khoản Facebook"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            class="mr_2"
           >
-            <icon-friend />
+            <icon-account />
           </icon-base>
           <div>
             <b>Tài khoản</b>

@@ -95,7 +95,7 @@ const state = {
       let res;
 
       commit( "setCampaigns", campaigns );
-      // commit( "setCampaignsPagesSize", res.data.data.page );
+      // commit( "setCampaignsPagesSize", campaigns.length );
 
       await CampaignsServices.delete( payload.id );
     },

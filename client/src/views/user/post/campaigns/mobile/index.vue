@@ -47,6 +47,7 @@
               :key="item._id"
               @showDetailPost="showPopupDetailCampaign($event)"
               @showPopupDelete="showPopupDelete($event)"
+              @showPopupDuplicateCampaign="showPopupDuplicateCampaign($event)"
             />
             <div class="text_center" v-if="campaignsPagesSize === currentPage"></div>
             <div class="text_center py_3 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
@@ -83,6 +84,7 @@
     <!-- End: Transition Popup -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
+      <popup-duplicate-campaign @closePopup="isShowPopupDuplicateCampaign = $event" v-if="isShowPopupDuplicateCampaign === true" :campaign="selectedCampaign"/>
       <popup-delete
         :selectedCampaign="selectedCampaign"
         @closePopup="isShowPopupDelete = $event"

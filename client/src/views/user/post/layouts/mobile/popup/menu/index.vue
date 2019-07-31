@@ -78,7 +78,7 @@
             </span>
           </li>
           <li @click="showAccountFb" class="d_flex align_items_center">
-            <icon-base icon-name="Tài khoản Facebook" width="20" height="20" viewBox="0 0 24 24">
+            <icon-base icon-name="Tài khoản Facebook" width="23" height="23" viewBox="0 0 24 24">
               <icon-account />
             </icon-base>
             <span class="ml_2">Tài khoản Facebook</span>
@@ -95,7 +95,7 @@
             </span>
           </li>
           <li @click="showSearchFb" class="d_flex align_items_center">
-            <icon-base icon-name="Facebook tìm kiếm" width="20" height="20" viewBox="0 0 24 24">
+            <icon-base icon-name="Facebook tìm kiếm" width="25" height="25" viewBox="0 0 24 24">
               <icon-input-search />
             </icon-base>
             <span class="ml_2">Facebook tìm kiếm</span>
@@ -129,7 +129,13 @@
             </span>
           </li>
           <li @click="showPostgroup" class="d_flex align_items_center">
-            <icon-base icon-name="Nhóm Trang" width="20" height="20" viewBox="0 0 24 24">
+            <icon-base
+              icon-name="icon-autoreply"
+              class="icon--info"
+              width="25"
+              height="25"
+              viewBox="0 0 25 15"
+            >
               <icon-friend />
             </icon-base>
             <span class="ml_2">Nhóm & Trang</span>
@@ -146,7 +152,7 @@
             </span>
           </li>
           <li @click="showCampaign" class="d_flex align_items_center">
-            <icon-base icon-name="Chiến dịch" width="20" height="20" viewBox="0 0 24 24">
+            <icon-base icon-name="Chiến dịch" width="23" height="23" viewBox="0 0 24 24">
               <icon-broadcast />
             </icon-base>
             <span class="ml_2">Đăng bài tự động</span>
