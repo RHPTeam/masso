@@ -6,7 +6,7 @@
         <b>02/08/2019</b>
       </div>
       <div class="plan--table">
-        <div class="table--card">
+        <div class="table--card" id="cards">
           <div class="card">
             <div class="card--type">1 tháng</div>
             <div class="card--price">2.800.000</div>
@@ -75,7 +75,7 @@
           </div>
         </div>
         <div class="table--indicator">
-          <span class="dot dot-active"></span>
+          <span class="dot"></span>
           <span class="dot"></span>
           <span class="dot"></span>
         </div>
@@ -97,6 +97,10 @@ export default {
   methods: {
     closePopup() {
       this.$emit("close", false);
+    },
+    scrollNext(event) {
+      console.log(event);
+      // document.getElementById("cards").scrollLeft += 500;
     }
   }
 };
