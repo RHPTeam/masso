@@ -1,13 +1,7 @@
 <template>
   <div class="navigation d_flex align_items_center justify_content_between mb_3">
-    <div class="left mr_auto">
-      <input
-        type="text"
-        class="form_control"
-        placeholder="Tìm kiếm"
-        v-model="keyword"
-        @keydown.enter="searchMemberOfAgency"
-      />
+    <div class="left">
+      <input type="text" class="form_control" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchMemberOfAgency" />
     </div>
     <div class="right ml_auto">
       <button class="btn btn_success mr_3" @click="openUpdateAgencyInfo">Thiết lập thông tin</button>
@@ -53,6 +47,10 @@ export default {
     &:focus {
       border-color: #ffb94a;
       outline: none;
+      &:focus {
+        border-color: #ffb94a;
+        outline: none;
+      }
     }
   }
 }
