@@ -2,7 +2,7 @@
   <div class="modal--main-mobile">
     <!-- Start: Search -->
     <div class="items--header mx_3 d_flex align_items_center position_relative mb_3">
-      <div class="mr_auto search">
+      <div class="mr_auto search" @click="showPopupSearch">
         <span class="ml_2">
           <icon-base
             class="ic--search"
@@ -28,20 +28,34 @@
       <!-- Start: List user -->
     </div>
     <!-- End: Main -->
+    <transition name="popup--mobile">
+      <app-search v-if="isShowPopupSearch === true" @closePopup="isShowPopupSearch = $event"/>    
+    </transition>
   </div>
 </template>
 
 <script>
+import AppSearch from "./user/popup/search";
 import AppMonth from "./components/months";
 import ListUser from "./user";
 export default {
   data() {
     return {
+      isShowPopupSearch: false
     }
   },
   components: {
+    AppSearch,
     AppMonth,
     ListUser
+  },
+  methods: {
+    showPopupSearch() {
+      this.isShowPopupSearch = true;
+    }
+  },
+  async created(){
+    await this.$store.dispatch("getInfoAgency");
   }
 };
 </script>
@@ -90,6 +104,21 @@ export default {
         box-shadow: none;
       }
     }
+  }
+  // TRANSITION 
+  
+  .popup--mobile-enter {
+    transform: translateX(100%);
+  }
+
+  .popup--mobile-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+
+  .popup--mobile-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
   }
 }
 </style>

@@ -45,6 +45,14 @@ export default {
         });
       }
     },
+    formatDate( d ) {
+      const dateTime = new Date( d ),
+        date = String( dateTime.getDate() ).padStart( 2, "0" ),
+        month = String( dateTime.getMonth() + 1 ).padStart( 2, "0" ),
+        year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
+    },
     showChangeName() {
       // this.isShowChangeName = true;
       this.$store.dispatch('actionCursor', 61);
