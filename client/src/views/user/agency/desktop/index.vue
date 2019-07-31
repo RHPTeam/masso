@@ -1,7 +1,7 @@
 <template>
   <div class="agency">
     <breadcrumb
-      nameBread="Trang quản lý thành viên cho đại lý"
+      nameBread="quản lý thành viên"
       subBread="Trang giúp bạn thiết lập các tài khoản Facebook"
     />
     <app-header/>

@@ -90,11 +90,11 @@ export default {
   },
   async created() {
     // Get Data
+    await this.$store.dispatch("getAllCategories");
     await this.$store.dispatch("getAllFriendFb");
     await this.$store.dispatch("getPlaceFromFb");
-    await this.$store.dispatch("getAllCategories");
     await this.$store.dispatch("getActivityFb");
-    await this.$store.dispatch("getColorFromFb");
+    this.$store.dispatch("getColorFromFb");
   },
   watch: {
     "post.content"(value) {

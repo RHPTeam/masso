@@ -1,68 +1,4 @@
 .modal--wrapper {
-  .modal--dialog {
-    .modal--content {
-      .modal--body {
-        .desc {
-          line-height: 1.5;
-          .text--bold {
-            font-weight: 600;
-          }
-          .text--delete {
-            font-weight: 600;
-          }
-        }
-        &-input {
-          font-weight: 600;
-        }
-      }
-    }
-  }
-}
-/* THeme Color */
-.modal--wrapper[data-theme="light"] {
-  .modal--dialog {
-    .modal--content {
-      .modal--body {
-        .desc {
-          .campaign--name {
-          }
-          .text--delete {
-          }
-        }
-        &-input {
-          color: #F96666 !important;
-          &:focus {
-            border-color: #F96666 !important;
-          }
-        }
-      }
-    }
-  }
-}
-.modal--wrapper[data-theme="dark"] {
-  .modal--dialog {
-    .modal--content {
-      .modal--body {
-        color: #cccccc;
-        .desc {
-          .campaign--name {
-            color: #f7f7f7;
-          }
-          .text--delete {
-            color: #f7f7f7;
-          }
-        }
-        &-input {
-          color: #F96666 !important;
-          &:focus {
-            border-color: #F96666 !important;
-          }
-        }
-      }
-    }
-  }
-}
-.modal--wrapper {
   background-color: rgba(153, 153, 153, 0.4);
   bottom: 0;
   font-family: "Open Sans", sans-serif;
@@ -112,6 +48,61 @@
             color: #cccccc;
           }
         }
+        .duplicate {
+          h5 {
+            font-size: 1rem;
+            font-weight: 700;
+          }
+          .account--list-item {
+            margin-top: .75rem;
+            .action {
+              .custom--checkbox {
+                input[type="checkbox"] {
+                  border-radius: 6px;
+                  border: solid 1.5px #cccccc;
+                  cursor: pointer;
+                  height: 20px;
+                  outline: none;
+                  width: 20px;
+                  -webkit-appearance: none;
+                  -moz-appearance: none;
+                  &:checked {
+                    background-color: #ffb94a;
+                    border: solid 1px #ffb94a;
+                    &:before {
+                      border-bottom: 2px solid #fff;
+                      border-right: 2px solid #fff;
+                      content: "";
+                      display: block;
+                      height: 10px;
+                      position: relative;
+                      left: 50%;
+                      top: 42%;
+                      transform: translate(-50%, -50%) rotate(45deg);
+                      width: 7px;
+                    }
+                  }
+                }
+              }
+              .active {
+                background-color: #ffb94a;
+              }
+            }
+            .left {
+              background-position: center;
+              background-repeat: no-repeat;
+              background-size: cover;
+              border-radius: 100%;
+              height: 42px;
+              width: 42px;
+            }
+            .right {
+              .name {
+                font-weight: 600;
+              }
+            }
+          }
+        }
       }
 
       .modal--footer {
@@ -135,18 +126,26 @@
         }
 
         .btn--skip {
-          background-color: #ff0000a3;
+          background-color: transparent;
           border-radius: 10px;
           border: 0;
           cursor: pointer;
-          color: #fff;
+          color: #999;
           font-weight: 600;
           outline: none;
           padding: 0.5rem 0.75rem;
+
+          &:hover {
+            background-color: #f7f7f7;
+          }
         }
       }
     }
   }
+}
+
+.text--bold {
+  font-weight: 600;
 }
 
 /*Transition popup*/
@@ -176,7 +175,7 @@
     .modal--footer {
       .btn--skip {
         &:hover {
-          background-color: #ff0000cf;
+          background-color: #f7f7f7;
         }
       }
     }
@@ -205,10 +204,9 @@
     .modal--footer {
       .btn--skip {
         &:hover {
-          background-color: #ff0000cf;
+          background-color: #2f3136;
         }
       }
     }
   }
 }
-
