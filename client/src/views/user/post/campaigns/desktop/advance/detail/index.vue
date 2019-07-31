@@ -30,7 +30,7 @@
 
 <script>
 import AppHeader from "./header/index";
-import EventPopup from "@/views/user/post/campaigns/desktop/popup/event";
+import EventPopup from "@/views/user/post/campaigns/desktop/popup/events";
 export default {
   components: {
     AppHeader,
