@@ -41,6 +41,7 @@ const actions = {
       4: Account Fb
       5: Search Fb
       6: Setup account
+      7: Pricing Plan
   */
   actionCursorMenu: ({ commit }, payload) => {
     commit("setActionCursorMenu", payload);

@@ -185,6 +185,29 @@
               </icon-base>
             </span>
           </li>
+          <li @click="showPricingPlan" class="d_flex align_items_center">
+            <icon-base
+              class="icon--setting"
+              icon-name="menu"
+              width="22"
+              height="22"
+              viewBox="0 0 265 265"
+            >
+              <icon-setting />
+            </icon-base>
+            <span class="ml_2">Gia hạn tài khoản</span>
+            <span class="ml_auto">
+              <icon-base
+                icon-name="arrow-down"
+                class="icon--arrow-right"
+                width="10"
+                height="10"
+                viewBox="0 0 130 130"
+              >
+                <icon-arrow-down />
+              </icon-base>
+            </span>
+          </li>
           <li @click="logout" class="d_flex align_items_center">
             <icon-base icon-name="logout" width="20" height="20" viewBox="0 0 20 20">
               <icon-logout />

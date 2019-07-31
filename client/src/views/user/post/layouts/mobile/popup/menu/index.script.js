@@ -68,6 +68,11 @@ export default {
       this.$store.dispatch("actionCursorMenu", 6);
       this.$router.push({ name: 'post_account' });
       this.$emit("closePopup", false);
+    },
+    showPricingPlan() {
+      this.$store.dispatch("actionCursorMenu", 7);
+      this.$router.push({ name: 'pricing_plan' });
+      this.$emit("closePopup", false);
     }
   },
   filters: {

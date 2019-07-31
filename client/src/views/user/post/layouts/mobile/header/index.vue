@@ -294,6 +294,9 @@ export default {
       if (this.$route.name === "campaigns_default") {
         return "Chiến dịch mẫu";
       }
+      if (this.$route.name === "pricing_plan") {
+        return "Gia hạn tài khoản";
+      }
     },
     gestureUser() {
       return this.$store.getters.gestureUser;

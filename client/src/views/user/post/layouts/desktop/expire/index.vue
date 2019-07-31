@@ -2,7 +2,7 @@
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content" v-click-outside="closePopup">
-        <div class="pricing--table">
+        <div class="pricing--plan">
           <div class="logo">
             <icon-base
               class="logo--icon"
