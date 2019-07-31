@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile--search-fb px_2">
+  <div class="mobile--search-fb px_3">
     <!-- Start: Search -->
     <div class="list--filter mb_2">
       <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2" @click="showPopupSearch">
@@ -97,6 +97,7 @@ export default {
     // const keywordDefault = this.user.keywords[
     //   Math.floor(Math.random() * this.user.keywords.length)
     // ];
+<<<<<<< HEAD
     // const fbSearch = this.$store.getters.listPostFacebookDefault;
     // if(fbSearch.length === 0) {
     //   await this.$store.dispatch("getListPostFacebookDefault", {
@@ -105,6 +106,16 @@ export default {
     //     page: 1
     //   });
     // }
+=======
+    const fbSearch = this.$store.getters.listPostFacebookDefault;
+    if(fbSearch.length === 0) {
+      await this.$store.dispatch("getListPostFacebookDefault", {
+        keyword: this.user.keywords[0],
+        size: 25,
+        page: 1
+      });
+    }
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
     // this.keyword = keywordDefault;
   },
   methods: {

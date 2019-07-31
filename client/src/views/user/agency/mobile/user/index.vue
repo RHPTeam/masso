@@ -35,12 +35,16 @@ export default {
     agency(){
       return this.$store.getters.memberAgency;
     }
+<<<<<<< HEAD
   },
   async created(){
     // await this.$store.dispatch("getInfoAgency");
   },
   methods: {
   },
+=======
+  }
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
 }
 </script>
 

@@ -1,8 +1,13 @@
 <template>
   <div class="modal--main-mobile">
     <!-- Start: Search -->
+<<<<<<< HEAD
     <div class="items--header mx_2 d_flex align_items_center position_relative mb_3">
       <div class="mr_auto search">
+=======
+    <div class="items--header mx_3 d_flex align_items_center position_relative mb_3">
+      <div class="mr_auto search" @click="showPopupSearch">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
         <span class="ml_2">
           <icon-base
             class="ic--search"
@@ -19,7 +24,11 @@
     </div>
     <!-- End: Search -->
     <!-- Start: Main -->
+<<<<<<< HEAD
     <div class="items--body px_2">
+=======
+    <div class="items--body px_3">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
       <!-- Start: Months -->
       <app-month />
       <!-- End: Months -->
@@ -28,20 +37,48 @@
       <!-- Start: List user -->
     </div>
     <!-- End: Main -->
+<<<<<<< HEAD
+=======
+    <transition name="popup--mobile">
+      <app-search v-if="isShowPopupSearch === true" @closePopup="isShowPopupSearch = $event"/>    
+    </transition>
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
   </div>
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import AppSearch from "./user/popup/search";
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
 import AppMonth from "./components/months";
 import ListUser from "./user";
 export default {
   data() {
     return {
+<<<<<<< HEAD
     }
   },
   components: {
     AppMonth,
     ListUser
+=======
+      isShowPopupSearch: false
+    }
+  },
+  components: {
+    AppSearch,
+    AppMonth,
+    ListUser
+  },
+  methods: {
+    showPopupSearch() {
+      this.isShowPopupSearch = true;
+    }
+  },
+  async created(){
+    await this.$store.dispatch("getInfoAgency");
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
   }
 };
 </script>
@@ -91,5 +128,23 @@ export default {
       }
     }
   }
+<<<<<<< HEAD
+=======
+  // TRANSITION 
+  
+  .popup--mobile-enter {
+    transform: translateX(100%);
+  }
+
+  .popup--mobile-enter-to {
+    transition: transform 0.75s;
+    transform: translateX(0);
+  }
+
+  .popup--mobile-leave-to {
+    transition: transform 0.75s;
+    transform: translateX(100%);
+  }
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
 }
 </style>

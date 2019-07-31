@@ -1,5 +1,5 @@
 <template>
-  <div class="d_none d_md_block" data-theme="currentTheme">
+  <div data-theme="currentTheme">
     <div class="d_flex align_items_center">
       <breadcrumb
         nameBread="Facebook Tìm Kiếm"

@@ -25,7 +25,11 @@
     </div>
     <!-- End: Phone Column -->
     <!-- Start: Type Column -->
+<<<<<<< HEAD:client/src/views/user/agency/desktop/components/main/components/item/index.vue
     <div class="col col--category px_2">
+=======
+    <div class="col col--category px_2 activated">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5:client/src/views/user/agency/components/main/components/item/index.vue
       <span>
         {{member.typeUser}}
       </span>

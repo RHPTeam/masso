@@ -2,7 +2,7 @@ import PopupDelete from "./popup/delete";
 import PopupSearch from "./popup/search";
 import PopupCopy from "./popup/copy";
 import PopupDetailCampaign from "./popup/detail";
-import PopupDuplicateCampaign from "./popup/campaigns/duplicate";
+import PopupDuplicateCampaign from "./popup/duplicate";
 import ItemCampaign from "./components/campaign"
 import ItemCampaignDefault from "./components/campaign-default"
 
@@ -26,6 +26,7 @@ export default {
       isShowPopupSearch: false,
       isShowPopupCopy: false,
       isShowPopupDetailCampaign: false,
+      isShowPopupDuplicateCampaign: false,
       isTriggerAction: false,
       search: "",
       selectedCampaign: {}
@@ -120,6 +121,10 @@ export default {
     showPopupDetailCampaign(campaign) {
       this.selectedCampaign = campaign;
       this.isShowPopupDetailCampaign = true;
+    },
+    showPopupDuplicateCampaign(campaign) {
+      this.selectedCampaign = campaign;
+      this.isShowPopupDuplicateCampaign = true;
     }
   },
   async created() {

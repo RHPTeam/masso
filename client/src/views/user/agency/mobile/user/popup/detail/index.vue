@@ -18,7 +18,11 @@
         <div class="text_center m_auto">Cấu hình tài khoản</div>
         <div class="active mr_2" @click="updateAccount">Xong</div>
       </div>
+<<<<<<< HEAD
       <div class="modal--body px_2" v-if="user">
+=======
+      <div class="modal--body px_3" v-if="user">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
         <!-- Start: User General Info -->
         <div class="user d_flex justify_content_start align_items_center mb_4">
           <div class="user--avatar mr_4">
@@ -125,7 +129,11 @@
         </div>
         <!-- End: User Edit -->
       </div>
+<<<<<<< HEAD
       <div v-else>Không có dữ liệu!</div>
+=======
+      <div v-else class="text_center">Không có dữ liệu!</div>
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
     </div>
   </div>
 </template>

@@ -19,7 +19,11 @@
       </div>
       <!-- End: Header -->
       <!-- Start: Form Body -->
+<<<<<<< HEAD
       <div class="items--body px_2">
+=======
+      <div class="items--body px_3">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
         <label>Sub Domain:</label>
         <div class="error my_1" v-if="isShowAlert === true">Vui lòng nhập tên Domain</div>
         <input

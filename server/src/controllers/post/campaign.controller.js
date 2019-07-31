@@ -289,14 +289,16 @@ module.exports = {
 
     /** ********************** Log Action Of User For Admin ****************************** **/
     let objectLog = {
-        "logs": {
-          "content": `Sao chép từ chiến dịch "${campaignInfo.title}" thành công.`,
-          "createdAt": new Date(),
-          "info": {
-            "campaignId": campaignInfo._id
-          },
-          "status": 0
-        },
+        "data": [ {
+          "logs": {
+            "content": `Sao chép từ chiến dịch "${campaignInfo.title}" thành công.`,
+            "createdAt": new Date(),
+            "info": {
+              "campaignId": campaignInfo._id
+            },
+            "status": 0
+          }
+        } ],
         "_account": req.uid
       },
       resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );

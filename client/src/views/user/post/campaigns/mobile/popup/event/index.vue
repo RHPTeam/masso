@@ -23,7 +23,7 @@
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <VuePerfectScrollbar class="scroll-event" ref="scroll">
-          <div class="modal--body px_2 mt_2">
+          <div class="modal--body px_3 mt_2">
             <!-- Start: Name -->
             <app-header :event="event" />
             <!-- End: Name -->

@@ -23,7 +23,11 @@
         </div>-->
       </div>
       <!-- End: Header -->
+<<<<<<< HEAD
       <div class="items--body px_2">
+=======
+      <div class="items--body px_3">
+>>>>>>> ab7b2e308aeb87aa72ec6b4d56b7390667fca5f5
         <!-- Start: Form Body -->
         <form>
           <div class="font_weight_bold mb_1">Tên đăng ký</div>
