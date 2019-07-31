@@ -62,14 +62,18 @@
     border-bottom-right-radius: 10px;
   }
   .item--header {
-    background-color: #ffffff;
+    background-color: #27292d;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
-    color: #666666;
+    color: #ccc;
     height: 48px;
   }
   .item--body {
     min-height: 48px;
+    transition: all 0.4s ease;
+    &:hover {
+      background: #44444461;
+    }
     &:last-child {
       border-bottom-left-radius: 10px;
       border-bottom-right-radius: 10px;

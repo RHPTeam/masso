@@ -10,7 +10,7 @@
       <div class="col col--action px_4">Hành động</div>
     </div>
     <div v-if="resultsDefault === false">
-      <div v-if="!agency">Không có dữ liệu</div>
+      <div v-if="!agency" class="text_center my_2">Không có dữ liệu</div>
       <app-item
         v-else
         v-for="(member, index) in agency"
@@ -20,7 +20,7 @@
       />
     </div>
     <div v-else>
-      <div v-if="!infoMember">Không có dữ liệu</div>
+      <div v-if="!infoMember" class="text_center my_2">Không có dữ liệu</div>
       <div class="item--body d_flex align_items_center px_3 py_2" v-else>
         <!-- Start: Name Column -->
         <div class="col col--name px_2">
