@@ -162,14 +162,18 @@ module.exports = {
     defaulSchema( newUser );
   },
   "activeAccountById": async ( req, res ) => {
-    const { maxAccountFb, expireDate, id } = req.body,
-      userInfo = await Account.findOne( { "_id": id } );
+    const userInfo = await Account.findOne( { "_id": req.body.id } );
 
     if ( !userInfo ) {
       res.send( { "status": "error", "message": "Tài không được đồng bộ trên server!" } );
     }
 
-    await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": expireDate, "maxAccountFb": maxAccountFb } }, { "new": true } ).select( "-password -__v" );
+    if ( req.body.code ) {
+      await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": req.body.expireDate }, "code": req.body.code }, { "new": true } ).select( "-password -__v" );
+      return res.send( { "status": "success", "data": "Synchronized..." } );
+    }
+
+    await Account.findByIdAndUpdate( userInfo._id, { "$set": { "status": 1, "expireDate": req.body.expireDate, "maxAccountFb": req.body.maxAccountFb } }, { "new": true } ).select( "-password -__v" );
 
     res.send( { "status": "success", "data": "Synchronized..." } );
   },
