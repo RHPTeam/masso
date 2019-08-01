@@ -168,15 +168,17 @@
               </icon-base>
             </span>
           </li>
-          <li
-            @click="showAgency"
-            class="d_flex align_items_center"
-            v-if="roles && roles === 'Agency'"
-          >
-            <icon-base icon-name="Quản lý thành viên" width="24" height="24" viewBox="0 0 600 600">
-              <icon-agency />
+          <li @click="showPricingPlan" class="d_flex align_items_center">
+            <icon-base
+              class="icon--setting"
+              icon-name="menu"
+              width="22"
+              height="22"
+              viewBox="0 0 515 515"
+            >
+              <icon-cash />
             </icon-base>
-            <span class="ml_2">Quản lý thành viên</span>
+            <span class="ml_2">Gia hạn tài khoản</span>
             <span class="ml_auto">
               <icon-base
                 icon-name="arrow-down"
