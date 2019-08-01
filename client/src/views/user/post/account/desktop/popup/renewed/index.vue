@@ -4,7 +4,7 @@
       <div class="modal--content px_4 py_3">
         <!-- Start: Header -->
         <div class="modal--header">
-          <div class="title text_center mb_3">Nhập mã code để gia hạn</div>
+          <div class="title text_center mb_4">Nhập mã code để gia hạn</div>
         </div>
         <!-- End: Header -->
         <!-- Start: Body -->
@@ -12,7 +12,7 @@
           <div class="title mr_auto">Mã code</div>
           <div class="ml_auto input">
             <input type="text" placeholder="Nhập code ..." v-model="code" />
-            <div class="text--error" v-if="isShowErrorCode === true">{{ errorCode }}</div>
+            <div class="text--error mt_1" v-if="isShowErrorCode === true">{{ errorCode }}</div>
           </div>
         </div>
         <!-- End: Body -->
@@ -94,7 +94,7 @@ export default {
     }
   }
   .modal--header {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
   }
   .modal--body {
     .title {
@@ -137,10 +137,10 @@ export default {
       }
     }
     .cancel {
-      padding: 0.5rem 1.5rem;
+      // padding: 0.5rem 1.5rem;
       background-color: #2f3136;
-      border-radius: 0.625rem;
-      border: 1px solid #e4e4e4;
+      // border-radius: 0.625rem;
+      // border: 1px solid #e4e4e4;
       cursor: pointer;
     }
   }

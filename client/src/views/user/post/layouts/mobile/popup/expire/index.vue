@@ -1,0 +1,217 @@
+<template>
+  <div class="form-wrapper" :data-theme="currentTheme">
+    <!-- Start: Create Form -->
+    <div class="category--form">
+      <div class="items--header d_flex align_items_center">
+        <div @click="closePopup">
+          <icon-base
+            icon-name="arrow-down"
+            class="arrow-down"
+            width="20"
+            height="20"
+            viewBox="0 0 130 130"
+          >
+            <icon-arrow-down />
+          </icon-base>
+        </div>
+        <p class="name--modal mb_0">Gia hạn tài khoản</p>
+        <div class="active mr_3" @click="expireByCode">Xong</div>
+      </div>
+      <div class="items--body px_3 mt_3">
+        <div class="item">
+          <span>Mã code</span>
+          <input type="text" placeholder="Nhập mã code" v-model="code" />
+            <div class="text--error mt_1" v-if="isShowErrorCode === true">{{ errorCode }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      code: "",
+      isShowErrorCode: false
+    };
+  },
+  computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
+    errorCode() {
+      return this.$store.getters.errorCode;
+    },
+    statusCode() {
+      return this.$store.getters.statusCode;
+    }   
+  },
+  methods: {
+    closePopup() {
+      this.$emit("closePopup", false);
+    },
+    async expireByCode() {
+      await this.$store.dispatch("ExpireAccountByCode", this.code);
+      if(this.statusCode === "success") {
+        await this.$store.dispatch("getUserInfo");
+        this.isShowErrorCode = false;
+        this.closePopup();
+      } else {
+        this.isShowErrorCode = true;
+      }
+    }
+  }
+};
+</script>
+
+<style lang="scss" scoped>
+.form-wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #2f3136;
+  color: #ccc;
+  z-index: 10;
+  font-size: 0.875rem;
+
+  .items--header {
+    padding: 0.625rem 0;
+    border-bottom: 1px solid #444;
+
+    .arrow-down {
+      transform: rotate(90deg);
+      margin-left: 0.5rem;
+    }
+
+    .name--modal {
+      margin: auto;
+    }
+  }
+
+  .form--title {
+    font-weight: 600;
+    font-size: 1rem;
+  }
+
+  .category--form {
+    height: 100%;
+    width: 100%;
+  }
+
+  .item {
+    > input,
+    > textarea {
+      border: 1px solid;
+      border-radius: 0.625rem;
+      margin-top: 0.5rem;
+      outline: none;
+      transition: all 0.4s ease;
+      width: 100%;
+
+      &:focus {
+        border-color: #ffb94a;
+      }
+    }
+
+    > input {
+      padding: 0 0.75rem;
+      height: 40px;
+    }
+
+    > textarea {
+      height: 120px;
+      padding: 0.75rem;
+      resize: none;
+    }
+
+    button {
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.875rem;
+      font-weight: 600;
+      height: 40px;
+      padding: 0 0.75rem;
+      transition: all 0.4s ease;
+      background: none;
+      border: 0;
+    }
+  }
+
+  .text--error {
+    color: #fa1c1cf5;
+    font-size: 0.8135rem;
+  }
+}
+
+/* Theme Color */
+/* Light */
+.form-wrapper[data-theme="light"] {
+  // color: #444444;
+
+  // .category--new-desc {
+  //   color: #444;
+  // }
+
+  // .category--form {
+  //   background-color: #fff;
+  // }
+
+  // .item {
+  //   >span {
+  //     color: #666666;
+  //   }
+
+  //   input,
+  //   textarea {
+  //     background-color: #fff;
+  //     border-color: #e4e4e4;
+  //     color: #444;
+
+  //     &::placeholder {
+  //       color: #ccc;
+  //     }
+  //   }
+  // }
+}
+
+/* Dark */
+.form-wrapper[data-theme="dark"] {
+  color: #f7f7f7;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(12, 12, 12, 0.73);
+  z-index: 10;
+
+  .category--new-desc {
+    color: #cccccc;
+  }
+
+  .category--form {
+    background-color: #27292d;
+  }
+
+  .item {
+    > span {
+      color: #cccccc;
+    }
+
+    input,
+    textarea {
+      background-color: #27292d;
+      border-color: #444;
+      color: #f7f7f7;
+
+      &::placeholder {
+        color: #666;
+      }
+    }
+  }
+}
+</style>
