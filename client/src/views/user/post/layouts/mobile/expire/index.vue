@@ -6,78 +6,31 @@
         <b>02/08/2019</b>
       </div>
       <div class="plan--table">
-        <div class="table--card" id="cards">
-          <div class="card">
-            <div class="card--type">1 tháng</div>
-            <div class="card--price">2.800.000</div>
-            <div class="card--fbaccount">
-              Tài khoản:
-              <b>1</b>
-            </div>
-            <div class="card--page">
-              Page:
-              <b>5</b>
-            </div>
-            <div class="card--group">
-              Group:
-              <b>500</b>
-            </div>
-            <div class="card--find-trending-content">Tìm nội dung hot</div>
-            <div class="card--auto-post">Tự động đăng bài</div>
-            <div class="card--auto-like">Tự động like</div>
-            <div class="card--auto-addfriend">Tự động thêm bạn</div>
-            <div class="card--auto-unfriend">Tự động huỷ kết bạn</div>
-            <button class="card--btn-buy">Đăng ký</button>
-          </div>
-          <div class="card">
-            <div class="card--type">1 tháng</div>
-            <div class="card--price">2.800.000</div>
-            <div class="card--fbaccount">
-              Tài khoản:
-              <b>1</b>
-            </div>
-            <div class="card--page">
-              Page:
-              <b>5</b>
-            </div>
-            <div class="card--group">
-              Group:
-              <b>500</b>
-            </div>
-            <div class="card--find-trending-content">Tìm nội dung hot</div>
-            <div class="card--auto-post">Tự động đăng bài</div>
-            <div class="card--auto-like">Tự động like</div>
-            <div class="card--auto-addfriend">Tự động thêm bạn</div>
-            <div class="card--auto-unfriend">Tự động huỷ kết bạn</div>
-            <button class="card--btn-buy">Đăng ký</button>
-          </div>
-          <div class="card">
-            <div class="card--type">1 tháng</div>
-            <div class="card--price">2.800.000</div>
-            <div class="card--fbaccount">
-              Tài khoản:
-              <b>1</b>
-            </div>
-            <div class="card--page">
-              Page:
-              <b>5</b>
-            </div>
-            <div class="card--group">
-              Group:
-              <b>500</b>
-            </div>
-            <div class="card--find-trending-content">Tìm nội dung hot</div>
-            <div class="card--auto-post">Tự động đăng bài</div>
-            <div class="card--auto-like">Tự động like</div>
-            <div class="card--auto-addfriend">Tự động thêm bạn</div>
-            <div class="card--auto-unfriend">Tự động huỷ kết bạn</div>
-            <button class="card--btn-buy">Đăng ký</button>
-          </div>
+        <div class="table--card">
+          <transition name="slide" mode="out-in">
+            <card-item v-if="currentCard.id === 0" :currentCard="cardList[0]" key="one"></card-item>
+            <card-item v-if="currentCard.id === 1" :currentCard="cardList[1]" key="two"></card-item>
+            <card-item v-if="currentCard.id === 2" :currentCard="cardList[2]" key="three"></card-item>
+          </transition>
         </div>
         <div class="table--indicator">
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
+          <div class="indicator--holder">
+            <button
+              @click="showCard(0)"
+              :class="{active: currentCard.id === 0}"
+              class="holder--btn"
+            >{{cardList[0].type}}</button>
+            <button
+              @click="showCard(1)"
+              :class="{active: currentCard.id === 1}"
+              class="holder--btn"
+            >{{cardList[1].type}}</button>
+            <button
+              @click="showCard(2)"
+              :class="{active: currentCard.id === 2}"
+              class="holder--btn"
+            >{{cardList[2].type}}</button>
+          </div>
         </div>
       </div>
     </div>
@@ -85,22 +38,56 @@
 </template>
 
 <script>
+import CardItem from "./card-item";
 export default {
+  components: {
+    CardItem
+  },
   data() {
-    return {};
+    return {
+      cardList: [
+        {
+          id: 0,
+          type: "1 tháng",
+          price: "2.800.000",
+          fbaccount: "1",
+          page: "5",
+          group: "500"
+        },
+        {
+          id: 1,
+          type: "6 tháng",
+          price: "16.199.000",
+          fbaccount: "2",
+          page: "10",
+          group: "500"
+        },
+        {
+          id: 2,
+          type: "1 năm",
+          price: "28.799.000",
+          fbaccount: "2",
+          page: "30",
+          group: "1000"
+        }
+      ],
+      currentCard: {}
+    };
   },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
+  created() {
+    this.currentCard = this.cardList[0];
+  },
   methods: {
     closePopup() {
       this.$emit("close", false);
     },
-    scrollNext(event) {
-      console.log(event);
-      // document.getElementById("cards").scrollLeft += 500;
+    showCard(index) {
+      this.currentCard = this.cardList[index];
     }
   }
 };

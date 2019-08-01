@@ -27,6 +27,7 @@ Vue.component("IconBroadcast", () =>
 );
 Vue.component( "IconCalendar", () => import( "@/components/icons/IconCalendar" ) );
 Vue.component( "IconCancel", () => import( "@/components/icons/IconCancel" ) );
+Vue.component( "IconCash", () => import( "@/components/icons/IconCash" ) );
 Vue.component( "IconCategories", () => import( "@/components/icons/IconCategories" ) );
 Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );

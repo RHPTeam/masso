@@ -162,17 +162,17 @@
               </icon-base>
             </span>
           </li>
-          <li @click="showSetupAccount" class="d_flex align_items_center">
+          <li @click="showPricingPlan" class="d_flex align_items_center">
             <icon-base
               class="icon--setting"
               icon-name="menu"
               width="22"
               height="22"
-              viewBox="0 0 265 265"
+              viewBox="0 0 515 515"
             >
-              <icon-setting />
+              <icon-cash />
             </icon-base>
-            <span class="ml_2">Thiết lập tài khoản</span>
+            <span class="ml_2">Gia hạn tài khoản</span>
             <span class="ml_auto">
               <icon-base
                 icon-name="arrow-down"
@@ -185,7 +185,7 @@
               </icon-base>
             </span>
           </li>
-          <li @click="showPricingPlan" class="d_flex align_items_center">
+          <li @click="showSetupAccount" class="d_flex align_items_center">
             <icon-base
               class="icon--setting"
               icon-name="menu"
@@ -195,7 +195,7 @@
             >
               <icon-setting />
             </icon-base>
-            <span class="ml_2">Gia hạn tài khoản</span>
+            <span class="ml_2">Thiết lập tài khoản</span>
             <span class="ml_auto">
               <icon-base
                 icon-name="arrow-down"
