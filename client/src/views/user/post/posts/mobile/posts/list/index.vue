@@ -42,8 +42,6 @@
           <div class="text_center" v-if="postsPageSize === currentPage"></div>
           <div class="text_center py_2 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
         </div>
-        {{ postsPageSize }}
-        {{ currentPage }}
       </div>
     </VuePerfectScrollbar>
     <!-- End: List post -->
@@ -79,6 +77,13 @@ import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import PopupPostNow from "../popup/postnow";
 import ItemPost from "./item";
 export default {
+  components: {
+    VuePerfectScrollbar,
+    PopupPostNow,
+    ItemPost,
+    PopupDetail,
+    PopupDelete
+  },
   data() {
     return {
       currentPage: 1,
@@ -92,13 +97,6 @@ export default {
       postSelected: {},
       targetDataDelete: {}
     };
-  },
-  components: {
-    VuePerfectScrollbar,
-    PopupPostNow,
-    ItemPost,
-    PopupDetail,
-    PopupDelete
   },
   computed: {
     allPost() {
@@ -127,6 +125,14 @@ export default {
       return this.$store.getters.idCategoryToLoadMore;
     }
   },
+  watch: {
+    gestureUser(value) {
+      if (value === 14) {
+        this.currentPage = 1;
+      }
+    }
+  },
+  async created() {},
   methods: {
     async loadMore() {
       // if(this.$store.getters.gestureUser === 15) {
@@ -162,14 +168,6 @@ export default {
     showPopupPostNow(post) {
       this.postSelected = post;
       this.isShowPopupPostNow = true;
-    }
-  },
-  async created() {},
-  watch: {
-    gestureUser(value) {
-      if (value === 14) {
-        this.currentPage = 1;
-      }
     }
   }
 };
