@@ -5,41 +5,32 @@
         v-if="isShowPopup === true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
-        @closePopup="isShowPopup = $event"
-      />
+        @closePopup="isShowPopup = $event"></app-sidebar-mobile>
       <popup-create-agency
         v-if="isShowPopupCreateAgency === true"
-        @closePopup="isShowPopupCreateAgency = $event"
-      />
+        @closePopup="isShowPopupCreateAgency = $event"></popup-create-agency>
       <popup-create-category
         v-if="isShowPopupCreateCategory === true"
-        @closePopupNewCategory="isShowPopupCreateCategory = $event"
-      />
+        @closePopupNewCategory="isShowPopupCreateCategory = $event"></popup-create-category>
       <popup-create-post
         :post="post"
         v-if="isShowPopupCreatePost === true"
-        @closePopup="isShowPopupCreatePost = $event"
-      />
+        @closePopup="isShowPopupCreatePost = $event"></popup-create-post>
       <popup-add-account-facebook
         v-if="isShowPopupAddAccountFb === true"
-        @closeAddPopup="isShowPopupAddAccountFb = $event"
-      />
+        @closeAddPopup="isShowPopupAddAccountFb = $event"></popup-add-account-facebook>
       <popup-create-campaign
         v-if="isShowPopupCreateCampaign=== true"
-        @closePopup="isShowPopupCreateCampaign = $event"
-      />
+        @closePopup="isShowPopupCreateCampaign = $event"></popup-create-campaign>
       <popup-add-group
         v-if="isShowPopupAddGroup === true"
-        @closePopupAddGroup="isShowPopupAddGroup = $event"
-      />
+        @closePopupAddGroup="isShowPopupAddGroup = $event"></popup-add-group>
       <popup-filter-by-category
         v-if="isShowDropdownFilterByCategory === true"
-        @closePopup="isShowDropdownFilterByCategory = $event"
-      />
+        @closePopup="isShowDropdownFilterByCategory = $event"></popup-filter-by-category>
       <setup-info 
         v-if="isShowPopupSetupInfo === true"
-        @closePopup="isShowPopupSetupInfo = $event"
-      />
+        @closePopup="isShowPopupSetupInfo = $event"></setup-info>
     </transition>
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
@@ -69,11 +60,6 @@
             class="all-posts d_flex align_items_center"
             v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15"
           >
-            <!-- <div class="action mr_1" @click="showPopupHistory">
-              <icon-base icon-name="History" width="24" height="24" viewBox="0 0 480 480">
-                <icon-history />
-              </icon-base>
-            </div>-->
             <div class="filter--posts" @click="showDropdownFilterByCategory">
               <icon-base
                 class="mt_1"
@@ -171,33 +157,8 @@
         <!-- End: Action in Agency -->
       </div>
     </div>
-    <!-- Start: change account
     <transition name="popup">
-      <change-account
-        v-if="showChangeAccount === true"
-        @closeModal="showChangeAccount = $event"
-      />
-    </transition>-->
-    <!--    End: change account-->
-    <!--    Start: Add new message-->
-    <!-- <transition name="popup">
-      <new-message
-        v-if="showNewMessage === true"
-        @closeAddNewMessage="showNewMessage = $event"
-      />
-    </transition>-->
-    <!--    End: Add new message-->
-    <!--    Start: Add new scripts-->
-    <!-- <transition name="popup">
-      <change-account
-        v-if="showNewScript === true"
-        @closeModal="showNewScript = $event"
-      />
-    </transition>-->
-    <!--    End: Add new scripts-->
-    <!-- Start: transition popup mobile -->
-    <transition name="popup">
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true" />
+      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"></popup-history>
     </transition>
     <transition name="popup">
       <upgrade-pro-popup
@@ -205,170 +166,11 @@
         v-if="isShowUpgradePro === true"
         :data-theme="currentTheme"
         :showUpgradePro="isShowUpgradePro"
-        @closeAddPopup="isShowUpgradePro = $event"
-      />
+        @closeAddPopup="isShowUpgradePro = $event"></upgrade-pro-popup>
     </transition>
   </div>
 </template>
-<script>
-import AppSidebarMobile from "../popup/menu";
-import PopupCreateCategory from "../popup/posts/category";
-import PopupCreatePost from "../popup/posts/post";
-import PopupAddAccountFacebook from "../popup/facebook/addaccount";
-import PopupCreateCampaign from "../popup/campaigns/create";
-import PopupAddGroup from "../popup/postgroup/addgroup";
-import PopupHistory from "../popup/posts/history";
-import PopupFilterByCategory from "../popup/posts/filter";
-// import ChangeAccount from "@/views/user/messagefacebook/mobile/change-account";
-// import NewMessage from "@/views/user/messagefacebook/mobile/newmessage";
-import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
-
-export default {
-  components: {
-    AppSidebarMobile,
-    PopupCreateCategory,
-    PopupCreatePost,
-    PopupAddAccountFacebook,
-    PopupCreateCampaign,
-    PopupAddGroup,
-    PopupHistory,
-    PopupFilterByCategory,
-    UpgradeProPopup
-  },
-  filters: {
-    getFirstLetter(string) {
-      if (typeof string == "undefined") return;
-      if (string.length == 0) return;
-      return string.charAt(0).toUpperCase();
-    }
-  },
-  props: ["fbPost"],
-
-  data() {
-    return {
-      isShowPopup: false,
-      isShowDropdownFilterByCategory: false,
-      isShowPopupCreateCategory: false,
-      isShowPopupCreatePost: false,
-      isShowPopupAddAccountFb: false,
-      isShowPopupCreateCampaign: false,
-      isShowPopupAddGroup: false,
-      isShowPopupCreateAgency: false,
-      isShowPopupHistory: false,
-      isShowUpgradePro: false,
-      isShowPopupSetupInfo: false
-    };
-  },
-  computed: {
-    post() {
-      return this.$store.getters.newPost;
-    },
-    currentTheme() {
-      return this.$store.getters.themeName;
-    },
-    user() {
-      return this.$store.getters.userInfo;
-    },
-    changeTitlePage() {
-      if (this.$route.name === "post_dashboard") {
-        return "Bảng Điều Khiển";
-      }
-      if (
-        this.$route.name === "post_posts" ||
-        this.$route.name === "post_postCategories" ||
-        this.$route.name === "categories_default"
-      ) {
-        return "Kho Nội Dung";
-      }
-      if (this.$route.name === "post_campaigns") {
-        return "Chiến Dịch";
-      }
-      if (this.$route.name === "post_group") {
-        return "Nhóm & Trang";
-      }
-      if (this.$route.name === "post_fbaccount") {
-        return "Tài Khoản Facebook";
-      }
-      if (this.$route.name === "post_fb_search") {
-        return "Facebook Tìm Kiếm";
-      }
-      if (this.$route.name === "post_account") {
-        return "Thiết lập tài khoản";
-      }
-      if (this.$route.name === "campaigns_default") {
-        return "Chiến dịch mẫu";
-      }
-      if (this.$route.name === "pricing_plan") {
-        return "Gia hạn tài khoản";
-      }
-    },
-    gestureUser() {
-      return this.$store.getters.gestureUser;
-    },
-    gestureCursorMenuUser() {
-      return this.$store.getters.gestureCursorMenuUser;
-    },
-    postGroupGroupsSelected() {
-      return this.$store.getters.postGroupGroupsSelected;
-    },
-    postGroupPagesSelected() {
-      return this.$store.getters.postGroupPagesSelected;
-    },
-    postProfileSelected() {
-      return this.$store.getters.postProfileSelected;
-    },
-    accountsFB() {
-      return this.$store.getters.accountsFB;
-    }
-  },
-  async created() {
-    await this.$store.dispatch( "getUserInfo" );
-    this.$store.dispatch("actionCursor", 11);
-  },
-  methods: {
-    closeDropdownFilterByCategory() {
-      this.isShowDropdownFilterByCategory = false;
-    },
-    showDropdownFilterByCategory() {
-      this.isShowDropdownFilterByCategory = true;
-    },
-    showPopupCreateCategory() {
-      this.isShowPopupCreateCategory = true;
-    },
-    async showPopupCreatePost() {
-      const dataSender = {};
-
-      await this.$store.dispatch("createNewPost", dataSender);
-      await this.$store.dispatch("getPostById", this.post._id);
-      // this.$router.push( {
-      //   name: "post_update_post",
-      //   params: { id: this.post._id }
-      // } );
-      this.isShowPopupCreatePost = true;
-    },
-    showPopupAddAccountFb() {
-      if (this.accountsFB.length >= this.user.maxAccountFb) {
-        this.isShowUpgradePro = true;
-      } else {
-        this.isShowPopupAddAccountFb = true;
-      }
-    },
-    showPopupCreateCampaign() {
-      this.isShowPopupCreateCampaign = true;
-    },
-    showPopupAddGroup() {
-      this.isShowPopupAddGroup = true;
-    },
-    showPopupHistory() {
-      this.isShowPopupHistory = true;
-    },
-    updateGroupsAndPages() {
-      this.$store.dispatch("updateFacebookPages");
-      this.$store.dispatch("updateFacebookGroups");
-    }
-  }
-};
-</script>
+<script src="./index.script.js"></script>
 <style lang="scss" scoped>
 @import "./index.style";
 .upgrade-pro-popup {
