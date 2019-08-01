@@ -83,6 +83,7 @@
                 class="radio"
                 type="checkbox"
                 :checked="user.status"
+                disabled
               />
               <label for="check-active"></label>
             </div>

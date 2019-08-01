@@ -51,10 +51,8 @@ export default {
     },
     updateAgencyInfo() {
       if (this.agency.subDomain.length === 0) {
-        console.log(1);
         this.isShowAlert = true;
       } else {
-        console.log(2);
         this.closePopup();
         this.$store.dispatch("updateAgencyInfo", {
           domain: this.agency.subDomain
