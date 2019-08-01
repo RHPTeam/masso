@@ -50,6 +50,7 @@ import ActionCursorStore from "./modules/post/cursor.store";
  * Store for Agency
  */
 import AgencyStore from "./modules/agency.store";
+import ExpireCodeStore from "./modules/code.store";
 
       //  ---------- POST
 
@@ -98,7 +99,8 @@ export default new Vuex.Store( {
     /**
      * Store for Agency
      */
-    AgencyStore
+    AgencyStore,
+    ExpireCodeStore
     //  ---------- POST
   }
 } );
