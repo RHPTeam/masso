@@ -27,7 +27,12 @@
         @closePopupAddGroup="isShowPopupAddGroup = $event"></popup-add-group>
       <popup-filter-by-category
         v-if="isShowDropdownFilterByCategory === true"
-        @closePopup="isShowDropdownFilterByCategory = $event"></popup-filter-by-category>
+        @closePopup="isShowDropdownFilterByCategory = $event"
+      />
+      <popup-expire-code
+        v-if="isShowPopupExpireCode === true"
+        @closePopup="isShowPopupExpireCode = $event"
+      />
       <setup-info 
         v-if="isShowPopupSetupInfo === true"
         @closePopup="isShowPopupSetupInfo = $event"></setup-info>
@@ -155,8 +160,19 @@
           </span>
         </div>
         <!-- End: Action in Agency -->
+
+        <!-- Start: Action Pricing plan -->
+        <div class="add acion" v-if="this.$route.name === 'pricing_plan'">          
+          <span @click="showPopupExpireCode">
+            <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
+              <icon-plus />
+            </icon-base>
+          </span>
+        </div>
+        <!-- End: Action Pricing plan -->
       </div>
     </div>
+    <!-- Start: transition popup mobile -->
     <transition name="popup">
       <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"></popup-history>
     </transition>
@@ -170,7 +186,8 @@
     </transition>
   </div>
 </template>
-<script src="./index.script.js"></script>
+<script src="./index.script.js">
+</script>
 <style lang="scss" scoped>
 @import "./index.style";
 .upgrade-pro-popup {

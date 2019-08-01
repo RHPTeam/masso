@@ -7,6 +7,7 @@ import PopupCreateCampaign from "../popup/campaigns/create";
 import PopupAddGroup from "../popup/postgroup/addgroup";
 import PopupFilterByCategory from "../popup/posts/filter";
 import PopupHistory from "../popup/posts/history";
+import PopupExpireCode from "../popup/expire";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
 import SetupInfo from "../popup/agency/setup";
 
@@ -22,6 +23,7 @@ export default {
     PopupAddGroup,
     PopupHistory,
     PopupFilterByCategory,
+    PopupExpireCode,
     UpgradeProPopup,
     SetupInfo
   },
@@ -37,7 +39,8 @@ export default {
       isShowPopupAddGroup: false,
       isShowPopupHistory: false,
       isShowUpgradePro: false,
-      isShowPopupSetupInfo: false
+      isShowPopupSetupInfo: false,
+      isShowPopupExpireCode: false
     };
   },
   computed: {
@@ -81,6 +84,9 @@ export default {
       }
       if (this.$route.name === "post_agency") {
         return "Quản lý thành viên";
+      }
+      if (this.$route.name === "pricing_plan") {
+        return "Gia hạn tài khoản";
       }
     },
     gestureUser() {
@@ -147,12 +153,18 @@ export default {
     showPopupAddGroup() {
       this.isShowPopupAddGroup = true;
     },
+    showPopupExpireCode() {
+      this.isShowPopupExpireCode = true;
+    },
     showPopupHistory() {
       this.isShowPopupHistory = true;
     },
     updateGroupsAndPages() {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
+    },
+    showPopupExpireCode() {
+      this.isShowPopupExpireCode = true;
     },
     showPopupSetupInfo() {
       this.isShowPopupSetupInfo = true;

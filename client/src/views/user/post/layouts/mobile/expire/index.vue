@@ -3,7 +3,7 @@
     <div class="pricing--plan">
       <div class="plan--expire">
         Tài khoản sử dụng đến ngày:
-        <b>02/08/2019</b>
+        <b>{{ formatDate(user.expireDate) }}</b>
       </div>
       <div class="plan--table">
         <div class="table--card">
@@ -77,6 +77,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
   created() {
@@ -85,6 +88,14 @@ export default {
   methods: {
     closePopup() {
       this.$emit("close", false);
+    },
+    formatDate(d) {
+      const dateTime = new Date(d),
+        date = String(dateTime.getDate()).padStart(2, "0"),
+        month = String(dateTime.getMonth() + 1).padStart(2, "0"),
+        year = dateTime.getFullYear();
+
+      return `${date}/${month}/${year}`;
     },
     showCard(index) {
       this.currentCard = this.cardList[index];
