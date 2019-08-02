@@ -176,8 +176,8 @@
         <!-- Start: Action Pricing plan -->
         <div class="add acion" v-if="this.$route.name === 'pricing_plan'">
           <span @click="showPopupExpireCode">
-            <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
-              <icon-plus />
+            <icon-base icon-name="Add" width="40" height="25" viewBox="0 0 525 480">
+              <icon-coupon />
             </icon-base>
           </span>
         </div>
