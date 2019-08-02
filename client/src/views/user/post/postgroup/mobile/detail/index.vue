@@ -81,7 +81,10 @@
           <div class="content mt_2">
             <!-- Start: Profile -->
             <div class="profile" v-if="isShowPopupProfile === true">
-              <div class="py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailProfile.length === 0"
+              >Không có trang cá nhân nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -96,14 +99,21 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupProfileSelected" :value="profile.userInfo.id" />
+                    <input
+                      type="checkbox"
+                      v-model="postGroupProfileSelected"
+                      :value="profile.userInfo.id"
+                    />
                   </label>
                 </div>
               </div>
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailPage.length === 0"
+              >Không có trang nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
@@ -125,8 +135,12 @@
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
-              <div v-else
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailGroup.length === 0"
+              >Không có nhóm nào!!!</div>
+              <div
+                v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(group, index) in postGroupDetailGroup"
                 :key="`g+${index}`"
@@ -240,8 +254,8 @@ export default {
       get() {
         return this.$store.getters.postProfileSelected;
       },
-      set( val ) {
-        this.$store.dispatch( "postProfileSelected", val );
+      set(val) {
+        this.$store.dispatch("postProfileSelected", val);
       }
     },
     postGroupPagesSelected: {
@@ -255,7 +269,7 @@ export default {
   },
   methods: {
     clearTypingTimer() {
-      clearTimeout( typingTimer );
+      clearTimeout(typingTimer);
     },
     closePopup() {
       this.$emit("closePopup", false);
@@ -296,12 +310,12 @@ export default {
     showPopupDeletePostGroup() {
       this.isShowPopupDeletePostGroup = true;
     },
-    async upTypingText( gr ) {
-      await clearTimeout( typingTimer );
+    async upTypingText(gr) {
+      await clearTimeout(typingTimer);
 
-      typingTimer = await setTimeout( this.updatePostGroup( gr ), 1000);
+      typingTimer = await setTimeout(this.updatePostGroup(gr), 1000);
     },
-    updatePostGroup( gr ) {
+    updatePostGroup(gr) {
       const objSender = {
         postGroupId: gr._id,
         title: gr.title,
@@ -347,8 +361,8 @@ export default {
         margin-left: 0.5rem;
       }
       .name--modal {
-        font-size: 1.1rem;        
-        white-space: nowrap; 
+        font-size: 1.1rem;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 50%;
