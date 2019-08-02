@@ -30,7 +30,7 @@
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
     <div class="nav--right ml_auto">
-      <div class="btn--history" @click="showHistory">Lịch sử đăng bài</div>
+      <div v-if="isShowHistoryButton" class="btn--history" @click="showHistory">Lịch sử đăng bài</div>
     </div>
     <!-- End: Navigation Right -->
 
@@ -54,7 +54,8 @@ export default {
   },
   data() {
     return {
-      isShowHistory: false
+      isShowHistory: false,
+      isShowHistoryButton: true
     };
   },
   computed: {
@@ -63,6 +64,22 @@ export default {
     },
     newPost() {
       return this.$store.getters.newPost;
+    }
+  },
+  watch: {
+    $route(to, from) {
+      if (to.path === "/post/posts/list") {
+        this.isShowHistoryButton = true;
+      } else {
+        this.isShowHistoryButton = false;
+      }
+    }
+  },
+  created() {
+    if (this.$route.path === "/post/posts/list") {
+      this.isShowHistoryButton = true;
+    } else {
+      this.isShowHistoryButton = false;
     }
   },
   methods: {
@@ -196,7 +213,6 @@ export default {
     }
   }
 }
-
 
 @media screen and (max-width: 835px) and (min-width: 768px) {
   .post--navigation {

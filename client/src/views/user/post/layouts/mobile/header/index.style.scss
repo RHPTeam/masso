@@ -123,6 +123,20 @@
   transform: translateX(100%);
 }
 
+.popup--sidebar-enter {
+  transform: translateX(-100%);
+}
+
+.popup--sidebar-enter-to {
+  transition: transform 0.75s;
+  transform: translateX(0);
+}
+
+.popup--sidebar-leave-to {
+  transition: transform 0.75s;
+  transform: translateX(-100%);
+}
+
 //Change Theme
 //Light
 .header--mobile[data-theme="light"] {
