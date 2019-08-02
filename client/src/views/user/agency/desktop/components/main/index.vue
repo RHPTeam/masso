@@ -75,12 +75,6 @@ export default {
       return this.$store.getters.infoOfMember[0];
     }
   },
-  async created() {
-    const agencies = this.$store.getters.memberAgency;
-    if (agencies && agencies.length === 0) {
-      await this.$store.dispatch("getInfoAgency");
-    }
-  },
   methods: {
     async editMember(val) {
       await this.$store.dispatch("getInfoMember", val.user._id);

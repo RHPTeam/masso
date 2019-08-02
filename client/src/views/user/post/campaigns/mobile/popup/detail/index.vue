@@ -100,7 +100,7 @@
                     class="name item"
                   >{{ item.title.length > 0 ? item.title : 'Sự kiện chưa có tiêu đề' }}</div>
                 </div>
-                <div class="ml_auto pr_2" @click="showPopupDeleteEvent(item)">
+                <div class="ml_auto  pr_2" @click="showPopupDeleteEvent(item)">
                   <icon-base icon-name="remove" width="24" height="24" viewBox="0 0 15 15">
                     <icon-remove />
                   </icon-base>
