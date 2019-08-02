@@ -183,19 +183,25 @@ module.exports = {
         postGroup._timeline.pull( findFacebook.userInfo.id );
       }
       // Remove pages of facebook
-      await Promise.all( postGroup._pages.map( ( pageId, index ) => {
+      const removePageId = await Promise.all( postGroup._pages.map( async ( pageId ) => {
         if ( listPageFacebook.includes( pageId ) ) {
-          postGroup._pages.splice( index, 1 );
+          return pageId;
         }
       } ) );
+      postGroup._pages = postGroup._pages.filter( ( el ) => { 
+        return removePageId.indexOf( el ) < 0; 
+      } );
 
       // Remove groups of facebook
-      await Promise.all( postGroup._groups.map( ( groupId, index ) => {
+      const removeGroupId = await Promise.all( postGroup._groups.map( async ( groupId ) => {
         if ( listGroupFacebook.includes( groupId ) ) {
-          postGroup._groups.splice( index, 1 );
+          return groupId;
         }
       } ) );
-
+      postGroup._groups = postGroup._groups.filter( ( el ) => { 
+        return removeGroupId.indexOf( el ) < 0; 
+      } );
+  
       await postGroup.save();
     } ) );
 

@@ -55,6 +55,6 @@ export default {
   transform: translateX(100%);
 }
 .list--user {
-  max-height: 70vh;
+  max-height: 66vh;
 }
 </style>
