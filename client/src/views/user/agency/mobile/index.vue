@@ -20,16 +20,22 @@
     <!-- End: Search -->
     <!-- Start: Main -->
     <div class="items--body px_3">
+      <!-- Start: Tabs  -->
+      <div class="tabs d_flex align_items_center text_center mb_2">
+        <div class="items all" :class="isShowTabDetail === true ? 'active' : ''" @click="showTabDetail">Chi tiết</div>
+        <div class="items list" :class="isShowTabList === true ? 'active' : ''" @click="showTabList">Danh sách</div>
+      </div>
+      <!-- End: Tabs  -->
       <!-- Start: Months -->
-      <app-month />
+      <app-month v-if="isShowTabDetail === true"/>
       <!-- End: Months -->
       <!-- Start: List user -->
-      <list-user />
+      <list-user v-if="isShowTabList === true"/>
       <!-- Start: List user -->
     </div>
     <!-- End: Main -->
     <transition name="popup--mobile">
-      <app-search v-if="isShowPopupSearch === true" @closePopup="isShowPopupSearch = $event"/>    
+      <app-search v-if="isShowPopupSearch === true" @closePopup="isShowPopupSearch = $event"/>
     </transition>
   </div>
 </template>
@@ -41,7 +47,9 @@ import ListUser from "./user";
 export default {
   data() {
     return {
-      isShowPopupSearch: false
+      isShowPopupSearch: false,
+      isShowTabDetail: true,
+      isShowTabList: false
     }
   },
   components: {
@@ -52,6 +60,14 @@ export default {
   methods: {
     showPopupSearch() {
       this.isShowPopupSearch = true;
+    },
+    showTabDetail() {
+      this.isShowTabDetail = true;
+      this.isShowTabList = false;
+    },
+    showTabList() {
+      this.isShowTabDetail = false;
+      this.isShowTabList = true;
     }
   },
   async created(){
@@ -102,6 +118,18 @@ export default {
       &:visited {
         outline: 0 !important;
         box-shadow: none;
+      }
+    }
+  }
+  .items--body {
+    .items {
+      padding: 0.625rem 0;
+      flex: 1;
+      color: #ccc;
+      border-bottom:1px solid #444;
+      &.active {
+        color: #ffb94a;
+        border-color: #ffb94a;
       }
     }
   }
