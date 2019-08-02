@@ -156,7 +156,6 @@ export default {
         size: 25,
         page: 1
       });
-      await this.$store.dispatch("getUserInfo");
     },
     searchPostFromKeywordHistory(keyword) {
       this.keyword = keyword;

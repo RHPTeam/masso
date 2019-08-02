@@ -43,9 +43,8 @@ export default {
       this.$emit("closePopup", false);
     },
     deleteTargets() {
+      this.closePopup();
       this.$store.dispatch(this.storeActionName, this.targetData);
-
-      this.$emit("closePopup", false);
     }
   }
 };
