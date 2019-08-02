@@ -5,7 +5,7 @@ const state = {
   agency: {},
   agencyStatus: "",
   errorStatus: "",
-  error: "",
+  errorAgency: "",
   infoOfMember: {},
   memberAgency: [],
   memberInfo: {}
@@ -14,7 +14,7 @@ const getters = {
   agency: state => state.agency,
   agencyStatus: state => state.agencyStatus,
   errorStatus: state => state.errorStatus,
-  error: state => state.error,
+  errorAgency: state => state.errorAgency,
   infoOfMember: state => state.infoOfMember,
   memberInfo: state => state.memberInfo,
   memberAgency: state => state.memberAgency
@@ -29,8 +29,11 @@ const mutations = {
   setAgency: (state, payload) => {
     state.agency = payload;
   },
-  setErrorAgency: (state, payload) => {
-    state.error = payload;
+  setErrorEmail: (state, payload) => {
+    state.errorAgency = payload;
+  },
+  setErrorPhone: (state, payload) => {
+    state.errorAgency = payload;
   },
   setMemberAgency: (state, payload) => {
     state.memberInfo = payload;
@@ -40,9 +43,6 @@ const mutations = {
   },
   setInfoMemberAgency: (state, payload) => {
     state.infoOfMember = payload;
-  },
-  setErrorStatus: (state, payload) => {
-    state.errorStatus = payload;
   }
 };
 const actions = {
@@ -57,12 +57,12 @@ const actions = {
       commit("agency_success");
     } catch (e) {
       if (e.response.status === 403) {
-        commit("setErrorStatus", "error");
-        commit("setErrorAgency", e.response.data.phone);
-      } else if (e.response.status === 405) {
-        commit("setErrorStatus", "error");
-        commit("setErrorAgency", e.response.data.phone);
+        commit("setErrorEmail", "Email đã tồn tại!");
+      } 
+      if (e.response.status === 405) {
+        commit("setErrorPhone", "Số điện thoại đã tồn tại!");
       }
+      commit("agency_request");
     }
   },
   getInfoAgency: async ({commit}) => {

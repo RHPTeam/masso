@@ -23,6 +23,11 @@
         </div>-->
       </div>
       <!-- End: Header -->
+
+      <!-- Start: Alert error -->
+      <div class="mb_2 px_3 error--text" v-if="isShowErrorAgency === true">{{errorAgency}}</div>
+      <!-- Start: Alert error -->
+
       <div class="items--body px_3">
         <!-- Start: Form Body -->
         <form>
@@ -169,4 +174,7 @@
 
 <style scoped lang="scss">
 @import "./index.style";
+.error--text {
+  color: #da3e3e;
+}
 </style>

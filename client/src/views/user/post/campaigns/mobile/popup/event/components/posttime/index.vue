@@ -1,5 +1,5 @@
 <template>
-  <div class="section mt_2">
+  <div class="section mt_3">
     <!-- Start: Started At -->
     <div class="section--block d_flex align_items_center mb_2">
       <div class="section--title mr_2">Bắt đầu:</div>

@@ -30,6 +30,15 @@ export default {
         phone: false,
         password: false
       },
+      isShowErrorAgency: false
+    }
+  },
+  computed: {
+    errorAgency() {
+      return this.$store.getters.errorAgency;
+    },
+    agencyStatus() {
+      return this.$store.getters.agencyStatus;
     }
   },
   watch: {
@@ -152,8 +161,29 @@ export default {
   },
   methods: {
     async createNewMember() {
-      await this.$store.dispatch("createNewMember", this.user);
-      this.closePopup();
+      if (this.user.name.length === 0) {
+        this.errorText.name = "Vui lòng nhập tên đăng ký!";
+      }
+      else if (this.user.email.length === 0) {
+        this.errorText.email = "Vui lòng nhập email đăng ký!";
+      }
+      else if (this.user.phone.length === 0) {
+        this.errorText.phone = "Vui lòng nhập số điện thoại!";
+      }
+      else if (this.user.password.length === 0) {
+        this.errorText.password = "Vui lòng nhập mật khẩu!";
+      }
+      else if (this.confirmPassword.length === 0) {
+        this.errorText.confirmPassword = "Vui lòng nhập lại mật khẩu!";
+      } else {
+        await this.$store.dispatch("createNewMember", this.user);
+        if(this.agencyStatus === "success") {
+          this.isShowErrorAgency = false;
+          this.closePopup();
+        } else {
+          this.isShowErrorAgency = true;
+        }
+      }      
     },
     closePopup() {
       this.$emit("closePopup", false);

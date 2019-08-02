@@ -82,11 +82,12 @@
             <!-- Start: Profile -->
             <div class="profile" v-if="isShowPopupProfile === true">
               <div class="py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
-              <div
+              <label
                 v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(profile, index) in postGroupDetailProfile"
-                :key="`p+${index}`"
+                v-for="profile in postGroupDetailProfile"
+                :key="profile.userInfo.id"
+                :for="profile.userInfo.id"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -96,19 +97,20 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupProfileSelected" :value="profile.userInfo.id" />
+                    <input type="checkbox" v-model="postGroupProfileSelected" :value="profile.userInfo.id" :id="profile.userInfo.id" />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
               <div class="py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
-              <div
+              <label
                 v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(fanpage, index) in postGroupDetailPage"
-                :key="`f+${index}`"
+                v-for="fanpage in postGroupDetailPage"
+                :key="fanpage.pageId"
+                :for="fanpage.pageId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -118,18 +120,20 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
+                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" :id="fanpage.pageId" />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
               <div class="py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
-              <div v-else
+              <label
+                v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(group, index) in postGroupDetailGroup"
-                :key="`g+${index}`"
+                v-for="group in postGroupDetailGroup"
+                :key="group.groupId"
+                :for="group.groupId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -139,10 +143,10 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Post group -->
           </div>

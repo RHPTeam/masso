@@ -16,7 +16,7 @@
             </icon-base>
           </div>
           <div class="title m_auto">Thêm bài viết</div>
-          <div class="edit mr_3" @click="savePost">Thêm</div>
+          <div class="edit mr_3" @click="savePost">Tạo</div>
         </div>
         <!-- End: Modal Header -->
         <div class="modal--main px_3">

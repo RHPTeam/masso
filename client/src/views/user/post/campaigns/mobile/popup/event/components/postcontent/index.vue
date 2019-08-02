@@ -1,5 +1,5 @@
 <template>
-  <div class="section mt_3">
+  <div class="section mt_4">
     <div class="icon d_flex align_items_center mb_3">
       <icon-base
         class="icon--post mr_2"
