@@ -1,30 +1,36 @@
 <template>
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
-      <app-sidebar-mobile
+      <!-- <app-sidebar-mobile
         v-if="isShowPopup === true"
         :data-theme="currentTheme"
         :popupData="isShowPopup"
-        @closePopup="isShowPopup = $event"></app-sidebar-mobile>
+      @closePopup="isShowPopup = $event"></app-sidebar-mobile>-->
       <popup-create-agency
         v-if="isShowPopupCreateAgency === true"
-        @closePopup="isShowPopupCreateAgency = $event"></popup-create-agency>
+        @closePopup="isShowPopupCreateAgency = $event"
+      ></popup-create-agency>
       <popup-create-category
         v-if="isShowPopupCreateCategory === true"
-        @closePopupNewCategory="isShowPopupCreateCategory = $event"></popup-create-category>
+        @closePopupNewCategory="isShowPopupCreateCategory = $event"
+      ></popup-create-category>
       <popup-create-post
         :post="post"
         v-if="isShowPopupCreatePost === true"
-        @closePopup="isShowPopupCreatePost = $event"></popup-create-post>
+        @closePopup="isShowPopupCreatePost = $event"
+      ></popup-create-post>
       <popup-add-account-facebook
         v-if="isShowPopupAddAccountFb === true"
-        @closeAddPopup="isShowPopupAddAccountFb = $event"></popup-add-account-facebook>
+        @closeAddPopup="isShowPopupAddAccountFb = $event"
+      ></popup-add-account-facebook>
       <popup-create-campaign
         v-if="isShowPopupCreateCampaign=== true"
-        @closePopup="isShowPopupCreateCampaign = $event"></popup-create-campaign>
+        @closePopup="isShowPopupCreateCampaign = $event"
+      ></popup-create-campaign>
       <popup-add-group
         v-if="isShowPopupAddGroup === true"
-        @closePopupAddGroup="isShowPopupAddGroup = $event"></popup-add-group>
+        @closePopupAddGroup="isShowPopupAddGroup = $event"
+      ></popup-add-group>
       <popup-filter-by-category
         v-if="isShowDropdownFilterByCategory === true"
         @closePopup="isShowDropdownFilterByCategory = $event"
@@ -33,9 +39,15 @@
         v-if="isShowPopupExpireCode === true"
         @closePopup="isShowPopupExpireCode = $event"
       />
-      <setup-info 
-        v-if="isShowPopupSetupInfo === true"
-        @closePopup="isShowPopupSetupInfo = $event"></setup-info>
+      <setup-info v-if="isShowPopupSetupInfo === true" @closePopup="isShowPopupSetupInfo = $event"></setup-info>
+    </transition>
+    <transition name="popup--sidebar">
+      <app-sidebar-mobile
+        v-if="isShowPopup === true"
+        :data-theme="currentTheme"
+        :popupData="isShowPopup"
+        @closePopup="isShowPopup = $event"
+      ></app-sidebar-mobile>
     </transition>
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
@@ -162,7 +174,7 @@
         <!-- End: Action in Agency -->
 
         <!-- Start: Action Pricing plan -->
-        <div class="add acion" v-if="this.$route.name === 'pricing_plan'">          
+        <div class="add acion" v-if="this.$route.name === 'pricing_plan'">
           <span @click="showPopupExpireCode">
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
@@ -182,7 +194,8 @@
         v-if="isShowUpgradePro === true"
         :data-theme="currentTheme"
         :showUpgradePro="isShowUpgradePro"
-        @closeAddPopup="isShowUpgradePro = $event"></upgrade-pro-popup>
+        @closeAddPopup="isShowUpgradePro = $event"
+      ></upgrade-pro-popup>
     </transition>
   </div>
 </template>
