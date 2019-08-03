@@ -35,6 +35,9 @@ export default {
   beforeDestroy() {
     window.removeEventListener('resize', this.getWindowWidth);
   },
+  async created(){
+    await this.$store.dispatch("getInfoAgency");
+  },
   methods: {
     getWindowWidth(event) {
       this.innerWidth = window.innerWidth;

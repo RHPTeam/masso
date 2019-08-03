@@ -37,6 +37,7 @@ Vue.component( "IconCheckCircle", () => import( "@/components/icons/IconCheckCir
 Vue.component( "IconCookie", () => import( "@/components/icons/IconCookie" ) );
 Vue.component( "IconConf", () => import( "@/components/icons/IconConf" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
+Vue.component( "IconCoupon", () => import( "@/components/icons/IconCoupon" ) );
 Vue.component( "IconCreateNew", () => import( "@/components/icons/IconCreateNew" ) );
 Vue.component( "IconCustom", () => import( "@/components/icons/IconCustom" ) );
 Vue.component( "IconDelete", () => import( "@/components/icons/IconDelete" ) );

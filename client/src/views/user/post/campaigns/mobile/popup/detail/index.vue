@@ -91,7 +91,7 @@
                 v-for="item in eventsOfDay"
                 :key="item._id"
               >
-                <div class="d_flex align_items_center mr_auto content" @click="openEventPopup(item)">
+                <div class="d_flex align_items_center mr_auto content px_2" @click="openEventPopup(item)">
                   <div class="time item">{{ formatTime(item.started_at) }}</div>
                   <div class="item color mx_3">
                     <span :style="{ backgroundColor: item.color }"></span>
@@ -100,7 +100,7 @@
                     class="name item"
                   >{{ item.title.length > 0 ? item.title : 'Sự kiện chưa có tiêu đề' }}</div>
                 </div>
-                <div class="ml_auto" @click="showPopupDeleteEvent(item)">
+                <div class="ml_auto  pr_2" @click="showPopupDeleteEvent(item)">
                   <icon-base icon-name="remove" width="24" height="24" viewBox="0 0 15 15">
                     <icon-remove />
                   </icon-base>

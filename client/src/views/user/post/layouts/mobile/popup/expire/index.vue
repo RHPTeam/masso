@@ -19,9 +19,14 @@
       </div>
       <div class="items--body px_3 mt_3">
         <div class="item">
-          <span>Mã code</span>
-          <input type="text" placeholder="Nhập mã code" v-model="code" />
+          <span>Mã kích hoạt</span>
+          <input type="text" placeholder="Nhập mã kích hoạt" v-model="code" />
             <div class="text--error mt_1" v-if="isShowErrorCode === true">{{ errorCode }}</div>
+        </div>
+      </div>
+      <div class="items--footer px_3 mt_3">
+        <div class="info">
+          Mã kích hoạt giúp bạn gia hạn tài khoản một cách nhanh chóng.
         </div>
       </div>
     </div>

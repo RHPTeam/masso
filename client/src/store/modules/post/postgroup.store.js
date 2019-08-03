@@ -76,6 +76,7 @@ const state = {
       const postGroup = await PostGroupServices.getPostGroupById( payload.id );
       await commit( "setPostGroupDetail", postGroup.data.data );
       // reset selected pages and groups
+      commit( "postProfileSelected", [] );
       commit( "postGroupGroupsSelected", [] );
       commit( "postGroupPagesSelected", [] );
     },

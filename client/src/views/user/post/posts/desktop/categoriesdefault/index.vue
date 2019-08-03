@@ -2,7 +2,7 @@
   <div class="category--wrap">
     <div class="ct_f">
       <div class="r">
-        <div class="c_12 c_lg_12 c_xl_12 pl_lg_0 pl_xl_3">
+        <div class="c_12 c_lg_12 c_xl_12 px_0">
           <!-- Start: Action -->
           <app-action
             :filterShowSelected="filterShowSelected"

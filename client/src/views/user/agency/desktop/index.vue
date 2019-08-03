@@ -68,9 +68,6 @@ export default {
       isShowPopupEdit: false,
       resultsDefault: false
     }
-  },
-  async created(){
-    await this.$store.dispatch("getInfoAgency");
   }
 }
 </script>

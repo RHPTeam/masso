@@ -423,10 +423,10 @@ const actions = {
 
     await PostServices.updatePost(payload._id, payload);
 
-    const resultPostById = await PostServices.getById(payload._id);
-    commit("setPost", resultPostById.data.data);
+    // const resultPostById = await PostServices.getById(payload._id);
+    // commit("setPost", resultPostById.data.data);
 
-    commit("setPost", payload);
+    // commit("setPost", payload);
 
     commit("setUpdatePost", payload);
 

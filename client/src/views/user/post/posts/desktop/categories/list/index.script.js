@@ -33,9 +33,9 @@ export default {
   async created() {
     const defaultNumberNo = this.$store.getters.allCateDefault;
 
-    if ( defaultNumberNo.length === 0 ) {
-      this.$store.dispatch("getCategoryDefault");
-    }
+    // if ( defaultNumberNo.length === 0 ) {
+    //   this.$store.dispatch("getCategoryDefault");
+    // }
     const dataSender = {
       size: this.filterShowSelected.id,
       page: this.currentPage
