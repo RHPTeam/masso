@@ -86,6 +86,7 @@ export default {
 
       await this.$store.dispatch( "uploadPostAttachments", formData );
       const uploadFiles = this.postAttachmentsUpload.map( ( item ) => {
+        console.log(item);
         return {
           link: item,
           typeAttachment: 1
