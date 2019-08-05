@@ -116,17 +116,17 @@ export default {
     deleteTargets() {
       // console.log("action", this.storeActionName);
       // console.log("targetData", this.targetData);
-      const actionDeleteBlock = ["deleteBlock", "deleteGroupBlock"];
-      if (actionDeleteBlock.includes(this.storeActionName)) {
-        this.$store.dispatch(this.storeActionName, this.targetData._id);
-      }
-      const actionDeleteBlockSequence = ["deleteASequence", "deleteBlockInSequence"];
-      if (actionDeleteBlockSequence.includes(this.storeActionName)) {
+      // const actionDeleteBlock = ["deleteBlock", "deleteGroupBlock"];
+      // if (actionDeleteBlock.includes(this.storeActionName)) {
+        // this.$store.dispatch(this.storeActionName, this.targetData._id);
+      // }
+      // const actionDeleteBlockSequence = ["deleteASequence", "deleteBlockInSequence"];
+      // if (actionDeleteBlockSequence.includes(this.storeActionName)) {
         this.$store.dispatch(this.storeActionName, this.targetData);
-      }
+      // }
 
       this.$emit("closePopup", false);
-      this.$emit("isDeletedTarget", true);
+      // this.$emit("isDeletedTarget", true);
     }
   }
 };
