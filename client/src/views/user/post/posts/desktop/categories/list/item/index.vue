@@ -1,5 +1,5 @@
 <template>
-  <div class="item--body d_flex align_items_center px_3 py_2">
+  <div class="item--body d_flex align_items_center px_3 py_2" v-if="item">
     <div class="col--category">
       <div class="status--dot mr_2"
            :class="[ item.mix ? 'dot--active' : 'dot--deactive' ]"
@@ -92,11 +92,11 @@ export default {
       this.$emit( "showDeletePopup", this.item );
     },
     async showListPostInCategory(){
-      await this.$store.dispatch("getPostByCategories", {
-        categoryId: item._id,
-        size: 25,
-        page: 1
-      } );
+      // await this.$store.dispatch("getPostByCategories", {
+      //   categoryId: item._id,
+      //   size: 25,
+      //   page: 1
+      // } );
     }
   }
 };

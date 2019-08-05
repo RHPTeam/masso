@@ -19,7 +19,7 @@
       </div>
       <!-- End: Modal Header -->
       <vue-perfect-scrollbar class="modal--scroll-edit mb_3">
-        <div class="modal--main px_2">
+        <div class="modal--main px_3">
           <!-- Start: Post Title -->
           <div class="item mb_4">
             <span>Tên bài viết</span>
@@ -488,7 +488,7 @@
     }
   }
   .modal--scroll-edit {
-    height: calc(100vh - 70px);
+    height: calc(100vh - 150px);
   }
 }
 </style>

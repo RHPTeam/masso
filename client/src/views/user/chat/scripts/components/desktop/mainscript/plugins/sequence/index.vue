@@ -5,7 +5,7 @@
       multiple
       @input="updateSubscrible"
       :options="groupSequence"
-      v-model="convertNameSequence"
+      v-model="convertedNameSequence"
       placeholder="Chọn để đăng ký chuỗi kịch bản"
     >
       <template slot="option" slot-scope="option">
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-
 export default {
   props: {
     sequence: Object,
@@ -24,7 +23,8 @@ export default {
   },
   data() {
     return {
-      value: null
+      value: null,
+      convertedNameSequence: []
     };
   },
   computed: {
@@ -34,25 +34,17 @@ export default {
     groupSequence() {
       return this.$store.getters.allSequenceScript;
     },
-    subscribleDefault(){
+    subscribleDefault() {
       return this.$store.getters.dataPreviewUpdate;
-    },
-    convertNameSequence(){
-      const arr = this.sequence.valueText.split(",");
-      const nameArr = [];
-      arr.map(id => {
-        this.groupSequence.filter( item => {
-          if(item._id == id) nameArr.push(item.name);
-        })
-      });
-      return nameArr;
     }
   },
   async created() {
     await this.$store.dispatch("getAllSequenceScript");
+    this.convertNameSequence();
   },
+  watch: {},
   methods: {
-    async updateSubscrible(val){
+    async updateSubscrible(val) {
       await this.updateValueSubscrible(val);
       const objSender = {
         block: this.block,
@@ -61,13 +53,23 @@ export default {
       };
       this.$store.dispatch("updateItemBlock", objSender);
     },
-    updateValueSubscrible( val ){
-      if(val === undefined) return;
+    updateValueSubscrible(val) {
+      if (val === undefined) return;
       const dataSender = val.map(item => {
         return item._id;
       });
       const lastId = dataSender.splice(-1);
       this.$store.dispatch("pushPreviewUpdateItemSubcribe", lastId);
+    },
+    convertNameSequence() {
+      const arr = this.sequence.valueText.split(",");
+      const nameArr = [];
+      arr.map(id => {
+        this.groupSequence.filter(item => {
+          if (item._id == id) nameArr.push(item.name);
+        });
+      });
+      this.convertedNameSequence = nameArr;
     }
   }
 };

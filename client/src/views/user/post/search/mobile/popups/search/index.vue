@@ -96,17 +96,17 @@ export default {
     };
   },
   watch: {
-    "keyword"(value) {
-      if (value.length === 0) {
-        if(this.keyPopular) {
-          this.$store.dispatch("getListPostFacebookDefault", {
-            keyword: this.keyPopular[0],
-            size: 25,
-            page: 1
-          });
-        }
-      }
-    }
+    // "keyword"(value) {
+    //   if (value.length === 0) {
+    //     if(this.keyPopular) {
+    //       this.$store.dispatch("getListPostFacebookDefault", {
+    //         keyword: this.keyPopular[0],
+    //         size: 25,
+    //         page: 1
+    //       });
+    //     }
+    //   }
+    // }
   },
   computed: {
     listPostFacebookDefault() {
@@ -156,7 +156,6 @@ export default {
         size: 25,
         page: 1
       });
-      await this.$store.dispatch("getUserInfo");
     },
     searchPostFromKeywordHistory(keyword) {
       this.keyword = keyword;

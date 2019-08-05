@@ -16,10 +16,10 @@
             </icon-base>
           </div>
           <div class="title m_auto">Thêm bài viết</div>
-          <div class="edit mr_3" @click="savePost">Thêm</div>
+          <div class="edit mr_3" @click="savePost">Tạo</div>
         </div>
         <!-- End: Modal Header -->
-        <div class="modal--main px_2">
+        <div class="modal--main px_3">
           <!-- Start: Post Title -->
           <div class="item mb_4">
             <span>Tên bài viết</span>

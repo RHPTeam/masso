@@ -69,7 +69,6 @@ export default {
       this.setup.accountId = val;
     },
     duplicateCampaignSimple() {
-      this.closePopup();
       const dataSender = {
         campaignId: this.selectedCampaign._id,
         facebookId: this.setup.accountId
@@ -80,6 +79,7 @@ export default {
         page: 1
       };
       this.$store.dispatch( "getCampaignsByPage", dataSenderCampaign );
+      this.closePopup();
       this.$emit("showCampaign", true);
     }
   }

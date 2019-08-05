@@ -17,7 +17,7 @@
     <!-- Start: action posts -->
     <div class="item--body item--body-action d_flex align_items_center py_2 pl_2">
       <div class="d_flex ml_auto align_items_center justify_content_center pr_3 text_center">
-        <span class="icon m_2" @click="showPopupCopy">
+        <span class="icon m_2" @click="showPopupDuplicateCampaign">
           <icon-base
             class="icon--copy"
             icon-name="duplicate"
@@ -79,8 +79,8 @@ export default {
     showPopupDelete() {
       this.$emit("showPopupDelete", this.item);
     },
-    showPopupCopy() {
-      this.$emit("showPopupCopy", this.item);
+    showPopupDuplicateCampaign() {
+      this.$emit("showPopupDuplicateCampaign", this.item);
     }
   }
 };

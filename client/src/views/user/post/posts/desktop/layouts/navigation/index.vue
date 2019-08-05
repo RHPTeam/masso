@@ -1,40 +1,36 @@
 <template>
-  <div class="post--navigation d_flex justify_content_between align_items_center mb_4 position_relative" :data-theme="currentTheme">
+  <div
+    class="post--navigation d_flex justify_content_between align_items_center mb_4 position_relative"
+    :data-theme="currentTheme"
+  >
     <!-- Start: Navigation Left -->
-    <div class="nav--left mr_auto d_flex align_items_center">
-      <div class="btn--create mr_4 mr_auto"
-           @click="createPost"
-      >Viết bài mới</div>
-      <router-link
-        class="nav--link mr_2"
-        :to="{ name: 'post_posts', query: { size: 25, page: 1 } }"
-        active-class="active"
-        exact
-      >Tất cả bài viết</router-link
-      >
-      <div class="divider"></div>
-      <router-link
-        class="nav--link ml_2"
-        :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
-        active-class="active"
-      >Danh mục</router-link
-      >
-      <div class="divider"></div>
-      <router-link
-        class="nav--link ml_2"
-        :to="{ name: 'categories_default' }"
-        active-class="active"
-      >Danh mục mẫu</router-link
-      >
+    <div class="nav--left mr_auto d_flex align_items_center r m_0">
+      <div class="d_flex align_items_center action--post">
+        <router-link
+          class="nav--link mr_2"
+          :to="{ name: 'post_posts', query: { size: 25, page: 1 } }"
+          active-class="active"
+          exact
+        >Tất cả bài viết</router-link>
+        <div class="divider"></div>
+        <router-link
+          class="nav--link ml_2"
+          :to="{ name: 'post_postCategories', query: { size: 25, page: 1 } }"
+          active-class="active"
+        >Danh mục</router-link>
+        <div class="divider"></div>
+        <router-link
+          class="nav--link ml_2"
+          :to="{ name: 'categories_default' }"
+          active-class="active"
+        >Danh mục mẫu</router-link>
+      </div>
+      <div class="btn--create mr_4 mr_auto" @click="createPost">Viết bài mới</div>
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
     <div class="nav--right ml_auto">
-      <div class="btn--history"
-           @click="showHistory"
-      >
-      Lịch sử đăng bài
-      </div>
+      <div v-if="isShowHistoryButton" class="btn--history" @click="showHistory">Lịch sử đăng bài</div>
     </div>
     <!-- End: Navigation Right -->
 
@@ -58,8 +54,9 @@ export default {
   },
   data() {
     return {
-      isShowHistory: false
-    }
+      isShowHistory: false,
+      isShowHistoryButton: true
+    };
   },
   computed: {
     currentTheme() {
@@ -69,16 +66,32 @@ export default {
       return this.$store.getters.newPost;
     }
   },
+  watch: {
+    $route(to, from) {
+      if (to.path === "/post/posts/list") {
+        this.isShowHistoryButton = true;
+      } else {
+        this.isShowHistoryButton = false;
+      }
+    }
+  },
+  created() {
+    if (this.$route.path === "/post/posts/list") {
+      this.isShowHistoryButton = true;
+    } else {
+      this.isShowHistoryButton = false;
+    }
+  },
   methods: {
     async createPost() {
       const dataSender = {};
 
-      await this.$store.dispatch( "createNewPost", dataSender );
+      await this.$store.dispatch("createNewPost", dataSender);
       await this.$store.dispatch("getPostById", this.newPost._id);
-      this.$router.push( {
+      this.$router.push({
         name: "post_update_post",
         params: { id: this.newPost._id }
-      } );
+      });
     },
     showHistory() {
       this.isShowHistory = !this.isShowHistory;
@@ -91,10 +104,16 @@ export default {
 .post--navigation {
   .nav--left {
     height: 40px;
+    .action--post {
+      order: 2;
+    }
+    .btn--create {
+      order: 1;
+    }
     .nav--link {
-      font-size: .95rem;
+      font-size: 0.95rem;
       font-weight: 600;
-      padding: 0 .5rem;
+      padding: 0 0.5rem;
       text-decoration: none;
       transition: all 0.4s ease;
     }
@@ -103,14 +122,14 @@ export default {
       border-radius: 0.5rem;
       color: #fff;
       cursor: pointer;
-      font-size: .95rem;
+      font-size: 0.95rem;
       font-weight: 600;
       height: 40px;
       line-height: 40px;
-      padding: 0 .75rem;
+      padding: 0 0.75rem;
       transition: all 0.4s ease;
       &:hover {
-        background-color: #FF9E4A;
+        background-color: #ff9e4a;
       }
     }
     .divider {
@@ -121,13 +140,13 @@ export default {
   .nav--right {
     .btn--history {
       background-color: #27292c;
-      border-radius: .625rem;
-      color: #F7F7F7;
+      border-radius: 0.625rem;
+      color: #f7f7f7;
       cursor: pointer;
-      font-size: .875rem;
+      font-size: 0.875rem;
       padding: 0.5rem 0.75rem;
-      transition: all .4s ease;
-      &:hover{
+      transition: all 0.4s ease;
+      &:hover {
         box-shadow: 0 0 8px rgba(153, 153, 153, 0.4);
       }
     }
@@ -185,13 +204,29 @@ export default {
   }
 }
 
-
 // =============== RESPONSIVE
 @media screen and (max-width: 980px) and (min-width: 768px) {
   .post--navigation {
     flex-direction: column;
     .nav--right {
       margin-top: 0.625rem;
+    }
+  }
+}
+
+@media screen and (max-width: 835px) and (min-width: 768px) {
+  .post--navigation {
+    .nav--left {
+      .action--post {
+        order: 1;
+        margin-bottom: 1rem;
+      }
+      .btn--create {
+        order: 2;
+      }
+    }
+    .nav--right {
+      margin-top: 0;
     }
   }
 }
@@ -215,5 +250,4 @@ export default {
     }
   }
 }
-
 </style>

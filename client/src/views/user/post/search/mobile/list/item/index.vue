@@ -2,7 +2,7 @@
   <div v-hammer:pan="(event)=> onPan(event)" class="item">
     <div
       :class="{ 'swipe-left': isTriggerAction , 'swipe-right': !isTriggerAction }"
-      class="content item--body item--body-post p_2 mb_2 d_flex align_items_center"
+      class="content item--body item--body-post px_2 mb_2 d_flex align_items_center"
       @click="showPost"
     >
       <div class="right">

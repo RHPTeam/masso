@@ -17,7 +17,7 @@
         <p class="name--modal mb_0">Thêm danh mục mới</p>
         <div class="active mr_3" @click="createCategory">Thêm</div>
       </div>
-      <div class="items--body px_2 mt_3">
+      <div class="items--body px_3 mt_3">
         <div class="item">
           <span>Tên danh mục</span>
           <div class="text--error" v-if="alertTitle === true">Tiêu đề không được bỏ trống!</div>
@@ -78,6 +78,7 @@ export default {
           size: 25,
           page: 1
         };
+        this.$store.dispatch("actionCursor", 16);
         await this.$store.dispatch( "createCategory", dataSender );
         this.mixStatus = false;
         this.closePopupNewCategory();

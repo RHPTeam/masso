@@ -1,13 +1,7 @@
 import VueApexCharts from 'vue-apexcharts';
-// import AddKeyWord from "./keywords";
-// import FriendFollow from "./friends";
-// import VersionPopup from "./version";
 export default {
   components: {
-    // AddKeyWord,
-    VueApexCharts,
-    // FriendFollow,
-    // VersionPopup
+    VueApexCharts
   },
   data () {
     return {
@@ -466,14 +460,5 @@ export default {
         }
       }
     }
-  },
-  created() {
-    // const allAnalysisNo = this.$store.getters.allAnalysis;
-    // if(allAnalysisNo.length === 0) {
-    //   this.$store.dispatch("getAllAnalysis");
-    // }
-    // this.$store.dispatch("getAllStaticCampagin" ) ;
-    // this.$store.dispatch("getAllSttPost" );
-    // this.$store.dispatch("getNewestPosts", 5);
   }
 }

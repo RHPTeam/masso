@@ -1,0 +1,135 @@
+.main {
+  height: 100%;
+}
+
+.pricing {
+  &--plan {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+}
+.plan {
+  &--expire {
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+  &--table {
+    height: 90%;
+  }
+}
+
+.table {
+  &--card {
+    height: 90%;
+    display: flex;
+    margin: 0.5rem 0;
+  }
+  &--indicator {
+    height: 10%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.indicator {
+  &--holder {
+    width: 90vw;
+    background-color: #27292d;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+}
+
+.holder {
+  &--btn {
+    width: 31%;
+    font-size: 3.5vw;
+    text-transform: uppercase;
+    background-color: #27292d;
+    color: #ffb94a;
+    border: none;
+    border-bottom: 4px solid #ffb94a00;
+    outline: none;
+    padding: 0.4rem 1.2rem;
+    margin: 0 0.2rem; 
+    cursor: pointer;
+    user-select: none;
+    transition: .3s all;
+  }
+}
+
+.active {
+  font-weight: bold;
+  border-bottom: 4px solid #ffb94a;
+}
+.slide-enter-active,
+.slide-leave-active {
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.slide-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+
+.slide-leave-to {
+  opacity: 0;
+  transform: translateY(20px) scale(0.9);
+}
+
+/* ChangeColor */
+
+// Light
+.modal--wrapper[data-theme='light'] {
+  color: #444444;
+  .modal--content {
+    background-color: #fff;
+    .modal--body {
+      &-input {
+        border: 1px solid #e4e4e4;
+        color: #444;
+        &::placeholder {
+          color: #cccccc;
+        }
+      }
+    }
+    .modal--footer {
+      .btn--skip {
+        &:hover {
+          background-color: #f7f7f7;
+        }
+      }
+    }
+  }
+}
+
+//Dark
+.modal--wrapper[data-theme='dark'] {
+  color: #f7f7f7;
+  .modal--content {
+    background-color: #27292d;
+    .modal--body {
+      &-input {
+        background-color: #27292d;
+        border: 1px solid #444;
+        color: #f7f7f7;
+        &::placeholder {
+          color: #666;
+        }
+        &:active,
+        &:focus {
+          border-color: #ffb94a;
+        }
+      }
+    }
+    .modal--footer {
+      .btn--skip {
+        &:hover {
+          background-color: #2f3136;
+        }
+      }
+    }
+  }
+}

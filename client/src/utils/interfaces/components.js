@@ -3,6 +3,7 @@ import Vue from "vue";
 // Icon Component
 Vue.component("IconAccount", () => import("@/components/icons/IconAccount"));
 Vue.component("IconActivity", () => import("@/components/icons/IconActivity"));
+Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 Vue.component("IconApplication", () => import("@/components/icons/IconApplication"));
 Vue.component("IconArrowDown", () =>
   import("@/components/icons/IconArrowDown")
@@ -13,7 +14,6 @@ Vue.component("IconArrowUp", () =>
 Vue.component("IconAutoAnswer", () =>
   import("@/components/icons/IconAutoAnswer")
 );
-Vue.component("IconAgency", () => import("@/components/icons/IconAgency"));
 Vue.component("IconAutoReply", () => import("@/components/icons/IconAutoReply"));
 Vue.component("IconAutopost", () => import("@/components/icons/IconAutopost"));
 Vue.component("IconArrowLeft", () => import("@/components/icons/IconArrowLeft"));
@@ -27,6 +27,7 @@ Vue.component("IconBroadcast", () =>
 );
 Vue.component( "IconCalendar", () => import( "@/components/icons/IconCalendar" ) );
 Vue.component( "IconCancel", () => import( "@/components/icons/IconCancel" ) );
+Vue.component( "IconCash", () => import( "@/components/icons/IconCash" ) );
 Vue.component( "IconCategories", () => import( "@/components/icons/IconCategories" ) );
 Vue.component( "IconClose", () => import( "@/components/icons/IconClose" ) );
 Vue.component( "IconChat", () => import( "@/components/icons/IconChat" ) );
@@ -36,6 +37,7 @@ Vue.component( "IconCheckCircle", () => import( "@/components/icons/IconCheckCir
 Vue.component( "IconCookie", () => import( "@/components/icons/IconCookie" ) );
 Vue.component( "IconConf", () => import( "@/components/icons/IconConf" ) );
 Vue.component( "IconCopy", () => import( "@/components/icons/IconCopy" ) );
+Vue.component( "IconCoupon", () => import( "@/components/icons/IconCoupon" ) );
 Vue.component( "IconCreateNew", () => import( "@/components/icons/IconCreateNew" ) );
 Vue.component( "IconCustom", () => import( "@/components/icons/IconCustom" ) );
 Vue.component( "IconDelete", () => import( "@/components/icons/IconDelete" ) );

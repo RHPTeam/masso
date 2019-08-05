@@ -35,13 +35,13 @@
     }
   }
   .col--name {
-    width: 50%;
+    width: 45%;
     &-text {
       cursor: pointer;
     }
   }
   .col--status {
-    width: 40%;
+    width: 35%;
     .status--content {
     	.status--dot {
     		border-radius: 100%;
@@ -58,7 +58,7 @@
   }
   .col--action {
   	text-align: center;
-    width: 10%;
+    width: 20%;
     svg {
       color: #999;
       cursor: pointer;

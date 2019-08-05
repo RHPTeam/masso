@@ -45,12 +45,6 @@
     }
   }
 }
-.list--data {
-  .empty--data {
-    color: #999;
-  }
-}
-  
 // CHANGE COLOR THEME
 .list[data-theme="light"] {
   .list--header {
@@ -92,6 +86,7 @@
     border-radius: 0.625rem;
     font-size: 0.875rem;
     overflow: hidden;
+    padding: 0.82rem 0;
     .right {
       width: 100%; 
       overflow: hidden;
@@ -100,6 +95,10 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    &.empty--data {
+      color: #999;
+      background-color: unset;
     }
   }
 
@@ -148,7 +147,7 @@
   }
 }
 .infinite {
-  max-height: calc(100vh - 40px);
+  height: calc(100vh - 170px);
 }
 .infinite--control-block {
   width: 100%;

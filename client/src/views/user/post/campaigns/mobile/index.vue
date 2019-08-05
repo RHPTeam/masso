@@ -1,7 +1,7 @@
 <template>
   <div class="modal--main-mobile" :data-theme="currentTheme">
     <!-- Start: Search -->
-    <div class="items--header mx_2 d_flex align_items_center position_relative mb_3">
+    <div class="items--header mx_3 d_flex align_items_center position_relative mb_3">
       <div class="mr_auto search" @click="showPopupSearch">
         <span class="ml_2">
           <icon-base
@@ -14,12 +14,12 @@
             <icon-input-search />
           </icon-base>
         </span>
-        <input v-model="search" class="search--input" placeholder="Tìm kiếm" type="text" />
+        <input class="search--input" placeholder="Tìm kiếm" type="text" />
       </div>
     </div>
     <!-- End: Search -->
     <!-- Start: Main -->
-    <div class="items--body d_flex justify_content_start align_items_center mx_2">
+    <div class="items--body d_flex justify_content_start align_items_center mx_3">
       <div
         class="item text_center"
         @click="showTabCampaign"
@@ -33,9 +33,9 @@
     </div>
     <!-- End: Main -->
     <!-- Start: list campaign -->
-    <div class="list--data pl_2 mt_2">
+    <div class="list--data pl_3 mt_2">
       <VuePerfectScrollbar class="scroll-campaign">
-        <div class="campaign pr_2" v-if="isShowTabCampaign === true">
+        <div class="campaign pr_3" v-if="isShowTabCampaign === true">
           <div
             class="no--campaign text_center"
             v-if="campaigns.length === 0"
@@ -47,12 +47,13 @@
               :key="item._id"
               @showDetailPost="showPopupDetailCampaign($event)"
               @showPopupDelete="showPopupDelete($event)"
+              @showPopupDuplicateCampaign="showPopupDuplicateCampaign($event)"
             />
             <div class="text_center" v-if="campaignsPagesSize === currentPage"></div>
             <div class="text_center py_3 load--more" @click="loadMore" v-else>Hiển thị thêm...</div>
           </div>
         </div>
-        <div class="campaign--default pr_2" v-if="isShowTabCampaginDefault === true">
+        <div class="campaign--default pr_3" v-if="isShowTabCampaginDefault === true">
           <div
             class="no--campaign text_center"
             v-if="campaignsDefault.length === 0"
@@ -83,6 +84,7 @@
     <!-- End: Transition Popup -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
+      <popup-duplicate-campaign @closePopup="isShowPopupDuplicateCampaign = $event" v-if="isShowPopupDuplicateCampaign === true" :campaign="selectedCampaign"/>
       <popup-delete
         :selectedCampaign="selectedCampaign"
         @closePopup="isShowPopupDelete = $event"

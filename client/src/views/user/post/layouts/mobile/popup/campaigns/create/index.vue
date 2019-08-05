@@ -17,7 +17,7 @@
           <p class="name--modal mb_0 m_auto">Tạo chiến dịch</p>
           <div class="active mr_3" @click="createCampaign">Tạo</div>
         </div>
-        <div class="modal--body my_3 px_2">
+        <div class="modal--body my_3 px_3">
           <div class="body--form">
             <div class>Tên chiến dịch</div>
             <div class="error mt_1" v-if="isShowAlert === true">Tên chiến dịch không được bỏ trống</div>

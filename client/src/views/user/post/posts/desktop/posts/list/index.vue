@@ -50,7 +50,7 @@ export default {
       filterCategorySelected: { id: "all", title: "Tất cả" },
       filterShowSelected: { id: 25, name: "Hiển thị 25" },
       search: ""
-    }
+    };
   },
   computed: {
     allCategories() {
@@ -59,21 +59,21 @@ export default {
   },
   async created() {
     const page = this.$route.query.page,
-          size = this.$route.query.size,
-          search = this.$route.query.search,
-          categoryId = this.$route.query.categoryId;
+      size = this.$route.query.size,
+      search = this.$route.query.search,
+      categoryId = this.$route.query.categoryId;
 
-    this.currentPage = Number( page );
-    this.filterShowSelected.id = Number( size );
+    this.currentPage = Number(page);
+    this.filterShowSelected.id = Number(size);
     this.filterShowSelected.name = `Hiển thị ${size}`;
-    if ( search !== undefined ) {
+    if (search !== undefined) {
       this.search = search;
     }
-    if ( categoryId !== undefined ) {
-      await this.$store.dispatch( "getAllCategories" );
-      const category = this.allCategories.filter( ( item ) => {
+    if (categoryId !== undefined) {
+      await this.$store.dispatch("getAllCategories");
+      const category = this.allCategories.filter(item => {
         return item._id === categoryId;
-      } );
+      });
 
       this.filterCategorySelected = {
         id: categoryId,
@@ -82,10 +82,10 @@ export default {
     }
   },
   methods: {
-    updateCurrentPage( page ) {
+    updateCurrentPage(page) {
       this.currentPage = page;
     },
-    async updateFilterShowSelected( selected) {
+    async updateFilterShowSelected(selected) {
       this.filterShowSelected = selected;
       this.currentPage = 1;
 
@@ -93,15 +93,15 @@ export default {
         size: this.filterShowSelected.id,
         page: this.currentPage
       };
-      await this.$store.dispatch( "getPostsByPage", dataSender );
+      await this.$store.dispatch("getPostsByPage", dataSender);
 
-      this.$router.replace( {
+      this.$router.replace({
         name: "post_posts",
         query: {
           size: this.filterShowSelected.id,
           page: this.currentPage
         }
-      } );
+      });
     }
   }
 };

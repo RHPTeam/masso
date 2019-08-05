@@ -28,7 +28,7 @@
     <!--End: Desktop Component-->
 
     <!--Start: Mobile Component-->
-    <div class="d_block d_md_none px_2">
+    <div class="d_block d_md_none px_3 mt_3">
       <app-mobile />
     </div>
     <!--End: Mobile Component-->

@@ -21,9 +21,9 @@
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
         <vue-perfect-scrollbar class="modal--scroll">
-          <div class="modal--body px_2">
-            <div class="like mb_1">Số lượt like: {{ fbSelected.like }}</div>
-            <div class="share mb_1">Số lượt share: {{ fbSelected.share }}</div>
+          <div class="modal--body px_3">
+            <div class="like mb_2">Số lượt like: {{ fbSelected.like }}</div>
+            <div class="share mb_2">Số lượt share: {{ fbSelected.share }}</div>
             <div class="content">
               <p class="mb_0">Nội dung:</p>
               <div

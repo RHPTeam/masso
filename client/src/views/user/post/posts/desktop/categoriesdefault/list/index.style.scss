@@ -106,19 +106,22 @@
   //  }
   //}
 }
-@media only screen and (max-width: 1024px) {
-  //.category--data {
-  //  .col--category {
-  //    width: calc(100% - 170px - 1rem);
-  //  }
-  //
-  //  .col--posts {
-  //    width: 95px;
-  //  }
-  //  .col--description {
-  //    display: none;
-  //  }
-  //}
+@media only screen and (max-width: 839px) {
+  .category--data {
+    .col--category {
+      width: 50%;
+    }
+    .col--posts {
+      width: 25%;
+    }
+    .col--description {
+      display: none;
+    }
+    .col--action {
+      // width: ;
+      padding: 0!important;
+    }
+  }
 }
 
 

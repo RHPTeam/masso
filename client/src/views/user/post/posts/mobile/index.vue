@@ -1,5 +1,5 @@
 <template>
-  <div class="main--mobile px_2 position_relative">
+  <div class="main--mobile px_3 position_relative">
     <!-- Start: Content -->
     <div class="main--content">
       <!-- Start: Search -->

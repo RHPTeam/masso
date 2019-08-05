@@ -6,12 +6,12 @@
             v-if="groupSelected === false"
       >
         <span class="font_weight_bold">
-          {{ postGroupGroupsSelected.length + postGroupPagesSelected.length }} trong số</span>
+          {{ postGroupGroupsSelected.length + postGroupPagesSelected.length + postProfileSelected.length }} trong số</span>
         {{ facebookGroups.length + facebookPages.length }} đã chọn
       </div>
       <div class="segment--total" v-else>
         <span class="font_weight_bold">
-          {{ postGroupGroupsSelected.length + postGroupPagesSelected.length }} trong số</span>
+          {{ postGroupGroupsSelected.length + postGroupPagesSelected.length + postProfileSelected.length }} trong số</span>
         {{ Number( postGroupDetail._pages ? postGroupDetail._pages.length : 0 ) +
             Number( postGroupDetail._groups ? postGroupDetail._groups.length : 0 )
         }} đã chọn
@@ -21,9 +21,9 @@
     <!--Start: Info Right Component-->
     <div class="info--right d_flex ml_auto">
       <!--Start: Update again pages & groups-->
-      <div class="action mr_2" @click="updateGroupsAndPages" >
+      <!-- <div class="action mr_2" @click="updateGroupsAndPages" >
         Cập nhật
-      </div>
+      </div> -->
       <!--End: Update again pages & groups-->
       <!--Start: Remove  selected pages & groups-->
       <div class="action mr_2"
@@ -64,13 +64,13 @@
           >Tất cả</div>
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Cá nhân')"
-          >Cá nhân</div>
+          >Trang Cá nhân</div>
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Trang')"
-          >Trang</div>
+          >Fanpage Facebook</div>
           <div class="dropdown--item px_3"
                @click="updateTypeSelected('Nhóm')"
-          >Nhóm</div>
+          >Group Facebook</div>
         </div>
       </div>
       <!--End: Filter Friend By Account Component-->

@@ -90,11 +90,11 @@ export default {
   },
   async created() {
     // Get Data
+    await this.$store.dispatch("getAllCategories");
     await this.$store.dispatch("getAllFriendFb");
     await this.$store.dispatch("getPlaceFromFb");
-    await this.$store.dispatch("getAllCategories");
     await this.$store.dispatch("getActivityFb");
-    await this.$store.dispatch("getColorFromFb");
+    this.$store.dispatch("getColorFromFb");
   },
   watch: {
     "post.content"(value) {
@@ -170,8 +170,13 @@ export default {
           this.post.scrape = this.linkContent[0];
         }
         this.$store.dispatch("updatePostMobile", this.post);
-        // this.$store.dispatch("setPostCateDefault", 0);
-        this.closePopup();
+        const dataSender = {
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getPostsByPage", dataSender);
+        // this.closePopup();
+        this.$emit("closePopup", false);
       }
     },
     showOptionPostActivity() {

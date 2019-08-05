@@ -3,7 +3,7 @@
     <div class="modal--content">
       <!-- Start: Header - Search -->
       <div class="items--header d_flex align_items_center mb_3">
-        <div @click="closePopup">
+        <div @click="closePopup" v-if="isShowActionSave === false">
           <icon-base
             icon-name="arrow-down"
             class="arrow-down"
@@ -14,6 +14,7 @@
             <icon-arrow-down />
           </icon-base>
         </div>
+        <div class="save pl_2" v-else @click="upTypingText( postGroupDetail )">Lưu</div>
         <!-- <p class="">{{ postGroupDetail.title }}</p> -->
         <contenteditable
           class="name--modal mb_0 m_auto text_center"
@@ -24,6 +25,8 @@
           v-model="postGroupDetail.title"
           @keyup.enter="upTypingText( postGroupDetail )"
           @keydown="clearTypingTimer"
+          @click="showActionSave"
+          v-click-outside="closeActiveSave"
         />
         <div class="active mr_2" @click="showPopupDeletePostGroup">Xóa</div>
         <!-- <div class="active mr_2">
@@ -78,12 +81,16 @@
           <div class="content mt_2">
             <!-- Start: Profile -->
             <div class="profile" v-if="isShowPopupProfile === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailProfile.length === 0">Không có trang cá nhân nào!!!</div>
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailProfile.length === 0"
+              >Không có trang cá nhân nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(profile, index) in postGroupDetailProfile"
-                :key="`p+${index}`"
+                v-for="profile in postGroupDetailProfile"
+                :key="profile.userInfo.id"
+                :for="profile.userInfo.id"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -93,19 +100,27 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupProfileSelected" :value="profile.userInfo.id" />
+                    <input
+                      type="checkbox"
+                      v-model="postGroupProfileSelected"
+                      :value="profile.userInfo.id"
+                    />
                   </label>
                 </div>
               </div>
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailPage.length === 0">Không có trang nào!!!</div>
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailPage.length === 0"
+              >Không có trang nào!!!</div>
               <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(fanpage, index) in postGroupDetailPage"
-                :key="`f+${index}`"
+                v-for="fanpage in postGroupDetailPage"
+                :key="fanpage.pageId"
+                :for="fanpage.pageId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -115,18 +130,23 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
+                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" :id="fanpage.pageId" />
                   </label>
                 </div>
               </div>
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
-              <div class="item--content py_2 text_center" v-if="postGroupDetailGroup.length === 0">Không có nhóm nào!!!</div>
-              <div v-else
+              <div
+                class="py_2 text_center"
+                v-if="postGroupDetailGroup.length === 0"
+              >Không có nhóm nào!!!</div>
+              <div
+                v-else
                 class="item--content d_flex align_items_center py_2"
-                v-for="(group, index) in postGroupDetailGroup"
-                :key="`g+${index}`"
+                v-for="group in postGroupDetailGroup"
+                :key="group.groupId"
+                :for="group.groupId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -136,7 +156,7 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
                   </label>
                 </div>
               </div>
@@ -205,7 +225,8 @@ export default {
       isShowAddToGroup: false,
       isShowPopupDeletePageGroup: false,
       isShowPopupDeletePostGroup: false,
-      isShowPopupProfile: true
+      isShowPopupProfile: true,
+      isShowActionSave: false
     };
   },
   computed: {
@@ -236,8 +257,8 @@ export default {
       get() {
         return this.$store.getters.postProfileSelected;
       },
-      set( val ) {
-        this.$store.dispatch( "postProfileSelected", val );
+      set(val) {
+        this.$store.dispatch("postProfileSelected", val);
       }
     },
     postGroupPagesSelected: {
@@ -251,10 +272,16 @@ export default {
   },
   methods: {
     clearTypingTimer() {
-      clearTimeout( typingTimer );
+      clearTimeout(typingTimer);
     },
     closePopup() {
       this.$emit("closePopup", false);
+    },
+    closeActiveSave() {
+      this.isShowActionSave = false;
+    },
+    showActionSave() {
+      this.isShowActionSave = true;
     },
     showPopupProfile() {
       this.isShowPopupProfile = true;
@@ -286,12 +313,12 @@ export default {
     showPopupDeletePostGroup() {
       this.isShowPopupDeletePostGroup = true;
     },
-    async upTypingText( gr ) {
-      await clearTimeout( typingTimer );
+    async upTypingText(gr) {
+      await clearTimeout(typingTimer);
 
-      typingTimer = await setTimeout( this.updatePostGroup( gr ), 1000);
+      typingTimer = await setTimeout(this.updatePostGroup(gr), 1000);
     },
-    updatePostGroup( gr ) {
+    updatePostGroup(gr) {
       const objSender = {
         postGroupId: gr._id,
         title: gr.title,
@@ -337,8 +364,8 @@ export default {
         margin-left: 0.5rem;
       }
       .name--modal {
-        font-size: 1.1rem;        
-        white-space: nowrap; 
+        font-size: 1.1rem;
+        white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
         width: 50%;

@@ -1,5 +1,5 @@
 import SequenceService from "@/services/modules/chat/sequence.service";
-// import BlockServices from "@/services/modules/chat/block.service";
+import BlockServices from "@/services/modules/chat/block.service";
 
 const state = {
   /******************** SEQUENCE *********************/
@@ -70,7 +70,7 @@ const actions = {
 
   // delete a sequence
   deleteASequence: async ( { commit }, payload ) => {
-    await SequenceService.deleteASequence( payload );
+    await SequenceService.deleteASequence( payload._id );
     const rsGetAllSequence = await SequenceService.getAllSequence();
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
@@ -79,15 +79,23 @@ const actions = {
   updateSequence: async ( { commit }, payload ) => {
     await SequenceService.updateSequence( payload._id, payload);
     const rsGetAllSequence = await SequenceService.getAllSequence();
+    commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
 
-  // create new block in sequence
-  createBlockInSequence: async ( { commit }, payload ) => {
-    const rsCreateBlockInSequence = await SequenceService.createBlockInASequence( payload );
-
+  // Function on above does not work 🙄
+  updateSequenceName: async ( { commit }, payload ) => {
+    await BlockServices.update(payload);
     const rsGetAllSequence = await SequenceService.getAllSequence();
     commit("setAllSequenceScript", rsGetAllSequence.data.data);
   },
+
+  // This one seems work, but does not work correctly 😑
+  // create new block in sequence
+  // createBlockInSequence: async ( { commit }, payload ) => {
+  //   const rsCreateBlockInSequence = await SequenceService.createBlockInASequence( payload );
+  //   const rsGetAllSequence = await SequenceService.getAllSequence();
+  //   commit("setAllSequenceScript", rsGetAllSequence.data.data);
+  // },
 
   // get all block in a sequence
   getAllBlockInSequenceById: async ( { commit }, payload ) => {

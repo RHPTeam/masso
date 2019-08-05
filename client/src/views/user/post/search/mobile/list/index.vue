@@ -1,5 +1,5 @@
 <template>
-  <div class="mobile--search-fb px_2">
+  <div class="mobile--search-fb px_3">
     <!-- Start: Search -->
     <div class="list--filter mb_2">
       <div class="list--input d_flex justify_content_between align_items_center mx_auto mb_2" @click="showPopupSearch">
@@ -31,7 +31,7 @@
         </div>
         <div
           v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
-          class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+          class="item--body empty--data d_flex align_items_center justify_content_center px_2"
         >Không có dữ liệu</div>
         <add-item v-for="(item, index) in listPostFacebookDefault" :key="`s+${index}`" :item="item" @showPost="showPost($event)"/>
       </vue-perfect-scrollbar>
@@ -97,11 +97,14 @@ export default {
     // const keywordDefault = this.user.keywords[
     //   Math.floor(Math.random() * this.user.keywords.length)
     // ];
-    // await this.$store.dispatch("getListPostFacebookDefault", {
-    //   keyword: this.user.keywords[0],
-    //   size: 25,
-    //   page: 1
-    // });
+    const fbSearch = this.$store.getters.listPostFacebookDefault;
+    if(fbSearch.length === 0) {
+      await this.$store.dispatch("getListPostFacebookDefault", {
+        keyword: this.user.keywords[0],
+        size: 25,
+        page: 1
+      });
+    }
     // this.keyword = keywordDefault;
   },
   methods: {

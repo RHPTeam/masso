@@ -69,11 +69,12 @@
             height="24"
             viewBox="0 0 600 600"
           >
-            <icon-agency />
+            <icon-agency></icon-agency>
           </icon-base>
           <span class="menu--item-text ml_2">Quản lý thành viên</span>
         </a>
       </router-link>
+
     </ul>
     <!-- End: Menu -->
     <!-- Start: Language -->

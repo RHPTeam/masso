@@ -1,4 +1,5 @@
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import CookieFunction from "@/utils/functions/cookie";
 export default {
   props: ["popupData"],
   components: {
@@ -33,42 +34,56 @@ export default {
       formData.append("profileUrl", this.file);
       this.$store.dispatch("sendFile", formData);
     },
+    showAgency() {
+      this.$emit("closePopup", false);
+      this.$router.push({ name: "post_agency" });
+    },
     showDashboard() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 0);
       this.$router.push({ name: "post_dashboard" });
-      this.$emit("closePopup", false);
     },
     showPosts() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 1);
       this.$store.dispatch("actionCursor", 11);
       this.$router.push({ name: "post_posts", query: { size: 25, page: 1 } });
-      this.$emit("closePopup", false);
     },
     showCampaign() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 2);
       this.$router.push({ name: "post_campaigns", query: { size: 25, page: 1 } });
-      this.$emit("closePopup", false);
     },
     showPostgroup() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 3);
       this.$router.push({ name: 'post_group' });
-      this.$emit("closePopup", false);
     },
     showAccountFb() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 4);
       this.$router.push({ name: 'post_fbaccount' });
-      this.$emit("closePopup", false);
     },
     showSearchFb() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 5);
       this.$router.push({ name: 'post_fb_search' });
-      this.$emit("closePopup", false);
     },
     showSetupAccount() {
+      this.$emit("closePopup", false);
       this.$store.dispatch("actionCursorMenu", 6);
       this.$router.push({ name: 'post_account' });
       this.$emit("closePopup", false);
+    },
+    showPricingPlan() {
+      this.$store.dispatch("actionCursorMenu", 7);
+      this.$router.push({ name: 'pricing_plan' });
+      this.$emit("closePopup", false);
     }
+  },
+  created() {    
+    const res = CookieFunction.getCookie("cfr");
+    this.roles = res;
   },
   filters: {
     getFirstLetter(string) {

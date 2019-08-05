@@ -4,12 +4,18 @@
       Tài khoản hết hạn: {{ user.expireDate | formatDate }}
     </div>
     <div class="renewed--account text_center ml_auto">
-      <button disabled>Gia hạn</button>
+      <button @click="showPopupRenewed">Gia hạn</button>
     </div>
+    <!-- Start: Popup Gia hạn -->
+    <transition name="popup">
+      <popup-renewed v-if="isShowPopupRenewed === true" @closePopup="isShowPopupRenewed = $event"/>
+    </transition>
+    <!-- End: Popup Gia hạn -->
   </div>
 </template>
 
 <script>
+import PopupRenewed from "../popup/renewed";
 export default {
   filters: {
     formatDate( d ) {
@@ -27,11 +33,24 @@ export default {
     }
   },
   props: [ "user" ],
+  components: {
+    PopupRenewed
+  },
+  data() {
+    return {
+      isShowPopupRenewed: false
+    }
+  },
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
     }
-  }
+  },
+  methods: {
+    showPopupRenewed() {
+      this.isShowPopupRenewed = true;
+    }
+  },
 };
 </script>
 

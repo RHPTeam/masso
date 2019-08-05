@@ -1,12 +1,12 @@
 let typingTimer;
 
-import AfterDay from "../popup/time";
-import OptionsSequence from "../popup/optionssequence";
-import OptionGroup from "../popup/optiongroup";
-import OptionGroupBlock from "../popup/optiongroupblock";
+import AfterDay from '../popup/time';
+import OptionsSequence from '../popup/optionssequence';
+import OptionGroup from '../popup/optiongroup';
+import OptionGroupBlock from '../popup/optiongroupblock';
 
 export default {
-  props: ["clickShowAfterDay", "closeAfterDay"],
+  props: ['clickShowAfterDay', 'closeAfterDay', 'selectedBlock'],
   data() {
     return {
       isAddTypeDropdown: false,
@@ -20,8 +20,8 @@ export default {
       showActionSequence: false,
       showOptionSequence: false,
       showCopySequenceScripts: false,
-      currentSequenceIndex: "",
-      currentAfterDayIndex: ""
+      currentSequenceIndex: '',
+      currentAfterDayIndex: ''
     };
   },
   computed: {
@@ -49,53 +49,63 @@ export default {
     // await this.$store.dispatch("getAllSequenceScript");
   },
   methods: {
-    showScriptDefault(){
+    showScriptDefault() {
       this.isShowScriptDefault = true;
       this.isActive = true;
       this.isOption = false;
+      this.$emit('activeTab', 'script')
     },
-    showScriptSequence(){
+    showScriptSequence() {
       this.isShowScriptDefault = false;
       this.isActive = false;
       this.isOption = true;
+      this.$emit('activeTab', 'sequence')
     },
-    openSequenceDropdown( id ){
+    openSequenceDropdown(id) {
       this.showCopySequenceScripts = true;
       this.currentSequenceIndex = id;
     },
-    closeCopySequenceScripts(){
+    closeCopySequenceScripts() {
       this.showCopySequenceScripts = false;
-      this.currentSequenceIndex = "";
+      this.currentSequenceIndex = '';
     },
     closeAddTypeDropdown() {
       this.isAddTypeDropdown = false;
     },
-    showBlock(id) {
-      this.$store.dispatch("getInfoBlock", id);
+    showBlock(block) {
+      // this.$store.dispatch('getInfoBlock', id);
+      this.$emit('selectedBlock', block);
+      this.$emit('isShowBlock', false);
     },
-    showItemSqc(SqcId) {
-      this.$store.dispatch("getInfoBlock", SqcId);
+    showItemSqc(item, sequence) {
+      // this.$store.dispatch('getInfoBlock', item._block._id);
+      this.$emit('isShowBlock', false);
+      this.$emit('currentSequence', sequence);
+      this.$emit('selectedBlock', item._block);
+      this.$emit('selectedBlockSequence', item);
     },
     createBlock(groupId) {
-      this.$store.dispatch("createBlock", groupId);
+      this.$store.dispatch('createBlock', groupId);
+      this.$emit('isCreateBlock', true);
     },
     createItemSqc(sequenceId) {
-      this.$store.dispatch("createBlockInSequence", sequenceId);
+      this.$store.dispatch('createBlockInSequence', sequenceId);
+      this.$emit('isCreateBlock', true);
     },
     createSequence() {
-      this.$store.dispatch("createSequenceScript");
+      this.$store.dispatch('createSequenceScript');
     },
     createGroup() {
-      this.$store.dispatch("createGroupBlock");
+      this.$store.dispatch('createGroupBlock');
     },
     showActionGroupItem(index) {
       this.currentIndexGroupItemButton = index;
     },
     upTypingText(type, group) {
       clearTimeout(typingTimer);
-      if (type === "namegroupblock") {
+      if (type === 'namegroupblock') {
         typingTimer = setTimeout(this.updateNameGroupBlock(group), 800);
-      } else if (type === "namegroupsequence") {
+      } else if (type === 'namegroupsequence') {
         typingTimer = setTimeout(this.updateNameSequence(group), 800);
       }
     },
@@ -108,7 +118,8 @@ export default {
         gr_id: value._id,
         name: value.name
       };
-      this.$store.dispatch("updateGroupBlock", objSender);
+      // this.$store.dispatch("updateBlock", objSender);
+      this.$store.dispatch('updateGroupBlock', objSender);
     },
     //Update nam sequence
     updateNameSequence(value) {
@@ -116,7 +127,21 @@ export default {
         sq_id: value._id,
         name: value.name
       };
-      this.$store.dispatch("updateSequence", objSender);
+      this.$store.dispatch('updateSequence', objSender);
+    },
+    onDeleteBlock(event, id) {
+      this.$emit('isDeletedBlock', event);
+    },
+    onSelectOption(block) {
+      console.log(block);
+      this.$emit('selectedBlock', block);
+    },
+    onDeleteGroupBlock(event, group) {
+      const data = {
+        status: event,
+        group: group
+      };
+      this.$emit('isDeletedGroupBlock', data);
     }
   },
   sockets: {
