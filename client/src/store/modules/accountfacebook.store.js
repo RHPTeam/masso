@@ -71,7 +71,7 @@ const actions = {
 
       // Update facebook pages and groups
       await PageFacebookServices.update();
-      // await GroupFacebookServices.update();
+      await GroupFacebookServices.update();
 
       commit('facebook_success');
     } catch (e) {

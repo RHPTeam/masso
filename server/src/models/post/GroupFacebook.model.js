@@ -7,6 +7,7 @@ const mongoose = require( "mongoose" ),
     "groupId": String,
     "name": String,
     "profile_picture": String,
+    "isAdmin": Boolean,
     "_account": {
       "type": Schema.Types.ObjectId,
       "ref": "Account"
