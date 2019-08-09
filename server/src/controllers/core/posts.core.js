@@ -292,7 +292,7 @@ module.exports = {
           let pathAbsolute = path.resolve( __dirname );
 
           // remove root path project
-          if ( photo.includes( "src" ) ) {
+          if ( pathAbsolute.includes( "src" ) ) {
             pathAbsolute = pathAbsolute.substring( 0, pathAbsolute.indexOf( "src" ) );
           }
 
@@ -300,9 +300,9 @@ module.exports = {
           if ( pathAbsolute.includes( "/" ) ) {
             return `${pathAbsolute}${photo.substring( photo.indexOf( "uploads" ) )}`;
           }
-          return `${path.resolve( __dirname )}${photo.substring( photo.indexOf( "uploads" ) ).replace( /\//g, "\\" )}`;
+          return `${pathAbsolute}${photo.substring( photo.indexOf( "uploads" ) ).replace( /\//g, "\\" )}`;
         } ) );
-
+      
       // Open browser
       const browser = await puppeteer.launch( { "headless": false } ),
         // Open a new tab
@@ -345,7 +345,6 @@ module.exports = {
       );
 
       await editContent.type( feed.content );
-
 
 
       // Upload file using dialog
