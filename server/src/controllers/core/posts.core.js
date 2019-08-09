@@ -332,6 +332,8 @@ module.exports = {
 
       await editContent.type( feed.content );
 
+
+
       // Upload file using dialog
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
