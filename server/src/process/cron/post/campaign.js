@@ -228,7 +228,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
             } else {
               campaignInfo.logs.total += 1;
               campaignInfo.logs.content.push( {
-                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại tại địa điểm có ID: ${eventSchedule.feed.location.value}. Lỗi: ${resFacebookResponse.error.text}`,
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại! Lỗi: ${resFacebookResponse.error.text}`,
                 "createdAt": new Date()
               } );
 

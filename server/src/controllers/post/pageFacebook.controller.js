@@ -50,7 +50,7 @@ module.exports = {
 
     // Get all page from facebook and save
     await Promise.all( facebookList.map( async ( facebook ) => {
-      const pageList = await getAllPages( { "cookie": facebook.cookie, agent } );
+      const pageList = await getAllPages( { "cookie": facebook.cookie } );
 
       // Handle code when fix add other item
       const pageListFixed = pageList.results.map( ( page ) => {

@@ -36,8 +36,9 @@ let getPageList = ( { cookie } ) => {
       // eslint-disable-next-line one-var
       const pageListElement = await page.$$( "#bookmarksSeeAllEntSection li" );
 
-      for ( const pageElement of pageListElement ) {
-        const uidGroup = await pageElement.$eval(
+      if ( pageListElement.length > 0 ) {
+        for ( const pageElement of pageListElement ) {
+          const uidGroup = await pageElement.$eval(
             'a[data-testid*="left_nav_item"]',
             ( a ) => {
               const shortInfoGroup = a.getAttribute( "data-gt" ),
@@ -52,16 +53,17 @@ let getPageList = ( { cookie } ) => {
                 )
               );
             }
-          ),
-          namePage = await pageElement.$eval(
-            "div.linkWrap > span",
-            ( span ) => span.innerText
-          );
+            ),
+            namePage = await pageElement.$eval(
+              "div.linkWrap > span",
+              ( span ) => span.innerText
+            );
 
-        pageListArr.push( {
-          "id": uidGroup,
-          "name": namePage
-        } );
+          pageListArr.push( {
+            "id": uidGroup,
+            "name": namePage
+          } );
+        }
       }
       await browser.close();
 
