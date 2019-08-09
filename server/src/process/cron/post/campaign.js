@@ -10,7 +10,7 @@ const { startedSchedule, finishedSchedule, deletedScheduleProcess } = require( "
 
 // Facebook Service Core
 const { agent } = require( "../../../configs/crawl" ),
-  { createPost } = require( "../../../controllers/core/posts.core" );
+  { PTFB } = require( "../../../controllers/core/posts.core" );
 
 // Function Support Core
 const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID ) => {
@@ -180,14 +180,12 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
 
           console.log( {
             "cookie": facebookInfo.cookie,
-            agent,
             "feed": feed
           } );
 
           // Do something new version - Post Feed To Facebook
           const resFacebookResponse = await createPost( {
             "cookie": facebookInfo.cookie,
-            agent,
             "feed": feed
           } );
 

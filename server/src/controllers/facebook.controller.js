@@ -51,11 +51,6 @@ module.exports = {
       return res.status( 403 ).json( { "status": "error", "message": "Tài khoản facebook với cookie này trùng với một tài khoản ở 1 cookie khác!" } );
     }
 
-    /* eslint-disable-next-line one-var */
-    const agentToken = await getDtsgAg( { "cookie": req.body.cookie, agent } ),
-      fullToken = await getFullDtsgFB( { "cookie": req.body.cookie, agent } );
-
-
     let newFacebook = await new Facebook( {
       "cookie": req.body.cookie,
       "status": 1,
@@ -65,11 +60,6 @@ module.exports = {
         "name": userInfoCore.results.fullName,
         "thumbSrc": userInfoCore.results.thumbSrc,
         "profileUrl": userInfoCore.results.profileUrl
-      },
-      "token": {
-        "agent": agentToken,
-        "privacy": fullToken.privacy,
-        "token": fullToken.token
       }
     } );
 
@@ -79,14 +69,6 @@ module.exports = {
     }
 
     await newFacebook.save();
-
-    // handle srv chat
-    // await chatAuto( newFacebook );
-
-    // Remove cookie and token when add facebook account
-    newFacebook = newFacebook.toObject();
-    delete newFacebook.cookie;
-    delete newFacebook.token;
 
     res.status( 200 ).json( jsonResponse( "success", newFacebook ) );
   },
@@ -177,7 +159,7 @@ module.exports = {
     }
 
     // Remove item Id, page Id of facebook account
-    Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
+    await Promise.all( listPostGroupByUser.map( async ( postGroup ) => {
       // Remove timelines of facebook
       if ( postGroup._timeline.includes( findFacebook.userInfo.id ) ) {
         postGroup._timeline.pull( findFacebook.userInfo.id );
@@ -188,20 +170,23 @@ module.exports = {
           return pageId;
         }
       } ) );
-      postGroup._pages = postGroup._pages.filter( ( el ) => { 
-        return removePageId.indexOf( el ) < 0; 
+
+      postGroup._pages = postGroup._pages.filter( ( el ) => {
+        return removePageId.indexOf( el ) < 0;
       } );
 
       // Remove groups of facebook
+      // eslint-disable-next-line one-var
       const removeGroupId = await Promise.all( postGroup._groups.map( async ( groupId ) => {
         if ( listGroupFacebook.includes( groupId ) ) {
           return groupId;
         }
       } ) );
-      postGroup._groups = postGroup._groups.filter( ( el ) => { 
-        return removeGroupId.indexOf( el ) < 0; 
+
+      postGroup._groups = postGroup._groups.filter( ( el ) => {
+        return removeGroupId.indexOf( el ) < 0;
       } );
-  
+
       await postGroup.save();
     } ) );
 
