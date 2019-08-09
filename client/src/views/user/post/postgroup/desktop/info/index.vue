@@ -21,9 +21,9 @@
     <!--Start: Info Right Component-->
     <div class="info--right d_flex ml_auto">
       <!--Start: Update again pages & groups-->
-      <div class="action mr_2" @click="updateGroupsAndPages" >
+      <!-- <div class="action mr_2" @click="updateGroupsAndPages" >
         Cập nhật
-      </div>
+      </div> -->
       <!--End: Update again pages & groups-->
       <!--Start: Remove  selected pages & groups-->
       <div class="action mr_2"

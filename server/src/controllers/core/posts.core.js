@@ -1,7 +1,9 @@
+/* eslint-disable one-var */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable strict */
 const cheerio = require( "cheerio" ),
+  puppeteer = require( "puppeteer" ),
   fs = require( "fs" ),
   request = require( "request" ),
   { post, mpost } = require( "../../configs/crawl" ),
@@ -12,7 +14,10 @@ const cheerio = require( "cheerio" ),
     handleImageUpload,
     uploadImage
   } = require( "../../helpers/utils/facebook/facebook" ),
-  { findSubString } = require( "../../helpers/utils/functions/string" ),
+  {
+    convertCookieFacebook,
+    findSubString
+  } = require( "../../helpers/utils/functions/string" ),
   getPost = ( { cookie, agent, url, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -144,7 +149,8 @@ module.exports = {
       return {
         "error": {
           "code": 1037,
-          "text": "Tài khoản của bạn đã bị đăng xuất, vui lòng cung cấp lại mã kích hoạt để tiêp tục!"
+          "text":
+            "Tài khoản của bạn đã bị đăng xuất, vui lòng cung cấp lại mã kích hoạt để tiêp tục!"
         },
         "results": null
       };
@@ -194,7 +200,9 @@ module.exports = {
         return photoID;
       } );
 
-      feedObject.photos = ( await Promise.all( sources ) ).filter( ( source ) => source !== undefined && source !== null );
+      feedObject.photos = ( await Promise.all( sources ) ).filter(
+        ( source ) => source !== undefined && source !== null
+      );
     }
 
     // Check if user want scrape / share something
@@ -274,5 +282,96 @@ module.exports = {
       };
     }
     return await getInfoPost( { cookie, agent } );
+  },
+  "PTFB": async ( { cookie, feed } ) => {
+    try {
+      // Convert Cookie
+      const cookieConverted = convertCookieFacebook( cookie ),
+        imagesList = feed.photos;
+
+      // Open browser
+      const browser = await puppeteer.launch( { "headless": false } ),
+        // Open a new tab
+        page = await browser.newPage(),
+        // Define turn off notification popup
+        context = browser.defaultBrowserContext();
+
+      await context.overridePermissions( "https://www.facebook.com", [
+        "notifications"
+      ] );
+
+      // set viewport
+      await page.setViewport( { "width": 1366, "height": 768 } );
+
+      // Set cookie before access to facebook
+      await Promise.all(
+        cookieConverted.map( ( element ) => {
+          page.setCookie( element );
+        } )
+      );
+      await page.waitFor( 1000 );
+
+      // Go to m.facebook.com
+      await page.goto(
+        `https://www.facebook.com/${
+          feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+        }`
+      );
+
+      // click to open popup
+      await page.click( 'div[role="region"]' );
+      await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
+
+      // Click element to type text
+      await page.waitForSelector(
+        'div[data-testid="react-composer-root"] div[contenteditable="true"]'
+      );
+      const editContent = await page.$(
+        'div[data-testid="react-composer-root"] div[contenteditable="true"]'
+      );
+
+      await editContent.type( feed.content );
+
+      // Upload file using dialog
+      for ( let i = 0; i < imagesList.length; i++ ) {
+        if ( feed.location.type === 0 || feed.location.type === 1 ) {
+          const input = await page.$( 'input[data-testid="media-sprout"]' );
+
+          await input.uploadFile( imagesList[ i ] );
+        } else if ( feed.location.type === 2 ) {
+          if ( i < 1 ) {
+            await page.click( 'div[data-testid="photo-video-button"]' );
+            await page.waitForSelector( 'input[name="composer_photo"]' );
+            const input = await page.$( 'input[name="composer_photo"]' );
+
+            await input.uploadFile( imagesList[ i ] );
+          } else {
+            const input = await page.$( 'input[data-testid="media-sprout"]' );
+
+            await input.uploadFile( imagesList[ i ] );
+          }
+        }
+
+        // Handle wait finnish upload attachement
+        await page.waitForSelector( "div.fbScrollableArea" );
+        await page.waitForSelector(
+          'div.fbScrollableAreaContent div[data-testid="media-attachment-photo"]'
+        );
+      }
+
+      // Handle wait button able to click
+      await page.waitForFunction(
+        'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
+      );
+
+      // Handle button submit to feed
+      const btnSubmit = await page.$(
+        'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
+      );
+
+      await btnSubmit.click();
+    } catch ( error ) {
+      console.log( error );
+    }
   }
 };

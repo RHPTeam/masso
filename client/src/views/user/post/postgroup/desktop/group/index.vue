@@ -20,7 +20,7 @@
           :contenteditable="true"
           :noNL="true"
           v-model="postGroup.title"
-          @keyup="upTypingText( postGroup )"
+          @keyup.enter="upTypingText( postGroup )"
           @keydown="clearTypingTimer"
         />
       </div>
