@@ -60,7 +60,6 @@ const actions = {
     commit("friend_request");
 
     const result = await FriendFacebookStore.searchFriend(payload.keyword, payload.size, payload.page);
-    console.log(result.data.data);
     commit("setFriends", result.data.data.results);
     commit("setPage", result.data.data.page);
 

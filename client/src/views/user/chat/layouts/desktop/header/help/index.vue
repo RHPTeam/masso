@@ -14,7 +14,7 @@
             <loading-component/>
           </div>
           <div v-else>
-            <div v-if="blogHelp && blogHelp.length === 0">
+            <div v-if="blogHelp && blogHelp.length === 0" class="text_center py_2">
               Bạn chưa có thông báo nào.
             </div>
             <div
