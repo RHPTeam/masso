@@ -285,7 +285,7 @@ module.exports = {
     return await getInfoPost( { cookie, agent } );
   },
   "PTFB": async ( { cookie, feed } ) => {
-    const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local" } );
+    const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local", "args": [ "--no-sandbox" ] } );
 
     try {
       // Convert Cookie
