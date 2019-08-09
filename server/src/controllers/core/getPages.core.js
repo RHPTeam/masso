@@ -3,11 +3,12 @@ const puppeteer = require( "puppeteer" ),
 
 let getPageList = ( { cookie } ) => {
   return new Promise( async ( resolve ) => {
+    const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local" } );
+
     try {
       // Open browser
       const pageListArr = [],
         cookieConverted = convertCookieFacebook( cookie ),
-        browser = await puppeteer.launch( { "headless": false } ),
         // Open a new tab
         page = await browser.newPage(),
         // Define turn off notification popup
@@ -16,9 +17,6 @@ let getPageList = ( { cookie } ) => {
       await context.overridePermissions( "https://www.facebook.com", [
         "notifications"
       ] );
-
-      // set viewport
-      await page.setViewport( { "width": 1366, "height": 768 } );
 
       // Set cookie before access to facebook
       await Promise.all(
