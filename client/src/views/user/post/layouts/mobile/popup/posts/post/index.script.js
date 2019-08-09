@@ -206,6 +206,7 @@ export default {
     async sendFile() {
       this.isShowMoreOption = false;
       const formData = new FormData();
+
       Array.from(this.file).forEach((f) => {
         formData.append("attachments", f)
       });

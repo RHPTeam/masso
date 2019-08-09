@@ -22,6 +22,12 @@
             :to="{ name: 'campaigns_default' }"
             active-class="active"
           >Chiến dịch mẫu</router-link>
+          <div class="divider"></div>
+          <router-link
+            class="action--link"
+            :to="{ name: 'campaigns_loop' }"
+            active-class="active"
+          >Chiến dịch nhanh</router-link>
         </div>
       </div>
 
@@ -59,6 +65,7 @@ export default {
         { id: "deactive", name: "Ngừng hoạt động" }
       ],
       isShowCreatCampaignPopup: false,
+      isShowOptionCampaign: false,
       search: "",
       sizeDefault: 25,
       pageDefault: 1
@@ -67,6 +74,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    variable(){
+      return this.$store.getters.variableCampaignHeader;
     }
   },
   watch: {
