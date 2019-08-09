@@ -1,56 +1,92 @@
-/* eslint-disable no-eval */
-/* eslint-disable no-multi-spaces */
-const request = require( "request" );
-const cheerio = require( "cheerio" ),
-  { findSubString } = require( "../../helpers/utils/functions/string" ),
-  { getDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
-  { linkPages } = require( "../../configs/crawl" );
+const puppeteer = require( "puppeteer" ),
+  { convertCookieFacebook } = require( "../../helpers/utils/functions/string" );
 
-let getPage = ( { cookie, agent } ) => {
-  return new Promise( ( resolve ) => {
-    let option = {
-      "method": "get",
-      "url": linkPages,
-      "headers": {
-        "User-Agent": agent,
-        "Cookie": cookie
+let getPageList = ( { cookie } ) => {
+  return new Promise( async ( resolve ) => {
+    try {
+      // Open browser
+      const pageListArr = [],
+        cookieConverted = convertCookieFacebook( cookie ),
+        browser = await puppeteer.launch( { "headless": false } ),
+        // Open a new tab
+        page = await browser.newPage(),
+        // Define turn off notification popup
+        context = browser.defaultBrowserContext();
+
+      await context.overridePermissions( "https://www.facebook.com", [
+        "notifications"
+      ] );
+
+      // set viewport
+      await page.setViewport( { "width": 1366, "height": 768 } );
+
+      // Set cookie before access to facebook
+      await Promise.all(
+        cookieConverted.map( ( element ) => {
+          page.setCookie( element );
+        } )
+      );
+
+      // Go to facebook.com/pages
+      await page.waitFor( 1000 );
+      await page.goto(
+        "https://www.facebook.com/bookmarks/pages?ref_type=logout_gear"
+      );
+
+      await page.waitForSelector( "#bookmarksSeeAllEntSection" );
+
+      // eslint-disable-next-line one-var
+      const pageListElement = await page.$$( "#bookmarksSeeAllEntSection li" );
+
+      for ( const pageElement of pageListElement ) {
+        const uidGroup = await pageElement.$eval(
+            'a[data-testid*="left_nav_item"]',
+            ( a ) => {
+              const shortInfoGroup = a.getAttribute( "data-gt" ),
+                start = '"bmid":"',
+                end = '"';
+
+              return shortInfoGroup.substring(
+                shortInfoGroup.indexOf( start ) + start.length,
+                shortInfoGroup.indexOf(
+                  end,
+                  shortInfoGroup.indexOf( start ) + start.length
+                )
+              );
+            }
+          ),
+          namePage = await pageElement.$eval(
+            "div.linkWrap > span",
+            ( span ) => span.innerText
+          );
+
+        pageListArr.push( {
+          "id": uidGroup,
+          "name": namePage
+        } );
       }
+      await browser.close();
 
-    };
-
-    // eslint-disable-next-line handle-callback-err
-    request( option, function ( err, res, body ) {
-
-      let $ = cheerio.load( body ),
-        result = [];
-
-      if ( body.includes( "https://www.facebook.com/login" ) ) {
-        resolve( { "error": "400", "result": result } );
-      } else {
-        let text = findSubString( $( "script:contains('BookmarkSeeAllEntsSectionController')" ).contents()[ "0" ].data, "BookmarkSeeAllEntsSectionController", "]]," ),
-          formatText = findSubString( text, "},[", "]]" );
-
-        eval( `var pageRes = [${  formatText  }]` );
-
-        resolve( { "error": null, "results": pageRes } );
-      }
-    } );
+      resolve( {
+        "error": {
+          "code": 200,
+          "text": null
+        },
+        "results": pageListArr
+      } );
+    } catch ( error ) {
+      await browser.close();
+      resolve( {
+        "error": {
+          "code": 404,
+          "text": "Xảy ra lỗi trong quá trình lấy thông tin bằng puppeteer!"
+        },
+        "results": error
+      } );
+    }
   } );
 };
 
-module.exports = async ( { cookie, agent } ) => {
-  // Get token which can next do anymonre
-  const token = await getDtsgFB( { cookie, agent } );
-
-  // Check conditional request
-  if ( token === false ) {
-    return {
-      "error": {
-        "code": 405,
-        "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
-      },
-      "results": []
-    };
-  }
-  return await getPage( { cookie, agent } );
+module.exports = async ( { cookie } ) => {
+  return await getPageList( { cookie } );
 };
