@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable strict */
-const cheerio = require( "cheerio" ),
+const path = require( "path" ),
+  cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
   fs = require( "fs" ),
   request = require( "request" ),
@@ -287,7 +288,9 @@ module.exports = {
     try {
       // Convert Cookie
       const cookieConverted = convertCookieFacebook( cookie ),
-        imagesList = feed.photos;
+        imagesList = await Promise.all( feed.photos.map( ( photo ) => {
+          return `${path.resolve( __dirname )}/${photo.substring( photo.indexOf( "uploads" ) )}`;
+        } ) );
 
       // Open browser
       const browser = await puppeteer.launch( { "headless": false } ),
