@@ -289,7 +289,18 @@ module.exports = {
       // Convert Cookie
       const cookieConverted = convertCookieFacebook( cookie ),
         imagesList = await Promise.all( feed.photos.map( ( photo ) => {
-          return `${path.resolve( __dirname )}/${photo.substring( photo.indexOf( "uploads" ) )}`;
+          let pathAbsolute = path.resolve( __dirname );
+
+          // remove root path project
+          if ( photo.includes( "src" ) ) {
+            pathAbsolute = pathAbsolute.substring( 0, pathAbsolute.indexOf( "src" ) );
+          }
+
+          // check your os
+          if ( pathAbsolute.includes( "/" ) ) {
+            return `${pathAbsolute}${photo.substring( photo.indexOf( "uploads" ) )}`;
+          }
+          return `${path.resolve( __dirname )}${photo.substring( photo.indexOf( "uploads" ) ).replace( /\//g, "\\" )}`;
         } ) );
 
       // Open browser
