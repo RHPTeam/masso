@@ -184,7 +184,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
           } );
 
           // Do something new version - Post Feed To Facebook
-          const resFacebookResponse = await createPost( {
+          const resFacebookResponse = await PTFB( {
             "cookie": facebookInfo.cookie,
             "feed": feed
           } );
