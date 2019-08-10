@@ -166,10 +166,11 @@ module.exports = {
   },
   "getUserInfo": ( { cookie } ) => {
     return new Promise( async ( resolve ) => {
+      const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local", "args": [ "--no-sandbox" ] } );
+
       try {
         // Open browser
         const cookieConverted = convertCookieFacebook( cookie ),
-          browser = await puppeteer.launch( { "headless": false } ),
           // Open a new tab
           page = await browser.newPage(),
           // Define turn off notification popup
@@ -178,9 +179,6 @@ module.exports = {
         await context.overridePermissions( "https://www.facebook.com", [
           "notifications"
         ] );
-
-        // set viewport
-        await page.setViewport( { "width": 1366, "height": 768 } );
 
         // Set cookie before access to facebook
         await Promise.all(
@@ -201,7 +199,6 @@ module.exports = {
         const name = await page.title();
 
         await browser.close();
-
         resolve( {
           "error": {
             "code": 200,
@@ -224,7 +221,6 @@ module.exports = {
         } );
       } catch ( error ) {
         await browser.close();
-
         resolve( {
           "error": {
             "code": 404,
