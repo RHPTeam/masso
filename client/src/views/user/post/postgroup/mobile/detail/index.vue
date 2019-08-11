@@ -317,7 +317,6 @@ export default {
       await clearTimeout(typingTimer);
 
       typingTimer = await setTimeout(this.updatePostGroup(gr), 1000);
-      this.isShowActionSave = false;
     },
     updatePostGroup(gr) {
       const objSender = {

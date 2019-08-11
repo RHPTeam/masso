@@ -2,7 +2,7 @@
   <div class="main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
     <div class="nav--left d_flex align_items_center mb_4">
-        <div class="add--campaign">
+        <div class="add--campaign mr_auto">
           <div
             class="btn--add-campaign mr_2"
             @click="isShowCreatCampaignPopup = true"
@@ -10,7 +10,7 @@
             Thêm chiến dịch
           </div>
         </div>
-        <div class="action--campaign d_flex align_items_center">
+        <div class="action--campaign d_flex align_items_center ml_auto">
           <router-link
             class="action--link"
             :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
@@ -262,16 +262,12 @@ export default {
 
 @media screen and (max-width: 839px) {
   .main--header {
-    .add--campaign {
-      margin-right: auto;
-    }
     .nav--left {
       height: auto;
       flex-direction: column;
     }
     .action--campaign {
       margin-top: 1rem;
-      margin-left: auto;
     }
   }
 }

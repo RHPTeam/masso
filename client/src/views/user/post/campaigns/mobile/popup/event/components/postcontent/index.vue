@@ -95,6 +95,7 @@ export default {
       await this.$store.dispatch("getAllCategories");
     }
     
+    console.log("this.caseEvent.post", this.caseEvent.post);
     if (this.caseEvent.post === 0) {
       await this.$store.dispatch("setCaseEvent", {
         key: "post",
