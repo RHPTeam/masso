@@ -56,9 +56,15 @@ export default {
     showAddtoGrPopup() {
       this.isShowAddtoGrPopup = true;
     },
-    async updateGroupsAndPages() {
+    /*async updateGroupsAndPages() {
       await this.$store.dispatch( "getAccountsFB" );
       await this.$store.dispatch( "updateFacebookPages" );
+      await this.$store.dispatch( "updateFacebookGroups" );
+    },*/
+    async updateFanpageFacebook() {
+      await this.$store.dispatch( "updateFacebookPages" );
+    },
+    async updateGroupFacebook() {
       await this.$store.dispatch( "updateFacebookGroups" );
     },
     updateTypeSelected( val ) {

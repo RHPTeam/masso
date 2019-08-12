@@ -21,9 +21,19 @@
     <!--Start: Info Right Component-->
     <div class="info--right d_flex ml_auto">
       <!--Start: Update again pages & groups-->
-      <!-- <div class="action mr_2" @click="updateGroupsAndPages" >
-        Cập nhật
-      </div> -->
+      <div class="wrap position_relative mr_2">
+        <div class="action">Cập nhật</div>
+        <div class="update position_absolute">
+          <div class="update--item px_3 py_1">Le Khang</div>
+          <div class="update--item px_3 py_1">Toc Xoan</div>
+        </div>
+      </div>
+       <!--<div class="action mr_2" @click="updateFanpageFacebook" >
+        Cập nhật Fanpage
+      </div>
+      <div class="action mr_2" @click="updateGroupFacebook" >
+        Cập nhật Group
+      </div>-->
       <!--End: Update again pages & groups-->
       <!--Start: Remove  selected pages & groups-->
       <div class="action mr_2"
