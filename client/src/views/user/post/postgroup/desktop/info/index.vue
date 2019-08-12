@@ -22,10 +22,16 @@
     <div class="info--right d_flex ml_auto">
       <!--Start: Update again pages & groups-->
       <div class="wrap position_relative mr_2">
-        <div class="action">Cập nhật</div>
-        <div class="update position_absolute">
-          <div class="update--item px_3 py_1">Le Khang</div>
-          <div class="update--item px_3 py_1">Toc Xoan</div>
+        <div class="action" @click="isShowUpdateFanpage = !isShowUpdateFanpage">Cập nhật Fanpage</div>
+        <div class="update position_absolute" v-if="isShowUpdateFanpage  === true" v-click-outside="closeUpdateFanpage">
+          <div class="update--item px_3 py_2">Le Khang</div>
+        </div>
+      </div>
+
+      <div class="wrap position_relative mr_2">
+        <div class="action" @click="isShowUpdateGroup = !isShowUpdateGroup">Cập nhật Group</div>
+        <div class="update position_absolute" v-if="isShowUpdateGroup === true" v-click-outside="closeUpdateGroup">
+          <div class="update--item px_3 py_2">Le Khang</div>
         </div>
       </div>
        <!--<div class="action mr_2" @click="updateFanpageFacebook" >

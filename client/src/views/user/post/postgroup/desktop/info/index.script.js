@@ -12,6 +12,8 @@ export default {
       showDropdown: false,
       isShowDeletePopup: false,
       isShowAddtoGrPopup: false,
+      isShowUpdateFanpage: false,
+      isShowUpdateGroup: false,
       targetDeletePopupData: {},
     };
   },
@@ -40,6 +42,12 @@ export default {
   },
 
   methods: {
+    closeUpdateFanpage(){
+      this.isShowUpdateFanpage = false;
+    },
+    closeUpdateGroup(){
+      this.isShowUpdateGroup  = false;
+    },
     closeShowDropdown(){
       this.showDropdown = false;
     },
