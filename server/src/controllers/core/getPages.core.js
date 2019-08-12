@@ -39,20 +39,20 @@ let getPageList = ( { cookie } ) => {
       if ( pageListElement.length > 0 ) {
         for ( const pageElement of pageListElement ) {
           const uidGroup = await pageElement.$eval(
-            'a[data-testid*="left_nav_item"]',
-            ( a ) => {
-              const shortInfoGroup = a.getAttribute( "data-gt" ),
-                start = '"bmid":"',
-                end = '"';
+              'a[data-testid*="left_nav_item"]',
+              ( a ) => {
+                const shortInfoGroup = a.getAttribute( "data-gt" ),
+                  start = '"bmid":"',
+                  end = '"';
 
-              return shortInfoGroup.substring(
-                shortInfoGroup.indexOf( start ) + start.length,
-                shortInfoGroup.indexOf(
-                  end,
-                  shortInfoGroup.indexOf( start ) + start.length
-                )
-              );
-            }
+                return shortInfoGroup.substring(
+                  shortInfoGroup.indexOf( start ) + start.length,
+                  shortInfoGroup.indexOf(
+                    end,
+                    shortInfoGroup.indexOf( start ) + start.length
+                  )
+                );
+              }
             ),
             namePage = await pageElement.$eval(
               "div.linkWrap > span",

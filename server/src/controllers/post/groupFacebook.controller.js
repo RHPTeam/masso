@@ -46,40 +46,31 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
-    const facebookList = await Facebook.find( { "_account": req.uid } ),
-      postGroupList = await PostGroup.find( { "_account": req.uid } );
-
-    // Get all item from facebook and save
-    await Promise.all( facebookList.map( async ( facebook ) => {
-      const groupList = await getAllGroups( { "cookie": facebook.cookie, agent } );
-
-      // Handle code when fix add other item
-      const groupListFixed = groupList.results.map( ( group ) => {
+    const facebookInfo = await Facebook.findOne( { "_id": req.query._id, "_account": req.uid } ),
+      postGroupList = await PostGroup.find( { "_account": req.uid } ),
+      groupList = await getAllGroups( { "cookie": facebookInfo.cookie, agent } ),
+      groupListFixed = groupList.results.map( ( group ) => {
         group._account = req.uid;
-        group._facebook = facebook._id;
+        group._facebook = facebookInfo._id;
         return group;
+      } ),
+      findGroupFacebook = await GroupFacebook.find( { "_facebook": facebookInfo._id } );
+
+    await Promise.all( findGroupFacebook.map( ( groupFacebook ) => {
+      groupFacebook.remove();
+    } ) );
+    // insert item facebook list to database
+    await GroupFacebook.insertMany( groupListFixed );
+    // Check post item exists old ID
+    await Promise.all( postGroupList.map( ( postGroup ) => {
+      postGroup._groups.map( async ( group ) => {
+        const groupChecked = await GroupFacebook.findOne( { "groupId": group } );
+
+        if ( !groupChecked ) {
+          postGroup._groups.splice( postGroup._groups.indexOf( group ), 1 );
+          await postGroup.save();
+        }
       } );
-      // Delete all item facebook
-      const findGroupFacebook = await GroupFacebook.find( { "_facebook": facebook._id } );
-
-      await Promise.all( findGroupFacebook.map( ( groupFacebook ) => {
-        groupFacebook.remove();
-      } ) );
-
-      // insert item facebook list to database
-      await GroupFacebook.insertMany( groupListFixed );
-
-      // Check post item exists old ID
-      await Promise.all( postGroupList.map( ( postGroup ) => {
-        postGroup._groups.map( async ( group ) => {
-          const groupChecked = await GroupFacebook.findOne( { "groupId": group } );
-
-          if ( !groupChecked ) {
-            postGroup._groups.splice( postGroup._groups.indexOf( group ), 1 );
-            await postGroup.save();
-          }
-        } );
-      } ) );
     } ) );
 
     res

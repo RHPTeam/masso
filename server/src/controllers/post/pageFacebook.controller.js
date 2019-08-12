@@ -45,44 +45,35 @@ module.exports = {
    * @returns {Promise<void>}
    */
   "update": async ( req, res ) => {
-    const facebookList = await Facebook.find( { "_account": req.uid } ),
-      postGroupList = await PostGroup.find( { "_account": req.uid } );
-
-    // Get all page from facebook and save
-    await Promise.all( facebookList.map( async ( facebook ) => {
-      const pageList = await getAllPages( { "cookie": facebook.cookie } );
-
-      // Handle code when fix add other item
-      const pageListFixed = pageList.results.map( ( page ) => {
+    const facebookInfo = await Facebook.findOne( { "_id": req.query._id, "_account": req.uid } ),
+      postGroupList = await PostGroup.find( { "_account": req.uid } ),
+      pageList = await getAllPages( { "cookie": facebookInfo.cookie } ),
+      pageListFixed = pageList.results.map( ( page ) => {
         return {
           "pageId": page.id,
           "name": page.name,
           "profile_picture": `https://graph.facebook.com/${page.id}/picture?type=large`,
           "_account": req.uid,
-          "_facebook": facebook._id
+          "_facebook": facebookInfo._id
         };
+      } ),
+      findPageFacebook = await PageFacebook.find( { "_facebook": facebookInfo._id } );
+
+    await Promise.all( findPageFacebook.map( ( pageFacebook ) => {
+      pageFacebook.remove();
+    } ) );
+    // insert page facebook list to database
+    await PageFacebook.insertMany( pageListFixed );
+    // Check post item exists old ID
+    await Promise.all( postGroupList.map( ( postGroup ) => {
+      postGroup._pages.map( async ( page ) => {
+        const pageChecked = await PageFacebook.findOne( { "pageId": page } );
+
+        if ( !pageChecked ) {
+          postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
+          await postGroup.save();
+        }
       } );
-      // Delete all page facebook
-      const findPageFacebook = await PageFacebook.find( { "_facebook": facebook._id } );
-
-      await Promise.all( findPageFacebook.map( ( pageFacebook ) => {
-        pageFacebook.remove();
-      } ) );
-
-      // insert page facebook list to database
-      await PageFacebook.insertMany( pageListFixed );
-
-      // Check post item exists old ID
-      await Promise.all( postGroupList.map( ( postGroup ) => {
-        postGroup._pages.map( async ( page ) => {
-          const pageChecked = await PageFacebook.findOne( { "pageId": page } );
-
-          if ( !pageChecked ) {
-            postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
-            await postGroup.save();
-          }
-        } );
-      } ) );
     } ) );
 
     res
