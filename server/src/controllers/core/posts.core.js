@@ -285,11 +285,11 @@ module.exports = {
     return await getInfoPost( { cookie, agent } );
   },
   "PTFB": async ( { cookie, feed } ) => {
-    const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local", "args": [ "--no-sandbox" ] } );
+    const browser = await puppeteer.launch( process.env.APP_ENV_OS === "MAC" || process.env.APP_ENV_OS === "WINDOW" ? { "headless": false } : { "headless": true, "args": [ "--no-sandbox" ] } );
 
     try {
       // Convert Cookie
-      const cookieConverted = convertCookieFacebook( cookie ),
+      const cookieConverted = await convertCookieFacebook( cookie ),
         imagesList = await Promise.all(
           feed.photos.map( ( photo ) => {
             let pathAbsolute = path.resolve( __dirname );

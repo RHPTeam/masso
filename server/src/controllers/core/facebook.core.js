@@ -166,7 +166,7 @@ module.exports = {
   },
   "getUserInfo": ( { cookie } ) => {
     return new Promise( async ( resolve ) => {
-      const browser = await puppeteer.launch( { "headless": process.env.APP_ENV !== "local", "args": [ "--no-sandbox" ] } );
+      const browser = await puppeteer.launch( process.env.APP_ENV_OS === "MAC" || process.env.APP_ENV_OS === "WINDOW" ? { "headless": false } : { "headless": true, "args": [ "--no-sandbox" ] } );
 
       try {
         // Open browser

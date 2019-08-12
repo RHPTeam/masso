@@ -3,7 +3,7 @@ module.exports = {
   "converSourceUnix": ( url ) => {
     return url.replace( /\\\//gi, "/" );
   },
-  "convertCookieFacebook": ( cookie ) => {
+  "convertCookieFacebook": async ( cookie ) => {
     const sb = module.exports.findSubString( cookie, "sb=", ";" ),
       datr = module.exports.findSubString( cookie, "datr=", ";" ),
       fbp = module.exports.findSubString( cookie, "_fbp=", ";" ),
