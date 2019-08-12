@@ -18,6 +18,9 @@ export default {
     };
   },
   computed: {
+    accountsFB() {
+      return this.$store.getters.accountsFB;
+    },
     currentTheme() {
       return this.$store.getters.themeName;
     },
@@ -40,7 +43,9 @@ export default {
       return this.$store.getters.postProfileSelected;
     }
   },
-
+  async created() {
+    await this.$store.dispatch( "getAccountsFB" );
+  },
   methods: {
     closeUpdateFanpage(){
       this.isShowUpdateFanpage = false;
@@ -69,11 +74,13 @@ export default {
       await this.$store.dispatch( "updateFacebookPages" );
       await this.$store.dispatch( "updateFacebookGroups" );
     },*/
-    async updateFanpageFacebook() {
-      await this.$store.dispatch( "updateFacebookPages" );
+    async updateFanpageFacebook(val) {
+      await this.$store.dispatch( "updateFacebookPages", val._id );
+      this.closeUpdateFanpage();
     },
-    async updateGroupFacebook() {
-      await this.$store.dispatch( "updateFacebookGroups" );
+    async updateGroupFacebook(val) {
+      await this.$store.dispatch( "updateFacebookGroups", val._id );
+      this.closeUpdateGroup();
     },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );

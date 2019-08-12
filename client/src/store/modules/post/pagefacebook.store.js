@@ -30,9 +30,9 @@ const state = {
       commit( "setFacebookPagesStatus", "success" );
 
     },
-    updateFacebookPages: async ({commit}) => {
+    updateFacebookPages: async ({commit}, payload) => {
       commit( "setFacebookPagesStatus", "loading" );
-      await PageFacebookServices.update();
+      await PageFacebookServices.update(payload);
 
       const res = await PageFacebookServices.index();
 
