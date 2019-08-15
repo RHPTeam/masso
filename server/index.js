@@ -1,3 +1,4 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const bodyParser = require( "body-parser" );
 const fs = require( "fs" );
 const cors = require( "cors" );
@@ -66,9 +67,9 @@ if ( !fs.existsSync( directoryLog ) ) {
     if ( err ) {
       throw err;
     }
-    fs.writeFile( __dirname.includes( "/" ) ? directoryLog + "/schedule.txt" : directoryLog + "\\schedule.txt", "Starting Log...\r\n", function ( err ) {
-      if ( err ) {
-        throw err;
+    fs.writeFile( __dirname.includes( "/" ) ? directoryLog + "/schedule.txt" : directoryLog + "\\schedule.txt", "Starting Log...\r\n", function ( error ) {
+      if ( error ) {
+        throw error;
       }
       console.log( "File log is created successfully." );
     } );

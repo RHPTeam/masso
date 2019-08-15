@@ -346,11 +346,29 @@ module.exports = {
       await page.waitForSelector(
         'div[data-testid="react-composer-root"] div[contenteditable="true"]'
       );
-      const editContent = await page.$(
-        'div[data-testid="react-composer-root"] div[contenteditable="true"]'
-      );
+      await page.evaluate( () => {
+        // Create new element
+        const el = document.createElement( "textarea" );
+        // Set value (string to be copied)
 
-      await editContent.type( feed.content );
+        el.value = feed.content;
+        // Set non-editable to avoid focus and move outside of view
+        el.setAttribute( "readonly", "" );
+        el.style = {
+          "position": "absolute",
+          "left": "-9999px"
+        };
+        document.body.appendChild( el );
+        // Select text inside element
+        el.select();
+        // Copy text to clipboard
+        document.execCommand( "copy" );
+        // Remove temporary element
+        document.body.removeChild( el );
+      } );
+      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
+      await page.keyboard.down( "Control" );
+      await page.keyboard.down( "KeyV" );
 
       // Upload file using dialog
       for ( let i = 0; i < imagesList.length; i++ ) {
