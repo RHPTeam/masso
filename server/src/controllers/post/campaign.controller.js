@@ -109,24 +109,7 @@ module.exports = {
     await newCampaign.save();
 
     /** ********************** Log Action Of User For Admin ****************************** **/
-    let objectLog = {
-        "data": [ {
-          "logs": {
-            "content": `Người dùng tạo chiến dịch "${ newCampaign.title }" thành công!`,
-            "createdAt": new Date(),
-            "info": {
-              "campaignId": newCampaign._id
-            },
-            "status": 0
-          }
-        } ],
-        "_account": req.uid
-      },
-      resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
-
-    if ( resLogSync.data.status !== "success" ) {
-      return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
-    }
+    
     /** **************************************************************************** **/
 
     res.status( 200 ).json( jsonResponse( "success", newCampaign ) );
