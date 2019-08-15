@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export default () => {
-  return axios.create( { baseURL: process.env.VUE_APP_API_URL, httpsAgent: new https.Agent( { rejectUnauthorized: false } ) } );
+  return axios.create( { baseURL: process.env.VUE_APP_API_URL } );
 };
