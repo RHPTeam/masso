@@ -59,6 +59,7 @@
 </template>
 
 <script>
+import StringFunction from "@/utils/functions/string";
 export default {
   props: {
     description: {
@@ -116,13 +117,30 @@ export default {
     deleteTargets() {
       // console.log("action", this.storeActionName);
       // console.log("targetData", this.targetData);
-      const actionDeleteBlock = ["deleteBlock", "deleteGroupBlock"];
-      if (actionDeleteBlock.includes(this.storeActionName)) {
-        this.$store.dispatch(this.storeActionName, this.targetData._id);
+      // const actionDeleteBlock = ["deleteBlock", "deleteGroupBlock"];
+      //
+      // if (actionDeleteBlock.includes(this.storeActionName)) {
+      //
+      //   this.$store.dispatch(this.storeActionName, this.targetData._id);
+      //
+      // }
+      // const actionDeleteBlockSequence = ["deleteASequence", "deleteBlockInSequence"];
+      //
+      // if (actionDeleteBlockSequence.includes(this.storeActionName)) {
+      //
+      //   this.$store.dispatch(this.storeActionName, this.targetData);
+      //
+      // }
+      console.log(1);
+      console.log(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()));
+      console.log(this.targetData.id);
+
+      if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'bai viet') {
+        this.$store.dispatch(this.storeActionName, this.targetData.id);
       }
-      const actionDeleteBlockSequence = ["deleteASequence", "deleteBlockInSequence"];
-      if (actionDeleteBlockSequence.includes(this.storeActionName)) {
-        this.$store.dispatch(this.storeActionName, this.targetData);
+
+      if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'chien dich') {
+        this.$store.dispatch(this.storeActionName, this.targetData.id);
       }
 
       this.$emit("closePopup", false);

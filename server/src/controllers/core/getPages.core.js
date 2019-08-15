@@ -3,12 +3,12 @@ const puppeteer = require( "puppeteer" ),
 
 let getPageList = ( { cookie } ) => {
   return new Promise( async ( resolve ) => {
-    const browser = await puppeteer.launch( process.env.APP_ENV_OS === "MAC" || process.env.APP_ENV_OS === "WINDOW" ? { "headless": false } : { "headless": true, "args": [ "--no-sandbox" ] } );
+    const browser = await puppeteer.launch( { "headless": false } );
 
     try {
       // Open browser
       const pageListArr = [],
-        cookieConverted = convertCookieFacebook( cookie ),
+        cookieConverted = await convertCookieFacebook( cookie ),
         // Open a new tab
         page = await browser.newPage(),
         // Define turn off notification popup
@@ -19,11 +19,7 @@ let getPageList = ( { cookie } ) => {
       ] );
 
       // Set cookie before access to facebook
-      await Promise.all(
-        cookieConverted.map( ( element ) => {
-          page.setCookie( element );
-        } )
-      );
+      await page.setCookie( ...cookieConverted );
 
       // Go to facebook.com/pages
       await page.waitFor( 1000 );

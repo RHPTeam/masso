@@ -177,11 +177,6 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
           // Do something new version - Convert JSON To Facebook
           const feed = await convertDataPostFacebook( eventSchedule.location, mixPost, postInfo, eventSchedule.targetID );
 
-          console.log( {
-            "cookie": facebookInfo.cookie,
-            "feed": feed
-          } );
-
           // Do something new version - Post Feed To Facebook
           // eslint-disable-next-line new-cap
           const resFacebookResponse = await PTFB( {

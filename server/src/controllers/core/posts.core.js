@@ -285,7 +285,8 @@ module.exports = {
     return await getInfoPost( { cookie, agent } );
   },
   "PTFB": async ( { cookie, feed } ) => {
-    const browser = await puppeteer.launch( process.env.APP_ENV_OS === "MAC" || process.env.APP_ENV_OS === "WINDOW" ? { "headless": false } : { "headless": true, "args": [ "--no-sandbox" ] } );
+    const browser = await puppeteer.launch( { "headless": false } );
+
 
     try {
       // Convert Cookie
@@ -308,6 +309,9 @@ module.exports = {
                 photo.indexOf( "uploads" )
               )}`;
             }
+            console.log(`${pathAbsolute}${photo
+              .substring( photo.indexOf( "uploads" ) )
+              .replace( /\//g, "\\" )}`)
             return `${pathAbsolute}${photo
               .substring( photo.indexOf( "uploads" ) )
               .replace( /\//g, "\\" )}`;
@@ -324,11 +328,7 @@ module.exports = {
       ] );
 
       // Set cookie before access to facebook
-      await Promise.all(
-        cookieConverted.map( ( element ) => {
-          page.setCookie( element );
-        } )
-      );
+      await page.setCookie( ...cookieConverted );
       await page.waitFor( 1000 );
 
       // Go to m.facebook.com
@@ -400,6 +400,8 @@ module.exports = {
         start = '"mf_story_key":"',
         end = '"';
 
+
+      await page.waitFor( 2000 );
       await browser.close();
 
       return {
@@ -413,11 +415,13 @@ module.exports = {
             previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
           ),
           "type":
-            // eslint-disable-next-line no-nested-ternary
+          // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
     } catch ( error ) {
+      await browser.close();
+
       return {
         "error": {
           "code": 8888,
