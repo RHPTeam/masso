@@ -9,7 +9,7 @@ const Post = require( "../../../models/post/Post.model" );
 const { startedSchedule, finishedSchedule, deletedScheduleProcess } = require( "../../../helpers/utils/functions/scheduleLog" );
 
 // Facebook Service Core
-const { PTFB } = require( "../../../controllers/core/posts.core" );
+const { createNewFeed } = require( "../../../controllers/core/posts.core" );
 
 // Function Support Core
 const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID ) => {
@@ -179,7 +179,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
 
           // Do something new version - Post Feed To Facebook
           // eslint-disable-next-line new-cap
-          const resFacebookResponse = await PTFB( {
+          const resFacebookResponse = await createNewFeed( {
             "cookie": facebookInfo.cookie,
             "feed": feed
           } );

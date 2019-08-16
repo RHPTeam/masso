@@ -1,6 +1,7 @@
 /* eslint-disable one-var */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable strict */
 const path = require( "path" ),
   cheerio = require( "cheerio" ),
@@ -136,7 +137,64 @@ const path = require( "path" ),
         } );
       } );
     } );
-  };
+  },
+  download = require( "download" ),
+  randomString = require( "randomstring" );
+
+const downloadImageTemp = ( url ) => {
+  return new Promise( ( resolve ) => {
+    download( url )
+      .then( ( data ) => {
+        let pathAbsolute = path.resolve( __dirname ), pathImageFile;
+
+        // remove root path project
+        if ( pathAbsolute.includes( "src" ) ) {
+          pathAbsolute = pathAbsolute.substring(
+            0,
+            pathAbsolute.indexOf( "src" )
+          );
+        }
+
+        // check os
+        if ( pathAbsolute.includes( "/" ) ) {
+          pathImageFile = `${pathAbsolute}/uploads/temp/${randomString.generate()}.jpg`;
+        } else {
+          pathImageFile = `${pathAbsolute}\\uploads\\temp\\${randomString.generate()}.jpg`;
+        }
+
+        fs.writeFileSync( pathImageFile, data, ( err ) => {
+          if ( err ) {
+            resolve( {
+              "error": {
+                "code": 404,
+                "text": `Quá trình tải ảnh thất bại! Vui lòng kiểm tra tại: ${__dirname}`
+              },
+              "results": null
+            } );
+          }
+        } );
+
+        resolve( {
+          "error": {
+            "code": 200,
+            "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
+          },
+          "results": pathImageFile
+        } );
+      } )
+      .catch( ( error ) => {
+        if ( error.name === "RequestError" ) {
+          resolve( {
+            "error": {
+              "code": 404,
+              "text": `Quá trình tải ảnh có vấn đề phát sinh vui lòng kiểm tra tại: ${__dirname}`
+            },
+            "results": null
+          } );
+        }
+      } );
+  } );
+};
 
 module.exports = {
   "createPost": async ( { cookie, agent, feed } ) => {
@@ -284,93 +342,54 @@ module.exports = {
     }
     return await getInfoPost( { cookie, agent } );
   },
-  "PTFB": async ( { cookie, feed } ) => {
+  "createNewFeed": async ( { cookie, feed } ) => {
     const browser = await puppeteer.launch( { "headless": false } );
-
 
     try {
       // Convert Cookie
       const cookieConverted = await convertCookieFacebook( cookie ),
         imagesList = await Promise.all(
-          feed.photos.map( ( photo ) => {
-            let pathAbsolute = path.resolve( __dirname );
-
-            // remove root path project
-            if ( pathAbsolute.includes( "src" ) ) {
-              pathAbsolute = pathAbsolute.substring(
-                0,
-                pathAbsolute.indexOf( "src" )
-              );
-            }
-
-            // check your os
-            if ( pathAbsolute.includes( "/" ) ) {
-              return `${pathAbsolute}${photo.substring(
-                photo.indexOf( "uploads" )
-              )}`;
-            }
-            console.log(`${pathAbsolute}${photo
-              .substring( photo.indexOf( "uploads" ) )
-              .replace( /\//g, "\\" )}`)
-            return `${pathAbsolute}${photo
-              .substring( photo.indexOf( "uploads" ) )
-              .replace( /\//g, "\\" )}`;
+          feed.photos.map( async ( photo ) => {
+            return ( await downloadImageTemp( photo ) ).results;
           } )
         );
 
       // Open browser
       const page = await browser.newPage(),
-        // Define turn off notification popup
         context = browser.defaultBrowserContext();
 
       await context.overridePermissions( "https://www.facebook.com", [
         "notifications"
       ] );
-
-      // Set cookie before access to facebook
       await page.setCookie( ...cookieConverted );
       await page.waitFor( 1000 );
-
-      // Go to m.facebook.com
       await page.goto(
         `https://www.facebook.com/${
           feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
         }`
       );
-
-      // click to open popup
       await page.click( 'div[role="region"]' );
       await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
-
-      // Click element to type text
       await page.waitForSelector(
         'div[data-testid="react-composer-root"] div[contenteditable="true"]'
       );
       await page.evaluate( () => {
-        // Create new element
         const el = document.createElement( "textarea" );
-        // Set value (string to be copied)
 
         el.value = feed.content;
-        // Set non-editable to avoid focus and move outside of view
         el.setAttribute( "readonly", "" );
         el.style = {
           "position": "absolute",
           "left": "-9999px"
         };
         document.body.appendChild( el );
-        // Select text inside element
         el.select();
-        // Copy text to clipboard
         document.execCommand( "copy" );
-        // Remove temporary element
         document.body.removeChild( el );
       } );
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
-
-      // Upload file using dialog
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           const input = await page.$( 'input[data-testid="media-sprout"]' );
@@ -389,26 +408,19 @@ module.exports = {
             await input.uploadFile( imagesList[ i ] );
           }
         }
-
-        // Handle wait finnish upload attachement
         await page.waitForSelector( "div.fbScrollableArea" );
         await page.waitForSelector(
           'div.fbScrollableAreaContent div[data-testid="media-attachment-photo"]'
         );
       }
-
-      // Handle wait button able to click
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
-
-      // Handle button submit to feed
       const btnSubmit = await page.$(
         'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
       );
 
       await btnSubmit.click();
-
       await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
 
       const previewInfo = await page.$eval(
@@ -418,9 +430,13 @@ module.exports = {
         start = '"mf_story_key":"',
         end = '"';
 
-
       await page.waitFor( 2000 );
       await browser.close();
+
+      // Delete images list
+      await Promise.all( feed.photos.map( async ( photo ) => {
+        await fs.unlinkSync( photo );
+      } ) );
 
       return {
         "error": {
@@ -433,17 +449,16 @@ module.exports = {
             previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
           ),
           "type":
-          // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
     } catch ( error ) {
       await browser.close();
-
       return {
         "error": {
           "code": 8888,
-          "text": "Xảy ra lỗi trong quá trình đăng bài viết."
+          "text": "Xảy ra lỗi trong quá trình đăng bài viết.",
+          "message": error
         },
         "results": null
       };
