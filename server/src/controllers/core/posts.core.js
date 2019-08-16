@@ -373,10 +373,10 @@ module.exports = {
       await page.waitForSelector(
         'div[data-testid="react-composer-root"] div[contenteditable="true"]'
       );
-      await page.evaluate( () => {
+      await page.evaluate( ( content ) => {
         const el = document.createElement( "textarea" );
 
-        el.value = feed.content;
+        el.value = content;
         el.setAttribute( "readonly", "" );
         el.style = {
           "position": "absolute",
@@ -386,7 +386,7 @@ module.exports = {
         el.select();
         document.execCommand( "copy" );
         document.body.removeChild( el );
-      } );
+      }, feed.content );
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
