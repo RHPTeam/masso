@@ -157,9 +157,9 @@ const downloadImageTemp = ( url ) => {
 
         // check os
         if ( pathAbsolute.includes( "/" ) ) {
-          pathImageFile = `${pathAbsolute}/uploads/temp/${randomString.generate()}.jpg`;
+          pathImageFile = `${pathAbsolute}uploads/temp/${randomString.generate()}.jpg`;
         } else {
-          pathImageFile = `${pathAbsolute}\\uploads\\temp\\${randomString.generate()}.jpg`;
+          pathImageFile = `${pathAbsolute}uploads\\temp\\${randomString.generate()}.jpg`;
         }
 
         fs.writeFileSync( pathImageFile, data, ( err ) => {
