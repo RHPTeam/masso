@@ -72,6 +72,7 @@
                 <span class="col col--name-text">
                   {{ item.name }}
                 </span>
+                <span class="admin" v-if="item.isAdmin && item.isAdmin === true">ADMIN</span>
               </div>
             </div>
             <div class="no--group text_center py_3" v-if="facebookPagesSearch.length === 0">Không tìm thấy trang nào</div>
@@ -102,6 +103,7 @@
                 <span class="col col--name-text">
                   {{ item.name }}
                 </span>
+                <span class="admin ml_auto" v-if="item.isAdmin && item.isAdmin === true">ADMIN</span>
               </div>
             </div>
             <div class="no--group text_center py_3" v-if="facebookGroupsSearch.length === 0">Không tìm thấy nhóm nào</div>
@@ -232,6 +234,7 @@
                 <span class="col col--name-text">
                   {{ item.name }}
                 </span>
+                <span class="admin ml_auto" v-if="item.isAdmin && item.isAdmin === true">ADMIN</span>
               </div>
             </div>
             <div class="no--group text_center py_3" v-if="postGroupDetailGroup.length === 0">Không tìm thấy nhóm nào</div>

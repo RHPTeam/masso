@@ -86,14 +86,8 @@ export default {
   },
   watch: {
     "beginningCategory"( value) {
-      if ( value && this.event.post_category ) {
-        if ( value._id === this.event.post_category._id ) {
-          this.errorStatus = true;
-          this.errorText = "Danh mục mở bài trùng với danh mục đăng bài viết!"
-        }
-      }
       if ( value && this.endingCategory ) {
-        if ( value._id === this.beginningCategory._id ) {
+        if ( value._id === this.endingCategory._id ) {
           this.errorStatus = true;
           this.errorText = "Danh mục mở bài và kết bài trùng nhau!"
         } else {
@@ -125,7 +119,7 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit( "closePopup", false );
+      this.$emit( "close", false );
     },
     async submit() {
       const dataSender = {
@@ -141,6 +135,22 @@ export default {
         }
       };
 
+      // Check close or open undefined
+      if ( dataSender.mix.open && dataSender.mix.open._id === undefined ) {
+        dataSender.mix.open = "";
+      }
+      if ( dataSender.mix.close && dataSender.mix.close._id === undefined ) {
+        dataSender.mix.close = "";
+      }
+
+      //Validate
+      if ( this.beginningCategory === "" && this.endingCategory === "" ) {
+        this.errorStatus = true;
+        this.errorText = "Bạn phải chọn danh mục mở bài hoặc kết bài!"
+      } else {
+        this.errorStatus = false;
+        this.errorText = "";
+      }
       if ( this.errorStatus ) return;
 
       await this.$store.dispatch( "setEvent", {
@@ -155,5 +165,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "./index.style";
+  @import "./index.style";
 </style>

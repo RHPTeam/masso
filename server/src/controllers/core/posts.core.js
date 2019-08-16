@@ -2,7 +2,8 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-shadow */
 /* eslint-disable strict */
-const cheerio = require( "cheerio" ),
+const path = require( "path" ),
+  cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
   fs = require( "fs" ),
   request = require( "request" ),
@@ -287,7 +288,29 @@ module.exports = {
     try {
       // Convert Cookie
       const cookieConverted = convertCookieFacebook( cookie ),
-        imagesList = feed.photos;
+        imagesList = await Promise.all(
+          feed.photos.map( ( photo ) => {
+            let pathAbsolute = path.resolve( __dirname );
+
+            // remove root path project
+            if ( pathAbsolute.includes( "src" ) ) {
+              pathAbsolute = pathAbsolute.substring(
+                0,
+                pathAbsolute.indexOf( "src" )
+              );
+            }
+
+            // check your os
+            if ( pathAbsolute.includes( "/" ) ) {
+              return `${pathAbsolute}${photo.substring(
+                photo.indexOf( "uploads" )
+              )}`;
+            }
+            return `${pathAbsolute}${photo
+              .substring( photo.indexOf( "uploads" ) )
+              .replace( /\//g, "\\" )}`;
+          } )
+        );
 
       // Open browser
       const browser = await puppeteer.launch( { "headless": false } ),
@@ -370,8 +393,41 @@ module.exports = {
       );
 
       await btnSubmit.click();
+
+      await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
+
+      const previewInfo = await page.$eval(
+          'div[data-ft*="mf_story_key"]',
+          ( div ) => div.getAttribute( "data-ft" )
+        ),
+        start = '"mf_story_key":"',
+        end = '"';
+
+      await browser.close();
+
+      return {
+        "error": {
+          "code": 200,
+          "text": null
+        },
+        "results": {
+          "postID": previewInfo.substring(
+            previewInfo.indexOf( start ) + start.length,
+            previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
+          ),
+          "type":
+            // eslint-disable-next-line no-nested-ternary
+            feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+        }
+      };
     } catch ( error ) {
-      console.log( error );
+      return {
+        "error": {
+          "code": 8888,
+          "text": "Xảy ra lỗi trong quá trình đăng bài viết."
+        },
+        "results": null
+      };
     }
   }
 };

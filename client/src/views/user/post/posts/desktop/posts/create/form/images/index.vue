@@ -71,15 +71,39 @@ export default {
     },
     selectFile() {
       this.file = this.$refs.file.files;
+
+      // const position = this.file.map((item, index) => {
+      //   if(item.size > 5242880) {
+      //     return index;
+      //   }
+      // });
+      //
+      // if(position) {
+      //
+      //   this.file = this.file.splice(position, 1);
+      //   this.$emit("openPopupDeleteImage", true);
+      //
+      // }else {
+      //
+      //   this.sendFile();
+      //
+      //   // reset ref
+      //   const input = this.$refs.file;
+      //   input.type = "text";
+      //   input.type = "file";
+      // }
+
       this.sendFile();
 
       // reset ref
       const input = this.$refs.file;
       input.type = "text";
       input.type = "file";
+
     },
     async sendFile() {
       const formData = new FormData();
+
       Array.from(this.file).forEach(f => {
         formData.append("attachments", f);
       });
@@ -92,6 +116,7 @@ export default {
         }
       } );
       this.post.attachments = this.post.attachments.concat( uploadFiles );
+
     }
   }
 };
