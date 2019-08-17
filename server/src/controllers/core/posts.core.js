@@ -433,11 +433,6 @@ module.exports = {
       await page.waitFor( 2000 );
       await browser.close();
 
-      // Delete images list
-      await Promise.all( feed.photos.map( async ( photo ) => {
-        await fs.unlinkSync( photo );
-      } ) );
-
       return {
         "error": {
           "code": 200,
