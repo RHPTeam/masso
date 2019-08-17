@@ -1,8 +1,7 @@
 .DS_Store
 node_modules
-/dist
-/uploads
-/server/uploads
+uploads
+dist
 zinbee.pfx
 
 /tests/e2e/reports/
