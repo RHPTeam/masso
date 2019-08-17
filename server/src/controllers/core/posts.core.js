@@ -143,7 +143,7 @@ const path = require( "path" ),
 
 const downloadImageTemp = ( url ) => {
   return new Promise( ( resolve ) => {
-    download( url )
+    download( encodeURI( url ) )
       .then( ( data ) => {
         let pathAbsolute = path.resolve( __dirname ), pathImageFile;
 
@@ -348,11 +348,11 @@ module.exports = {
     try {
       // Convert Cookie
       const cookieConverted = await convertCookieFacebook( cookie ),
-        imagesList = await Promise.all(
+        imagesList = ( await Promise.all(
           feed.photos.map( async ( photo ) => {
             return ( await downloadImageTemp( photo ) ).results;
           } )
-        );
+        ) ).filter( ( photo ) => photo !== null );
 
       // Open browser
       const page = await browser.newPage(),
