@@ -138,62 +138,44 @@ const path = require( "path" ),
       } );
     } );
   },
-  download = require( "download" ),
-  randomString = require( "randomstring" );
+  download = require( "image-downloader" );
 
-const downloadImageTemp = ( url ) => {
-  return new Promise( ( resolve ) => {
-    download( encodeURI( url ) )
-      .then( ( data ) => {
-        let pathAbsolute = path.resolve( __dirname ), pathImageFile;
+const downloadIMG = async ( url ) => {
+  let pathAbsolute = path.resolve( __dirname );
 
-        // remove root path project
-        if ( pathAbsolute.includes( "src" ) ) {
-          pathAbsolute = pathAbsolute.substring(
-            0,
-            pathAbsolute.indexOf( "src" )
-          );
-        }
+  // remove root path project
+  if ( pathAbsolute.includes( "src" ) ) {
+    pathAbsolute = pathAbsolute.substring(
+      0,
+      pathAbsolute.indexOf( "src" )
+    );
+  }
 
-        // check os
-        if ( pathAbsolute.includes( "/" ) ) {
-          pathImageFile = `${pathAbsolute}uploads/temp/${randomString.generate()}.jpg`;
-        } else {
-          pathImageFile = `${pathAbsolute}uploads\\temp\\${randomString.generate()}.jpg`;
-        }
+  const options = {
+    "url": url,
+    "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+  };
 
-        fs.writeFileSync( pathImageFile, data, ( err ) => {
-          if ( err ) {
-            resolve( {
-              "error": {
-                "code": 404,
-                "text": `Quá trình tải ảnh thất bại! Vui lòng kiểm tra tại: ${__dirname}`
-              },
-              "results": null
-            } );
-          }
-        } );
+  try {
+    const { filename } = await download.image( options );
 
-        resolve( {
-          "error": {
-            "code": 200,
-            "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
-          },
-          "results": pathImageFile
-        } );
-      } )
-      .catch( ( error ) => {
-        if ( error.name === "RequestError" ) {
-          resolve( {
-            "error": {
-              "code": 404,
-              "text": `Quá trình tải ảnh có vấn đề phát sinh vui lòng kiểm tra tại: ${__dirname}`
-            },
-            "results": null
-          } );
-        }
-      } );
-  } );
+    return {
+      "error": {
+        "code": 200,
+        "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
+      },
+      "results": filename
+    };
+  } catch ( e ) {
+    console.error( e );
+    return {
+      "error": {
+        "code": 404,
+        "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
+      },
+      "results": null
+    }
+  }
 };
 
 module.exports = {
@@ -351,9 +333,9 @@ module.exports = {
         imagesList = ( await Promise.all(
           feed.photos.map( async ( photo ) => {
             if ( photo.match( /\s/g ) ) {
-              return ( await downloadImageTemp( encodeURI( photo ) ) ).results;
+              return ( await downloadIMG( encodeURI( photo ) ) ).results;
             }
-            return ( await downloadImageTemp( photo ) ).results;
+            return ( await downloadIMG( photo ) ).results;
           } )
         ) ).filter( ( photo ) => photo !== null );
 
