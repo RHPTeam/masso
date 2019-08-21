@@ -350,7 +350,7 @@ module.exports = {
       const cookieConverted = await convertCookieFacebook( cookie ),
         imagesList = ( await Promise.all(
           feed.photos.map( async ( photo ) => {
-            if ( photo.includes( " " ) ) {
+            if ( photo.match( /\s/g ) ) {
               return ( await downloadImageTemp( encodeURI( photo ) ) ).results;
             }
             return ( await downloadImageTemp( photo ) ).results;
