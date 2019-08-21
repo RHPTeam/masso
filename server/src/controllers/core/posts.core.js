@@ -350,12 +350,15 @@ module.exports = {
       const cookieConverted = await convertCookieFacebook( cookie ),
         imagesList = ( await Promise.all(
           feed.photos.map( async ( photo ) => {
+            if ( photo.includes( " " ) ) {
+              return ( await downloadImageTemp( encodeURI( photo ) ) ).results;
+            }
             return ( await downloadImageTemp( photo ) ).results;
           } )
         ) ).filter( ( photo ) => photo !== null );
 
       // Open browser
-      const page = await browser.newPage(),
+      const page = ( await browser.pages() )[ 0 ],
         context = browser.defaultBrowserContext();
 
       await context.overridePermissions( "https://www.facebook.com", [
@@ -423,6 +426,28 @@ module.exports = {
       );
 
       await btnSubmit.click();
+
+      if ( feed.location.type === 1 ) {
+        await page.waitForSelector( "div.composerPostSection div.mvm.pam.uiBoxYellow" );
+        if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
+          return {
+            "error": {
+              "code": 8888,
+              "text": `Nhóm ${
+                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
+              "message": `Nhóm ${
+                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
+            },
+            "results": null
+          };
+        }
+      }
+
+      // Handle wait for post finnish
+      await page.waitFor( 5000 );
+
       await browser.close();
 
       return {
