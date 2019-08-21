@@ -132,7 +132,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
       }
 
       // Handle sync code when open browser
-      for ( let i = 0; i < listEventSchedule; i++ ) {
+      for ( let i = 0; i < listEventSchedule.length; i++ ) {
         const campaignInfo = await Campaign.findOne( { "_id": listEventSchedule[ i ]._campaign } ),
           eventInfo = await Event.findOne( { "_id": listEventSchedule[ i ]._event } ),
           postInfo = await Post.findOne( { "_id": listEventSchedule[ i ].postID } ).lean(),
