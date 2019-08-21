@@ -17,6 +17,9 @@
 <script>
 import PopupRenewed from "../popup/renewed";
 export default {
+  components: {
+    PopupRenewed
+  },
   filters: {
     formatDate( d ) {
       const newDate = new Date( d ),
@@ -33,9 +36,6 @@ export default {
     }
   },
   props: [ "user" ],
-  components: {
-    PopupRenewed
-  },
   data() {
     return {
       isShowPopupRenewed: false

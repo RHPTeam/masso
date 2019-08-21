@@ -1,26 +1,42 @@
 <template>
   <div class="wrapper position_relative" :data-theme="currentTheme">
-    <!-- Start: Desktop Component-->
+    <!-- START: DESKTOP COMPONENT-->
     <div class="wrap--content d_md_flex d_none position_relative" v-if="innerWidth > 768">
+
+      <!-- START: DESKTOP SIDEBAR COMPONENT-->
       <div class="wrap--content-sidebar">
         <app-sidebar></app-sidebar>
       </div>
+      <!-- END: DESKTOP SIDEBAR COMPONENT-->
+
+      <!-- START: DESKTOP CONTENT COMPONENT-->
       <div class="wrap--content-main">
         <app-header @openExpire="showExpire = $event"></app-header>
         <router-view />
       </div>
-    </div>
-    <!-- End: Desktop Component-->
+      <!-- END: DESKTOP CONTENT COMPONENT-->
 
-    <!-- Mobile -->
+    </div>
+    <!-- END: DESKTOP COMPONENT-->
+
+    <!--START: MOBILE COMPONENT -->
     <div class="wrap--content-mobile d_block d_md_none position_relative" v-else>
+
+      <!--START: MOBILE HEADER COMPONENT -->
       <header-mobile></header-mobile>
+      <!--END: MOBILE HEADER COMPONENT -->
+
+      <!--START: MOBILE CONTENT COMPONENT -->
       <VuePerfectScrollbar class="mobile-scroll">
-        <!-- <search-mobile /> -->
         <router-view />
       </VuePerfectScrollbar>
+      <!--END: MOBILE CONTENT COMPONENT -->
+
+      <!--START: MOBILE FOOTER COMPONENT -->
       <footer-mobile></footer-mobile>
+      <!--END: MOBILE FOOTER COMPONENT -->
     </div>
+    <!--END: MOBILE COMPONENT -->
 
     <!-- Start: Notification for check login facebook account-->
     <app-notification :statusNetwork="statusNetwork"></app-notification>
