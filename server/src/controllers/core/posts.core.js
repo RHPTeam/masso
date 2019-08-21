@@ -390,6 +390,8 @@ module.exports = {
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
+      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
+
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           const input = await page.$( 'input[data-testid="media-sprout"]' );
@@ -421,16 +423,6 @@ module.exports = {
       );
 
       await btnSubmit.click();
-      await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
-
-      const previewInfo = await page.$eval(
-          'div[data-ft*="mf_story_key"]',
-          ( div ) => div.getAttribute( "data-ft" )
-        ),
-        start = '"mf_story_key":"',
-        end = '"';
-
-      await page.waitFor( 2000 );
       await browser.close();
 
       return {
@@ -439,10 +431,7 @@ module.exports = {
           "text": null
         },
         "results": {
-          "postID": previewInfo.substring(
-            previewInfo.indexOf( start ) + start.length,
-            previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
-          ),
+          "postID": "Vui lòng kiểm tra trạng thái bài đăng trên facebook của bạn.",
           "type":
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
