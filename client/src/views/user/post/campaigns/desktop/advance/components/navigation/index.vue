@@ -22,12 +22,12 @@
             :to="{ name: 'campaigns_default' }"
             active-class="active"
           >Chiến dịch mẫu</router-link>
-          <div class="divider"></div>
-          <router-link
-            class="action--link"
-            :to="{ name: 'campaigns_loop' }"
-            active-class="active"
-          >Chiến dịch nhanh</router-link>
+<!--          <div class="divider"></div>-->
+<!--          <router-link-->
+<!--            class="action&#45;&#45;link"-->
+<!--            :to="{ name: 'campaigns_loop' }"-->
+<!--            active-class="active"-->
+<!--          >Chiến dịch nhanh</router-link>-->
         </div>
       </div>
 

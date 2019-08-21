@@ -33,12 +33,10 @@
       ></popup-add-group>
       <popup-filter-by-category
         v-if="isShowDropdownFilterByCategory === true"
-        @closePopup="isShowDropdownFilterByCategory = $event"
-      />
+        @closePopup="isShowDropdownFilterByCategory = $event"></popup-filter-by-category>
       <popup-expire-code
         v-if="isShowPopupExpireCode === true"
-        @closePopup="isShowPopupExpireCode = $event"
-      />
+        @closePopup="isShowPopupExpireCode = $event"></popup-expire-code>
       <setup-info v-if="isShowPopupSetupInfo === true" @closePopup="isShowPopupSetupInfo = $event"></setup-info>
     </transition>
     <transition name="popup--sidebar">

@@ -151,7 +151,7 @@
                 </icon-base>
                 <div class="pt_1">Zin Post</div>
               </div>
-              <div class="zin--post zin-chat item c_4" @click="gotoHomeChat">
+              <div class="zin--post zin-chat d_none item c_4" @click="gotoHomeChat">
                 <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
                   <icon-zin-chat/>
                 </icon-base>

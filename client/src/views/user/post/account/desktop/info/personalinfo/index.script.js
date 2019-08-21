@@ -3,6 +3,10 @@ import PopupInfoChange from "../../popup/infochange/index";
 import PopupPasswordChange from "../../popup/password/index";
 
 export default {
+  components: {
+    PopupInfoChange,
+    PopupPasswordChange
+  },
   props: [ "user" ],
   data() {
     return {
@@ -37,21 +41,11 @@ export default {
     };
   },
   computed: {
-    // user() {
-    //   if ( this.$store.getters.userInfo === undefined ) {
-    //     return;
-    //   }
-    //   return this.$store.getters.userInfo;
-    // },
     currentTheme() {
       return this.$store.getters.themeName;
     }
   },
   methods: {
-    async logOut() {
-      await this.$store.dispatch( "logOut" );
-      this.$router.push( "/signin" );
-    },
     async updateUser() {
       this.isComparePassword();
       if ( this.isCompare ) {
@@ -118,9 +112,5 @@ export default {
         this.statusClassPassed.confirmNewPassword = false;
       }
     }
-  },
-  components: {
-    PopupInfoChange,
-    PopupPasswordChange
   }
 };

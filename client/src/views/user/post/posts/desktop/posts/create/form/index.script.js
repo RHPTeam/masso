@@ -105,9 +105,9 @@ export default {
       this.$store.dispatch( "showPostDuplicate", this.$route.params.id );
     }
 
-    this.$store.dispatch( "getAllFriendFb" );
-    this.$store.dispatch( "getPlaceFromFb" );
-    this.$store.dispatch( "getActivityFb" );
+    // this.$store.dispatch( "getAllFriendFb" );
+    // this.$store.dispatch( "getPlaceFromFb" );
+    // this.$store.dispatch( "getActivityFb" );
     this.$store.dispatch( "getColorFromFb" );
     },
   watch: {
