@@ -202,16 +202,8 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
               "createdAt": new Date()
             } );
 
-            console.log( `Post To Facebook Successfully with ID: ${resFacebookResponse.results.postID}` );
-          } else if ( resFacebookResponse.error.code === 8188 ) {
-            campaignInfo.logs.total += 1;
-            campaignInfo.logs.content.push( {
-              "message": `[Facebook] ${resFacebookResponse.error.text}`,
-              "createdAt": new Date()
-            } );
-
-            console.log( `Lỗi đếu gì thế đếu tìm ra được =.= Dỗi vler :)) Bọn Facebook trả về là: ${resFacebookResponse.error.text}` );
-          } else if ( resFacebookResponse.error.code === 1037 ) {
+            console.log( "✅✅✅✅ Post To Facebook Successfully..." );
+          } else if ( resFacebookResponse.error.code === 8889 ) {
             campaignInfo.logs.total += 1;
             campaignInfo.logs.content.push( {
               "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
@@ -224,7 +216,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
               }
             } );
 
-            console.log( `Have error: ${resFacebookResponse.error.text}` );
+            console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
           } else {
             campaignInfo.logs.total += 1;
             campaignInfo.logs.content.push( {
@@ -232,14 +224,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
               "createdAt": new Date()
             } );
 
-            // Handle when account facebook is logged out
-            await Campaign.updateOne( { "_id": listEventSchedule[ i ]._campaign }, { "status": false }, ( err ) => {
-              if ( err ) {
-                throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
-              }
-            } );
-
-            console.log( `Have error: ${resFacebookResponse.error.text}` );
+            console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
           }
           await campaignInfo.save();
         }
