@@ -163,9 +163,6 @@ export default {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
     },
-    showPopupExpireCode() {
-      this.isShowPopupExpireCode = true;
-    },
     showPopupSetupInfo() {
       this.isShowPopupSetupInfo = true;
     }

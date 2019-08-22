@@ -1,11 +1,6 @@
 <template>
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
-      <!-- <app-sidebar-mobile
-        v-if="isShowPopup === true"
-        :data-theme="currentTheme"
-        :popupData="isShowPopup"
-      @closePopup="isShowPopup = $event"></app-sidebar-mobile>-->
       <popup-create-agency
         v-if="isShowPopupCreateAgency === true"
         @closePopup="isShowPopupCreateAgency = $event"
@@ -47,6 +42,7 @@
         @closePopup="isShowPopup = $event"
       ></app-sidebar-mobile>
     </transition>
+
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
         <div class="header--mobile-img text_left" @click.prevent="isShowPopup = true">
