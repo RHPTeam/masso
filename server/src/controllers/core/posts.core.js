@@ -8,6 +8,7 @@ const path = require( "path" ),
   puppeteer = require( "puppeteer" ),
   fs = require( "fs" ),
   request = require( "request" ),
+  Facebook = require( "../../models/Facebook.model" ),
   { post, mpost } = require( "../../configs/crawl" ),
   { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   {
@@ -357,6 +358,13 @@ module.exports = {
       if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
         await browser.close();
         console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
+
+        await Facebook.updateOne( { "userInfo.id": findSubString( cookie, "c_user=", ";" ) }, { "status": false }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình cập nhật lại tài khoản khi đã bị đăng xuất." );
+          }
+        } );
+
         return {
           "error": {
             "code": 8889,
