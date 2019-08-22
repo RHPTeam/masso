@@ -9,8 +9,7 @@ const state = {
     campaignsPagesSize: 1,
     campaignStatus: "",
     variableControlCampaign: 0,
-    variableCampaign: 0,
-    totalEvents: []
+    variableCampaign: 0
   },
   getters = {
     allCampaigns: ( s ) => {
@@ -30,8 +29,7 @@ const state = {
       return s.campaignStatus;
     },
     variableControlCampaign: state => state.variableControlCampaign,
-    variableCampaign: state => state.variableCampaign,
-    totalEvents: state => state.totalEvents
+    variableCampaign: state => state.variableCampaign
   },
   mutations = {
     createCampaign: ( s, payload ) => {
@@ -68,9 +66,6 @@ const state = {
     },
     setVariableCampaign: (state, payload) => {
       state.variableCampaign = payload;
-    },
-    setValueTotalEvent: (state, payload) => {
-      state.totalEvents = payload;
     }
   },
   actions = {
@@ -195,7 +190,6 @@ const state = {
     updateCampaignStatus: async ( { commit }, payload ) => {
       const res = await CampaignsServices.updateStatus( payload );
       await commit( "setCampaignDetail", res.data.data );
-      await commit( "setValueTotalEvent", res.data.data._events );
     },
     setCampainControl: async ({commit}, payload) => {
       await commit("setVariableControl", payload);

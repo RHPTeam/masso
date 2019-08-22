@@ -43,6 +43,7 @@
       ></app-sidebar-mobile>
     </transition>
 
+    <!-- START: GET INFOMATION USER -->
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
         <div class="header--mobile-img text_left" @click.prevent="isShowPopup = true">
@@ -178,18 +179,25 @@
         <!-- End: Action Pricing plan -->
       </div>
     </div>
+    <!-- END: GET INFOMATION USER -->
+
     <!-- Start: transition popup mobile -->
     <transition name="popup">
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"></popup-history>
-    </transition>
-    <transition name="popup">
+      <popup-history
+        @close="isShowPopupHistory = $event"
+        v-if="isShowPopupHistory === true"
+      >
+      </popup-history>
+      <!--START: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
       <upgrade-pro-popup
         class="upgrade-pro-popup"
         v-if="isShowUpgradePro === true"
         :data-theme="currentTheme"
         :showUpgradePro="isShowUpgradePro"
         @closeAddPopup="isShowUpgradePro = $event"
-      ></upgrade-pro-popup>
+      >
+      </upgrade-pro-popup>
+      <!--END: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
     </transition>
   </div>
 </template>

@@ -116,7 +116,7 @@
             <div class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3" style="max-height: 405px;">
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
-                <router-link class="view--all" :to="{ name: 'post_posts' }">Xem tất cả</router-link>
+                <router-link class="view--all" :to="{ name: 'post_posts', query: {size: 25, page: 1} }">Xem tất cả</router-link>
               </div>
               <div class="table-container" role="table" aria-label="Destinations">
                 <div class="flex-table header" role="rowgroup">

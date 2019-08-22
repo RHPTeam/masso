@@ -39,7 +39,6 @@ export default {
         userId: this.user._id,
         expireDate: new Date(value)
       };
-      console.log(dataSender);
       this.$store.dispatch("expireMember", dataSender);
     },
     updateAccount() {

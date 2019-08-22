@@ -109,11 +109,6 @@
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
-        <popup-info-update-status
-          v-if="isShowChangeStatus === true"
-          :campaignDetail="campaignDetail"
-          :count="count"
-        />
       </transition>
       <!--	End: Create Campaign Popup	-->
       <transition name="slide-fade">
@@ -130,7 +125,6 @@
 <script>
 import AppHistory from "../history";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
-import PopupInfoUpdateStatus from "@/views/user/post/campaigns/desktop/popup/info";
 
 let typingTimer;
 
@@ -138,8 +132,7 @@ export default {
   components: {
     // AppEvent,
     AppEvents,
-    AppHistory,
-    PopupInfoUpdateStatus
+    AppHistory
   },
   props: [ "view" ],
   data() {
@@ -159,9 +152,6 @@ export default {
     },
     caseEvent() {
       return this.$store.getters.caseEvent;
-    },
-    events(){
-      return this.$store.getters.totalEvents;
     }
   },
   created() {
@@ -203,7 +193,6 @@ export default {
       const campaignId = this.campaignDetail._id;
 
       await this.$store.dispatch( "updateCampaignStatus", campaignId );
-      console.log(this.events);
     },
     async upTypingText( campaign ) {
       await clearTimeout( typingTimer );

@@ -3,7 +3,6 @@ export default {
   data() {
     return {
       isShowFlagDropdown: false,
-      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
       menus: [ {
         text: "Bảng điều khiển",
         icon: {

@@ -147,8 +147,6 @@ export default {
       }
     },
     async viewCampaignDetail( id ) {
-      console.log(id);
-      // await this.$store.dispatch( "getCampaignDetail", id );
       this.$emit("getInfoCampaign", true);
     }
   },

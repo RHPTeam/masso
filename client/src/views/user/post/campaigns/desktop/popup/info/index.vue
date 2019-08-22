@@ -15,7 +15,7 @@
               <div class="mt_2 d_flex info mx_auto">
                 Số sự kiện đang cập nhật:
                 <div class="pl_2">
-                  <span>{{count}}</span> / <span>{{total.length}}</span>
+                  <span>1</span> / <span>10</span>
                 </div>
               </div>
             </div>
@@ -34,9 +34,6 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    total(){
-      return this.$store.getters.totalEvents;
     }
   }
 };

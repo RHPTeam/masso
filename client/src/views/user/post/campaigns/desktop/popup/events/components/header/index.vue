@@ -169,7 +169,6 @@ export default {
         fbAccounts.push( account._id );
       } );
       this.event.timeline = fbAccounts;
-      console.log( this.event.timeline );
 
       // Close popup
       this.close();

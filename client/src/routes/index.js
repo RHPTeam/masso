@@ -2,8 +2,6 @@
 import Vue from "vue";
 import Router from "vue-router";
 
-// import customerGeneralChatRouter from "./modules/user/chat";
-// import customerMessengerRouter from "./modules/user/messenger";
 
 import customerGeneralPostRouter from "./modules/user/post";
 import customerWelcomeRouter from "./modules/user/welcome";
@@ -26,8 +24,6 @@ export default new Router( {
   scrollBehavior,
   base: process.env.BASE_URL,
   routes: [
-    // customerGeneralChatRouter,
-    // customerMessengerRouter,
     customerGeneralPostRouter,
     customerWelcomeRouter,
     error404Router,
