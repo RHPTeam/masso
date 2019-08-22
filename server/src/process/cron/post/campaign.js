@@ -139,6 +139,10 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
           facebookInfo = await Facebook.findOne( { "_id": listEventSchedule[ i ].facebookID } ).lean(),
           mixPost = {};
 
+        if ( campaignInfo.status === false ) {
+          return false;
+        }
+
         console.log(
           "\x1b[32m%s\x1b[0m",
           "SUCCESS:",
