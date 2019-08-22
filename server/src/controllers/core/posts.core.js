@@ -353,6 +353,20 @@ module.exports = {
           feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
         }`
       );
+
+      if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
+        await browser.close();
+        console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
+        return {
+          "error": {
+            "code": 8889,
+            "text": "Tài khoản đã bị đăng xuất khỏi thiết bị. Vui lòng kết nối lại tài khoản của bạn!",
+            "message": "Tài khoản đã bị đăng xuất khỏi thiết bị. Vui lòng kết nối lại tài khoản của bạn!"
+          },
+          "results": null
+        };
+      }
+
       await page.click( 'div[role="region"]' );
       await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
       await page.waitForSelector(
@@ -403,14 +417,13 @@ module.exports = {
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
-      const btnSubmit = await page.$(
+      await page.click(
         'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
       );
 
-      await btnSubmit.click();
 
-      if ( feed.location.type === 1 ) {
-        await page.waitForSelector( "div.composerPostSection div.mvm.pam.uiBoxYellow" );
+      if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
+        await page.waitFor( 1000 );
         if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
           return {
             "error": {
@@ -429,7 +442,6 @@ module.exports = {
 
       // Handle wait for post finnish
       await page.waitFor( 5000 );
-
       await browser.close();
 
       return {

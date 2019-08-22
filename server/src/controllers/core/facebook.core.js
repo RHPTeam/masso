@@ -189,6 +189,18 @@ module.exports = {
           `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`
         );
 
+        if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
+          await browser.close();
+          console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
+          resolve( {
+            "error": {
+              "code": 404,
+              "text": "Mã kích hoạt đã hết hạn! Vui lòng lấy lại mã kích hoạt và thử lại.!"
+            },
+            "results": null
+          } );
+        }
+
         // Get info
         await page.waitForSelector( "#fb-timeline-cover-name" );
         // eslint-disable-next-line one-var
