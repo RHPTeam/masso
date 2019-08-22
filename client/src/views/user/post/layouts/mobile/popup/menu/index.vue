@@ -130,7 +130,7 @@
           </li>
           <li @click="showPostgroup" class="d_flex align_items_center">
             <icon-base
-              icon-name="icon-autoreply"
+              icon-name="Nhóm & Trang"
               class="icon--info"
               width="25"
               height="25"

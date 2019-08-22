@@ -98,7 +98,7 @@
     </div>
     <!-- End: Waiting Time -->
     <!-- Start: Modal Show Alert Error Break Poin -->
-    <transition name="popup">
+    <transition name="popup--delete">
       <app-alert
         v-if="isShowAlertBreakPoint === true"
         @closeAlert="isShowAlertBreakPoint = $event"

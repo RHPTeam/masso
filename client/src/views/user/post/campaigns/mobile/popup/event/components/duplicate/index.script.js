@@ -8,6 +8,9 @@ export default {
     }
   },
   computed: {
+    currentTheme() {
+      return this.$store.getters.themeName;
+    },
     campaigns() {
       return this.$store.getters.allCampaigns;
     },
