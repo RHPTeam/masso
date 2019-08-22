@@ -174,7 +174,7 @@ const downloadIMG = async ( url ) => {
         "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
       },
       "results": null
-    }
+    };
   }
 };
 
