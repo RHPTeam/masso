@@ -102,20 +102,19 @@
         </div>
       </div>
       <!-- End: Header Action -->
-      <!--	Start: Create Campaign Popup	-->
-<!--      <transition name="popup">-->
-<!--        <app-event-->
-<!--          v-if="caseEvent.popup === true"-->
-<!--          @close="close( $event )"-->
-<!--        />-->
-<!--      </transition>-->
+
       <!--	Start: Create Campaign Popup Test Again	-->
       <transition name="popup">
         <app-events
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
-        <popup-info-update-status/>
+        <popup-info-update-status
+          v-if="isShowChangeStatus === true"
+          :campaignDetail="campaignDetail"
+          :totalEvent="totalEvent"
+          :count="count"
+        />
       </transition>
       <!--	End: Create Campaign Popup	-->
       <transition name="slide-fade">
@@ -148,9 +147,10 @@ export default {
   data() {
     return {
       isShowHistory: false,
-      historyRouteLength: 0
-      // isShowCreateEvent: false,
-      // event: 1
+      isShowChangeStatus: false,
+      historyRouteLength: 0,
+      totalEvent: 0,
+      count: 0
     }
   },
   computed: {
@@ -199,6 +199,7 @@ export default {
       this.$emit( "updateCalendarView", val );
     },
     updateCampaignStatus() {
+      this.isShowChangeStatus = true;
       const campaignId = this.campaignDetail._id;
 
       this.$store.dispatch( "updateCampaignStatus", campaignId );

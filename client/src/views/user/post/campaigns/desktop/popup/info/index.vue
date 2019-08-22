@@ -15,7 +15,7 @@
               <div class="mt_2 d_flex info mx_auto">
                 Số sự kiện đang cập nhật:
                 <div class="pl_2">
-                  <span>1</span> / <span>10</span>
+                  <span>{{count}}</span> / <span>{{totalEvent}}</span>
                 </div>
               </div>
             </div>
@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  props: [ "campaignDetail", "totalEvent", "count" ],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

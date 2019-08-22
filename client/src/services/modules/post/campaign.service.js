@@ -27,6 +27,6 @@ export default {
     return Api().patch( `campaigns?_campaignId=${data.campId}`, data.campaign );
   },
   updateStatus( id ) {
-    return Api().patch( `campaigns?_campaignId=${id}&_type=status` );
+    return Api().patch( `campaigns/${id}/status` );
   }
 };

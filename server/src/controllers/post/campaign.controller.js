@@ -442,5 +442,20 @@ module.exports = {
     const findCampaign = await Campaign.findOne( { "_id": newCampaign._id, "_account": req.uid } ).populate( "_events" ).lean();
 
     res.send( { "status": "success", "data": findCampaign } );
+  },
+  "changeStatus": async ( req, res ) => {
+    const campaignInfo = await Campaign.findOne( { "_id": req.params.campaignID, "_account": req.uid } );
+
+    if ( !campaignInfo ) {
+      return res.status( 404 ).json( { "status": "error", "message": "Chiến dịch không tồn tại!" } );
+    }
+
+    await Campaign.updateOne( { "_id": req.params.campaignID, "_account": req.uid }, { "status": !campaignInfo.status }, ( err ) => {
+      if ( err ) {
+        return res.status( 404 ).json( { "status": "error", "message": "Xảy ra lỗi trong quá trình thay đổi trạng thái của chiến dịch!" } );
+      }
+    } );
+
+    res.status( 200 ).json( { "status": "success", "data": await Campaign.findOne( { "_id": req.params.campaignID, "_account": req.uid } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "target_category", "select": "_id _pages _groups" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "post_category", "select": "_id title" } } ).populate( { "path": "_events", "select": "-__v -finished_at -created_at -_account", "populate": { "path": "timeline", "select": "userInfo" } } ).lean() } );
   }
 };
