@@ -2,14 +2,15 @@
 import CampaignsServices from "@/services/modules/post/campaign.service";
 
 const state = {
-  allCampaigns: [],
-  campaigns: [],
-  campaignsMobile: [],
-  campaignDetail: {},
-  campaignsPagesSize: 1,
-  campaignStatus: "",
+    allCampaigns: [],
+    campaigns: [],
+    campaignsMobile: [],
+    campaignDetail: {},
+    campaignsPagesSize: 1,
+    campaignStatus: "",
     variableControlCampaign: 0,
-    variableCampaign: 0
+    variableCampaign: 0,
+    totalEvents: []
   },
   getters = {
     allCampaigns: ( s ) => {
@@ -29,7 +30,8 @@ const state = {
       return s.campaignStatus;
     },
     variableControlCampaign: state => state.variableControlCampaign,
-    variableCampaign: state => state.variableCampaign
+    variableCampaign: state => state.variableCampaign,
+    totalEvents: state => state.totalEvents
   },
   mutations = {
     createCampaign: ( s, payload ) => {
@@ -66,6 +68,9 @@ const state = {
     },
     setVariableCampaign: (state, payload) => {
       state.variableCampaign = payload;
+    },
+    setValueTotalEvent: (state, payload) => {
+      state.totalEvents = payload;
     }
   },
   actions = {
@@ -101,7 +106,6 @@ const state = {
       let res;
 
       commit( "setCampaigns", campaigns );
-      // commit( "setCampaignsPagesSize", campaigns.length );
 
       await CampaignsServices.delete( payload.id );
     },
@@ -116,12 +120,6 @@ const state = {
       commit( "setCampaignsSearch", campaigns );
 
       await CampaignsServices.delete( payload.id );
-
-      // get campaign when delete
-      // res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
-
-      // await commit( "setCampaignsMobile", res.data.data.results );
-      // await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     duplicateCampaign: async ( { commit }, payload ) => {
       const res = await CampaignsServices.duplicate( payload );
@@ -197,6 +195,7 @@ const state = {
     updateCampaignStatus: async ( { commit }, payload ) => {
       const res = await CampaignsServices.updateStatus( payload );
       await commit( "setCampaignDetail", res.data.data );
+      await commit( "setValueTotalEvent", res.data.data._events );
     },
     setCampainControl: async ({commit}, payload) => {
       await commit("setVariableControl", payload);

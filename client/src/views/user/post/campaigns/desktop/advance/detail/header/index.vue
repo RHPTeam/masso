@@ -112,7 +112,6 @@
         <popup-info-update-status
           v-if="isShowChangeStatus === true"
           :campaignDetail="campaignDetail"
-          :totalEvent="totalEvent"
           :count="count"
         />
       </transition>
@@ -130,7 +129,6 @@
 
 <script>
 import AppHistory from "../history";
-// import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
 import PopupInfoUpdateStatus from "@/views/user/post/campaigns/desktop/popup/info";
 
@@ -149,7 +147,6 @@ export default {
       isShowHistory: false,
       isShowChangeStatus: false,
       historyRouteLength: 0,
-      totalEvent: 0,
       count: 0
     }
   },
@@ -162,6 +159,9 @@ export default {
     },
     caseEvent() {
       return this.$store.getters.caseEvent;
+    },
+    events(){
+      return this.$store.getters.totalEvents;
     }
   },
   created() {
@@ -198,11 +198,12 @@ export default {
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );
     },
-    updateCampaignStatus() {
+    async updateCampaignStatus() {
       this.isShowChangeStatus = true;
       const campaignId = this.campaignDetail._id;
 
-      this.$store.dispatch( "updateCampaignStatus", campaignId );
+      await this.$store.dispatch( "updateCampaignStatus", campaignId );
+      console.log(this.events);
     },
     async upTypingText( campaign ) {
       await clearTimeout( typingTimer );
