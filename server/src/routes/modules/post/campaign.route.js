@@ -16,7 +16,7 @@ router
 
 router
   .route( "/:campaignID/status" )
-  .patch( CampaignController.changeStatus() );
+  .patch( CampaignController.changeStatus );
 
 router
   .route( "/duplicate" )
