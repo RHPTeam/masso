@@ -17,7 +17,7 @@
     <div
       class="col d_flex align_items_center justify_content_center col--action text_center ml_auto"
     >
-      <div class @click="editMember">
+      <div class>
         <icon-base icon-name="Chỉnh sửa" viewBox="0 0 20 20">
           <icon-edit />
         </icon-base>

@@ -75,7 +75,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import "../style";
+@import "./index.style";
 .icon {
   left: 14px;
   top: 9px;

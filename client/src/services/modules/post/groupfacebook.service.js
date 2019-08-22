@@ -5,7 +5,7 @@ export default {
   index() {
     return Api().get( "group-facebook" );
   },
-  update() {
-    return Api().patch( "group-facebook" );
+  update(accountId) {
+    return Api().patch( `group-facebook?_id=${accountId}` );
   },
 };

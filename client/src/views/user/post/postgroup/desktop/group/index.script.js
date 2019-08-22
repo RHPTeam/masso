@@ -58,11 +58,11 @@ export default {
       const objSender = {
         postGroupId: gr._id,
         title: gr.title,
-        _pages: [],
-        _groups: [],
-        _timeline: []
+        _pages: gr._pages,
+        _groups: gr._groups
       };
-      this.$store.dispatch("updateTitlePostGroup", objSender);
+
+      this.$store.dispatch("updatePostGroup", objSender);
     }
   }
 };

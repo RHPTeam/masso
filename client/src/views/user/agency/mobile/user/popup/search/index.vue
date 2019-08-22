@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="keyword" @keydown.enter="searchMemberOfAgency" />
+          <input type="text" placeholder="Tìm kiếm thành viên" v-model="keyword" @keydown.enter="searchMemberOfAgency" />
         </div>
         <div class="cancel ml_auto" @click="closePopup">Hủy</div>
       </div>
@@ -31,15 +31,15 @@
 import AppItem from "../../item";
 import PopupDetail from "../detail";
 export default {
+  components: {
+    AppItem,
+    PopupDetail
+  },
   data() {
     return {
       keyword: "",
       isShowPopupDetail: false
     };
-  },
-  components: {
-    AppItem,
-    PopupDetail
   },
   computed: {
     infoMember() {

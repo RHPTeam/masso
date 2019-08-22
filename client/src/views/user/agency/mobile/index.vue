@@ -44,7 +44,13 @@
 import AppSearch from "./user/popup/search";
 import AppMonth from "./components/months";
 import ListUser from "./user";
+
 export default {
+  components: {
+    AppSearch,
+    AppMonth,
+    ListUser
+  },
   data() {
     return {
       isShowPopupSearch: false,
@@ -52,11 +58,7 @@ export default {
       isShowTabList: false
     }
   },
-  components: {
-    AppSearch,
-    AppMonth,
-    ListUser
-  },
+
   methods: {
     showPopupSearch() {
       this.isShowPopupSearch = true;

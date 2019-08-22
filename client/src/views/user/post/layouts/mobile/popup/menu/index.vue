@@ -252,30 +252,6 @@
               </icon-base>
             </span>
           </li>
-          <!-- <li class="align_items_center">
-            <a :href="helpCenterUrl" target="_blank" class="d_flex help--center">
-              <icon-base
-                icon-name="Trung tâm trợ giúp"
-                width="24"
-                height="24"
-                viewBox="0 0 550 550"
-              >
-                <icon-support/>
-              </icon-base>
-              <span class="ml_2">Trung tâm trợ giúp</span>
-              <span class="ml_auto">
-                <icon-base
-                  class="icon--go-to"
-                  icon-name="Submit"
-                  width="22"
-                  height="22"
-                  viewBox="0 0 33 33"
-                >
-                  <icon-arrow-right />
-                </icon-base>
-              </span>
-            </a>
-          </li>-->
         </ul>
       </div>
     </VuePerfectScrollbar>

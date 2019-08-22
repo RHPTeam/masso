@@ -4,12 +4,12 @@
       <div class="modal--content px_4 py_3">
         <!-- Start: Header -->
         <div class="modal--header">
-          <div class="title text_center mb_4">Nhập mã kích hoạt để gia hạn</div>
+          <div class="title text_center mb_4">Nhập mã code để gia hạn</div>
         </div>
         <!-- End: Header -->
         <!-- Start: Body -->
         <div class="modal--body d_flex align_items_center">
-          <div class="title mr_auto">Mã kích hoạt</div>
+          <div class="title mr_auto">Mã code</div>
           <div class="ml_auto input">
             <input type="text" placeholder="Nhập code ..." v-model="code" />
             <div class="text--error mt_1" v-if="isShowErrorCode === true">{{ errorCode }}</div>
@@ -43,6 +43,13 @@ export default {
       return this.$store.getters.statusCode;
     }    
   },
+  watch: {
+    "code"(value) {
+      if(value.length === 0) {
+        this.isShowErrorCode = false;
+      }
+    }
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
@@ -57,14 +64,7 @@ export default {
         this.isShowErrorCode = true;
       }
     }
-  },
-  watch: {
-    "code"(value) {
-      if(value.length === 0) {
-        this.isShowErrorCode = false;
-      }
-    }
-  },
+  }
 };
 </script>
 

@@ -70,8 +70,8 @@ const actions = {
       await commit('addNewAccountFacebook', result.data.data);
 
       // Update facebook pages and groups
-      await PageFacebookServices.update();
-      await GroupFacebookServices.update();
+      // await PageFacebookServices.update();
+      // await GroupFacebookServices.update();
 
       commit('facebook_success');
     } catch (e) {

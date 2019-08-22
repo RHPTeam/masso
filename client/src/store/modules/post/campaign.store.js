@@ -74,9 +74,15 @@ const state = {
 
       await commit( "createCampaign", res.data.data );
     },
+    /**
+     *
+     * @param commit object contain have id differen payload
+     * @param payload is id campaign
+     * @returns {Array}
+     */
     deleteCampaign: async ( { commit }, payload ) => {
       const campaigns = state.campaigns.filter(
-        ( campaign ) => campaign._id !== payload.id
+        ( campaign ) => campaign._id !== payload
       );
 
       let res;
@@ -84,7 +90,7 @@ const state = {
       commit( "setCampaigns", campaigns );
       commit( "setCampaignsPagesSize", campaigns.length );
 
-      await CampaignsServices.delete( payload.id );
+      await CampaignsServices.delete( payload );
     },
     // Delete campaign and get totals page = campage.page for mobile
     deleteCampaignMobile: async ( { commit }, payload ) => {

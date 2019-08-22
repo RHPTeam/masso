@@ -109,6 +109,7 @@
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
+        <popup-info-update-status/>
       </transition>
       <!--	End: Create Campaign Popup	-->
       <transition name="slide-fade">
@@ -126,6 +127,7 @@
 import AppHistory from "../history";
 // import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
+import PopupInfoUpdateStatus from "@/views/user/post/campaigns/desktop/popup/info";
 
 let typingTimer;
 
@@ -133,7 +135,8 @@ export default {
   components: {
     // AppEvent,
     AppEvents,
-    AppHistory
+    AppHistory,
+    PopupInfoUpdateStatus
   },
   props: [ "view" ],
   data() {

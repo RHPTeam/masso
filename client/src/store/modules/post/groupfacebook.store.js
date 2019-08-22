@@ -29,9 +29,9 @@ const state = {
       await commit( "setFacebookGroups", res.data.data );
       commit( "setFacebookGroupsStatus", "success" );
     },
-    updateFacebookGroups: async ({commit}) => {
-      commit("setFacebookGroupsStatus", "loading")
-      await GroupFacebookServices.update();
+    updateFacebookGroups: async ({commit}, payload) => {
+      commit("setFacebookGroupsStatus", "loading");
+      await GroupFacebookServices.update(payload);
 
       const res = await GroupFacebookServices.index();
 
