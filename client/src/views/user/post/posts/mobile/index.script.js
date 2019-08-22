@@ -31,10 +31,6 @@ export default {
     }
   },
   methods: {
-    showCategory(event) {
-      this.isShowCategory = true;
-      this.isShowCategoryDefault = event;
-    },
     showPosts() {
       const dataSender = {
         page: 1,
