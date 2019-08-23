@@ -8,6 +8,7 @@ const path = require( "path" ),
   puppeteer = require( "puppeteer" ),
   fs = require( "fs" ),
   request = require( "request" ),
+  Facebook = require( "../../models/Facebook.model" ),
   { post, mpost } = require( "../../configs/crawl" ),
   { getDtsgFB, getFullDtsgFB } = require( "../../helpers/utils/facebook/dtsgfb" ),
   {
@@ -138,62 +139,44 @@ const path = require( "path" ),
       } );
     } );
   },
-  download = require( "download" ),
-  randomString = require( "randomstring" );
+  download = require( "image-downloader" );
 
-const downloadImageTemp = ( url ) => {
-  return new Promise( ( resolve ) => {
-    download( encodeURI( url ) )
-      .then( ( data ) => {
-        let pathAbsolute = path.resolve( __dirname ), pathImageFile;
+const downloadIMG = async ( url ) => {
+  let pathAbsolute = path.resolve( __dirname );
 
-        // remove root path project
-        if ( pathAbsolute.includes( "src" ) ) {
-          pathAbsolute = pathAbsolute.substring(
-            0,
-            pathAbsolute.indexOf( "src" )
-          );
-        }
+  // remove root path project
+  if ( pathAbsolute.includes( "src" ) ) {
+    pathAbsolute = pathAbsolute.substring(
+      0,
+      pathAbsolute.indexOf( "src" )
+    );
+  }
 
-        // check os
-        if ( pathAbsolute.includes( "/" ) ) {
-          pathImageFile = `${pathAbsolute}uploads/temp/${randomString.generate()}.jpg`;
-        } else {
-          pathImageFile = `${pathAbsolute}uploads\\temp\\${randomString.generate()}.jpg`;
-        }
+  const options = {
+    "url": url,
+    "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+  };
 
-        fs.writeFileSync( pathImageFile, data, ( err ) => {
-          if ( err ) {
-            resolve( {
-              "error": {
-                "code": 404,
-                "text": `Quá trình tải ảnh thất bại! Vui lòng kiểm tra tại: ${__dirname}`
-              },
-              "results": null
-            } );
-          }
-        } );
+  try {
+    const { filename } = await download.image( options );
 
-        resolve( {
-          "error": {
-            "code": 200,
-            "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
-          },
-          "results": pathImageFile
-        } );
-      } )
-      .catch( ( error ) => {
-        if ( error.name === "RequestError" ) {
-          resolve( {
-            "error": {
-              "code": 404,
-              "text": `Quá trình tải ảnh có vấn đề phát sinh vui lòng kiểm tra tại: ${__dirname}`
-            },
-            "results": null
-          } );
-        }
-      } );
-  } );
+    return {
+      "error": {
+        "code": 200,
+        "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
+      },
+      "results": filename
+    };
+  } catch ( e ) {
+    console.error( e );
+    return {
+      "error": {
+        "code": 404,
+        "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
+      },
+      "results": null
+    };
+  }
 };
 
 module.exports = {
@@ -350,12 +333,15 @@ module.exports = {
       const cookieConverted = await convertCookieFacebook( cookie ),
         imagesList = ( await Promise.all(
           feed.photos.map( async ( photo ) => {
-            return ( await downloadImageTemp( photo ) ).results;
+            if ( photo.match( /\s/g ) ) {
+              return ( await downloadIMG( encodeURI( photo ) ) ).results;
+            }
+            return ( await downloadIMG( photo ) ).results;
           } )
         ) ).filter( ( photo ) => photo !== null );
 
       // Open browser
-      const page = await browser.newPage(),
+      const page = ( await browser.pages() )[ 0 ],
         context = browser.defaultBrowserContext();
 
       await context.overridePermissions( "https://www.facebook.com", [
@@ -368,6 +354,27 @@ module.exports = {
           feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
         }`
       );
+
+      if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
+        await browser.close();
+        console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
+
+        await Facebook.updateOne( { "userInfo.id": findSubString( cookie, "c_user=", ";" ) }, { "status": false }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình cập nhật lại tài khoản khi đã bị đăng xuất." );
+          }
+        } );
+
+        return {
+          "error": {
+            "code": 8889,
+            "text": "Tài khoản đã bị đăng xuất khỏi thiết bị. Vui lòng kết nối lại tài khoản của bạn!",
+            "message": "Tài khoản đã bị đăng xuất khỏi thiết bị. Vui lòng kết nối lại tài khoản của bạn!"
+          },
+          "results": null
+        };
+      }
+
       await page.click( 'div[role="region"]' );
       await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
       await page.waitForSelector(
@@ -390,6 +397,8 @@ module.exports = {
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
+      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
+
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           const input = await page.$( 'input[data-testid="media-sprout"]' );
@@ -416,21 +425,31 @@ module.exports = {
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
-      const btnSubmit = await page.$(
+      await page.click(
         'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
       );
 
-      await btnSubmit.click();
-      await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
 
-      const previewInfo = await page.$eval(
-          'div[data-ft*="mf_story_key"]',
-          ( div ) => div.getAttribute( "data-ft" )
-        ),
-        start = '"mf_story_key":"',
-        end = '"';
+      if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
+        await page.waitFor( 1000 );
+        if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
+          return {
+            "error": {
+              "code": 8888,
+              "text": `Nhóm ${
+                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
+              "message": `Nhóm ${
+                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
+            },
+            "results": null
+          };
+        }
+      }
 
-      await page.waitFor( 2000 );
+      // Handle wait for post finnish
+      await page.waitFor( 5000 );
       await browser.close();
 
       return {
@@ -439,15 +458,13 @@ module.exports = {
           "text": null
         },
         "results": {
-          "postID": previewInfo.substring(
-            previewInfo.indexOf( start ) + start.length,
-            previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
-          ),
+          "postID": "Vui lòng kiểm tra trạng thái bài đăng trên facebook của bạn.",
           "type":
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
     } catch ( error ) {
+      console.log( error );
       await browser.close();
       return {
         "error": {

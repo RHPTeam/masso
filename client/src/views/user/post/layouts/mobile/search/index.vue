@@ -13,14 +13,10 @@
       </div>
       <input type="text" placeholder="Tìm kiếm" @click="showSearchModules" />
     </div>
-<!--    Start: search message-->
-    <!-- <search-message v-if="showSearchMessage === true"  @closeSearch="showSearchMessage =$event"/> -->
-<!--    End: search message-->
   </div>
 </template>
 
 <script>
-  // import SearchMessage from "@/views/customer/messagefacebook/mobile/search/search_results_user";
 export default {
   data() {
     return {
@@ -54,9 +50,6 @@ export default {
         console.log("hello reply srv");
       }
     }
-  },
-  components: {
-    // SearchMessage
   }
 };
 </script>
@@ -66,8 +59,7 @@ export default {
   padding: 8px 16px;
   input {
     border-radius: 10px;
-    padding: 8px 15px;
-    padding-left: 50px;
+    padding: 8px 15px 8px 50px;
     width: 100%;
     border: 0;
     outline: 0;

@@ -133,9 +133,17 @@
 }
 
 /*Transition popup*/
-.popup-enter-active, .popup-leave-active {
-  transition: opacity .4s;
+.popup--delete-enter {
+  transform: translateY(100%);
 }
-.popup-enter, .popup-leave-to {
-  opacity: 0;
+
+.popup--delete-enter-to {
+  transition: transform 0.2s;
+  transform: translateY(0);
 }
+
+.popup--delete-leave-to {
+  transition: transform 0.2s;
+  transform: translateY(100%);
+}
+

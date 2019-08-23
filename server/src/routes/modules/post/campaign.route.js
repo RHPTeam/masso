@@ -15,6 +15,10 @@ router
   .delete( CampaignController.delete );
 
 router
+  .route( "/:campaignID/status" )
+  .patch( CampaignController.changeStatus );
+
+router
   .route( "/duplicate" )
   .post( CampaignController.duplicate );
 

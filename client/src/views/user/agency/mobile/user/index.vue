@@ -20,16 +20,17 @@
 import AppItem from "./item";
 import PopupDetail from "./popup/detail";
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+
 export default {
-  data() {
-    return {
-      isShowPopupDetail: false
-    }
-  },
   components: {
     AppItem,
     PopupDetail,
     VuePerfectScrollbar
+  },
+  data() {
+    return {
+      isShowPopupDetail: false
+    }
   },
   computed: {
     agency(){

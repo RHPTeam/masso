@@ -75,6 +75,22 @@
         </div>
         <div class="dropdown--action" v-if="isShowDropdownAction === true" :class="isShowDropdownAction === true ? 'active' : ''" v-click-outside="closeDropdownAction">
           <ul class="p_0 m_0">
+            <li @click="showDuplicateEvent" class="d_flex align_items_center justify_content_end mb_2">
+              <div class="title p_2">
+                Sao chép
+              </div>
+              <div class="ml_3">
+                <icon-base
+                  class="icon"
+                  icon-name="Sao chép"
+                  width="25"
+                  height="25"
+                  viewBox="0 0 482.8 482.8"
+                >
+                  <icon-copy />
+                </icon-base>
+              </div>
+            </li>
             <li @click="showContentAdvane" class="d_flex align_items_center justify_content_end">
               <div class="title p_2">
                 Nội dung nâng cao
@@ -100,6 +116,8 @@
           v-if="isShowContentAdvance === true"
           @closePopup="isShowContentAdvance = $event"
         />
+        <duplicate-event v-if="isShowDuplicateEvent === true" 
+          @closePopup="isShowDuplicateEvent = $event"/>
       </transition>
       <transition name="popup">
         <popup-delete
@@ -119,6 +137,7 @@
 <script>
 import AppHeader from "./components/header";
 import ContentAdvance from "./components/advancecontent";
+import DuplicateEvent from "./components/duplicate";
 import MixPlugin from "./components/plugins/mix";
 import PostCustom from "./components/postcontent";
 import PopupDelete from "../delete";
@@ -128,6 +147,7 @@ export default {
   components: {
     AppHeader,
     ContentAdvance,
+    DuplicateEvent,
     MixPlugin,
     PostCustom,
     PopupDelete,
@@ -155,6 +175,7 @@ export default {
       errorPostLocation: false,
       errorMixStatus: false,
       errorMixText: "",
+      isShowDuplicateEvent: false,
       isShowMoreOptions: false,
       isShowContentAdvance: false
     };
@@ -223,6 +244,9 @@ export default {
     },
     showContentAdvane() {
       this.isShowContentAdvance = true;
+    },
+    showDuplicateEvent() {
+      this.isShowDuplicateEvent = true;
     },
     showDropdownAction() {
       this.isShowDropdownAction = true;

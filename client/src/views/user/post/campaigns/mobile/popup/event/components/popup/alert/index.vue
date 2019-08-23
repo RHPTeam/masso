@@ -1,14 +1,14 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content px_3 py_4" v-click-outside="closePopup">
-        <div class="modal--body my_3">
+      <div class="modal--content mb_2" v-click-outside="closePopup">
+        <div class="modal--body mb_2 p_3">
           Không thể thiết lập thời gian chờ giữa các lần đăng dưới 5 phút.
           Việc đăng quá nhanh có thể dẫn đến vi phạm tiêu chuẩn cộng đồng của Facebook.
         </div>
-        <div class="modal--footer d_flex justify_content_between align_items_center">
+        <div class="modal--footer">
           <button
-            class="btn--submit ml_auto"
+            class="btn--submit"
             @click="closePopup()"
           > Đã hiểu </button>
         </div>
@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  @import "index.style";
+  @import "./index.style";
 </style>
 
 

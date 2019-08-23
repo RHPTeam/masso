@@ -1,8 +1,8 @@
 import AppHeader from "./desktop/header";
 import AppSidebar from "./desktop/sidebar";
-import AppNotification from "./desktop/notification";
-import AppExpire from "./desktop/expire";
-import GuidePopup from "./desktop/guide"
+import AppNotification from "./desktop/components/notification";
+import AppExpire from "./desktop/components/expire";
+import GuidePopup from "./desktop/components/guide"
 
 import HeaderMobile from "./mobile/header";
 import FooterMobile from "./mobile/footer";
