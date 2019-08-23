@@ -220,12 +220,12 @@ const { createNewFeed } = require( "../../../controllers/core/posts.core" ),
       );
 
       // Get all event schedule from mongodb after concat with event schedule of system
-      const listEventSchedule = await EventSchedule.find( {
+      const listEventSchedule = ( await EventSchedule.find( {
         "started_at": {
           "$gte": new Date( minDateTime ).toISOString(),
           "$lt": new Date().toISOString()
         }
-      } ).lean().filter( ( item ) => item.status === 1 || item.status === null );
+      } ).lean() ).filter( ( item ) => item.status === 1 || item.status === null );
 
       console.log(
         "\x1b[32m%s\x1b[0m",
