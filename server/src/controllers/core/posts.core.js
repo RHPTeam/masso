@@ -393,6 +393,7 @@ module.exports = {
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
+      await page.waitFor( 1000 );
       await page.click( 'div[data-testid="react-composer-root"]' );
 
       for ( let i = 0; i < imagesList.length; i++ ) {
