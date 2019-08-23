@@ -493,6 +493,7 @@ module.exports = {
             }
           };
         } catch ( e ) {
+          await browser.close();
           console.log( "❎❎❎❎ Have error get ID preview post facebook but post is posted..." );
           return {
             "error": {
@@ -508,6 +509,7 @@ module.exports = {
           };
         }
       } catch ( err ) {
+        await browser.close();
         console.log( "❌❌❌❌ Error button disabled of null... Server wil try again..." );
         await module.exports.createNewFeed( { cookie, feed } );
       }
