@@ -147,6 +147,7 @@ const { createNewFeed } = require( "../../../controllers/core/posts.core" ),
           } );
 
           console.log( "✅✅✅✅ Post To Facebook Successfully..." );
+          console.log( `--------------- ${resFacebookResponse.results.postID} ---------------` );
 
           await EventSchedule.updateOne( { "_id": listEventSchedule[ i ]._id }, { "status": 3 }, ( err ) => {
             if ( err ) {

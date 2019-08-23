@@ -460,6 +460,17 @@ module.exports = {
 
       // Handle wait for post finnish
       await page.waitFor( 5000 );
+
+      // Get ID Preview
+      await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
+      // eslint-disable-next-line one-var
+      const previewInfo = await page.$eval(
+          'div[data-ft*="mf_story_key"]',
+          ( div ) => div.getAttribute( "data-ft" )
+        ),
+        start = '"mf_story_key":"',
+        end = '"';
+
       await browser.close();
 
       return {
@@ -468,7 +479,10 @@ module.exports = {
           "text": null
         },
         "results": {
-          "postID": "Vui lòng kiểm tra trạng thái bài đăng trên facebook của bạn.",
+          "postID": previewInfo.substring(
+            previewInfo.indexOf( start ) + start.length,
+            previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
+          ),
           "type":
           // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
