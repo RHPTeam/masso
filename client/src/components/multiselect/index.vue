@@ -10,11 +10,10 @@
           :multiple="multiple"
           :disabled="disabled"
         >
-          <span class="vs__selected" v-bind:key="option.index">
-            <slot
-              name="selected-option"
-              v-bind="normalizeOptionForSlot(option)"
-            >{{ getOptionLabel(option) }}</slot>
+          <span class="vs__selected vs__selected--fix" v-bind:key="option.index">
+            <slot name="selected-option" v-bind="normalizeOptionForSlot(option)">
+              <div class="selected-option__text">{{ getOptionLabel(option) }}</div>
+            </slot>
             <button
               v-if="multiple"
               :disabled="disabled"
@@ -23,13 +22,13 @@
               class="vs__deselect"
               aria-label="Deselect option"
             >
-              <deselect/>
+              <deselect />
             </button>
           </span>
         </slot>
 
         <slot name="search" v-bind="scope.search">
-          <input class="vs__search" v-bind="scope.search.attributes" v-on="scope.search.events">
+          <input class="vs__search" v-bind="scope.search.attributes" v-on="scope.search.events" />
         </slot>
       </div>
 
@@ -42,14 +41,15 @@
           class="vs__clear"
           title="Clear selection"
         >
-          <deselect/>
+          <deselect />
         </button>
 
         <open-indicator
           v-if="!noDrop"
           ref="openIndicator"
           role="presentation"
-          class="vs__open-indicator"></open-indicator>
+          class="vs__open-indicator"
+        ></open-indicator>
 
         <slot name="spinner" v-bind="scope.spinner">
           <div class="vs__spinner" v-show="mutableLoading">Loading...</div>
