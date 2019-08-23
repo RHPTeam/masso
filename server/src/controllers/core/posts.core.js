@@ -1,8 +1,3 @@
-/* eslint-disable one-var */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable strict */
 const path = require( "path" ),
   cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
@@ -139,45 +134,44 @@ const path = require( "path" ),
       } );
     } );
   },
-  download = require( "image-downloader" );
+  download = require( "image-downloader" ),
+  downloadIMG = async ( url ) => {
+    let pathAbsolute = path.resolve( __dirname );
 
-const downloadIMG = async ( url ) => {
-  let pathAbsolute = path.resolve( __dirname );
+    // remove root path project
+    if ( pathAbsolute.includes( "src" ) ) {
+      pathAbsolute = pathAbsolute.substring(
+        0,
+        pathAbsolute.indexOf( "src" )
+      );
+    }
 
-  // remove root path project
-  if ( pathAbsolute.includes( "src" ) ) {
-    pathAbsolute = pathAbsolute.substring(
-      0,
-      pathAbsolute.indexOf( "src" )
-    );
-  }
+    const options = {
+      "url": url,
+      "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+    };
 
-  const options = {
-    "url": url,
-    "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+    try {
+      const { filename } = await download.image( options );
+
+      return {
+        "error": {
+          "code": 200,
+          "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
+        },
+        "results": filename
+      };
+    } catch ( e ) {
+      console.error( e );
+      return {
+        "error": {
+          "code": 404,
+          "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
+        },
+        "results": null
+      };
+    }
   };
-
-  try {
-    const { filename } = await download.image( options );
-
-    return {
-      "error": {
-        "code": 200,
-        "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
-      },
-      "results": filename
-    };
-  } catch ( e ) {
-    console.error( e );
-    return {
-      "error": {
-        "code": 404,
-        "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
-      },
-      "results": null
-    };
-  }
-};
 
 module.exports = {
   "createPost": async ( { cookie, agent, feed } ) => {
@@ -206,6 +200,7 @@ module.exports = {
         let photoID = null;
 
         // Check source image extension
+        // eslint-disable-next-line no-shadow
         const path = await handleImageUpload( image );
 
         // Check download fail
@@ -290,6 +285,7 @@ module.exports = {
     let token = await getDtsgFB( { cookie, agent } ),
       results = [],
       url = post( id ),
+      // eslint-disable-next-line no-shadow
       getInfoPost = async ( { cookie, agent } ) => {
         const data = await getPost( { cookie, agent, url, id } );
 
@@ -338,10 +334,10 @@ module.exports = {
             }
             return ( await downloadIMG( photo ) ).results;
           } )
-        ) ).filter( ( photo ) => photo !== null );
+        ) ).filter( ( photo ) => photo !== null ),
 
-      // Open browser
-      const page = ( await browser.pages() )[ 0 ],
+        // Open browser
+        page = ( await browser.pages() )[ 0 ],
         context = browser.defaultBrowserContext();
 
       await context.overridePermissions( "https://www.facebook.com", [
@@ -399,17 +395,31 @@ module.exports = {
       await page.keyboard.down( "KeyV" );
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
 
+      await page.waitFor( 2000 );
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
+          await page.waitForSelector( 'input[data-testid="media-sprout"]' );
           const input = await page.$( 'input[data-testid="media-sprout"]' );
 
           await input.uploadFile( imagesList[ i ] );
         } else if ( feed.location.type === 2 ) {
           if ( i < 1 ) {
-            await page.click( 'div[data-testid="photo-video-button"]' );
-            await page.waitForSelector( 'input[name="composer_photo"]' );
-            const input = await page.$( 'input[name="composer_photo"]' );
+            let input;
 
+            if ( await page.$( 'input[data-testid="media-sprout"]' ) ) {
+              console.log( "Page case1: " );
+              await page.click( 'input[data-testid="media-sprout"]' );
+              input = await page.$( 'input[data-testid="media-sprout"]' );
+
+            }
+            if ( await page.$( 'div[data-testid="photo-video-button"]' ) ) {
+              console.log( "Page case2: " );
+              await page.click( 'div[data-testid="photo-video-button"]' );
+              await page.waitForSelector( 'input[name="composer_photo"]' );
+              await page.click( 'input[name="composer_photo"]' );
+              input = await page.$( 'input[name="composer_photo"]' );
+            }
+            // await page.waitFor( 200000 );
             await input.uploadFile( imagesList[ i ] );
           } else {
             const input = await page.$( 'input[data-testid="media-sprout"]' );
@@ -425,10 +435,10 @@ module.exports = {
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
+      await page.waitFor( 1000 );
       await page.click(
         'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
       );
-
 
       if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
         await page.waitFor( 1000 );
@@ -460,6 +470,7 @@ module.exports = {
         "results": {
           "postID": "Vui lòng kiểm tra trạng thái bài đăng trên facebook của bạn.",
           "type":
+          // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
