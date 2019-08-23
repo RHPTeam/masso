@@ -432,62 +432,85 @@ module.exports = {
           'div.fbScrollableAreaContent div[data-testid="media-attachment-photo"]'
         );
       }
-      await page.waitForFunction(
-        'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
-      );
-      await page.waitFor( 1000 );
-      await page.click(
-        'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
-      );
 
-      if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
+      // Handle disabled null
+      try {
+        await page.waitForFunction(
+          'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
+        );
         await page.waitFor( 1000 );
-        if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
+        await page.click(
+          'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
+        );
+
+        if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
+          await page.waitFor( 1000 );
+          if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
+            return {
+              "error": {
+                "code": 8888,
+                "text": `Nhóm ${
+                  feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+                } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
+                "message": `Nhóm ${
+                  feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
+                } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
+              },
+              "results": null
+            };
+          }
+        }
+
+        // Handle wait for post finnish
+        await page.waitFor( 5000 );
+
+        // Get ID Preview
+        try {
+          await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
+          // eslint-disable-next-line one-var
+          const previewInfo = await page.$eval(
+              'div[data-ft*="mf_story_key"]',
+              ( div ) => div.getAttribute( "data-ft" )
+            ),
+            start = '"mf_story_key":"',
+            end = '"';
+
+          await browser.close();
+
           return {
             "error": {
-              "code": 8888,
-              "text": `Nhóm ${
-                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
-              "message": `Nhóm ${
-                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
+              "code": 200,
+              "text": null
             },
-            "results": null
+            "results": {
+              "postID": previewInfo.substring(
+                previewInfo.indexOf( start ) + start.length,
+                previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
+              ),
+              "type":
+              // eslint-disable-next-line no-nested-ternary
+                feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+            }
+          };
+        } catch ( e ) {
+          console.log( "❎❎❎❎ Have error get ID preview post facebook but post is posted..." );
+          return {
+            "error": {
+              "code": 200,
+              "text": null
+            },
+            "results": {
+              "postID": feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value,
+              "type":
+              // eslint-disable-next-line no-nested-ternary
+                feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
+            }
           };
         }
+      } catch ( err ) {
+        console.log( "❌❌❌❌ Error button disabled of null... Server wil try again..." );
+        await module.exports.createNewFeed( { cookie, feed } );
       }
-
-      // Handle wait for post finnish
-      await page.waitFor( 5000 );
-
-      // Get ID Preview
-      await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
-      // eslint-disable-next-line one-var
-      const previewInfo = await page.$eval(
-          'div[data-ft*="mf_story_key"]',
-          ( div ) => div.getAttribute( "data-ft" )
-        ),
-        start = '"mf_story_key":"',
-        end = '"';
-
-      await browser.close();
-
-      return {
-        "error": {
-          "code": 200,
-          "text": null
-        },
-        "results": {
-          "postID": previewInfo.substring(
-            previewInfo.indexOf( start ) + start.length,
-            previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
-          ),
-          "type":
-          // eslint-disable-next-line no-nested-ternary
-            feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
-        }
-      };
     } catch ( error ) {
       console.log( error );
       await browser.close();
