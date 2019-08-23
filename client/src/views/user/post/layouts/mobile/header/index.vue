@@ -1,11 +1,6 @@
 <template>
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
-      <!-- <app-sidebar-mobile
-        v-if="isShowPopup === true"
-        :data-theme="currentTheme"
-        :popupData="isShowPopup"
-      @closePopup="isShowPopup = $event"></app-sidebar-mobile>-->
       <popup-create-agency
         v-if="isShowPopupCreateAgency === true"
         @closePopup="isShowPopupCreateAgency = $event"
@@ -33,12 +28,10 @@
       ></popup-add-group>
       <popup-filter-by-category
         v-if="isShowDropdownFilterByCategory === true"
-        @closePopup="isShowDropdownFilterByCategory = $event"
-      />
+        @closePopup="isShowDropdownFilterByCategory = $event"></popup-filter-by-category>
       <popup-expire-code
         v-if="isShowPopupExpireCode === true"
-        @closePopup="isShowPopupExpireCode = $event"
-      />
+        @closePopup="isShowPopupExpireCode = $event"></popup-expire-code>
       <setup-info v-if="isShowPopupSetupInfo === true" @closePopup="isShowPopupSetupInfo = $event"></setup-info>
     </transition>
     <transition name="popup--sidebar">
@@ -49,6 +42,8 @@
         @closePopup="isShowPopup = $event"
       ></app-sidebar-mobile>
     </transition>
+
+    <!-- START: GET INFOMATION USER -->
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
         <div class="header--mobile-img text_left" @click.prevent="isShowPopup = true">
@@ -184,18 +179,25 @@
         <!-- End: Action Pricing plan -->
       </div>
     </div>
+    <!-- END: GET INFOMATION USER -->
+
     <!-- Start: transition popup mobile -->
     <transition name="popup">
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"></popup-history>
-    </transition>
-    <transition name="popup">
+      <popup-history
+        @close="isShowPopupHistory = $event"
+        v-if="isShowPopupHistory === true"
+      >
+      </popup-history>
+      <!--START: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
       <upgrade-pro-popup
         class="upgrade-pro-popup"
         v-if="isShowUpgradePro === true"
         :data-theme="currentTheme"
         :showUpgradePro="isShowUpgradePro"
         @closeAddPopup="isShowUpgradePro = $event"
-      ></upgrade-pro-popup>
+      >
+      </upgrade-pro-popup>
+      <!--END: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
     </transition>
   </div>
 </template>

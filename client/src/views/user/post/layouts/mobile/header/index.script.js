@@ -1,15 +1,15 @@
-import AppSidebarMobile from "../popup/menu";
-import PopupCreateAgency from "../popup/agency/create";
-import PopupCreateCategory from "../popup/posts/category";
-import PopupCreatePost from "../popup/posts/post";
-import PopupAddAccountFacebook from "../popup/facebook/addaccount";
-import PopupCreateCampaign from "../popup/campaigns/create";
-import PopupAddGroup from "../popup/postgroup/addgroup";
-import PopupFilterByCategory from "../popup/posts/filter";
-import PopupHistory from "../popup/posts/history";
-import PopupExpireCode from "../popup/expire";
+import AppSidebarMobile from "./components/menu";
+import PopupCreateAgency from "./components/agency/create";
+import PopupCreateCategory from "./components/posts/category";
+import PopupCreatePost from "./components/posts/post";
+import PopupAddAccountFacebook from "./components/facebook/addaccount";
+import PopupCreateCampaign from "./components/campaigns/create";
+import PopupAddGroup from "./components/postgroup/addgroup";
+import PopupFilterByCategory from "./components/posts/filter";
+import PopupHistory from "./components/posts/history";
+import PopupExpireCode from "./components/expire";
 import UpgradeProPopup from "@/components/shared/layouts/upgradepro";
-import SetupInfo from "../popup/agency/setup";
+import SetupInfo from "./components/agency/setup";
 
 export default {
   props: ["fbPost"],
@@ -111,7 +111,7 @@ export default {
   filters: {
     getFirstLetter(string) {
       if (typeof string == "undefined") return;
-      if (string.length == 0) return;
+      if (string.length === 0) return;
       return string.charAt(0).toUpperCase();
     }
   },
@@ -134,10 +134,6 @@ export default {
       await this.$store.dispatch("createNewPost", dataSender);
       await this.$store.dispatch("getPostById", this.post._id);
       await this.$store.dispatch("actionCursor", 15);
-      // this.$router.push( {
-      //   name: "post_update_post",
-      //   params: { id: this.post._id }
-      // } );
       this.isShowPopupCreatePost = true;
     },
     showPopupAddAccountFb() {
@@ -162,9 +158,6 @@ export default {
     updateGroupsAndPages() {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
-    },
-    showPopupExpireCode() {
-      this.isShowPopupExpireCode = true;
     },
     showPopupSetupInfo() {
       this.isShowPopupSetupInfo = true;

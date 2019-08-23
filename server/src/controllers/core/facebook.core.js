@@ -1,4 +1,5 @@
 /* eslint-disable no-shadow */
+const puppeteer = require( "puppeteer" );
 const {
   linkGetActionTypeLoader,
   linkGetItemActionTypeLoader,
@@ -6,7 +7,7 @@ const {
   linkSearchPlaces
 } = require( "../../configs/crawl" );
 const { getDtsgAg } = require( "../../helpers/utils/facebook/dtsgfb" );
-const { findSubString } = require( "../../helpers/utils/functions/string" );
+const { convertCookieFacebook, findSubString } = require( "../../helpers/utils/functions/string" );
 
 const cheerio = require( "cheerio" ),
   request = require( "request" );
@@ -163,66 +164,90 @@ module.exports = {
       } );
     } );
   },
-  "getUserInfo": ( { cookie, agent } ) => {
-    return new Promise( ( resolve ) => {
-      const option = {
-        "method": "GET",
-        "url": `https://m.facebook.com/${findSubString( cookie, "c_user=", ";" )}`,
-        "headers": {
-          "User-Agent": agent,
-          "Cookie": cookie
-        }
-      };
+  "getUserInfo": ( { cookie } ) => {
+    return new Promise( async ( resolve ) => {
+      const browser = await puppeteer.launch( { "headless": false } );
 
-      request( option, ( err, res, body ) => {
-        if ( !err && res.statusCode === 200 ) {
-          const $ = cheerio.load( body );
+      try {
+        // Open browser
+        const cookieConverted = await convertCookieFacebook( cookie ),
+          // Open a new tab
+          page = await browser.newPage(),
+          // Define turn off notification popup
+          context = browser.defaultBrowserContext();
 
-          if ( body.includes( "https://www.facebook.com/login" ) ) {
-            resolve( {
-              "error": {
-                "code": 405,
-                "text": "Cookie hết hạn, thử lại bằng cách cập nhật cookie mới!"
-              },
-              "results": []
-            } );
-          }
+        await context.overridePermissions( "https://www.facebook.com", [
+          "notifications"
+        ] );
+
+        // Set cookie before access to facebook
+        await page.setCookie( ...cookieConverted );
+
+        // Go to facebook.com/:id
+        await page.waitFor( 1000 );
+        await page.goto(
+          `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`
+        );
+
+        if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
+          await browser.close();
+          console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
           resolve( {
             "error": {
-              "code": 200,
-              "text": null
+              "code": 404,
+              "text": "Mã kích hoạt đã hết hạn! Vui lòng lấy lại mã kích hoạt và thử lại.!"
             },
-            "results": {
-              "id": findSubString( cookie, "c_user=", ";" ),
-              "fullName": $( "title" ).text(),
-              "thumbSrc": `https://graph.facebook.com/${findSubString(
-                cookie,
-                "c_user=",
-                ";"
-              )}/picture?type=large`,
-              "profileUrl": `https://www.facebook.com/${findSubString(
-                cookie,
-                "c_user=",
-                ";"
-              )}`
-            }
+            "results": null
           } );
         }
+
+        // Get info
+        await page.waitForSelector( "#fb-timeline-cover-name" );
+        // eslint-disable-next-line one-var
+        const name = await page.title();
+
+        await browser.close();
+        resolve( {
+          "error": {
+            "code": 200,
+            "text": null
+          },
+          "results": {
+            "id": findSubString( cookie, "c_user=", ";" ),
+            "fullName": name,
+            "thumbSrc": `https://graph.facebook.com/${findSubString(
+              cookie,
+              "c_user=",
+              ";"
+            )}/picture?type=large`,
+            "profileUrl": `https://www.facebook.com/${findSubString(
+              cookie,
+              "c_user=",
+              ";"
+            )}`
+          }
+        } );
+      } catch ( error ) {
+        await browser.close();
         resolve( {
           "error": {
             "code": 404,
-            "text": "Link crawl đã bị thay đổi hoặc thất bại trong khi request!"
+            "text": "Xảy ra lỗi trong quá trình lấy thông tin bằng puppeteer!"
           },
-          "results": []
+          "results": error
         } );
-      } );
+      }
     } );
   },
   "loadFans": ( { cookie, agent } ) => {
     return new Promise( ( resolve ) => {
       const option = {
         "method": "GET",
-        "url": `https://www.facebook.com/${findSubString( cookie, "c_user=", ";" )}`,
+        "url": `https://www.facebook.com/${findSubString(
+          cookie,
+          "c_user=",
+          ";"
+        )}`,
         "headers": {
           "User-Agent": agent,
           "Cookie": cookie

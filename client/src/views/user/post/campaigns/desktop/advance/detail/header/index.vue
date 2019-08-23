@@ -40,14 +40,20 @@
     <div class="r main--header-action mt_3">
       <div class="c_md_12 c_lg_6 mb_md_3 action--left d_flex align_items_center">
         <div class="btn--control mr_3">
-          <button class="btn btn--orange"
-                  v-if="campaignDetail.status"
-                  @click="openPopupCreateEvent"
-          >Thêm sự kiện</button>
-          <button class="btn btn--orange"
-                  disabled
-                  v-else
-          >Thêm sự kiên</button>
+          <button
+            class="btn btn--orange"
+            v-if="campaignDetail.status"
+            @click="openPopupCreateEvent"
+          >
+            Thêm sự kiện
+          </button>
+          <button
+            class="btn btn--orange"
+            disabled
+            v-else
+          >
+            Thêm sự kiên
+          </button>
         </div>
         <div class="campaing--status d_flex align_items_center">
           <div class="status--name mr_2" v-if="campaignDetail.status">
@@ -96,13 +102,7 @@
         </div>
       </div>
       <!-- End: Header Action -->
-      <!--	Start: Create Campaign Popup	-->
-<!--      <transition name="popup">-->
-<!--        <app-event-->
-<!--          v-if="caseEvent.popup === true"-->
-<!--          @close="close( $event )"-->
-<!--        />-->
-<!--      </transition>-->
+
       <!--	Start: Create Campaign Popup Test Again	-->
       <transition name="popup">
         <app-events
@@ -124,7 +124,6 @@
 
 <script>
 import AppHistory from "../history";
-// import AppEvent from "@/views/user/post/campaigns/desktop/popup/event";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
 
 let typingTimer;
@@ -139,9 +138,9 @@ export default {
   data() {
     return {
       isShowHistory: false,
-      historyRouteLength: 0
-      // isShowCreateEvent: false,
-      // event: 1
+      isShowChangeStatus: false,
+      historyRouteLength: 0,
+      count: 0
     }
   },
   computed: {
@@ -189,10 +188,11 @@ export default {
     updateCalendarView( val ) {
       this.$emit( "updateCalendarView", val );
     },
-    updateCampaignStatus() {
+    async updateCampaignStatus() {
+      this.isShowChangeStatus = true;
       const campaignId = this.campaignDetail._id;
 
-      this.$store.dispatch( "updateCampaignStatus", campaignId );
+      await this.$store.dispatch( "updateCampaignStatus", campaignId );
     },
     async upTypingText( campaign ) {
       await clearTimeout( typingTimer );

@@ -60,6 +60,9 @@
       }
     }
   }
+  .item--disable {
+    cursor: not-allowed;
+  }
   #content--special {
     background-position: center;
     background-repeat: no-repeat;

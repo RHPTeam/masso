@@ -16,6 +16,9 @@
 <script>
 import AppDesktop from "./desktop";
 import AppMobile from "./mobile";
+
+import CookieFunction from "@/utils/functions/cookie";
+
 export default {
   components: {
     AppDesktop,
@@ -36,7 +39,10 @@ export default {
     window.removeEventListener('resize', this.getWindowWidth);
   },
   async created(){
-    await this.$store.dispatch("getInfoAgency");
+    const res = CookieFunction.getCookie("cfr");
+    if (res === 'Agency') {
+      await this.$store.dispatch("getInfoAgency");
+    }
   },
   methods: {
     getWindowWidth(event) {

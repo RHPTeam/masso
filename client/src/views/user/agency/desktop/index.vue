@@ -50,6 +50,7 @@ import AppAgencyInfo from "./components/popup/setting";
 import AppDelete from "./components/popup/delete";
 import AppEdit from "./components/popup/edit";
 
+
 export default {
   components: {
     AppAgencyInfo,

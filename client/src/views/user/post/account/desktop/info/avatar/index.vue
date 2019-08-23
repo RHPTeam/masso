@@ -10,10 +10,10 @@
           </icon-base>
         </div>
       </div>
-      <!--Start: Dropzone Component-->
-<!--    <dropzone :status="isDropZone" @close="isDropZone = $event" />-->
+
+      <!--Start: Upload image component-->
       <upload-avatar v-if="isDropZone === true" @close="isDropZone = $event" />
-    <!--End: Dropzone Component-->
+      <!--End: Upload image component-->
     </div>
     <!-- End: Wrapper Top -->
     <!-- Start: Wrapper Content -->

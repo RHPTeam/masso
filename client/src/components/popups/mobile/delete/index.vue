@@ -56,7 +56,7 @@ $bg--light: #ccc;
 $color-light: #333;
 $bg--dark: #212225;
 $color-dark: #ccc;
-$border-dark: #42424296;
+$border-dark: #444;
 .modal--wrapper {
   height: 100vh;
   width: 100vw;

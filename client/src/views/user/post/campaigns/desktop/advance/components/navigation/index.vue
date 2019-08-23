@@ -2,7 +2,7 @@
   <div class="main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
     <div class="nav--left d_flex align_items_center mb_4">
-        <div class="add--campaign mr_auto">
+        <div class="add--campaign">
           <div
             class="btn--add-campaign mr_2"
             @click="isShowCreatCampaignPopup = true"
@@ -10,7 +10,7 @@
             Thêm chiến dịch
           </div>
         </div>
-        <div class="action--campaign d_flex align_items_center ml_auto">
+        <div class="action--campaign d_flex align_items_center">
           <router-link
             class="action--link"
             :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
@@ -22,6 +22,12 @@
             :to="{ name: 'campaigns_default' }"
             active-class="active"
           >Chiến dịch mẫu</router-link>
+<!--          <div class="divider"></div>-->
+<!--          <router-link-->
+<!--            class="action&#45;&#45;link"-->
+<!--            :to="{ name: 'campaigns_loop' }"-->
+<!--            active-class="active"-->
+<!--          >Chiến dịch nhanh</router-link>-->
         </div>
       </div>
 
@@ -59,6 +65,7 @@ export default {
         { id: "deactive", name: "Ngừng hoạt động" }
       ],
       isShowCreatCampaignPopup: false,
+      isShowOptionCampaign: false,
       search: "",
       sizeDefault: 25,
       pageDefault: 1

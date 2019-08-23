@@ -5,7 +5,7 @@ export default {
   index() {
     return Api().get( "page-facebook" );
   },
-  update() {
-    return Api().patch( "page-facebook" );
+  update(accountId) {
+    return Api().patch( `page-facebook?_id=${accountId}` );
   },
 };

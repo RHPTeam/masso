@@ -2,12 +2,12 @@
 import CampaignsServices from "@/services/modules/post/campaign.service";
 
 const state = {
-  allCampaigns: [],
-  campaigns: [],
-  campaignsMobile: [],
-  campaignDetail: {},
-  campaignsPagesSize: 1,
-  campaignStatus: "",
+    allCampaigns: [],
+    campaigns: [],
+    campaignsMobile: [],
+    campaignDetail: {},
+    campaignsPagesSize: 1,
+    campaignStatus: "",
     variableControlCampaign: 0,
     variableCampaign: 0
   },
@@ -74,9 +74,15 @@ const state = {
 
       await commit( "createCampaign", res.data.data );
     },
+    /**
+     *
+     * @param commit object contain have id differen payload
+     * @param payload is id campaign
+     * @returns {Array}
+     */
     deleteCampaign: async ( { commit }, payload ) => {
       const campaigns = state.campaigns.filter(
-        ( campaign ) => campaign._id !== payload.id
+        ( campaign ) => campaign._id !== payload
       );
 
       let res;
@@ -84,7 +90,7 @@ const state = {
       commit( "setCampaigns", campaigns );
       commit( "setCampaignsPagesSize", campaigns.length );
 
-      await CampaignsServices.delete( payload.id );
+      await CampaignsServices.delete( payload );
     },
     // Delete campaign and get totals page = campage.page for mobile
     deleteCampaignMobile: async ( { commit }, payload ) => {
@@ -95,7 +101,6 @@ const state = {
       let res;
 
       commit( "setCampaigns", campaigns );
-      // commit( "setCampaignsPagesSize", campaigns.length );
 
       await CampaignsServices.delete( payload.id );
     },
@@ -110,12 +115,6 @@ const state = {
       commit( "setCampaignsSearch", campaigns );
 
       await CampaignsServices.delete( payload.id );
-
-      // get campaign when delete
-      // res = await CampaignsServices.getCampaignsByPage( payload.size, payload.page );
-
-      // await commit( "setCampaignsMobile", res.data.data.results );
-      // await commit( "setCampaignsPagesSize", res.data.data.page );
     },
     duplicateCampaign: async ( { commit }, payload ) => {
       const res = await CampaignsServices.duplicate( payload );

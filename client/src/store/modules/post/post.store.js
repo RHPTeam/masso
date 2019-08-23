@@ -210,10 +210,11 @@ const actions = {
     commit("setNewPost", res.data.data);
   },
   deletePost: async ({ commit }, payload) => {
-    const allPost = state.allPost.filter(allPost => allPost._id !== payload.id);
+
+    const allPost = state.allPost.filter(allPost => allPost._id !== payload);
 
     commit("setDeletePost", allPost);
-    await PostServices.deletePost(payload.id);
+    await PostServices.deletePost(payload);
   },
   // delete post when search for mobile
   deletePostSearch: async ({ commit }, payload) => {

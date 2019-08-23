@@ -22,13 +22,6 @@
                       :placeholder="$t('chat.common.keyProduct.placeholder')"
               />
             </div>
-<!--            <input-->
-<!--              type="text"-->
-<!--              class="form_control"-->
-<!--              placeholder="Nhập từ khóa của bạn ..."-->
-<!--              v-model="keyword"-->
-<!--              @keydown.enter="updateKey"-->
-<!--            />-->
           </div>
         </div>
         <!-- End: Modal Body -->

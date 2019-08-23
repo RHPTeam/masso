@@ -250,12 +250,13 @@
             <!--End: Choose color text-->
             <!--Start:  show image when add-->
             <div v-if="post.attachments && post.attachments.length > 0">
-              <div v-if="this.$store.getters.errorPost === 'errors.js'" class="text_danger">
+              <div v-if="this.$store.getters.errorPost === 'error'" class="text_danger">
                 Bạn không thể tải lên quá 20 ảnh trong một bài viết.
               </div>
               <div v-else>
                 <image-post
                   :post="post"
+                  @openPopupDeleteImage="isShowPopupDeleteImage = $event"
                   @updatePostAttachments="post.attachments = $event"
                 ></image-post>
               </div>
@@ -300,7 +301,7 @@
                        accept="image/x-png,image/gif,image/jpeg" multiple />
               </form>
             </li>
-            <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
+            <li class="item item--disable d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
                 class="icon--location"
                 icon-name="location"
@@ -312,7 +313,7 @@
               </icon-base>
               <span>Địa điểm</span>
             </li>
-            <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
+            <li class="item item--disable d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
                 class="icon--friend-tag"
                 icon-name="user"
@@ -356,7 +357,7 @@
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
                 </form>
               </div>
-              <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
                   class="icon--location"
                   icon-name="location"
@@ -370,7 +371,7 @@
               </div>
             </div>
             <div class="list show d_flex align_items_center">
-              <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
                   class="icon--friend-tag"
                   icon-name="user"
@@ -382,7 +383,7 @@
                 </icon-base>
                 <span>Gắn thẻ bạn bè</span>
               </div>
-              <div class="item d_flex align_items_center" @click="showOptionPostActivity">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
                   class="icon--smile"
                   icon-name="feelings"
@@ -410,7 +411,7 @@
         <div class="item--button mr_3" @click="savePost">
           Lưu
         </div>
-        <div class="item--button" @click="saveAndPostNow">
+        <div class="item--button d_none" @click="saveAndPostNow">
           Lưu & Đăng ngay
         </div>
       </div>
@@ -423,6 +424,13 @@
         @closePopup="isShowPostNowPopup = $event"
         :post="post"
       ></post-now-popup>
+
+      <popup-delete-image
+        v-if="isShowPopupDeleteImage === true"
+        :currentTheme="currentTheme"
+        @close="isShowPopupDeleteImage = $event"
+      >
+      </popup-delete-image>
     </transition>
   </div>
 </template>

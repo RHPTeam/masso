@@ -1,26 +1,26 @@
 <template>
-  <div class="popup">
-    <!-- Start: Header -->
-    <div class="popup--header position_relative px_2 pt_2">
-      <div class="popup--title text_center mt_1">
-        <span>Xóa </span>
-        <span>{{ title }}</span>
+  <div class="modal--wrapper" :data-theme="currentTheme">
+    <div class="modal--dialog d_flex justify_content_center align_items_center">
+      <div class="modal--content mb_2" v-click-outside="closePopup">
+        <!-- Start: Header -->
+        <!-- End: Header -->
+        <!-- Start: Body -->
+        <div class="modal--body p_3">
+          <div class="popup--title text_center mt_1">
+            <span>Xóa</span>
+            <span>{{ title }}</span>
+          </div>
+          <div class="popup--description">{{ description }}</div>
+        </div>
+        <!-- End: Body -->
+        <!-- Start: Footer -->
+        <div class="modal--footer text_center">
+          <div class="delete item" @click="submit()">Xóa</div>
+          <div class="cancel mt_2 item" @click="closePopup">Hủy</div>
+        </div>
+        <!-- End: Footer -->
       </div>
     </div>
-    <!-- End: Header -->
-    <!-- Start: Body -->
-    <div class="popup--body px_2">
-      <div class="popup--description">{{ description }}</div>
-    </div>
-    <!-- End: Body -->
-    <!-- Start: Footer -->
-    <div class="popup--footer px_2">
-      <button class="btn_delete save mx_auto" @click="submit()">Xóa</button>
-    </div>
-    <div class="cancel my_2 text_center" @click.prevent="closePopup">
-      Hủy
-    </div>
-    <!-- End: Footer -->
   </div>
 </template>
 
@@ -38,16 +38,16 @@ export default {
   },
   methods: {
     closePopup() {
-      this.$emit( "closePopup", false );
+      this.$emit("closePopup", false);
     },
     submit() {
-      this.$store.dispatch( "setEvent", {
+      this.$store.dispatch("setEvent", {
         key: "plugins",
         value: ""
-      } );
+      });
     }
   }
-}
+};
 </script>
 
 <style scoped lang="scss">

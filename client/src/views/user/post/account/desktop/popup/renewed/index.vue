@@ -43,6 +43,13 @@ export default {
       return this.$store.getters.statusCode;
     }    
   },
+  watch: {
+    "code"(value) {
+      if(value.length === 0) {
+        this.isShowErrorCode = false;
+      }
+    }
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
@@ -57,14 +64,7 @@ export default {
         this.isShowErrorCode = true;
       }
     }
-  },
-  watch: {
-    "code"(value) {
-      if(value.length === 0) {
-        this.isShowErrorCode = false;
-      }
-    }
-  },
+  }
 };
 </script>
 
