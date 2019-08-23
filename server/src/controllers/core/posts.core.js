@@ -394,6 +394,7 @@ module.exports = {
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
+      await page.click( 'div[role="region"]' );
 
       await page.waitFor( 2000 );
       for ( let i = 0; i < imagesList.length; i++ ) {
@@ -511,7 +512,14 @@ module.exports = {
       } catch ( err ) {
         await browser.close();
         console.log( "❌❌❌❌ Error button disabled of null... Server wil try again..." );
-        await module.exports.createNewFeed( { cookie, feed } );
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Xảy ra lỗi khi đăng bài viết, chuột bị click ra ngoài..",
+            "message": err
+          },
+          "results": null
+        };
       }
     } catch ( error ) {
       console.log( error );
