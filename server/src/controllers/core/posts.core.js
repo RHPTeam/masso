@@ -371,7 +371,7 @@ module.exports = {
         };
       }
 
-      await page.click( 'div[role="region"]' );
+      await page.click( 'div[data-testid="react-composer-root"]' );
       await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
       await page.waitForSelector(
         'div[data-testid="react-composer-root"] div[contenteditable="true"]'
@@ -393,10 +393,8 @@ module.exports = {
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
-      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
-      await page.click( 'div[role="region"]' );
+      await page.click( 'div[data-testid="react-composer-root"]' );
 
-      await page.waitFor( 2000 );
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
           await page.waitForSelector( 'input[data-testid="media-sprout"]' );
@@ -420,7 +418,6 @@ module.exports = {
               await page.click( 'input[name="composer_photo"]' );
               input = await page.$( 'input[name="composer_photo"]' );
             }
-            // await page.waitFor( 200000 );
             await input.uploadFile( imagesList[ i ] );
           } else {
             const input = await page.$( 'input[data-testid="media-sprout"]' );
@@ -463,7 +460,7 @@ module.exports = {
         }
 
         // Handle wait for post finnish
-        await page.waitFor( 5000 );
+        await page.waitFor( 3000 );
 
         // Get ID Preview
         try {
