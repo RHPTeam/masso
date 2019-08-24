@@ -1,9 +1,14 @@
 /* eslint-disable prettier/prettier */
-import RcDayGridMonthView from "./components/views/day-grid-month-view/index";
+import RcMonthView from "./components/views/month";
 import RcListWeekView from "./components/views/list-week-view/index";
 import RcTimeGridView from "./components/views/time-grid-view/index";
 
 export default {
+  components: {
+    RcMonthView,
+    RcListWeekView,
+    RcTimeGridView
+  },
   props: {
     events: {
       type: Array,
@@ -240,8 +245,8 @@ export default {
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
-    timeClick( date ) {
-      this.$emit( "timeClick", date );
+    dayClick( date ) {
+      this.$emit( "dayClick", date );
     },
     eventClick( data ) {
       this.$emit( "eventClick", data );
@@ -265,10 +270,5 @@ export default {
       this.activeWeek.setDate( this.activeWeek.getDate() + flag );
       this.activeWeek = new Date( this.activeWeek );
     }
-  },
-  components: {
-    RcDayGridMonthView,
-    RcListWeekView,
-    RcTimeGridView
   }
 };

@@ -12,7 +12,7 @@
       :theme="currentTheme"
       :view="calendarView"
       :disabledView="campaignDetail.status"
-      @dayClick="createEvent($event)"
+      @timeClick="createEvent($event)"
       @eventClick="openEventPopup($event)"
     />
     <!-- End: FullCalendar -->
@@ -60,17 +60,9 @@ export default {
   },
   methods: {
     async createEvent( date ) {
-      const now = new Date(),
-            hour = now.getHours(),
-            min = now.getMinutes();
-
-      let timeSelected = new Date( date );
-      timeSelected.setHours( hour );
-      timeSelected.setMinutes( min );
-
       await this.$store.dispatch( "setEvent", {
         key: "started_at",
-        value: new Date( timeSelected )
+        value: new Date( date )
       } );
 
       await this.$store.dispatch( "setCaseEvent", {

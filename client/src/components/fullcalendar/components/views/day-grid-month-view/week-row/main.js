@@ -36,8 +36,16 @@ export default {
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
-    dayClick( date ) {
-      this.$emit( "dayClick", date );
+    timeClick( date ) {
+      const now = new Date(),
+        hour = now.getHours(),
+        min = now.getMinutes();
+
+      let timeSelected = new Date( date );
+      timeSelected.setHours( hour );
+      timeSelected.setMinutes( min );
+
+      this.$emit( "timeClick", timeSelected );
     },
     eventClick( data) {
       this.$emit( "eventClick", data );

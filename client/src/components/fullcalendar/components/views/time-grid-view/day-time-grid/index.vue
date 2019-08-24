@@ -32,7 +32,9 @@
               >
                 <span>{{ time }}</span>
               </td>
-              <td v-if="index % 2 === 0" class="rc--widget-content"></td>
+              <td v-if="index % 2 === 0" class="rc--widget-content"
+                  @click="timeClick(index)"
+              ></td>
 
               <!-- Odd hours -->
               <td
@@ -40,7 +42,9 @@
                 class="rc--axis rc--time rc--widget-content"
                 style="width: 42px; height: 28px; font-size: .85rem;"
               ></td>
-              <td v-if="index % 2 !== 0" class="rc--widget-content"></td>
+              <td v-if="index % 2 !== 0" class="rc--widget-content"
+                  @click="timeClick(index)"
+              ></td>
             </tr>
           </tbody>
         </table>
@@ -73,7 +77,7 @@
                               class="rc--title"
                               @click="eventClick(event)"
                               @mouseover="eventHover(i, event )"
-                              @mouseleave="isShowCardHover = false"
+                              @mouseleave="closeCardHover"
                             >
                               {{ showEventContent(event) }}
                             </div>
@@ -99,29 +103,6 @@
         </table>
       </div>
     </div>
-
-    <!-- Popover -->
-    <transition name="fade">
-      <rc-more-popover
-        v-if="isShowMorePopover"
-        @closeMorePopover="isShowMorePopover = $event"
-        @eventClick="eventClick($event)"
-        :eventsPopupData="eventsPopupData"
-        :leftVal="leftVal"
-        :rightVal="rightVal"
-        :topVal="topVal"
-      ></rc-more-popover>
-    </transition>
-    <!-- Card Hover -->
-    <transition name="fade">
-      <rc-card-hover
-        v-if="isShowCardHover"
-        :eventData="eventHoverData"
-        :leftVal="leftVal"
-        :rightVal="rightVal"
-        :topVal="topVal"
-      ></rc-card-hover>
-    </transition>
   </div>
 </template>
 
