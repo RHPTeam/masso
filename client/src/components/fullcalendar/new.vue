@@ -1,7 +1,7 @@
 <template>
-  <div id="rcalender" class="rc rc--ltr" :data-theme="theme">
+  <div class="rc" :data-theme="theme">
     <!-- Start: Toolbar -->
-    <div class="rc--toolbar rc--header-toolbar">
+    <div class="rc--toolbar rc--header-toolbar" :data-theme="theme">
       <!-- Start: Month View Toolbar -->
       <div class="rc--toolbar-action" v-if="view === 'month'">
         <button class="rc--btn-prev" @click="getActiveMonth(-1)">
@@ -9,7 +9,7 @@
         </button>
         <div class="rc--time-info">
           {{
-            monthName[activeMonth.getMonth()] + ", " + activeMonth.getFullYear()
+          monthName[activeMonth.getMonth()] + ", " + activeMonth.getFullYear()
           }}
         </div>
         <button class="rc--btn-next" @click="getActiveMonth(1)">
@@ -37,11 +37,11 @@
         </button>
         <div class="rc--time-info">
           {{
-            String(activeDay.getDate()).padStart(2, "0") +
-              " " +
-              monthName[activeDay.getMonth()] +
-              ", " +
-              activeDay.getFullYear()
+          String(activeDay.getDate()).padStart(2, "0") +
+          " " +
+          monthName[activeDay.getMonth()] +
+          ", " +
+          activeDay.getFullYear()
           }}
         </div>
         <button class="rc--btn-next" @click="getActiveDay(1)">
@@ -65,19 +65,13 @@
     <!-- End: Toolbar -->
     <!-- Start: View -->
     <div class="rc--view-container">
-      <div class="rc--view-overlay" v-if="!disabledView">
-        <div class="rc--notification">
-          Chiến dịch của bạn hiện tại đã ngừng hoạt động. Khi bạn khởi động lại chiến dịch, hệ thống sẽ chỉ đăng các sự kiện ở thời điểm hiện tại và tương lai.
-          Các sự kiện được thiết lập trong quá khứ sẽ bị bỏ qua.
-        </div>
-      </div>
-      <rc-day-grid-month-view
+      <rc-month-view
         v-if="view === 'month'"
         :events="events"
         :monthDays="monthDays"
-        @timeClick="timeClick($event)"
+        @dayClick="dayClick($event)"
         @eventClick="eventClick($event)"
-      ></rc-day-grid-month-view>
+      ></rc-month-view>
       <rc-time-grid-view
         v-if="view === 'week' || view === 'day'"
         :activeDay="activeDay"
@@ -88,7 +82,6 @@
         :view="view"
         :weekDays="weekDays"
         @eventClick="eventClick($event)"
-        @timeClick="timeClick($event)"
       ></rc-time-grid-view>
       <rc-list-week-view
         v-if="view === 'list'"
@@ -106,5 +99,5 @@
 <script src="./main.js"></script>
 
 <style lang="scss">
-@import "./style";
+@import "./styles/index";
 </style>

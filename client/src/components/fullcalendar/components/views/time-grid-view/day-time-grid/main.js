@@ -10,33 +10,33 @@ export default {
       eventContentWidth: 0,
       eventHoverData: {},
       eventsPopupData: [],
-      isShowMorePopover: false,
-      isShowCardHover: false,
-      leftVal: null,
-      rightVal: 0,
-      topVal: null
     };
   },
   methods: {
+    closeCardHover() {
+      this.$emit( "closeCardHover", false );
+    },
     eventClick( data) {
       this.$emit( "eventClick", data );
     },
     eventHover( timePoint, eventData ) {
-      const timeGridContainerHeight = 1392, // 29*48
+      const timeGridContainerHeight = 1426, // 29*48
         // calculate height of more popover element
         eventCount = 6, // number of events
         popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
-      let topVal = timePoint * 2 * 29;
+      let topVal = timePoint * 2 * 29 + 4;
 
       if ( topVal + popoverHeight >= timeGridContainerHeight ) {
         topVal = topVal - popoverHeight + 57;
       }
 
-      this.topVal = topVal + 29;
-      this.isShowCardHover = true;
-      this.eventHoverData = eventData;
+      this.$emit( "setTopVal", topVal + 29 );
+      this.$emit( "setLeftVal", null );
+      this.$emit( "setRightVal", 0 );
+
+      this.$emit( "eventHover", eventData );
     },
     filterEventsByTime( hour) {
       if ( Array.isArray( this.eventOfDay ) ) {
@@ -70,22 +70,37 @@ export default {
       }
     },
     showMorePopover( timePoint, events ) {
-      const timeGridContainerHeight = 1392, // 29*48
+      const timeGridContainerHeight = 1426, // 29*48
         // calculate height of more popover element
-        eventCount = 6, // number of events
+        eventCount = events.length, // number of events
         popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
-      let topVal = timePoint * 2 * 29;
+      let topVal = timePoint * 2 * 29 + 33;
 
       if ( topVal + popoverHeight >= timeGridContainerHeight ) {
         topVal = topVal - popoverHeight + 57;
       }
 
-      this.topVal = topVal;
-      this.isShowMorePopover = true;
-      this.eventsPopupData = events;
-    }
+      this.$emit( "setTopVal", topVal );
+      this.$emit( "setLeftVal", null );
+      this.$emit( "setRightVal", 0 );
+
+      this.$emit( "showMorePopover", true );
+      this.$emit( "getEvents", events);
+    },
+    timeClick( timePoint ) {
+      let timeSelected = new Date( this.activeDay );
+      timeSelected.setHours( timePoint/2 );
+
+      if ( timePoint % 2 === 0) {
+        timeSelected.setMinutes( 0 );
+      } else {
+        timeSelected.setMinutes( 30 );
+      }
+
+      this.$emit( "timeClick", timeSelected );
+    },
   },
   components: {
     RcCardHover,

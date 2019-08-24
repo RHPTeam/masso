@@ -44,41 +44,95 @@
               :eventsOfWeek="eventsOfWeek"
               :timePoint="timePoint"
               :weekDays="weekDays"
+              @closeCardHover="showCardHover = $event"
               @eventClick="eventClick($event)"
+              @eventHover="eventHover($event)"
+              @getEvents="eventsPopupData = $event"
+              @setLeftVal="leftVal = $event"
+              @setRightVal="rightVal = $event"
+              @setTopVal="topVal = $event"
+              @showMorePopover="showMorePopover = $event"
+              @timeClick="timeClick($event)"
             />
             <rc-day-time-grid
               v-if="view === 'day'"
               :eventOfDay="eventOfDay"
               :timePoint="timePoint"
               :activeDay="activeDay"
+              @closeCardHover="showCardHover = $event"
               @eventClick="eventClick($event)"
+              @eventHover="eventHover($event)"
+              @getEvents="eventsPopupData = $event"
+              @setLeftVal="leftVal = $event"
+              @setRightVal="rightVal = $event"
+              @setTopVal="topVal = $event"
+              @showMorePopover="showMorePopover = $event"
+              @timeClick="timeClick($event)"
             />
           </td>
         </tr>
       </tbody>
     </table>
+    <!-- Popover -->
+    <transition name="fade">
+      <rc-more-popover
+        v-if="showMorePopover"
+        @closeMorePopover="showMorePopover = $event"
+        @eventClick="eventClick($event)"
+        :eventsPopupData="eventsPopupData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      ></rc-more-popover>
+    </transition>
+    <!-- Card Hover -->
+    <transition name="fade">
+      <rc-card-hover
+        v-if="showCardHover"
+        :eventData="eventHoverData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      ></rc-card-hover>
+    </transition>
   </div>
 </template>
 
 <script>
+import RcCardHover from "../../popover/cardhover";
 import RcDayTimeGrid from "./day-time-grid/index";
+import RcMorePopover from "../../popover/more/index";
 import RcWeekTimeGrid from "./week-time-grid/index";
+
 export default {
   components: {
+    RcCardHover,
     RcDayTimeGrid,
-    RcWeekTimeGrid
+    RcMorePopover,
+    RcWeekTimeGrid,
   },
   props: [ "activeDay", "eventOfDay", "eventsOfWeek", "dayFullName", "timePoint", "view", "weekDays" ],
   data() {
     return {
+      eventsPopupData: [],
+      eventHoverData: {},
       showMorePopover: false,
-      topVal: 0,
-      leftVal: 0
+      showCardHover: false,
+      leftVal: null,
+      rightVal: null,
+      topVal: null
     };
   },
   methods: {
     eventClick( data ) {
       this.$emit( "eventClick", data );
+    },
+    eventHover( data ) {
+      this.showCardHover = true;
+      this.eventHoverData = data;
+    },
+    timeClick( data ) {
+      this.$emit( "timeClick", data );
     }
   }
 };

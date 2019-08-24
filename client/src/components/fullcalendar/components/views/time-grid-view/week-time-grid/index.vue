@@ -34,7 +34,6 @@
               >
                 <span>{{ time }}</span>
               </td>
-              <td v-if="index % 2 === 0" class="rc--widget-content"></td>
 
               <!-- Odd hours -->
               <td
@@ -42,7 +41,12 @@
                 class="rc--axis rc--time rc--widget-content"
                 style="width: 42px; height: 28px; font-size: .85rem;"
               ></td>
-              <td v-if="index % 2 !== 0" class="rc--widget-content"></td>
+
+              <td class="rc--widget-content"
+                v-for="(n, i) in 7"
+                :key="i"
+                @click="timeClick(index, i)"
+              ></td>
             </tr>
           </tbody>
         </table>
@@ -63,20 +67,25 @@
                   <div class="rc--event-container rc--mirror-container"></div>
                   <div class="rc--event-container">
                     <!--Start: Time Loop-->
-                    <div v-for="(t, j) in 24" :key="j">
+                    <div v-for="(t, j) in 24"
+                         :key="j"
+                    >
                       <div
                         class="rc--time-grid-event rc--event rc--start rc--end rc--draggable rc--resizable"
                         :style="[ {backgroundColor: filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0].color },
-                                {top: j*2*29 + 'px'}, {bottom: -j*2*29 - 29 + 'px'}, {zIndex: 1}, {left: 0 + '%'}, {right: 0 + '%'} ]"
+                                {top: j*2*29 + 'px'}, {bottom: -j*2*29 - 29 + 'px'}, {zIndex: 1},
+                                {left: 0 + '%'}, {right: 0 + '%'}, {marginRight: 8 + 'px'} ]"
                         v-if="filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) ).length !== 0
                               && filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )"
-                        @click="
-                        eventClick( filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )
-                      "
-                        @mouseover="eventHover(i, j, filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )"
-                        @mouseleave="isShowCardHover = false"
+                        @click="timeClick(j, weekDays[i].time)"
                       >
-                        <div class="rc--content">
+                        <div class="rc--content"
+                             @click="
+                                eventClick( filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )
+                              "
+                             @mouseover="eventHover(i, j, filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[0] )"
+                             @mouseleave="closeCardHover()"
+                        >
                           <div class="rc--title">
                             {{ showEventContent( filterEventsByTime( j, filterEventsByDay( weekDays[i].time ) )[ 0 ]) }}
                           </div>
@@ -110,29 +119,6 @@
         </table>
       </div>
     </div>
-
-    <!-- Popover -->
-    <transition name="fade">
-      <rc-more-popover
-        v-if="isShowMorePopover"
-        @closeMorePopover="isShowMorePopover = $event"
-        @eventClick="eventClick($event)"
-        :eventsPopupData="eventsPopupData"
-        :leftVal="leftVal"
-        :rightVal="rightVal"
-        :topVal="topVal"
-      ></rc-more-popover>
-    </transition>
-    <!-- Card Hover -->
-    <transition name="fade">
-      <rc-card-hover
-        v-if="isShowCardHover"
-        :eventData="eventHoverData"
-        :leftVal="leftVal"
-        :rightVal="rightVal"
-        :topVal="topVal"
-      ></rc-card-hover>
-    </transition>
   </div>
 </template>
 

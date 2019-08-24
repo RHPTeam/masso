@@ -56,7 +56,7 @@
                   :monthDays="monthDays"
                   :rowIndex="i"
                   @closeCardHover="showCardHover = $event"
-                  @dayClick="dayClick($event)"
+                  @timeClick="timeClick($event)"
                   @eventClick="eventClick($event)"
                   @eventHover="eventHover($event)"
                   @getEvents="eventsPopupData = $event"
@@ -125,8 +125,8 @@ export default {
 
   },
   methods: {
-    dayClick( date ) {
-      this.$emit( "dayClick", date );
+    timeClick( date ) {
+      this.$emit( "timeClick", date );
     },
     eventClick( data ) {
       this.$emit( "eventClick", data );
