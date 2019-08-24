@@ -112,7 +112,7 @@ export default {
     showMorePopover( colIndex, events ) {
       const dayGridMonthHeight = 779,
         // calculate height of more popover element
-        eventCount = 6, // number of events
+        eventCount = events.length, // number of events
         popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
@@ -128,7 +128,7 @@ export default {
       }
 
       if ( topVal + popoverHeight >= dayGridMonthHeight ) {
-        topVal = topVal - popoverHeight + 124;
+        topVal = 779 - popoverHeight;
       }
 
       // emit data

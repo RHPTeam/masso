@@ -44,14 +44,14 @@
               :eventsOfWeek="eventsOfWeek"
               :timePoint="timePoint"
               :weekDays="weekDays"
-              @closeCardHover="showCardHover = $event"
+              @closeCardHover="isShowCardHover = $event"
               @eventClick="eventClick($event)"
               @eventHover="eventHover($event)"
               @getEvents="eventsPopupData = $event"
               @setLeftVal="leftVal = $event"
               @setRightVal="rightVal = $event"
               @setTopVal="topVal = $event"
-              @showMorePopover="showMorePopover = $event"
+              @showMorePopover="showMorePopover($event)"
               @timeClick="timeClick($event)"
             />
             <rc-day-time-grid
@@ -59,14 +59,14 @@
               :eventOfDay="eventOfDay"
               :timePoint="timePoint"
               :activeDay="activeDay"
-              @closeCardHover="showCardHover = $event"
+              @closeCardHover="isShowCardHover = $event"
               @eventClick="eventClick($event)"
               @eventHover="eventHover($event)"
               @getEvents="eventsPopupData = $event"
               @setLeftVal="leftVal = $event"
               @setRightVal="rightVal = $event"
               @setTopVal="topVal = $event"
-              @showMorePopover="showMorePopover = $event"
+              @showMorePopover="showMorePopover($event)"
               @timeClick="timeClick($event)"
             />
           </td>
@@ -76,8 +76,8 @@
     <!-- Popover -->
     <transition name="fade">
       <rc-more-popover
-        v-if="showMorePopover"
-        @closeMorePopover="showMorePopover = $event"
+        v-if="isShowMorePopover"
+        @closeMorePopover="isShowMorePopover = $event"
         @eventClick="eventClick($event)"
         :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
@@ -88,7 +88,7 @@
     <!-- Card Hover -->
     <transition name="fade">
       <rc-card-hover
-        v-if="showCardHover"
+        v-if="isShowCardHover"
         :eventData="eventHoverData"
         :leftVal="leftVal"
         :rightVal="rightVal"
@@ -116,8 +116,8 @@ export default {
     return {
       eventsPopupData: [],
       eventHoverData: {},
-      showMorePopover: false,
-      showCardHover: false,
+      isShowMorePopover: false,
+      isShowCardHover: false,
       leftVal: null,
       rightVal: null,
       topVal: null
@@ -128,8 +128,17 @@ export default {
       this.$emit( "eventClick", data );
     },
     eventHover( data ) {
-      this.showCardHover = true;
+      this.isShowCardHover = true;
       this.eventHoverData = data;
+      if ( this.isShowMorePopover === true ) {
+        this.isShowMorePopover = false;
+      }
+    },
+    showMorePopover( val) {
+      this.isShowMorePopover = val;
+      if ( this.isShowCardHover === true ) {
+        this.isShowCardHover = false;
+      }
     },
     timeClick( data ) {
       this.$emit( "timeClick", data );
