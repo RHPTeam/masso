@@ -82,6 +82,7 @@
         :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
         :rightVal="rightVal"
+        :title="morePopoverTitle"
         :topVal="topVal"
       ></rc-more-popover>
     </transition>
@@ -122,6 +123,17 @@ export default {
       rightVal: null,
       topVal: null
     };
+  },
+  computed: {
+    morePopoverTitle() {
+      const eventTime = new Date( this.eventsPopupData[0].started_at ),
+            hour = String( eventTime.getHours() ).padStart( 2, "0"),
+            day = String( eventTime.getDate() ).padStart( 2, "0"),
+            month = String( eventTime.getMonth() + 1 ).padStart( 2, "0" ),
+            year = eventTime.getFullYear();
+
+      return `${hour}:00 ngày ${day}/${month}/${year}`;
+    }
   },
   methods: {
     eventClick( data ) {

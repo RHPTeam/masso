@@ -82,6 +82,7 @@
         :eventsPopupData="eventsPopupData"
         :leftVal="leftVal"
         :rightVal="rightVal"
+        :title="morePopoverTitle"
         :topVal="topVal"
       />
     </transition>
@@ -109,7 +110,7 @@ export default {
     RcMorePopover,
     RcWeekRow
   },
-  props: [ "events", "monthDays" ],
+  props: [ "events", "monthDays", "monthName" ],
   data() {
     return {
       eventsPopupData: [],
@@ -122,7 +123,14 @@ export default {
     };
   },
   computed: {
+    morePopoverTitle() {
+      const eventTime = new Date( this.eventsPopupData[0].started_at ),
+            day = String( eventTime.getDate() ).padStart( 2, "0"),
+            month = this.monthName[ eventTime.getMonth() ].toLowerCase(),
+            year = eventTime.getFullYear();
 
+      return `${day} ${month}, ${year}`;
+    }
   },
   methods: {
     eventClick( data ) {

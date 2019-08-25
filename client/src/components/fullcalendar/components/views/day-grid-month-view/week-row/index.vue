@@ -40,7 +40,6 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
-              title="Chọn để tạo sự kiện"
               @click="timeClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             >
               <a class="rc--day-number">{{
