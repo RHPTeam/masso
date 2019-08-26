@@ -18,27 +18,16 @@
       :search="search"
     />
     <!-- End: Data List -->
-    <!-- Start: pagination post-->
-<!--    <div class="mt_3">-->
-<!--      <app-paginate-->
-<!--        :search="search"-->
-<!--        :currentPage="currentPage"-->
-<!--        :filterShowSelected="filterShowSelected"-->
-<!--      />-->
-<!--    </div>-->
-    <!-- End: pagination post-->
   </div>
 </template>
 
 <script>
 import AppAction from "../../../layouts/actions/posts/index";
-import AppPaginate from "./paginate/index";
 import AppTable from "./table/index";
 
 export default {
   components: {
     AppAction,
-    AppPaginate,
     AppTable
   },
   data() {

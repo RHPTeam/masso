@@ -1,12 +1,10 @@
 import VueApexCharts from 'vue-apexcharts';
 import AddKeyWord from "./keywords";
-import FriendFollow from "./friends";
 import VersionPopup from "./version";
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    FriendFollow,
     VersionPopup
   },
   data () {

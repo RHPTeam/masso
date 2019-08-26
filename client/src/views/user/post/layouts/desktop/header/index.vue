@@ -38,32 +38,19 @@
       </div>
       <!-- Start: Messenger Link-->
 
-      <!-- Start: Icon GetCookie -->
-      <div class="" @click="redirectToGetCookie">
-        <icon-base
-          class="icon icon--cookie"
-          width="22px"
-          height="22px"
-          icon-name="Lấy mã kích hoạt Facebook"
-          viewBox="0 0 512 512"
-        >
-          <icon-plugin />
-        </icon-base>
-      </div>
-      <!-- End: Icon GetCookie -->
-
       <!-- Start: Help Dropdown -->
       <div class="notification--groups help position_relative">
-        <div class="icon--help mr_2" @click="isShowNotificationHelp = !isShowNotificationHelp">
+        <div class="icon--help mr_3 d_flex align_items_center" @click="isShowNotificationHelp = !isShowNotificationHelp">
           <icon-base
-            class="icon icon--help"
-            width="23px"
-            height="23px"
+            class="icon"
+            width="20"
+            height="20"
             icon-name="Bạn cần trợ giúp?"
             viewBox="0 0 300 300"
           >
             <icon-help />
           </icon-base>
+          <div class="title pl_2">Trợ giúp</div>
         </div>
         <div class="notification--dropdown news position_absolute">
           <div class="notification--dropdown position_absolute">
@@ -80,7 +67,7 @@
       <!-- End: Help Dropdown -->
 
       <!-- Start: Notification Groups -->
-      <div class="notification--groups position_relative">
+      <div class="notification--groups position_relative d_none">
         <div class="btn--notification position_relative mr_3" @click="showNotificationDropdown">
           <icon-base
             class="icon--bell"
@@ -111,28 +98,14 @@
       </div>
       <!-- End: Notification Groups -->
 
-      <!-- Start: Video Guide For User -->
-      <div class="video--guide" @click="showGuidePopup">
-        <icon-base
-          class="icon icon--play"
-          icon-name="Hướng dẫn sử dụng"
-          width="22"
-          height="22"
-          viewBox="0 0 410 410"
-        >
-          <icon-play></icon-play>
-        </icon-base>
-      </div>
-      <!-- End: Video Guide For User -->
-
       <!-- Start: More Options -->
       <div class="more--options position_relative pr_2">
         <div @click="showOptionsMoreDropdown" class="more">
           <icon-base
             class="icon icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
-            width="20px"
-            height="20px"
+            width="26"
+            height="26"
             viewBox="0 0 60 60"
           >
             <icon-application/>
@@ -151,19 +124,34 @@
                 </icon-base>
                 <div class="pt_1">Zin Post</div>
               </div>
+
+              <div class="zin--post item c_4" @click="showGuidePopup">
+                <icon-base icon-name="hướng dẫn" width="50px" height="50px" viewBox="0 0 410 410">
+                  <icon-play/>
+                </icon-base>
+                <div class="pt_1">Hướng dẫn</div>
+              </div>
+
+              <div class="zin--post item c_4" @click="redirectToGetCookie">
+                <icon-base icon-name="lấy cookie" width="50px" height="50px" viewBox="0 0 512 512">
+                  <icon-plugin/>
+                </icon-base>
+                <div class="pt_1">Lấy Cookie</div>
+              </div>
+
               <div class="zin--post zin-chat d_none item c_4" @click="gotoHomeChat">
                 <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
                   <icon-zin-chat/>
                 </icon-base>
                 <div class="pt_1">Zin Chat</div>
               </div>
-              <div class="zin--post instagram item c_4">
+              <div class="zin--post d_none instagram item c_4">
                 <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 550 550">
                   <icon-instagram/>
                 </icon-base>
                 <div class="pt_1">Instagram</div>
               </div>
-              <div class="zin--post zalo item c_4">
+              <div class="zin--post d_none zalo item c_4">
                 <icon-base icon-name="bell" width="50px" height="50px" viewBox="0 0 512 512">
                   <icon-zalo/>
                 </icon-base>

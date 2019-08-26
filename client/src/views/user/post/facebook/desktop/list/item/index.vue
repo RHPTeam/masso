@@ -38,7 +38,7 @@
       <div class="card--content">
         <div class="avatar"
              v-if="item.userInfo.thumbSrc && item.userInfo.thumbSrc.length > 0"
-             @click=viewDetail
+             @click="viewDetail"
         >
           <img class="picture" :src="item.userInfo.thumbSrc" />
           <span class="status" :class="item.status === true ? 'active' : ''">
@@ -109,9 +109,12 @@ export default {
       this.$emit( "showDeletePopup", this.item );
     },
     viewDetail() {
-      this.$store.dispatch( "getFBAccountById", this.item._id );
-      this.$router.push( { name: "post_fbaccount_detail",
-                           params: { fbAccountId: this.item._id } } );
+      console.log(1);
+      // this.$store.dispatch( "getFBAccountById", this.item._id );
+      // this.$router.push( {
+      //   name: "post_fbaccount_detail",
+      //   params: { fbAccountId: this.item._id }
+      // } );
     },
     updateAccount(){
       this.$emit( "showUpdatePopup", this.item );

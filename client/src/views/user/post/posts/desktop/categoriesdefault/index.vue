@@ -27,7 +27,7 @@
 
 <script>
 import AppAction from "../layouts/actions/categories";
-import AppList from "./list";
+import AppList from "./components";
 
 export default {
   components: {

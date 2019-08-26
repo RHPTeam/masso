@@ -57,8 +57,7 @@ export default {
       const isCategoriesRoute = this.$route.name === "post_postCategories",
             isPostRoute = this.$route.name === "post_posts",
             isPostCategoriesRoute = this.$route.name === "post_categories",
-            isPostCategoriesDeFaultRoute =
-              this.$route.name === "categories_default";
+            isPostCategoriesDeFaultRoute = this.$route.name === "categories_default";
 
       return (
         isCategoriesRoute ||

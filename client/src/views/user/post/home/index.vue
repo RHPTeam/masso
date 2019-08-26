@@ -24,7 +24,7 @@ export default {
   },
   created() {
     this.$store.dispatch("getAllAnalysis");
-    this.$store.dispatch("getAllStaticCampagin");
+    this.$store.dispatch("getAllStaticCampaign");
     this.$store.dispatch("getAllSttPost");
     this.$store.dispatch("getNewestPosts", 5);
   },

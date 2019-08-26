@@ -72,7 +72,7 @@ export default {
       return this.$store.getters.memberAgency;
     },
     infoMember() {
-      return this.$store.getters.infoOfMember[0];
+      return this.$store.getters.infoMember[0];
     }
   },
   methods: {

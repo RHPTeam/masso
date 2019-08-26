@@ -33,16 +33,6 @@ export default {
       return this.$store.getters.allPost;
     }
   },
-  async created  () {
-    // const post = this.$store.getters.allPost;
-    // if(post.length === 0) {
-    //   const dataSender = {
-    //     size: this.filterShowSelected.id,
-    //     page: this.currentPage
-    //   };
-    //   await this.$store.dispatch( "getPostsByPage", dataSender );
-    // }
-  },
   methods: {
     activeCurrentSort( i, type ) {
       this.isSort.forEach( ( item, index ) => {

@@ -20,19 +20,8 @@
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang cá nhân</span>
-            <!--<span class="small">đã chọn {{ event.timeline.length }} tài khoản</span>-->
           </div>
           <div class="item d_flex align_items_start mb_3">
-            <!--<div class="icon mr_3">
-              <icon-base
-                class="icon--timeline"
-                height="28px"
-                width="28px"
-                viewBox="0 0 440 440"
-              >
-                <icon-timeline></icon-timeline>
-              </icon-base>
-            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
