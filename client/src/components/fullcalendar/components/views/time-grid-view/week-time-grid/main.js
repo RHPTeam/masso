@@ -1,6 +1,4 @@
 /* eslint-disable prettier/prettier */
-import RcCardHover from "../../../popover/cardhover";
-import RcMorePopover from "../../../popover/more/index";
 
 export default {
   props: [ "eventsOfWeek", "timePoint", "weekDays" ],
@@ -8,13 +6,6 @@ export default {
     return {
       eventContainer: {},
       eventContainerWidth: 0,
-      eventHoverData: {},
-      eventsPopupData: [],
-      isShowMorePopover: false,
-      isShowCardHover: false,
-      leftVal: null,
-      rightVal: null,
-      topVal: null
     };
   },
   mounted() {
@@ -29,6 +20,9 @@ export default {
     } );
   },
   methods: {
+    closeCardHover() {
+      this.$emit( "closeCardHover", false );
+    },
     compareDate( d1, d2 ) {
       const d1Time = new Date( d1 ),
         d1Date = d1Time.getDate(),
@@ -61,16 +55,15 @@ export default {
       }
 
       if ( colIndex < 4 ) {
-        this.topVal = topVal;
-        this.leftVal = leftVal + this.eventContainerWidth;
-        this.rightVal = null;
+        this.$emit( "setTopVal", topVal);
+        this.$emit( "setLeftVal", leftVal + this.eventContainerWidth);
+        this.$emit( "setRightVal", null );
       } else {
-        this.topVal = topVal;
-        this.leftVal = leftVal - 395;
-        this.rightVal = null;
+        this.$emit( "setTopVal", topVal);
+        this.$emit( "setLeftVal", leftVal - 395);
+        this.$emit( "setRightVal", null );
       }
-      this.isShowCardHover = true;
-      this.eventHoverData = eventData;
+      this.$emit( "eventHover", eventData );
     },
     filterEventsByDay( day ) {
       if ( Array.isArray( this.eventsOfWeek ) ) {
@@ -106,38 +99,48 @@ export default {
       }
     },
     showMorePopover( colIndex, timePoint , events) {
-      const timeGridContainerHeight = 1392, // 29*48
+      const timeGridContainerHeight = 1426, // 29*48
         // calculate height of more popover element
-        eventCount = 6, // number of events
+        eventCount = events.length, // number of events
         popoverHeight = 50 + eventCount * 26;
 
       // set top and left popover style
-      let topVal = timePoint * 2 * 29,
+      let topVal = timePoint * 2 * 29 + 33,
         leftVal = 50 + ( this.eventContainerWidth + 0.5 ) * colIndex;
 
-      if ( topVal + popoverHeight >= timeGridContainerHeight ) {
-        topVal = topVal - popoverHeight + 57;
+      if ( topVal + popoverHeight > timeGridContainerHeight ) {
+        topVal = topVal - popoverHeight + 58;
       }
 
       if ( colIndex !== 6 ) {
-        this.topVal = topVal;
-        this.leftVal = leftVal;
-        this.rightVal = null;
+        this.$emit( "setTopVal", topVal );
+        this.$emit( "setLeftVal", leftVal );
+        this.$emit( "setRightVal", null );
       } else {
-        this.topVal = topVal;
-        this.leftVal = null;
-        this.rightVal = 0;
+        this.$emit( "setTopVal", topVal );
+        this.$emit( "setLeftVal", null );
+        this.$emit( "setRightVal", 0 );
       }
-      this.isShowMorePopover = true;
-      this.eventsPopupData = events;
-    }
+
+      this.$emit( "showMorePopover", true );
+      this.$emit( "getEvents", events);
+    },
+    timeClick( timePoint, index ) {
+      let timeSelected = new Date( this.weekDays[index].time );
+      timeSelected.setHours( timePoint/2 );
+
+      if ( timePoint % 2 === 0) {
+        timeSelected.setMinutes( 0 );
+      } else {
+        timeSelected.setMinutes( 30 );
+      }
+      console.log(timeSelected);
+
+      this.$emit( "timeClick", timeSelected );
+    },
   },
   beforeDestroy() {
     window.removeEventListener( "resize", this.getEventContainerWidth );
-  },
-  components: {
-    RcCardHover,
-    RcMorePopover
   }
 };
 

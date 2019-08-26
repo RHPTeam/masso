@@ -2,6 +2,10 @@ const mongoose = require( "mongoose" ),
   Schema = mongoose.Schema,
 
   EventScheduleSchema = new Schema( {
+    "status": { // Wait - 1, Stop - 2, Success - 3, Fail - 4, Running - 5
+      "type": Number,
+      "default": 1
+    },
     "facebookID": {
       "type": Schema.Types.ObjectId,
       "ref": "Facebook"

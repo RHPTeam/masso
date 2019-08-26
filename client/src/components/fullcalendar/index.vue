@@ -75,7 +75,8 @@
         v-if="view === 'month'"
         :events="events"
         :monthDays="monthDays"
-        @dayClick="dayClick($event)"
+        :monthName="monthName"
+        @timeClick="timeClick($event)"
         @eventClick="eventClick($event)"
       ></rc-day-grid-month-view>
       <rc-time-grid-view
@@ -84,10 +85,12 @@
         :eventsOfWeek="eventsOfWeek"
         :eventOfDay="eventOfDay"
         :dayFullName="dayFullName"
+        :monthName="monthName"
         :timePoint="timePoint"
         :view="view"
         :weekDays="weekDays"
         @eventClick="eventClick($event)"
+        @timeClick="timeClick($event)"
       ></rc-time-grid-view>
       <rc-list-week-view
         v-if="view === 'list'"

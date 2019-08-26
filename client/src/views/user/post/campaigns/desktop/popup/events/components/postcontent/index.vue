@@ -97,12 +97,8 @@ export default {
     },
   },
   async created(){
-    const posts = this.$store.getters.allPost,
-          categories = this.$store.getters.allCategories,
+    const categories = this.$store.getters.allCategories,
           caseEvent = this.$store.getters.caseEvent;
-    if ( posts && posts.length === 0 ) {
-      await this.$store.dispatch( "getAllPost" );
-    }
     if ( categories && categories.length === 0 ) {
       await this.$store.dispatch( "getAllCategories" );
     }
@@ -141,7 +137,7 @@ export default {
         key: "post_custom",
         value: []
       } );
-      this.$store.dispatch( "setEvent", {
+      await this.$store.dispatch( "setEvent", {
         key: "post_category",
         value: {
           _id: category._id,

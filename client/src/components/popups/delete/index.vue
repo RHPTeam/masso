@@ -8,8 +8,8 @@
         <div class="modal--body my_3">
           <div class="desc" v-if="multiple === false">
             <span class="pr_1">{{ $t('chat.common.popup.delete.allData') }}</span>
-            <span>{{ typeName }}</span>
-            <span class="text--bold pr_1">{{ targetName }}</span>
+            <span class="pr_1">{{ typeName }}</span>
+            <span class="text--bold pr_1">{{ targetName }} </span>
             <span>{{ $t('chat.common.popup.delete.willDelete') }}</span>
             <span v-if="confirmDelete === true">
               <span class="pr_1">{{ $t('chat.common.popup.delete.continue') }}</span>
@@ -59,7 +59,6 @@
 </template>
 
 <script>
-import StringFunction from "@/utils/functions/string";
 export default {
   props: {
     description: {
@@ -75,7 +74,7 @@ export default {
       default: ""
     },
     targetData: {
-      type: Object
+      default: ""
     },
     targetName: {
       type: String,
@@ -116,13 +115,15 @@ export default {
     },
     deleteTargets() {
 
-      if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'bai viet') {
-        this.$store.dispatch(this.storeActionName, this.targetData.id);
-      }
+      // if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'bai viet') {
+      //   this.$store.dispatch(this.storeActionName, this.targetData.id);
+      // }
 
-      if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'chien dich') {
-        this.$store.dispatch(this.storeActionName, this.targetData.id);
-      }
+      // if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'chien dich') {
+      //   this.$store.dispatch(this.storeActionName, this.targetData.id);
+      // }
+
+      this.$store.dispatch( this.storeActionName, this.targetData );
 
       this.$emit("closePopup", false);
       this.$emit("isDeletedTarget", true);

@@ -72,7 +72,7 @@
         title="Xoá bài viết"
         @closePopup="isShowDeletePopup = $event"
         storeActionName="deletePost"
-        :targetData="targetDataDelete"
+        :targetData="postSelected._id"
         :targetName="postSelected.title"
         typeName="bài viết"
       ></delete-popup>

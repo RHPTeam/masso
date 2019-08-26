@@ -224,7 +224,7 @@
         title="Xoá chiến dịch"
         @closePopup="isShowDeleteCampaignPopup = $event"
         storeActionName="deleteCampaign"
-        :targetData="targetDataDelete"
+        :targetData="campaignDelete._id"
         :targetName="campaignDelete.title"
         typeName="chiến dịch"
       ></delete-campaign-popup>

@@ -28,11 +28,11 @@ export default {
     facebookGroups() {
       return this.$store.getters.facebookGroups;
     },
-    facebookPages() {
-      return this.$store.getters.facebookPages;
+    facebookGroupsStatus() {
+      return this.$store.getters.facebookGroupsStatus;
     },
-    facebookGroups() {
-      return this.$store.getters.facebookGroups;
+    facebookPagesStatus() {
+      return this.$store.getters.facebookPagesStatus;
     },
     postGroupGroupsSelected: {
       get() {
