@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import PopupRenewed from "../popup/renewed";
+import PopupRenewed from "../popup/renewed/index";
 export default {
   components: {
     PopupRenewed

@@ -398,21 +398,35 @@ module.exports = {
       await page.keyboard.down( "Control" );
       await page.keyboard.down( "KeyV" );
       await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
-
+	
+	  await page.waitFor( 2000 );
       for ( let i = 0; i < imagesList.length; i++ ) {
         if ( feed.location.type === 0 || feed.location.type === 1 ) {
+          await page.waitForSelector( 'input[data-testid="media-sprout"]' );
           const input = await page.$( 'input[data-testid="media-sprout"]' );
 
           await input.uploadFile( imagesList[ i ] );
         } else if ( feed.location.type === 2 ) {
           if ( i < 1 ) {
-            await page.click( 'div[data-testid="photo-video-button"]' );
-            await page.waitForSelector( 'input[name="composer_photo"]' );
-            const input = await page.$( 'input[name="composer_photo"]' );
-
+			  			  
+            if ( await page.$( 'input[data-testid="media-sprout"]' ) ) {
+              console.log( "Page case1: " );
+              await page.click( 'input[data-testid="media-sprout"]' );
+              var input = await page.$( 'input[data-testid="media-sprout"]' );
+              
+            }
+            if ( await page.$( 'div[data-testid="photo-video-button"]' ) ) {
+              console.log( "Page case2: " );
+              await page.click( 'div[data-testid="photo-video-button"]' );
+              await page.waitForSelector( 'input[name="composer_photo"]' );
+              await page.click( 'input[name="composer_photo"]' );
+              var input = await page.$( 'input[name="composer_photo"]' );
+            }
+            // eslint-disable-next-line no-mixed-spaces-and-tabs
+					 // await page.waitFor( 200000 );
             await input.uploadFile( imagesList[ i ] );
           } else {
-            const input = await page.$( 'input[data-testid="media-sprout"]' );
+            var input = await page.$( 'input[data-testid="media-sprout"]' );
 
             await input.uploadFile( imagesList[ i ] );
           }
@@ -425,10 +439,10 @@ module.exports = {
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
+	   await page.waitFor( 1000 );
       await page.click(
         'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
       );
-
 
       if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
         await page.waitFor( 1000 );

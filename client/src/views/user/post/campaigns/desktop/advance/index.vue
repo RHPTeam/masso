@@ -18,14 +18,6 @@ import AppNavigation from "./components/navigation";
 export default {
   components: {
     AppNavigation
-  },
-  computed: {
-    variableControl(){
-      return this.$store.getters.variableControlCampaign;
-    }
-  },
-  async created(){
-    await this.$store.dispatch("setCampainControl", 0);
   }
 };
 </script>

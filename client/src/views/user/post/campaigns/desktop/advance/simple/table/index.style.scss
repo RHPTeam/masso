@@ -1,5 +1,11 @@
 .campaigns--data {
   font-size: 0.875rem;
+  .desc--simple {
+    background-color: #27292d;
+    border-radius: .625rem;
+    color: #ccc;
+    line-height: 2;
+  }
   .col {
     &:hover {
       .sort {

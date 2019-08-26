@@ -15,7 +15,7 @@
       </div>
       <p class="name--modal mb_0">Thay đổi</p>
       <div class="button--done active mr_3">
-        <div v-if="user.name.trim().length > 0" @click="updateChangedName">Xong</div>
+        <div v-if="user.name.trim().length > 0" @click="changeUserName">Xong</div>
       </div>
     </div>
     <!-- End: Header -->
@@ -46,7 +46,7 @@ export default {
     closeChangeName() {
       this.$emit("closeChangeName", false);
     },
-    updateChangedName() {
+    changeUserName() {
       this.$store.dispatch("updateUser", this.user).then(() => {
         this.closeChangeName();
       });

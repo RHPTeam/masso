@@ -131,6 +131,7 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
         return false;
       }
 
+      console.log( `so luong eventschedule: ${ listEventSchedule.length}` );
       // Handle sync code when open browser
       for ( let i = 0; i < listEventSchedule.length; i++ ) {
         const campaignInfo = await Campaign.findOne( { "_id": listEventSchedule[ i ]._campaign } ),
@@ -139,96 +140,101 @@ const convertDataPostFacebook = async ( location, mixPost = {}, post, targetID )
           facebookInfo = await Facebook.findOne( { "_id": listEventSchedule[ i ].facebookID } ).lean(),
           mixPost = {};
 
+        console.log( listEventSchedule[ i ] );
+        console.log( `status campaign: ${ campaignInfo.status}` );
         if ( campaignInfo.status === false ) {
-          return false;
-        }
+          console.log( "Campaign deactive" );
+          // return false;
+        } else {
 
-        console.log(
-          "\x1b[32m%s\x1b[0m",
-          "SUCCESS:",
-          "Passed! Starting schedule to Cache of system..."
-        );
+          console.log(
+            "\x1b[32m%s\x1b[0m",
+            "SUCCESS:",
+            "Passed! Starting schedule to Cache of system..."
+          );
 
-        // Do something new version - Log
-        startedSchedule( listEventSchedule[ i ], __dirname );
+          // Do something new version - Log
+          startedSchedule( listEventSchedule[ i ], __dirname );
 
-        // Do something new version - Delete Event Schedule
-        await EventSchedule.deleteOne(
-          { "_id": listEventSchedule[ i ]._id },
-          // eslint-disable-next-line no-loop-func
-          ( err ) => {
-            if ( err ) {
-              throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
-            }
-          }
-        );
-        deletedScheduleProcess( listEventSchedule[ i ], __dirname );
-
-        // Check if user use advance mix post to post feed
-        if ( listEventSchedule[ i ].mixOpen ) {
-          const listPost = ( await Post.find( { "_categories": listEventSchedule[ i ].mixOpen } ).lean() ).map( ( post ) => post._id ),
-            postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
-
-          mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
-        }
-
-        if ( listEventSchedule[ i ].mixClose ) {
-          const listPost = ( await Post.find( { "_categories": listEventSchedule[ i ].mixClose } ).lean() ).map( ( post ) => post._id ),
-            postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
-
-          mixPost.mixClose = await Post.findOne( { "_id": postSelectedID } ).lean();
-        }
-
-        // Do something new version - Convert JSON To Facebook
-        const feed = await convertDataPostFacebook( listEventSchedule[ i ].location, mixPost, postInfo, listEventSchedule[ i ].targetID );
-
-        // Do something new version - Post Feed To Facebook
-        // eslint-disable-next-line new-cap
-        const resFacebookResponse = await createNewFeed( {
-          "cookie": facebookInfo.cookie,
-          "feed": feed
-        } );
-
-        // Do something new version - Check Result Facebook Which Return
-        if ( resFacebookResponse ) {
-
-          // Successfully
-          if ( resFacebookResponse.error.code === 200 ) {
-            finishedSchedule( listEventSchedule[ i ], __dirname );
-
-            campaignInfo.logs.total += 1;
-            campaignInfo.logs.content.push( {
-              "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
-              "createdAt": new Date()
-            } );
-
-            console.log( "✅✅✅✅ Post To Facebook Successfully..." );
-          } else if ( resFacebookResponse.error.code === 8889 ) {
-            campaignInfo.logs.total += 1;
-            campaignInfo.logs.content.push( {
-              "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
-              "createdAt": new Date()
-            } );
-
-            await Campaign.updateOne( { "_id": listEventSchedule[ i ]._campaign }, { "status": false }, ( err ) => {
+          // Do something new version - Delete Event Schedule
+          console.log( `id eventschedule: ${ listEventSchedule[ i ]._id}` );
+          await EventSchedule.deleteOne(
+            { "_id": listEventSchedule[ i ]._id },
+            // eslint-disable-next-line no-loop-func
+            ( err ) => {
               if ( err ) {
-                throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+                throw Error( `Xảy ra lỗi trong quá trình xóa [EventSchedule] có ID: ${eventSchedule._id}.` );
               }
-            } );
+            }
+          );
+          deletedScheduleProcess( listEventSchedule[ i ], __dirname );
 
-            console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
-          } else {
-            campaignInfo.logs.total += 1;
-            campaignInfo.logs.content.push( {
-              "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại! Lỗi: ${resFacebookResponse.error.text}`,
-              "createdAt": new Date()
-            } );
+          // Check if user use advance mix post to post feed
+          if ( listEventSchedule[ i ].mixOpen ) {
+            const listPost = ( await Post.find( { "_categories": listEventSchedule[ i ].mixOpen } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
 
-            console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
+            mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
           }
-          await campaignInfo.save();
+
+          if ( listEventSchedule[ i ].mixClose ) {
+            const listPost = ( await Post.find( { "_categories": listEventSchedule[ i ].mixClose } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+
+            mixPost.mixClose = await Post.findOne( { "_id": postSelectedID } ).lean();
+          }
+
+          // Do something new version - Convert JSON To Facebook
+          const feed = await convertDataPostFacebook( listEventSchedule[ i ].location, mixPost, postInfo, listEventSchedule[ i ].targetID );
+
+          // Do something new version - Post Feed To Facebook
+          // eslint-disable-next-line new-cap
+          const resFacebookResponse = await createNewFeed( {
+            "cookie": facebookInfo.cookie,
+            "feed": feed
+          } );
+
+          // Do something new version - Check Result Facebook Which Return
+          if ( resFacebookResponse ) {
+
+            // Successfully
+            if ( resFacebookResponse.error.code === 200 ) {
+              finishedSchedule( listEventSchedule[ i ], __dirname );
+
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${resFacebookResponse.results.postID}`,
+                "createdAt": new Date()
+              } );
+
+              console.log( "✅✅✅✅ Post To Facebook Successfully..." );
+            } else if ( resFacebookResponse.error.code === 8889 ) {
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
+                "createdAt": new Date()
+              } );
+
+              await Campaign.updateOne( { "_id": listEventSchedule[ i ]._campaign }, { "status": false }, ( err ) => {
+                if ( err ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+                }
+              } );
+
+              console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
+            } else {
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại! Lỗi: ${resFacebookResponse.error.text}`,
+                "createdAt": new Date()
+              } );
+
+              console.log( `❌❌❌❌ Have error: ${resFacebookResponse.error.text}` );
+            }
+            await campaignInfo.save();
+          }
         }
-      }
+	  }
 
       console.log(
         "\x1b[32m%s\x1b[0m",

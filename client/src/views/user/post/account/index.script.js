@@ -1,7 +1,5 @@
 /* eslint-disable prettier/prettier */
-import AppTop from "./desktop/top/index";
-import UserInfo from "./desktop/info/index";
-import UserKeywords from "./desktop/keywords/index";
+import AppDesktop from "./desktop";
 // -- App Mobile
 import AppHeaderMobile from "./mobile/header";
 import AppMainMobile from "./mobile/main";
@@ -20,9 +18,7 @@ export default {
     }
   },
   components: {
-    AppTop,
-    UserInfo,
-    UserKeywords,
+    AppDesktop,
     AppHeaderMobile,
     AppMainMobile
   }

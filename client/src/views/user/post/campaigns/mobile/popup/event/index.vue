@@ -75,7 +75,7 @@
         </div>
         <div class="dropdown--action" v-if="isShowDropdownAction === true" :class="isShowDropdownAction === true ? 'active' : ''" v-click-outside="closeDropdownAction">
           <ul class="p_0 m_0">
-            <li @click="showDuplicateEvent" class="d_flex align_items_center justify_content_end mb_2">
+            <li @click="showDuplicateEvent" v-if="event._id" class="d_flex align_items_center justify_content_end mb_2">
               <div class="title p_2">
                 Sao chép
               </div>
