@@ -1,6 +1,6 @@
 # Vue.js full calender.
 
-It is inpired by the nice (but limited by design) https://fullcalendar.io/
+It is inspired by the nice (but limited by design) https://fullcalendar.io/
 
 [Live demo here](http://rhp/library/vue-rhp-fullcalendar/)
 
@@ -37,4 +37,4 @@ This components is registered as a global component.
 | Name       | Description                                |
 | ---        | ---                                        |
 | eventClick | Triggered whenever click on calendar event.|
-| dayClick   | Triggered whenever click on calendar day block in month view.  |
+| timeClick  | Triggered whenever click on time area.     |

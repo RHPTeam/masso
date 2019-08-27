@@ -179,7 +179,6 @@ Vue.component("AddPlugins", () => import("@/components/addPlugins/index"));
 
 /********************* CUSTOM POPUP NEW ADD COMPONENT ****************************/
 Vue.component("DeletePopup", () => import("@/components/popupDelete"));
-Vue.component("DeleteItem", () => import("@/components/popupDelete/delete-item"));
 
 
 /********************* CUSTOM FLAG COMPONENT ****************************/

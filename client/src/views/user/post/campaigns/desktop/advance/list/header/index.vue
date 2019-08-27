@@ -1,6 +1,8 @@
 <template>
   <div class="r main--header" :data-theme="currentTheme">
+    <!-- Start: Header Left-->
     <div class="c_md_6 main--header-left d_flex">
+      <!-- START: FILTER  -->
       <div class="campaign--search d_flex align_items_center">
         <span class="ml_2">
           <icon-base
@@ -14,27 +16,35 @@
           </icon-base>
         </span>
         <input class="search--input"
-          placeholder="Tìm kiếm"
+          placeholder="Tìm kiếm chiến dịch"
           type="text"
-          v-model="search"
-          @keydown.enter="updateSearch"
+          v-model="keyword"
+          @keydown.enter="searchCampaign(keyword)"
         />
       </div>
+      <!-- END: FILTER -->
     </div>
     <!-- End: Header Left-->
+
     <!-- Start: Header Right-->
     <div class="c_md_6 main--header-right text_right">
+
+      <!-- START: SHOW OPTION FILTER ABOUT AMOUNT  -->
       <app-filter
         class="mr_2"
         :filterList="filterShowList"
         :filterSelected="filterShowSelected"
         @updateFilterSelected="updateFilterShowSelected($event)"
       />
-<!--      <app-filter-->
-<!--        :filterList="filterStatusList"-->
-<!--        :filterSelected="filterStatusSelected"-->
-<!--        @updateFilterSelected="updateFilterStatusSelected($event)"-->
-<!--      />-->
+      <!-- END: SHOW OPTION FILTER ABOUT AMOUNT  -->
+
+      <!-- START: SHOW OPTION FILTER ABOUT STATUS ACTION  -->
+      <!--<app-filter
+        :filterList="filterStatusList"
+        :filterSelected="filterStatusSelected"
+        @updateFilterSelected="updateFilterStatusSelected($event)"
+      />-->
+      <!-- END: SHOW OPTION FILTER ABOUT STATUS ACTION  -->
     </div>
     <!-- End: Header Right-->
 		<!--	Start: Create Campaign Popup	-->
@@ -73,7 +83,7 @@ export default {
         { id: "deactive", name: "Ngừng hoạt động" }
       ],
       isShowCreatCampaignPopup: false,
-      search: "",
+      keyword: "",
     };
   },
   computed: {
@@ -82,7 +92,7 @@ export default {
     }
   },
   watch: {
-    search( val ) {
+    keyword( val ) {
       if ( val.length === 0 ) {
         const dataSender = {
           size: this.filterShowSelected.id,
@@ -99,7 +109,7 @@ export default {
         } );
 
         this.$emit( "updateCurrentPage", 1 );
-        this.$emit( "updateSearch", this.search );
+        this.$emit( "updateSearch", this.keyword );
       }
     }
   },
@@ -107,13 +117,21 @@ export default {
     const search = this.$route.query.search;
 
     if ( search !== undefined ) {
-      this.search = search;
+      this.keyword = search;
     }
   },
   methods: {
+    /**
+     * @Description: function change value when use filter amount
+     * @param val is value received from function emit
+     */
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );
     },
+    /**
+     * @Description: function change value when use filter status options: active, don't active, all campaign
+     * @param val is value received from function emit contain size with page default is 1
+     */
     updateFilterStatusSelected( val ) {
       if ( val.id === "all" ) {
         const dataSender = {
@@ -126,24 +144,53 @@ export default {
       }
       this.$emit( "updateFilterStatusSelected", val );
     },
-    async updateSearch() {
-      const dataSender = {
-        keyword: this.search,
-        size: this.filterShowSelected.id,
-        page: 1
-      };
-      await this.$store.dispatch("getCampaignsByKey", dataSender);
-
-      this.$router.replace( {
-        name: "post_campaigns",
-        query: {
-          search: this.search,
+    /**
+     * @Description: function search campaign with key words
+     * if key word is empty dispatch function get campaign with page = 1 and size default. then use query for router
+     * @param: if key word difference empty then dispatch function search on store with data contain: key word, size, page. then replace params in router
+     */
+    async searchCampaign(keyword) {
+      console.log(3);
+      if(keyword.length !== 0) {
+        console.log(2);
+        const dataSender = {
+          keyword: this.keyword,
           size: this.filterShowSelected.id,
           page: 1
-        }
-      } );
+        };
+        await this.$store.dispatch("getCampaignsByKey", dataSender);
 
-      this.$emit( "updateSearch", this.search );
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: {
+            search: this.keyword,
+            size: this.filterShowSelected.id,
+            page: 1
+          }
+        } );
+
+        this.$emit( "updateSearch", this.keyword );
+
+      } else {
+
+
+        console.log(1);
+
+        const dataSender = {
+          size: this.filterShowSelected.id,
+          page: 1
+        };
+
+        await this.$store.dispatch( "getCampaignsByPage", dataSender );
+
+        this.$router.replace( {
+          name: "post_campaigns",
+          query: {
+            size: this.filterShowSelected.id,
+            page: 1
+          }
+        } );
+      }
     }
   }
 };

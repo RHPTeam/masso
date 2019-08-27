@@ -460,5 +460,9 @@ export default {
         }
       }
     }
+  },
+  created() {
+    this.$store.dispatch("getAllAnalysis");
+    this.$store.dispatch("getAllStaticCampagin");
   }
 }

@@ -30,6 +30,7 @@
 
 <script>
 export default {
+  props: [ "campaignDetail", "count" ],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

@@ -223,19 +223,23 @@
           <!-- End: Pages Data -->
           <!-- Start: Groups Data -->
           <div v-if="postGroupDetail._groups.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Nhóm'">
-            <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
-                v-for="(x, j) in 1"
-                :key="`fbg-header${j}`"
-            >Group Facebook</div>
+            <div
+              class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
+              v-for="(x, j) in 1"
+              :key="`fbg-header${j}`"
+            >
+              Group Facebook
+            </div>
             <div class="item--body d_flex align_items_center px_3 py_2"
                 v-for="( item, index ) in postGroupDetailGroup"
                 :key="`fbp-${index}`"
             >
               <div class="col col--checkbox px_2">
                 <label class="custom--checkbox mb_0">
-                  <input type="checkbox"
-                        v-model="postGroupGroupsSelected"
-                         :value="item.groupId"
+                  <input
+                    type="checkbox"
+                    v-model="postGroupGroupsSelected"
+                    :value="item.groupId"
                   />
                 </label>
               </div>

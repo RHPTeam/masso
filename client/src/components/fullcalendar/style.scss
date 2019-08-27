@@ -3,11 +3,11 @@
 // ..............................................
 
 //========== GENERAL ===========
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, 
-pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, 
-small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, 
-form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, 
-details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, 
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset,
+form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas,
+details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section,
 summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -88,8 +88,8 @@ Docs & License: https://rfullcalendar.io/
       display: flex;
       height: 48px;
       justify-content: space-between;
-      width: 100%; 
-      .rc--btn-prev, 
+      width: 100%;
+      .rc--btn-prev,
       .rc--btn-next{
         background-color: #f7f7f7;
         border: 0;
@@ -164,7 +164,6 @@ Docs & License: https://rfullcalendar.io/
       line-height: 32px;
     }
     .rc--day-top {
-      cursor: pointer;
       text-align: right;
       margin-right: 2px;
       transition: all .4s ease;
@@ -423,7 +422,7 @@ Docs & License: https://rfullcalendar.io/
   .rc--header-toolbar {
     .rc--toolbar-action {
       background-color: #fdfdfd;
-      .rc--btn-prev, 
+      .rc--btn-prev,
       .rc--btn-next{
         background-color: #f7f7f7;
         color: #ccc;
@@ -435,8 +434,8 @@ Docs & License: https://rfullcalendar.io/
     }
   }
   .rc--view-container {
-    .rc--content, .rc--divider, 
-    .rc--list-heading td, .rc--list-view, 
+    .rc--content, .rc--divider,
+    .rc--list-heading td, .rc--list-view,
     .rc--row, tbody, td, th, thead {
       border-color: #f2f2f2;
     }
@@ -485,7 +484,7 @@ Docs & License: https://rfullcalendar.io/
     }
     .rc--past {
       color: #ccc;
-    }    
+    }
     .rc--time-grid-container {
       background-color: #fff;
     }
@@ -502,7 +501,7 @@ Docs & License: https://rfullcalendar.io/
   .rc--header-toolbar {
     .rc--toolbar-action {
       background-color: rgba(39, 41, 45, .8);
-      .rc--btn-prev, 
+      .rc--btn-prev,
       .rc--btn-next{
         background-color: #2f3136;
         color: #999;
@@ -517,8 +516,8 @@ Docs & License: https://rfullcalendar.io/
     }
   }
   .rc--view-container {
-    .rc--content, .rc--divider, 
-    .rc--list-heading td, .rc--list-view, 
+    .rc--content, .rc--divider,
+    .rc--list-heading td, .rc--list-view,
     .rc--row, tbody, td, th, thead {
       border-color: #444444;
     }
@@ -553,11 +552,6 @@ Docs & License: https://rfullcalendar.io/
     .rc--day-header {
       color: #cccccc;
     }
-    .rc--day-top {
-      &:hover {
-        background-color: #2f3136;
-      }
-    }
     .rc--future {
       color: #666;
     }
@@ -572,7 +566,7 @@ Docs & License: https://rfullcalendar.io/
     }
     .rc--past {
       color: #666;
-    }    
+    }
     .rc--time-grid-container {
       background-color: #27292d;
     }
@@ -629,9 +623,9 @@ Docs & License: https://rfullcalendar.io/
       }
       .rc--header {
         .rc--title {
-        font-size: .85rem;
-        height: 24px;
-        line-height: 24px;
+          font-size: .85rem;
+          height: 24px;
+          line-height: 24px;
         }
       }
     }
@@ -649,7 +643,7 @@ Docs & License: https://rfullcalendar.io/
       background-color: #fff;
       .rc--header {
         .rc--title {
-        color: #444;
+          color: #444;
         }
       }
     }
@@ -664,7 +658,7 @@ Docs & License: https://rfullcalendar.io/
       background-color: #2f3136;
       .rc--icon-x {
         &::before {
-         color: #f7f7f7;
+          color: #f7f7f7;
         }
       }
     }
@@ -672,7 +666,7 @@ Docs & License: https://rfullcalendar.io/
       background-color: #27292d;
       .rc--header {
         .rc--title {
-        color: #f7f7f7;
+          color: #f7f7f7;
         }
       }
     }

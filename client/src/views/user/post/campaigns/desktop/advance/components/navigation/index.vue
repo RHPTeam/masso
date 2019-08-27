@@ -2,7 +2,7 @@
   <div class="main--header" :data-theme="currentTheme">
     <!-- Start: Header Left-->
     <div class="nav--left d_flex align_items_center mb_4">
-        <div class="add--campaign mr_auto">
+        <div class="add--campaign">
           <div
             class="btn--add-campaign mr_2"
             @click="isShowCreatCampaignPopup = true"
@@ -10,18 +10,23 @@
             Thêm chiến dịch
           </div>
         </div>
-        <div class="action--campaign d_flex align_items_center ml_auto">
+        <div class="action--campaign d_flex align_items_center">
           <router-link
             class="action--link"
             :to="{ name: 'post_campaigns', query: { size: 25, page: 1 } }"
             active-class="active"
-          >Tất cả chiến dịch</router-link>
+          >
+            Tất cả chiến dịch
+          </router-link>
           <div class="divider"></div>
           <router-link
             class="action--link"
             :to="{ name: 'campaigns_default' }"
             active-class="active"
-          >Chiến dịch mẫu</router-link>
+            @click.native="getInfoSimpleCampaign"
+          >
+            Chiến dịch mẫu
+          </router-link>
 <!--          <div class="divider"></div>-->
 <!--          <router-link-->
 <!--            class="action&#45;&#45;link"-->
@@ -54,16 +59,6 @@ export default {
   props: [ "filterShowSelected", "filterStatusSelected" ],
   data() {
     return {
-      filterShowList: [
-        { id: 25, name: "Hiển thị 25" },
-        { id: 50, name: "Hiển thị 50" },
-        { id: 100, name: "Hiển thị 100" }
-      ],
-      filterStatusList: [
-        { id: "all", name: "Tất cả trạng thái" },
-        { id: "active", name: "Đang hoạt động" },
-        { id: "deactive", name: "Ngừng hoạt động" }
-      ],
       isShowCreatCampaignPopup: false,
       isShowOptionCampaign: false,
       search: "",
@@ -74,20 +69,6 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
-    variable(){
-      return this.$store.getters.variableCampaignHeader;
-    }
-  },
-  watch: {
-    search( val ) {
-      if ( val.length === 0 ) {
-        const dataSender = {
-          size: this.sizeDefault,
-          page: this.pageDefault
-        };
-        this.$store.dispatch( "getCampaignsByPage", dataSender );
-      }
     }
   },
   methods: {
@@ -101,20 +82,12 @@ export default {
           page: this.pageDefault
         };
         this.$store.dispatch("getCampaignsByPage", dataSender);
-      } else {
-
       }
+
       this.$emit( "updateFilterStatusSelected", val );
     },
-    async updateSearch() {
-      const dataSender = {
-        keyword: this.search,
-        size: this.sizeDefault,
-        page: this.pageDefault
-      };
-      await this.$store.dispatch("getCampaignsByKey", dataSender);
-
-      this.$emit( "updateSearch", this.search );
+    getInfoSimpleCampaign(){
+      this.$store.dispatch( "getCampaignSimple" );
     }
   }
 };

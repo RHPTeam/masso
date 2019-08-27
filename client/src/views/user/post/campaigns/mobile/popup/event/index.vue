@@ -86,12 +86,10 @@
           v-click-outside="closeDropdownAction"
         >
           <ul class="p_0 m_0">
-            <li
-              @click="showDuplicateEvent"
-              v-if="event._id"
-              class="d_flex align_items_center justify_content_end mb_2"
-            >
-              <div class="title p_2">Sao chép</div>
+            <li @click="showDuplicateEvent" v-if="event._id" class="d_flex align_items_center justify_content_end mb_2">
+              <div class="title p_2">
+                Sao chép
+              </div>
               <div class="ml_3">
                 <icon-base
                   class="icon"

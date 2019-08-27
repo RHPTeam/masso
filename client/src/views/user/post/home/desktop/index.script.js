@@ -474,5 +474,11 @@ export default {
     async goToThisPost( id ) {
       await this.$store.dispatch( "getPostById", id );
     }
+  },
+  created() {
+    this.$store.dispatch("getAllAnalysis");
+    this.$store.dispatch("getAllStaticCampagin");
+    this.$store.dispatch("getAllSttPost");
+    this.$store.dispatch("getNewestPosts", 5);
   }
 }

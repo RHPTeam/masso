@@ -3,7 +3,7 @@ export default {
   data() {
     return {
       isShowFlagDropdown: false,
-      helpCenterUrl: `${process.env.VUE_APP_PARENT_URL}/#/help`,
+      roles: "",
       menus: [ {
         text: "Bảng điều khiển",
         icon: {
@@ -87,7 +87,7 @@ export default {
       return this.$store.getters.collapseMenu;
     }
   },
-  async created() {
+  created() {
     const res = CookieFunction.getCookie("cfr");
     this.roles = res;
   },

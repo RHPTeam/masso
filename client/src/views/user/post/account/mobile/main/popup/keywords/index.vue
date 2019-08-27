@@ -33,7 +33,6 @@
             class="item d_flex align_items_center"
           >
             <span class="item--keyword">{{keyword}}</span>
-            <!-- <span class="ml_auto" @click="showPopupDelete(index)">Xóa</span> -->
             <span class="ml_auto" @click="showPopupDelete(index)">
               <icon-base class="icon-remove" width="20" height="20" viewBox="0 0 15 15">
                 <icon-remove />
@@ -46,10 +45,6 @@
     <!-- End: Main -->
     <!-- Start: Popup Mobile -->
     <transition name="popup--mobile">
-      <!-- <popup-add-keywords
-        @closeAddKeywords="isShowPopupAddKeywords = $event"
-        v-if="isShowPopupAddKeywords === true"
-      />-->
       <popup-add-keywords
         @closeAddKeywords="isShowPopupAddKeywords = $event"
         @confirmAddKeywords="confirmAdd($event)"

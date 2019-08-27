@@ -14,6 +14,8 @@ router
   .patch( EventController.update )
   .delete( EventController.delete );
 
+router.route( "/:eventID/schedule" ).patch( EventController.handleStatusCampaign );
+
 router
   .route( "/duplicate" )
   .post( EventController.duplicate );

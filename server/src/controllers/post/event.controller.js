@@ -157,7 +157,7 @@ module.exports = {
           },
           {
             "logs": {
-              "content": `Người dùng cài đặt sự kiện "${newEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${newEvent.break_point} được đăng trên ${ newEvent.timeline.length > 0 ? "profile cá nhân với ID:" + newEvent.timeline.toString() : "" } ${newEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + newEvent.target_category : ""} ${newEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + newEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ newEvent.started_at }`,
+              "content": `Người dùng cài đặt sự kiện "${newEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${newEvent.break_point} được đăng trên ${ newEvent.timeline.length > 0 ? `profile cá nhân với ID:${ newEvent.timeline.toString()}` : "" } ${newEvent.target_category ? `, nhóm người dùng cài đặt với ID:${ newEvent.target_category}` : ""} ${newEvent.target_custom.length > 0 ? `, nhóm và trang facebook với ID:${ newEvent.target_custom.toString()}` : "" } sẽ bắt đầu vào ${ newEvent.started_at }`,
               "createdAt": new Date(),
               "info": {
                 "campaignId": findCampaign._id,
@@ -266,7 +266,7 @@ module.exports = {
           },
           {
             "logs": {
-              "content": `Người dùng cài đặt sự kiện "${findEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${findEvent.break_point} được đăng trên ${ findEvent.timeline.length > 0 ? "profile cá nhân với ID:" + findEvent.timeline.toString() : "" } ${findEvent.target_category ? ", nhóm người dùng cài đặt với ID:" + findEvent.target_category : ""} ${findEvent.target_custom.length > 0 ? ", nhóm và trang facebook với ID:" + findEvent.target_custom.toString() : "" } sẽ bắt đầu vào ${ findEvent.started_at }`,
+              "content": `Người dùng cài đặt sự kiện "${findEvent.title}" ở chiến dịch ${findCampaign.title} với thời gian giữa các lần đăng là ${findEvent.break_point} được đăng trên ${ findEvent.timeline.length > 0 ? `profile cá nhân với ID:${ findEvent.timeline.toString()}` : "" } ${findEvent.target_category ? `, nhóm người dùng cài đặt với ID:${ findEvent.target_category}` : ""} ${findEvent.target_custom.length > 0 ? `, nhóm và trang facebook với ID:${ findEvent.target_custom.toString()}` : "" } sẽ bắt đầu vào ${ findEvent.started_at }`,
               "createdAt": new Date(),
               "info": {
                 "campaignId": findCampaign._id,
@@ -387,5 +387,24 @@ module.exports = {
     campaignContainEvent.save();
 
     res.status( 200 ).json( jsonResponse( "success", newEvent ) );
+  },
+  "handleStatusCampaign": async ( req, res ) => {
+    const eventInfo = await Event.findOne( { "_id": req.params.eventID }, "-__v -finished_at -created_at" ).populate( { "path": "target_category", "select": "_id _pages _groups" } ).populate( { "path": "post_category", "select": "_id title" } ).populate( "timeline" ).lean(),
+      listEventOldSchedule = await EventSchedule.find( { "_event": req.params.eventID } ).lean();
+
+    await Promise.all( listEventOldSchedule.map( async ( eventSchedule ) => {
+      deletedSchedule( eventSchedule, __dirname );
+    } ) );
+    await EventSchedule.deleteMany( { "_event": req.params.eventID }, ( err ) => {
+      if ( err ) {
+        throw Error( "Xảy ra lỗi trong quá trình xóa [EventSchedule]" );
+      }
+    } );
+
+    if ( req.body.status === true ) {
+      await EventScheduleController.create( eventInfo, req.body.campaignID );
+    }
+
+    res.status( 200 ).json( { "status": "error", "data": { "finish": true } } );
   }
 };

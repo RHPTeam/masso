@@ -177,9 +177,8 @@
     <transition name="popup--mobile">
       <popup-confirm-password
         v-if="isShowInfoUser === true"
-        @closeConfirmPassword="isShowInfoUser = $event"
-      />
-      <popup-keywords v-if="isShowKeywords === true" @closeKeywords="isShowKeywords = $event" />
+        @closeConfirmPassword="isShowInfoUser = $event"></popup-confirm-password>
+      <popup-keywords v-if="isShowKeywords === true" @closeKeywords="isShowKeywords = $event"></popup-keywords>
     </transition>
     <!-- End: Popup -->
     <!-- Start: Popup Delete -->
@@ -188,7 +187,8 @@
         @closePopupDelete="isShowPopupDelete = $event"
         @confirmPopupDelete="confirmDelete($event)"
         v-if="isShowPopupDelete === true"
-      />
+      >
+      </popup-delete>
     </transition>
     <!-- End: Popup Delete -->
   </div>

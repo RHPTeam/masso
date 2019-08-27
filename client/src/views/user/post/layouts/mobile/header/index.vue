@@ -1,11 +1,6 @@
 <template>
   <div class="header--mobile position_relative" :data-theme="currentTheme">
     <transition name="popup--mobile">
-      <!-- <app-sidebar-mobile
-        v-if="isShowPopup === true"
-        :data-theme="currentTheme"
-        :popupData="isShowPopup"
-      @closePopup="isShowPopup = $event"></app-sidebar-mobile>-->
       <popup-create-agency
         v-if="isShowPopupCreateAgency === true"
         @closePopup="isShowPopupCreateAgency = $event"
@@ -47,6 +42,8 @@
         @closePopup="isShowPopup = $event"
       ></app-sidebar-mobile>
     </transition>
+
+    <!-- START: GET INFOMATION USER -->
     <div class="header--mobile-top d_flex justify_content_between align_items_center">
       <div class="d_flex justify_content_start align_items_center mr_auto">
         <div class="header--mobile-img text_left" @click.prevent="isShowPopup = true">
@@ -121,10 +118,31 @@
           class="post--group d_flex align_items_center"
           v-if="this.$route.name === 'post_group' "
         >
-          <div class="update action" @click="updateGroupsAndPages">
-            <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
-              <icon-update />
-            </icon-base>
+          <div class="update action position_relative" @click="isShowUpdatePopup = true">
+            <span 
+                v-if="accountsFb && accountsFb.length > 0"
+              >
+              <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
+                <icon-update />
+              </icon-base>
+            </span>
+            <div
+              class="facebook--account position_absolute"
+              v-if="isShowUpdatePopup === true"
+              v-click-outside="closePopupSelectAccount"
+            >
+              <div
+                class="item p_2 d_flex align_items_center"
+                v-for="(item, findex) in accountsFb"
+                :key="findex"
+                @click="updateFanpageAndGroup(item)"
+              >
+                <div class="avatar mr_2">
+                  <img :src="item.userInfo.thumbSrc" alt />
+                </div>
+                <div class="">{{item.userInfo.name}}</div>  
+              </div>
+            </div>
           </div>
           <div
             class="add action ml_2"
@@ -182,18 +200,25 @@
         <!-- End: Action Pricing plan -->
       </div>
     </div>
+    <!-- END: GET INFOMATION USER -->
+
     <!-- Start: transition popup mobile -->
     <transition name="popup">
-      <popup-history @close="isShowPopupHistory = $event" v-if="isShowPopupHistory === true"></popup-history>
-    </transition>
-    <transition name="popup">
+      <popup-history
+        @close="isShowPopupHistory = $event"
+        v-if="isShowPopupHistory === true"
+      >
+      </popup-history>
+      <!--START: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
       <upgrade-pro-popup
         class="upgrade-pro-popup"
         v-if="isShowUpgradePro === true"
         :data-theme="currentTheme"
         :showUpgradePro="isShowUpgradePro"
         @closeAddPopup="isShowUpgradePro = $event"
-      ></upgrade-pro-popup>
+      >
+      </upgrade-pro-popup>
+      <!--END: POPUP SHOW ALERT LIMIT ACCOUNT FACEBOOK  -->
     </transition>
   </div>
 </template>

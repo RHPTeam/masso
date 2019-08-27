@@ -1,5 +1,6 @@
 const puppeteer = require( "puppeteer" ),
-  { convertCookieFacebook } = require( "../../helpers/utils/functions/string" );
+  { convertCookieFacebook, findSubString } = require( "../../helpers/utils/functions/string" ),
+  Facebook = require( "../../models/Facebook.model" );
 
 let getPageList = ( { cookie } ) => {
   return new Promise( async ( resolve ) => {
@@ -26,6 +27,25 @@ let getPageList = ( { cookie } ) => {
       await page.goto(
         "https://www.facebook.com/bookmarks/pages?ref_type=logout_gear"
       );
+
+      if ( await page.$( "form#login_form" ) !== null ) { // Check if account has cookie expired
+        await browser.close();
+        console.log( "🥵🥵🥵🥵 FB account expired! 🥵🥵🥵🥵" );
+
+        await Facebook.updateOne( { "userInfo.id": findSubString( cookie, "c_user=", ";" ) }, { "status": false }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình cập nhật lại tài khoản khi đã bị đăng xuất." );
+          }
+        } );
+
+        resolve( {
+          "error": {
+            "code": 404,
+            "text": "Mã kích hoạt đã hết hạn! Vui lòng lấy lại mã kích hoạt và thử lại.!"
+          },
+          "results": null
+        } );
+      }
 
       await page.waitForSelector( "#bookmarksSeeAllEntSection" );
 
