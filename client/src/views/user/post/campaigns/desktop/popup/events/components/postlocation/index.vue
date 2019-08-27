@@ -48,20 +48,8 @@
         <div class="c_6">
           <div class="title mt_3 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm đã lưu</span>
-            <!--<span class="small">đã chọn {{ selectedGroups !== undefined && selectedGroups._pages !== undefined ? selectedGroups._pages.length : 0  }} trang và
-            {{ selectedGroups !== undefined && selectedGroups._groups !== undefined ? selectedGroups._groups.length : 0  }} nhóm</span>-->
           </div>
           <div class="item d_flex align_items_start mb_3">
-            <!--<div class="icon mr_3">
-              <icon-base
-                class="icon--page"
-                height="28px"
-                width="28px"
-                viewBox="0 0 24 24"
-              >
-                <icon-friend></icon-friend>
-              </icon-base>
-            </div>-->
             <div class="content">
               <div class="main">
                 <multiselect
@@ -83,7 +71,6 @@
         <div class="c_6">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang Facebook</span>
-            <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 1 ).length }} trang</span>-->
           </div>
           <div class="item d_flex align_items_start">
             <div class="content">
@@ -112,7 +99,6 @@
         <div class="c_6">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm Facebook</span>
-            <!--<span class="small">đã chọn {{ event.target_custom.filter( target => target.typeTarget === 0 ).length }} nhóm </span>-->
           </div>
           <div class="item d_flex align_items_start">
             <div class="content">
