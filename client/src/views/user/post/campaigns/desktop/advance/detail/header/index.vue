@@ -109,7 +109,7 @@
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
-        <popup-info-update-status/>
+        <!-- <popup-info-update-status/> -->
       </transition>
       <!--	End: Create Campaign Popup	-->
       <transition name="slide-fade">

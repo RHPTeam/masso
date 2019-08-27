@@ -15,27 +15,29 @@
       <!-- Start: Post Category -->
       <div class="top mb_3 d_flex align_items_center">
         <div class="title mr_4">Đăng bài viết từ</div>
-        <div class="radio--item d_flex align_items_center mr_4">
-          <div class="radio--custom mr_2">
+        <div class="radio--item mr_4">
+          <label for="category" class="radio--custom d_flex align_items_center">
             <input
               type="radio"
+              id="category"
               v-model="postType"
               value="1"
               @click="updatePostCaseEvent(1)"
             />
-          </div>
-          <div>Danh mục</div>
+            <div class="pl_2">Danh mục</div>
+          </label>
         </div>
-        <div class="radio--item d_flex align_items_center">
-          <div class="radio--custom mr_2">
+        <div class="radio--item">
+          <label for="post" class="radio--custom d_flex align_items_center mr_2">
             <input
               type="radio"
+              id="post"
               v-model="postType"
               value="2"
               @click="updatePostCaseEvent(2)"
             />
-          </div>
-          <div>Kho nội dung</div>
+            <div class="pl_2">Kho nội dung</div>
+          </label>
         </div>
       </div>
       <div class="form--wrap">
