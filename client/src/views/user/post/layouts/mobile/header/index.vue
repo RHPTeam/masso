@@ -70,7 +70,7 @@
         >
           <div
             class="all-posts d_flex align_items_center"
-            v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15"
+            v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15 || gestureUser === 17"
           >
             <div class="filter--posts" @click="showDropdownFilterByCategory">
               <icon-base
@@ -92,7 +92,7 @@
           <div
             class="add category action"
             @click="showPopupCreateCategory"
-            v-if="gestureUser === 12 || gestureUser === 16"
+            v-if="gestureUser === 12 || gestureUser === 16 || gestureUser === 18"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />

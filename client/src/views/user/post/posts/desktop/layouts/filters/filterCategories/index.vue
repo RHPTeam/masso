@@ -5,8 +5,8 @@
     :data-theme="currentTheme"
     v-click-outside="closeFilterDropdown"
   >
-    {{ filterSelected.title.length > 20 ? filterSelected.title.slice(0,19) : filterSelected.title }}
-    {{ filterSelected.title.length > 20 ? "..." : '' }}
+    {{ filterSelected.title && filterSelected.title.length > 20 ? filterSelected.title.slice(0,19) : filterSelected.title }}
+    {{ filterSelected.title && filterSelected.title.length > 20 ? "..." : '' }}
     <icon-base
       class="ml_1"
       icon-name="Lựa chọn"

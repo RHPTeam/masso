@@ -115,7 +115,7 @@ export default {
 
 
 <style lang="scss" scoped>
-  @import "../index.style";
+  @import "../../index.style";
   .back {
     background-color: #fafafa !important;
     cursor: pointer;

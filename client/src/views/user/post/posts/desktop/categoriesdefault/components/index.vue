@@ -8,14 +8,17 @@
         <div class="col col--action px_4">Hành động</div>
       </div>
       <div>
-        <div class="loading--block mt_3"
-             v-if="this.$store.getters.cateDefaultStatus === 'loading'"
+        <div
+          class="loading--block mt_3"
+          v-if="statusCategories === 'loading'"
         >
           <loading-component></loading-component>
         </div>
         <div v-else>
-          <div v-if="statusCategories === 'success' && categoriesDefault.length === 0"
-               class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2">
+          <div
+            v-if="statusCategories === 'success' && categoriesDefault.length === 0"
+            class="item--body data--empty d_flex align_items_center justify_content_center px_3 py_2"
+          >
             Không có dữ liệu
           </div>
           <categories-default

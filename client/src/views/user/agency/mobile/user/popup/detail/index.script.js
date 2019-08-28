@@ -8,7 +8,7 @@ export default {
       return this.$store.getters.roles;
     },
     user() {
-      return this.$store.getters.memberInfo;
+      return this.$store.getters.member;
     },
     formatDateCreate: {
       get() {
