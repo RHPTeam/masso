@@ -58,13 +58,13 @@
 
 <script>
 export default {
+  props: ["error"],
   data() {
     return {
       isShowError: false,
       postType: '1'
     };
   },
-  props: ["error"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;

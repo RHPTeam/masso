@@ -84,7 +84,11 @@
     <!-- End: Transition Popup -->
     <!-- Start: Popup delete -->
     <transition name="popup--delete">
-      <popup-duplicate-campaign @closePopup="isShowPopupDuplicateCampaign = $event" v-if="isShowPopupDuplicateCampaign === true" :campaign="selectedCampaign"/>
+      <popup-duplicate-campaign
+        @closePopup="isShowPopupDuplicateCampaign = $event"
+        v-if="isShowPopupDuplicateCampaign === true"
+        :campaign="selectedCampaign"
+      />
       <popup-delete
         :selectedCampaign="selectedCampaign"
         @closePopup="isShowPopupDelete = $event"
