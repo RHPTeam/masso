@@ -2,12 +2,12 @@
   <div v-hammer:pan="(event)=> onPan(event)" class="item">
     <div
       :class="{ 'swipe-left': isTriggerAction , 'swipe-right': !isTriggerAction }"
-      class="content item--body item--body-post px_2 mb_2 d_flex align_items_center"
+      class="content item--body item--body-post px_2 pb_2 d_flex align_items_center"
       @click="showPost"
     >
       <div class="right">
-        <div class="title pb_1">{{ item.content }}</div>
-        <div class="more d_flex align_items_center">
+        <div class="title pt_2">{{ item.content }}</div>
+        <div class="more d_flex align_items_center mt_2">
           <div class="mr_auto">
             <icon-base
               class="mr_1"
@@ -39,7 +39,7 @@
       class="content item--body item--body-action p_2 mb_2 d_flex align_items_center"
       @click="showPost"
     >
-      <div class="left action pl_2 text_center ml_auto">
+      <div class="left action pl_2 text_center ml_auto mr_3">
         <icon-base icon-name="icon-info" viewBox="0 0 18 18">
           <icon-info />
         </icon-base>
@@ -90,20 +90,22 @@ export default {
     width: 100%;
     overflow: hidden;
   }
-  .title {
-    white-space: nowrap;
+  .title {    
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;  
     overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 .item {
   position: relative;
-  height: 3.5rem;
+  // height: 3.5rem;
   width: 100%;
   margin: 0.5rem 0;
 }
 .item--body {
-  height: 3.5rem;
+  // height: 3.5rem;
+  min-height: 110px;
   width: 100%;
 
   &-post {

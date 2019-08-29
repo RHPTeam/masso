@@ -50,6 +50,9 @@ export default {
       padding-right: 0.3rem;
       color: #ffb94a;
     }
+    label {
+      margin-bottom: 0;
+    }
   }
   .link {
     background-color: #27292d;

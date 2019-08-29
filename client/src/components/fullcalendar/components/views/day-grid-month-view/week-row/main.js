@@ -37,7 +37,6 @@ export default {
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
     timeClick( date ) {
-      console.log('time click');
       const now = new Date(),
         hour = now.getHours(),
         min = now.getMinutes();

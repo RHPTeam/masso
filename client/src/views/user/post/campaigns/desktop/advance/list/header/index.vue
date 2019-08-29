@@ -150,9 +150,7 @@ export default {
      * @param: if key word difference empty then dispatch function search on store with data contain: key word, size, page. then replace params in router
      */
     async searchCampaign(keyword) {
-      console.log(3);
       if(keyword.length !== 0) {
-        console.log(2);
         const dataSender = {
           keyword: this.keyword,
           size: this.filterShowSelected.id,
@@ -172,9 +170,6 @@ export default {
         this.$emit( "updateSearch", this.keyword );
 
       } else {
-
-
-        console.log(1);
 
         const dataSender = {
           size: this.filterShowSelected.id,

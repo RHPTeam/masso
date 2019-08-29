@@ -26,10 +26,15 @@ const actions = {
       14: Filter Category
       15: Create post
       16: Create Category
+      17: Loadmore post
+      18: loadmore category
+      19: loadmore campaign
       // Setup Account
       61: Tên người dùng
       62: Số điện thoại
       63: Thay đổi mật khẩu
+      // Campaign
+      20: Create campaign
   */
   actionCursor: ({ commit }, payload) => {
     commit("setActionCursor", payload);

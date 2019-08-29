@@ -120,7 +120,7 @@ export default {
     }
   }
   .list--category {
-    max-height: 89vh;
+    max-height: 75vh;
   }
 }
 </style>
