@@ -1,3 +1,4 @@
+/* eslint-disable one-var */
 const path = require( "path" ),
   cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
@@ -375,18 +376,52 @@ module.exports = {
 
       await PostLogic.copyTextToClipboard( page, feed.content );
       await page.waitFor( 500 );
-      await PostLogic.clickToPopup( page, 5000 );
+      const isWorkingClickToPopup = await PostLogic.clickToPopup( page, 5000 );
+
+      if ( isWorkingClickToPopup === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to popup. Check again...."
+          },
+          "results": null
+        };
+      }
       await page.waitFor( 500 );
       await PostLogic.pasteTextFromKeyboard( page );
       await page.waitFor( 500 );
-      await PostLogic.uploadImage( imagesList, page, 5000 );
+      const isWorkingUploadImage = await PostLogic.uploadImage( imagesList, page, 5000 );
+
+      if ( isWorkingUploadImage === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when upload image. Check again...."
+          },
+          "results": null
+        };
+      }
       await page.waitFor( 500 );
-      await PostLogic.clickToPost( page, 5000 );
+      const isWorkingClickToPost = await PostLogic.clickToPost( page, 5000 );
+
+      if ( isWorkingClickToPost === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to post. Check again...."
+          },
+          "results": null
+        };
+      }
       await page.waitFor( 3000 );
-      await PostLogic.getIDPostPreview( browser, feed, page );
+      const result = await PostLogic.getIDPostPreview( browser, feed, page );
+
       await browser.close();
+      return result;
     } catch ( error ) {
-      console.log( error );
       await browser.close();
       return {
         "error": {

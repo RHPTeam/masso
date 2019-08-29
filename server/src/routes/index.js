@@ -17,7 +17,7 @@ router.use( "/log-post-now", auth, require( "./modules/logPostNow.route" ) );
 // Live Route
 
 // Post Route
-router.use( "/posts", auth, require( "./modules/post/post.route" ) );
+router.use( "/posts", require( "./modules/post/post.route" ) );
 router.use( "/post-categories", auth, require( "./modules/post/postCategory.route" ) );
 router.use( "/campaigns", auth, require( "./modules/post/campaign.route" ) );
 router.use( "/events", auth, require( "./modules/post/event.route" ) );
