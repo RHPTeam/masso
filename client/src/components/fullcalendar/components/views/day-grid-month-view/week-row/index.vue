@@ -53,7 +53,6 @@
             <td class="rc--event-container"
                 v-for="(v, j) in 7"
                 :key="j"
-                @click="timeClick( monthDays[rowIndex * 7 + j] && monthDays[rowIndex * 7 + j].time )"
             >
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable"
@@ -96,4 +95,17 @@
 
 <style lang="scss">
 @import "../../../../style";
+.rc--content-skeleton td {
+  position: relative;
+}
+td.rc--day-top.rc--sun:before, td.rc--day-top.rc--sun.rc--today:before {
+  content: "";
+  position: absolute;
+  height: 120px;
+  width: 100%;
+  background: none;
+  left: 0;
+  top: 0;
+  z-index: 1;
+}
 </style>

@@ -60,6 +60,7 @@ export default {
   },
   methods: {
     async createEvent( date ) {
+      console.log("create");
       await this.$store.dispatch( "setEvent", {
         key: "started_at",
         value: new Date( date )
@@ -71,6 +72,7 @@ export default {
       } );
     },
     async openEventPopup( event ) {
+      console.log("detail");
       await this.$store.dispatch( "getEventById", event._id );
       await this.$store.dispatch( "setCaseEvent", {
         key: "popup",
