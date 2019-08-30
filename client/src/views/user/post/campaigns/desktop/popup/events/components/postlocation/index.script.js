@@ -66,7 +66,7 @@ export default {
       return {
         _id: account._id,
         name: account.userInfo.name,
-        thumbSrc: account.userInfo.thumbSrcs
+        thumbSrc: account.userInfo.thumbSrc
       };
     } );
 
