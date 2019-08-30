@@ -12,7 +12,7 @@
         >
           <span class="vs__selected vs__selected--fix" v-bind:key="option.index">
             <slot name="selected-option" v-bind="normalizeOptionForSlot(option)">
-              <div class="selected-option__text">{{ getOptionLabel(option) }}</div>
+              <div class="selected-option__text">{{ getOptionLabel(option).length > 150 ? getOptionLabel(option).slice(0, 150) + '...' :  getOptionLabel(option) }}</div>
             </slot>
             <button
               v-if="multiple"

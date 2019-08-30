@@ -3,17 +3,45 @@
     <VuePerfectScrollbar class="scroll-area" ref="scroll">
       <router-view />
     </VuePerfectScrollbar>
+
+    <!-- Start: Wizard-->
+    <app-wizard v-if="isShowWizard===true" v-click-outside="hideWizard"/>
+    <!-- End: Wizard-->
+
+    <!--	Start: Create Campaign Popup Test Again	-->
+    <transition name="popup">
+      <app-events v-if="caseEvent.popup === true" @close="close( $event )" />
+    </transition>
+    <!--	End: Create Campaign Popup	-->
   </div>
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
+import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
+import AppWizard from "@/views/user/post/layouts/desktop/components/wizard";
+
 export default {
   components: {
-    VuePerfectScrollbar
+    VuePerfectScrollbar,
+    AppEvents,
+    AppWizard
   },
-  watch:{
-    $route (to, from){
+  computed: {
+    caseEvent() {
+      return this.$store.getters.caseEvent;
+    },
+    isShowWizard() {
+      return this.$store.getters.isShowWizard;
+    }
+  },
+  watch: {
+    $route(to, from) {
       this.$refs.scroll.$el.scrollTop = 0;
+    }
+  },
+  methods:{
+    hideWizard(){
+      this.$store.dispatch("toggleWizard", false);
     }
   }
 };
@@ -31,8 +59,12 @@ export default {
 }
 // RESPONSIVE
 @media screen and (max-width: 767px) {
-  #app {    
-    .ps>.ps__scrollbar-y-rail>.ps__scrollbar-y, .ps>.ps__scrollbar-x-rail>.ps__scrollbar-x, .ps:hover>.ps__scrollbar-y-rail:hover, .ps.ps--active-x>.ps__scrollbar-x-rail, .ps.ps--active-y>.ps__scrollbar-y-rail {
+  #app {
+    .ps > .ps__scrollbar-y-rail > .ps__scrollbar-y,
+    .ps > .ps__scrollbar-x-rail > .ps__scrollbar-x,
+    .ps:hover > .ps__scrollbar-y-rail:hover,
+    .ps.ps--active-x > .ps__scrollbar-x-rail,
+    .ps.ps--active-y > .ps__scrollbar-y-rail {
       display: none;
     }
   }

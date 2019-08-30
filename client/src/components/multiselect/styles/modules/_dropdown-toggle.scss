@@ -33,9 +33,14 @@ $border-radius: $vs-border-radius;
   padding: 0 2px;
   position: relative;
   width: 100%;
+  max-height: 10rem;
+  overflow-y: scroll;
 }
 
 .vs__actions {
+  position: absolute;
+  right: 0;
+  top: 10px;
   display: flex;
   align-items: center;
   padding: 4px 0.5rem 0 3px;
@@ -56,8 +61,7 @@ $border-radius: $vs-border-radius;
 
 .selected-option {
   &__text {
-    white-space: nowrap;
-    max-width: 6rem;
+    max-width: 25rem;
     overflow: hidden;
     text-overflow: ellipsis;
   }

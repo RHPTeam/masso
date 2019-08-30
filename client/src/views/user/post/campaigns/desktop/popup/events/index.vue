@@ -1,5 +1,5 @@
 <template>
-  <vue-perfect-scrollbar class="window d_flex align_items_start justify_content_center">
+<div class="window d_flex align_items_start justify_content_center">
     <div class="container">
       <div class="wrapper position_relative">
         <div class="btn--close position_absolute d_flex align_items_center justify_content_center"
@@ -85,7 +85,7 @@
       ></delete-event>
     </transition>
     <!--End: POPUP DELETE-->
-  </vue-perfect-scrollbar>
+    </div>
 </template>
 
 <script>
