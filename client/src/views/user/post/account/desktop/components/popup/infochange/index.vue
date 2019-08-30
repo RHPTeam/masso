@@ -19,7 +19,7 @@
             <button
               type="submit"
               class="btn--change btn-save"
-              @click="updateInfo"
+              @click="updateUserInfo"
             >
               Lưu thay đổi
             </button>
@@ -40,7 +40,7 @@ export default {
     closePopup() {
       this.$emit( "closePopup", false );
     },
-    updateInfo() {
+    updateUserInfo() {
       this.$store.dispatch( "updateUser", this.user );
       this.closePopup();
     }

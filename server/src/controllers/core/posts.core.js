@@ -1,8 +1,4 @@
 /* eslint-disable one-var */
-/* eslint-disable no-unused-vars */
-/* eslint-disable no-shadow */
-/* eslint-disable no-nested-ternary */
-/* eslint-disable strict */
 const path = require( "path" ),
   cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
@@ -21,6 +17,7 @@ const path = require( "path" ),
     convertCookieFacebook,
     findSubString
   } = require( "../../helpers/utils/functions/string" ),
+  PostLogic = require( "../../helpers/utils/facebook/post" ),
   getPost = ( { cookie, agent, url, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -139,45 +136,44 @@ const path = require( "path" ),
       } );
     } );
   },
-  download = require( "image-downloader" );
+  download = require( "image-downloader" ),
+  downloadIMG = async ( url ) => {
+    let pathAbsolute = path.resolve( __dirname );
 
-const downloadIMG = async ( url ) => {
-  let pathAbsolute = path.resolve( __dirname );
+    // remove root path project
+    if ( pathAbsolute.includes( "src" ) ) {
+      pathAbsolute = pathAbsolute.substring(
+        0,
+        pathAbsolute.indexOf( "src" )
+      );
+    }
 
-  // remove root path project
-  if ( pathAbsolute.includes( "src" ) ) {
-    pathAbsolute = pathAbsolute.substring(
-      0,
-      pathAbsolute.indexOf( "src" )
-    );
-  }
+    const options = {
+      "url": url,
+      "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+    };
 
-  const options = {
-    "url": url,
-    "dest": pathAbsolute.includes( "/" ) ? `${pathAbsolute}uploads/temp` : `${pathAbsolute}uploads\\temp`
+    try {
+      const { filename } = await download.image( options );
+
+      return {
+        "error": {
+          "code": 200,
+          "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
+        },
+        "results": filename
+      };
+    } catch ( e ) {
+      console.error( e );
+      return {
+        "error": {
+          "code": 404,
+          "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
+        },
+        "results": null
+      };
+    }
   };
-
-  try {
-    const { filename } = await download.image( options );
-
-    return {
-      "error": {
-        "code": 200,
-        "text": "Tải ảnh thành công. Vui lòng kiểm tra..."
-      },
-      "results": filename
-    };
-  } catch ( e ) {
-    console.error( e );
-    return {
-      "error": {
-        "code": 404,
-        "text": "Tải ảnh thất bại. Vui lòng kiểm tra..."
-      },
-      "results": null
-    };
-  }
-};
 
 module.exports = {
   "createPost": async ( { cookie, agent, feed } ) => {
@@ -206,6 +202,7 @@ module.exports = {
         let photoID = null;
 
         // Check source image extension
+        // eslint-disable-next-line no-shadow
         const path = await handleImageUpload( image );
 
         // Check download fail
@@ -290,6 +287,7 @@ module.exports = {
     let token = await getDtsgFB( { cookie, agent } ),
       results = [],
       url = post( id ),
+      // eslint-disable-next-line no-shadow
       getInfoPost = async ( { cookie, agent } ) => {
         const data = await getPost( { cookie, agent, url, id } );
 
@@ -338,16 +336,17 @@ module.exports = {
             }
             return ( await downloadIMG( photo ) ).results;
           } )
-        ) ).filter( ( photo ) => photo !== null );
+        ) ).filter( ( photo ) => photo !== null ),
 
-      // Open browser
-      const page = ( await browser.pages() )[ 0 ],
+        // Open browser
+        page = ( await browser.pages() )[ 0 ],
         context = browser.defaultBrowserContext();
 
       await context.overridePermissions( "https://www.facebook.com", [
         "notifications"
       ] );
       await page.setCookie( ...cookieConverted );
+      await page.setViewport( { "width": 1250, "height": 850 } );
       await page.waitFor( 1000 );
       await page.goto(
         `https://www.facebook.com/${
@@ -375,96 +374,54 @@ module.exports = {
         };
       }
 
-      await page.click( 'div[role="region"]' );
-      await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
-      await page.waitForSelector(
-        'div[data-testid="react-composer-root"] div[contenteditable="true"]'
-      );
-      await page.evaluate( ( content ) => {
-        const el = document.createElement( "textarea" );
+      await PostLogic.copyTextToClipboard( page, feed.content );
+      await page.waitFor( 500 );
+      const isWorkingClickToPopup = await PostLogic.clickToPopup( page, 5000 );
 
-        el.value = content;
-        el.setAttribute( "readonly", "" );
-        el.style = {
-          "position": "absolute",
-          "left": "-9999px"
+      if ( isWorkingClickToPopup === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to popup. Check again...."
+          },
+          "results": null
         };
-        document.body.appendChild( el );
-        el.select();
-        document.execCommand( "copy" );
-        document.body.removeChild( el );
-      }, feed.content );
-      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
-      await page.keyboard.down( "Control" );
-      await page.keyboard.down( "KeyV" );
-      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
-
-      for ( let i = 0; i < imagesList.length; i++ ) {
-        if ( feed.location.type === 0 || feed.location.type === 1 ) {
-          const input = await page.$( 'input[data-testid="media-sprout"]' );
-
-          await input.uploadFile( imagesList[ i ] );
-        } else if ( feed.location.type === 2 ) {
-          if ( i < 1 ) {
-            await page.click( 'div[data-testid="photo-video-button"]' );
-            await page.waitForSelector( 'input[name="composer_photo"]' );
-            const input = await page.$( 'input[name="composer_photo"]' );
-
-            await input.uploadFile( imagesList[ i ] );
-          } else {
-            const input = await page.$( 'input[data-testid="media-sprout"]' );
-
-            await input.uploadFile( imagesList[ i ] );
-          }
-        }
-        await page.waitForSelector( "div.fbScrollableArea" );
-        await page.waitForSelector(
-          'div.fbScrollableAreaContent div[data-testid="media-attachment-photo"]'
-        );
       }
-      await page.waitForFunction(
-        'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
-      );
-      await page.click(
-        'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
-      );
+      await page.waitFor( 500 );
+      await PostLogic.pasteTextFromKeyboard( page );
+      await page.waitFor( 500 );
+      const isWorkingUploadImage = await PostLogic.uploadImage( imagesList, page, 5000 );
 
-
-      if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
-        await page.waitFor( 1000 );
-        if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
-          return {
-            "error": {
-              "code": 8888,
-              "text": `Nhóm ${
-                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
-              "message": `Nhóm ${
-                feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-              } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
-            },
-            "results": null
-          };
-        }
+      if ( isWorkingUploadImage === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when upload image. Check again...."
+          },
+          "results": null
+        };
       }
+      await page.waitFor( 500 );
+      const isWorkingClickToPost = await PostLogic.clickToPost( page, 5000 );
 
-      // Handle wait for post finnish
-      await page.waitFor( 5000 );
+      if ( isWorkingClickToPost === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to post. Check again...."
+          },
+          "results": null
+        };
+      }
+      await page.waitFor( 3000 );
+      const result = await PostLogic.getIDPostPreview( browser, feed, page );
+
       await browser.close();
-
-      return {
-        "error": {
-          "code": 200,
-          "text": null
-        },
-        "results": {
-          "postID": "Vui lòng kiểm tra trạng thái bài đăng trên facebook của bạn.",
-          "type":
-            feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
-        }
-      };
+      return result;
     } catch ( error ) {
-      console.log( error );
       await browser.close();
       return {
         "error": {

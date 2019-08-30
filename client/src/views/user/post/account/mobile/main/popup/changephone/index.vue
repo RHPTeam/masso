@@ -15,7 +15,7 @@
       </div>
       <p class=" name--modal mb_0">Thay đổi</p>
       <div class=" button--done active mr_3">
-        <div v-if="user.phone.length > 0" @click="updateChangedPhone" class="">Xong</div>
+        <div v-if="user.phone.length > 0" @click="changeNumberPhone" class="">Xong</div>
         </div>
     </div>
     <!-- End: Header -->
@@ -48,7 +48,7 @@ export default {
     closeChangePhone() {
       this.$emit("closeChangePhone", false);
     },
-    updateChangedPhone() {
+    changeNumberPhone() {
       this.$store.dispatch("updateUser", this.user).then(() => {
         this.closeChangePhone();
       });

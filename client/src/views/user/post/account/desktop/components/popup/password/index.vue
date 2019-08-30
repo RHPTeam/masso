@@ -54,7 +54,6 @@ export default {
       oldPassword: ""
     };
   },
-  computed: {},
   methods: {
     closePopup() {
       this.$emit( "closePopup", false );

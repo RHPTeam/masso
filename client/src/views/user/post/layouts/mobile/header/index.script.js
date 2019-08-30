@@ -40,10 +40,14 @@ export default {
       isShowPopupHistory: false,
       isShowUpgradePro: false,
       isShowPopupSetupInfo: false,
-      isShowPopupExpireCode: false
+      isShowPopupExpireCode: false,
+      isShowUpdatePopup: false
     };
   },
   computed: {
+    accountsFb(){
+      return this.$store.getters.accountsFB;
+    },
     post() {
       return this.$store.getters.newPost;
     },
@@ -116,6 +120,9 @@ export default {
     }
   },
   methods: {
+    closePopupSelectAccount(){
+      this.isShowUpdatePopup = false;
+    },
     closeDropdownFilterByCategory() {
       this.isShowDropdownFilterByCategory = false;
     },
@@ -159,11 +166,17 @@ export default {
       this.$store.dispatch("updateFacebookPages");
       this.$store.dispatch("updateFacebookGroups");
     },
+    async updateFanpageAndGroup(val){
+      await this.$store.dispatch( "updateFacebookPages", val._id );
+      await this.$store.dispatch( "updateFacebookGroups", val._id );
+      this.isShowUpdatePopup = false;
+    },
     showPopupSetupInfo() {
       this.isShowPopupSetupInfo = true;
     }
   },
   created() {
+    this.$store.dispatch( "getAccountsFB" );
     this.$store.dispatch("actionCursor", 11);
     this.$store.dispatch( "getUserInfo" );
   }

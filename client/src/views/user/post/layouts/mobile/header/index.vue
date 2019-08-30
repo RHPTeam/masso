@@ -118,10 +118,31 @@
           class="post--group d_flex align_items_center"
           v-if="this.$route.name === 'post_group' "
         >
-          <div class="update action" @click="updateGroupsAndPages">
+          <div class="update action position_relative" @click="isShowUpdatePopup = true">
             <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
               <icon-update />
             </icon-base>
+            <div
+              class="facebook--account position_absolute"
+              v-if="isShowUpdatePopup === true"
+              v-click-outside="closePopupSelectAccount"
+            >
+              <div
+                class="item"
+                v-if="accountsFb && accountsFb.length === 0"
+              >
+                Không có tài khoản
+              </div>
+              <div
+                class="item px_2 py_1"
+                v-else
+                v-for="(item, findex) in accountsFb"
+                :key="findex"
+                @click="updateFanpageAndGroup(item)"
+              >
+                {{item.userInfo.name}}
+              </div>
+            </div>
           </div>
           <div
             class="add action ml_2"

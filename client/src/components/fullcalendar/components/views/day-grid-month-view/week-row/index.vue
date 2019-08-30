@@ -18,6 +18,7 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
+              @click="timeClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             ></td>
           </tr>
         </tbody>
@@ -39,8 +40,7 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
-              title="Chọn để tạo sự kiện"
-              @click="dayClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
+              @click="timeClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             >
               <a class="rc--day-number">{{
                 monthDays[rowIndex * 7 + i].text
@@ -53,11 +53,12 @@
             <td class="rc--event-container"
                 v-for="(v, j) in 7"
                 :key="j"
+                @click="timeClick( monthDays[rowIndex * 7 + j] && monthDays[rowIndex * 7 + j].time )"
             >
               <div
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable"
                 :style="{ backgroundColor: eventOfDay(monthDays[rowIndex * 7 + j ].time)[i].color }"
-                v-if=" eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i] "
+                v-if="eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i]"
                 @click="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
                 @mouseover="eventHover(j, eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
                 @mouseleave="closeCardHover"

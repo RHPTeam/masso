@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="wrapper--content">
-      <taggle class="taggle" v-model="user.keywords" @input="updateKey" :placeholder="$t('chat.common.keyProduct.placeholder')" />
+      <taggle class="taggle" v-model="user.keywords" @input="updateKeywords" :placeholder="$t('chat.common.keyProduct.placeholder')" />
     </div>
   </div>
 </template>
@@ -25,7 +25,7 @@ export default {
     }
   },
   methods: {
-    updateKey( val ){
+    updateKeywords( val ){
       this.user.keywords = val;
       this.$store.dispatch( "updateUser", this.user );
     }

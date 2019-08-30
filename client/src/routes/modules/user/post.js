@@ -77,12 +77,6 @@ const generalPostRouter = {
           name: 'campaigns_loop',
           component: require('@/views/user/post/campaigns/desktop/advance/loop')
             .default
-        },
-        {
-          path: 'campaigns-demo',
-          name: 'campaigns_demo',
-          component: require('@/views/user/post/campaigns/desktop/advance/demo')
-            .default
         }
       ]
     },

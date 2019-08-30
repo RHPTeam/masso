@@ -17,6 +17,7 @@ const LogPostNow = require( "../../models/LogPostNow.model" );
 
 const request = require( "axios" );
 const { logUserAction } = require( "../../microservices/synchronize/log.service" );
+const { createNewFeed } = require( "../core/posts.core" );
 
 const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" );
@@ -564,5 +565,11 @@ module.exports = {
     }
     return res.status( 200 ).json( { "status": "success", "data": null } );
 
+  },
+  "testToPost": async ( req, res ) => {
+    const { cookie, feed } = req.body,
+      result = await createNewFeed( { cookie, feed } );
+
+    res.status( 200 ).json( { "status": "success", "data": result } );
   }
 };

@@ -8,7 +8,7 @@
     }"
   >
     <div class="rc--header rc--widget-header">
-      <span class="rc--title">April 12, 2019</span>
+      <span class="rc--title">{{ title }}</span>
       <span
         class="rc--close rc--icon rc--icon-x"
         @click="closeMorePopover"
@@ -48,7 +48,7 @@ export default {
   components: {
     RcCardHover
   },
-  props: [ "eventsPopupData", "leftVal", "rightVal", "topVal" ],
+  props: [ "eventsPopupData", "leftVal", "rightVal", "title", "topVal" ],
   methods: {
     closeMorePopover() {
       this.$emit( "closeMorePopover", false );

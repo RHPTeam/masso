@@ -1,12 +1,11 @@
 <template>
 	<div class="campaigns--data my_3" :data-theme="currentTheme">
+    <div class="desc--simple py_2 px_3 mb_3">
+      Hệ thống cung cấp cho bạn chiến dịch mẫu nhằm giúp bạn dễ dàng thao tác cũng như học tập cách để tạo và sử dụng sự kiện trong chiến dịch dễ dàng và hợp lý hơn.
+      Bạn cũng có thể chỉnh sửa các sự kiện nhằm phục vụ mục đích của bạn.
+    </div>
 		<!-- Start: Table Header -->
 		<div class="item--header d_flex align_items_center px_3 py_2">
-			<!--<div class="col col--checkbox px_2">
-				<label class="detail--checkbox mb_0">
-					<input type="checkbox" />
-				</label>
-			</div>-->
 			<div class="col col--name px_2">
         <span
           class="sort"
@@ -132,8 +131,9 @@
 		</div>
 		<!-- End: Table Header -->
     <!-- Start: Loading Component -->
-    <div class="p_3"
-         v-if="campaignStatus === 'loading'"
+    <div
+      class="p_3"
+      v-if="campaignStatus === 'loading'"
     >
       <loading-component></loading-component>
     </div>
@@ -141,25 +141,23 @@
 		<!-- Start: Table Body Empty Data-->
 		<div
 			class="item--body d_flex align_items_center justify_content_center px_3 py_2"
-			v-if="campaignStatus === 'success' && campaigns.length === 0"
+			v-else-if="campaignStatus === 'success' && campaigns.length === 0"
 		>
 			Không có dữ liệu.
 		</div>
 		<!-- End: Table Body Empty Data-->
 		<!-- Start: Table Body -->
-		<transition-group v-if="campaignStatus === 'success' && campaigns.length !== 0"
-                      name="list-transition">
-			<div class="item--body d_flex align_items_center px_3 py_2"
-			v-for="( campaign, index ) in campaigns"
-			:key="`cp-${index}`"
+		<transition-group
+      v-else
+      name="list-transition"
+    >
+			<div
+        class="item--body d_flex align_items_center px_3 py_2"
+			  v-for="( campaign, index ) in campaigns"
+			  :key="`cp-${index}`"
 			>
-				<!--<div class="col col--checkbox px_2">
-					<label class="detail--checkbox mb_0">
-						<input type="checkbox"/>
-					</label>
-				</div>-->
 				<div class="col col--name px_2">
-					<span class="col col--name-text" @click="viewCampaignDetail( campaign._id )">
+					<span class="col col--name-text">
 						{{ campaign.title }}
 					</span>
 				</div>

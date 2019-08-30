@@ -4,7 +4,7 @@
     <div class="c_sm_12 c_md_12 c_lg_4 or_1">
       <div class="right--content p_3">
         <!-- Start: User Avatar -->
-        <user-avatar :user="user" />
+        <user-avatar :user="user"></user-avatar>
         <!-- End: User Avatar -->
       </div>
     </div>
@@ -13,7 +13,7 @@
     <div class="c_sm_12 c_md_12 c_lg_8 or_2">
       <div class="left--content p_3">
         <!-- Start: User Personal Info -->
-        <user-personal-info :user="user" />
+        <user-personal-info :user="user"></user-personal-info>
         <!-- End: User Personal Info -->
       </div>
     </div>

@@ -240,8 +240,8 @@ export default {
 
       return d1Date === d2Date && d1Month === d2Month && d1Year === d2Year;
     },
-    dayClick( date ) {
-      this.$emit( "dayClick", date );
+    timeClick( date ) {
+      this.$emit( "timeClick", date );
     },
     eventClick( data ) {
       this.$emit( "eventClick", data );
