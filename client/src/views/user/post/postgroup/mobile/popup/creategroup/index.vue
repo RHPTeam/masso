@@ -54,35 +54,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-// @import "../style";
-.modal--wrapper {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0;
-  left: 0;
-  background: #2f3136;
-  color: #ccc;
-  z-index: 10;
-  font-size: 0.875rem;
-  .modal--header {
-    padding: 0.625rem 0;
-    border-bottom: 1px solid #484848;
-    .arrow-down {
-      transform: rotate(90deg);
-      margin-left: 0.5rem;
-    }
-  }
-  .modal--body-input {
-    border-radius: 0.625rem;
-    font-size: 0.875rem;
-    padding: 0.5rem 0.75rem;
-    width: 100%;
-    background-color: #27292d;
-    border: 1px solid #444;
-    color: #f7f7f7;
-    outline: none;
-  }
-}
+  @import "./index.style";
 </style>
 

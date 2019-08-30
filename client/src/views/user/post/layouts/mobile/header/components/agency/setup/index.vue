@@ -40,6 +40,13 @@ export default {
       isShowAlert: false
     };
   },
+  watch: {
+    "agency.subDomain"(value) {
+      if(value.length > 0) {
+        this.isShowAlert = false;
+      }
+    }
+  },
   computed: {
     agency() {
       return this.$store.getters.agency;

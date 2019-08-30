@@ -134,7 +134,6 @@ export default {
       } else {
         timeSelected.setMinutes( 30 );
       }
-      console.log(timeSelected);
 
       this.$emit( "timeClick", timeSelected );
     },

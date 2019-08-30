@@ -103,12 +103,14 @@ export default {
       this.isShowPopupCategoriesDefault = false;
     },
     showPopupCategories() {      
-      const dataSender = {
-        keyword: this.search,
-        size: 25,
-        page: 1
-      };
-      this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      if( this.search.length > 0 ) {
+        const dataSender = {
+          keyword: this.search,
+          size: 25,
+          page: 1
+        };
+        this.$store.dispatch("getCategoriesByKeyMobile", dataSender);
+      }
       this.isShowPopupPosts = false;
       this.isShowPopupCategories = true;
       this.isShowPopupCategoriesDefault = false;

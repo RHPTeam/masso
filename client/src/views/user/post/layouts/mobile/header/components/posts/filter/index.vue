@@ -59,6 +59,13 @@ export default {
       return this.$store.getters.allCategories;
     }
   },
+  created() {
+    const categoriesNo = this.$store.getters.allCategories;
+    if( categoriesNo.length === 0 ) {
+
+      this.$store.dispatch("getAllCategories");
+    }
+  },
   methods: {
     closePopup() {
       this.$emit("closePopup", false);
@@ -81,13 +88,6 @@ export default {
       };
       this.$store.dispatch("getPostByCategoriesMobile", dataSender);
       this.$store.dispatch("getCategoryById", val._id);
-    }
-  },
-  created() {
-    const categoriesNo = this.$store.getters.allCategories;
-    if( categoriesNo.length === 0 ) {
-
-      this.$store.dispatch("getAllCategories");
     }
   }
 };
@@ -120,7 +120,7 @@ export default {
     }
   }
   .list--category {
-    max-height: 89vh;
+    max-height: 75vh;
   }
 }
 </style>

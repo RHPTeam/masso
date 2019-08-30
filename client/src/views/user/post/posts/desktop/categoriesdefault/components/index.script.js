@@ -1,5 +1,5 @@
 import DeletePopup from  "@/components/popups/delete";
-import CategoriesDefault from "./itemdefault";
+import CategoriesDefault from "./item";
 
 export default {
   components: {
@@ -34,12 +34,6 @@ export default {
     if ( defaultNumberNo.length === 0 ) {
       this.$store.dispatch("getCategoryDefault");
     }
-    // const dataSender = {
-    //   size: this.filterShowSelected.id,
-    //   page: this.currentPage
-    // };
-    //
-    // this.$store.dispatch( "getCategoriesByPage", dataSender );
   },
   methods: {
     updateCategory( val ) {

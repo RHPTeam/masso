@@ -29,8 +29,13 @@ export default {
       return this.$store.getters.statusCategories;
     },
     gestureUser() {
-      if(this.$store.getters.gestureUser === 16) {
-        return this.currentPage = 1;
+      return this.$store.getters.gestureUser;
+    }
+  },  
+  watch: {
+    gestureUser(value) {
+      if (value === 16) {
+        this.currentPage = 1;
       }
     }
   },
@@ -45,6 +50,7 @@ export default {
   },
   methods: {
     async loadMore() {
+      this.$store.dispatch("actionCursor", 18);
       this.currentPage += 1;
 
       await this.$store.dispatch("getCategoriesByPageMobile", {

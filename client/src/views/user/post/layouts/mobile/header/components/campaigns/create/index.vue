@@ -82,6 +82,7 @@ export default {
           page: 1
         };
         await this.$store.dispatch("getCampaignsByPage", dataSender);
+        await this.$store.dispatch("actionCursor", 20);
         this.closePopup();
       }
     }

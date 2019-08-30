@@ -1,6 +1,6 @@
 import DeletePopup from  "@/components/popups/delete";
-import CategoryPaginate from "./paginate/index";
-import ItemCategories from "./item/index";
+import CategoryPaginate from "./components/paginate/index";
+import ItemCategories from "./components/item/index";
 
 export default {
   components: {

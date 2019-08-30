@@ -103,7 +103,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../index.style";
+@import "../../index.style";
 .action--disabled {
   span {
     svg {

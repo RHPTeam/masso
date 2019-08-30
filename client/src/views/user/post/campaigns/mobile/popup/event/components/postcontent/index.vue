@@ -16,17 +16,29 @@
     <div class="section--body">
       <!-- Start: Post Category -->
       <div class="top mb_3 d_flex align_items_center">
-        <div class="radio--item d_flex align_items_center mr_4">
-          <div class="radio--custom mr_2">
-            <input type="radio" v-model="postType" value="1" @click="updatePostCaseEvent(1)" />
-          </div>
-          <div>Danh mục</div>
+        <div class="radio--item mr_4">
+          <label for="category" class="radio--custom d_flex align_items_center">
+            <input
+              type="radio"
+              id="category"
+              v-model="postType"
+              value="1"
+              @click="updatePostCaseEvent(1)"
+            />
+            <div class="pl_2">Danh mục</div>
+          </label>
         </div>
-        <div class="radio--item d_flex align_items_center">
-          <div class="radio--custom mr_2">
-            <input type="radio" v-model="postType" value="2" @click="updatePostCaseEvent(2)" />
-          </div>
-          <div>Kho nội dung</div>
+        <div class="radio--item">
+          <label for="post" class="radio--custom d_flex align_items_center mr_2">
+            <input
+              type="radio"
+              id="post"
+              v-model="postType"
+              value="2"
+              @click="updatePostCaseEvent(2)"
+            />
+            <div class="pl_2">Kho nội dung</div>
+          </label>
         </div>
       </div>
       <div class="form--wrap">
@@ -58,13 +70,13 @@
 
 <script>
 export default {
+  props: ["error"],
   data() {
     return {
       isShowError: false,
       postType: '1'
     };
   },
-  props: ["error"],
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
@@ -88,9 +100,7 @@ export default {
     }
   },
   async created() {
-    if (this.allPost.length === 0) {
-      await this.$store.dispatch("getAllPost");
-    }
+    await this.$store.dispatch("getAllPost");
     if (this.categories.length === 0) {
       await this.$store.dispatch("getAllCategories");
     }

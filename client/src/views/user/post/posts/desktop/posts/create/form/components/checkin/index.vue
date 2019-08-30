@@ -104,7 +104,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "../index.style";
+@import "../../index.style";
 .suggest {
   border-radius: 0 0 .5rem .5rem;
   left: -1px;

@@ -42,8 +42,8 @@
 </template>
 
 <script>
-import AppFilter from "../../filter/index";
-import AppFilterCategories from "../../filterCategories";
+import AppFilter from "../../filters/filterAmount";
+import AppFilterCategories from "../../filters/filterCategories";
 
 export default {
   components: {
