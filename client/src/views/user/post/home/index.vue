@@ -1,13 +1,13 @@
 <template>
   <div class="main">
     <!-- Start: Desktop Component-->
-    <div class="d_md_block d_none">
+    <div class="d_md_block d_none" v-if="innerWidth > 768">
       <app-desktop />
     </div>
     <!-- End: Desktop Component-->
 
     <!-- Start: Mobile Component -->
-    <div class="d_block d_md_none">
+    <div class="d_block d_md_none" v-else>
       <app-mobile />
     </div>
     <!-- End: Mobile Component -->
@@ -22,12 +22,32 @@ export default {
     AppDesktop,
     AppMobile
   },
-  created() {
-    this.$store.dispatch("getAllAnalysis");
-    this.$store.dispatch("getAllStaticCampagin");
-    this.$store.dispatch("getAllSttPost");
-    this.$store.dispatch("getNewestPosts", 5);
+  data() {
+    return {
+      statusNetwork: true,
+      showExpire: false,
+      innerWidth: 0
+    };
   },
+  computed: {
+    variableControlGuide(){
+      return this.$store.getters.variableControlGuide;
+    }
+  },
+  mounted() {
+    this.$nextTick(function() {
+      window.addEventListener('resize', this.getWindowWidth);
+      this.getWindowWidth();
+    })
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.getWindowWidth);
+  },
+  methods: {
+    getWindowWidth(event) {
+      this.innerWidth = window.innerWidth;
+    }
+  }
 }
 </script>
 

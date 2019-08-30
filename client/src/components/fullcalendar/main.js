@@ -6,7 +6,8 @@ import RcTimeGridView from "./components/views/time-grid-view/index";
 export default {
   props: {
     events: {
-      type: Array
+      type: Array,
+      default: function () { return [] }
     },
     theme: {
       type: String,

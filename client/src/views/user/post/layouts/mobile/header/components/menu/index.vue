@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="popup--main text_left mt_3 pl_3">
-        <h4>Chức năng</h4>
+        <h4>Chức năng chính</h4>
         <ul class="p_0 pr_3 m_0">
           <li @click="showDashboard" class="d_flex align_items_center">
             <icon-base icon-name="Bảng điều khiển" width="20" height="20" viewBox="0 0 24 24">
@@ -168,6 +168,9 @@
               </icon-base>
             </span>
           </li>
+        </ul>
+        <h4 class="my_2">Quản lý đại lý</h4>
+        <ul class="p_0 pr_3 m_0">
           <li
             @click="showAgency"
             class="d_flex align_items_center"
@@ -189,6 +192,9 @@
               </icon-base>
             </span>
           </li>
+        </ul>
+        <h4 class="my_2">Chức năng khác</h4>
+        <ul class="p_0 pr_3 m_0">
           <li @click="showPricingPlan" class="d_flex align_items_center">
             <icon-base
               class="icon--setting"

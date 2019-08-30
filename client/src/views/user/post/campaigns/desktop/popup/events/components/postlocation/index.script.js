@@ -13,7 +13,7 @@ export default {
     allAccountFB() {
       return this.$store.getters.facebookAccountMultiSelect;
     },
-    event () {
+    event() {
       return this.$store.getters.event;
     },
     facebookGroups(){
@@ -69,7 +69,6 @@ export default {
         thumbSrc: account.userInfo.thumbSrc
       };
     } );
-
     await this.$store.dispatch("setEvent", {
       key: "timeline",
       value: fbAccounts

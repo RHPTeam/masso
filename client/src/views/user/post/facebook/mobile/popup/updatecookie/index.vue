@@ -3,14 +3,6 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div class="modal--content">
         <div class="modal--header d_flex align_items_center">
-          <!-- <icon-base
-            icon-name="modal-cookie"
-            width="440.4"
-            height="156.808"
-            viewBox="0 0 440.4 156.808"
-          >
-            <icon-modal-cookie />
-          </icon-base>-->
           <div @click="closePopupUpdateCookie">
             <icon-base
               icon-name="arrow-down"

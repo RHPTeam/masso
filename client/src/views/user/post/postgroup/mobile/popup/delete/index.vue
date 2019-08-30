@@ -51,42 +51,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-// @import "index.style";
-.modal--wrapper {
-  height: 100vh;
-  width: 100vw;
-  // background: #404040b0;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  z-index: 20;
-  .modal--dialog {
-    position: absolute;
-    bottom: 0;
-    width: 100vw;
-    left: 0;
-    font-size: 0.8315rem;
-    color: #ccc;
-    .modal--content {
-      width: 90%;
-      .delete {
-        // border: 1px solid #ccc;
-        background: #212225;
-        border-radius: 0.625rem;
-        padding: 0.625rem 0;
-        .text {
-          border-bottom: 1px solid #444;
-        }
-      }
-      .cancel {
-        // border: 1px solid #ccc;
-        background: #212225;
-        border-radius: 0.625rem;
-        padding: 0.625rem 0;
-      }
-    }
-  }
-}
+@import "./index.style";
 </style>
 
 

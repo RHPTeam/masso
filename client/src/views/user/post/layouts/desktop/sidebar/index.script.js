@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       isShowFlagDropdown: false,
+      roles: "",
       menus: [ {
         text: "Bảng điều khiển",
         icon: {
@@ -86,7 +87,7 @@ export default {
       return this.$store.getters.collapseMenu;
     }
   },
-  async created() {
+  created() {
     const res = CookieFunction.getCookie("cfr");
     this.roles = res;
   },

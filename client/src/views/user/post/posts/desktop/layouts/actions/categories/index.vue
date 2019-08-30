@@ -15,10 +15,11 @@
           <icon-input-search />
         </icon-base>
       </span>
-        <input type="text"
-               placeholder="Tìm kiếm"
-               v-model="search"
-               @keydown.enter="updateSearch"
+        <input
+          type="text"
+          placeholder="Tìm kiếm"
+          v-model="keyword"
+          @keydown.enter="searchCategories"
         />
       </div>
     </div>
@@ -33,7 +34,7 @@
 </template>
 
 <script>
-import AppFilter from "../../filter/index";
+import AppFilter from "../../filters/filterAmount";
 
 export default {
   components: {
@@ -47,7 +48,7 @@ export default {
         { id: 50, name: "Hiển thị 50" },
         { id: 100, name: "Hiển thị 100" }
       ],
-      search: "",
+      keyword: "",
       sizeDefault: 25,
       pageDefault: 1
     }
@@ -61,7 +62,7 @@ export default {
     }
   },
   watch: {
-    search(val) {
+    keyword(val) {
       if(val.length === 0) {
         const dataSender = {
           size: this.sizeDefault,
@@ -76,14 +77,14 @@ export default {
     updateFilterShowSelected( val ) {
       this.$emit( "updateFilterShowSelected", val );
     },
-    async updateSearch() {
+    async searchCategories() {
       const dataSender = {
-        keyword: this.search,
+        keyword: this.keyword,
         size: this.sizeDefault,
         page: this.pageDefault
       };
       await this.$store.dispatch("getCategoriesByKey", dataSender);
-      this.$emit( "updateSearch", this.search );
+      this.$emit( "updateSearch", this.keyword );
     }
   }
 };

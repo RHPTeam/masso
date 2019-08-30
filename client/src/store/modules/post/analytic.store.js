@@ -53,7 +53,7 @@ const mutations = {
 
 };
 const actions = {
-  getAllStaticCampagin: async ({commit}) => {
+  getAllStaticCampaign: async ({commit}) => {
     commit('campaign_request');
     const resultSttStaticCampaign = await StaticCampaign.indexStaticCampaign();
     commit('setAllStaticCampaign', resultSttStaticCampaign.data.data);

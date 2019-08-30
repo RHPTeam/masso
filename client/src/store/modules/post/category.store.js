@@ -104,7 +104,6 @@ const actions = {
     const res = await CategoriesServices.searchByKey( payload.keyword, payload.size, payload.page );
 
     commit( "setCategoriesPageByKeyMobile", res.data.data.results );
-    // commit( "setCategoriesPageSize", res.data.data.page );
 
     commit( "cate_success"  );
   },
@@ -158,13 +157,9 @@ const actions = {
     } );
 
     commit( "setDeleteCategoryWhenSearch", categories );
-    // commit( "setCategoriesPageSize", categories.length );
 
     await CategoriesServices.deleteCategory( payload.id );
 
-    // res = await CategoriesServices.getByPage( payload.size, payload.page );
-    // commit( "setCategoriesPageMobile", res.data.data.results );
-    // commit( "setCategoriesPageSize", res.data.data.page );
   },
   duplicateCategoriesDefault: async ( {commit}, payload ) => {
     await CategoryDefaultService.duplicateFolder(payload);

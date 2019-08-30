@@ -6,17 +6,17 @@ const state = {
   agencyStatus: "",
   errorStatus: "",
   errorAgency: "",
-  infoOfMember: {},
+  infoMember: {},
   memberAgency: [],
-  memberInfo: {}
+  member: {}
 };
 const getters = {
   agency: state => state.agency,
   agencyStatus: state => state.agencyStatus,
   errorStatus: state => state.errorStatus,
   errorAgency: state => state.errorAgency,
-  infoOfMember: state => state.infoOfMember,
-  memberInfo: state => state.memberInfo,
+  infoMember: state => state.infoMember,
+  member: state => state.member,
   memberAgency: state => state.memberAgency
 };
 const mutations = {
@@ -36,16 +36,22 @@ const mutations = {
     state.errorAgency = payload;
   },
   setMemberAgency: (state, payload) => {
-    state.memberInfo = payload;
+    state.member = payload;
   },
   setMemberOfAgency: (state, payload) => {
     state.memberAgency = payload;
   },
   setInfoMemberAgency: (state, payload) => {
-    state.infoOfMember = payload;
+    state.infoMember = payload;
   }
 };
 const actions = {
+  /**
+   * @Description create member by agency.
+   * @param commit
+   * @param payload information member receiver
+   * @returns fresh info of agency and list member of agency. If have error then respond error
+   */
   createNewMember: async ({commit}, payload) => {
     try {
       commit("agency_request");
@@ -65,6 +71,11 @@ const actions = {
       commit("agency_request");
     }
   },
+  /**
+   * @Description get uid on cookie header and request get info agency from server
+   * @param commit info of agency, list member
+   * @returns Object have info agency
+   */
   getInfoAgency: async ({commit}) => {
     commit("agency_request");
     const agencyId = CookieFunction.getCookie("uid");
@@ -73,12 +84,24 @@ const actions = {
     commit("setMemberOfAgency", result.data.data.customer.listOfUser);
     commit("agency_success");
   },
+  /**
+   * @Description get info member of agency
+   * @param commit info member for variable
+   * @param payload is id of member
+   * @returns Object have info member
+   */
   getInfoMember: async ({commit}, payload) => {
     commit("agency_request");
     const result = await AgencyServices.getInfoMember(payload);
     commit("setMemberAgency", result.data.data);
     commit("agency_success");
   },
+  /**
+   * @Description expire for member by agency: request server with date expire and id member then return data of agency
+   * @param commit info of member after expired and info of agency
+   * @param payload contain date and id of member
+   * @returns Object have info member and agency
+   */
   expireMember: async ({commit}, payload) => {
     commit("agency_request");
     const objSender = {
@@ -93,12 +116,24 @@ const actions = {
 
     commit("agency_success");
   },
+  /**
+   * @Description update sub domain of agency
+   * @param commit info of agency after update
+   * @param payload is sub domain
+   * @returns Object contain info agency
+   */
   updateAgencyInfo: async ({commit}, payload) => {
     commit("agency_request");
     const result = await AgencyServices.updateAgencyInfo( CookieFunction.getCookie("uid"), payload );
     commit("setAgency", result.data.data);
     commit("agency_success");
   },
+  /**
+   * @Description search member of agency with email or number phone
+   * @param commit object contain info member
+   * @param payload is email or number phone of member
+   * @returns object contain info member
+   */
   searchMemberByAgency: async ({commit}, payload) => {
     commit("agency_request");
 

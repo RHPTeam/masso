@@ -4,7 +4,6 @@ import DeleteCampaignPopup from "@/components/popups/delete";
 import DuplicateCampaignPopup from "../../../popup/campaigns/duplicate/index";
 
 export default {
-  props: [ "currentPage", "filterShowSelected", "filterStatusSelected", "search" ],
   data() {
     return {
       campaignDelete: {},
@@ -46,33 +45,10 @@ export default {
     },
     campaignStatus() {
       return this.$store.getters.campaignStatus;
-    },
-    filteredCampaigns() {
-      if ( this.filterStatusSelected.id === "all" ) {
-        return this.campaigns.filter( ( item ) => {
-          return item.title
-            .toString()
-            .toLowerCase()
-            .includes( this.search.toString().toLowerCase() );
-        } );
-      }
-      if ( this.filterStatusSelected.id === "active" ) {
-        return this.campaigns.filter( ( item ) => {
-          return item.title.toString()
-            .toLowerCase()
-            .includes( this.search.toString().toLowerCase() ) && item.status === true;
-        } );
-      }
-      return this.campaigns.filter( ( item ) => {
-        return item.title
-          .toString()
-          .toLowerCase()
-          .includes( this.search.toString().toLowerCase() ) && item.status === false;
-      } );
     }
   },
   async created() {
-    await this.$store.dispatch( "getCampaignSimple" );
+    // await this.$store.dispatch( "getCampaignSimple" );
   },
   methods: {
     activeCurrentSort( i, type ) {
@@ -147,11 +123,6 @@ export default {
         } );
         this.activeCurrentSort( index, "desc" );
       }
-    },
-    async viewCampaignDetail( id ) {
-      await this.$store.dispatch( "getCampaignDetail", id );
-      this.$router.push( { name: "post_campaigns_detail",
-        params: { campaignId: id } } );
     }
   },
   components: {

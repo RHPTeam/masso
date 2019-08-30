@@ -66,16 +66,27 @@
       </div>
       <div class="action--more">
         <div class="action" @click="showDropdownAction">
-          <icon-base icon-name="Thêm" width="27" height="27" viewBox="0 0 60 60" v-if="isShowDropdownAction === false">
+          <icon-base
+            icon-name="Thêm"
+            width="27"
+            height="27"
+            viewBox="0 0 60 60"
+            v-if="isShowDropdownAction === false"
+          >
             <icon-plus />
           </icon-base>
           <icon-base icon-name="close" width="20" height="20" viewBox="0 0 20 20" v-else>
-            <icon-close/>
+            <icon-close />
           </icon-base>
         </div>
-        <div class="dropdown--action" v-if="isShowDropdownAction === true" :class="isShowDropdownAction === true ? 'active' : ''" v-click-outside="closeDropdownAction">
+        <div
+          class="dropdown--action"
+          v-if="isShowDropdownAction === true"
+          :class="isShowDropdownAction === true ? 'active' : ''"
+          v-click-outside="closeDropdownAction"
+        >
           <ul class="p_0 m_0">
-            <li @click="showDuplicateEvent" class="d_flex align_items_center justify_content_end mb_2">
+            <li @click="showDuplicateEvent" v-if="event._id" class="d_flex align_items_center justify_content_end mb_2">
               <div class="title p_2">
                 Sao chép
               </div>
@@ -92,9 +103,7 @@
               </div>
             </li>
             <li @click="showContentAdvane" class="d_flex align_items_center justify_content_end">
-              <div class="title p_2">
-                Nội dung nâng cao
-              </div>
+              <div class="title p_2">Nội dung nâng cao</div>
               <div class="ml_3">
                 <icon-base
                   class="icon icon--mix mr_2"
@@ -116,8 +125,10 @@
           v-if="isShowContentAdvance === true"
           @closePopup="isShowContentAdvance = $event"
         />
-        <duplicate-event v-if="isShowDuplicateEvent === true" 
-          @closePopup="isShowDuplicateEvent = $event"/>
+        <duplicate-event
+          v-if="isShowDuplicateEvent === true"
+          @closePopup="isShowDuplicateEvent = $event"
+        />
       </transition>
       <transition name="popup">
         <popup-delete
@@ -126,7 +137,7 @@
           :nameEvent="event.title"
           @closePopup="isShowPopupDelete = $event"
           @confirmDelete="deleteEvent"
-          :selectedCampaign="campaign.title"    
+          :selectedCampaign="campaign.title"
         />
       </transition>
       <!-- End: Transition Popup -->

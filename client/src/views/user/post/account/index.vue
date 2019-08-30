@@ -6,19 +6,7 @@
         nameBread="Thiết lập tài khoản"
         subBread="Giúp bạn thiết lập những cài đặt cá nhân về thông tin tài khoản của mình."
       />
-      <!-- Start: Top -->
-      <app-top :user="user"></app-top>
-      <!-- End: Top -->
-      <!-- Start: Content -->
-      <div class="main--content">
-        <!-- Start: User Expire -->
-        <user-info :user="user"></user-info>
-        <!-- End: User Info -->
-        <!-- Start: User Keywords -->
-        <user-keywords :user="user"></user-keywords>
-        <!-- End: User Keywords -->
-      </div>
-      <!-- End: Content -->
+      <app-desktop :user="user"></app-desktop>
     </div>
     <!-- End: Desktop Component-->
 

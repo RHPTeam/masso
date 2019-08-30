@@ -42,9 +42,8 @@
   </div>
 </template>
 
-<script src="./index.script"></script>
+<script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "../style";
 @import "index.style";
 </style>

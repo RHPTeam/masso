@@ -190,7 +190,6 @@ console.log(this.yourTimeValue)
 ```javascript
 // A: No argument
 changeHandler (eventData) {
-  console.log(eventData)
   // -> {data: {HH:..., mm:... }}
 }
 

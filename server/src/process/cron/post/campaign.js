@@ -243,6 +243,7 @@ const { createNewFeed } = require( "../../../controllers/core/posts.core" ),
         return false;
       }
 
+      console.log( `so luong eventschedule: ${ listEventSchedule.length}` );
       // Handle sync code when open browser
       await handlePostProcess( listEventSchedule, 0 );
 

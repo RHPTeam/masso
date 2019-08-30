@@ -76,7 +76,7 @@ const state = {
     },
     /**
      *
-     * @param commit object contain have id differen payload
+     * @param commit object contain have id different payload
      * @param payload is id campaign
      * @returns {Array}
      */

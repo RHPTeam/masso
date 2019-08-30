@@ -1,10 +1,10 @@
-import ColorPost from "./color/index";
-import ImagePost from "./images/index";
-import TagPost from "./tag/index";
-import CheckinPost from "./checkin/index";
-import ActivityPost from "./activity/index";
+import ColorPost from "./components/color/index";
+import ImagePost from "./components/images/index";
+import TagPost from "./components/tag/index";
+import CheckinPost from "./components/checkin/index";
+import ActivityPost from "./components/activity/index";
 import PostNowPopup from "../../../popups/postnow";
-import PopupDeleteImage from "./popup";
+import PopupDeleteImage from "./components/popup";
 
 import StringFunction from "@/utils/functions/string";
 

@@ -22,7 +22,16 @@
           :class="isShowTabGroup === true ? 'active' : '' "
         >Group</div>
       </div>
-      <div class="content--table">
+      <div
+        class="mt_2"
+        v-if="facebookGroupsStatus ==='loading' || facebookPagesStatus === 'loading'"
+      >
+        <loading-component />
+      </div>
+      <div
+        class="content--table"
+        v-else
+      >
         <VuePerfectScrollbar class="scroll-page--group" ref="scroll">
           <!-- Start: Profile Data -->
           <div class="profile" v-if="isShowTabProfile === true">
@@ -116,7 +125,7 @@
   </div>
 </template>
 
-<script src="./index.script">
+<script src="./index.script.js">
 </script>
 
 <style lang="scss" scoped>
