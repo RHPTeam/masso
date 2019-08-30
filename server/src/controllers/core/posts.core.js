@@ -391,6 +391,19 @@ module.exports = {
       await page.waitFor( 500 );
       await PostLogic.pasteTextFromKeyboard( page );
       await page.waitFor( 500 );
+      const isWorkingClickToPopupSecond = await PostLogic.clickToPopup( page, 5000 );
+
+      if ( isWorkingClickToPopupSecond === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to popup. Check again...."
+          },
+          "results": null
+        };
+      }
+      await page.waitFor( 500 );
       const isWorkingUploadImage = await PostLogic.uploadImage( imagesList, page, 5000 );
 
       if ( isWorkingUploadImage === false ) {
