@@ -1,14 +1,14 @@
 <template>
   <tr :class="{selected: isSelected}" @click="onSelect()" v-click-outside="unSelected">
-    <td>{{itemTitle}}</td>
-    <td v-if="itemTotal || itemTotal === 0">{{itemTotal}}</td>
+    <td>{{item.title}}</td>
+    <td v-if="item.postList.length || item.postList.length === 0">{{item.postList.length}}</td>
     <td v-if="itemOptions" @click="toggleViewPostDetails">{{itemOptions}}</td>
     <transition name="slide-fade">
       <details-popup
         :toggleViewPostDetails="toggleViewPostDetails"
         v-if="isViewPostDetails"
-        :postList="itemPostList"
-        :categoryTitle="itemTitle"
+        :postList="item.postList"
+        :categoryTitle="item.title"
       />
     </transition>
   </tr>
@@ -19,9 +19,10 @@ import DetailsPopup from "./DetailsPopup";
 
 export default {
   props: [
-    "itemPostList",
-    "itemTitle",
-    "itemTotal",
+    // "itemPostList",
+    // "itemTitle",
+    // "itemTotal",
+    "item",
     "itemOptions",
     "emitCanContinue"
   ],
@@ -38,6 +39,7 @@ export default {
   methods: {
     onSelect() {
       this.isSelected = true;
+      this.$store.dispatch("updateCategoryToCopy", this.item)
       this.emitCanContinue();
     },
     unSelected() {

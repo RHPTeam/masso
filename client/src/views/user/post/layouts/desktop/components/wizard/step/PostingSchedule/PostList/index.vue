@@ -4,8 +4,8 @@
       <table cellpadding="0" cellspacing="0" border="0">
         <thead>
           <tr>
-            <th>Tên danh mục</th>
-            <th>Số bài viết</th>
+            <th></th>
+            <th>Danh sách các bài viết</th>
             <th></th>
           </tr>
         </thead>
@@ -14,16 +14,8 @@
     <div class="tbl-content">
       <table cellpadding="0" cellspacing="0" border="0">
         <tbody>
-          <h6 v-if="categoriesDefault.length === 0">Không có bài viết nào</h6>
-          <template v-else>
-            <category-item
-              v-for="item in categoriesDefault"
-              :key="item._id"
-              :item="item"
-              :itemOptions="'Xem chi tiết'"
-              :emitCanContinue="emitCanContinue"
-            />
-          </template>
+          <h6 v-if="postList.length === 0">Không có bài viết nào</h6>
+          <post-item v-else v-for="item in postList" :key="item._id" :itemTitle="item.title" />
         </tbody>
       </table>
     </div>
@@ -31,18 +23,14 @@
 </template>
 
 <script>
-import CategoryItem from "./CategoryItem";
+import PostItem from "./PostItem";
 
 export default {
-  props: ["emitCanContinue"],
+  props: ["postList", "categoryTitle"],
   components: {
-    CategoryItem
+    PostItem
   },
-  computed: {
-    categoriesDefault() {
-      return this.$store.getters.allCateDefault;
-    },
-  }
+  computed: {}
 };
 </script>
 
@@ -50,10 +38,6 @@ export default {
 h6 {
   text-align: center;
   margin: 1.5rem;
-}
-
-.table-content {
-  border-radius: 2.2rem;
 }
 
 table {
@@ -65,25 +49,31 @@ thead {
   color: #999;
 }
 .tbl-header {
+  border-top: 1px solid #444;
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
 }
 .tbl-content {
-  background-color: #242629;
+  background-color: #27292c;
   height: 17rem;
   overflow-x: auto;
+  border-bottom: 1px solid #444;
+  border-left: 1px solid #444;
+  border-right: 1px solid #444;
 }
 th {
   padding: 1rem;
   text-align: left;
   font-weight: 500;
   &:nth-child(1) {
-    width: 60%;
+    width: 10%;
   }
   &:nth-child(2) {
-    width: 20%;
+    width: 80%;
     text-align: center;
   }
   &:nth-child(3) {
-    width: 20%;
+    width: 10%;
     text-align: center;
   }
 }

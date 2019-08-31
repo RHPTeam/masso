@@ -2,18 +2,7 @@
   <div class="popup">
     <!-- Start: Popup Header -->
     <div class="popup--header position_relative mx_3 pt_2">
-      <div class="popup--title text_center mt_1">Chọn thời gian bắt đầu</div>
-      <div class="btn--close position_absolute" @click.prevent="isShowChangeStartedAtPopup = false">
-        <icon-base
-          class="icon--close"
-          icon--name="Hủy"
-          height="12px"
-          width="12px"
-          viewBox="0 0 20 20"
-        >
-          <icon-close></icon-close>
-        </icon-base>
-      </div>
+      <div class="popup--title text_center mt_1">Chọn thời gian đăng bài</div>
     </div>
     <!-- End: Popup Header -->
     <!-- Start: Popup Body -->
@@ -31,6 +20,7 @@
               v-model="dateStartedAt"
               @input="changeStartedAtForDatePicker"
               v-click-outside="resetDateStartedAt"
+              @change="updateEventStartedAt"
             />
           </div>
           <div class="col time">
@@ -42,6 +32,7 @@
               title="Time Picker"
               v-model="timeStartedAt"
               v-click-outside="resetTimeStartedAt"
+               @change="updateEventStartedAt"
             />
           </div>
         </div>
@@ -54,6 +45,7 @@
           :inline="true"
           v-model="dateStartedAtDatePicker"
           @input="changeStartedAt"
+          @selected="updateEventStartedAt"
         />
       </div>
       <!--End: Calendar Picker-->

@@ -1,24 +1,75 @@
 <template>
   <div class="main">
-    <div class="body--content">
+    <div class="left-side">
       <post-time />
-      <!-- <item-account :item="accountsFB[0]" /> -->
+    </div>
+
+    <div class="right-side">
+      <div class="title-message">
+        Một trong các bài viết dưới đây sẽ được đăng trên Trang cá nhân của
+        <b>{{accountsFB[0].userInfo.name}}</b>
+      </div>
+      <post-list class="post-list" v-if="categoryToCopy" :postList="categoryToCopy.postList" />
     </div>
   </div>
 </template>
 
 <script>
 import PostTime from "./PostTime";
-import ItemAccount from "./ItemAccount";
+import PostList from "./PostList";
 export default {
   components: {
     PostTime,
-    ItemAccount
+    PostList
   },
   computed: {
+    finishedStep() {
+      return this.$store.getters.finishedStep;
+    },
     accountsFB() {
       return this.$store.getters.accountsFB;
+    },
+    categoryToCopy() {
+      return this.$store.getters.categoryToCopy;
+    },
+    defaultSelectedCategory() {
+      return this.$store.getters.defaultSelectedCategory;
+    },
+    createdCampaign() {
+      return this.$store.getters.createdCampaign;
+    },
+    campaignStartDate() {
+      return this.$store.getters.event.started_at;
     }
+  },
+  watch: {
+    finishedStep() {
+      if (this.finishedStep === "Bước 4") {
+        const event = {
+          title: "",
+          color: "#85CFFF",
+          type_event: 0,
+          break_point: 15,
+          started_at: this.campaignStartDate,
+          post_custom: [],
+          post_category: {
+            _id: this.defaultSelectedCategory.category._id,
+            title: this.defaultSelectedCategory.category.title
+          },
+          target_custom: [],
+          timeline: this.accountsFB,
+          plugins: ""
+        };
+
+        this.$store.dispatch("createEvent", {
+          campaignId: this.createdCampaign._id,
+          event: event
+        });
+      }
+    }
+  },
+  mounted() {
+    this.$emit("can-continue", { value: true });
   }
 };
 </script>
@@ -27,6 +78,26 @@ export default {
 .main {
   height: 27rem;
   overflow-y: scroll;
-  padding: 0.5rem;
+  padding: 0.5rem 2rem;
+  display: flex;
+}
+.left-side {
+  padding: 0 1rem;
+}
+.right-side {
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+}
+.title-message {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1e1f23;
+  border: 1px solid #444;
+  max-height: 5rem;
+  overflow: scroll;
+}
+.post-list {
+  margin-top: auto;
 }
 </style>

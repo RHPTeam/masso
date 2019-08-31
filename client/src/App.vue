@@ -5,7 +5,7 @@
     </VuePerfectScrollbar>
 
     <!-- Start: Wizard-->
-    <app-wizard v-if="isShowWizard===true" v-click-outside="hideWizard"/>
+    <app-wizard v-if="isShowWizard===true"/>
     <!-- End: Wizard-->
 
     <!--	Start: Create Campaign Popup Test Again	-->
@@ -39,11 +39,6 @@ export default {
       this.$refs.scroll.$el.scrollTop = 0;
     }
   },
-  methods:{
-    hideWizard(){
-      this.$store.dispatch("toggleWizard", false);
-    }
-  }
 };
 </script>
 <style lang="scss">

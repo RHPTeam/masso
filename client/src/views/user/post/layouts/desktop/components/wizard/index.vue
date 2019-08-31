@@ -10,7 +10,7 @@
                   :steps="demoSteps"
                   @completed-step="completeStep"
                   @active-step="isStepActive"
-                  @stepper-finished="alert"
+                  @stepper-finished="hideWizard"
                   @next-step="onNextStep"
                 ></horizontal-stepper>
               </div>
@@ -28,13 +28,16 @@ import ChooseKeyword from "./step/ChooseKeyword";
 import AddFacebookAccount from "./step/AddFacebookAccount";
 import ChooseContent from "./step/ChooseContent";
 import PostingSchedule from "./step/PostingSchedule";
+import FinishedStep from "./step/FinishedStep";
+
 export default {
   components: {
     HorizontalStepper,
     ChooseKeyword,
     AddFacebookAccount,
     ChooseContent,
-    PostingSchedule
+    PostingSchedule,
+    FinishedStep
   },
   data() {
     return {
@@ -69,9 +72,9 @@ export default {
         },
         {
           icon: "move_to_inbox",
-          name: "Done",
+          name: "Finished",
           title: "Hoàn thành",
-          component: ChooseKeyword,
+          component: FinishedStep,
           completed: false
         }
       ]
@@ -108,8 +111,8 @@ export default {
       this.$store.dispatch("updateFinishedStep", payload.name);
     },
     // Executed when @stepper-finished event is triggered
-    alert(payload) {
-      alert("end");
+    hideWizard(payload) {
+      this.$store.dispatch("toggleWizard", false);
     }
   }
 };

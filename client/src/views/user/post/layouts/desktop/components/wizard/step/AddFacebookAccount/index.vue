@@ -101,8 +101,6 @@ export default {
     await this.$store.dispatch("getAccountsFB");
   },
   watch: {
-  },
-  watch: {
     accountsFB() {
       if (this.accountsFB.length === 1) {
         this.isShowAddAccount = false;

@@ -16,12 +16,6 @@ export default {
     };
   },
   computed: {
-    // isSelectedKeyword() {
-    //   return {
-    //     keyword: this.keyword.title,
-    //     isSelected: this.isSelected
-    //   };
-    // }
   },
   methods: {
     selectKeyword() {

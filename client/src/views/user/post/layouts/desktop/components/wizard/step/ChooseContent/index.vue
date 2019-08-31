@@ -13,8 +13,21 @@ export default {
   data() {
     return {};
   },
-  computed: {},
-  watch: {},
+  computed: {
+    finishedStep() {
+      return this.$store.getters.finishedStep;
+    },
+    categoryToCopy() {
+      return this.$store.getters.categoryToCopy;
+    }
+  },
+  watch: {
+    finishedStep() {
+      if (this.finishedStep === "Bước 3") {
+        this.$store.dispatch("selectCategoryThenCreateNewCampaign");
+      }
+    }
+  },
   async created() {
     await this.$store.dispatch("getCategoryDefault");
   },
