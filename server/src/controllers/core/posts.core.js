@@ -374,8 +374,6 @@ module.exports = {
         };
       }
 
-      await PostLogic.copyTextToClipboard( page, feed.content );
-      await page.waitFor( 500 );
       const isWorkingClickToPopup = await PostLogic.clickToPopup( page, 5000 );
 
       if ( isWorkingClickToPopup === false ) {
@@ -389,7 +387,11 @@ module.exports = {
         };
       }
       await page.waitFor( 500 );
+      await PostLogic.copyTextToClipboard( page, feed.content );
+      await page.waitFor( 500 );
       await PostLogic.pasteTextFromKeyboard( page );
+      await page.waitFor( 500 );
+      await PostLogic.copyTextToClipboard( page, "" );
       await page.waitFor( 500 );
       const isWorkingClickToPopupSecond = await PostLogic.clickToPopup( page, 5000 );
 
