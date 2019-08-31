@@ -35,11 +35,14 @@ require( "./src/microservices" );
 mongoose.connect( `${process.env.DB_CONNECTION}://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`, {
   "useCreateIndex": true,
   "useNewUrlParser": true
+} ).catch( ( error ) => {
+  if ( error ) {
+    console.log( "❌ ❌ ❌ ❌ Error connect to database..." );
+  }
 } );
 mongoose.set( "useFindAndModify", false );
 
 app.set( "port", process.env.PORT_BASE );
-
 app.use( cors( {
   "origin": "*",
   "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -67,7 +70,7 @@ if ( !fs.existsSync( directoryLog ) ) {
     if ( err ) {
       throw err;
     }
-    fs.writeFile( __dirname.includes( "/" ) ? directoryLog + "/schedule.txt" : directoryLog + "\\schedule.txt", "Starting Log...\r\n", function ( error ) {
+    fs.writeFile( __dirname.includes( "/" ) ? `${directoryLog }/schedule.txt` : `${directoryLog }\\schedule.txt`, "Starting Log...\r\n", function ( error ) {
       if ( error ) {
         throw error;
       }

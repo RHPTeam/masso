@@ -130,7 +130,6 @@ const handleRequestToPostServer = async ( eventScheduleList, response ) => {
 
         mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
       }
-
       if ( eventScheduleList[ index ].mixClose ) {
         const listPost = ( await Post.find( { "_categories": eventScheduleList[ index ].mixClose } ).lean() ).map( ( post ) => post._id ),
           postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
@@ -142,7 +141,6 @@ const handleRequestToPostServer = async ( eventScheduleList, response ) => {
         responsePost = await request.post( `${server.name}/core/v1/post`, { "cookie": facebookInfo.cookie, "feed": feed } );
 
       if ( responsePost.data ) {
-
         // Successfully
         if ( responsePost.data.error.code === 200 ) {
           campaignInfo.logs.total += 1;
@@ -196,8 +194,29 @@ const handleRequestToPostServer = async ( eventScheduleList, response ) => {
         }
         await campaignInfo.save();
       }
+
+
     }
   } ) );
+};
+const handleCallBackPost = async ( minDateTime, response ) => {
+  const eventScheduleList = await EventSchedule.find( {
+    "$or": [
+      { "status": 1 },
+      { "status": null } ],
+    "started_at": {
+      "$gte": new Date( minDateTime ).toISOString(),
+      "$lt": new Date().toISOString()
+    }
+  } ).limit( response.data.data.length ).lean();
+
+  if ( eventScheduleList.length === 0 ) {
+    return false;
+  }
+
+  await handleRequestToPostServer( eventScheduleList, response );
+
+  await handleCallBackPost( minDateTime, response );
 };
 
 ( async () => {
@@ -221,17 +240,7 @@ const handleRequestToPostServer = async ( eventScheduleList, response ) => {
         return false;
       }
 
-      const eventScheduleList = await EventSchedule.find( {
-        "$or": [
-          { "status": 1 },
-          { "status": null } ],
-        "started_at": {
-          "$gte": new Date( minDateTime ).toISOString(),
-          "$lt": new Date().toISOString()
-        }
-      } ).limit( response.data.data.length ).lean();
-
-      await handleRequestToPostServer( eventScheduleList, response );
+      await handleCallBackPost( minDateTime, response );
     },
     null,
     true,
