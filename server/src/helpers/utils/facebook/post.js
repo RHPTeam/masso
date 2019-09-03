@@ -39,7 +39,6 @@ module.exports = {
     if ( timer <= 0 ) {
       return false;
     } else if ( await page.$( 'input[data-testid="media-sprout"]' ) ) {
-      await page.click( 'input[data-testid="media-sprout"]' );
       const input = await page.$( 'input[data-testid="media-sprout"]' );
 
       for ( let i = 0; i < imageCount; i++ ) {
@@ -53,7 +52,6 @@ module.exports = {
     } else if ( await page.$( 'div[data-testid="photo-video-button"]' ) ) {
       await page.click( 'div[data-testid="photo-video-button"]' );
       await page.waitForSelector( 'input[name="composer_photo"]' );
-      await page.click( 'input[name="composer_photo"]' );
       const input = await page.$( 'input[name="composer_photo"]' );
 
       for ( let i = 0; i < imageCount; i++ ) {
