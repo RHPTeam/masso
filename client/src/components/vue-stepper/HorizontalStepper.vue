@@ -36,10 +36,18 @@
                 <component v-else :is="steps[currentStep.index].component" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" :current-step="currentStep"></component>
             </transition>
         </div>
-        <div :class="['bottom', (currentStep.index > 0) ? '' : 'only-next']">
-            <div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
+        <div :class="['bottom', (currentStep.index < 3) ? '' : 'only-next']">
+            <!-- <div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
                 <i class="material-icons">keyboard_arrow_left</i>
                 <span>{{ 'back' | translate(locale) }}</span>
+            </div> -->
+            <!-- <div v-if="currentStep.index < 3" class="stepper-button previous" @click="skip()">
+              
+                <span>{{ 'skip' | translate(locale) }}</span>
+            </div> -->
+            <div v-if="currentStep.index < 3" class="stepper-button previous" @click="skip()">
+              
+            
             </div>
             <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
                 <span>{{ (finalStep) ? 'finish' : 'next' | translate(locale) }}</span>
@@ -62,7 +70,7 @@ export default {
   props: {
     locale: {
       type: String,
-      default: "en"
+      default: "vi"
     },
     topButtons: {
       type: Boolean,
@@ -191,6 +199,10 @@ export default {
       if (currentIndex >= 0) {
         this.activateStep(currentIndex, true);
       }
+    },
+
+    skip(){
+      this.$emit("skip-wizard");
     },
 
     proceed(payload) {

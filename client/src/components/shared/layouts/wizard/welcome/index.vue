@@ -10,7 +10,7 @@
                   :steps="demoSteps"
                   @completed-step="completeStep"
                   @active-step="isStepActive"
-                  @stepper-finished="hideWizard"
+                  @stepper-finished="onFinishStepper"
                   @next-step="onNextStep"
                   @skip-wizard="onSkipWizard"
                 ></horizontal-stepper>
@@ -112,11 +112,12 @@ export default {
       this.$store.dispatch("updateFinishedStep", payload.name);
     },
     // Executed when @stepper-finished event is triggered
-    hideWizard(payload) {
-      this.$store.dispatch("toggleWizard", false);
+    onFinishStepper(payload) {
+      // this.$store.dispatch("toggleWizard", false);
+      this.$store.dispatch("updateKeywordList");
     },
     onSkipWizard(){
-      this.hideWizard();
+      this.$store.dispatch("toggleWizard", false);
     }
   }
 };

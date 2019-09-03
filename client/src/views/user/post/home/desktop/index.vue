@@ -11,7 +11,10 @@
         <div class="overview">
           <!-- Start: General Analytics-->
           <div class="r total mx_0">
-            <div class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3 mb_lg_3" style="maxHeight: 367px">
+            <div
+              class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3 mb_lg_3"
+              style="maxHeight: 367px"
+            >
               <div class="r pd15">
                 <!-- Start: Posts -->
                 <div class="c_6 text_center">
@@ -24,7 +27,7 @@
                         height="18"
                         viewBox="0 0 580 580"
                       >
-                        <icon-post/>
+                        <icon-post />
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.post }}</div>
@@ -43,7 +46,7 @@
                         height="18"
                         viewBox="0 0 22 22"
                       >
-                        <icon-broadcast/>
+                        <icon-broadcast />
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.campaign }}</div>
@@ -62,7 +65,7 @@
                         height="20"
                         viewBox="0 0 500 500"
                       >
-                        <icon-group/>
+                        <icon-group />
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.group }}</div>
@@ -81,7 +84,7 @@
                         height="18"
                         viewBox="0 0 480 500"
                       >
-                        <icon-page/>
+                        <icon-page />
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.page }}</div>
@@ -91,7 +94,10 @@
                 <!-- End: Pages -->
               </div>
             </div>
-            <div class="c_md_12 c_lg_12 c_xl_7 line--chart mt_md_3 mt_lg_0 pt_3" style="maxHeight: 367px">
+            <div
+              class="c_md_12 c_lg_12 c_xl_7 line--chart mt_md_3 mt_lg_0 pt_3"
+              style="maxHeight: 367px"
+            >
               <VueApexCharts
                 type="line"
                 height="350"
@@ -113,10 +119,16 @@
                 ></VueApexCharts>
               </div>
             </div>
-            <div class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3" style="max-height: 405px;">
+            <div
+              class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3"
+              style="max-height: 405px;"
+            >
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
-                <router-link class="view--all" :to="{ name: 'post_posts', query: {size: 25, page: 1} }">Xem tất cả</router-link>
+                <router-link
+                  class="view--all"
+                  :to="{ name: 'post_posts', query: {size: 25, page: 1} }"
+                >Xem tất cả</router-link>
               </div>
               <div class="table-container" role="table" aria-label="Destinations">
                 <div class="flex-table header" role="rowgroup">
@@ -148,7 +160,7 @@
                           :key="`i-${index}`"
                           class="img--select"
                         >
-                          <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link">
+                          <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link" />
                         </div>
                       </div>
                     </div>
@@ -165,32 +177,35 @@
           <!-- <friends-follow
             :currentTheme="currentTheme"
           >
-          </friends-follow> -->
+          </friends-follow>-->
           <!-- End: Friend Follow -->
         </div>
       </div>
       <!-- End: Content -->
 
       <!-- Start: Notification for check key word account-->
-      <add-key-word
+      <!-- <add-key-word
         v-if="user && user.keywords && user.keywords.length === 0"
         :user="user"
         :currentTheme="currentTheme"
-      >
-      </add-key-word>
+      >-->
+      <!-- Replace AddKeyword to Wizard -->
+      <wizard-welcome v-if="user && user.keywords && user.keywords.length === 0" />
       <!-- End: Notification for check key word account-->
 
       <!-- Start: Notification version updated-->
-      <version-popup v-if="isStatusVersionNotification === false" @close="isReadVersionNotification = $event"></version-popup>
+      <version-popup
+        v-if="isStatusVersionNotification === false"
+        @close="isReadVersionNotification = $event"
+      ></version-popup>
       <!-- End: Notification version updated-->
 
       <!-- Start: Notification guide for user -->
-<!--      <guide-popup-->
-<!--        v-if="variableControlGuide === 1"-->
-<!--      >-->
-<!--      </guide-popup>-->
+      <!--      <guide-popup-->
+      <!--        v-if="variableControlGuide === 1"-->
+      <!--      >-->
+      <!--      </guide-popup>-->
       <!-- End: Notification guide for user-->
-
     </div>
     <!-- End: Desktop Component-->
   </div>
@@ -199,5 +214,5 @@
 <script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-  @import "./index.style";
+@import "./index.style";
 </style>

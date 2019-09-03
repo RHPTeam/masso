@@ -61,10 +61,10 @@ export default {
           plugins: ""
         };
 
-        // this.$store.dispatch("createEvent", {
-        //   campaignId: this.createdCampaign._id,
-        //   event: event
-        // });
+        this.$store.dispatch("createEvent", {
+          campaignId: this.createdCampaign._id,
+          event: event
+        });
       }
     }
   },

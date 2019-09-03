@@ -5,6 +5,9 @@ const state = {
   isShowWizard: false,
   finishedStep: '',
 
+  // Step 1 State: Add Keyword
+  userInfoWizard: {},
+
   // Step 3 State: Choose Content
   categoryToCopy: {},
 
@@ -17,7 +20,10 @@ const getters = {
   finishedStep: (state) => state.finishedStep,
   isShowWizard: (state) => state.isShowWizard,
 
-  // Step 3 Getters:Choose Content
+  // Step 1 Getters: Add Keyword
+  userInfoWizard: (state) => state.userInfoWizard,
+
+  // Step 3 Getters: Choose Content
   categoryToCopy: (state) => state.categoryToCopy,
 
   // Step 4 Getters: Post Scheduling
@@ -31,6 +37,11 @@ const mutations = {
   },
   setIsShowWizard: (state, payload) => {
     state.isShowWizard = payload;
+  },
+
+  // Step 1 Mutations: Add Keyword
+  setUserInfoWizard: (state, payload) => {
+    state.userInfoWizard = payload;
   },
 
   // Step 3 Mutations: Choose Content
@@ -57,6 +68,14 @@ const actions = {
     commit('setIsShowWizard', payload);
   },
 
+  //Step 1 Actions: Add Keyword
+  storeKeywordList: ({ commit }, payload) => {
+    commit('setUserInfoWizard', payload);
+  },
+  updateKeywordList: ({ dispatch }) => {
+    dispatch("updateUser", state.userInfoWizard);
+  },
+
   //Step 3 Actions: Choose Content
   updateCategoryToCopy: ({ commit }, payload) => {
     commit('setCategoryToCopy', payload);
@@ -64,7 +83,6 @@ const actions = {
 
   // Step 4 Actions: Choose Content
   selectCategoryThenCreateNewCampaign: async ({ commit }) => {
-    console.log('Trigger selectCategoryThenCreateNewCampaign');
     const defaultCategoryCopy = await CategoryDefaultService.duplicateFolder(
       state.categoryToCopy._id
     );
