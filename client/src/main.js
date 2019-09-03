@@ -13,7 +13,7 @@ Vue.use(VueHammer);
 import "@/utils/interfaces/components";
 import "@/utils/secures/headers";
 import "@/utils/secures/guards";
-import "@/utils/sockets";
+// import "@/utils/sockets";
 
 
 new Vue( {
