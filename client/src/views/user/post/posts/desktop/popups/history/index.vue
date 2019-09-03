@@ -19,7 +19,6 @@
     <!-- End: Modal Header -->
     <!-- Start: Modal Body -->
     <vue-perfect-scrollbar class="modal--scroll">
-      {{allPostSchedules}}
       <div class="modal--body p_3">
         <div class="data--empty text_center"
              v-if="allPostSchedules.length === 0"

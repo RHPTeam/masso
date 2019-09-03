@@ -107,7 +107,7 @@ export default {
   },
   methods: {
     redirectBlogHelp() {
-      const routes = "https://www.zinbee.vn/#/help/lam-the-nao-them-nhom-hay-trang-facebook-vao-nhom-da-tao";
+      const routes = "https://www.zinbee.vn/#/help/5d284e9aed508f518567722d?type=hc_global_nav";
       window.open(routes, '_blank');
     }
   },

@@ -80,8 +80,7 @@ export default {
   },
   methods: {
     redirectBlogHelp() {
-      const routes =
-        "https://www.zinbee.vn/#/help/viet-bai-moi-trong-kho-noi-dung-nhu-the-nao";
+      const routes = "https://www.zinbee.vn/#/help/5d284e8ded508f518567722c?type=hc_global_nav";
       window.open(routes, "_blank");
     }
   }
