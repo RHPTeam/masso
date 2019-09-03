@@ -1,3 +1,4 @@
+/* eslint-disable one-var */
 const path = require( "path" ),
   cheerio = require( "cheerio" ),
   puppeteer = require( "puppeteer" ),
@@ -16,6 +17,7 @@ const path = require( "path" ),
     convertCookieFacebook,
     findSubString
   } = require( "../../helpers/utils/functions/string" ),
+  PostLogic = require( "../../helpers/utils/facebook/post" ),
   getPost = ( { cookie, agent, url, id } ) => {
     return new Promise( ( resolve ) => {
       const option = {
@@ -344,6 +346,7 @@ module.exports = {
         "notifications"
       ] );
       await page.setCookie( ...cookieConverted );
+      await page.setViewport( { "width": 1250, "height": 850 } );
       await page.waitFor( 1000 );
       await page.goto(
         `https://www.facebook.com/${
@@ -371,156 +374,70 @@ module.exports = {
         };
       }
 
-      await page.click( 'div[data-testid="react-composer-root"]' );
-      await page.waitForSelector( 'div[data-testid="react-composer-root"]' );
-      await page.waitForSelector(
-        'div[data-testid="react-composer-root"] div[contenteditable="true"]'
-      );
-      await page.evaluate( ( content ) => {
-        const el = document.createElement( "textarea" );
+      await page.waitFor( 500 );
+      await PostLogic.copyTextToClipboard( page, feed.content );
 
-        el.value = content;
-        el.setAttribute( "readonly", "" );
-        el.style = {
-          "position": "absolute",
-          "left": "-9999px"
-        };
-        document.body.appendChild( el );
-        el.select();
-        document.execCommand( "copy" );
-        document.body.removeChild( el );
-      }, feed.content );
-      await page.click( 'div[data-testid="react-composer-root"] div[contenteditable="true"]' );
-      await page.keyboard.down( "Control" );
-      await page.keyboard.down( "KeyV" );
-      await page.waitFor( 1000 );
-      await page.click( 'div[data-testid="react-composer-root"]' );
+      const isWorkingClickToPopup = await PostLogic.clickToPopup( page, 5000 );
 
-      for ( let i = 0; i < imagesList.length; i++ ) {
-        if ( feed.location.type === 0 || feed.location.type === 1 ) {
-          await page.waitForSelector( 'input[data-testid="media-sprout"]' );
-          const input = await page.$( 'input[data-testid="media-sprout"]' );
-
-          await input.uploadFile( imagesList[ i ] );
-        } else if ( feed.location.type === 2 ) {
-          if ( i < 1 ) {
-            let input;
-
-            if ( await page.$( 'input[data-testid="media-sprout"]' ) ) {
-              console.log( "Page case1: " );
-              await page.click( 'input[data-testid="media-sprout"]' );
-              input = await page.$( 'input[data-testid="media-sprout"]' );
-
-            }
-            if ( await page.$( 'div[data-testid="photo-video-button"]' ) ) {
-              console.log( "Page case2: " );
-              await page.click( 'div[data-testid="photo-video-button"]' );
-              await page.waitForSelector( 'input[name="composer_photo"]' );
-              await page.click( 'input[name="composer_photo"]' );
-              input = await page.$( 'input[name="composer_photo"]' );
-            }
-            await input.uploadFile( imagesList[ i ] );
-          } else {
-            var input = await page.$( 'input[data-testid="media-sprout"]' );
-
-            await input.uploadFile( imagesList[ i ] );
-          }
-        }
-        await page.waitForSelector( "div.fbScrollableArea" );
-        await page.waitForSelector(
-          'div.fbScrollableAreaContent div[data-testid="media-attachment-photo"]'
-        );
-      }
-
-      // Handle disabled null
-      try {
-        await page.waitForFunction(
-          'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
-        );
-        await page.waitFor( 1000 );
-        await page.click(
-          'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
-        );
-
-        if ( feed.location.type === 1 ) { // Check case group which has admin approve post feed of you
-          await page.waitFor( 1000 );
-          if ( await page.$( "div.composerPostSection div.mvm.pam.uiBoxYellow" ) !== null ) {
-            return {
-              "error": {
-                "code": 8888,
-                "text": `Nhóm ${
-                  feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-                } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`,
-                "message": `Nhóm ${
-                  feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value
-                } đang ở chế độ kiểm duyệt bài viết, vui lòng kiểm tra bài viết tại mục bài viết của bạn trong nhóm.`
-              },
-              "results": null
-            };
-          }
-        }
-
-        // Handle wait for post finnish
-        await page.waitFor( 3000 );
-
-        // Get ID Preview
-        try {
-          await page.waitForSelector( 'div[data-ft*="mf_story_key"]' );
-          // eslint-disable-next-line one-var
-          const previewInfo = await page.$eval(
-              'div[data-ft*="mf_story_key"]',
-              ( div ) => div.getAttribute( "data-ft" )
-            ),
-            start = '"mf_story_key":"',
-            end = '"';
-
-          await browser.close();
-
-          return {
-            "error": {
-              "code": 200,
-              "text": null
-            },
-            "results": {
-              "postID": previewInfo.substring(
-                previewInfo.indexOf( start ) + start.length,
-                previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
-              ),
-              "type":
-              // eslint-disable-next-line no-nested-ternary
-                feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
-            }
-          };
-        } catch ( e ) {
-          await browser.close();
-          console.log( "❎❎❎❎ Have error get ID preview post facebook but post is posted..." );
-          return {
-            "error": {
-              "code": 200,
-              "text": null
-            },
-            "results": {
-              "postID": feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value,
-              "type":
-              // eslint-disable-next-line no-nested-ternary
-                feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
-            }
-          };
-        }
-      } catch ( err ) {
+      if ( isWorkingClickToPopup === false ) {
         await browser.close();
-        console.log( "❌❌❌❌ Error button disabled of null... Server wil try again..." );
         return {
           "error": {
             "code": 8888,
-            "text": "Xảy ra lỗi khi đăng bài viết, chuột bị click ra ngoài..",
-            "message": err
+            "text": "Have new catch when click to popup. Check again...."
           },
           "results": null
         };
       }
+      await page.waitFor( 500 );
+      await PostLogic.pasteTextFromKeyboard( page );
+      await page.waitFor( 500 );
+      await PostLogic.copyTextToClipboard( page, "" );
+      await page.waitFor( 500 );
+      const isWorkingClickToPopupSecond = await PostLogic.clickToPopup( page, 5000 );
+
+      if ( isWorkingClickToPopupSecond === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to popup. Check again...."
+          },
+          "results": null
+        };
+      }
+      await page.waitFor( 500 );
+      const isWorkingUploadImage = await PostLogic.uploadImage( imagesList, page, 5000 );
+
+      if ( isWorkingUploadImage === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when upload image. Check again...."
+          },
+          "results": null
+        };
+      }
+      await page.waitFor( 500 );
+      const isWorkingClickToPost = await PostLogic.clickToPost( page, 5000 );
+
+      if ( isWorkingClickToPost === false ) {
+        await browser.close();
+        return {
+          "error": {
+            "code": 8888,
+            "text": "Have new catch when click to post. Check again...."
+          },
+          "results": null
+        };
+      }
+      await page.waitFor( 3000 );
+      const result = await PostLogic.getIDPostPreview( browser, feed, page );
+
+      await browser.close();
+      return result;
     } catch ( error ) {
-      console.log( error );
       await browser.close();
       return {
         "error": {

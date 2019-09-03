@@ -24,6 +24,7 @@
         </tbody>
       </table>
     </div>
+
     <div class="rc--content-skeleton">
       <table>
         <thead>
@@ -40,7 +41,7 @@
               :date="
                 monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time
               "
-              @click="timeClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
+              @click.prevent="timeClick( monthDays[rowIndex * 7 + i] && monthDays[rowIndex * 7 + i].time )"
             >
               <a class="rc--day-number">{{
                 monthDays[rowIndex * 7 + i].text
@@ -58,7 +59,7 @@
                 class="rc--day-grid-event rc--h-event rc--event rc--start rc--end rc--draggable rc--resizable"
                 :style="{ backgroundColor: eventOfDay(monthDays[rowIndex * 7 + j ].time)[i].color }"
                 v-if="eventOfDay( monthDays[rowIndex * 7 + j ].time ).length !== 0 && eventOfDay( monthDays[rowIndex * 7 + j ].time )[i]"
-                @click="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
+                @click.prevent="eventClick(eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
                 @mouseover="eventHover(j, eventOfDay(monthDays[rowIndex * 7 + j ].time)[i])"
                 @mouseleave="closeCardHover"
               >

@@ -1,8 +1,5 @@
-
 import EventsServices from "@/services/modules/post/event.service";
 import CampaignsServices from "@/services/modules/post/campaign.service";
-
-import ArrayFunction from "@/utils/functions/array";
 
 const state = {
   events: [],
@@ -101,7 +98,7 @@ const mutations = {
 const actions = {
   createEvent: async ( { commit }, payload ) => {
     commit( "ev_request");
-
+    // Check type event then result array contain group facebook and fan page facebook type =0 : group, type = 1 fan page
     if ( payload.event.type_event === 0 ) {
       payload.event.target_custom = payload.event.target_custom.map( target => {
         if ( target.typeTarget === 0 ) {
@@ -117,18 +114,23 @@ const actions = {
         }
       } );
     }
+    // check post by category if it empty then delete
     if ( payload.event.post_category === "" ) {
       delete payload.event.post_category;
     }
+    // check post custom if it empty then delete
     if ( payload.event.post_custom.length === 0 ) {
       delete payload.event.post_custom;
     }
+
     if ( payload.event.post_custom && payload.event.post_custom.length > 0 )  {
       payload.event.post_custom  =  payload.event.post_custom.map( item => item._id );
     }
+
     if ( payload.event.timeline && payload.event.timeline.length > 0 )  {
       payload.event.timeline  =  payload.event.timeline.map( item => item._id );
     }
+
     if ( payload.event.plugins === "" ) {
       delete payload.event.plugins;
     }
@@ -155,24 +157,6 @@ const actions = {
       key: "post",
       value: res.data.data.post_custom.length > 0 ? 2 : 1
     } );
-
-    // check case event target
-    // let targetType = 0;
-    // if ( res.data.data.target_custom.length === 0 ) {
-    //   if ( res.data.data.hasOwnProperty( "target_category" ) ) {
-    //     targetType = 1;
-    //   } else {
-    //     if ( res.data.data.timeline.length > 0 ) {
-    //       targetType = 3;
-    //     }
-    //   }
-    // } else {
-    //   targetType = 2;
-    // }
-    // commit( "set_caseEvent", {
-    //   key: "target",
-    //   value: targetType
-    // } );
   },
   updateEvent: async ( { commit }, payload ) => {
     if ( payload.event.type_event === 0 ) {

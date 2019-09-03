@@ -15,13 +15,15 @@
       @timeClick="createEvent($event)"
       @eventClick="openEventPopup($event)"
     />
+
     <!-- End: FullCalendar -->
     <!-- Start: Event Popup -->
     <transition name="popup">
       <event-popup
         v-if="isOpenEventPopup"
         :statusUpdateEvent="statusUpdateEvent"
-        @closePopup="isOpenEventPopup = $event">
+        @closePopup="isOpenEventPopup = $event"
+      >
       </event-popup>
     </transition>
     <!-- End: Event Popup -->
@@ -60,19 +62,18 @@ export default {
   },
   methods: {
     async createEvent( date ) {
-      console.log("create");
       await this.$store.dispatch( "setEvent", {
         key: "started_at",
-        value: new Date( date )
+        value: new Date(date)
       } );
 
       await this.$store.dispatch( "setCaseEvent", {
         key: "popup",
         value: true
       } );
+
     },
     async openEventPopup( event ) {
-      console.log("detail");
       await this.$store.dispatch( "getEventById", event._id );
       await this.$store.dispatch( "setCaseEvent", {
         key: "popup",
@@ -83,9 +84,4 @@ export default {
 };
 </script>
 
-<style>
-.alert {
-  font-size: 0.875rem;
-  padding: 0.375rem 0.5rem;
-}
-</style>
+<style lang="scss" scoped></style>

@@ -109,7 +109,6 @@ export default {
       this.$emit( "showDeletePopup", this.item );
     },
     viewDetail() {
-      console.log(1);
       // this.$store.dispatch( "getFBAccountById", this.item._id );
       // this.$router.push( {
       //   name: "post_fbaccount_detail",
