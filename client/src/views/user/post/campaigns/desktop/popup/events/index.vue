@@ -132,7 +132,7 @@ export default {
     }
   },
   created(){
-    this.$store.dispatch( "getAllPost" );
+    this.$store.dispatch( "getPosts" );
   },
   methods: {
     closePopup(){

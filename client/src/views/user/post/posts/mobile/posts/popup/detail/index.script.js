@@ -149,7 +149,7 @@ export default {
         if (this.linkContent.length > 0) {
           this.post.scrape = this.linkContent[0];
         }
-        await this.$store.dispatch("updatePostMobile", this.post);
+        await this.$store.dispatch("updatePost", this.post);
         // this.$store.dispatch("setPostCateDefault", 0);
         this.closePopup();
       }

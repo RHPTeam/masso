@@ -147,7 +147,6 @@ const actions = {
   },
   getEventById: async ( { commit, state }, payload ) => {
     const res = await EventsServices.getEventById( payload );
-    console.log("res", res.data.data);
     if ( res.data.data.plugins === undefined ) {
       res.data.data.plugins = "";
     }

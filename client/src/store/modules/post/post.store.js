@@ -225,7 +225,7 @@ const actions = {
     commit("setDeletePostSearch", allPostSearchMobile);
     await PostServices.deletePost(payload.id);
   },
-  getAllPost: async ({ commit }) => {
+  getPosts: async ({ commit }) => {
     commit("post_request");
     const resultAllPost = await PostServices.index();
     commit("setAllPost", resultAllPost.data.data);
@@ -426,21 +426,6 @@ const actions = {
 
     // const resultPostById = await PostServices.getById(payload._id);
     // commit("setPost", resultPostById.data.data);
-
-    // commit("setPost", payload);
-
-    commit("setUpdatePost", payload);
-
-    commit("post_success");
-  },
-  // Mobile: update dont get info
-  updatePostMobile: async ({ commit }, payload) => {
-    commit("post_request");
-
-    await PostServices.updatePost(payload._id, payload);
-
-    // const resultPostById = await PostServices.getById( payload._id );
-    // commit( "setPost", resultPostById.data.data );
 
     // commit("setPost", payload);
 

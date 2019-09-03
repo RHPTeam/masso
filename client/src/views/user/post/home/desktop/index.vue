@@ -130,7 +130,6 @@
                     role="rowgroup"
                     v-for="(item, index) in newestPost"
                     :key="index"
-                    @click="goToThisPost(item._id)"
                   >
                     <div class="flex-row first" role="cell">{{ item.title }}</div>
                     <div class="flex-row" role="cell">

@@ -108,4 +108,8 @@ td.rc--day-top.rc--sun:before, td.rc--day-top.rc--sun.rc--today:before {
   top: 0;
   z-index: 1;
 }
+.rc--more {
+  position: relative;
+  z-index: 10;
+}
 </style>
