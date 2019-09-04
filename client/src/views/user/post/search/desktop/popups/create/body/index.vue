@@ -306,7 +306,7 @@
                        accept="image/x-png,image/gif,image/jpeg" multiple />
               </form>
             </li>
-            <li class="item d_flex align_items_center" @click="showOptionPostCheckin">
+            <li class="item item--disable d_flex align_items_center" @click="showOptionPostCheckin">
               <icon-base
                 class="icon--location"
                 icon-name="location"
@@ -318,7 +318,7 @@
               </icon-base>
               <span>Địa điểm</span>
             </li>
-            <li class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
+            <li class="item item--disable d_flex align_items_center" @click="showOptionPostTagsFriend">
               <icon-base
                 class="icon--friend-tag"
                 icon-name="user"
@@ -362,7 +362,7 @@
                   <input id="upload" hidden type="file" ref="file" @change="selectFile(post._id)" accept="image/x-png,image/gif,image/jpeg" multiple />
                 </form>
               </div>
-              <div class="item d_flex align_items_center" @click="showOptionPostCheckin">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostCheckin">
                 <icon-base
                   class="icon--location"
                   icon-name="location"
@@ -376,7 +376,7 @@
               </div>
             </div>
             <div class="list show d_flex align_items_center">
-              <div class="item d_flex align_items_center" @click="showOptionPostTagsFriend">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostTagsFriend">
                 <icon-base
                   class="icon--friend-tag"
                   icon-name="user"
@@ -388,7 +388,7 @@
                 </icon-base>
                 <span>Gắn thẻ bạn bè</span>
               </div>
-              <div class="item d_flex align_items_center" @click="showOptionPostActivity">
+              <div class="item item--disable d_flex align_items_center" @click="showOptionPostActivity">
                 <icon-base
                   class="icon--smile"
                   icon-name="feelings"

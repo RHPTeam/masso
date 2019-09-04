@@ -52,7 +52,7 @@ export default {
       this.$router.push("/signin");
     },
     redirectBlogHelp(){
-      const routes = "https://www.zinbee.vn/#/help/lam-cach-nao-de-ket-noi-toi-tai-khoan-facebook-cua-toi";
+      const routes = "https://www.zinbee.vn/#/help/5d284dc0ed508f518567722a?type=hc_global_nav";
       window.open(routes, '_blank');
     }
   }

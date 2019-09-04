@@ -103,13 +103,6 @@ const { createNewFeed } = require( "../../../controllers/core/posts.core" ),
         "Passed! Starting schedule to Cache of system..."
       );
 
-      // Change status event schedule - running...
-      await EventSchedule.updateOne( { "_id": listEventSchedule[ i ]._id }, { "status": 5 }, ( err ) => {
-        if ( err ) {
-          throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
-        }
-      } );
-
       // Check if user use advance mix post to post feed
       if ( listEventSchedule[ i ].mixOpen ) {
         const listPost = ( await Post.find( { "_categories": listEventSchedule[ i ].mixOpen } ).lean() ).map( ( post ) => post._id ),
@@ -227,6 +220,15 @@ const { createNewFeed } = require( "../../../controllers/core/posts.core" ),
           "$lt": new Date().toISOString()
         }
       } ).lean() ).filter( ( item ) => item.status === 1 || item.status === null );
+
+      await Promise.all( listEventSchedule.map( async ( item ) => {
+        // Change status event schedule - running...
+        await EventSchedule.updateOne( { "_id": item._id }, { "status": 5 }, ( err ) => {
+          if ( err ) {
+            throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
+          }
+        } );
+      } ) );
 
       console.log(
         "\x1b[32m%s\x1b[0m",

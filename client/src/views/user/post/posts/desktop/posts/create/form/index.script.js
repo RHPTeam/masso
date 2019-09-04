@@ -163,24 +163,32 @@ export default {
     showOptionColor() {
       this.isShowColor = true;
     },
+    /**
+     * @Description show option open check in for user
+     * control variable open option check in with value boolean
+     */
     showOptionPostCheckin(){
-      this.isShowTag = false;
-      this.isShowActivity = false;
-      this.isShowCheckIn = true;
+      // this.isShowTag = false;
+      // this.isShowActivity = false;
+      // this.isShowCheckIn = true;
     },
+    /**
+     * @Description show option open tag friend for user
+     * control variable open option tag friend with value boolean
+     */
     showOptionPostTagsFriend(){
-      this.isShowActivity = false;
-      this.isShowCheckIn = false;
-      this.isShowTag = true;
+      // this.isShowActivity = false;
+      // this.isShowCheckIn = false;
+      // this.isShowTag = true;
     },
     /**
      * [showOptionPostActivity description]
      * @return {[type]} [description]
      */
     showOptionPostActivity(){
-      this.isShowTag = false;
-      this.isShowCheckIn = false;
-      this.isShowActivity = true;
+      // this.isShowTag = false;
+      // this.isShowCheckIn = false;
+      // this.isShowActivity = true;
     },
     changeContentDefault() {
       this.$store.dispatch("setPostDefault", {
@@ -219,47 +227,6 @@ export default {
 
     selectFile() {
       this.file = this.$refs.file.files;
-
-      // console.log(this.file);
-      // console.log(2);
-      //
-      // const arr = Array.from(this.file);
-      //
-      // console.log(arr);
-      // // 5242880
-      //
-      //
-      //
-      // let binaryMessage = arr.buffer;
-      //
-      // console.log(10);
-      // console.log(binaryMessage);
-      //
-      // let position = arr.map((item, index) => {
-      //   if(item.size > 120000) {
-      //     console.log(item);
-      //     console.log(index);
-      //     return index;
-      //   }
-      // });
-      // console.log(1);
-      // console.log(position);
-      // if(position) {
-      //   this.file = arr.splice(position, 1);
-      //
-      //   console.log(this.file);
-      //
-      //   this.isShowPopupDeleteImage = true;
-      //
-      // } else {
-      //
-      //   this.sendFile();
-      //
-      //   // reset ref
-      //   const input = this.$refs.file;
-      //   input.type = 'text';
-      //   input.type = 'file';
-      // }
 
       this.sendFile();
 

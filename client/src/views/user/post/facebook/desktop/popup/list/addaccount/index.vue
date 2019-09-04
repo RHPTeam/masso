@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content">
+      <div class="modal--content" v-click-outside="closeAddPopup">
         <div class="modal--header">
           <icon-base
             icon-name="modal-cookie"

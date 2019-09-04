@@ -141,6 +141,10 @@
             border-radius: .625rem;
             font-size: .875rem;
             padding: .375rem .75rem;
+            &:hover, &:focus, &:active, &:visited {
+              box-shadow: none;
+              outline: 0;
+            }
           }
           .btn--update {
             margin-top: 10px;
@@ -149,6 +153,10 @@
             border-radius: 10px;
             font-size: 15px;
             padding: 8px 15px;
+            &:hover, &:focus, &:active, &:visited {
+              box-shadow: none;
+              outline: 0;
+            }
           }
           .btn--disconnect {
             color: #444444;
@@ -157,6 +165,10 @@
             border-radius: 10px;
             font-size: 15px;
             padding: 8px 15px;
+            &:hover, &:focus, &:active, &:visited {
+              box-shadow: none;
+              outline: 0;
+            }
           }
         }
         .card--footer {

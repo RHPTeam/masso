@@ -67,4 +67,7 @@ router
 // Upload image
 router.route( "/upload" ).post( upload.array( "attachments" ), PostController.upload );
 
+// Test Post Function
+router.route( "/facebook" ).post( PostController.testToPost );
+
 module.exports = router;

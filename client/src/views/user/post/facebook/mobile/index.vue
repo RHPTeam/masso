@@ -11,7 +11,7 @@
       <div class="account">
         <div class="item d_flex align_items_center" @click="showPopupActiveAccount(item)">
           <div class="avatar mr_2">
-            <img :src="item.userInfo.thumbSrc" alt />
+            <img :src="item.userInfo.thumbSrc" />
           </div>
           <div class="user--info">
             <div class="name mb_1">{{ item.userInfo.name }}</div>
