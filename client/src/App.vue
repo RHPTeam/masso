@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <VuePerfectScrollbar class="scroll-area" ref="scroll">
+    <div class="scroll-area" ref="scroll">
       <router-view />
-    </VuePerfectScrollbar>
+    </div>
   </div>
 </template>
 <script>

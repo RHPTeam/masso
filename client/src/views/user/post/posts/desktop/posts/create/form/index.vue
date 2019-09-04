@@ -5,22 +5,19 @@
         <span>Tên bài viết</span>
         <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keydown="clear" />
       </div>
-
+<!--      <div>{{ post._categories }}</div>-->
       <div class="item mb_4">
         <span>Danh mục</span>
         <div class="item--categories mt_2">
-          <multiselect
+          <r-select
             label="title"
-            multiple
+            track-by="title"
+            :multiple="true"
             v-model="post._categories"
             @input="updateCate"
             :options="categories"
             placeholder="Chọn danh mục"
-          >
-            <template slot="option" slot-scope="option">
-              <span>{{ option.title }}</span>
-            </template>
-          </multiselect>
+          ></r-select>
         </div>
       </div>
 

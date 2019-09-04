@@ -11,17 +11,14 @@
       <div class="item">
         <span>Danh mục</span>
         <div class="item--categories mt_2">
-          <multiselect
+          <r-select
             label="title"
-            multiple
+            track-by="title"
+            :multiple="true"
             v-model="post._categories"
             :options="categories"
             placeholder="Chọn danh mục"
-          >
-            <template slot="option" slot-scope="option">
-              <span>{{ option.title }}</span>
-            </template>
-          </multiselect>
+          ></r-select>
         </div>
       </div>
       <!-- End: Post Categories -->

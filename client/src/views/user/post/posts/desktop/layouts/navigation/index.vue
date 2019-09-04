@@ -7,7 +7,7 @@
     <div class="nav--left mr_auto d_flex align_items_center r m_0">
       <div class="d_flex align_items_center action--post">
         <router-link
-          class="nav--link mr_2"
+          class="nav--link mr_2 ml_2"
           :to="{ name: 'post_posts', query: { size: 25, page: 1 } }"
           active-class="active"
           exact
