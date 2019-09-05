@@ -60,7 +60,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailProfile.length === 0"
               >Không có trang cá nhân nào!!!</div>
-              <label
+              <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="profile in postGroupDetailProfile"
@@ -82,7 +82,7 @@
                     />
                   </label>
                 </div>
-              </label>
+              </div>
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
@@ -90,7 +90,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailPage.length === 0"
               >Không có trang nào!!!</div>
-              <label
+              <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="fanpage in postGroupDetailPage"
@@ -108,7 +108,7 @@
                     <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" :id="fanpage.pageId" />
                   </label>
                 </div>
-              </label>
+              </div>
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
@@ -116,7 +116,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailGroup.length === 0"
               >Không có nhóm nào!!!</div>
-              <label
+              <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="group in postGroupDetailGroup"
@@ -134,7 +134,7 @@
                     <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
                   </label>
                 </div>
-              </label>
+              </div>
             </div>
             <!-- Start: Post group -->
           </div>

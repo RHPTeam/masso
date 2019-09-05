@@ -52,7 +52,7 @@
         @closePopup="isShowPopupDelete = $event"
         title="bài viết"
         :name="postSelected.title"
-        storeActionName="deletePostMobile"
+        storeActionName="deletePost"
         :targetData="targetDataDelete"
       />
     </transition>

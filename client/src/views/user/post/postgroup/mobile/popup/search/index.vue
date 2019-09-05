@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="search"/>
+          <input type="text" placeholder="Tìm kiếm" v-model="search" />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -63,12 +63,11 @@
                 class="item--content text_center"
                 v-if="facebookPagesSearch.length === 0"
               >Không có Fanpage nào!</div>
-              <label
+              <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(fanpage, index) in facebookPagesSearch"
                 :key="`f+${index}`"
-                :for="fanpage.pageId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -78,22 +77,21 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" :id="fanpage.pageId" />
+                    <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" />
                   </label>
                 </div>
-              </label>
+              </div>
             </div>
             <div class="group" v-if="isShowPopupGroup === true">
               <div
                 class="item--content text_center"
                 v-if="facebookGroupsSearch.length === 0"
               >Không có Group nào!</div>
-              <label
+              <div
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="(group, index) in facebookGroupsSearch"
                 :key="`g+${index}`"
-                :for="group.groupId"
               >
                 <div class="col col--name d_flex align_items_center">
                   <div class="avatar px_2">
@@ -103,10 +101,10 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" />
                   </label>
                 </div>
-              </label>
+              </div>
             </div>
             <div class="post--group" v-if="isShowPopupPostGroup === true">
               <div

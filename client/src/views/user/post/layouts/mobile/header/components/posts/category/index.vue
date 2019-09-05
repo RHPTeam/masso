@@ -78,10 +78,10 @@ export default {
           size: 25,
           page: 1
         };
-        await this.$store.dispatch("actionCursor", 16);
+        this.$store.dispatch("actionCursor", 16);
         await this.$store.dispatch( "createCategory", dataSender );
         this.mixStatus = false;
-        this.$emit("closePopupNewCategory", false);
+        this.closePopupNewCategory();
       }
     },
     closePopupNewCategory() {

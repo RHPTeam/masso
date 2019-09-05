@@ -43,12 +43,12 @@ export default {
     };
   },
   methods: {
-    async closeChangeName() {
+    closeChangeName() {
       this.$emit("closeChangeName", false);
     },
-    async changeUserName() {
+    changeUserName() {
       this.$store.dispatch("updateUser", this.user).then(() => {
-        this.$emit("closeChangeName", false);
+        this.closeChangeName();
       });
     }
   }

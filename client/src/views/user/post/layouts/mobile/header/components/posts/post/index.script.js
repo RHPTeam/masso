@@ -119,7 +119,7 @@ export default {
     clear() {
       clearTimeout(typingTimer);
     },
-    async closePopup() {
+    closePopup() {
       this.$emit("closePopup", false);
       const dataSender = {
         size: 25,
@@ -158,7 +158,7 @@ export default {
       this.isShowTag = true;
       this.isShowMoreOption = false;
     },
-    async savePost() {
+    savePost() {
       if (this.post.content.trim().length === 0) {
         this.isShowAlertContent = true;
       } else if (this.post.title.trim().length === 0) {
