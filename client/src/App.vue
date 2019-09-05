@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="scroll-area" ref="scroll">
+    <VuePerfectScrollbar class="scroll-area" ref="scroll">
       <router-view />
-    </div>
+    </VuePerfectScrollbar>
 
     <!-- Start: Wizard-->
     <!-- <app-wizard v-if="isShowWizard===true"/> -->
@@ -18,7 +18,6 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
-// import AppWizard from "@/components/shared/layouts/wizard";
 
 export default {
   components: {
