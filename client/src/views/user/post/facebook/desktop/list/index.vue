@@ -32,19 +32,23 @@
            v-for="(item, index) in accountsFB"
            :key="index"
       >
-        <div class="card" v-if="facebookStatus === 'loading'">
-          <div class="card_body text_center d_flex align_items_center justify_content_center">
-            <loading-component/>
-          </div>
-        </div>
         <item-account
-          v-else
           :item="item"
           @showDeletePopup="showDeletePopup($event)"
           @showUpdatePopup="showUpdatePopup($event)"
         />
       </div>
       <!-- End: Account Items Loop -->
+
+      <!-- START: LOADING COMPONENT SHOW WHEN ADD OR UPDATE ACCOUNT -->
+      <div class="item c_md_6 c_lg_4 c_xl_3 c_sm_6" v-if="facebookStatus === 'loading'">
+        <div class="card">
+          <div class="card_body text_center d_flex align_items_center justify_content_center">
+            <loading-component/>
+          </div>
+        </div>
+      </div>
+      <!-- END: LOADING COMPONENT SHOW WHEN ADD OR UPDATE ACCOUNT -->
     </div>
 
     <!-- ************** POPUP *************** -->
