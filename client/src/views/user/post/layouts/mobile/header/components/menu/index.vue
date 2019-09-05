@@ -169,8 +169,8 @@
             </span>
           </li>
         </ul>
-        <h4 class="my_2">Quản lý đại lý</h4>
-        <ul class="p_0 pr_3 m_0">
+        <h4 class="my_2" v-if="roles && roles === 'Agency'">Quản lý đại lý</h4>
+        <ul class="p_0 pr_3 m_0" v-if="roles && roles === 'Agency'">
           <li
             @click="showAgency"
             class="d_flex align_items_center"
