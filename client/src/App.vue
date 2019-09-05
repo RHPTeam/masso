@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div class="scroll-area" ref="scroll">
+    <vue-perfect-scrollbar class="scroll-area" ref="scroll">
       <router-view />
-    </div>
+    </vue-perfect-scrollbar>
   </div>
 </template>
 <script>

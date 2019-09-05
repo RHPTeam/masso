@@ -24,21 +24,36 @@
           <div class="item d_flex align_items_start mb_3">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn trang cá nhân muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn trang cá nhân"
                   :value="event.timeline"
                   :options="allAccountFB"
+                  :show-labels="false"
                   @input="selectFacebookAccount"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        v-if="props.option.thumbSrc"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.thumbSrc + ')' }"
+                      ></div>
+                      <div style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.thumbSrc + ')' }"
+                      ></div>
+                      <div style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>
@@ -52,12 +67,13 @@
           <div class="item d_flex align_items_start mb_3">
             <div class="content">
               <div class="main">
-                <multiselect
+                <r-select
                   label="title"
-                  placeholder="Chọn nhóm muốn đăng"
-                  :value="event.target_category"
-                  :clearable="false"
+                  track-by="title"
+                  placeholder="Chọn nhóm đã lưu"
+                  v-model="event.target_category"
                   :options="allPostGroups"
+                  :show-labels="false"
                   @input="selectFacebookGroup"
                 />
               </div>
@@ -75,21 +91,36 @@
           <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn trang muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn trang"
                   :value="convertTargetCustomPages"
                   :options="facebookPages"
+                  :show-labels="false"
                   @input="selectPageFacebook"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        v-if="props.option.profile_picture"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>
@@ -103,21 +134,36 @@
           <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn nhóm muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn nhóm"
                   :value="convertTargetCustomGroups"
                   :options="facebookGroups"
+                  :show-labels="false"
                   @input="selectGroupFacebook"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        v-if="props.option.profile_picture"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;">{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>
