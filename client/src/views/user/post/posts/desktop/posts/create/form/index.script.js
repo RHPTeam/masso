@@ -215,7 +215,7 @@ export default {
           this.post.scrape = this.linkContent[0];
         }
         await this.$store.dispatch( "updatePost", this.post );
-        this.$store.dispatch("setPostCateDefault", 0);
+        await this.$store.dispatch("setPostCateDefault", 0);
         this.$router.go(-1);
       }
     },

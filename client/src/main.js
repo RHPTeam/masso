@@ -3,7 +3,7 @@ import App from "./App.vue";
 import i18n from "./locales";
 import store from "./store";
 import router from "./routes";
-import { VueHammer } from 'vue2-hammer'
+import { VueHammer } from 'vue2-hammer';
 VueHammer.config.pan = {
   threshold: 100,
   direction: 6

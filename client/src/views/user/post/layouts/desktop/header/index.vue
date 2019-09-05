@@ -179,9 +179,7 @@
             v-else
             class="avatar--wrap avatar--default position_relative d_block"
           >
-            <span class="position_absolute">{{
-              user.name | getFirstLetter
-            }}</span>
+            <span class="position_absolute">{{ user.name | getFirstLetter }}</span>
           </div>
         </div>
         <span class="profile--name ml_2 mr_2">{{ user.name }}</span>
@@ -225,9 +223,7 @@
                 v-else
                 class="avatar--wrap avatar--default position_relative d_block"
               >
-            <span class="position_absolute">{{
-              user.name | getFirstLetter
-            }}</span>
+                <span class="position_absolute">{{ user.name | getFirstLetter }}</span>
               </div>
             </div>
           </div>
