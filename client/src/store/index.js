@@ -29,6 +29,7 @@ import PostSchedule from "./modules/post/postschedule.store";
 import PostFacebookStore from "./modules/post/postfacebook.store";
 import PostGroupStore from "./modules/post/postgroup.store";
 import HelpStore from "./modules/post/help.store";
+import WizardStore from "./modules/post/wizard.store";
 
 // ------ Action cursor Store for post in mobile
 import ActionCursorStore from "./modules/post/cursor.store";
@@ -72,6 +73,7 @@ export default new Vuex.Store( {
     // GroupBlock,
     ActionCursorStore,
     HelpStore,
+    WizardStore,
     /**
      * Store for Agency
      */

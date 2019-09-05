@@ -1,11 +1,14 @@
 import VueApexCharts from 'vue-apexcharts';
 import AddKeyWord from "./keywords";
 import VersionPopup from "./version";
+import WizardWelcome from "@/components/shared/layouts/wizard/welcome";
+
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    VersionPopup
+    VersionPopup,
+    WizardWelcome
   },
   data () {
     return {
@@ -14,6 +17,9 @@ export default {
     };
   },
   computed: {
+    isShowWizard() {
+      return this.$store.getters.isShowWizard;
+    },
     isReadVersionNotification: {
       set( newValue ) {
         this.isStatusVersionNotification = newValue;

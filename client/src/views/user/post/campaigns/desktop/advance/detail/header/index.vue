@@ -103,13 +103,15 @@
       </div>
       <!-- End: Header Action -->
 
+      <!-- MOVED Create Campaign Popup to App.vue -->
+
       <!--	Start: Create Campaign Popup Test Again	-->
-      <transition name="popup">
+      <!-- <transition name="popup">
         <app-events
           v-if="caseEvent.popup === true"
           @close="close( $event )"
         />
-      </transition>
+      </transition> -->
       <!--	End: Create Campaign Popup	-->
       <transition name="slide-fade">
         <app-history
@@ -150,9 +152,9 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    caseEvent() {
-      return this.$store.getters.caseEvent;
-    }
+    // caseEvent() {
+    //   return this.$store.getters.caseEvent;
+    // }
   },
   created() {
     this.historyRouteLength = window.history.length;

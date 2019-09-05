@@ -1,11 +1,12 @@
-import AppHeader from "./desktop/header";
-import AppSidebar from "./desktop/sidebar";
-import AppNotification from "./desktop/components/notification";
-import AppExpire from "./desktop/components/expire";
-import GuidePopup from "./desktop/components/guide"
+import AppHeader from './desktop/header';
+import AppSidebar from './desktop/sidebar';
+import AppNotification from './desktop/components/notification';
+import AppExpire from './desktop/components/expire';
+import GuidePopup from './desktop/components/guide';
+import instantPostButton from './desktop/components/instantPostButton';
 
-import HeaderMobile from "./mobile/header";
-import FooterMobile from "./mobile/footer";
+import HeaderMobile from './mobile/header';
+import FooterMobile from './mobile/footer';
 
 export default {
   components: {
@@ -15,7 +16,9 @@ export default {
     AppExpire,
     GuidePopup,
     HeaderMobile,
-    FooterMobile
+    FooterMobile,
+    instantPostButton,
+
   },
   data() {
     return {
@@ -28,15 +31,15 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    variableControlGuide(){
+    variableControlGuide() {
       return this.$store.getters.variableControlGuide;
-    },
+    }
   },
   mounted() {
     this.$nextTick(function() {
       window.addEventListener('resize', this.getWindowWidth);
       this.getWindowWidth();
-    })
+    });
   },
   beforeDestroy() {
     window.removeEventListener('resize', this.getWindowWidth);

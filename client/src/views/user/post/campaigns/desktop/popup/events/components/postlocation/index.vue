@@ -15,10 +15,10 @@
       <div class="title">Nơi đăng</div>
     </div>
     <div class="section--body">
+      <!-- Start: Timeline -->
       <div class="r">
-        <!-- Start: Timeline -->
-        <div class="c_6">
-          <div class="title mt_3 mb_2 d_flex justify_content_between">
+        <div class="c_12">
+          <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang cá nhân</span>
           </div>
           <div class="item d_flex align_items_start mb_3">
@@ -34,7 +34,10 @@
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"></div>
+                      <div
+                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                        :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"
+                      ></div>
                       <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                     </div>
                   </template>
@@ -43,10 +46,12 @@
             </div>
           </div>
         </div>
-        <!-- End: Timeline -->
-        <!-- Start: Post Group -->
-        <div class="c_6">
-          <div class="title mt_3 mb_2 d_flex justify_content_between">
+      </div>
+      <!-- End: Timeline -->
+      <!-- Start: Post Group -->
+      <div class="r">
+        <div class="c_12">
+          <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm đã lưu</span>
           </div>
           <div class="item d_flex align_items_start mb_3">
@@ -64,15 +69,15 @@
             </div>
           </div>
         </div>
-        <!-- Start: Post Group -->
       </div>
+      <!-- End: Post Group -->
+      <!-- Start: Pages -->
       <div class="r">
-        <!-- Start: Pages -->
-        <div class="c_6">
+        <div class="c_12">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang Facebook</span>
           </div>
-          <div class="item d_flex align_items_start">
+          <div class="item d_flex align_items_start mb_2">
             <div class="content">
               <div class="main">
                 <multiselect
@@ -85,7 +90,10 @@
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                      <div
+                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                        :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                      ></div>
                       <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                     </div>
                   </template>
@@ -94,13 +102,15 @@
             </div>
           </div>
         </div>
-        <!-- End: Pages -->
+      </div>
+      <!-- End: Pages -->
+      <div class="r">
         <!-- Start: Groups -->
-        <div class="c_6">
+        <div class="c_12">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm Facebook</span>
           </div>
-          <div class="item d_flex align_items_start">
+          <div class="item d_flex align_items_start mb_2">
             <div class="content">
               <div class="main">
                 <multiselect
@@ -113,7 +123,10 @@
                 >
                   <template slot="option" slot-scope="option">
                     <div class="d_flex align_items_center">
-                      <div style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover" :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"></div>
+                      <div
+                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
+                        :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                      ></div>
                       <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
                     </div>
                   </template>
