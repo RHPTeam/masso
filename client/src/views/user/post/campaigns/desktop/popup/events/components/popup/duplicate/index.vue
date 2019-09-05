@@ -48,14 +48,16 @@
         <div class="title mb_2">
           Sao chép tới
         </div>
-        <multiselect
+        <r-select
           label="title"
+          track-by="title"
           class="form--control"
+          :maxHeight="220"
           v-model="campaignSelected"
           :options="convertCampaigns"
           placeholder="Chọn chiến dịch"
           v-click-outside="resetCampaignSelected"
-        ></multiselect>
+        ></r-select>
       </div>
       <!-- End: Campaign -->
     </div>

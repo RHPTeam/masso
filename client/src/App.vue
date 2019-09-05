@@ -1,18 +1,8 @@
 <template>
   <div id="app">
-    <VuePerfectScrollbar class="scroll-area" ref="scroll">
+    <vue-perfect-scrollbar class="scroll-area" ref="scroll">
       <router-view />
-    </VuePerfectScrollbar>
-
-    <!-- Start: Wizard-->
-    <!-- <app-wizard v-if="isShowWizard===true"/> -->
-    <!-- End: Wizard-->
-
-    <!--	Start: Create Campaign Popup Test Again	-->
-    <transition name="popup">
-      <app-events v-if="caseEvent.popup === true" @close="close( $event )" />
-    </transition>
-    <!--	End: Create Campaign Popup	-->
+    </vue-perfect-scrollbar>
   </div>
 </template>
 <script>

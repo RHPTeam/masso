@@ -15,7 +15,6 @@
       @timeClick="createEvent($event)"
       @eventClick="openEventPopup($event)"
     />
-
     <!-- End: FullCalendar -->
     <!-- Start: Event Popup -->
     <transition name="popup">

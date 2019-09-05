@@ -186,8 +186,9 @@ fieldset[disabled] .multiselect {
   font-weight: 700;
   font-style: initial;
   width: 22px;
-  text-align: center;
-  line-height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
   border-radius: 5px;
 }
@@ -270,7 +271,8 @@ fieldset[disabled] .multiselect {
   background: #27292c;
   width: 100%;
   max-height: 240px;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   border: 1px solid #444;
   border-top: none;
   border-bottom-left-radius: 10px;
@@ -285,7 +287,7 @@ fieldset[disabled] .multiselect {
   display: inline-block;
   padding: 0;
   margin: 0;
-  min-width: 100%;
+  width: 100%;
   vertical-align: top;
 }
 
