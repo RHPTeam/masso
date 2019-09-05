@@ -13,8 +13,9 @@
           </icon-base>
         </div>
         <!-- Start: Updating Data -->
-        <div class="modal--body px_3 py_4"
-             v-if="addFbStatus === 'loading'"
+        <div
+          class="modal--body px_3 py_4"
+          v-if="addFbStatus === 'loading'"
         >
           <div class="modal--title text_center">Thêm tài khoản Facebook</div>
           <div class="loading--block mt_4 mb_4">
@@ -73,6 +74,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    status(){
+      return this.$store.getters.facebookStatus;
     }
   },
   watch: {

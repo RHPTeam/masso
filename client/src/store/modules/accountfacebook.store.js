@@ -66,11 +66,13 @@ const actions = {
       const dataSender = {
         cookie: payload
       };
+      // add cookie facebook to system then update group and fan page of account
       const result = await AccountFacebookChatService.create(dataSender);
-      await commit('addNewAccountFacebook', result.data.data);
 
       await GroupFacebookServices.update(result.data.data._id);
       await PageFacebookServices.update(result.data.data._id);
+
+      await commit('addNewAccountFacebook', result.data.data);
 
       commit('facebook_success');
     } catch (e) {
