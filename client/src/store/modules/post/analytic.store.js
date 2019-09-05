@@ -12,13 +12,13 @@ const state = {
 };
 const getters = {
   sttStaticCampaign: state => state.sttStaticCampaign,
-  getStaticCampaigns: state => state.allStaticCampaign,
+  getAllStaticCampaign: state => state.allStaticCampaign,
 
   statusCampain: state  => state.statusCampain,
   allAnalysis: state  => state.allAnalysis,
 
   statusNumberPost: state => state.statusNumberPost,
-  getSttPosts: state => state.allSttPost
+  getAllSttPost: state => state.allSttPost
 };
 const mutations = {
   campaign_request: state => {
@@ -53,21 +53,21 @@ const mutations = {
 
 };
 const actions = {
-  getStatisticCampaigns: async ({commit}) => {
+  getAllStaticCampaign: async ({commit}) => {
     commit('campaign_request');
     const resultSttStaticCampaign = await StaticCampaign.indexStaticCampaign();
     commit('setAllStaticCampaign', resultSttStaticCampaign.data.data);
     commit('campaign_success');
   },
 
-  getAnalysis: async ({commit}) => {
+  getAllAnalysis: async ({commit}) => {
     commit('status_request');
     const result = await StaticCampaign.indexStistic();
     commit( "setAllAnalysis", result.data.data );
     commit('status_success');
   },
 
-  getStatisticPosts: async ({ commit }) => {
+  getAllSttPost: async ({ commit }) => {
     commit('statusPost_request');
     const resultPost = await StaticCampaign.indexStatisticPost();
     commit('setAllSttPost', resultPost.data.data);

@@ -46,7 +46,7 @@
         <!-- Start: Campaign -->
         <div class="form--group">
           <div class="title mb_2">
-            Sao chép tới chiến dịch
+            Sao chép tới
           </div>
           <multiselect
             label="title"

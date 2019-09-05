@@ -100,7 +100,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getPosts");
+    await this.$store.dispatch("getAllPost");
     if (this.categories.length === 0) {
       await this.$store.dispatch("getAllCategories");
     }

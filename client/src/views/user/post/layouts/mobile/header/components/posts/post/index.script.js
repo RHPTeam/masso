@@ -169,7 +169,7 @@ export default {
         if (this.linkContent.length > 0) {
           this.post.scrape = this.linkContent[0];
         }
-        this.$store.dispatch("updatePost", this.post);
+        this.$store.dispatch("updatePostMobile", this.post);
         const dataSender = {
           size: 25,
           page: 1
