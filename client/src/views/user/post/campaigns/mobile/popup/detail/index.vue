@@ -83,7 +83,6 @@
 
             <!-- Start: Event of Day -->
             <div class="event mt_2">
-              <!-- <div class="items no--event text_center">Không có sự kiện nào</div> -->
               <div class="items text_center" v-if="eventsOfDay.length === 0">Không có sự kiện nào</div>
               <div
                 class="items d_flex align_items_center"

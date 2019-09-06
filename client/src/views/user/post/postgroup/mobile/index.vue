@@ -16,7 +16,7 @@
               <icon-input-search/>
             </icon-base>
           </span>
-          <input class="search--input" placeholder="Tìm kiếm" type="text" v-model="search">
+          <input class="search--input" placeholder="Tìm kiếm" type="text">
         </div>
       </div>
       <!-- End: Search -->

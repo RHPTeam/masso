@@ -1,4 +1,6 @@
-import AccountFacebookChatService from '@/services/modules/accountfacebook.service';
+import AccountFacebookService from '@/services/modules/accountfacebook.service';
+import GroupFacebookServices from "@/services/modules/post/groupfacebook.service";
+import PageFacebookServices from "@/services/modules/post/pagefacebook.service";
 
 const state = {
   addAccountError: '',
@@ -64,7 +66,12 @@ const actions = {
       const dataSender = {
         cookie: payload
       };
-      const result = await AccountFacebookChatService.create(dataSender);
+      // add cookie facebook to system then update group and fan page of account
+      const result = await AccountFacebookService.create(dataSender);
+
+      await GroupFacebookServices.update(result.data.data._id);
+      await PageFacebookServices.update(result.data.data._id);
+
       await commit('addNewAccountFacebook', result.data.data);
 
       commit('facebook_success');
@@ -80,18 +87,18 @@ const actions = {
 
     commit('setDeleteAccount', account);
 
-    await AccountFacebookChatService.delete(payload);
+    await AccountFacebookService.delete(payload);
 
     commit('statusDeleteFacebook_success');
   },
   getAccountsFB: async ({ commit }) => {
     commit('facebook_request');
-    const accountsFB = await AccountFacebookChatService.index();
+    const accountsFB = await AccountFacebookService.index();
     await commit('setAccountsFB', accountsFB.data.data);
     commit('facebook_success');
   },
   getFBAccountById: async ({ commit }, payload) => {
-    const res = await AccountFacebookChatService.getFBAccountById(payload);
+    const res = await AccountFacebookService.getFBAccountById(payload);
     await commit('setFbAccountInfo', res.data.data);
   },
   setAddAccountErrorEmpty: async ({ commit }) => {
@@ -103,9 +110,9 @@ const actions = {
       const dataSender = {
         cookie: payload.cookie
       };
-      await AccountFacebookChatService.update(payload.fbId, dataSender);
+      await AccountFacebookService.update(payload.fbId, dataSender);
       // If status === true then index account.
-      const result = await AccountFacebookChatService.index();
+      const result = await AccountFacebookService.index();
       await commit('addNewAccountFacebook', result.data.data);
       commit('setAccountsFB', result.data.data);
 
@@ -123,8 +130,8 @@ const actions = {
       const dataSender = {
         cookie: payload.cookie
       };
-      await AccountFacebookChatService.update(payload.fbId, dataSender);
-      const result = await AccountFacebookChatService.index();
+      await AccountFacebookService.update(payload.fbId, dataSender);
+      const result = await AccountFacebookService.index();
       commit('setAccountsFB', result.data.data);
       commit('facebook_success');
     } catch (e) {

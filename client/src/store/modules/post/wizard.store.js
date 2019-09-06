@@ -22,7 +22,7 @@ const state = {
   campaignStartDate: '',
 
   // QuickPost - Step 4 State: Post Scheduling
-  selectedCampaign: {}
+  selectedCampaign: null
 };
 const getters = {
   finishedStep: (state) => state.finishedStep,
@@ -75,13 +75,14 @@ const mutations = {
   },
   addSelectedPostInListTab: (state, payload) => {
     state.selectedPostInListTab.push(payload);
-    console.log(state.selectedPostInListTab);
   },
   removeSelectedPostInListTab: (state, payload) => {
     state.selectedPostInListTab = state.selectedPostInListTab.filter(
       (item) => item._id !== payload._id
     );
-    console.log(state.selectedPostInListTab);
+  },
+  removeAllSelectedPostInListTab: (state, payload) => {
+    state.selectedPostInListTab = [];
   },
 
   // Welcome - Step 4 Mutations: Post Scheduling
@@ -130,12 +131,13 @@ const actions = {
     commit('setSelectedCategoryInListTab', payload);
   },
   addSelectedPostInListTab: ({ commit }, payload) => {
-    console.log('add', payload.title);
     commit('addSelectedPostInListTab', payload);
   },
   removeSelectedPostInListTab: ({ commit }, payload) => {
-    console.log('remove', payload.title);
     commit('removeSelectedPostInListTab', payload);
+  },
+  removeAllSelectedPostInListTab: ({ commit }) => {
+    commit('removeAllSelectedPostInListTab');
   },
 
   // Welcome - Step 4 Actions: Post Scheduling

@@ -52,7 +52,7 @@
         @closePopup="isShowPopupDelete = $event"
         title="bài viết"
         :name="postSelected.title"
-        storeActionName="deletePost"
+        storeActionName="deletePostMobile"
         :targetData="targetDataDelete"
       />
     </transition>
@@ -100,7 +100,6 @@ export default {
   },
   computed: {
     allPost() {
-      // console.log("this.$store.getters.allPost", this.$store.getters.allPost);
       return this.$store.getters.allPost;
     },
     currentTheme() {
@@ -130,16 +129,18 @@ export default {
       if (value === 14) {
         this.currentPage = 1;
       }
+      if (value === 15) {
+        this.currentPage = 1;
+      }
     }
   },
-  async created() {},
+  async created() {
+  },
   methods: {
     async loadMore() {
-      // if(this.$store.getters.gestureUser === 15) {
-      //   this.currentPage = 1;
-      // }
+      this.$store.dispatch("actionCursor", 17);
       this.currentPage += 1;
-
+   
       await this.$store.dispatch("getPostsByPageMobile", {
         size: this.pageSize,
         page: this.currentPage

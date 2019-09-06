@@ -51,10 +51,6 @@ const actions = {
     commit( "setAllFriendFacebook", result.data.data );
     commit( "fr_request" );
   },
-  getAllFriendsByChat: async ({commit}) => {
-    commit( "fr_request" );
-    commit( "fr_request" );
-  },
   getFriendFacebookBySizeDefault: async ({commit}, payload) => {
     commit( "fr_request" );
     const result = await FacebookFriendServices.getFriendBySize(

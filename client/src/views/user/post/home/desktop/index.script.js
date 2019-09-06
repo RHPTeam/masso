@@ -1,6 +1,5 @@
 import VueApexCharts from 'vue-apexcharts';
 import AddKeyWord from "./keywords";
-import FriendFollow from "./friends";
 import VersionPopup from "./version";
 import WizardWelcome from "@/components/shared/layouts/wizard/welcome";
 
@@ -8,7 +7,6 @@ export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    FriendFollow,
     VersionPopup,
     WizardWelcome
   },
@@ -43,7 +41,7 @@ export default {
       return this.$store.getters.allAnalysis;
     },
     allStaticCampaign() {
-      const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
+      const mapArrCampaign = this.$store.getters.getStaticCampaigns.map( (campaign) => {
         return campaign.amount;
       });
 
@@ -55,7 +53,7 @@ export default {
     allSttPost(){
       const campaignRecommended = [], campaignCurrent = [];
 
-      this.$store.getters.getAllSttPost.map( ( current ) => {
+      this.$store.getters.getSttPosts.map( ( current ) => {
         campaignRecommended.push( current.recommend );
         campaignCurrent.push( current.amount );
       });
@@ -72,12 +70,12 @@ export default {
       ];
     },
     campaignDataChart() {
-      const timeCampaign = this.$store.getters.getAllStaticCampaign.map( ( date ) => {
+      const timeCampaign = this.$store.getters.getStaticCampaigns.map( ( date ) => {
         return date.date;
       } );
 
       let arrCampaign = [];
-      this.$store.getters.getAllStaticCampaign.map( ( amount ) => {
+      this.$store.getters.getStaticCampaigns.map( ( amount ) => {
         arrCampaign.push( amount.amount );
       });
       let maxCampaign = Math.max.apply(null, arrCampaign);
@@ -292,11 +290,11 @@ export default {
       }
     },
     postRecommendDataChart() {
-      const dayRecommendCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
+      const dayRecommendCampaign = this.$store.getters.getSttPosts.map( ( date ) => {
         return date.date.slice( 0, 10 );
       });
       let maxCampaign = [];
-      this.$store.getters.getAllSttPost.map( ( amount ) => {
+      this.$store.getters.getSttPosts.map( ( amount ) => {
         maxCampaign.push( amount.recommend );
         maxCampaign.push( amount.amount );
       });
@@ -476,9 +474,10 @@ export default {
       }
     }
   },
-  methods: {
-    async goToThisPost( id ) {
-      await this.$store.dispatch( "getPostById", id );
-    }
+  created() {
+    this.$store.dispatch("getAnalysis");
+    this.$store.dispatch("getStatisticCampaigns");
+    this.$store.dispatch("getStatisticPosts");
+    this.$store.dispatch("getNewestPosts", 5);
   }
 }

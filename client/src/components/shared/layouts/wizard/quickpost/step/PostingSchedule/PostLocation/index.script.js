@@ -1,4 +1,8 @@
+import WaitingTime from '../WaitingTime';
 export default {
+  components: {
+    WaitingTime
+  },
   data() {
     return {
       custom: [],
@@ -69,12 +73,12 @@ export default {
     // if (this.allAccountFB.length === 0) {
     //   await this.$store.dispatch('getAccountsFB');
     // }
-    this.$store.dispatch('getAllCampaigns');
-    this.$store.dispatch('getFacebookPages');
-    this.$store.dispatch('getFacebookGroups');
-    this.$store.dispatch('getAccountsFB');
+    await this.$store.dispatch('getAllCampaigns');
+    await this.$store.dispatch('getFacebookPages');
+    await this.$store.dispatch('getFacebookGroups');
+    await this.$store.dispatch('getAccountsFB');
 
-    this.$store.dispatch('getAllPostGroups');
+    await this.$store.dispatch('getAllPostGroups');
     // Set default selected Campaign
     if (this.allCampaigns[0]) {
       this.$store.dispatch('updateSelectedCampaign', this.allCampaigns[0]);
@@ -107,9 +111,7 @@ export default {
     //   value: fbAccounts
     // });
   },
-  beforeDestroy(){
-    
-  },
+  beforeDestroy() {},
   methods: {
     selectCampaign(value) {
       if (value) {

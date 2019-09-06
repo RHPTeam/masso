@@ -554,6 +554,9 @@
             }
           }
         }
+        .item--disable {
+          cursor: not-allowed;
+        }
       }
       .tag {
         background-color: #2f3136;

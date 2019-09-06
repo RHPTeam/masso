@@ -33,6 +33,10 @@
       }
       .modal--body {
         margin-top: 0.5rem;
+        .content--post {
+          border: 1px solid #484848;
+          border-radius: 0.8315rem;
+        }
         .text {
           font-size: 0.9315rem;
         }
@@ -125,7 +129,7 @@
         }
       }
       .modal--scroll {
-        height: 91vh;
+        height: 85vh;
       }
     }
   }

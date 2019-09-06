@@ -82,6 +82,11 @@ export default {
       deep: true
     },
     selectedCampaign() {
+      if (this.selectedCampaign === null) {
+        this.$emit("can-continue", { value: false });
+      } else if (this.selectedCampaign) {
+        this.$emit("can-continue", { value: true });
+      }
       console.log("selectedCampaign", this.selectedCampaign);
     }
   },
@@ -89,30 +94,32 @@ export default {
     this.$emit("can-continue", { value: true });
   },
   async beforeDestroy() {
-    this.$store.getters.event.started_at = this.campaignStartDate;
+    if (this.finishedStep === "Bước 4") {
+      this.$store.getters.event.started_at = this.campaignStartDate;
 
-    if (this.chooseContentCurrentComponentTab === "category-default-list") {
-      this.$store.getters.event.post_category = {
-        _id: this.defaultSelectedCategory.category._id,
-        title: this.defaultSelectedCategory.category.title
-      };
-    }
-    if (this.chooseContentCurrentComponentTab === "category-list") {
-      this.$store.getters.event.post_category = {
-        _id: this.selectedCategoryInListTab._id,
-        title: this.selectedCategoryInListTab.title
-      };
-    }
-    if (this.chooseContentCurrentComponentTab === "post-list") {
-      this.$store.getters.event.post_custom = this.selectedPostInListTab;
-    }
+      if (this.chooseContentCurrentComponentTab === "category-default-list") {
+        this.$store.getters.event.post_category = {
+          _id: this.defaultSelectedCategory.category._id,
+          title: this.defaultSelectedCategory.category.title
+        };
+      }
+      if (this.chooseContentCurrentComponentTab === "category-list") {
+        this.$store.getters.event.post_category = {
+          _id: this.selectedCategoryInListTab._id,
+          title: this.selectedCategoryInListTab.title
+        };
+      }
+      if (this.chooseContentCurrentComponentTab === "post-list") {
+        this.$store.getters.event.post_custom = this.selectedPostInListTab;
+      }
 
-    await this.$store.dispatch("createEvent", {
-      campaignId: this.selectedCampaign._id,
-      event: this.event
-    });
-    console.log("this.event", this.event);
-    this.$store.dispatch("setEventReset");
+      await this.$store.dispatch("createEvent", {
+        campaignId: this.selectedCampaign._id,
+        event: this.event
+      });
+      this.$store.dispatch("setEventReset");
+      this.$store.dispatch("removeAllSelectedPostInListTab");
+    }
   }
 };
 </script>

@@ -9,6 +9,7 @@
                 <horizontal-stepper
                   :steps="demoSteps"
                   :skipable="true"
+                  :skipableStep="2"
                   :backable="false"
                   :keepAlive="false"
                   @completed-step="completeStep"

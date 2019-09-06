@@ -28,13 +28,15 @@
         <div class="title mb_2">
           Mở bài
         </div>
-        <multiselect
+        <r-select
           label="title"
+          track-by="title"
           class="form--control"
           placeholder="Chọn danh mục mở bài"
+          :maxHeight="220"
           v-model="beginningCategory"
           :options="mixCategories"
-        ></multiselect>
+        ></r-select>
       </div>
       <!-- End: Beginning -->
       <!-- Start: Ending -->
@@ -42,13 +44,15 @@
         <div class="title mb_2">
           Kết bài
         </div>
-        <multiselect
+        <r-select
           label="title"
+          track-by="title"
           class="form--control"
           placeholder="Chọn danh mục kết bài"
+          :maxHeight="220"
           v-model="endingCategory"
           :options="mixCategories"
-        ></multiselect>
+        ></r-select>
       </div>
       <!-- End: Ending -->
     </div>

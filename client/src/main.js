@@ -3,7 +3,7 @@ import App from "./App.vue";
 import i18n from "./locales";
 import store from "./store";
 import router from "./routes";
-import { VueHammer } from 'vue2-hammer'
+import { VueHammer } from 'vue2-hammer';
 VueHammer.config.pan = {
   threshold: 100,
   direction: 6
@@ -13,7 +13,7 @@ Vue.use(VueHammer);
 import "@/utils/interfaces/components";
 import "@/utils/secures/headers";
 import "@/utils/secures/guards";
-import "@/utils/sockets";
+// import "@/utils/sockets";
 
 
 new Vue( {

@@ -27,7 +27,7 @@ export default {
       return this.$store.getters.allAnalysis;
     },
     allStaticCompaign() {
-      const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
+      const mapArrCampaign = this.$store.getters.getStaticCampaigns.map( (campaign) => {
         return campaign.amount;
       });
 
@@ -36,33 +36,13 @@ export default {
         data: mapArrCampaign
       }];
     },
-    allSttPost(){
-      const campaingRecommend = [], campaignCurrent = [];
-
-
-      this.$store.getters.getAllSttPost.map( ( current ) => {
-        campaingRecommend.push( current.recommend );
-        campaignCurrent.push( current.amount );
-      });
-
-      return [
-        {
-          name: "Số bài viết bạn nên có",
-          data: campaingRecommend
-        },
-        {
-          name: "Số bài viết của bạn",
-          data: campaignCurrent
-        }
-      ];
-    },
     chartOptionsLine() {
-      const timeCampaign = this.$store.getters.getAllStaticCampaign.map( ( date ) => {
+      const timeCampaign = this.$store.getters.getStaticCampaigns.map( ( date ) => {
         return date.date;
       } );
 
       let arrCampaign = [];
-      this.$store.getters.getAllStaticCampaign.map( ( amount ) => {
+      this.$store.getters.getStaticCampaigns.map( ( amount ) => {
         arrCampaign.push( amount.amount );
       });
       let maxCampaign = Math.max.apply(null, arrCampaign);
@@ -275,190 +255,10 @@ export default {
           }
         },
       }
-    },
-    chartOptions() {
-      const dayRecommandCampaign = this.$store.getters.getAllSttPost.map( ( date ) => {
-        return date.date.slice( 0, 10 );
-      });
-      let maxCompaign = [];
-      this.$store.getters.getAllSttPost.map( ( amount ) => {
-        maxCompaign.push( amount.recommend );
-        maxCompaign.push( amount.amount );
-      });
-      const maxChart = Math.max.apply(null, maxCompaign ) * 1.5;
-
-      // Light theme custom
-      if ( this.currentTheme === "light" ) {
-        return {
-          chart: {
-            shadow: {
-              enabled: true,
-              color: '#000',
-              top: 18,
-              left: 7,
-              blur: 10,
-              opacity: 1
-            },
-            toolbar: {
-              show: false
-            }
-          },
-          colors: [ "#ef625a", "#77B6EA" ],
-          dataLabels: {
-            enabled: true,
-          },
-          stroke: {
-            curve: 'smooth'
-          },
-          grid: {
-            borderColor: '#e4e4e4',
-            row: {
-              colors: ['#f7f7f7', 'transparent'], // takes an array which will be repeated on columns
-              opacity: 0.5
-            },
-          },
-          markers: {
-
-            size: 6
-          },
-          tooltip: {
-            theme: "light"
-          },
-          xaxis: {
-            categories: dayRecommandCampaign,
-            labels: {
-              style: {
-                colors: [ "#444", "#444", "#444", "#444", "#444", "#444", "#444" ]
-              },
-              formatter: function ( d ) {
-                const date = new Date( d ),
-                  dd = String( date.getDate() ).padStart( 2, 0 ),
-                  mm = String( date.getMonth() + 1 ).padStart( 2, 0 ),
-                  yyyy = date.getFullYear();
-
-                return `${dd}/${mm}/${yyyy}`;
-              }
-            }
-          },
-          yaxis: {
-            labels: {
-              style: {
-                color: "#444"
-              }
-            },
-            min: 0,
-            max: maxChart
-          },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'right',
-            floating: true,
-            offsetY: -25,
-            offsetX: -5,
-            labels: {
-              colors: "#444"
-            },
-          },
-          title: {
-            text: "Tỉ lệ bài viết",
-            align: 'left',
-            margin: 0,
-            offsetX: 0,
-            offsetY: 0,
-            floating: false,
-            style: {
-              fontSize: "17px",
-              fontWeight: "bold",
-              color: "#444"
-            },
-          }
-        }
-      }
-      // Dark theme custom
-      return {
-        chart: {
-          shadow: {
-            enabled: true,
-            color: '#000',
-            top: 18,
-            left: 7,
-            blur: 10,
-            opacity: 1
-          },
-          toolbar: {
-            show: false
-          }
-        },
-        colors: [ "#ef625a", "#77B6EA" ],
-        dataLabels: {
-          enabled: true,
-        },
-        stroke: {
-          curve: 'smooth'
-        },
-        grid: {
-          borderColor: '#444',
-          row: {
-            colors: ['#2f3136', 'transparent'], // takes an array which will be repeated on columns
-            opacity: 0.5
-          },
-        },
-        markers: {
-
-          size: 6
-        },
-        tooltip: {
-          theme: "dark"
-        },
-        xaxis: {
-          categories: dayRecommandCampaign,
-          labels: {
-            style: {
-              colors: [ "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc", "#ccc" ]
-            },
-            formatter: function ( d ) {
-              const date = new Date( d ),
-                dd = String( date.getDate() ).padStart( 2, 0 ),
-                mm = String( date.getMonth() + 1 ).padStart( 2, 0 ),
-                yyyy = date.getFullYear();
-
-              return `${dd}/${mm}/${yyyy}`;
-            }
-          }
-        },
-        yaxis: {
-          labels: {
-            style: {
-              color: "#cccccc"
-            }
-          },
-          min: 0,
-          max: maxChart
-        },
-        legend: {
-          position: 'top',
-          horizontalAlign: 'right',
-          floating: true,
-          offsetY: -25,
-          offsetX: -5,
-          labels: {
-            colors: "#ccc"
-          },
-        },
-        title: {
-          text: "Tỉ lệ bài viết",
-          align: 'left',
-          margin: 0,
-          offsetX: 0,
-          offsetY: 0,
-          floating: false,
-          style: {
-            fontSize: "17px",
-            fontWeight: "bold",
-            color: "#f7f7f7"
-          },
-        }
-      }
     }
+  },
+  async created() {
+    await this.$store.dispatch("getStatisticCampaigns");
+    this.$store.dispatch("getAnalysis");
   }
 }

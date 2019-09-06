@@ -1,6 +1,5 @@
 .window {
-  background-color: rgba(153, 153, 153, 0.4);
-  color: white;
+  background-color: rgba(153, 153, 153, .4);
   height: 100%;
   left: 0;
   overflow-y: auto;
@@ -10,13 +9,12 @@
   z-index: 20;
   .container {
     background-color: #27292c;
-    border-radius: 0.5rem;
+    border-radius: .5rem;
     display: block;
     margin: 48px 0 80px;
-    // overflow: hidden;
+    overflow: hidden;
     position: relative;
-    // width: 920px;
-    width: 90%;
+    width: 1024px;
     z-index: 25;
     .wrapper {
       .btn--close {
@@ -25,11 +23,11 @@
         height: 40px;
         right: 5px;
         top: 5px;
-        transition: all 0.4s ease;
+        transition: all .4s ease;
         width: 40px;
         .icon--close {
           color: #999;
-          transition: all 0.4s ease;
+          transition: all .4s ease;
         }
         &:hover {
           background-color: #2f3136;
@@ -41,39 +39,34 @@
       .main {
         .body {
           .alert--text {
-            color: #f7635b;
+            color: #F7635B;
             font-size: 0.825rem;
             margin-left: 44px;
-            margin-top: 0.5rem;
+            margin-top: .5rem;
           }
           &--content {
             flex: 1;
-            padding: 0 1.5rem;
-            max-height: 75vh;
-            overflow-y: scroll;
-            overflow-x: hidden;
           }
           &--sidebar {
             width: 200px;
           }
         }
         .footer {
-          .right,
-          .left {
+          .right, .left {
             label {
-              background-color: #ffb94a;
+              background-color: #FFB94A;
               border: 1px solid #444;
-              border-radius: 0.625rem;
+              border-radius: .625rem;
               color: #fff;
               cursor: pointer;
-              padding: 0.5rem 1rem;
+              padding: .5rem 1rem;
               transition: all 0.4s ease;
               &:hover {
-                background-color: #ff9e4a;
+                background-color: #FF9E4A;
               }
             }
           }
-          .left label {
+          .left label{
             background-color: transparent;
             border: 1px solid #d03636;
             color: #d03636;

@@ -42,20 +42,22 @@
       </div>
       <div class="form--wrap">
         <div class="form--item" v-if="caseEvent.post === 1">
-          <multiselect
+          <r-select
+            v-model="event.post_category"
+            track-by="title"
             label="title"
-            :clearable="false"
-            :value="event.post_category"
+            placeholder="Chọn danh mục"
+            :maxHeight="260"
             :options="filterCategories"
             @input="selectCategory"
-            placeholder="Chọn danh mục đăng bài"
           />
         </div>
         <div class="form--item" v-if="caseEvent.post === 2">
-          <multiselect
-            multiple
+          <r-select
+            :multiple="true"
             label="title"
-            :clearable="false"
+            track-by="title"
+            :maxHeight="260"
             :options="allPost"
             :value="event.post_custom"
             @input="selectPost"
@@ -128,6 +130,7 @@ export default {
       } );
     },
     async selectCategory( category ){
+      console.log(category);
       if ( !category ) return;
       if ( category ) {
         await this.$emit( "setErrorPost", false );

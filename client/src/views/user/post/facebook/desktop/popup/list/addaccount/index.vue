@@ -1,7 +1,7 @@
 <template>
   <div class="modal--wrapper" :data-theme="currentTheme">
     <div class="modal--dialog d_flex justify_content_center align_items_center">
-      <div class="modal--content">
+      <div class="modal--content" v-click-outside="closeAddPopup">
         <div class="modal--header">
           <icon-base
             icon-name="modal-cookie"
@@ -13,8 +13,9 @@
           </icon-base>
         </div>
         <!-- Start: Updating Data -->
-        <div class="modal--body px_3 py_4"
-             v-if="addFbStatus === 'loading'"
+        <div
+          class="modal--body px_3 py_4"
+          v-if="addFbStatus === 'loading'"
         >
           <div class="modal--title text_center">Thêm tài khoản Facebook</div>
           <div class="loading--block mt_4 mb_4">
@@ -33,13 +34,6 @@
             <div class="modal--title text_center">Thêm tài khoản Facebook</div>
             <div class="modal--desc">
               <span>Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản.</span>
-              <!--<span>Dán mã kích hoạt Facebook vào ô bên dưới để thêm tài khoản. Xem hướng dẫn chi tiết </span>
-              <a
-                class="link--here"
-                target="_blank"
-                href="http://localhost:8080/#/help"
-              >tại đây</a>
-              <span>.</span>-->
             </div>
             <div class="modal--error mb_3">
               <span class="text_danger" v-if="cookie.length > 0 && isStatusCookieFacebookFormat === false">Mã kích hoạt facebook không đúng định dạng!</span>
@@ -80,6 +74,9 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
+    },
+    status(){
+      return this.$store.getters.facebookStatus;
     }
   },
   watch: {

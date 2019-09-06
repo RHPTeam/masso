@@ -98,9 +98,11 @@ export default {
       this.addFbStatus = "loading";
       await this.$store.dispatch("addCookie", this.cookie);
       this.addFbStatus = "success";
-      this.closeAddPopup();
+      await this.$store.dispatch("actionPopup", 114);
+      this.$emit("closeAddPopup", false);
     },
-    closeAddPopup() {
+    async closeAddPopup() {
+      await this.$store.dispatch("actionPopup", 113);
       this.$emit("closeAddPopup", false);
     }
   }

@@ -36,7 +36,7 @@
                 <component v-else :is="steps[currentStep.index].component" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" :current-step="currentStep"></component>
             </transition>
         </div>
-        <div :class="['bottom', (currentStep.index < 3) ? '' : 'only-next']">
+        <div :class="['bottom', (currentStep.index < skipableStep) ? '' : 'only-next']">
             <!-- <div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
                 <span v-if="backable">{{ 'back' | translate(locale) }}</span>
             </div> -->
@@ -44,7 +44,7 @@
               
                 <span>{{ 'skip' | translate(locale) }}</span>
             </div> -->
-            <div v-if="currentStep.index < 3" class="stepper-button previous" @click="skip()">
+            <div v-if="currentStep.index < skipableStep" class="stepper-button previous" @click="skip()">
                <span v-if="skipable" >{{ 'cancel' | translate(locale) }}</span>
             </div>
             <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
@@ -108,6 +108,10 @@ export default {
     backable: {
       type: Boolean,
       default: false
+    },
+    skipableStep: {
+      type: Number,
+      default: 3
     },
   },
 

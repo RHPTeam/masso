@@ -7,7 +7,7 @@ export default {
   props: {
     events: {
       type: Array,
-      default: []
+      default: function () { return [] }
     },
     theme: {
       type: String,

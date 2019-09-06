@@ -22,8 +22,8 @@ export default {
     }
   },
   methods: {
-    addToGroup() {
-      this.selectedGroups.forEach( ( item ) => {
+    async addToGroup() {
+      await this.selectedGroups.forEach( ( item ) => {
         const postGroup = this.getPostGroupById( item )[ 0 ],
           dataSender = {
             postGroupId: item,
@@ -34,14 +34,14 @@ export default {
           };
         this.$store.dispatch( "addToPostGroup" , dataSender );
       } );
-
-      this.$emit( "closePopupAddGroup", false );
+      
+      await this.$emit( "closePopupAddGroup", false );
 
       this.$store.dispatch( "postGroupGroupsSelected", [] );
       this.$store.dispatch( "postGroupPagesSelected", [] );
       this.$store.dispatch( "postProfileSelected", [] );
     },
-    closePopup() {
+    async closePopup() {
       this.$emit( "closePopupAddGroup", false );
     },
     getPostGroupById( id ) {

@@ -142,7 +142,6 @@
                     role="rowgroup"
                     v-for="(item, index) in newestPost"
                     :key="index"
-                    @click="goToThisPost(item._id)"
                   >
                     <div class="flex-row first" role="cell">{{ item.title }}</div>
                     <div class="flex-row" role="cell">
@@ -189,8 +188,7 @@
         :user="user"
         :currentTheme="currentTheme"
       >-->
-      <!-- Replace AddKeyword to Wizard -->
-      <wizard-welcome v-if="user && user.keywords && user.keywords.length === 0" />
+      <!-- Replace AddKeyword to Wizard in App.vue-->
       <!-- End: Notification for check key word account-->
 
       <!-- Start: Notification version updated-->
@@ -200,12 +198,6 @@
       ></version-popup>
       <!-- End: Notification version updated-->
 
-      <!-- Start: Notification guide for user -->
-      <!--      <guide-popup-->
-      <!--        v-if="variableControlGuide === 1"-->
-      <!--      >-->
-      <!--      </guide-popup>-->
-      <!-- End: Notification guide for user-->
     </div>
     <!-- End: Desktop Component-->
   </div>

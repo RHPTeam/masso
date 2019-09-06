@@ -40,20 +40,29 @@ export default {
       isShowAlert: false
     };
   },
+  watch: {
+    "agency.subDomain"(value) {
+      if(value.length > 0) {
+        this.isShowAlert = false;
+      }
+    }
+  },
   computed: {
     agency() {
       return this.$store.getters.agency;
     }
   },
   methods: {
-    closePopup() {
+    async closePopup() {
+      await this.$store.dispatch("actionPopup", 113);
       this.$emit("closePopup", false);
     },
-    updateAgencyInfo() {
+    async updateAgencyInfo() {
       if (this.agency.subDomain.length === 0) {
         this.isShowAlert = true;
       } else {
-        this.closePopup();
+        await this.$store.dispatch("actionPopup", 114);
+        this.$emit("closePopup", false);
         this.$store.dispatch("updateAgencyInfo", {
           domain: this.agency.subDomain
         });

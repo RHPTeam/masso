@@ -13,7 +13,7 @@ export default {
     allAccountFB() {
       return this.$store.getters.facebookAccountMultiSelect;
     },
-    event () {
+    event() {
       return this.$store.getters.event;
     },
     facebookGroups(){
@@ -29,7 +29,9 @@ export default {
         if ( item.target ) {
           return {
             groupId: item.target.groupId,
-            name: item.target.name }
+            name: item.target.name,
+            profile_picture: item.target.profile_picture
+          }
         }
       } );
     },
@@ -40,7 +42,8 @@ export default {
         if ( item.target ) {
           return {
             pageId: item.target.pageId,
-            name: item.target.name
+            name: item.target.name,
+            profile_picture: item.target.profile_picture
           }
         }
       } );
@@ -66,10 +69,9 @@ export default {
       return {
         _id: account._id,
         name: account.userInfo.name,
-        thumbSrc: account.userInfo.thumbSrcs
+        thumbSrc: account.userInfo.thumbSrc
       };
     } );
-
     await this.$store.dispatch("setEvent", {
       key: "timeline",
       value: fbAccounts
@@ -94,7 +96,8 @@ export default {
           typeTarget: 0,
           target: {
             groupId: group.groupId,
-            name: group.name
+            name: group.name,
+            profile_picture: group.profile_picture
           }
         };
       } );
@@ -114,7 +117,8 @@ export default {
           typeTarget: 1,
           target: {
             pageId: page.pageId,
-            name: page.name
+            name: page.name,
+            profile_picture: page.profile_picture
           }
         };
       } );

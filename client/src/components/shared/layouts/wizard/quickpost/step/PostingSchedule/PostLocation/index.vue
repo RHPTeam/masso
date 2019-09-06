@@ -1,6 +1,54 @@
 <template>
-  <div class="section">
-    <!-- <div class="section--header d_flex align_items_center">
+  <div class="section mt_2">
+    <div class="section--header d_flex align_items_center">
+      <div class="icon mr_4">
+        <icon-base
+          class="icon--target"
+          icon--name="Nơi đăng"
+          height="20px"
+          width="20px"
+          viewBox="0 0 500 500"
+        >
+          <icon-target></icon-target>
+        </icon-base>
+      </div>
+      <div class="title">Chiến dịch</div>
+    </div>
+    <div class="section--body">
+      <div class="r">
+        <!-- Start: Post Campaign-->
+        <div class="c_6">
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="text--bold">Danh sách chiến dịch</span>
+          </div>
+          <div class="item d_flex align_items_start mb_3">
+            <div class="content">
+              <div class="main">
+                <r-select
+                  label="title"
+                  track-by="title"
+                  placeholder="Chọn chiến dịch"
+                  v-model="selectedCampaign"
+                  :options="allCampaigns"
+                  :show-labels="false"
+                  @input="selectCampaign"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Start: Post Campaign-->
+        <!-- Start: Post Campaign-->
+        <div class="c_6">
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
+            <span class="text--bold">Chờ giữa các lần đăng</span>
+          </div>
+           <waiting-time/>
+        </div>
+        <!-- Start: Post Campaign-->
+      </div>
+    </div>
+    <div class="section--header d_flex align_items_center">
       <div class="icon mr_4">
         <icon-base
           class="icon--target"
@@ -13,147 +61,169 @@
         </icon-base>
       </div>
       <div class="title">Nơi đăng</div>
-    </div> -->
+    </div>
     <div class="section--body">
-      <!-- Start: Select Campaign -->
       <div class="r">
-        <div class="c_12">
-          <div class="title mt_2 mb_2 d_flex justify_content_between">
-            <span class="text--bold">Chọn chiến dịch</span>
-          </div>
-          <div class="item d_flex align_items_start mb_2">
-            <div class="content">
-              <div class="main">
-                <multiselect
-                  label="title"
-                  placeholder="Chọn chiến dịch muốn đăng"
-                  :value="selectedCampaign"
-                  :clearable="false"
-                  :options="allCampaigns"
-                  @input="selectCampaign"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- End: Select Campaign -->
-      <!-- Start: Timeline -->
-      <div class="r">
-        <div class="c_12">
-          <div class="title mt_2 mb_2 d_flex justify_content_between">
+        <!-- Start: Timeline -->
+        <div class="c_6">
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang cá nhân</span>
           </div>
-          <div class="item d_flex align_items_start mb_2">
+          <div class="item d_flex align_items_start mb_3">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn trang cá nhân muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn trang cá nhân"
                   :value="event.timeline"
                   :options="allAccountFB"
+                  :show-labels="false"
                   @input="selectFacebookAccount"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
                       <div
-                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
-                        :style="{ backgroundImage: 'url(' + option.thumbSrc + ')' }"
+                        v-if="props.option.thumbSrc"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.thumbSrc + ')' }"
                       ></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                      <div
+                        style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.thumbSrc + ')' }"
+                      ></div>
+                      <div
+                        style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- End: Timeline -->
-      <!-- Start: Post Group -->
-      <div class="r">
-        <div class="c_12">
-          <div class="title mt_2 mb_2 d_flex justify_content_between">
+        <!-- End: Timeline -->
+        <!-- Start: Post Group -->
+        <div class="c_6">
+          <div class="title mt_3 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm đã lưu</span>
           </div>
-          <div class="item d_flex align_items_start mb_2">
+          <div class="item d_flex align_items_start mb_3">
             <div class="content">
               <div class="main">
-                <multiselect
+                <r-select
                   label="title"
-                  placeholder="Chọn nhóm muốn đăng"
-                  :value="event.target_category"
-                  :clearable="false"
+                  track-by="title"
+                  placeholder="Chọn nhóm đã lưu"
+                  v-model="event.target_category"
                   :options="allPostGroups"
+                  :show-labels="false"
                   @input="selectFacebookGroup"
                 />
               </div>
             </div>
           </div>
         </div>
+        <!-- Start: Post Group -->
       </div>
-      <!-- End: Post Group -->
-      <!-- Start: Pages -->
       <div class="r">
-        <div class="c_12">
+        <!-- Start: Pages -->
+        <div class="c_6">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Trang Facebook</span>
           </div>
-          <div class="item d_flex align_items_start mb_2">
+          <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn trang muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn trang"
                   :value="convertTargetCustomPages"
                   :options="facebookPages"
+                  :show-labels="false"
                   @input="selectPageFacebook"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
                       <div
-                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
-                        :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                        v-if="props.option.profile_picture"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
                       ></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                      <div
+                        style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div
+                        style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <!-- End: Pages -->
-      <div class="r">
+        <!-- End: Pages -->
         <!-- Start: Groups -->
-        <div class="c_12">
+        <div class="c_6">
           <div class="title mt_2 mb_2 d_flex justify_content_between">
             <span class="text--bold">Nhóm Facebook</span>
           </div>
-          <div class="item d_flex align_items_start mb_2">
+          <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
-                  multiple
+                <r-select
+                  :multiple="true"
                   label="name"
-                  placeholder="Chọn nhóm muốn đăng"
+                  track-by="name"
+                  placeholder="Chọn nhóm"
                   :value="convertTargetCustomGroups"
                   :options="facebookGroups"
+                  :show-labels="false"
                   @input="selectGroupFacebook"
                 >
-                  <template slot="option" slot-scope="option">
-                    <div class="d_flex align_items_center">
+                  <template slot="tag-name" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
                       <div
-                        style="height: 30px;width: 30px;border-radius: 50%;background-position: center;background-repeat: no-repeat;background-size: cover"
-                        :style="{ backgroundImage: 'url(' + option.profile_picture + ')' }"
+                        v-if="props.option.profile_picture"
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
                       ></div>
-                      <div style="font-weight: 600; margin-left: .5rem;">{{ option.name }}</div>
+                      <div
+                        style="flex: 1;font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
                     </div>
                   </template>
-                </multiselect>
+                  <template slot="option" slot-scope="props">
+                    <div class="d_flex align_items_center" :title="props.option.name">
+                      <div
+                        style="height: 20px; width: 20px; border-radius: 50%; background-position: center; background-repeat: no-repeat; background-size: cover; margin-right: .5rem;"
+                        :style="{ backgroundImage: 'url(' + props.option.profile_picture + ')' }"
+                      ></div>
+                      <div
+                        style="flex: 1; font-weight: 600; white-space: nowrap; overflow: hidden; max-width: 100%; text-overflow: ellipsis;"
+                      >{{ props.option.name }}</div>
+                    </div>
+                  </template>
+                </r-select>
               </div>
             </div>
           </div>

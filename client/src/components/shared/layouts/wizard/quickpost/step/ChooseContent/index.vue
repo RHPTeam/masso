@@ -60,8 +60,8 @@ export default {
         // this.$store.dispatch("selectCategoryThenCreateNewCampaign");
       }
     },
-    selectedPostInListTab(){
-      if(this.selectedPostInListTab.length >0){
+    selectedPostInListTab() {
+      if (this.selectedPostInListTab.length > 0) {
         this.emitCanContinue(true);
       } else {
         this.emitCanContinue(false);
@@ -73,11 +73,14 @@ export default {
     this.currentTabComponent = this.chooseContentCurrentComponentTab;
   },
   beforeDestroy() {
-    if (this.currentTabComponent === "category-default-list") {
-      this.$store.dispatch("copySelectedDefaultCategory");
-    }
-    if (this.currentTabComponent === "category-list") {
-     
+    if (this.finishedStep === "Bước 3") {
+      if (this.currentTabComponent === "category-default-list") {
+        this.$store.dispatch("copySelectedDefaultCategory");
+      }
+    } else {
+      if (this.currentTabComponent === "post-list") {
+        this.$store.dispatch("removeAllSelectedPostInListTab");
+      }
     }
   },
   methods: {

@@ -70,7 +70,7 @@
         >
           <div
             class="all-posts d_flex align_items_center"
-            v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15"
+            v-if="gestureUser === 11 || gestureUser === 14 || gestureUser === 15 || gestureUser === 17"
           >
             <div class="filter--posts" @click="showDropdownFilterByCategory">
               <icon-base
@@ -92,7 +92,7 @@
           <div
             class="add category action"
             @click="showPopupCreateCategory"
-            v-if="gestureUser === 12 || gestureUser === 16"
+            v-if="gestureUser === 12 || gestureUser === 16 || gestureUser === 18"
           >
             <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
               <icon-plus />
@@ -119,28 +119,28 @@
           v-if="this.$route.name === 'post_group' "
         >
           <div class="update action position_relative" @click="isShowUpdatePopup = true">
-            <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
-              <icon-update />
-            </icon-base>
+            <span 
+                v-if="accountsFb && accountsFb.length > 0"
+              >
+              <icon-base icon-name="Update" width="24" height="24" viewBox="0 0 250 250">
+                <icon-update />
+              </icon-base>
+            </span>
             <div
               class="facebook--account position_absolute"
               v-if="isShowUpdatePopup === true"
               v-click-outside="closePopupSelectAccount"
             >
               <div
-                class="item"
-                v-if="accountsFb && accountsFb.length === 0"
-              >
-                Không có tài khoản
-              </div>
-              <div
-                class="item px_2 py_1"
-                v-else
+                class="item p_2 d_flex align_items_center"
                 v-for="(item, findex) in accountsFb"
                 :key="findex"
                 @click="updateFanpageAndGroup(item)"
               >
-                {{item.userInfo.name}}
+                <div class="avatar mr_2">
+                  <img :src="item.userInfo.thumbSrc" alt />
+                </div>
+                <div class="">{{item.userInfo.name}}</div>  
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@
         <div
           class="add action account--fb"
           @click="showPopupAddAccountFb"
-          v-if="gestureCursorMenuUser === 4 || this.$route.name === 'post_fbaccount'"
+          v-if="this.$route.name === 'post_fbaccount'"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />

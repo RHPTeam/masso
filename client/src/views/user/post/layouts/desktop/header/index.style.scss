@@ -91,6 +91,17 @@
       }
     }
     .notification--groups {
+      .icon--help {
+        background-color: #27292d;
+        border-radius: .5rem;
+        height: 32px;
+        line-height: 32px;
+        padding: 0 0.75rem;
+        .title {
+          font-size: .85rem;
+          text-transform: uppercase;
+        }
+      }
       .btn--notification {
         cursor: pointer;
         .notification--total {
@@ -260,8 +271,8 @@
           min-width: 280px;
         }
         .avatar--wrap {
-          height: 60px;
-          width: 60px;
+          height: 80px;
+          width: 80px;
         }
         .border--custom {
           border-top-left-radius: .5rem;
@@ -473,6 +484,15 @@
       }
     }
     .notification--groups {
+      .icon--help {
+        cursor: pointer;
+        background: #282a2d;
+        border: 0;
+        &:hover{
+          background: #ffffff14;
+          color: #fff;
+        }
+      }
       .btn--notification {
         svg {
           &:hover {
@@ -489,6 +509,11 @@
       }
     }
     .more--options{
+      .more {
+        svg {
+          margin-bottom: -5px;
+        }
+      }
       .options{
         background: #272a2c;
         box-shadow: 0 2px 10px rgba(0,0,0,.2);
