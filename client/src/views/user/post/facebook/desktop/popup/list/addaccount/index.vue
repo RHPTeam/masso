@@ -15,7 +15,7 @@
         <!-- Start: Updating Data -->
         <div
           class="modal--body px_3 py_4"
-          v-if="addFbStatus === 'loading'"
+          v-if="facebookStatus === 'loading'"
         >
           <div class="modal--title text_center">Thêm tài khoản Facebook</div>
           <div class="loading--block mt_4 mb_4">
@@ -66,7 +66,6 @@
 export default {
   data() {
     return {
-      addFbStatus: "",
       cookie: "",
       isStatusCookieFacebookFormat: false
     };
@@ -75,7 +74,7 @@ export default {
     currentTheme() {
       return this.$store.getters.themeName;
     },
-    status(){
+    facebookStatus() {
       return this.$store.getters.facebookStatus;
     }
   },
@@ -89,9 +88,7 @@ export default {
       this.$emit( "closeAddPopup", false );
     },
     async addCookie() {
-      this.addFbStatus = "loading";
       await this.$store.dispatch( "addCookie", this.cookie );
-      this.addFbStatus = "success";
       this.closeAddPopup();
     }
   }

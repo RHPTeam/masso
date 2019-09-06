@@ -20,7 +20,6 @@
               >
                 <icon-plus/>
               </icon-base>
-
               <p>Kết nối với Facebook</p>
             </div>
           </div>
