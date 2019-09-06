@@ -25,11 +25,12 @@
                 <icon-input-search />
               </icon-base>
             </span>
-          <input type="text"
-                 placeholder="Tìm kiếm"
-                 v-model="keyword"
-                 @click="isStatusKeywordHistory = true"
-                 @keydown.enter="searchPost(keyword)" />
+          <input
+            type="text"
+            placeholder="Tìm kiếm"
+            v-model="keyword"
+            @click="isStatusKeywordHistory = true"
+            @keydown.enter="searchPost(keyword)" />
           <!-- Start: History Search -->
           <div class="history position_absolute" v-if="isStatusKeywordHistory === true">
             <div class="history--header">
@@ -80,8 +81,9 @@
           <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
             <loading-component></loading-component>
           </div>
-          <div v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
-               class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
+          <div
+            v-if="this.$store.getters.listPostFacebookStatus === 'success' && listPostFacebookDefault.length === 0"
+            class="item--body empty--data d_flex align_items_center justify_content_center px_2 py_2"
           >
             Không có dữ liệu
           </div>

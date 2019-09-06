@@ -260,6 +260,9 @@
           width: 50%;
         }
       }
+      .item--disable {
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -544,6 +547,9 @@
               stroke-width: .1;
             }
           }
+        }
+        .item--disable {
+          cursor: not-allowed;
         }
       }
       .tag {

@@ -40,14 +40,16 @@
           <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
+                <r-select
                   label="title"
+                  track-by="title"
                   placeholder="Chọn danh mục mở bài"
-                  :value="event.plugins.mix.open"
+                  :maxHeight="240"
+                  v-model="event.plugins.mix.open"
                   :options="convertMixCategories"
                   @input="updateMixOpen( $event )"
                 >
-                </multiselect>
+                </r-select>
               </div>
             </div>
           </div>
@@ -61,10 +63,12 @@
           <div class="item d_flex align_items_start">
             <div class="content">
               <div class="main">
-                <multiselect
+                <r-select
                   label="title"
+                  track-by="title"
                   placeholder="Chọn danh mục kết bài"
-                  :value="event.plugins.mix.close"
+                  :maxHeight="240"
+                  v-model="event.plugins.mix.close"
                   :options="convertMixCategories"
                   @input="updateMixClose( $event )"
                 />

@@ -3,7 +3,7 @@
     <div class="modal--dialog d_flex justify_content_center align_items_center">
       <div
         class="modal--content position_relative"
-        v-click-outside="closeAddPopup"
+        v-click-outside="closePopup"
       >
         <div class="modal--body mt_4">
           <div class="error--title">Tài khoản Facebook đã tồn tại</div>
@@ -13,7 +13,7 @@
             chưa sử dụng nó trong bất kì tài khoản Zinbee nào.
           </div>
         </div>
-        <div class="btn--close position_absolute" @click="closeAddPopup">
+        <div class="btn--close position_absolute" @click="closePopup">
           <icon-base
             class="icon--close mr_1"
             icon-name="remove"
@@ -32,7 +32,7 @@
 <script>
 export default {
   methods: {
-    closeAddPopup() {
+    closePopup() {
       this.$store.dispatch("setAddAccountErrorEmpty");
     }
   }

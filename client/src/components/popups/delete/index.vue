@@ -19,7 +19,6 @@
           </div>
           <div class="desc" v-else>
             <span>{{ description }}</span>
-            <span class="text--bold pr_1">{{ targetName }}.</span>
             <span v-if="confirmDelete === true">
               <span class="pr_1">{{ $t('chat.common.popup.delete.continue') }}</span>
               <span class="text--delete">DELETE</span>
@@ -114,19 +113,9 @@ export default {
       this.$emit("closePopup", false);
     },
     deleteTargets() {
-
-      // if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'bai viet') {
-      //   this.$store.dispatch(this.storeActionName, this.targetData.id);
-      // }
-
-      // if(StringFunction.convertUnicode(this.typeName.toString().toLowerCase()) === 'chien dich') {
-      //   this.$store.dispatch(this.storeActionName, this.targetData.id);
-      // }
-
       this.$store.dispatch( this.storeActionName, this.targetData );
 
       this.$emit("closePopup", false);
-      this.$emit("isDeletedTarget", true);
     }
   }
 };

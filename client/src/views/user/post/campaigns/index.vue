@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     redirectBlogHelp() {
-      const routes = "https://www.zinbee.vn/#/help/lam-cach-nao-de-tim-kiem-cac-bai-viet-tren-facebook";
+      const routes = "https://www.zinbee.vn/#/help/5d284eabed508f518567722e?type=hc_global_nav";
       window.open(routes, '_blank');
     }
   },

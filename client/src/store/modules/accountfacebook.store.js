@@ -1,4 +1,6 @@
 import AccountFacebookChatService from '@/services/modules/accountfacebook.service';
+import GroupFacebookServices from "@/services/modules/post/groupfacebook.service";
+import PageFacebookServices from "@/services/modules/post/pagefacebook.service";
 
 const state = {
   addAccountError: '',
@@ -66,6 +68,9 @@ const actions = {
       };
       const result = await AccountFacebookChatService.create(dataSender);
       await commit('addNewAccountFacebook', result.data.data);
+
+      await GroupFacebookServices.update(result.data.data._id);
+      await PageFacebookServices.update(result.data.data._id);
 
       commit('facebook_success');
     } catch (e) {

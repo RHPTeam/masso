@@ -23,7 +23,7 @@
           <!-- End: Loading Component-->
           <div v-else>
             <!-- Start: Profile Data -->
-            <div class="mb_2" v-if="accountsFB && accountsFB.length > 0">
+            <div class="mb_2" v-if="accountsFB && accountsFB.length > 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Cá nhân'">
               <div
                 class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
               >
@@ -129,8 +129,9 @@
     <!--Start: Data of Group-->
     <div v-else>
       <!-- Start: Loading Component -->
-      <div class="loading--block"
-           v-if=" postGroupDetailStatus === 'loading' "
+      <div
+        class="loading--block"
+        v-if=" postGroupDetailStatus === 'loading' "
       >
         <loading-component class="loading"></loading-component>
       </div>
@@ -138,8 +139,9 @@
       <!-- Start: Table Body -->
       <div v-else>
         <!--Start: Empty Data-->
-        <div class=""
-             v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0 && postGroupDetail._timeline.length === 0"
+        <div
+          class=""
+          v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0 && postGroupDetail._timeline.length === 0"
         >
           <div class="add--pagegroup d_inline_flex mb_3" @click="seeAllUsers">
             <icon-base
@@ -158,22 +160,28 @@
         <!--End: Empty Data-->
         <div v-else>
           <!-- Start: Profile Data -->
-          <div class="mb_2" v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
-                                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Cá nhân' ">
-            <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
-                 v-for="(v, i) in 1"
-                 :key="`fbpf-header${i}`"
-            >Trang cá nhân
+          <div
+            class="mb_2"
+            v-if="postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Tất cả' ||
+                  postGroupDetail._timeline && postGroupDetail._timeline.length !== 0 && typeFilterSelected === 'Cá nhân' ">
+            <div
+              class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
+              v-for="(v, i) in 1"
+              :key="`fbpf-header${i}`"
+            >
+              Trang cá nhân
             </div>
-            <div class="item--body d_flex align_items_center px_3 py_2"
-                 v-for="( item, index ) in postGroupDetailProfile"
-                 :key="`fbg-${index}`"
+            <div
+              class="item--body d_flex align_items_center px_3 py_2"
+              v-for="( item, index ) in postGroupDetailProfile"
+              :key="`fbg-${index}`"
             >
               <div class="col col--checkbox px_2">
                 <label class="custom--checkbox mb_0">
-                  <input type="checkbox"
-                         v-model="selectedProfile"
-                         :value="item.userInfo.id"
+                  <input
+                    type="checkbox"
+                    v-model="selectedProfile"
+                    :value="item.userInfo.id"
                   />
                 </label>
               </div>
@@ -192,20 +200,24 @@
 
           <!-- Start: Pages Data -->
           <div class="mb_2" v-if="postGroupDetail._pages.length !== 0 && typeFilterSelected === 'Tất cả' || typeFilterSelected === 'Trang' ">
-            <div class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
-                v-for="(v, i) in 1"
-                :key="`fbp-header${i}`"
-            >Fanpage Facebook
+            <div
+              class="item--body font_weight_bold d_flex align_items_center px_4 py_2"
+              v-for="(v, i) in 1"
+              :key="`fbp-header${i}`"
+            >
+              Fanpage Facebook
             </div>
-            <div class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in postGroupDetailPage"
-                :key="`fbg-${index}`"
+            <div
+              class="item--body d_flex align_items_center px_3 py_2"
+              v-for="( item, index ) in postGroupDetailPage"
+              :key="`fbg-${index}`"
             >
               <div class="col col--checkbox px_2">
                 <label class="custom--checkbox mb_0">
-                  <input type="checkbox"
-                        v-model="postGroupPagesSelected"
-                        :value="item.pageId"
+                  <input
+                    type="checkbox"
+                    v-model="postGroupPagesSelected"
+                    :value="item.pageId"
                   />
                 </label>
               </div>

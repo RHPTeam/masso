@@ -16,7 +16,9 @@ const PageFacebook = require( "../../models/post/PageFacebook.model" );
 const LogPostNow = require( "../../models/LogPostNow.model" );
 
 const request = require( "axios" );
-const { logUserAction } = require( "../../microservices/synchronize/log.service" );
+const {
+  logUserAction
+} = require( "../../microservices/synchronize/log.service" );
 
 const jsonResponse = require( "../../configs/response" );
 const dictionary = require( "../../configs/dictionaries" );
@@ -27,17 +29,30 @@ module.exports = {
 
     // Check if query get one item from _id
     if ( req.query._id ) {
-      dataResponse = await Post.findOne( { "_id": req.query._id, "_account": req.uid }, "-_account -created_at -updated_at" ).populate( { "path": "_categories", "select": "title" } ).lean();
+      dataResponse = await Post.findOne(
+        { "_id": req.query._id, "_account": req.uid },
+        "-_account -created_at -updated_at"
+      )
+        .populate( { "path": "_categories", "select": "title" } )
+        .lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     } else if ( req.query._categoryId && req.query._size && req.query._page ) {
       const pageNo = parseInt( req.query._page ),
         size = parseInt( req.query._size ),
         query = {},
-        totalPosts = await Post.countDocuments( { "_account": req.uid, "_categories": req.query._categoryId } );
+        totalPosts = await Post.countDocuments( {
+          "_account": req.uid,
+          "_categories": req.query._categoryId
+        } );
 
       // Check catch
       if ( pageNo < 0 || pageNo === 0 ) {
-        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
+        return res
+          .status( 403 )
+          .json( {
+            "status": "error",
+            "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1."
+          } );
       }
 
       // Handle input data before connect to mongodb
@@ -46,9 +61,23 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Post.find( { "_account": req.uid, "_categories": req.query._categoryId }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
+      dataResponse = await Post.find(
+        { "_account": req.uid, "_categories": req.query._categoryId },
+        "-_account -created_at -updated_at -__v",
+        query
+      )
+        .populate( { "path": "_categories", "select": "title" } )
+        .lean();
 
-      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
+      return res
+        .status( 200 )
+        .json(
+          jsonResponse( "success", {
+            "results": dataResponse,
+            "page": Math.ceil( totalPosts / size ),
+            "size": size
+          } )
+        );
     }
 
     // Handle get items by pagination from database
@@ -60,7 +89,12 @@ module.exports = {
 
       // Check catch
       if ( pageNo < 0 || pageNo === 0 ) {
-        return res.status( 403 ).json( { "status": "error", "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1." } );
+        return res
+          .status( 403 )
+          .json( {
+            "status": "error",
+            "message": "Dữ liệu số trang không đúng, phải bắt đầu từ 1."
+          } );
       }
 
       // Handle input data before connect to mongodb
@@ -69,20 +103,42 @@ module.exports = {
       query.sort = { "$natural": -1 };
 
       // Handle with mongodb
-      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v", query ).populate( { "path": "_categories", "select": "title" } ).lean();
+      dataResponse = await Post.find(
+        { "_account": req.uid },
+        "-_account -created_at -updated_at -__v",
+        query
+      )
+        .populate( { "path": "_categories", "select": "title" } )
+        .lean();
 
-      return res.status( 200 ).json( jsonResponse( "success", { "results": dataResponse, "page": Math.ceil( totalPosts / size ), "size": size } ) );
-    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
-      dataResponse = await Post.find( { "_account": req.uid }, "-_account -created_at -updated_at -__v" ).populate( { "path": "_categories", "select": "title" } ).lean();
+      return res
+        .status( 200 )
+        .json(
+          jsonResponse( "success", {
+            "results": dataResponse,
+            "page": Math.ceil( totalPosts / size ),
+            "size": size
+          } )
+        );
+    } else if (
+      Object.entries( req.query ).length === 0 && req.query.constructor === Object
+    ) {
+      dataResponse = await Post.find(
+        { "_account": req.uid },
+        "-_account -created_at -updated_at -__v"
+      )
+        .populate( { "path": "_categories", "select": "title" } )
+        .lean();
       return res.status( 200 ).json( jsonResponse( "success", dataResponse ) );
     }
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
     const newPost = await new Post( {
-        "title": "",
-        "_account": req.uid
-      } );
+      "title": "",
+      "_account": req.uid
+    } );
+
     await newPost.save();
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
@@ -151,13 +207,17 @@ module.exports = {
     }
 
     // Handle post category
-    await Promise.all( req.body._categories.map( async ( category ) => {
-      const categoryInfo = await PostCategory.findOne( { "_id": category._id } ),
-        totalPostsOfCategory = await Post.countDocuments( { "_categories": category._id } );
+    await Promise.all(
+      req.body._categories.map( async ( category ) => {
+        const categoryInfo = await PostCategory.findOne( { "_id": category._id } ),
+          totalPostsOfCategory = await Post.countDocuments( {
+            "_categories": category._id
+          } );
 
-      categoryInfo.totalPosts = totalPostsOfCategory + 1;
-      await categoryInfo.save();
-    } ) );
+        categoryInfo.totalPosts = totalPostsOfCategory + 1;
+        await categoryInfo.save();
+      } )
+    );
 
     res
       .status( 201 )
@@ -180,7 +240,10 @@ module.exports = {
         .json( { "status": "fail", "_postId": "Vui lòng cung cấp query _postId!" } );
     }
 
-    const findPost = await Post.findOne( { "_id": req.query._postId, "_account": req.uid } ),
+    const findPost = await Post.findOne( {
+        "_id": req.query._postId,
+        "_account": req.uid
+      } ),
       eventInfoList = await Event.find( { "post_custom": req.query._postId } );
 
     // Check catch when delete campaign
@@ -217,20 +280,24 @@ module.exports = {
       return res.status( 200 ).json( jsonResponse( "success", null ) );
     }
 
-    await Promise.all( findPost._categories.map( async ( category ) => {
-      const categoryInfo = await PostCategory.findOne( { "_id": category } );
+    await Promise.all(
+      findPost._categories.map( async ( category ) => {
+        const categoryInfo = await PostCategory.findOne( { "_id": category } );
 
-      if ( categoryInfo.totalPosts > 0 ) {
-        categoryInfo.totalPosts -= 1;
-        categoryInfo.save();
-      }
-    } ) );
+        if ( categoryInfo.totalPosts > 0 ) {
+          categoryInfo.totalPosts -= 1;
+          categoryInfo.save();
+        }
+      } )
+    );
 
     // Remove a post exist in a campaign
-    await Promise.all( eventInfoList.map( async ( event ) => {
-      event.post_custom.pull( req.query._postId );
-      await event.save();
-    } ) );
+    await Promise.all(
+      eventInfoList.map( async ( event ) => {
+        event.post_custom.pull( req.query._postId );
+        await event.save();
+      } )
+    );
 
     // Remove a post from eventschedule
     await EventSchedule.deleteMany( { "postID": req.query._postId }, ( err ) => {
@@ -273,9 +340,7 @@ module.exports = {
   },
   "createPostSchedule": async ( req, res ) => {
     let date = new Date( req.body.started_at ),
-      startAt = date.setMinutes(
-        date.getMinutes() - req.body.break_point
-      ),
+      startAt = date.setMinutes( date.getMinutes() - req.body.break_point ),
       logPostNow = null;
 
     const findPost = await Post.findOne( {
@@ -288,7 +353,6 @@ module.exports = {
     if ( logPostNow === null ) {
       logPostNow = await new LogPostNow( { "_account": req.uid } );
     }
-
 
     // check break point
     if ( req.body.break_point < 5 ) {
@@ -322,7 +386,7 @@ module.exports = {
 
           logPostNow.total += 1;
           logPostNow.content.push( {
-            "message": `Khởi tạo sự kiện đăng ngay trên trang cá nhân "${ findAccountFacebook.userInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+            "message": `Khởi tạo sự kiện đăng ngay trên trang cá nhân "${findAccountFacebook.userInfo.name}" với bài viết có tiêu đề "${findPost.title}" thành công!`,
             "createAt": new Date()
           } );
           await logPostNow.save();
@@ -332,21 +396,33 @@ module.exports = {
               "data": [
                 {
                   "logs": {
-                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${findPost._id} trên tài khoản facebook có ID: ${facebook} ${req.body.break_point ? `thời gian giữa các lần gửi là: ${ req.body.break_point } phút ` : "" } được bắt đầu lúc ${newPostSchedule.started_at}`,
+                    "content": `Người dùng sử dụng chức năng đăng bài ngay ở bài đăng có ID: ${
+                      findPost._id
+                    } trên tài khoản facebook có ID: ${facebook} ${
+                      req.body.break_point ? `thời gian giữa các lần gửi là: ${req.body.break_point} phút ` : ""
+                    } được bắt đầu lúc ${newPostSchedule.started_at}`,
                     "createdAt": new Date(),
                     "info": {
                       "postNowId": newPostSchedule._id
                     },
                     "status": 0
                   }
-                } ],
+                }
+              ],
               "_account": req.uid
             },
-
-            resLogSync = await logUserAction( "log", objectLog, { "Authorization": req.headers.authorization } );
+            resLogSync = await logUserAction( "log", objectLog, {
+              "Authorization": req.headers.authorization
+            } );
 
           if ( resLogSync.data.status !== "success" ) {
-            return res.status( 404 ).json( { "status": "error", "message": "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH." } );
+            return res
+              .status( 404 )
+              .json( {
+                "status": "error",
+                "message":
+                  "Máy chủ bạn đang hoạt động có vấn đề! Vui lòng liên hệ với bộ phận CSKH."
+              } );
           }
           /** **************************************************************************** **/
 
@@ -355,7 +431,10 @@ module.exports = {
       );
     }
     if ( req.body._groupId ) {
-      const groupInfo = await GroupFacebook.findOne( { "groupId": req.body._groupId, "_account": req.uid } ).lean();
+      const groupInfo = await GroupFacebook.findOne( {
+        "groupId": req.body._groupId,
+        "_account": req.uid
+      } ).lean();
 
       let newPostSchedule = await new PostSchedule( {
         "facebookID": groupInfo._facebook,
@@ -375,13 +454,16 @@ module.exports = {
 
       logPostNow.total += 1;
       logPostNow.content.push( {
-        "message": `Khởi tạo sự kiện đăng ngay trên nhóm "${ groupInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+        "message": `Khởi tạo sự kiện đăng ngay trên nhóm "${groupInfo.name}" với bài viết có tiêu đề "${findPost.title}" thành công!`,
         "createAt": new Date()
       } );
       await logPostNow.save();
     }
     if ( req.body._fanpageId ) {
-      const pageInfo = await PageFacebook.findOne( { "pageId": req.body._fanpageId, "_account": req.uid } ).lean();
+      const pageInfo = await PageFacebook.findOne( {
+        "pageId": req.body._fanpageId,
+        "_account": req.uid
+      } ).lean();
 
       let newPostSchedule = await new PostSchedule( {
         "facebookID": pageInfo._facebook,
@@ -401,7 +483,7 @@ module.exports = {
 
       logPostNow.total += 1;
       logPostNow.content.push( {
-        "message": `Khởi tạo sự kiện đăng ngay trên fanpage "${ pageInfo.name }" với bài viết có tiêu đề "${ findPost.title }" thành công!`,
+        "message": `Khởi tạo sự kiện đăng ngay trên fanpage "${pageInfo.name}" với bài viết có tiêu đề "${findPost.title}" thành công!`,
         "createAt": new Date()
       } );
       await logPostNow.save();
@@ -424,15 +506,20 @@ module.exports = {
   },
   "search": async ( req, res ) => {
     if ( req.query.keyword === undefined ) {
-      return res
-        .status( 404 )
-        .json( {
-          "status": "fail",
-          "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!"
-        } );
+      return res.status( 404 ).json( {
+        "status": "fail",
+        "keyword": "Vui lòng cung cấp từ khóa để tìm kiếm!"
+      } );
     }
 
-    let page = null, dataResponse = null, data = ( await Post.find( { "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" }, "_account": req.uid } ).populate( { "path": "_categories", "select": "_id title" } ).lean() );
+    let page = null,
+      dataResponse = null,
+      data = await Post.find( {
+        "$text": { "$search": `\"${req.query.keyword}\"`, "$language": "none" },
+        "_account": req.uid
+      } )
+        .populate( { "path": "_categories", "select": "_id title" } )
+        .lean();
 
     if ( req.query._size && req.query._page ) {
       dataResponse = data.slice(
@@ -451,28 +538,43 @@ module.exports = {
       }
     }
 
-    res.status( 200 ).json( { "status": "success", "data": { "results": dataResponse, "page": page, "total": data.length } } );
+    res
+      .status( 200 )
+      .json( {
+        "status": "success",
+        "data": { "results": dataResponse, "page": page, "total": data.length }
+      } );
   },
   "getNewestPosts": async ( req, res ) => {
     const data = await Post.find( { "_account": req.uid } )
       .sort( { "$natural": -1 } )
-      .limit( parseInt( req.query.number ) ).populate( { "path": "_categories", "select": "_id title" } );
+      .limit( parseInt( req.query.number ) )
+      .populate( { "path": "_categories", "select": "_id title" } );
 
     res.status( 200 ).json( jsonResponse( "success", data ) );
   },
   "syncDuplicatePostInFolderExample": async ( req, res ) => {
-    const findPostCategoryDefault = await PostCategory.findOne( { "_account": req.uid, "title": dictionary.DEFAULT_POSTCATEGORY } ),
+    const findPostCategoryDefault = await PostCategory.findOne( {
+        "_account": req.uid,
+        "title": dictionary.DEFAULT_POSTCATEGORY
+      } ),
       newPost = new Post( req.body );
 
     newPost._categories.push( findPostCategoryDefault._id );
     await newPost.save();
 
-    let findPostAfterAdd = await Post.findOne( { "_id": newPost._id } ).populate( { "path": "_categories", "select": "_id title" } );
+    let findPostAfterAdd = await Post.findOne( { "_id": newPost._id } ).populate( {
+      "path": "_categories",
+      "select": "_id title"
+    } );
 
     res.send( { "status": "success", "data": findPostAfterAdd } );
   },
   "syncDuplicateFolderExample": async ( req, res ) => {
-    const findCategoryExample = await PostCategory.findOne( { "idFolderExample": req.body.categoryPost._id.toString(), "_account": req.uid } );
+    const findCategoryExample = await PostCategory.findOne( {
+      "idFolderExample": req.body.categoryPost._id.toString(),
+      "_account": req.uid
+    } );
 
     // Category not exist
     if ( !findCategoryExample ) {
@@ -483,52 +585,73 @@ module.exports = {
       // eslint-disable-next-line one-var
       const newCategoryExample = new PostCategory( req.body.categoryPost );
 
-      newCategoryExample.postExample = [ ...new Set( [ ... newCategoryExample.postExample, ...req.body.postId ] ) ];
+      newCategoryExample.postExample = [
+        ...new Set( [ ...newCategoryExample.postExample, ...req.body.postId ] )
+      ];
       newCategoryExample.totalPosts = newCategoryExample.postExample.length;
       newCategoryExample.idFolderExample = idFolderExample.toString();
       await newCategoryExample.save();
-      let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+      let resData = await Promise.all(
+        req.body.postList.map( async ( item ) => {
+          delete item._id;
+          let newPost = new Post( item );
 
-        delete item._id;
-        let newPost = new Post( item );
+          newPost._categories.push( newCategoryExample._id );
+          await newPost.save();
+          return newPost;
+        } )
+      );
 
-        newPost._categories.push( newCategoryExample._id );
-        await newPost.save();
-        return newPost;
-      } ) );
-
-      return res.send( { "status": "success", "data": { "category": newCategoryExample, "postList": resData } } );
+      return res.send( {
+        "status": "success",
+        "data": { "category": newCategoryExample, "postList": resData }
+      } );
     }
 
     // Category is existed
-    let resData = await Promise.all( req.body.postList.map( async ( item ) => {
+    let resData = await Promise.all(
+      req.body.postList.map( async ( item ) => {
+        // check id exist in category in field post example
+        if ( findCategoryExample.postExample.indexOf( item._id ) === -1 ) {
+          delete item._id;
+          let newPost = new Post( item );
 
-      // check id exist in category in field post example
-      if ( findCategoryExample.postExample.indexOf( item._id ) === -1 ) {
-        delete item._id;
-        let newPost = new Post( item );
+          newPost._categories.push( findCategoryExample._id );
+          await newPost.save();
+          return newPost;
+        }
+      } )
+    );
 
-        newPost._categories.push( findCategoryExample._id );
-        await newPost.save();
-        return newPost;
-
-      }
-    } ) );
-
-    findCategoryExample.postExample = [ ...new Set( [ ... findCategoryExample.postExample, ...req.body.postId ] ) ];
+    findCategoryExample.postExample = [
+      ...new Set( [ ...findCategoryExample.postExample, ...req.body.postId ] )
+    ];
     findCategoryExample.totalPosts = findCategoryExample.postExample.length;
     await findCategoryExample.save();
-    res.send( { "status": "success", "data": { "category": findCategoryExample, "postList": resData.filter( function ( el ) {
-      return el != null;
-    } ) } } );
+    res.send( {
+      "status": "success",
+      "data": {
+        "category": findCategoryExample,
+        "postList": resData.filter( function( el ) {
+          return el != null;
+        } )
+      }
+    } );
   },
   "upload": async ( req, res ) => {
     if ( !req.files || req.files.length === 0 ) {
-      return res.status( 403 ).json( { "status": "fail", "photos": "Không có ảnh upload, vui lòng kiểm tra lại!" } );
+      return res
+        .status( 403 )
+        .json( {
+          "status": "fail",
+          "photos": "Không có ảnh upload, vui lòng kiểm tra lại!"
+        } );
     }
     const attachmentList = req.files.map( ( file ) => {
       if ( file.fieldname === "attachments" && file.mimetype.includes( "image" ) ) {
-        return `${process.env.APP_URL}:${process.env.PORT_BASE}/${file.path.replace( /\\/gi, "/" )}`;
+        return `${process.env.APP_URL}:${
+          process.env.PORT_BASE
+        }/${file.path.replace( /\\/gi, "/" )}`;
       }
     } );
 
@@ -537,8 +660,7 @@ module.exports = {
   "removeImageNotExist": async ( req, res ) => {
     const findPost = await Post.find( {} );
 
-    for ( let i = 0; i < findPost.length ; i++ ) {
-
+    for ( let i = 0; i < findPost.length; i++ ) {
       findPost[ i ].attachments.map( async ( item ) => {
         if ( item.typeAttachment === 1 ) {
           try {
@@ -555,6 +677,5 @@ module.exports = {
       } );
     }
     return res.status( 200 ).json( { "status": "success", "data": null } );
-
   }
 };

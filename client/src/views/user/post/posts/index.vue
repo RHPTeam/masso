@@ -57,8 +57,7 @@ export default {
       const isCategoriesRoute = this.$route.name === "post_postCategories",
             isPostRoute = this.$route.name === "post_posts",
             isPostCategoriesRoute = this.$route.name === "post_categories",
-            isPostCategoriesDeFaultRoute =
-              this.$route.name === "categories_default";
+            isPostCategoriesDeFaultRoute = this.$route.name === "categories_default";
 
       return (
         isCategoriesRoute ||
@@ -81,8 +80,7 @@ export default {
   },
   methods: {
     redirectBlogHelp() {
-      const routes =
-        "https://www.zinbee.vn/#/help/viet-bai-moi-trong-kho-noi-dung-nhu-the-nao";
+      const routes = "https://www.zinbee.vn/#/help/5d284e8ded508f518567722c?type=hc_global_nav";
       window.open(routes, "_blank");
     }
   }

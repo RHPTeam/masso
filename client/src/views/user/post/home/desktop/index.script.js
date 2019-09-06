@@ -1,12 +1,10 @@
 import VueApexCharts from 'vue-apexcharts';
 import AddKeyWord from "./keywords";
-import FriendFollow from "./friends";
 import VersionPopup from "./version";
 export default {
   components: {
     AddKeyWord,
     VueApexCharts,
-    FriendFollow,
     VersionPopup
   },
   data () {
@@ -474,5 +472,11 @@ export default {
     async goToThisPost( id ) {
       await this.$store.dispatch( "getPostById", id );
     }
+  },
+  created() {
+    this.$store.dispatch("getAllAnalysis");
+    this.$store.dispatch("getAllStaticCampaign");
+    this.$store.dispatch("getAllSttPost");
+    this.$store.dispatch("getNewestPosts", 5);
   }
 }

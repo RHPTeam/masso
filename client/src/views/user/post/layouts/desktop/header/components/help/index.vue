@@ -23,7 +23,7 @@
               v-for="(item, index) in blogHelp"
               :key="index"
               :class="[ item.status ? 'item--read' : '' ]"
-              @click="goToHelpDetail(item.slug)"
+              @click="redirectHelpContent(item._id)"
             >
               <div class="item--image">
                 <icon-base
@@ -39,8 +39,9 @@
                 <div class="item--time">{{ time }}</div>
               </div>
               <div class="item--action">
-                <div class="btn--more text_right"
-                     @click="showActionDropdown(index)"
+                <div
+                  class="btn--more text_right"
+                  @click="showActionDropdown(index)"
                 >
                   <icon-base
                     :class="[isShowActionDropdown === index ? 'active' : null]"
@@ -51,20 +52,30 @@
                     <icon-three-dots-horiz/>
                   </icon-base>
                 </div>
-                <div class="dropdown--menu position_absolute"
-                     v-if="isShowActionDropdown === index"
+                <div
+                  class="dropdown--menu position_absolute"
+                  v-if="isShowActionDropdown === index"
                 >
-                  <div class="dropdown--menu-item"
-                       @click="closeDropdown()"
-                  >Gỡ thông báo này</div>
-                  <div class="dropdown--menu-item"
-                       v-if="item.status"
-                       @click="closeDropdown()"
-                  >Đánh dấu là chưa đọc</div>
-                  <div class="dropdown--menu-item"
-                       v-else
-                       @click="closeDropdown()"
-                  >Đánh dấu là đã đọc</div>
+                  <div
+                    class="dropdown--menu-item"
+                    @click="closeDropdown()"
+                  >
+                    Gỡ thông báo này
+                  </div>
+                  <div
+                    class="dropdown--menu-item"
+                    v-if="item.status"
+                    @click="closeDropdown()"
+                  >
+                    Đánh dấu là chưa đọc
+                  </div>
+                  <div
+                    class="dropdown--menu-item"
+                    v-else
+                    @click="closeDropdown()"
+                  >
+                    Đánh dấu là đã đọc
+                  </div>
                 </div>
               </div>
             </div>
@@ -131,8 +142,8 @@ export default {
       window.open(routes, '_blank');
       this.close();
     },
-    goToHelpDetail(val){
-      const routes = `${process.env.VUE_APP_PARENT_URL}/#/help/` + val;
+    redirectHelpContent(val){
+      const routes = `${process.env.VUE_APP_PARENT_URL}/#/help/` + val + '?type=hc_blog';
       window.open(routes, '_blank');
       this.close();
     }

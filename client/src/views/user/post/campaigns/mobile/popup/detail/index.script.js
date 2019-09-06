@@ -59,11 +59,6 @@ export default {
       // this.showCreateEvent();
     },
     closePopup() {
-      // const dataSender = {
-      //   size: 25,
-      //   page: 1
-      // };
-      // this.$store.dispatch("getCampaignsByPage", dataSender);
       this.$emit("closePopup", false);
     },
     formatDateStartedAt(d) {
@@ -93,10 +88,6 @@ export default {
     async openEventPopup(event) {
       await this.$store.dispatch("getEventById", event._id);
       this.showCreateEvent();
-      // this.$store.dispatch( "setCaseEvent", {
-      //   key: "popup",
-      //   value: true
-      // } );
     },
     showCreateEvent() {
       this.isShowCreateEvent = true;
@@ -119,10 +110,7 @@ export default {
     }
   },
   async created() {
-    // if ( Object.entries( this.campaignDetail ).length === 0 && this.campaignDetail.constructor === Object ) {
     const campaignId = this.campaign._id;
     await this.$store.dispatch("getCampaignDetail", campaignId);
-    // }
-    // await this.$store.dispatch("setCampainControl", 1);
   }
 }

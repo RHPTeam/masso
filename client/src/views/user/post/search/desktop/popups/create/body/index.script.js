@@ -84,12 +84,11 @@ export default {
     }
   },
   async created (){
-    // Get Data
-    await this.$store.dispatch( "getAllFriendFb" );
-    await this.$store.dispatch( "getPlaceFromFb" );
     await this.$store.dispatch( "getAllCategories" );
-    await this.$store.dispatch( "getActivityFb" );
     await this.$store.dispatch( "getColorFromFb" );
+    // await this.$store.dispatch( "getAllFriendFb" );
+    // await this.$store.dispatch( "getPlaceFromFb" );
+    // await this.$store.dispatch( "getActivityFb" );
   },
   watch: {
     /**
@@ -151,23 +150,23 @@ export default {
       this.isShowColor = true;
     },
     showOptionPostCheckin(){
-      this.isShowTag = false;
-      this.isShowActivity = false;
-      this.isShowCheckIn = true;
+      // this.isShowTag = false;
+      // this.isShowActivity = false;
+      // this.isShowCheckIn = true;
     },
     showOptionPostTagsFriend(){
-      this.isShowActivity = false;
-      this.isShowCheckIn = false;
-      this.isShowTag = true;
+      // this.isShowActivity = false;
+      // this.isShowCheckIn = false;
+      // this.isShowTag = true;
     },
     /**
      * [showOptionPostActivity description]
      * @return {[type]} [description]
      */
     showOptionPostActivity(){
-      this.isShowTag = false;
-      this.isShowCheckIn = false;
-      this.isShowActivity = true;
+      // this.isShowTag = false;
+      // this.isShowCheckIn = false;
+      // this.isShowActivity = true;
     },
     changeContentDefault() {
       this.post.color = "";

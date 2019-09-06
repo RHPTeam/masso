@@ -16,10 +16,11 @@
         <div class="body">
           <div class="key mt_3">
             <div class="wrapper--content">
-              <taggle class="taggle"
-                      v-model="listKey"
-                      @input="updateKey"
-                      :placeholder="$t('chat.common.keyProduct.placeholder')"
+              <taggle
+                class="taggle"
+                v-model="listKey"
+                @input="updateKey"
+                :placeholder="$t('chat.common.keyProduct.placeholder')"
               />
             </div>
           </div>

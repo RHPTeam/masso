@@ -5,22 +5,19 @@
         <span>Tên bài viết</span>
         <input type="text" class="input mt_2" placeholder="Nhập tên bài viết" v-model="post.title" @keydown="clear" />
       </div>
-
+<!--      <div>{{ post._categories }}</div>-->
       <div class="item mb_4">
         <span>Danh mục</span>
         <div class="item--categories mt_2">
-          <multiselect
+          <r-select
             label="title"
-            multiple
+            track-by="title"
+            :multiple="true"
             v-model="post._categories"
             @input="updateCate"
             :options="categories"
             placeholder="Chọn danh mục"
-          >
-            <template slot="option" slot-scope="option">
-              <span>{{ option.title }}</span>
-            </template>
-          </multiselect>
+          ></r-select>
         </div>
       </div>
 
@@ -265,13 +262,24 @@
           </div>
           <!-- End: Create and show content-->
           <!-- Start: Activity -->
-          <activity-post v-if="isShowActivity === true" :post="post" @sendPhoto="photo = $event" @closeActivity="isShowActivity = $event"></activity-post>
+          <activity-post
+            v-if="isShowActivity === true"
+            :post="post"
+            @sendPhoto="photo = $event"
+            @closeActivity="isShowActivity = $event"
+          >
+          </activity-post>
           <!--End: Activity -->
           <!-- Start: Tag-->
           <tag-post v-if="isShowTag === true" :post="post"></tag-post>
           <!--End: Tag-->
           <!-- Start: Checkin-->
-          <checkin-post v-if="isShowCheckIn === true" :post="post" @closeCheckin="isShowCheckIn = $event"></checkin-post>
+          <checkin-post
+            v-if="isShowCheckIn === true"
+            :post="post"
+            @closeCheckin="isShowCheckIn = $event"
+          >
+          </checkin-post>
           <!-- End: Checkin-->
           <!--Start: Show option-->
           <ul
@@ -403,7 +411,7 @@
 
       <!--Start: Show error when content or attachment have length === 0 -->
       <div class="alert--error mt_2 mb_3" v-if="isShowAlert === true">
-        Bài viết phải có nội dung hoặc hình ảnh!
+        CẢNH BÁO : Bài viết của bạn phải chứa nội dung hoặc hình ảnh!
       </div>
       <!--End: Show error when content or attachment have length === 0-->
 

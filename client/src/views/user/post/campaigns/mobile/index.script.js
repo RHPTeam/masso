@@ -47,10 +47,21 @@ export default {
     },
     campaignsPagesSize() {
       return this.$store.getters.campaignsPagesSize;
+    },
+    gestureUser() {
+      return this.$store.getters.gestureUser;
+    }
+  },
+  watch: {
+    gestureUser(value) {
+      if (value === 20) {
+        this.currentPage = 1;
+      }
     }
   },
   methods: {
     async loadMore() {
+      this.$store.dispatch("actionCursor", 19);
       this.currentPage += 1;
 
       await this.$store.dispatch("getCampaignsByPageMobile", {
