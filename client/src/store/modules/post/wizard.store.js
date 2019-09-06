@@ -5,31 +5,48 @@ const state = {
   isShowWizard: false,
   finishedStep: '',
 
-  // Step 1 State: Add Keyword
+  // Welcome - Step 1 State: Add Keyword
   userInfoWizard: {},
 
-  // Step 3 State: Choose Content
+  // Welcome - Step 3 State: Choose Content
   categoryToCopy: {},
 
-  // Step 4 State: Post Scheduling
+  // QuickPost - Step 3 State: Choose Content
+  chooseContentCurrentComponentTab: 'post-list',
+  selectedCategoryInListTab: {},
+  selectedPostInListTab: [],
+
+  // Welcome - Step 4 State: Post Scheduling
   defaultSelectedCategory: {},
   createdCampaign: {},
-  campaignStartDate: ''
+  campaignStartDate: '',
+
+  // QuickPost - Step 4 State: Post Scheduling
+  selectedCampaign: {}
 };
 const getters = {
   finishedStep: (state) => state.finishedStep,
   isShowWizard: (state) => state.isShowWizard,
 
-  // Step 1 Getters: Add Keyword
+  // Welcome - Step 1 Getters: Add Keyword
   userInfoWizard: (state) => state.userInfoWizard,
 
-  // Step 3 Getters: Choose Content
+  // Welcome - Step 3 Getters: Choose Content
   categoryToCopy: (state) => state.categoryToCopy,
 
-  // Step 4 Getters: Post Scheduling
+  // QuickPost - Step 3 Getters: Choose Content For QuickPost
+  chooseContentCurrentComponentTab: (state) =>
+    state.chooseContentCurrentComponentTab,
+  selectedCategoryInListTab: (state) => state.selectedCategoryInListTab,
+  selectedPostInListTab: (state) => state.selectedPostInListTab,
+
+  // Welcome - Step 4 Getters: Post Scheduling
   defaultSelectedCategory: (state) => state.defaultSelectedCategory,
   createdCampaign: (state) => state.createdCampaign,
-  campaignStartDate: (state) => state.campaignStartDate
+  campaignStartDate: (state) => state.campaignStartDate,
+
+  // QuickPost - Step 4 Getters: Post Scheduling
+  selectedCampaign: (state) => state.selectedCampaign
 };
 const mutations = {
   setFinishedStep: (state, payload) => {
@@ -39,17 +56,35 @@ const mutations = {
     state.isShowWizard = payload;
   },
 
-  // Step 1 Mutations: Add Keyword
+  // Welcome - Step 1 Mutations: Add Keyword
   setUserInfoWizard: (state, payload) => {
     state.userInfoWizard = payload;
   },
 
-  // Step 3 Mutations: Choose Content
+  // Welcome - Step 3 Mutations: Choose Content
   setCategoryToCopy: (state, payload) => {
     state.categoryToCopy = payload;
   },
 
-  // Step 4 Muatations: Post Scheduling
+  // QuickPost - Step 3 Mutations: Choose Content
+  setChooseContentCurrentComponentTab: (state, payload) => {
+    state.chooseContentCurrentComponentTab = payload;
+  },
+  setSelectedCategoryInListTab: (state, payload) => {
+    state.selectedCategoryInListTab = payload;
+  },
+  addSelectedPostInListTab: (state, payload) => {
+    state.selectedPostInListTab.push(payload);
+    console.log(state.selectedPostInListTab);
+  },
+  removeSelectedPostInListTab: (state, payload) => {
+    state.selectedPostInListTab = state.selectedPostInListTab.filter(
+      (item) => item._id !== payload._id
+    );
+    console.log(state.selectedPostInListTab);
+  },
+
+  // Welcome - Step 4 Mutations: Post Scheduling
   setDefaultSelectedCategory: (state, payload) => {
     state.defaultSelectedCategory = payload;
   },
@@ -58,6 +93,11 @@ const mutations = {
   },
   setCampaignStartDate: (state, payload) => {
     state.campaignStartDate = payload;
+  },
+
+  // QuickPost - Step 4 Muatations: Post Scheduling
+  setSelectedCampaign: (state, payload) => {
+    state.selectedCampaign = payload;
   }
 };
 const actions = {
@@ -68,25 +108,45 @@ const actions = {
     commit('setIsShowWizard', payload);
   },
 
-  //Step 1 Actions: Add Keyword
+  // Welcome - Step 1 Actions: Add Keyword
   storeKeywordList: ({ commit }, payload) => {
     commit('setUserInfoWizard', payload);
   },
   updateKeywordList: ({ dispatch }) => {
-    dispatch("updateUser", state.userInfoWizard);
+    dispatch('updateUser', state.userInfoWizard);
   },
 
-  //Step 3 Actions: Choose Content
+  // Welcome - Step 3 Actions: Choose Content
   updateCategoryToCopy: ({ commit }, payload) => {
     commit('setCategoryToCopy', payload);
   },
 
-  // Step 4 Actions: Choose Content
+  // QuickPost - Step 3 Actions: Choose Content
+  updateChooseContentCurrentComponentTab: ({ commit }, payload) => {
+    commit('setChooseContentCurrentComponentTab', payload);
+  },
+
+  updateSelectedCategoryInListTab: ({ commit }, payload) => {
+    commit('setSelectedCategoryInListTab', payload);
+  },
+  addSelectedPostInListTab: ({ commit }, payload) => {
+    console.log('add', payload.title);
+    commit('addSelectedPostInListTab', payload);
+  },
+  removeSelectedPostInListTab: ({ commit }, payload) => {
+    console.log('remove', payload.title);
+    commit('removeSelectedPostInListTab', payload);
+  },
+
+  // Welcome - Step 4 Actions: Post Scheduling
   selectCategoryThenCreateNewCampaign: async ({ commit }) => {
+    // Copy Default Category
     const defaultCategoryCopy = await CategoryDefaultService.duplicateFolder(
       state.categoryToCopy._id
     );
     commit('setDefaultSelectedCategory', defaultCategoryCopy.data.data);
+
+    // Create new default Campaign
     const newCampaign = {
       title: 'Chiến dịch mới',
       description: '',
@@ -98,6 +158,18 @@ const actions = {
   },
   updateCampaignStartDate: ({ commit }, payload) => {
     commit('setCampaignStartDate', payload);
+  },
+
+  // QuickPost - Step 4 Actions: Post Scheduling
+  copySelectedDefaultCategory: async ({ commit }, payload) => {
+    const defaultCategoryCopy = await CategoryDefaultService.duplicateFolder(
+      state.categoryToCopy._id
+    );
+    commit('setDefaultSelectedCategory', defaultCategoryCopy.data.data);
+  },
+
+  updateSelectedCampaign: ({ commit }, payload) => {
+    commit('setSelectedCampaign', payload);
   }
 };
 

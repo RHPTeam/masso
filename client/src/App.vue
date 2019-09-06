@@ -5,7 +5,7 @@
     </VuePerfectScrollbar>
 
     <!-- Start: Wizard-->
-    <!-- <app-wizard v-if="isShowWizard===true"/> -->
+    <wizard-quick-post v-if="isShowWizard===true"/>
     <!-- End: Wizard-->
 
     <!--	Start: Create Campaign Popup Test Again	-->
@@ -18,13 +18,14 @@
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
-// import AppWizard from "@/components/shared/layouts/wizard";
+import WizardQuickPost from "@/components/shared/layouts/wizard/quickpost";
+
 
 export default {
   components: {
     VuePerfectScrollbar,
     AppEvents,
-    // AppWizard
+    WizardQuickPost
   },
   computed: {
     caseEvent() {

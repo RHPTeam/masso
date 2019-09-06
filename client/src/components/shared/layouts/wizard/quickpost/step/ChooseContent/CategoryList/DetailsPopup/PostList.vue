@@ -4,8 +4,8 @@
       <table cellpadding="0" cellspacing="0" border="0">
         <thead>
           <tr>
-            <th>Tên danh mục</th>
-            <th>Số bài viết</th>
+            <th></th>
+            <th>Các bài viết có sẵn trong <b>{{categoryTitle}}</b></th>
             <th></th>
           </tr>
         </thead>
@@ -14,16 +14,13 @@
     <div class="tbl-content">
       <table cellpadding="0" cellspacing="0" border="0">
         <tbody>
-          <h6 v-if="categoriesDefault.length === 0">Không có bài viết nào</h6>
-          <template v-else>
-            <category-item
-              v-for="item in categoriesDefault"
-              :key="item._id"
-              :item="item"
-              :itemOptions="'Xem chi tiết'"
-              :emitCanContinue="emitCanContinue"
-            />
-          </template>
+          <h6 v-if="postList.length === 0">Không có bài viết nào</h6>
+          <post-item
+            v-else
+            v-for="item in postList"
+            :key="item._id"
+            :itemTitle="item.title"
+          />
         </tbody>
       </table>
     </div>
@@ -31,17 +28,14 @@
 </template>
 
 <script>
-import CategoryItem from "./CategoryItem";
+import PostItem from "./PostItem";
 
 export default {
-  props: ["emitCanContinue"],
+  props: ["postList", "categoryTitle"],
   components: {
-    CategoryItem
+    PostItem
   },
   computed: {
-    categoriesDefault() {
-      return this.$store.getters.allCateDefault;
-    },
   }
 };
 </script>
@@ -76,14 +70,14 @@ th {
   text-align: left;
   font-weight: 500;
   &:nth-child(1) {
-    width: 60%;
+    width: 10%;
   }
   &:nth-child(2) {
-    width: 20%;
+    width: 80%;
     text-align: center;
   }
   &:nth-child(3) {
-    width: 20%;
+    width: 10%;
     text-align: center;
   }
 }

@@ -53,6 +53,7 @@ export default {
         next: 'Tiếp',
         back: 'Quay lại',
         finish: 'Hoàn thành',
-        skip: 'Bỏ qua'
+        skip: 'Bỏ qua',
+        cancel: 'Hủy',
     }
 }

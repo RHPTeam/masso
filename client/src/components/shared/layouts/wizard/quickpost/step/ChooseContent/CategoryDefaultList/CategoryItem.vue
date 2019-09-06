@@ -1,5 +1,5 @@
 <template>
-  <tr :class="{selected: isSelected}" @click="onSelect()" v-click-outside="unSelected">
+  <tr :class="{selected: isSelected}" @click="onSelect(item)" v-click-outside="unSelected">
     <td>{{item.title}}</td>
     <td v-if="item.postList.length || item.postList.length === 0">{{item.postList.length}}</td>
     <td v-if="itemOptions" @click="toggleViewPostDetails">{{itemOptions}}</td>
@@ -19,12 +19,10 @@ import DetailsPopup from "./DetailsPopup";
 
 export default {
   props: [
-    // "itemPostList",
-    // "itemTitle",
-    // "itemTotal",
     "item",
     "itemOptions",
-    "emitCanContinue"
+    "emitCanContinue",
+    "selectedCategory"
   ],
   components: {
     DetailsPopup
@@ -37,10 +35,11 @@ export default {
   },
   computed: {},
   methods: {
-    onSelect() {
+    onSelect(item) {
       this.isSelected = true;
       this.$store.dispatch("updateCategoryToCopy", this.item)
-      this.emitCanContinue();
+      this.emitCanContinue(true);
+      this.selectedCategory(item);
     },
     unSelected() {
       this.isSelected = false;
