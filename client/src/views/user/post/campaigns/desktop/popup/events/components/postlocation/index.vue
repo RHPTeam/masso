@@ -32,6 +32,7 @@
                   :value="event.timeline"
                   :options="allAccountFB"
                   :show-labels="false"
+                  :close-on-select="false"
                   @input="selectFacebookAccount"
                 >
                   <template slot="tag-name" slot-scope="props">
@@ -99,6 +100,7 @@
                   :value="convertTargetCustomPages"
                   :options="facebookPages"
                   :show-labels="false"
+                  :close-on-select="false"
                   @input="selectPageFacebook"
                 >
                   <template slot="tag-name" slot-scope="props">
@@ -142,6 +144,7 @@
                   :value="convertTargetCustomGroups"
                   :options="facebookGroups"
                   :show-labels="false"
+                  :close-on-select="false"
                   @input="selectGroupFacebook"
                 >
                   <template slot="tag-name" slot-scope="props">

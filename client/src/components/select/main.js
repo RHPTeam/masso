@@ -2,7 +2,7 @@ import multiselectMixin from './mixins/multiselectMixin'
 import pointerMixin from './mixins/pointerMixin'
 
 export default {
-  name: 'vue-multiselect',
+  name: 'r-select',
   mixins: [multiselectMixin, pointerMixin],
   props: {
     /**

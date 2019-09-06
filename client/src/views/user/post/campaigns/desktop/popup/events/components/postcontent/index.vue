@@ -58,6 +58,7 @@
             label="title"
             track-by="title"
             :maxHeight="260"
+            :close-on-select="false"
             :options="allPost"
             :value="event.post_custom"
             @input="selectPost"
