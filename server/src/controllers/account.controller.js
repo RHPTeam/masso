@@ -153,13 +153,16 @@ module.exports = {
     res.send( { "status": "success", "data": null } );
   },
   "signUp": async( req, res ) => {
+    console.log(10)
+    console.log( req.body );
     const newUser = new Account( req.body );
+    console.log( newUser );
 
     await newUser.save();
 
-    res.send( { "status": "success", "data": "Synchronized..." } );
+    console.log(11);
 
-    defaulSchema( newUser );
+    res.send( { "status": "success", "data": "Synchronized..." } );
   },
   "activeAccountById": async ( req, res ) => {
     const { maxAccountFb, expireDate, id } = req.body,

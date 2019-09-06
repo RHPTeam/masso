@@ -91,111 +91,126 @@ const Post = require( "../../../models/post/Post.model" );
 
 const handleRequestToPostServer = async ( eventScheduleList, response ) => {
   return await Promise.all( response.data.data.map( async ( server, index ) => {
-    const [ errorServer ] = await to( request.get( server.name ) );
-
-    if ( errorServer ) {
-      console.log( "⭕️ ⭕️ ⭕️ ⭕️ Have error checking post server running..." );
-      await request.post( `${process.env.APP_PARENT_URL}/api/v1/server/post/${server.uid}/status`, { "status": false } ).catch( ( errorStatusPost ) => {
-        if ( errorStatusPost ) {
-          console.log( "🅾️ 🅾️ 🅾️ 🅾️ Update status post server failed when detected server not working..." );
-        }
-      } );
-      return false;
-    }
-
-    await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 5 }, ( errorEventSchedule ) => {
-      if ( errorEventSchedule ) {
-        throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
-      }
-    } );
-
-    // eslint-disable-next-line one-var
-    const campaignInfo = await Campaign.findOne( { "_id": eventScheduleList[ index ]._campaign } ),
-      eventInfo = await Event.findOne( { "_id": eventScheduleList[ index ]._event } ),
-      postInfo = await Post.findOne( { "_id": eventScheduleList[ index ].postID } ).lean(),
-      facebookInfo = await Facebook.findOne( { "_id": eventScheduleList[ index ].facebookID } ).lean(),
-      mixPost = {};
-
-    if ( campaignInfo.status === false ) {
-      console.log( "🚫🚫🚫🚫 Campaign contain this event schedule which is turn off... 🚫🚫🚫🚫" );
-      await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 2 }, ( errorEventSchedule ) => {
-        if ( errorEventSchedule ) {
-          throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
-        }
-      } );
+    if ( eventScheduleList[ index ] === undefined ) {
+      console.log( "Server post running free which haven't eventschedule." );
     } else {
-      if ( eventScheduleList[ index ].mixOpen ) {
-        const listPost = ( await Post.find( { "_categories": eventScheduleList[ index ].mixOpen } ).lean() ).map( ( post ) => post._id ),
-          postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+      const [ errorServer ] = await to( request.get( server.name ) );
 
-        mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
-      }
-      if ( eventScheduleList[ index ].mixClose ) {
-        const listPost = ( await Post.find( { "_categories": eventScheduleList[ index ].mixClose } ).lean() ).map( ( post ) => post._id ),
-          postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
-
-        mixPost.mixClose = await Post.findOne( { "_id": postSelectedID } ).lean();
-      }
-
-      const feed = await convertDataPostFacebook( eventScheduleList[ index ].location, mixPost, postInfo, eventScheduleList[ index ].targetID ),
-        responsePost = await request.post( `${server.name}/core/v1/post`, { "cookie": facebookInfo.cookie, "feed": feed } );
-
-      if ( responsePost.data ) {
-        // Successfully
-        if ( responsePost.data.error.code === 200 ) {
-          campaignInfo.logs.total += 1;
-          campaignInfo.logs.content.push( {
-            "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${responsePost.data.results.postID}`,
-            "createdAt": new Date()
-          } );
-
-          console.log( "✅✅✅✅ Post To Facebook Successfully..." );
-          console.log( `--------------- ${responsePost.data.results.postID} ---------------` );
-
-          await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 3 }, ( errorEventSchedule ) => {
+      if ( errorServer ) {
+        console.log( "⭕️ ⭕️ ⭕️ ⭕️ Have error checking post server running..." );
+        await request.post( `${process.env.APP_PARENT_URL}/api/v1/server/post/${server.uid}/status`, { "status": false } ).catch( ( errorStatusPost ) => {
+          if ( errorStatusPost ) {
+            console.log( "🅾️ 🅾️ 🅾️ 🅾️ Update status post server failed when detected server not working..." );
+          }
+        } );
+      } else {
+        await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 5 }, ( errorEventSchedule ) => {
+          if ( errorEventSchedule ) {
+            throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
+          }
+        } );
+  
+        // eslint-disable-next-line one-var
+        const campaignInfo = await Campaign.findOne( { "_id": eventScheduleList[ index ]._campaign } ),
+          eventInfo = await Event.findOne( { "_id": eventScheduleList[ index ]._event } ),
+          postInfo = await Post.findOne( { "_id": eventScheduleList[ index ].postID } ).lean(),
+          facebookInfo = await Facebook.findOne( { "_id": eventScheduleList[ index ].facebookID } ).lean(),
+          mixPost = {};
+  
+        if ( campaignInfo.status === false ) {
+          console.log( "🚫🚫🚫🚫 Campaign contain this event schedule which is turn off... 🚫🚫🚫🚫" );
+          await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 2 }, ( errorEventSchedule ) => {
             if ( errorEventSchedule ) {
               throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
             }
           } );
-        } else if ( responsePost.data.error.code === 8889 ) { // Handle error post to facebook that account facebook is expired...
-          campaignInfo.logs.total += 1;
-          campaignInfo.logs.content.push( {
-            "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
-            "createdAt": new Date()
-          } );
+        } else {
+          if ( eventScheduleList[ index ].mixOpen ) {
+            const listPost = ( await Post.find( { "_categories": eventScheduleList[ index ].mixOpen } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+  
+            mixPost.mixOpen = await Post.findOne( { "_id": postSelectedID } ).lean();
+          }
+          if ( eventScheduleList[ index ].mixClose ) {
+            const listPost = ( await Post.find( { "_categories": eventScheduleList[ index ].mixClose } ).lean() ).map( ( post ) => post._id ),
+              postSelectedID = listPost[ Math.floor( Math.random() * listPost.length ) ];
+  
+            mixPost.mixClose = await Post.findOne( { "_id": postSelectedID } ).lean();
+          }
+  
+          const feed = await convertDataPostFacebook( eventScheduleList[ index ].location, mixPost, postInfo, eventScheduleList[ index ].targetID ),
+            responsePost = await request.post( `${server.name}/core/v1/post`, { "cookie": facebookInfo.cookie, "feed": feed } );
 
-          await Campaign.updateOne( { "_id": eventScheduleList[ index ]._campaign }, { "status": false }, ( errCampaign ) => {
-            if ( errCampaign ) {
-              throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+          console.log( "----------------------------" )
+          console.log( "Result: " );
+          console.log( responsePost.data.data );
+          console.log( "----------------------------" )
+  
+          if ( responsePost.data ) {
+            // Successfully
+            if ( responsePost.data.data.error.code === 200 ) {
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thành công với ID: ${responsePost.data.data.results.postID}`,
+                "createdAt": new Date()
+              } );
+  
+              console.log( "✅✅✅✅ Post To Facebook Successfully..." );
+              console.log( `--------------- ${responsePost.data.data.results.postID} ---------------` );
+  
+              await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 3 }, ( errorEventSchedule ) => {
+                if ( errorEventSchedule ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
+                }
+              } );
+
+              // Update new cookie
+              if ( responsePost.data.data.results.cookie ) {
+                await Facebook.updateOne( { "_id": eventScheduleList[ index ].facebookID }, { "cookie": responsePost.data.data.results.cookie }, ( errorFacebook ) => {
+                  if ( errorFacebook ) {
+                    throw Error( "Xảy ra lỗi trong quá trình cập nhật lại cookie facebook..." );
+                  }
+                } );
+              }
+            } else if ( responsePost.data.data.error.code === 8889 ) { // Handle error post to facebook that account facebook is expired...
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Tài khoản] Facebook - ${facebookInfo.userInfo.name} đã bị đăng xuất! Hệ thống tự động tắt chiến dịch.`,
+                "createdAt": new Date()
+              } );
+  
+              await Campaign.updateOne( { "_id": eventScheduleList[ index ]._campaign }, { "status": false }, ( errCampaign ) => {
+                if ( errCampaign ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại chiến dịch khi tài khoản facebook bị đăng xuất." );
+                }
+              } );
+  
+              console.log( `❌❌❌❌ Have error: ${responsePost.data.data.error.text}` );
+  
+              await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 4 }, ( errorEventSchedule ) => {
+                if ( errorEventSchedule ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
+                }
+              } );
+            } else { // Handle error post to facebook failed...
+              campaignInfo.logs.total += 1;
+              campaignInfo.logs.content.push( {
+                "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại! Lỗi: ${responsePost.data.data.error.text}`,
+                "createdAt": new Date()
+              } );
+  
+              console.log( `❌❌❌❌ Have error: ${responsePost.data.data.error.text}` );
+  
+              await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 4 }, ( errorEventSchedule ) => {
+                if ( errorEventSchedule ) {
+                  throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
+                }
+              } );
             }
-          } );
-
-          console.log( `❌❌❌❌ Have error: ${responsePost.data.error.text}` );
-
-          await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 4 }, ( errorEventSchedule ) => {
-            if ( errorEventSchedule ) {
-              throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
-            }
-          } );
-        } else { // Handle error post to facebook failed...
-          campaignInfo.logs.total += 1;
-          campaignInfo.logs.content.push( {
-            "message": `[Sự kiện: ${eventInfo.title}] Đăng bài viết thất bại! Lỗi: ${responsePost.data.error.text}`,
-            "createdAt": new Date()
-          } );
-
-          console.log( `❌❌❌❌ Have error: ${responsePost.data.error.text}` );
-
-          await EventSchedule.updateOne( { "_id": eventScheduleList[ index ]._id }, { "status": 4 }, ( errorEventSchedule ) => {
-            if ( errorEventSchedule ) {
-              throw Error( "Xảy ra lỗi trong quá trình cập nhật lại event schedule...." );
-            }
-          } );
+            await campaignInfo.save();
+          }
         }
-        await campaignInfo.save();
       }
-
-
     }
   } ) );
 };
@@ -229,7 +244,7 @@ const handleCallBackPost = async ( minDateTime, response ) => {
           dateTimeCurrent.getTime() - 20 * 60000
         );
 
-      const [ err, response ] = await to( request.get( `${process.env.APP_PARENT_URL}/api/v1/server/post?status=true` ) );
+      const [ err, response ] = await to( request.post( `${process.env.APP_PARENT_URL}/api/v1/server/post/online`, { "server": process.env.APP_URL } ) );
       
       if ( err ) {
         console.log( "⭕️ ⭕️ ⭕️ ⭕️ Have error get data post server..." );
@@ -239,8 +254,28 @@ const handleCallBackPost = async ( minDateTime, response ) => {
         console.log( "🅾️ 🅾️ 🅾️ 🅾️ Haven't post server running..." );
         return false;
       }
+      
+      try {
+        const eventScheduleListChecking = await EventSchedule.find( {
+          "$or": [
+            { "status": 1 },
+            { "status": null } ],
+          "started_at": {
+            "$gte": new Date( minDateTime ).toISOString(),
+            "$lt": new Date().toISOString()
+          }
+        } ).limit( response.data.data.length ).lean();
 
-      await handleCallBackPost( minDateTime, response );
+        if ( eventScheduleListChecking.length === 0 ) {
+          console.log( "🅾️ 🅾️ 🅾️ 🅾️ Haven't eventSchedule running..." );
+          return false;
+        }
+
+        await handleCallBackPost( minDateTime, response );
+      } catch (error) {
+        console.log("Error:")
+        console.log(error);
+      }
     },
     null,
     true,

@@ -79,19 +79,11 @@ module.exports = {
     res.status( 304 ).json( jsonResponse( "fail", "API này không được cung cấp!" ) );
   },
   "create": async ( req, res ) => {
-    const findPostCategory = await PostCategory.findOne( {
-        "_account": req.uid,
-        "title": dictionary.DEFAULT_POSTCATEGORY
-      } ),
-      newPost = await new Post( {
+    const newPost = await new Post( {
         "title": "",
         "_account": req.uid
       } );
-
-    newPost._categories.push( findPostCategory._id );
-    findPostCategory.totalPosts++;
     await newPost.save();
-    await findPostCategory.save();
     res.status( 200 ).json( jsonResponse( "success", newPost ) );
   },
   "createPost": async ( req, res ) => {
