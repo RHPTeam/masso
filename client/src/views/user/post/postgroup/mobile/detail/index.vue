@@ -60,7 +60,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailProfile.length === 0"
               >Không có trang cá nhân nào!!!</div>
-              <div
+              <label
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="profile in postGroupDetailProfile"
@@ -79,10 +79,11 @@
                       type="checkbox"
                       v-model="postGroupProfileSelected"
                       :value="profile.userInfo.id"
+                      :id="profile.userInfo.id"
                     />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Fanpage -->
             <div class="fanpage" v-if="isShowPopupFanpage === true">
@@ -90,7 +91,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailPage.length === 0"
               >Không có trang nào!!!</div>
-              <div
+              <label
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="fanpage in postGroupDetailPage"
@@ -108,7 +109,7 @@
                     <input type="checkbox" v-model="postGroupPagesSelected" :value="fanpage.pageId" :id="fanpage.pageId" />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Group -->
             <div class="group" v-if="isShowPopupGroup === true">
@@ -116,7 +117,7 @@
                 class="py_2 text_center"
                 v-if="postGroupDetailGroup.length === 0"
               >Không có nhóm nào!!!</div>
-              <div
+              <label
                 v-else
                 class="item--content d_flex align_items_center py_2"
                 v-for="group in postGroupDetailGroup"
@@ -134,7 +135,7 @@
                     <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
                   </label>
                 </div>
-              </div>
+              </label>
             </div>
             <!-- Start: Post group -->
           </div>

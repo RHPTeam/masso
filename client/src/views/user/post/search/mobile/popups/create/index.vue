@@ -22,8 +22,8 @@
         <!-- Start: Modal Body -->
         <vue-perfect-scrollbar class="modal--scroll">
           <div class="modal--body px_3">
+            <p class="mb_1">Nội dung bài viết:</p>
             <div class="content--post">
-              <p class="mb_0">Nội dung bài viết:</p>
               <div
                 class="p_2 mt_2 content"
                 style="white-space: pre-wrap; word-wrap: break-word; font-family: inherit;font-size:0.8315rem;"
