@@ -54,22 +54,27 @@ export default {
     }
   },
   async created() {
-    if (this.allCampaigns.length === 0) {
-      await this.$store.dispatch('getAllCampaigns');
-    }
-    if (this.facebookPages.length === 0) {
-      await this.$store.dispatch('getFacebookPages');
-    }
-    if (this.facebookGroups.length === 0) {
-      await this.$store.dispatch('getFacebookGroups');
-    }
-    if (this.allPostGroups.length === 0) {
-      await this.$store.dispatch('getAllPostGroups');
-    }
-    if (this.allAccountFB.length === 0) {
-      await this.$store.dispatch('getAccountsFB');
-    }
+    // if (this.allCampaigns.length === 0) {
+    //   await this.$store.dispatch('getAllCampaigns');
+    // }
+    // if (this.facebookPages.length === 0) {
+    //   await this.$store.dispatch('getFacebookPages');
+    // }
+    // if (this.facebookGroups.length === 0) {
+    //   await this.$store.dispatch('getFacebookGroups');
+    // }
+    // if (this.allPostGroups.length === 0) {
+    //   await this.$store.dispatch('getAllPostGroups');
+    // }
+    // if (this.allAccountFB.length === 0) {
+    //   await this.$store.dispatch('getAccountsFB');
+    // }
+    this.$store.dispatch('getAllCampaigns');
+    this.$store.dispatch('getFacebookPages');
+    this.$store.dispatch('getFacebookGroups');
+    this.$store.dispatch('getAccountsFB');
 
+    this.$store.dispatch('getAllPostGroups');
     // Set default selected Campaign
     if (this.allCampaigns[0]) {
       this.$store.dispatch('updateSelectedCampaign', this.allCampaigns[0]);
