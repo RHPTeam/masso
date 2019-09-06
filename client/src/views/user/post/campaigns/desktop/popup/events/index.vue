@@ -7,7 +7,7 @@
         >
           <icon-base
             class="icon--close"
-            icon--name="Hủy"
+            icon-name="Hủy"
             height="16px"
             width="16px"
             viewBox="0 0 20 20"

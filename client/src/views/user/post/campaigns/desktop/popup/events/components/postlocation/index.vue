@@ -4,7 +4,7 @@
       <div class="icon mr_4">
         <icon-base
           class="icon--target"
-          icon--name="Nơi đăng"
+          icon-name="Nơi đăng"
           height="20px"
           width="20px"
           viewBox="0 0 500 500"

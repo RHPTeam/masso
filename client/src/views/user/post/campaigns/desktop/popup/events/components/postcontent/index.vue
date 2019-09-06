@@ -3,7 +3,7 @@
     <div class="icon mr_4">
       <icon-base
         class="icon--post"
-        icon--name="Bài đăng"
+        icon-name="Bài đăng"
         height="20px"
         width="20px"
         viewBox="0 0 500 500"
@@ -63,7 +63,14 @@
             :value="event.post_custom"
             @input="selectPost"
             placeholder="Chọn bài viết từ kho nội dung"
-          />
+          >
+            <template slot="tag-name" slot-scope="props">
+              <span>{{ props.option.title === "" ? "Bài đăng chưa có tiêu đề" : props.option.title }}</span>
+            </template>
+            <template slot="option" slot-scope="props">
+              <span>{{ props.option.title === "" ? "Bài đăng chưa có tiêu đề" : props.option.title }}</span>
+            </template>
+          </r-select>
         </div>
       </div>
     </div>
