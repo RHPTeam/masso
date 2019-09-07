@@ -33,7 +33,7 @@
           </icon-base>
         </span>
         <span class="mx_1"
-              @click="openPopupDetail"
+              @click="showDetailPopup"
         >
           <icon-base icon-name="icon-info" viewBox="0 0 18 18">
             <icon-info />
@@ -41,39 +41,12 @@
         </span>
       </div>
     </div>
-    <transition name="popup">
-      <popup-detail
-        v-if="showDetail === true"
-        :item="item"
-        @closePopupDetail="showDetail = $event"
-      />
-    </transition>
-    <transition name="popup">
-      <popup-create
-        v-if="showCreatePopup === true"
-        :fbPost="item"
-        @closePopup="showCreatePopup = $event"
-      />
-    </transition>
   </div>
 </template>
 
 <script>
-import PopupCreate from "../../popups/create";
-import PopupDetail from "../../popups/detail";
-
 export default {
-  components: {
-    PopupCreate,
-    PopupDetail
-  },
   props: [ "item" ],
-  data() {
-    return {
-      showCreatePopup: false,
-      showDetail: false
-    };
-  },
   computed: {
     post() {
       if ( Object.entries( this.$store.getters.post ).length === 0 && this.$store.getters.post.constructor === Object ) return;
@@ -87,15 +60,16 @@ export default {
     sliceImage(){
       return this.item.attachments.slice(0,3);
     },
-    openPopupDetail(){
-      this.showDetail = true;
+    showDetailPopup(){
+      this.$emit( "showDetailPopup", this.item );
     },
-    addToContentStore() {
-      this.showCreatePopup = true;
-      this.$store.dispatch( "updateDefaultPostByFbPost", {
+    async addToContentStore() {
+      await this.$store.dispatch( "updateDefaultPostByFbPost", {
         content: this.item.content,
         attachments: this.item.attachments
       } );
+
+      this.$emit( "showCreatePopup", this.item );
     }
   }
 }

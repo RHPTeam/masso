@@ -30,7 +30,7 @@
         </div>
         <r-select
           label="title"
-          track-by="title"
+          track-by="_id"
           class="form--control"
           placeholder="Chọn danh mục mở bài"
           :maxHeight="220"
@@ -46,7 +46,7 @@
         </div>
         <r-select
           label="title"
-          track-by="title"
+          track-by="_id"
           class="form--control"
           placeholder="Chọn danh mục kết bài"
           :maxHeight="220"

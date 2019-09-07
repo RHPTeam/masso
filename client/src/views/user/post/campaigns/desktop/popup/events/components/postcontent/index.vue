@@ -44,7 +44,7 @@
         <div class="form--item" v-if="caseEvent.post === 1">
           <r-select
             v-model="event.post_category"
-            track-by="title"
+            track-by="_id"
             label="title"
             placeholder="Chọn danh mục"
             :maxHeight="260"
@@ -56,7 +56,7 @@
           <r-select
             :multiple="true"
             label="title"
-            track-by="title"
+            track-by="_id"
             :maxHeight="260"
             :close-on-select="false"
             :options="allPost"

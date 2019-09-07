@@ -50,7 +50,7 @@
         </div>
         <r-select
           label="title"
-          track-by="title"
+          track-by="_id"
           class="form--control"
           :maxHeight="220"
           v-model="campaignSelected"

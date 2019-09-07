@@ -42,7 +42,7 @@
               <div class="main">
                 <r-select
                   label="title"
-                  track-by="title"
+                  track-by="_id"
                   placeholder="Chọn danh mục mở bài"
                   :maxHeight="240"
                   v-model="event.plugins.mix.open"
@@ -65,7 +65,7 @@
               <div class="main">
                 <r-select
                   label="title"
-                  track-by="title"
+                  track-by="_id"
                   placeholder="Chọn danh mục kết bài"
                   :maxHeight="240"
                   v-model="event.plugins.mix.close"

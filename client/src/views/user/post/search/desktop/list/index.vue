@@ -68,7 +68,11 @@
         <!-- Start: List Content -->
         <vue-perfect-scrollbar class="infinite" @ps-y-reach-end="loadMore">
           <div v-for="(item, index) in listPostFacebookDefault" :key="index">
-            <app-item :item="item" />
+            <app-item
+              :item="item"
+              @showDetailPopup="showDetailPopup($event)"
+              @showCreatePopup="showCreatePopup($event)"
+            />
           </div>
           <div v-if="this.$store.getters.listPostFacebookStatus === 'loading'" class="mt_3">
             <loading-component></loading-component>
@@ -82,22 +86,45 @@
         <!-- Start: List Content -->
       </div>
     </div>
+    <!-- ************** POPUP *************** -->
+    <transition name="popup">
+      <popup-detail
+        v-if="isShowDetailPopup === true"
+        :item="fbPostSelected"
+        @closePopupDetail="isShowDetailPopup = $event"
+      ></popup-detail>
+    </transition>
+    <transition name="popup">
+      <popup-create
+        v-if="isShowCreatePopup === true"
+        :fbPost="fbPostSelected"
+        @closePopup="isShowCreatePopup = $event"
+      ></popup-create>
+    </transition>
   </div>
 </template>
 
 <script>
 import AppItem from "./item";
+import PopupCreate from "../popups/create";
+import PopupDetail from "../popups/detail";
+
 export default {
   components: {
-    AppItem
+    AppItem,
+    PopupCreate,
+    PopupDetail
   },
   data() {
     return {
       currentPage: 1,
+      fbPostSelected: "",
       maxPerPage: 20,
       keyword: "",
       isLoadingData: true,
-      isStatusKeywordHistory: false
+      isStatusKeywordHistory: false,
+      isShowDetailPopup: false,
+      isShowCreatePopup: false
     }
   },
   computed: {
@@ -176,6 +203,14 @@ export default {
     searchPostFromKeywordHistory( keyword ) {
       this.keyword = keyword;
       this.searchPost();
+    },
+    showCreatePopup( val ) {
+      this.fbPostSelected = val;
+      this.isShowCreatePopup = true;
+    },
+    showDetailPopup( val) {
+      this.fbPostSelected = val;
+      this.isShowDetailPopup = true;
     }
   },
 };

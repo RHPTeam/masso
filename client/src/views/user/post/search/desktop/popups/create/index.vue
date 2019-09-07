@@ -9,14 +9,14 @@
         </div>
         <!-- End: Modal Header -->
         <!-- Start: Modal Body -->
-        <vue-perfect-scrollbar class="modal--scroll my_3">
+        <div class="modal--scroll r_scrollbar my_3">
           <div class="modal--body">
             <modal-body
               :fbPost="fbPost"
               :post="post"
             ></modal-body>
           </div>
-        </vue-perfect-scrollbar>
+        </div>
         <!-- End: Modal Body -->
         <!-- Start: Modal Footer -->
         <div class="modal--footer d_flex justify_content_between align_items_center px_4">

@@ -27,7 +27,7 @@
                 <r-select
                   :multiple="true"
                   label="name"
-                  track-by="name"
+                  track-by="_id"
                   placeholder="Chọn trang cá nhân"
                   :value="event.timeline"
                   :options="allAccountFB"
@@ -70,7 +70,7 @@
               <div class="main">
                 <r-select
                   label="title"
-                  track-by="title"
+                  track-by="_id"
                   placeholder="Chọn nhóm đã lưu"
                   v-model="event.target_category"
                   :options="allPostGroups"
@@ -95,7 +95,7 @@
                 <r-select
                   :multiple="true"
                   label="name"
-                  track-by="name"
+                  track-by="_id"
                   placeholder="Chọn trang"
                   :value="convertTargetCustomPages"
                   :options="facebookPages"
@@ -139,7 +139,7 @@
                 <r-select
                   :multiple="true"
                   label="name"
-                  track-by="name"
+                  track-by="_id"
                   placeholder="Chọn nhóm"
                   :value="convertTargetCustomGroups"
                   :options="facebookGroups"

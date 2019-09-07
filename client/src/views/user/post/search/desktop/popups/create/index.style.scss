@@ -77,6 +77,7 @@
       }
       .modal--scroll {
         max-height: calc(100vh - 24px - 11rem);
+        overflow-y: auto;
       }
     }
   }

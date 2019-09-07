@@ -13,8 +13,9 @@
         <div class="item--categories mt_2">
           <r-select
             label="title"
-            track-by="title"
+            track-by="_id"
             :multiple="true"
+            :close-on-select="false"
             v-model="post._categories"
             :options="categories"
             placeholder="Chọn danh mục"
