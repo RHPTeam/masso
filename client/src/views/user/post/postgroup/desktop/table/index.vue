@@ -31,7 +31,7 @@
               </div>
               <div
                 class="item--body d_flex align_items_center px_3 py_2"
-                v-for="( item, index ) in accountsFB"
+                v-for="( item, index ) in accountsFBSearch"
                 :key="`fbpf-${index}`"
               >
                 <div class="col col--checkbox px_2">
@@ -52,7 +52,7 @@
                 </span>
                 </div>
               </div>
-              <div class="no--group text_center py_3" v-if="accountsFB.length === 0">Không tìm thấy trang cá nhân nào</div>
+              <div class="no--group text_center py_3" v-if="accountsFBSearch.length === 0">Không tìm thấy trang cá nhân nào</div>
             </div>
             <!-- End: Profile Data -->
             <!-- Start: Pages Data -->
@@ -143,19 +143,20 @@
           class=""
           v-if="postGroupDetail._pages.length === 0 && postGroupDetail._groups.length === 0 && postGroupDetail._timeline.length === 0"
         >
-          <div class="add--pagegroup d_inline_flex mb_3" @click="seeAllUsers">
-            <icon-base
-              class="ic--add mr_2"
-              icon-name="Thêm"
-              width="20"
-              height="20"
-              viewBox="0 0 60 60"
-            >
-              <icon-plus />
-            </icon-base>
-            <div>Thêm trang hoặc nhóm</div>
+          <div class="text_center alert alert_secondary">
+            <div class="mb_2">Nhóm này hiện đang trống.</div>
+            <div class="add--pagegroup d_flex align_items_center justify_content_center mx_auto" @click="seeAllUsers">
+              <icon-base
+                class="ic--add"
+                icon-name="Thêm"
+                width="40"
+                height="40"
+                viewBox="0 0 60 60"
+              >
+                <icon-plus />
+              </icon-base>
+            </div>
           </div>
-          <div class="text_center alert alert_secondary p_2">Nhóm này hiện chưa có trang hay nhóm Facebook nào.</div>
         </div>
         <!--End: Empty Data-->
         <div v-else>

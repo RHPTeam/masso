@@ -43,16 +43,20 @@
       border-bottom-right-radius: .625rem;
     }
   }
+  .alert_secondary {
+    border-radius: .5rem;
+    padding: .75rem 0;
+  }
   .add--pagegroup {
-    border: 1px solid #484848;
-    padding: 0.7rem 0.625rem;
-    border-radius: 10px;
+    border: 1px dashed #444;
+    border-radius: 0.625rem;
     display: inline-block;
     cursor: pointer;
+    height: 80px;
     transition: all .4s ease;
+    width: 80px;
     &:hover {
-      border: 1px solid transparent;
-      box-shadow: 1px 1px 15px rgba(153, 153, 153, 0.4);
+      border-color: #666;
     }
   }
 }
@@ -69,7 +73,6 @@
     &:checked {
       background-color: #ffb94a;
       border: solid 1px #ffb94a;
-
       &:before {
         border-bottom: 2px solid #fff;
         border-right: 2px solid #fff;
@@ -134,7 +137,7 @@
 .postgroup--data[data-theme="dark"] {
   .alert_secondary {
     background-color: rgba(39, 41, 45, .4);
-    border-color: #23272b;
+    border-color: #2F3136;
     color: #999999;
   }
   .item--header {

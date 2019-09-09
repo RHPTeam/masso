@@ -29,7 +29,7 @@
     </div>
     <!-- End: Navigation Left -->
     <!-- Start: Navigation Right -->
-    <div class="nav--right ml_auto">
+    <div class="nav--right ml_auto" v-if="false">
       <div v-if="isShowHistoryButton" class="btn--history" @click="showHistory">Lịch sử đăng bài</div>
     </div>
     <!-- End: Navigation Right -->

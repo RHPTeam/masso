@@ -15,6 +15,11 @@ export default {
     accountsFB() {
       return this.$store.getters.accountsFB;
     },
+    accountsFBSearch() {
+      return this.accountsFB.filter( ( item ) => {
+        return item.userInfo.name.toString().toLowerCase().includes( this.search.toString().toLowerCase() );
+      } );
+    },
     facebookGroups() {
       return this.$store.getters.facebookGroups;
     },

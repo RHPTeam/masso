@@ -14,6 +14,7 @@ export default {
       isShowAddtoGrPopup: false,
       isShowUpdateFanpage: false,
       isShowUpdateGroup: false,
+      search: "",
       targetDeletePopupData: {},
     };
   },
@@ -81,6 +82,9 @@ export default {
     async updateGroupFacebook(val) {
       await this.$store.dispatch( "updateFacebookGroups", val._id );
       this.closeUpdateGroup();
+    },
+    updateSearch() {
+      this.$emit( "updateSearch", this.search );
     },
     updateTypeSelected( val ) {
       this.$emit( "updateFilterSelected", val );

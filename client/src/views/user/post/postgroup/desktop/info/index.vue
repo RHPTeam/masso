@@ -16,6 +16,25 @@
             Number( postGroupDetail._groups ? postGroupDetail._groups.length : 0 )
         }} đã chọn
       </div>
+      <div class="page--group-search ml_3">
+        <span class="ml_2">
+          <icon-base
+            class="ic--search"
+            icon-name="Tìm kiếm"
+            width="20"
+            height="20"
+            viewBox="0 0 20 20"
+          >
+            <icon-input-search />
+          </icon-base>
+        </span>
+        <input class="search--input"
+               placeholder="Tìm kiếm"
+               type="text"
+               v-model="search"
+               @input="updateSearch"
+        />
+      </div>
     </div>
     <!--End: Info Left Component-->
     <!--Start: Info Right Component-->
