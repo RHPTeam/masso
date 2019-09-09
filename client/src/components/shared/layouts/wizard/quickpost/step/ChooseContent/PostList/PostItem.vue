@@ -7,9 +7,7 @@
 
 <script>
 export default {
-  // props: ["item", "itemOptions", "emitCanContinue", "selectedPost"],
   props: ["item", "itemOptions", "selectedPost"],
-  components: {},
   data() {
     return {
       isSelected: false,

@@ -7,7 +7,8 @@ const state = {
   accountsFB: [],
   fbAccountInfo: {},
   facebookStatus: '',
-  statusDeleteFacebook: ''
+  statusDeleteFacebook: '',
+  variableLoading: 0
 };
 const getters = {
   addAccountError: (state) => state.addAccountError,
@@ -23,7 +24,8 @@ const getters = {
   },
   fbAccountInfo: (state) => state.fbAccountInfo,
   facebookStatus: (state) => state.facebookStatus,
-  statusDeleteFacebook: (state) => state.statusDeleteFacebook
+  statusDeleteFacebook: (state) => state.statusDeleteFacebook,
+  variableLoading: (state) => state.variableLoading
 };
 
 const mutations = {
@@ -56,6 +58,9 @@ const mutations = {
   },
   setDeleteAccount: (state, payload) => {
     state.accountsFB = payload;
+  },
+  setVariableControlLoading: (state, payload) => {
+    state.variableLoading = payload;
   }
 };
 
@@ -69,8 +74,8 @@ const actions = {
       // add cookie facebook to system then update group and fan page of account
       const result = await AccountFacebookService.create(dataSender);
 
-      await GroupFacebookServices.update(result.data.data._id);
-      await PageFacebookServices.update(result.data.data._id);
+      // await GroupFacebookServices.update(result.data.data._id);
+      // await PageFacebookServices.update(result.data.data._id);
 
       await commit('addNewAccountFacebook', result.data.data);
 
@@ -138,6 +143,9 @@ const actions = {
       if (e.response.status === 403) commit('addAccountError', 'error');
       commit('facebook_error');
     }
+  },
+  setVariableControlLoading: async({commit}, payload) => {
+    commit("setVariableControlLoading", payload);
   }
 };
 export default {

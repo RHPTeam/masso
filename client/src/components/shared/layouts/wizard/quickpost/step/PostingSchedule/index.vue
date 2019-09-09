@@ -126,8 +126,8 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  height: 27rem;
-  overflow-y: scroll;
+  min-height: 27rem;
+  overflow-y: auto;
   padding: 0.5rem 2rem;
   display: flex;
 }
@@ -139,15 +139,16 @@ export default {
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .title-message {
+  font-size: .875rem;
   text-align: center;
   padding: 1rem;
   background-color: #1e1f23;
   border: 1px solid #444;
   max-height: 5rem;
-  overflow: scroll;
+  overflow: auto;
 }
 .post-list {
   margin-top: auto;

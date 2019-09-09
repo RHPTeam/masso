@@ -108,8 +108,8 @@ h5 {
 }
 
 .main {
-  height: 27rem;
-  overflow-y: scroll;
+  min-height: 27rem;
+  overflow-y: auto;
   overflow-x: hidden;
   padding: 0.5rem;
 }

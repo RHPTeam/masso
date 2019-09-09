@@ -26,10 +26,10 @@
 import PostItem from "./PostItem";
 
 export default {
+    components: {
+        PostItem
+    },
   props: ["postList", "categoryTitle"],
-  components: {
-    PostItem
-  },
   computed: {}
 };
 </script>
@@ -55,7 +55,7 @@ thead {
 }
 .tbl-content {
   background-color: #27292c;
-  height: 17rem;
+  min-height: 17rem;
   overflow-x: auto;
   border-bottom: 1px solid #444;
   border-left: 1px solid #444;

@@ -143,6 +143,29 @@ export default {
     }
   },
 
+  watch: {
+    reset(val) {
+      if(!val) {
+        return;
+      }
+
+      this.keepAliveData = false;
+
+      this.init();
+      this.previousStep = {};
+
+      this.$nextTick(() => {
+        this.keepAliveData = this.keepAlive;
+        this.$emit('reset', true);
+      });
+
+    }
+  },
+
+  created() {
+    this.init();
+  },
+
   methods: {
     isStepActive(index, step) {
       if (this.currentStep.index === index) {
@@ -232,29 +255,6 @@ export default {
         this.nextButton[step.name] = false;
       });
     }
-  },
-
-  watch: {
-    reset(val) {
-      if(!val) {
-        return;
-      }
-
-      this.keepAliveData = false;
-
-      this.init();
-      this.previousStep = {};
-
-      this.$nextTick(() => {
-        this.keepAliveData = this.keepAlive;
-        this.$emit('reset', true);
-      });
-
-    }
-  },
-
-  created() {
-    this.init();
   }
 };
 </script>

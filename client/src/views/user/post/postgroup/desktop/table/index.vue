@@ -15,8 +15,9 @@
         <!--End: Empty Data-->
         <div v-else>
           <!-- Start: Loading Component -->
-          <div class="loading--block"
-               v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading' "
+          <div
+            class="loading--block"
+            v-if="facebookGroupsStatus === 'loading' || facebookPagesStatus === 'loading'"
           >
             <loading-component class="loading"></loading-component>
           </div>

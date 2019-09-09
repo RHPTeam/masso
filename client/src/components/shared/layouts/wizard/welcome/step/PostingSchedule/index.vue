@@ -6,7 +6,7 @@
 
     <div class="right-side">
       <div class="title-message">
-        Một trong các bài viết dưới đây sẽ được đăng trên Trang cá nhân của
+        Bài viết sẽ được đăng trên Trang cá nhân của
         <b>{{accountsFB[0].userInfo.name}}</b>
       </div>
       <post-list class="post-list" v-if="categoryToCopy" :postList="categoryToCopy.postList" />
@@ -76,8 +76,8 @@ export default {
 
 <style lang="scss" scoped>
 .main {
-  height: 27rem;
-  overflow-y: scroll;
+  min-height: 27rem;
+  overflow-y: auto;
   padding: 0.5rem 2rem;
   display: flex;
 }
@@ -90,12 +90,12 @@ export default {
   padding: 0 1rem;
 }
 .title-message {
+  font-size: .875rem;
   text-align: center;
   padding: 1rem;
   background-color: #1e1f23;
   border: 1px solid #444;
   max-height: 5rem;
-  overflow: scroll;
 }
 .post-list {
   margin-top: auto;

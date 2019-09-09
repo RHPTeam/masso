@@ -139,8 +139,6 @@ export default {
     },
 
     storeUserKeywordToWizard() {
-      // this.userInfo.keywords = [...this.userInfo.keywords, ...this.selectedKeywordList];
-      // this.$store.dispatch("updateUser", this.userInfo);
       const userInfoStore = {...this.userInfo};
       userInfoStore.keywords = [...userInfoStore.keywords, ...this.selectedKeywordList];
       this.$store.dispatch("storeKeywordList", userInfoStore);

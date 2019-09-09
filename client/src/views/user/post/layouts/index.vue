@@ -12,7 +12,7 @@
       <div class="wrap--content-main">
         <app-header @openExpire="showExpire = $event"></app-header>
         <router-view />
-        <instant-post-button />
+        <instant-post-button></instant-post-button>
       </div>
       <!-- END: DESKTOP CONTENT COMPONENT-->
     </div>

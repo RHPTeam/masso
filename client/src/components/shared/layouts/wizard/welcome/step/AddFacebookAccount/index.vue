@@ -97,9 +97,6 @@ export default {
       return this.$store.getters.facebookStatus;
     }
   },
-  async created() {
-    await this.$store.dispatch("getAccountsFB");
-  },
   watch: {
     accountsFB() {
       if (this.accountsFB.length === 1) {
@@ -110,6 +107,9 @@ export default {
         this.$emit("can-continue", { value: false });
       }
     }
+  },
+  async created() {
+    await this.$store.dispatch("getAccountsFB");
   },
   methods: {
     showPopup() {

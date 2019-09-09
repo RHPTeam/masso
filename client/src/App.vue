@@ -6,7 +6,7 @@
 
     <!-- Start: Wizard-->
     <wizard-welcome v-if="user && user.keywords && user.keywords.length === 0" />
-    <wizard-quick-post v-if="isShowWizard===true" />
+    <wizard-quick-post v-if="isShowWizard === true" />
     <!-- End: Wizard-->
 
     <!--	Start: Create Campaign Popup Test Again	-->

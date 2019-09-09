@@ -34,10 +34,10 @@
 import PostItem from "./PostItem";
 
 export default {
-  props: ["emitCanContinue", "selectedPost"],
   components: {
     PostItem
   },
+  props: ["emitCanContinue", "selectedPost"],
   computed: {
     allPost() {
       return this.$store.getters.allPost;

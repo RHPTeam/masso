@@ -11,9 +11,6 @@
 
 export default {
   props: ["item","itemTitle", "itemTotal", "itemOptions"],
-  components: {
-
-  },
   data() {
     return {
 
