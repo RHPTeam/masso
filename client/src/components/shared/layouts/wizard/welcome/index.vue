@@ -8,6 +8,8 @@
               <div class="column is-8 is-offset-2">
                 <horizontal-stepper
                   :steps="demoSteps"
+                  :skipable="true"
+                  :skipableStep="3"
                   @completed-step="completeStep"
                   @active-step="isStepActive"
                   @stepper-finished="onFinishStepper"
@@ -84,7 +86,7 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
   },
   methods: {
     closePopup() {
@@ -116,7 +118,7 @@ export default {
       // this.$store.dispatch("toggleWizard", false);
       this.$store.dispatch("updateKeywordList");
     },
-    onSkipWizard(){
+    onSkipWizard() {
       this.$store.dispatch("toggleWizard", false);
     }
   }

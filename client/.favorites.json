@@ -1,0 +1,38 @@
+[
+    {
+        "type": "Directory",
+        "name": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\components\\shared\\layouts\\wizard",
+        "parent_id": null,
+        "fsPath": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\components\\shared\\layouts\\wizard",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "bCVUNLX2sgPY3zhS"
+    },
+    {
+        "type": "File",
+        "name": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\store\\modules\\post\\wizard.store.js",
+        "parent_id": null,
+        "fsPath": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\store\\modules\\post\\wizard.store.js",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "IzJYS6bQ4Ddq8yHv"
+    },
+    {
+        "type": "Directory",
+        "name": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\components\\vue-stepper",
+        "parent_id": null,
+        "fsPath": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\components\\vue-stepper",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "H1wFTbt4IkNAEVPe"
+    },
+    {
+        "type": "File",
+        "name": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\store\\modules\\post\\event.store.js",
+        "parent_id": null,
+        "fsPath": "f:\\Dev\\Test\\vue-test\\masso\\client\\src\\store\\modules\\post\\event.store.js",
+        "workspaceRoot": null,
+        "workspacePath": null,
+        "id": "M3ezZqXQsG1DgCm0"
+    }
+]

@@ -219,8 +219,8 @@
         v-if="user && user.keywords && user.keywords.length === 0"
         :user="user"
         :currentTheme="currentTheme"
-      >
-      </add-key-word>
+      />
+      <!-- Replace AddKeyword to Wizard in App.vue-->
       <!-- End: Notification for check key word account-->
 
       <!-- Start: Notification version updated-->

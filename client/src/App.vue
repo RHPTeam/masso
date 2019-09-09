@@ -3,17 +3,31 @@
     <vue-perfect-scrollbar class="scroll-area" ref="scroll">
       <router-view />
     </vue-perfect-scrollbar>
+
+    <!-- Start: Wizard-->
+    <wizard-welcome v-if="user && user.keywords && user.keywords.length === 0" />
+    <wizard-quick-post v-if="isShowWizard===true" />
+    <!-- End: Wizard-->
+
+    <!--	Start: Create Campaign Popup Test Again	-->
+    <transition name="popup">
+      <app-events v-if="caseEvent.popup === true" @close="close( $event )" />
+    </transition>
+    <!--	End: Create Campaign Popup	-->
   </div>
 </template>
 <script>
 import VuePerfectScrollbar from "vue-perfect-scrollbar";
 import AppEvents from "@/views/user/post/campaigns/desktop/popup/events";
+import WizardQuickPost from "@/components/shared/layouts/wizard/quickpost";
+import WizardWelcome from "@/components/shared/layouts/wizard/welcome";
 
 export default {
   components: {
     VuePerfectScrollbar,
     AppEvents,
-    // AppWizard
+    WizardQuickPost,
+    WizardWelcome
   },
   computed: {
     caseEvent() {
@@ -21,13 +35,16 @@ export default {
     },
     isShowWizard() {
       return this.$store.getters.isShowWizard;
+    },
+    user() {
+      return this.$store.getters.userInfo;
     }
   },
   watch: {
     $route(to, from) {
       this.$refs.scroll.$el.scrollTop = 0;
     }
-  },
+  }
 };
 </script>
 <style lang="scss">
@@ -35,7 +52,7 @@ export default {
   font-family: "Open Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
+  color: #ccc;
   .scroll-area {
     position: relative;
     height: 100vh;

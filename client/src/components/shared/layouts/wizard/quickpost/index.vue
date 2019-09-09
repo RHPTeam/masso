@@ -8,11 +8,16 @@
               <div class="column is-8 is-offset-2">
                 <horizontal-stepper
                   :steps="demoSteps"
+                  :skipable="true"
+                  :skipableStep="2"
+                  :backable="false"
+                  :keepAlive="false"
                   @completed-step="completeStep"
                   @active-step="isStepActive"
-                  @stepper-finished="hideWizard"
+                  @stepper-finished="onFinishStepper"
                   @next-step="onNextStep"
                   @skip-wizard="onSkipWizard"
+                  @clicking-back="onBackStep"
                 ></horizontal-stepper>
               </div>
             </div>
@@ -25,8 +30,6 @@
 
 <script>
 import HorizontalStepper from "@/components/vue-stepper";
-import ChooseKeyword from "./step/ChooseKeyword";
-import AddFacebookAccount from "./step/AddFacebookAccount";
 import ChooseContent from "./step/ChooseContent";
 import PostingSchedule from "./step/PostingSchedule";
 import FinalStep from "./step/FinalStep";
@@ -34,29 +37,14 @@ import FinalStep from "./step/FinalStep";
 export default {
   components: {
     HorizontalStepper,
-    ChooseKeyword,
-    AddFacebookAccount,
     ChooseContent,
     PostingSchedule,
     FinalStep
   },
   data() {
     return {
+      // Removed Step 1 & 2 in Quick Post feature
       demoSteps: [
-        {
-          icon: "font_download",
-          name: "Bước 1",
-          title: "Chọn từ khóa",
-          component: ChooseKeyword,
-          completed: false
-        },
-        {
-          icon: "account_circle",
-          name: "Bước 2",
-          title: "Thêm tài khoản",
-          component: AddFacebookAccount,
-          completed: false
-        },
         {
           icon: "drafts",
           name: "Bước 3",
@@ -84,7 +72,7 @@ export default {
   computed: {
     currentTheme() {
       return this.$store.getters.themeName;
-    },
+    }
   },
   methods: {
     closePopup() {
@@ -111,12 +99,17 @@ export default {
     onNextStep(payload) {
       this.$store.dispatch("updateFinishedStep", payload.name);
     },
+    onBackStep(payload) {
+      // console.log("TCL: onBackStep -> payload", payload);
+      // this.$store.dispatch("updateFinishedStep", payload.name);
+    },
     // Executed when @stepper-finished event is triggered
-    hideWizard(payload) {
+    onFinishStepper(payload) {
       this.$store.dispatch("toggleWizard", false);
     },
-    onSkipWizard(){
-      this.hideWizard();
+    onSkipWizard() {
+      this.$store.dispatch("toggleWizard", false);
+      this.$store.dispatch("updateFinishedStep", "");
     }
   }
 };

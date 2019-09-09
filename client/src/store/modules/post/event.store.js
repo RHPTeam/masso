@@ -12,6 +12,7 @@ const state = {
     post_custom: [],
     post_category: "",
     target_custom: [],
+    target_category: null,
     timeline: [],
     plugins: "",
   },

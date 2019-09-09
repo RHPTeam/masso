@@ -36,18 +36,16 @@
                 <component v-else :is="steps[currentStep.index].component" :clickedNext="nextButton[currentStep.name]" @can-continue="proceed" @change-next="changeNextBtnValue" :current-step="currentStep"></component>
             </transition>
         </div>
-        <div :class="['bottom', (currentStep.index < 3) ? '' : 'only-next']">
+        <div :class="['bottom', (currentStep.index < skipableStep) ? '' : 'only-next']">
             <!-- <div v-if="currentStep.index > 0" class="stepper-button previous" @click="backStep()">
-                <i class="material-icons">keyboard_arrow_left</i>
-                <span>{{ 'back' | translate(locale) }}</span>
+                <span v-if="backable">{{ 'back' | translate(locale) }}</span>
             </div> -->
             <!-- <div v-if="currentStep.index < 3" class="stepper-button previous" @click="skip()">
               
                 <span>{{ 'skip' | translate(locale) }}</span>
             </div> -->
-            <div v-if="currentStep.index < 3" class="stepper-button previous" @click="skip()">
-              
-            
+            <div v-if="currentStep.index < skipableStep" class="stepper-button previous" @click="skip()">
+               <span v-if="skipable" >{{ 'cancel' | translate(locale) }}</span>
             </div>
             <div :class="['stepper-button next', !canContinue ? 'deactivated' : '']" @click="nextStep()">
                 <span>{{ (finalStep) ? 'finish' : 'next' | translate(locale) }}</span>
@@ -102,7 +100,19 @@ export default {
     reset: {
       type: Boolean,
       default: false
-    }
+    },
+    skipable: {
+      type: Boolean,
+      default: false
+    },
+    backable: {
+      type: Boolean,
+      default: false
+    },
+    skipableStep: {
+      type: Number,
+      default: 3
+    },
   },
 
   data() {
@@ -194,11 +204,12 @@ export default {
       });
     },
     backStep() {
-      this.$emit("clicking-back");
+      
       let currentIndex = this.currentStep.index - 1;
       if (currentIndex >= 0) {
         this.activateStep(currentIndex, true);
       }
+      this.$emit("clicking-back", this.currentStep);
     },
 
     skip(){
