@@ -104,8 +104,8 @@
           <icon-base
             class="icon icon--application"
             :class="{ active: isShowOptionsMoreDropdown }"
-            width="26"
-            height="26"
+            width="20"
+            height="20"
             viewBox="0 0 60 60"
           >
             <icon-application/>
@@ -158,7 +158,6 @@
                 <div class="pt_1">Zalo</div>
               </div>
             </div>
-            <div class="text_center view-more">Xem thêm</div>
           </div>
         </transition>
       </div>

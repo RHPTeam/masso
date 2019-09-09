@@ -10,8 +10,8 @@
         <div class="sidebar--logo-icon">
           <icon-base
             icon-name="ZinBee"
-            width="60"
-            height="50"
+            width="40"
+            height="37.414"
             viewBox="0 0 100 100"
           >
             <icon-logo-short />
@@ -20,8 +20,8 @@
         <div class="sidebar--logo-text">
           <icon-base
             icon-name="ZinBee"
-            width="132.92"
-            height="49.73"
+            width="100"
+            height="37.414"
             viewBox="0 0 250.446 93.703"
           >
             <icon-logo />
@@ -80,7 +80,7 @@
     <!-- Start: Language -->
     <div class="position_fixed flag--sidebar">
       <!-- Start: Language flag -->
-      <div class="flags position_relative ml_3">
+      <div class="flags position_relative">
         <div @click="showFlagDropdown">
           <icon-base
             class="icon--flag"

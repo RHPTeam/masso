@@ -3,8 +3,8 @@
     <div class="notification--content" v-click-outside="close">
       <!-- Start: Notification Header -->
       <div class="notification--header d_flex align_items_center justify_content_between">
-        <div class="title">Thông báo</div>
-        <div class="action"> Đánh dấu tất cả là đã đọc</div>
+        <div class="title">Câu hỏi phổ biến</div>
+        <!--<div class="action"> Đánh dấu tất cả là đã đọc</div>-->
       </div>
       <!-- End: Notification Header -->
       <!-- Start: Notification List -->
@@ -15,7 +15,7 @@
           </div>
           <div v-else>
             <div v-if="blogHelp && blogHelp.length === 0">
-              Bạn chưa có thông báo nào.
+              Không có dữ liệu.
             </div>
             <div
               v-else

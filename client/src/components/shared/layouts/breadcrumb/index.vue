@@ -13,10 +13,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .main--header {
-  margin-bottom: 25px;
-  margin-top: 52px;
+  margin-bottom: 1.5rem;
+  margin-top: 2rem;
   .main--header-title {
-    font-size: 30px;
+    font-size: 1.5rem;
     font-weight: 600;
     text-transform: capitalize;
   }

@@ -4,7 +4,7 @@
     <div class="d_none d_md_block">
       <div class="d_flex align_items_center">
         <breadcrumb
-          nameBread="Quản lý nhóm"
+          nameBread="Nhóm và trang"
           subBread="Trang giúp bạn quản các trang và nhóm Facebook"
         />
         <div class="guide ml_3" @click="redirectBlogHelp">
@@ -117,7 +117,7 @@ export default {
 <style lang="scss" scoped>
   .guide {
     cursor: pointer;
-    margin-bottom: -2.3rem;
+    margin-bottom: -0.75rem;
   }
 .page--group-search {
     background-clip: padding-box;

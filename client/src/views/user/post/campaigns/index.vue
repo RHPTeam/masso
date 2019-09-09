@@ -4,7 +4,7 @@
     <div class="d_none d_md_block">
       <div class="d_flex align_items_center">
         <breadcrumb
-          nameBread="Thiết lập chiến dịch"
+          nameBread="Chiến dịch đăng bài"
           subBread="Giúp bạn thiết lập bộ hẹn cho bài đăng theo ý muốn và trực quan hơn"
         />
         <div class="guide ml_3" @click="redirectBlogHelp">
@@ -64,6 +64,6 @@ export default {
 <style lang="scss" scoped>
   .guide {
     cursor: pointer;
-    margin-bottom: -2.3rem;
+    margin-bottom: -0.75rem;
   }
 </style>

@@ -64,21 +64,7 @@ export default {
     font-family: "Open Sans", sans-serif;
     .guide {
       cursor: pointer;
-      margin-bottom: -2.3rem;
-    }
-    .main--header {
-      margin-bottom: 25px;
-      margin-top: 52px;
-      .main--header-title {
-        font-size: 30px;
-        font-weight: 600;
-      }
-      .main--header-desc {
-        font-size: 14px;
-        font-weight: normal;
-        margin-left: 16px;
-        margin-bottom: 5px;
-      }
+      margin-bottom: -0.75rem;
     }
     .main--content {
       min-height: calc(100vh - 260px);

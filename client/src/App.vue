@@ -10,7 +10,7 @@
 export default {
   watch:{
     $route (to, from){
-      this.$refs.scroll.$el.scrollTop = 0;
+      this.scrollTop = 0;
     }
   }
 };

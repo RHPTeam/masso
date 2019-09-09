@@ -4,7 +4,6 @@
       <breadcrumb
         nameBread="Facebook Tìm Kiếm"
       />
-
       <div class="guide ml_3" @click="redirectBlogHelp">
         <icon-base
           class="icon icon--help"
@@ -50,6 +49,6 @@ export default {
 <style scoped lang="scss">
   .guide {
     cursor: pointer;
-    margin-bottom: -2.3rem;
+    margin-bottom: -0.75rem;
   }
 </style>

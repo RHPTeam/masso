@@ -4,10 +4,9 @@
     <div class="d_none d_md_block">
       <div class="d_flex align_items_center">
         <breadcrumb
-          nameBread="Thiết lập kho nội dung"
+          nameBread="Kho nội dung"
           subBread="Giúp bạn lưu các bài đăng vào thư viện và quản lý bài đăng theo nhóm mong muốn"
         />
-
         <div class="guide ml_3" @click="redirectBlogHelp">
           <icon-base
             class="icon icon--help"
@@ -90,7 +89,7 @@ export default {
 <style lang="scss" scoped>
 .guide {
   cursor: pointer;
-  margin-bottom: -2.3rem;
+  margin-bottom: -0.75rem;
 }
 /* Enter and leave animations can use different */
 /* durations and timing functions.              */

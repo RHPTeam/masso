@@ -66,7 +66,7 @@
   min-height: 100vh;
   .wrap--content-main {
     width: 100%;
-    padding: 30px 60px 60px 0;
+    padding: 1rem 2rem 3rem 0;
   }
   .mobile-scroll {
     height: calc(100vh - 110px);
