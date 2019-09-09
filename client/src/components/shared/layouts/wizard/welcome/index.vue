@@ -9,7 +9,7 @@
                 <horizontal-stepper
                   :steps="demoSteps"
                   :skipable="true"
-                  :skipableStep="3"
+                  :skipableStep="[1,2,3]"
                   @completed-step="completeStep"
                   @active-step="isStepActive"
                   @stepper-finished="onFinishStepper"
@@ -113,13 +113,12 @@ export default {
     onNextStep(payload) {
       this.$store.dispatch("updateFinishedStep", payload.name);
     },
-    // Executed when @stepper-finished event is triggered
+
     onFinishStepper(payload) {
-      // this.$store.dispatch("toggleWizard", false);
       this.$store.dispatch("updateKeywordList");
     },
     onSkipWizard() {
-      this.$store.dispatch("toggleWizard", false);
+      this.$store.dispatch("updateKeywordList");
     }
   }
 };
