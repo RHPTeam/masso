@@ -61,7 +61,7 @@ export default {
       if(this.statusCode === "success") {
         await this.$store.dispatch("getUserInfo");
         this.isShowErrorCode = false;
-        this.$emit("closePopup", false);
+        this.closePopup();
       } else {
         this.isShowErrorCode = true;
       }

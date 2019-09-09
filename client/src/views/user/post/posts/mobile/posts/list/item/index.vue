@@ -32,7 +32,7 @@
             <icon-remove />
           </icon-base>
         </span>
-        <!-- <span class="icon ml_3" @click="showPopupPostNow">
+        <span class="icon ml_3" @click="showPopupPostNow">
           <icon-base
             class="icon--post-now"
             icon-name="Đăng ngay"
@@ -42,7 +42,7 @@
           >
             <icon-post-now />
           </icon-base>
-        </span> -->
+        </span>
       </div>
     </div>
     <!-- End: action posts -->

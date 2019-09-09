@@ -11,13 +11,10 @@
         <div class="overview">
           <!-- Start: General Analytics-->
           <div class="r total mx_0">
-            <div
-              class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3 mb_lg_3"
-              style="maxHeight: 367px"
-            >
+            <div class="c_md_12 c_lg_12 c_xl_5 content px_0 pr_xl_3">
               <div class="r pd15">
                 <!-- Start: Posts -->
-                <div class="c_6 text_center">
+                <div class="c_6 items text_center">
                   <div class="wrap">
                     <div class="icon">
                       <icon-base
@@ -27,7 +24,7 @@
                         height="18"
                         viewBox="0 0 580 580"
                       >
-                        <icon-post />
+                        <icon-post/>
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.post }}</div>
@@ -36,7 +33,7 @@
                 </div>
                 <!-- End: Posts -->
                 <!-- Start: Campaigns -->
-                <div class="c_6 text_center">
+                <div class="c_6 items text_center">
                   <div class="wrap">
                     <div class="icon">
                       <icon-base
@@ -46,7 +43,7 @@
                         height="18"
                         viewBox="0 0 22 22"
                       >
-                        <icon-broadcast />
+                        <icon-broadcast/>
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.campaign }}</div>
@@ -55,7 +52,7 @@
                 </div>
                 <!-- End: Campaigns -->
                 <!-- Start: Groups -->
-                <div class="c_6 text_center">
+                <div class="c_6 items text_center">
                   <div class="wrap">
                     <div class="icon">
                       <icon-base
@@ -65,7 +62,7 @@
                         height="20"
                         viewBox="0 0 500 500"
                       >
-                        <icon-group />
+                        <icon-group/>
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.group }}</div>
@@ -74,7 +71,7 @@
                 </div>
                 <!-- End: Groups -->
                 <!-- Start: Pages -->
-                <div class="c_6 text_center">
+                <div class="c_6 items text_center">
                   <div class="wrap">
                     <div class="icon">
                       <icon-base
@@ -84,7 +81,7 @@
                         height="18"
                         viewBox="0 0 480 500"
                       >
-                        <icon-page />
+                        <icon-page/>
                       </icon-base>
                     </div>
                     <div class="number">{{ allAnalysis.page }}</div>
@@ -94,41 +91,10 @@
                 <!-- End: Pages -->
               </div>
             </div>
-            <div
-              class="c_md_12 c_lg_12 c_xl_7 line--chart mt_md_3 mt_lg_0 pt_3"
-              style="maxHeight: 367px"
-            >
-              <VueApexCharts
-                type="line"
-                height="350"
-                :options="campaignDataChart"
-                :series="allStaticCampaign"
-              ></VueApexCharts>
-            </div>
-          </div>
-          <!-- End: General Analytics-->
-          <!-- Start Post Analytics -->
-          <div class="order--server-history mx_0 mt_3 r">
-            <div class="server px_0 c_md_12 c_lg_12 c_xl_6 px_0 pr_xl_3" style="max-height: 405px;">
-              <div class="view--post-day">
-                <VueApexCharts
-                  type="line"
-                  height="350"
-                  :options="postRecommendDataChart"
-                  :series="allSttPost"
-                ></VueApexCharts>
-              </div>
-            </div>
-            <div
-              class="order mt_md_3 mt_lg_0 c_md_12 c_lg_12 c_xl_6 mt_md_3 pt_3"
-              style="max-height: 405px;"
-            >
+            <div class="order c_md_12 c_lg_12 c_xl_7 pt_3">
               <div class="top d_flex justify_content_between align_items_center mt_1 mb_2">
                 <h3 class="title--overview">Bài viết gần đây</h3>
-                <router-link
-                  class="view--all"
-                  :to="{ name: 'post_posts', query: {size: 25, page: 1} }"
-                >Xem tất cả</router-link>
+                <router-link class="view--all" :to="{ name: 'post_posts', query: {size: 25, page: 1} }">Xem tất cả</router-link>
               </div>
               <div class="table-container" role="table" aria-label="Destinations">
                 <div class="flex-table header" role="rowgroup">
@@ -142,8 +108,9 @@
                     role="rowgroup"
                     v-for="(item, index) in newestPost"
                     :key="index"
+                    @click="goToThisPost(item._id)"
                   >
-                    <div class="flex-row first" role="cell">{{ item.title }}</div>
+                    <div class="flex-row first" role="cell">{{ item.title.length > 0 ? item.title : "Bài viết chưa có tiêu đề" }}</div>
                     <div class="flex-row" role="cell">
                       <span
                         v-for="(category, index) in item._categories"
@@ -159,7 +126,7 @@
                           :key="`i-${index}`"
                           class="img--select"
                         >
-                          <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link" />
+                          <img class="img--bg" v-if="img.typeAttachment === 1" :src="img.link">
                         </div>
                       </div>
                     </div>
@@ -168,35 +135,96 @@
                 <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
               </div>
             </div>
+          </div>
+          <!-- End: General Analytics-->
+          <!-- Start Post Analytics -->
+          <div class="order--server-history mx_0 mt_3 r">
+            <div class="server px_0 c_md_12 c_lg_12 c_xl_6 px_0 pr_xl_3">
+              <div class="view--post-day pt_3">
+                <VueApexCharts
+                  type="line"
+                  height="350"
+                  :options="postRecommendDataChart"
+                  :series="allSttPost"
+                ></VueApexCharts>
+              </div>
+            </div>
+            <div class="c_md_12 c_lg_12 c_xl_6 line--chart">
+              <div class="pt_3">
+                <VueApexCharts
+                  type="line"
+                  height="350"
+                  :options="campaignDataChart"
+                  :series="allStaticCampaign"
+                ></VueApexCharts>
+              </div>
+            </div>
             <!-- End: Content -->
           </div>
           <!-- End: Post Analytics -->
+
+          <!-- Start: Event schedules -->
+          <div class="events--schedule mt_3">
+            <div class="content p_3">
+              <div class="items--header">
+                <h4>Event schedules</h4>
+              </div>
+              <div class="items--body">
+                <div class="table-container" role="table" aria-label="Destinations">
+                  <div class="flex-table header" role="rowgroup">
+                    <div class="flex-row first" role="columnheader">Thời gian bắt đầu</div>
+                    <div class="flex-row" role="columnheader">Tên bài viết</div>
+                    <div class="flex-row campaign" role="columnheader">Chiến dịch</div>
+                    <div class="flex-row" role="columnheader">Trạng thái</div>
+                    <div class="flex-row" role="columnheader">Hành động</div>
+                  </div>
+                  <div v-if="newestPost.length > 0">
+                    <div
+                      class="flex-table row"
+                      role="rowgroup"
+                    >
+                      <div class="flex-row first" role="cell">10:10 26-09-1097</div>
+                      <div class="flex-row" role="cell">Tên bài viết Tên bài viết Tên bài viết Tên bài viết Tên bài viết Tên bài viết</div>
+                      <div class="flex-row campaign" role="cell">Chiến dịch Chiến dịch Chiến dịch Chiến dịch Chiến dịch</div>
+                      <div class="flex-row" role="cell">
+                        <div class="status d_flex align_items_center">
+                          <span class="prepare item--status"></span>
+                          <span class="desc--status pl_2">Đăng thành công</span>
+                        </div>
+                      </div>
+                      <div class="flex-row" role="cell">
+                        Xóa
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="noPost text_center mt_3 mb_3">Chưa có bài viết nào !</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- End: Event schedules -->
 
           <!-- Start: Friend Follow -->
           <!-- <friends-follow
             :currentTheme="currentTheme"
           >
-          </friends-follow>-->
+          </friends-follow> -->
           <!-- End: Friend Follow -->
         </div>
       </div>
       <!-- End: Content -->
 
       <!-- Start: Notification for check key word account-->
-      <!-- <add-key-word
+      <add-key-word
         v-if="user && user.keywords && user.keywords.length === 0"
         :user="user"
         :currentTheme="currentTheme"
-      >-->
-      <!-- Replace AddKeyword to Wizard -->
-      <wizard-welcome v-if="user && user.keywords && user.keywords.length === 0" />
+      >
+      </add-key-word>
       <!-- End: Notification for check key word account-->
 
       <!-- Start: Notification version updated-->
-      <version-popup
-        v-if="isStatusVersionNotification === false"
-        @close="isReadVersionNotification = $event"
-      ></version-popup>
+      <version-popup v-if="isStatusVersionNotification === false" @close="isReadVersionNotification = $event"></version-popup>
       <!-- End: Notification version updated-->
 
     </div>
@@ -207,5 +235,5 @@
 <script src="./index.script.js"></script>
 
 <style lang="scss" scoped>
-@import "./index.style";
+  @import "./index.style";
 </style>

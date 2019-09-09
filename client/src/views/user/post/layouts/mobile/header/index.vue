@@ -160,7 +160,7 @@
         <div
           class="add action account--fb"
           @click="showPopupAddAccountFb"
-          v-if="this.$route.name === 'post_fbaccount'"
+          v-if="gestureCursorMenuUser === 4 || this.$route.name === 'post_fbaccount'"
         >
           <icon-base icon-name="Add" width="24" height="24" viewBox="0 0 68 68">
             <icon-plus />

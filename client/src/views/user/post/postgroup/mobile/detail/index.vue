@@ -79,6 +79,7 @@
                       type="checkbox"
                       v-model="postGroupProfileSelected"
                       :value="profile.userInfo.id"
+                      :id="profile.userInfo.id"
                     />
                   </label>
                 </div>

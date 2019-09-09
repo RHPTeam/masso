@@ -176,7 +176,7 @@ export default {
     }
   },
   created() {
-    // this.$store.dispatch( "getAccountsFB" );
+    this.$store.dispatch( "getAccountsFB" );
     this.$store.dispatch("actionCursor", 11);
     this.$store.dispatch( "getUserInfo" );
   }

@@ -160,9 +160,8 @@ export default {
 
 <style scoped lang="scss">
 // Start: Transition
-
 .popup--mobile-enter {
-  transform: translateX(-100%);
+  transform: translateX(100%);
 }
 
 .popup--mobile-enter-to {
@@ -172,10 +171,8 @@ export default {
 
 .popup--mobile-leave-to {
   transition: transform 0.75s;
-  transform: translateX(-100%);
+  transform: translateX(100%);
 }
-
-
 // End: Transition
 .modal--confirm-password {
   height: 100vh;

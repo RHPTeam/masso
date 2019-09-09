@@ -1,10 +1,8 @@
 const state = {
-  actionPopup: Number,
   gestureUser: Number,
   gestureCursorMenuUser: Number
 };
 const getters = {
-  actionPopup: state => state.actionPopup,
   // Action gesture show button
   gestureUser: state => state.gestureUser,
   // Action gesture show tab menu
@@ -16,9 +14,6 @@ const mutations = {
   },
   setActionCursorMenu: (state, payload) => {
     state.gestureCursorMenuUser = payload;
-  },
-  setActionPopup: (state, payload) => {
-    state.actionPopup = payload;
   }
 };
 const actions = {
@@ -40,7 +35,6 @@ const actions = {
       63: Thay đổi mật khẩu
       // Campaign
       20: Create campaign
-      
   */
   actionCursor: ({ commit }, payload) => {
     commit("setActionCursor", payload);
@@ -60,14 +54,6 @@ const actions = {
     commit("setActionCursorMenu", payload);
   },
 
-  // action when create and back for popup
-  /*
-    113: Return step
-    114: Done
-  */
- actionPopup: ({ commit }, payload) => {
-   commit("setActionPopup", payload);
- }
 };
 
 export default {

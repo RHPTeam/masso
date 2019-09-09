@@ -53,16 +53,14 @@ export default {
     }
   },
   methods: {
-    async closePopup() {
-      await this.$store.dispatch("actionPopup", 113);
+    closePopup() {
       this.$emit("closePopup", false);
     },
-    async updateAgencyInfo() {
+    updateAgencyInfo() {
       if (this.agency.subDomain.length === 0) {
         this.isShowAlert = true;
       } else {
-        await this.$store.dispatch("actionPopup", 114);
-        this.$emit("closePopup", false);
+        this.closePopup();
         this.$store.dispatch("updateAgencyInfo", {
           domain: this.agency.subDomain
         });

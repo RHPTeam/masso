@@ -37,21 +37,14 @@
 export default {
   data() {
     return {
-      back: false,
-      done: false,
       keyword: ""
     };
   },
-  props: ["active"],
   methods: {
     closeAddKeywords() {
-      this.back = true;
-      this.done = false;
       this.$emit("closeAddKeywords", false);
     },
     confirmAddKeywords() {
-      this.done = true;
-      this.back = false;
       this.$emit("confirmAddKeywords", {
         keyword: this.keyword,
         confirm: true
@@ -72,7 +65,6 @@ export default {
   color: #ccc;
   z-index: 10;
   font-size: 0.875rem;
-  transition: all 0.4s ease;
   .items--header {
     padding: 0.625rem 0;
     border-bottom: 1px solid #444;

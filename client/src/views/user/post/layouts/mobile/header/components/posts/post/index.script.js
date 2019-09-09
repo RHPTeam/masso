@@ -119,7 +119,7 @@ export default {
     clear() {
       clearTimeout(typingTimer);
     },
-    async closePopup() {
+    closePopup() {
       this.$emit("closePopup", false);
       const dataSender = {
         size: 25,
@@ -158,7 +158,7 @@ export default {
       this.isShowTag = true;
       this.isShowMoreOption = false;
     },
-    async savePost() {
+    savePost() {
       if (this.post.content.trim().length === 0) {
         this.isShowAlertContent = true;
       } else if (this.post.title.trim().length === 0) {
@@ -169,7 +169,7 @@ export default {
         if (this.linkContent.length > 0) {
           this.post.scrape = this.linkContent[0];
         }
-        this.$store.dispatch("updatePost", this.post);
+        this.$store.dispatch("updatePostMobile", this.post);
         const dataSender = {
           size: 25,
           page: 1

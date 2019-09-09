@@ -27,7 +27,7 @@ export default {
       return this.$store.getters.allAnalysis;
     },
     allStaticCompaign() {
-      const mapArrCampaign = this.$store.getters.getStaticCampaigns.map( (campaign) => {
+      const mapArrCampaign = this.$store.getters.getAllStaticCampaign.map( (campaign) => {
         return campaign.amount;
       });
 
@@ -37,12 +37,12 @@ export default {
       }];
     },
     chartOptionsLine() {
-      const timeCampaign = this.$store.getters.getStaticCampaigns.map( ( date ) => {
+      const timeCampaign = this.$store.getters.getAllStaticCampaign.map( ( date ) => {
         return date.date;
       } );
 
       let arrCampaign = [];
-      this.$store.getters.getStaticCampaigns.map( ( amount ) => {
+      this.$store.getters.getAllStaticCampaign.map( ( amount ) => {
         arrCampaign.push( amount.amount );
       });
       let maxCampaign = Math.max.apply(null, arrCampaign);
@@ -258,7 +258,7 @@ export default {
     }
   },
   async created() {
-    await this.$store.dispatch("getStatisticCampaigns");
-    this.$store.dispatch("getAnalysis");
+    await this.$store.dispatch("getAllStaticCampaign");
+    this.$store.dispatch("getAllAnalysis");
   }
 }

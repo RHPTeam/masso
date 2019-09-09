@@ -9,7 +9,7 @@
               <icon-input-search />
             </icon-base>
           </span>
-          <input type="text" placeholder="Tìm kiếm" v-model="search"/>
+          <input type="text" placeholder="Tìm kiếm" v-model="search" />
         </div>
         <div class="cancel ml_auto" @click="closePopupSearch">Hủy</div>
       </div>
@@ -103,7 +103,7 @@
                 </div>
                 <div class="col col--checkbox pr_3 ml_auto">
                   <label class="custom--checkbox mb_0">
-                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId" />
+                    <input type="checkbox" v-model="postGroupGroupsSelected" :value="group.groupId" :id="group.groupId"/>
                   </label>
                 </div>
               </label>
