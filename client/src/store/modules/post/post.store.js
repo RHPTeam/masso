@@ -216,6 +216,14 @@ const actions = {
     commit("setDeletePost", allPost);
     await PostServices.deletePost(payload);
   },
+  // delete by id for mobile
+  deletePostMobile: async ({ commit }, payload) => {
+
+    const allPost = state.allPost.filter(allPost => allPost._id !== payload.id);
+
+    commit("setDeletePost", allPost);
+    await PostServices.deletePost(payload.id);
+  },
   // delete post when search for mobile
   deletePostSearch: async ({ commit }, payload) => {
     const allPostSearchMobile = state.allPostSearchMobile.filter(

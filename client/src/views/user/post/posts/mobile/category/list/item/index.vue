@@ -33,7 +33,7 @@
         :name="item.title"
         v-if="isShowPopupDelete === true"
         @closePopup="isShowPopupDelete = $event"
-        storeActionName="deleteCategory"
+        storeActionName="deleteCategoryMobile"
         :targetData="targetDataDelete"
       />
     </transition>

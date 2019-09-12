@@ -134,6 +134,10 @@ const actions = {
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
   },
+  // update category and no get category for mobile
+  updateCategoryMobile: async ( { commit }, payload ) => {
+    await CategoriesServices.updateCategory( payload.id, payload.category );
+  },
   deleteCategory: async ( { commit }, payload ) => {
     const categories = state.categoriesPage.filter( ( category ) => {
       return category._id !== payload.id;
@@ -149,6 +153,17 @@ const actions = {
     res = await CategoriesServices.getByPage( payload.size, payload.page );
     commit( "setCategoriesPage", res.data.data.results );
     commit( "setCategoriesPageSize", res.data.data.page );
+  },
+  // delete category no get category for mobile
+  deleteCategoryMobile: async ( { commit }, payload ) => {
+    const categories = state.categoriesPage.filter( ( category ) => {
+      return category._id !== payload.id;
+    } );
+
+    commit( "setCategoriesPage", categories );
+    commit( "setCategoriesPageSize", categories.length );
+
+    await CategoriesServices.deleteCategory( payload.id );
   },
   // mobile: delete category when search
   deleteCategorySearch: async ( { commit }, payload ) => {

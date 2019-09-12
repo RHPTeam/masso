@@ -76,7 +76,7 @@ export default {
             mix: this.item.mix
           }
         };
-        this.$store.dispatch("updateCategory", dataSender);
+        this.$store.dispatch("updateCategoryMobile", dataSender);
         this.$emit("closePopup", false);
       }
     }
