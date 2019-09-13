@@ -1,5 +1,5 @@
 <template>
-  <vue-perfect-scrollbar class="window d_flex align_items_start justify_content_center">
+  <div class="window d_flex align_items_start justify_content_center r_scrollbar">
     <div class="container">
       <div class="wrapper position_relative">
         <div class="btn--close position_absolute d_flex align_items_center justify_content_center"
@@ -7,7 +7,7 @@
         >
           <icon-base
             class="icon--close"
-            icon--name="Hủy"
+            icon-name="Hủy"
             height="16px"
             width="16px"
             viewBox="0 0 20 20"
@@ -85,7 +85,7 @@
       ></delete-event>
     </transition>
     <!--End: POPUP DELETE-->
-  </vue-perfect-scrollbar>
+  </div>
 </template>
 
 <script>

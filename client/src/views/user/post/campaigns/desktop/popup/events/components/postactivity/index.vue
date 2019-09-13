@@ -5,7 +5,7 @@
         <div class="icon mr_4">
           <icon-base
             class="icon--activity"
-            icon--name="Nơi đăng"
+            icon-name="Hoạt động"
             height="20px"
             width="20px"
             viewBox="0 0 480 480"

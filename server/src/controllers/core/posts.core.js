@@ -376,7 +376,6 @@ module.exports = {
 
       await page.waitFor( 500 );
       await PostLogic.copyTextToClipboard( page, feed.content );
-
       const isWorkingClickToPopup = await PostLogic.clickToPopup( page, 5000 );
 
       if ( isWorkingClickToPopup === false ) {
@@ -434,6 +433,11 @@ module.exports = {
       }
       await page.waitFor( 3000 );
       const result = await PostLogic.getIDPostPreview( browser, feed, page );
+      const newCookieStr = await PostLogic.getCookie( page );
+
+      if ( newCookieStr !== false ) {
+        result.results.cookie = newCookieStr;
+      }
 
       await browser.close();
       return result;

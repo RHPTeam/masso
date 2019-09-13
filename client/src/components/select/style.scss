@@ -201,7 +201,7 @@ fieldset[disabled] .multiselect {
 
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-  background: #FFB94A;
+  background: #ff6a6a;
 }
 
 .multiselect__tag-icon:focus:after,
@@ -280,6 +280,34 @@ fieldset[disabled] .multiselect {
   box-shadow: 0 0 10px rgba(255, 255, 255, .15);
   z-index: 50;
   -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content-wrapper::-webkit-scrollbar {
+  width: 6px;
+  background-color: #27292c;
+  opacity: 0;
+}
+
+.multiselect__content-wrapper::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: background-color .2s linear, height .2s ease-in-out;
+  -webkit-transition: background-color .2s linear, height .2s ease-in-out;
+  height: 6px;
+  bottom: 2px;
+  position: absolute;
+}
+
+.multiselect__content-wrapper::-webkit-scrollbar-track {
+  display: none;
+  opacity: 0;
+  transition: background-color .2s linear, opacity .2s linear;
+  -webkit-transition: background-color .2s linear, opacity .2s linear;
+  width: 15px;
+  /* there must be 'right' or 'left' for ps__rail-y */
+  right: 0;
+  /* please don't change 'position' */
+  position: absolute;
 }
 
 .multiselect__content {

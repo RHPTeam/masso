@@ -7,6 +7,7 @@ require( "./cron/post/campaign" );
 require( "./cron/post/post" );
 
 ( async () => {
+  console.log( "Checking sync role from zinbee server..." );
   const roleList = await Role.find( {} ),
     resRole = await roleSync( "roles/sync" );
 

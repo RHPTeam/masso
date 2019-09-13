@@ -5,7 +5,7 @@
         <div class="icon mr_4">
           <icon-base
             class="icon--mix"
-            icon--name="Nội dung nâng cao"
+            icon-name="Nội dung nâng cao"
             height="20px"
             width="20px"
             viewBox="0 0 540 540"

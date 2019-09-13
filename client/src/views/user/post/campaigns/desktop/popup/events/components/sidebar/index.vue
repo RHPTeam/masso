@@ -7,6 +7,7 @@
         <div class="item--content d_flex align_items_center" @click="showAdvanceContentPopup">
           <icon-base
             class="icon icon--mix mr_2"
+            icon-name="Nội dung nâng cao"
             height="14px"
             width="14px"
             viewBox="0 0 580 580"
@@ -34,6 +35,7 @@
         >
           <icon-base
             class="icon icon--copy mr_2"
+            icon-name="Sao chép"
             height="14px"
             width="14px"
             viewBox="0 0 500 500"
@@ -53,6 +55,7 @@
         <div class="item--content d_flex align_items_center position_relative">
           <icon-base
             class="icon icon--watch mr_2"
+            icon-name="Theo dõi"
             height="14px"
             width="14px"
             viewBox="0 0 280 280"
@@ -63,6 +66,7 @@
           <div class="status text_center position_absolute">
             <icon-base
               class="icon--check"
+              icon-name="Theo dõi"
               height="10px"
               width="10px"
               viewBox="0 0 500 500"
@@ -79,6 +83,7 @@
         <div class="item--content d_flex align_items_center">
           <icon-base
             class="icon icon--remove mr_2"
+            icon-name="Xóa"
             height="14px"
             width="14px"
             viewBox="0 0 16 16"
@@ -99,6 +104,7 @@
       Cập nhật
     </div>
     <div class="btn--submit mt_4"
+         :style="{ backgroundColor: event.color }"
          v-else
          @click="createNewEvent"
     >

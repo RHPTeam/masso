@@ -2,7 +2,7 @@ module.exports = {
   "clickToPopup": async ( page, timer ) => {
     if ( timer <= 0 ) {
       return false;
-    } else if ( await page.$( "textarea.navigationFocus" ) != null ) {
+    } else if ( ( await page.$( "textarea.navigationFocus" ) ) != null ) {
       await page.click( "textarea.navigationFocus" );
       return true;
     } else if ( await page.$( 'div[data-testid="react-composer-root"]' ) ) {
@@ -68,18 +68,23 @@ module.exports = {
     return module.exports.uploadImage( imagesList, page, timerCount );
   },
   "clickToPost": async ( page, timer ) => {
-    if ( await page.$( 'a[data-testid="dialog_title_close_button"]' ) !== null ) {
+    if ( ( await page.$( 'a[data-testid="dialog_title_close_button"]' ) ) !== null ) {
       await page.click( 'a[data-testid="dialog_title_close_button"]' );
     }
 
     if ( timer <= 0 ) {
       return false;
-
-    } else if ( await page.$( 'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]' ) ) {
+    } else if (
+      await page.$(
+        'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
+      )
+    ) {
       await page.waitForFunction(
         'document.querySelector(\'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]\').disabled === false'
       );
-      await page.click( 'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]' );
+      await page.click(
+        'div[data-testid="react-composer-root"] button[data-testid="react-composer-post-button"]'
+      );
       return true;
     }
     await page.waitFor( 1000 );
@@ -109,25 +114,43 @@ module.exports = {
             previewInfo.indexOf( end, previewInfo.indexOf( start ) + start.length )
           ),
           "type":
-          // eslint-disable-next-line no-nested-ternary
+            // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
     } catch ( e ) {
       await browser.close();
-      console.log( "❎❎❎❎ Have error get ID preview post facebook but post is posted..." );
+      console.log(
+        "❎❎❎❎ Have error get ID preview post facebook but post is posted..."
+      );
       return {
         "error": {
           "code": 200,
           "text": null
         },
         "results": {
-          "postID": feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value,
+          "postID":
+            feed.location.type === 0 ? findSubString( cookie, "c_user=", ";" ) : feed.location.value,
           "type":
-          // eslint-disable-next-line no-nested-ternary
+            // eslint-disable-next-line no-nested-ternary
             feed.location.type === 0 ? "timeline" : feed.location.type === 1 ? "group" : feed.location.type === 2 ? "page" : null
         }
       };
+    }
+  },
+  "getCookie": async ( page ) => {
+    try {
+      let cookies = await page.cookies(),
+        cookieStr = "";
+
+      await Promise.all(
+        cookies.map( ( attr ) => {
+          cookieStr = `${cookieStr }${attr.name}=${attr.value};`;
+        } )
+      );
+      return cookies;
+    } catch ( error ) {
+      return false;
     }
   }
 };
