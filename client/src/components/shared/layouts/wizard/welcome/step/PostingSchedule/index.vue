@@ -43,8 +43,9 @@ export default {
     }
   },
   watch: {
-    finishedStep() {
+    async finishedStep() {
       if (this.finishedStep === "Bước 4") {
+        await this.$store.dispatch("selectCategoryThenCreateNewCampaign");
         const event = {
           title: "",
           color: "#85CFFF",

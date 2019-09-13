@@ -24,7 +24,7 @@ export default {
   watch: {
     finishedStep() {
       if (this.finishedStep === "Bước 3") {
-        this.$store.dispatch("selectCategoryThenCreateNewCampaign");
+        // this.$store.dispatch("selectCategoryThenCreateNewCampaign");
       }
     }
   },
