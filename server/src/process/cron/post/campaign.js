@@ -197,10 +197,16 @@ const handleRequestToPostServer = async ( eventScheduleList, response ) => {
                 eventScheduleList[ index ].targetID
               ),
               responsePost = await request.post( `${server.name}/core/v1/post`, {
+                "facebookId": facebookInfo.userInfo.id,
                 "cookie": facebookInfo.cookie,
                 "feed": feed
               } );
 
+            console.log( {
+              "facebookId": facebookInfo.userInfo.id,
+              "cookie": facebookInfo.cookie,
+              "feed": feed
+            } );
             console.log( "----------------------------" );
             console.log( "Result: " );
             console.log( responsePost.data.data );
@@ -355,6 +361,7 @@ const handleCallBackPost = async ( minDateTime, response ) => {
         return false;
       }
       if ( response.data.data.length === 0 ) {
+     
         console.log( "🅾️ 🅾️ 🅾️ 🅾️ Haven't post server running..." );
         return false;
       }
