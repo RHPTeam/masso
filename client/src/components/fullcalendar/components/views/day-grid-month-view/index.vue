@@ -1,0 +1,173 @@
+<template>
+  <div class="rc--view rc--dayGridMonth-view rc--dayGrid-view">
+    <table class>
+      <!-- Start: Month View Head -->
+      <thead class="rc--head">
+        <tr>
+          <td class="rc--head-container rc--widget-header">
+            <div class="rc--row rc--widget-header">
+              <table>
+                <thead>
+                  <tr>
+                    <th class="rc--day-header rc--widget-header rc--sun">
+                      <span>CN</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--mon">
+                      <span>T2</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--tue">
+                      <span>T3</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--wed">
+                      <span>T4</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--thu">
+                      <span>T5</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--fri">
+                      <span>T6</span>
+                    </th>
+                    <th class="rc--day-header rc--widget-header rc--sat">
+                      <span>T7</span>
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          </td>
+        </tr>
+      </thead>
+      <!-- End: Month View Head -->
+
+      <!-- Start: Month View Body -->
+      <tbody class="rc--body">
+        <tr>
+          <td class="rc--widget-content">
+            <div
+              class="rc--scroller rc--day-grid-container"
+              style="overflow: hidden; height: auto;"
+            >
+              <div class="rc--day-grid">
+                <!-- Start: A week row -->
+                <rc-week-row
+                  v-for="(v, i) in 6"
+                  :key="i"
+                  :eventsOfWeek="eventsOfWeek(i)"
+                  :monthDays="monthDays"
+                  :rowIndex="i"
+                  @closeCardHover="isShowCardHover = $event"
+                  @timeClick="timeClick($event)"
+                  @eventClick="eventClick($event)"
+                  @eventHover="eventHover($event)"
+                  @getEvents="eventsPopupData = $event"
+                  @setLeftVal="leftVal = $event"
+                  @setRightVal="rightVal = $event"
+                  @setTopVal="topVal = $event"
+                  @showMorePopover="showMorePopover($event)"
+                />
+                <!-- End: A week row -->
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+      <!-- End: Month View Body -->
+    </table>
+    <!-- Popover -->
+    <transition name="fade">
+      <rc-more-popover
+        v-if="isShowMorePopover"
+        @closeMorePopover="isShowMorePopover = $event"
+        @eventClick="eventClick($event)"
+        :eventsPopupData="eventsPopupData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :title="morePopoverTitle"
+        :topVal="topVal"
+      />
+    </transition>
+    <!-- Card Hover -->
+    <transition name="fade">
+      <rc-card-hover
+        v-if="isShowCardHover"
+        :eventData="eventHoverData"
+        :leftVal="leftVal"
+        :rightVal="rightVal"
+        :topVal="topVal"
+      />
+    </transition>
+  </div>
+</template>
+
+<script>
+import RcCardHover from "../../popover/cardhover";
+import RcMorePopover from "../../popover/more/index";
+import RcWeekRow from "./week-row/index";
+
+export default {
+  components: {
+    RcCardHover,
+    RcMorePopover,
+    RcWeekRow
+  },
+  props: [ "events", "monthDays", "monthName" ],
+  data() {
+    return {
+      eventsPopupData: [],
+      eventHoverData: {},
+      isShowMorePopover: false,
+      isShowCardHover: false,
+      leftVal: null,
+      rightVal: null,
+      topVal: null
+    };
+  },
+  computed: {
+    morePopoverTitle() {
+      const eventTime = new Date( this.eventsPopupData[0].started_at ),
+            day = String( eventTime.getDate() ).padStart( 2, "0"),
+            month = this.monthName[ eventTime.getMonth() ].toLowerCase(),
+            year = eventTime.getFullYear();
+
+      return `${day} ${month}, ${year}`;
+    }
+  },
+  methods: {
+    eventClick( data ) {
+      this.$emit( "eventClick", data );
+    },
+    eventHover( data ) {
+      this.isShowCardHover = true;
+      this.eventHoverData = data;
+      if ( this.isShowMorePopover === true ) {
+        this.isShowMorePopover = false;
+      }
+    },
+    eventsOfWeek( i ) {
+      let firstDayOfWeek = new Date( this.monthDays[ i * 7 ].time ).setHours( 0, 0, 0),
+          lastDayOfWeek = new Date( this.monthDays[ i * 7 + 6 ].time ).setHours( 23, 59, 59);
+
+      if ( Array.isArray(this.events) ) {
+        return this.events.filter( ( event ) => {
+          const eventStartTime = new Date(event.started_at);
+
+          return eventStartTime >= firstDayOfWeek && eventStartTime <= lastDayOfWeek;
+        } );
+      }
+    },
+    showMorePopover( val ) {
+      this.isShowMorePopover = val;
+      if ( this.isShowCardHover === true ) {
+        this.isShowCardHover = false;
+      }
+    },
+    timeClick( date ) {
+      this.$emit( "timeClick", date );
+    }
+  }
+};
+</script>
+
+<style lang="scss">
+@import "../../../style";
+</style>

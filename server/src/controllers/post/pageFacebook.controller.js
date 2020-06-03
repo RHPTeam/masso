@@ -1,0 +1,83 @@
+/* eslint-disable one-var */
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-shadow */
+/**
+ * Controller page facebook for project
+ * author: hoc-anms
+ * date up: 24/04/2019
+ * date to: ___
+ * team: BE-RHP
+ */
+const PageFacebook = require( "../../models/post/PageFacebook.model" );
+const Facebook = require( "../../models/Facebook.model" );
+const PostGroup = require( "../../models/post/PostGroup.model" );
+
+const { agent } = require( "../../configs/crawl" );
+const getAllPages = require( "../core/getPages.core" );
+const jsonResponse = require( "../../configs/response" );
+
+module.exports = {
+  /**
+   * Get All (query)
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  "index": async ( req, res ) => {
+    let dataResponse = null;
+
+    // Handle get all page from mongodb
+    if ( req.query._id ) {
+      dataResponse = await PageFacebook.find( { "_id": req.query._id, "_account": req.uid } ).lean();
+      dataResponse = dataResponse[ 0 ];
+    } else if ( Object.entries( req.query ).length === 0 && req.query.constructor === Object ) {
+      dataResponse = await PageFacebook.find( { "_account": req.uid } ).lean();
+    }
+
+    res
+      .status( 200 )
+      .json( jsonResponse( "success", dataResponse ) );
+  },
+  /**
+   * Update all page from facebook strange
+   * @param req
+   * @param res
+   * @returns {Promise<void>}
+   */
+  "update": async ( req, res ) => {
+    const facebookInfo = await Facebook.findOne( { "_id": req.query._id, "_account": req.uid } ),
+      postGroupList = await PostGroup.find( { "_account": req.uid } ),
+      pageList = await getAllPages( { "cookie": facebookInfo.cookie } ),
+      pageListFixed = pageList.results.map( ( page ) => {
+        return {
+          "pageId": page.id,
+          "name": page.name,
+          "profile_picture": `https://graph.facebook.com/${page.id}/picture?type=large`,
+          "_account": req.uid,
+          "_facebook": facebookInfo._id
+        };
+      } ),
+      findPageFacebook = await PageFacebook.find( { "_facebook": facebookInfo._id } );
+
+    await Promise.all( findPageFacebook.map( ( pageFacebook ) => {
+      pageFacebook.remove();
+    } ) );
+    // insert page facebook list to database
+    await PageFacebook.insertMany( pageListFixed );
+    // Check post item exists old ID
+    await Promise.all( postGroupList.map( ( postGroup ) => {
+      postGroup._pages.map( async ( page ) => {
+        const pageChecked = await PageFacebook.findOne( { "pageId": page } );
+
+        if ( !pageChecked ) {
+          postGroup._pages.splice( postGroup._pages.indexOf( page ), 1 );
+          await postGroup.save();
+        }
+      } );
+    } ) );
+
+    res
+      .status( 200 )
+      .json( jsonResponse( "success", null ) );
+  }
+};

@@ -1,0 +1,53 @@
+.alert--text {
+  color: #e53232;
+  font-size: 0.825rem;
+}
+.section {
+  color: #F7F7F7;
+  font-size: 0.875rem;
+  .title {
+    font-size: .95rem;
+    font-weight: 600;
+  }
+  &--body {
+    flex: 1;
+  }
+  .form--wrap {
+    .form--item {
+      border: 1px solid #444;
+      border-radius: 0.625rem;
+    }
+  }
+}
+.radio--custom {
+  margin-bottom: 0;
+  input[type="radio"] {
+    background-color: #666;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 18px;
+    outline: none;
+    transition: all .4s ease;
+    vertical-align: middle;
+    width: 18px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    &:hover {
+      background-color: #999999;
+    }
+    &:checked {
+      background-color: #666;
+      &:before {
+        background-color: #ccc;
+        border-radius: 50%;
+        content: "";
+        display: block;
+        height: 6px;
+        left: 6px;
+        position: relative;
+        top: 6px;
+        width: 6px;
+      }
+    }
+  }
+}

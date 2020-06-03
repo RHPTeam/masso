@@ -1,0 +1,123 @@
+.form-wrapper {
+  font-size: .875rem;
+  .form--title {
+    font-weight: 600;
+  }
+  .category--form {
+    background-color: #ffffff;
+    border-radius: .625rem;
+  }
+  .item {
+    > input,
+    > textarea {
+      border: 1px solid;
+      border-radius: 0.625rem;
+      margin-top: 0.5rem;
+      outline: none;
+      transition: all 0.4s ease;
+      width: 100%;
+      &:focus {
+        border-color: #ffb94a;
+      }
+    }
+    > input {
+      padding: 0 0.75rem;
+      height: 40px;
+    }
+    > textarea {
+      height: 120px;
+      padding: 0.75rem;
+      resize: none;
+    }
+    > button {
+      background-color: #ffb94a;
+      border: 0;
+      border-radius: 0.5rem;
+      color: #fff;
+      cursor: pointer;
+      font-size: .875rem;
+      font-weight: 600;
+      height: 40px;
+      padding: 0 .75rem;
+      transition: all 0.4s ease;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #FF9E4A;
+        box-shadow: none;
+        color: #fff;
+        outline: 0;
+      }
+    }
+  }
+  .text--error {
+    color: red;
+    font-size: .825rem;
+    padding: 0 .75rem;
+  }
+}
+
+/* Theme Color */
+/* Light */
+.form-wrapper[data-theme="light"] {
+  color: #444444;
+  .category--new-desc {
+    color: #444;
+  }
+  .category--form {
+    background-color: #fff;
+  }
+  .item {
+    > span {
+      color: #666666;
+    }
+    input,
+    textarea {
+      background-color: #fff;
+      border-color: #e4e4e4;
+      color: #444;
+      &::placeholder {
+        color: #ccc;
+      }
+    }
+    .btn--cancel {
+      background-color: transparent;
+      color: #999999;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #f7f7f7;
+        color: #999999;
+      }
+    }
+  }
+}
+
+/* Dark */
+.form-wrapper[data-theme="dark"] {
+  color: #f7f7f7;
+  .category--new-desc {
+    color: #cccccc;
+  }
+  .category--form {
+    background-color: #27292d;
+  }
+  .item {
+    > span {
+      color: #cccccc;
+    }
+    input,
+    textarea {
+      background-color: #27292d;
+      border-color: #444;
+      color: #f7f7f7;
+      &::placeholder {
+        color: #666;
+      }
+    }
+    .btn--cancel {
+      background-color: transparent;
+      color: #999999;
+      &:hover, &:focus, &:active, &:visited {
+        background-color: #2f3136;
+        color: #999999;
+      }
+    }
+  }
+}

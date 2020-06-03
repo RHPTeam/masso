@@ -1,0 +1,45 @@
+.modal--wrapper {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 20;
+
+  .modal--dialog {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
+    left: 0;
+    font-size: 0.8315rem;
+
+    .modal--content {
+      width: 90%;
+
+      .modal--body {
+        background: #212225;
+      }
+      .modal--footer {
+        .item {
+          padding: 0.625rem;
+        }
+        .delete {
+          background: #F96666;
+        }
+        .cancel {
+          background: #212225;
+        }
+      }
+    }
+  }
+}
+  /*Transition popup*/
+  .popup-enter-active,
+  .popup-leave-active {
+    transition: opacity .4s;
+  }
+
+  .popup-enter,
+  .popup-leave-to {
+    opacity: 0;
+  }

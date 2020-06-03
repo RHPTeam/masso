@@ -1,0 +1,184 @@
+.modal--search-mobile {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #2f3136;
+  z-index: 10;
+
+  .modal--content {
+    font-size: 0.875rem;
+
+    .items--header {
+      padding: 0.625rem 0;
+      border-bottom: 1px solid #484848;
+
+      .arrow-down {
+        transform: rotate(90deg);
+        margin-left: 0.5rem;
+      }
+
+      .name--modal {
+        font-size: 1.1rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 50%;
+        outline: none;
+      }
+
+      .active {
+        color: #e62b33;
+      }
+    }
+
+    .items--body {
+      .form_group {
+        input {
+          border-radius: .625rem;
+          border: 0;
+          background-color: #27292d;
+          font-size: .95rem;
+          outline: none;
+          padding: 10px 15px 10px 46px;
+          transition: all 0.4s ease;
+          width: 100%;
+          color: #ccc;
+
+          &:focus {
+            box-shadow: none;
+            outline: 0;
+          }
+        }
+
+        ::placeholder {
+          /* Chrome, Firefox, Opera, Safari 10.1+ */
+          color: #ccc;
+          opacity: 1;
+          /* Firefox */
+        }
+
+        :-ms-input-placeholder {
+          /* Internet Explorer 10-11 */
+          color: #ccc;
+        }
+
+        ::-ms-input-placeholder {
+          /* Microsoft Edge */
+          color: #ccc;
+        }
+
+        .icon {
+          left: 15px;
+          top: 50%;
+          transform: translateY(-50%);
+
+          svg {
+            color: #999;
+          }
+        }
+
+        .ic--security {
+          svg {
+            stroke: #999;
+            stroke-width: .5;
+            vertical-align: text-bottom;
+          }
+        }
+
+        .network {
+          font-size: .75rem;
+          padding: 0 6px;
+          right: 10px;
+          text-transform: uppercase;
+          top: 12px;
+
+          &.viettel {
+            border: 1px solid #008c88;
+            color: #008c88;
+          }
+
+          &.vina {
+            border: 1px solid #008ed6;
+            color: #008ed6;
+          }
+
+          &.mobi {
+            border: 1px solid #e61a23;
+            color: #e61a23;
+          }
+
+          &.vietnammb {
+            border: 1px solid #ea8303;
+            color: #ea8303;
+          }
+
+          &.gmb {
+            border: 1px solid #f6c60c;
+            color: #f6c60c;
+          }
+        }
+
+        &.errors {
+
+          input,
+          .error--text {
+            border: 1px solid red;
+            color: red;
+          }
+
+          .error--text {
+            border: 0;
+          }
+        }
+
+        &.passed {
+
+          input,
+          .error--text {
+            border: 1px solid #42b983;
+            color: #42b983
+          }
+
+          .error--text {
+            border: 0;
+          }
+        }
+      }
+      .text--error {
+        color: #e62b33;
+        font-size: .8rem;
+        margin-bottom: .625rem;
+        margin-top: -10px;
+        text-align: left;
+      }
+
+      .item {
+        .tab {
+          text-align: center;
+          flex: 1;
+          padding-bottom: 0.5rem;
+          border-bottom: 1px solid #444;
+
+          &.active {
+            color: #ffb94a;
+            border-color: #ffb94a;
+          }
+        }
+      }
+    }
+
+    .items--footer {
+      position: fixed;
+      border-top: 1px solid #454545;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+
+      .cancel {
+        color: #e62b33;
+      }
+    }
+  }
+}

@@ -1,0 +1,79 @@
+.header {
+  color: #F7F7F7;
+  .header--left {
+    &:hover {
+      .btn--edit {
+        display: block;
+      }
+    }
+    .btn--edit {
+      background-color: rgba(0, 0, 0, .4);
+      cursor: pointer;
+      display: none;
+      height: 20px;
+      line-height: 20px;
+      right: 0;
+      top: 10px;
+      transition: all .4s ease;
+      width: 20px;
+      z-index: 10;
+    }
+    .icon--color {
+      margin-top: 10px;
+      border-radius: .25rem;
+      height: 20px;
+      width: 20px;
+    }
+  }
+  .header--right {
+    flex: 1;
+    .title {
+      background-color: transparent;
+      border: 0;
+      border-radius: .375rem;
+      color: #F7F7F7;
+      font-size: 1.25rem;
+      font-weight: 600;
+      padding: .375rem 0;
+      outline: 0;
+      width: 100%;
+      &::placeholder {
+        color: #666;
+        font-size: 1rem;
+        font-weight: normal;
+      }
+    }
+  }
+}
+
+.dropdown--menu {
+  background-color: #27292c;
+  border-radius: .5rem;
+  box-shadow: 0 0 10px rgba(255, 255, 255, .15);
+  margin-top: 3px;
+  left: 0;
+  padding: .375rem .5rem;
+  position: absolute;
+  width: 106px;
+  z-index: 99;
+  .dropdown--menu-item {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    width: 30px;
+    .grid {
+      border-radius: .3rem;
+      cursor: pointer;
+      height: 20px;
+      opacity: .8;
+      transition: all .4s ease;
+      width: 20px;
+      &:hover {
+        height: 22px;
+        opacity: 1;
+        width: 22px;
+      }
+    }
+  }
+}

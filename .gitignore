@@ -1,6 +1,8 @@
 .DS_Store
 node_modules
-/dist
+uploads
+dist
+zinbee.pfx
 
 /tests/e2e/reports/
 selenium-debug.log
@@ -15,10 +17,13 @@ yarn-debug.log*
 yarn-error.log*
 
 # Editor directories and files
+schedule.txt
 .idea
 .vscode
+.env
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw*
+*.txt
